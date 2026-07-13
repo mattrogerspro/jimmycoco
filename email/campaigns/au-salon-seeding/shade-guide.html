@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Jimmy Coco — The Shade & Undertone Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+  @page { size: A4; margin: 0; }
+  :root{
+    --ivory:#F8F4EE; --cream:#F4EEE6; --white:#FFFDF9; --stone:#EDE6DD;
+    --linen:#E9DED1; --taupe:#CDBAAA; --champagne:#C8A878; --bronze:#A77952;
+    --charcoal:#26231F; --ink:#24211E; --secondary:#615A53; --hairline:#D8CEC3;
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  html,body{margin:0;padding:0;}
+  body{font-family:var(--sans);color:var(--ink);background:#cfc6ba;}
+  .page{width:210mm;height:297mm;margin:0 auto;background:var(--ivory);position:relative;
+    display:flex;flex-direction:column;overflow:hidden;}
+  .serif{font-family:var(--serif);font-weight:400;}
+  .eyebrow{font-size:8.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--bronze);margin:0;}
+
+  /* header */
+  header{background:var(--charcoal);color:#F3ECDF;padding:20px 30px 18px;}
+  header .brand{font-size:12px;font-weight:600;letter-spacing:.42em;text-transform:uppercase;color:#F3ECDF;}
+  header .brand span{font-size:7.5px;letter-spacing:.32em;color:var(--champagne);margin-left:8px;}
+  header h1{font-family:var(--serif);font-weight:400;font-size:29px;line-height:1.05;margin:12px 0 5px;color:#FBF6EE;letter-spacing:-0.01em;}
+  header p{margin:0;font-size:10.5px;line-height:1.5;color:#CFC4B4;max-width:74ch;}
+
+  .body{flex:1;padding:20px 30px 0;}
+  .sec-title{display:flex;align-items:baseline;gap:9px;margin:0 0 10px;}
+  .sec-title .no{font-family:var(--serif);font-size:15px;color:var(--bronze);}
+  .sec-title h2{font-family:var(--serif);font-weight:400;font-size:16px;margin:0;color:var(--ink);}
+  .sec-title .hint{font-size:9px;color:var(--secondary);margin-left:auto;}
+
+  /* undertone cards */
+  .cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+  .uc{background:var(--white);border:1px solid var(--hairline);border-radius:5px;padding:12px 13px;}
+  .uc .dot{width:16px;height:16px;border-radius:50%;margin-bottom:8px;border:1px solid rgba(0,0,0,.06);}
+  .uc h3{font-family:var(--serif);font-size:13px;margin:0 0 5px;color:var(--ink);}
+  .uc .tell{font-size:9.3px;line-height:1.45;color:var(--secondary);margin:0 0 7px;}
+  .uc .rule-lab{font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--bronze);margin:0 0 2px;}
+  .uc .rule-txt{font-size:9.5px;line-height:1.4;color:#3B3630;margin:0;}
+
+  /* depth row */
+  .depths{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+  .dp{border-radius:5px;padding:12px 13px;color:#3B3630;border:1px solid var(--hairline);}
+  .dp.natural{background:#F1E7DA;} .dp.golden{background:#E7D3B4;} .dp.deep{background:#CBAE86;}
+  .dp h3{font-family:var(--serif);font-size:13px;margin:0 0 4px;color:var(--ink);}
+  .dp .who{font-size:9.3px;line-height:1.4;margin:0 0 6px;color:#4A423A;}
+  .dp .coats{font-size:8.5px;font-weight:600;letter-spacing:.03em;color:var(--charcoal);margin:0;}
+
+  /* matrix */
+  table.matrix{width:100%;border-collapse:collapse;font-size:9.5px;background:var(--white);
+    border:1px solid var(--hairline);border-radius:5px;overflow:hidden;margin-bottom:18px;}
+  .matrix th,.matrix td{padding:7px 10px;text-align:left;border-top:1px solid #ECE2D5;border-left:1px solid #ECE2D5;}
+  .matrix th:first-child,.matrix td:first-child{border-left:0;}
+  .matrix thead th{background:var(--charcoal);color:#F3ECDF;border-top:0;border-left:1px solid #3a352f;
+    font-family:var(--sans);font-size:8px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
+  .matrix tbody th{font-family:var(--serif);font-weight:400;font-size:11px;color:var(--ink);background:var(--cream);}
+  .matrix td{color:#4A423A;}
+  .matrix .depthcell{font-weight:600;color:var(--ink);}
+
+  /* two-col develop/prep */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  .two ul{margin:6px 0 0;padding-left:0;list-style:none;}
+  .two li{position:relative;padding-left:15px;font-size:9.6px;line-height:1.5;color:#3B3630;margin-bottom:5px;}
+  .two li:before{content:"";position:absolute;left:0;top:5px;width:5px;height:5px;border:1px solid var(--bronze);border-radius:50%;}
+  .two .num{font-family:var(--serif);color:var(--bronze);font-size:10px;}
+
+  /* jimmy rule */
+  .rulebox{background:var(--charcoal);color:#EFE7DA;border-radius:6px;padding:14px 18px;margin-bottom:0;}
+  .rulebox .lab{font-size:8px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--champagne);margin:0 0 5px;}
+  .rulebox p{font-family:var(--serif);font-size:14px;line-height:1.35;margin:0;color:#FBF6EE;}
+
+  footer{padding:12px 30px 16px;display:flex;justify-content:space-between;align-items:center;
+    border-top:1px solid var(--hairline);margin-top:16px;}
+  footer .l{font-size:8.5px;color:var(--secondary);line-height:1.5;}
+  footer .r{font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:var(--bronze);font-weight:600;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="brand">SUNLESS <span>BY JIMMY COCO</span></div>
+    <h1>The Shade &amp; Undertone Guide</h1>
+    <p>Jimmy's method for natural, undertone-true colour — the same judgement he uses on set, in one page. Read the undertone, choose the depth, develop with care. Colour that looks warm and believable in daylight, never orange, never flat.</p>
+  </header>
+
+  <div class="body">
+
+    <!-- STEP 1 -->
+    <div class="sec-title"><span class="no serif">01</span><h2>Read the undertone</h2><span class="hint">Check the inside of the wrist in daylight</span></div>
+    <div class="cards3">
+      <div class="uc">
+        <div class="dot" style="background:#C9C6D6;"></div>
+        <h3>Cool</h3>
+        <p class="tell">Veins look blue or purple. Silver jewellery flatters. Skin can burn before it tans.</p>
+        <p class="rule-lab">Jimmy's direction</p>
+        <p class="rule-txt">Lean to a violet-based formula to keep colour fresh and stop it turning grey or dull.</p>
+      </div>
+      <div class="uc">
+        <div class="dot" style="background:#C7B79E;"></div>
+        <h3>Neutral</h3>
+        <p class="tell">Veins are blue-green; silver and gold both suit. Skin tans steadily and evenly.</p>
+        <p class="rule-lab">Jimmy's direction</p>
+        <p class="rule-txt">The most forgiving base — a classic brown formula reads true. Build depth in layers.</p>
+      </div>
+      <div class="uc">
+        <div class="dot" style="background:#B79A6E;"></div>
+        <h3>Warm</h3>
+        <p class="tell">Veins look green; gold jewellery flatters. Skin tans easily and rarely burns.</p>
+        <p class="rule-lab">Jimmy's direction</p>
+        <p class="rule-txt">Lean to a green/olive base to balance natural warmth and avoid an orange turn.</p>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="sec-title"><span class="no serif">02</span><h2>Choose the depth</h2><span class="hint">Start lighter — you can always build</span></div>
+    <div class="depths">
+      <div class="dp natural">
+        <h3>Natural</h3>
+        <p class="who">A soft, healthy glow. Ideal for fair–light skin and first-timers who want subtlety.</p>
+        <p class="coats">1 coat · buildable</p>
+      </div>
+      <div class="dp golden">
+        <h3>Golden</h3>
+        <p class="who">A warm, sun-kissed finish. Suits light–medium and olive skin, and event-ready colour.</p>
+        <p class="coats">1–2 coats</p>
+      </div>
+      <div class="dp deep">
+        <h3>Deep</h3>
+        <p class="who">Rich, dimensional depth. For medium–deep skin or a confident, red-carpet result.</p>
+        <p class="coats">2 coats · layer evenly</p>
+      </div>
+    </div>
+
+    <!-- MATRIX -->
+    <div class="sec-title"><span class="no serif">03</span><h2>Match at a glance</h2><span class="hint">A starting point — adjust to the client</span></div>
+    <table class="matrix">
+      <thead>
+        <tr><th>Skin tone</th><th>Undertone tends to</th><th>Start with</th><th>Coats</th><th>Watch for</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>Fair</th><td>Cool / neutral</td><td class="depthcell">Natural</td><td>1</td><td>Grey cast — keep it light</td></tr>
+        <tr><th>Light</th><td>Neutral</td><td class="depthcell">Natural → Golden</td><td>1</td><td>Even coverage on dry areas</td></tr>
+        <tr><th>Medium</th><td>Neutral / warm</td><td class="depthcell">Golden</td><td>1–2</td><td>Streaking if under-prepped</td></tr>
+        <tr><th>Olive</th><td>Warm / green</td><td class="depthcell">Golden → Deep</td><td>1–2</td><td>Orange turn — favour olive base</td></tr>
+        <tr><th>Deep</th><td>Warm</td><td class="depthcell">Deep</td><td>2</td><td>Flat, dull result — build depth</td></tr>
+      </tbody>
+    </table>
+
+    <!-- DEVELOP + PREP -->
+    <div class="two">
+      <div>
+        <div class="sec-title"><span class="no serif">04</span><h2>Develop &amp; rinse</h2></div>
+        <ul>
+          <li>Let colour develop <strong>6–8 hours</strong> (or per product) before the first rinse.</li>
+          <li>Rinse in <strong>lukewarm water only</strong> until it runs clear — no soap yet.</li>
+          <li>Colour continues to deepen for <strong>24 hours</strong>; judge the true result the next day.</li>
+          <li>For events, tan <strong>1–2 days ahead</strong> so colour settles naturally.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="sec-title"><span class="no serif">05</span><h2>Prep &amp; aftercare</h2></div>
+        <ul>
+          <li><strong>Exfoliate</strong> 24 hrs before; skip oils and heavy moisturiser on the day.</li>
+          <li>Barrier-cream the <strong>hands, knees, elbows &amp; ankles</strong> to stop grabbing.</li>
+          <li>Loose, dark clothing after; avoid long showers, sweat &amp; swimming early on.</li>
+          <li><strong>Moisturise daily</strong> to fade evenly — the take-home range extends colour a week+.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rulebox">
+      <p class="lab">Jimmy's rule</p>
+      <p>&ldquo;Match the base to the undertone, then build in layers. Natural colour is control, not depth — you can always add, you can't easily take away.&rdquo;</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="l">Sunless by Jimmy Coco — professional shade guidance.<br>Not sure on a client? Ask the team: {{contact}}</div>
+    <div class="r">Red-carpet colour</div>
+  </footer>
+
+</div>
+</body>
+</html>

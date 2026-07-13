@@ -1,44 +1,23 @@
-# Sunless by Jimmy Coco — Creative Director Bible
+# Sunless by Jimmy Coco — Creative Director System
 
-This repository is the source of truth for the Sunless by Jimmy Coco digital brand experience, luxury editorial art direction, homepage architecture, conversion system, photography language and AI image-generation workflow.
-
-The system is designed to guide:
-
-- Creative direction
-- UX and UI design
-- Ecommerce conversion design
-- Brand and campaign design
-- Photography and product rendering
-- Copywriting
-- Front-end implementation
-- AI image generation
-
-## Core principle
-
-This is an **evolution, not a redesign**. Approximately 95% of the existing Sunless visual identity should remain recognisable. Improvements come through hierarchy, composition, pacing, storytelling, scale, emotional rhythm, trust and guided decision-making.
+This repository is the source of truth for the Sunless by Jimmy Coco brand across website, email and future digital channels.
 
 ## Repository structure
 
-- [`00-foundation/`](00-foundation/) — executive summary, brand DNA, positioning and principles
-- [`01-design-system/`](01-design-system/) — composition, grid, spacing, colour, typography and photography
-- [`02-experience/`](02-experience/) — homepage narrative, customer psychology and conversion architecture
-- [`03-homepage-scenes/`](03-homepage-scenes/) — individual scene specifications and image prompts
-- [`04-ai-production/`](04-ai-production/) — prompt workflow, reference protocol, consistency rules and QA
-- [`05-assets/`](05-assets/) — reference-image manifest and asset guidance
+- [`shared/`](shared/) — universal brand DNA, visual language, copy language, approved assets and cross-channel production standards
+- [`website/`](website/) — website strategy, design system, homepage narrative, scene specifications and website image-generation workflow
+- [`email/`](email/) — email strategy, modular template system, lifecycle sequences, copy system and email image-generation workflow
 
-## How to use this system
+## Architecture rule
 
-1. Read the foundation documents.
-2. Load the relevant design-system documents.
-3. Load the homepage narrative.
-4. Load only the scene document being generated.
-5. Attach the approved visual references listed in the asset manifest.
-6. Generate one scene at a time.
-7. Evaluate the scene using the QA checklist.
-8. Assemble approved scenes into the complete homepage.
+Use `shared/` for any rule that must remain consistent across multiple channels. Use `website/` and `email/` for channel-specific layout, interaction, conversion architecture, templates and production instructions.
 
-Never generate the entire homepage in a single pass. Long-form image models tend to collapse distinct chapters into one continuous ivory block. The approved production method is scene-by-scene generation with a shared consistency system.
+Channel documentation should reference canonical shared documents rather than creating conflicting duplicates.
 
-## Status
+## Current status
 
-Version 1.0 is under active development.
+The website Creative Director Bible is under active development and has been moved into [`website/`](website/). The email workspace has been established for the next phase.
+
+## Production principle
+
+Generate and approve individual creative scenes or modules using the relevant channel documentation plus the shared brand system. Do not ask an image model to invent an entire long-form experience in one pass.

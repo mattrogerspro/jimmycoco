@@ -1,34 +1,23 @@
-# AU Salon — Post-Sample Account Flow
+# AU Salon Account Flow — Post-Sample
 
-_Channel: email + WhatsApp · Audience: salons that have converted from the cold campaign · Built July 2026_
+**Goal:** carry a converted salon from "sample in hand" → "terms agreed" → "first order placed." Event-triggered, not scheduled.
+**Audience:** AU salons that converted from [`../au-salon-seeding/`](../au-salon-seeding/).
+**Market:** 🇦🇺 AU
+**Channel:** Email + WhatsApp. ESP: Resend (touches 2 & 3 are transactional).
+**Status:** Draft
+**Handoff in:** `../au-salon-seeding/onboarding.md` (fires once the sample ships).
 
-The partner lifecycle that begins **after** a salon says yes and the sample ships — carrying them from "sample in hand" → "terms agreed" → "first order placed." Event-triggered, not scheduled.
+## Cadence (event-triggered)
 
-**Handoff:** the bridge in is `../au-salon-seeding/onboarding.md` ("yes — here's what's next"). This flow starts once the sample is on its way.
+| # | Trigger | Touch | File |
+|---|---------|-------|------|
+| 1 | ~3–5 days after dispatch | Sample-received check-in | `emails/1-sample-check-in.html` |
+| 2 | after the setup call | Trade-terms summary | `emails/2-trade-terms-summary.html` |
+| 3 | opening order placed | First-order confirmation | `emails/3-first-order-confirmation.html` |
 
-## The three touches
+## Files
+- `sequence.md` — all three touches, email (plain) + WhatsApp, with tokens & triggers
+- `emails/` — branded HTML: `1-sample-check-in`, `2-trade-terms-summary`, `3-first-order-confirmation`
 
-| # | Trigger | Purpose |
-|---|---|---|
-| 1 · Sample-received check-in | ~3–5 days after dispatch / on delivery | Get them to trial it + book the setup call |
-| 2 · Trade-terms summary | Straight after the setup call | Put agreed terms in writing; make the opening order easy |
-| 3 · First-order confirmation | Opening order placed | Confirm, set expectations, kick off onboarding |
-
-## Contents
-
-| File | What it is |
-|---|---|
-| `account-flow.md` | Copy-ready — all three touches, email (plain) + WhatsApp, tokens, triggers. |
-| `templates/account-01-sample-check-in.html` | Branded check-in email. |
-| `templates/account-02-trade-terms-summary.html` | Branded terms summary (with terms table). |
-| `templates/account-03-first-order-confirmation.html` | Branded order confirmation (with order block). |
-
-## Important — fill the commercial tokens
-No prices or terms are invented. These are placeholders to complete with your real numbers before sending touches 2 and 3:
-`{{wholesale_margin}}` · `{{trade_discount}}` · `{{min_opening_order}}` · `{{reorder_minimum}}` · `{{lead_time}}` · `{{order_number}}` · `{{order_summary}}` · `{{order_total}}` · `{{dispatch_date}}` · `{{tracking_link}}` · `{{order_link}}` · `{{support_email}}`
-
-## Sending
-Touches 2 and 3 are transactional — natural fits for **Resend** (see `../au-salon-seeding/README.md` for the Resend/domain-auth note). Touch 1 can go plain-text or branded.
-
-## Extends into
-Replenishment reminders, a reorder nudge, and a first-week-of-tans check-in turn this into an ongoing account relationship — easy to add next.
+## Notes — fill before sending
+Commercial specifics are **placeholders** (no invented numbers): `{{wholesale_margin}}`, `{{min_opening_order}}`, `{{reorder_minimum}}`, `{{lead_time}}`, `{{order_number}}`, `{{order_summary}}`, `{{order_total}}`, `{{dispatch_date}}`, `{{tracking_link}}`, `{{order_link}}`, `{{support_email}}`.

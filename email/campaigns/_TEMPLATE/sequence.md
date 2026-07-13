@@ -1,28 +1,28 @@
-# [Campaign name] — Sequence
+# [Campaign name] — Email copy
 
-The full written content. Each touch below pairs with its coded file in `templates/`.
+The written copy. Each email below pairs with its coded file in `emails/`.
 
 **Tokens used:** [`{{first_name}}`, `{{salon_name}}`, …]
 
 ---
 
-## Email 1 — [name]  ·  Day 0  ·  `templates/01-….html`
+## Email 1 — [name]  ·  Day 0  ·  `emails/1-….html`
 
 **Subject A:** …
 **Subject B:** …
 **Preview:** …
 
-[Body copy — plain text version of the email.]
+[Body copy — plain-text version of the email.]
 
 ---
 
-## Email 2 — [name]  ·  Day 3  ·  `templates/02-….html`
+## Email 2 — [name]  ·  Day 3  ·  _plain text (no HTML)_
 
-**Subject A:** …
+**Subject:** …
 **Preview:** …
 
 [Body copy.]
 
 ---
 
-_Add a section per touch. Keep this file and `templates/` in step — content here, code there._
+_One section per email. Keep this file and `emails/` in step — copy here, code there._

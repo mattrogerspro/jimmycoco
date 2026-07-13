@@ -1,8 +1,8 @@
 # Campaigns
 
-Home for every **outreach & marketing campaign** — cold acquisition, stockist recruitment, partner journeys. One folder per campaign, and each campaign holds its *full* sequence: the written content **and** the ready-to-send code, side by side.
+Home for every **outreach & marketing campaign** — cold acquisition, stockist recruitment, partner journeys. One folder per campaign, each holding its *full* sequence: written content **and** sendable code, side by side.
 
-> **Why this folder exists separately from `../03-sequences/`:** `03-sequences/` is maintained by the automated lifecycle-sequence builder (welcome, browse/cart abandonment, post-purchase, replenishment…). Outreach campaigns live **here** in `campaigns/` so the two never collide on the same files.
+> **Separate from `../03-sequences/`:** that folder is maintained by the automated lifecycle-sequence builder (welcome, abandonment, post-purchase, replenishment…). Outreach campaigns live **here** so the two never collide on the same files.
 
 ## Campaign registry
 
@@ -14,28 +14,29 @@ Home for every **outreach & marketing campaign** — cold acquisition, stockist 
 
 _Keep this table current — it's the one place to see every campaign at a glance._
 
-## How to add a campaign
-
-1. **Copy the scaffold:** `cp -R _TEMPLATE <market>-<audience>-<action>` (kebab-case, e.g. `us-salon-seeding`).
-2. **Fill the brief:** edit `README.md` — goal, audience, offer, channel, cadence, status.
-3. **Write the sequence:** edit `sequence.md` — subject, preview and copy for every touch.
-4. **Add the code:** drop each email's HTML into `templates/` as `NN-slug.html`.
-5. **Register it:** add a row to the table above.
-
-## Folder convention
+## Every campaign folder has the same shape
 
 ```
 <campaign>/
   README.md      — the brief: goal, audience, offer, channel, status, cadence, file index
-  sequence.md    — the full written sequence (subject, preview text, copy per touch)
-  templates/     — the HTML code, one file per email  (NN-slug.html)
-  assets/        — PDFs, guides, reference images       (optional)
+  sequence.md    — email copy: subject, preview text and body for every email
+  whatsapp.md    — WhatsApp copy         (only if the campaign uses WhatsApp)
+  onboarding.md  — post-reply copy       (only if used)
+  emails/        — the sendable HTML, one file per email:  N-slug.html
+  docs/          — playbooks, guides, PDFs — reference material, NOT for sending  (optional)
 ```
 
-This is the **baseline** — a campaign can carry more (playbooks, WhatsApp copy, a shade guide), as the AU campaigns do. The three files above are the minimum so content and code never drift apart.
+The split that keeps it un-confusing: **`emails/` = things you send. `docs/` = things you read.** `sequence.md` is always the written copy; the HTML in `emails/` is the coded version of that same copy.
+
+## How to add a campaign
+
+1. **Copy the scaffold:** `cp -R _TEMPLATE <market>-<audience>-<action>` (kebab-case, e.g. `us-salon-seeding`).
+2. **Fill the brief** in `README.md` and **write the copy** in `sequence.md`.
+3. **Add the code:** drop each email's HTML into `emails/` as `N-slug.html`.
+4. **Register it:** add a row to the table above.
 
 ## Conventions
-- **Folder names:** `kebab-case`, `<market>-<audience>-<action>` (e.g. `au-salon-seeding`).
-- **HTML files:** numbered by send order — `01-`, `02-` — with a short slug.
-- **Merge tags / hosting:** note any ESP-specific syntax in the campaign README (MailerLite `{$unsubscribe}`, MailerLite-CDN-hosted images, Resend variables) so no one breaks them.
+- **Folder names:** `kebab-case`, `<market>-<audience>-<action>`.
+- **Email files:** numbered by send order — `1-`, `2-` — with a short slug. If an email is **plain-text only** (no HTML), it has no file in `emails/` — its copy still lives in `sequence.md`, and the README's cadence table notes it.
+- **Merge tags / hosting:** note ESP-specific syntax in the campaign README (MailerLite `{$unsubscribe}`, MailerLite-CDN images, Resend variables) so no one breaks them.
 - **Status values:** `Draft` → `Ready` → `Live` → `Archived`.

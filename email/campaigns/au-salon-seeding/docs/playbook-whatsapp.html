@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunless by Jimmy Coco — WhatsApp Companion Sequence</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+  :root{
+    --ivory:#F8F4EE; --cream:#F4EEE6; --white:#FFFDF9; --stone:#EDE6DD;
+    --linen:#E9DED1; --taupe:#CDBAAA; --champagne:#C8A878; --bronze:#A77952;
+    --charcoal:#26231F; --ink:#24211E; --secondary:#615A53; --hairline:#D8CEC3;
+    --serif:'Fraunces',Georgia,'Times New Roman',serif;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--ivory);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px;margin:0 auto;padding:0 30px;}
+  .wrap-narrow{max-width:620px;margin:0 auto;padding:0 30px;}
+  section{padding:84px 0;}
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--bronze);margin:0 0 22px;}
+  h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--ink);letter-spacing:-0.012em;margin:0;}
+  h2{font-size:38px;line-height:1.12;margin:0 0 26px;}
+  h3{font-size:22px;line-height:1.2;margin:0 0 12px;}
+  p{margin:0 0 18px;color:#3B3630;}
+  .lead{font-size:20px;line-height:1.55;color:#3B3630;max-width:60ch;}
+  .muted{color:var(--secondary);}
+  a{color:var(--bronze);}
+  strong{color:var(--ink);font-weight:600;}
+  .rule{height:1px;background:var(--hairline);border:0;margin:0;}
+  .bg-white{background:var(--white);} .bg-stone{background:var(--stone);}
+  .bg-linen{background:var(--linen);} .bg-cream{background:var(--cream);}
+  .bg-charcoal{background:var(--charcoal);}
+  .bg-charcoal h2,.bg-charcoal h3{color:#FBF6EE;} .bg-charcoal p{color:#D9D1C6;} .bg-charcoal .eyebrow{color:var(--champagne);}
+  .kicker{font-family:var(--serif);font-style:italic;color:var(--bronze);}
+
+  .hero{padding:92px 0 74px;}
+  .brand{font-size:15px;font-weight:600;letter-spacing:.42em;text-transform:uppercase;color:var(--ink);}
+  .brand span{display:block;font-size:9px;letter-spacing:.34em;color:var(--bronze);margin-top:6px;}
+  .hero h1{font-size:54px;line-height:1.05;margin:32px 0 22px;max-width:17ch;}
+
+  /* combined cadence timeline */
+  .timeline{margin-top:10px;border-left:2px solid var(--taupe);padding-left:0;list-style:none;}
+  .tl{position:relative;padding:0 0 26px 30px;margin-left:8px;}
+  .tl:last-child{padding-bottom:0;}
+  .tl:before{content:"";position:absolute;left:-9px;top:3px;width:14px;height:14px;border-radius:50%;background:var(--white);border:2px solid var(--bronze);}
+  .tl.wa:before{background:var(--charcoal);border-color:var(--charcoal);}
+  .tl .day{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--secondary);}
+  .tl .chip{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-left:8px;vertical-align:middle;}
+  .chip-em{background:#EAE1D4;color:#6B6157;} .chip-wa{background:#26231F;color:#EBDCC4;}
+  .tl .txt{font-family:var(--serif);font-size:19px;color:var(--ink);margin:4px 0 0;}
+
+  /* phone / chat */
+  .phone{max-width:400px;margin:0 auto;background:var(--charcoal);border-radius:34px;padding:12px;box-shadow:0 22px 50px -28px rgba(38,35,31,.55);}
+  .screen{background:#EDE6DD;border-radius:24px;overflow:hidden;}
+  .chat-head{display:flex;align-items:center;gap:12px;background:#201D1A;padding:16px 18px;}
+  .avatar{width:38px;height:38px;border-radius:50%;background:var(--bronze);color:#FBF6EE;font-family:var(--serif);font-size:16px;display:flex;align-items:center;justify-content:center;letter-spacing:.02em;}
+  .chat-head .nm{font-family:var(--sans);font-size:14px;font-weight:600;color:#FBF6EE;line-height:1.2;}
+  .chat-head .st{font-size:11px;color:#9C948A;}
+  .chat-body{padding:22px 16px 26px;background-image:radial-gradient(circle at 20% 15%, rgba(255,255,255,.35) 0, rgba(255,255,255,0) 60%);}
+  .daydiv{text-align:center;margin:6px 0 18px;}
+  .daydiv span{display:inline-block;background:#E3D8C9;color:#7A6F62;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:14px;}
+  .bubble{position:relative;max-width:86%;padding:13px 15px 20px;border-radius:16px;margin:0 0 14px;font-size:14.5px;line-height:1.5;}
+  .sent{margin-left:auto;background:var(--charcoal);color:#EFE7DA;border-bottom-right-radius:5px;}
+  .recv{margin-right:auto;background:var(--white);color:#3B3630;border:1px solid #E1D6C7;border-bottom-left-radius:5px;}
+  .bubble .msg{margin:0;}
+  .bubble .time{position:absolute;right:12px;bottom:7px;font-size:10px;color:rgba(235,220,196,.6);}
+  .recv .time{color:#B3A897;}
+  .tok{color:#DCBB8C;font-weight:600;}
+  .recv .tok{color:var(--bronze);}
+  .copybtn{position:absolute;top:9px;right:9px;font-family:var(--sans);font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#26231F;background:#DCBB8C;border:0;padding:4px 8px;border-radius:4px;cursor:pointer;opacity:.85;}
+  .copybtn:hover{opacity:1;}
+  .recv .copybtn{background:var(--charcoal);color:#EFE7DA;}
+  /* voice bubble */
+  .voice{display:flex;align-items:center;gap:11px;}
+  .play{width:26px;height:26px;border-radius:50%;background:#DCBB8C;color:#26231F;display:flex;align-items:center;justify-content:center;font-size:11px;flex:none;}
+  .wave{display:flex;align-items:center;gap:3px;height:22px;flex:1;}
+  .wave i{display:block;width:3px;border-radius:2px;background:rgba(220,187,140,.75);}
+  .vdur{font-size:11px;color:rgba(235,220,196,.75);}
+
+  .caption{max-width:400px;margin:16px auto 0;font-size:13.5px;color:var(--secondary);text-align:center;}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:10px;}
+  .card{background:var(--white);border:1px solid var(--hairline);border-radius:6px;padding:26px;}
+  ul.clean{list-style:none;margin:6px 0 0;padding:0;}
+  ul.clean li{position:relative;padding-left:24px;margin-bottom:13px;color:#3B3630;font-size:15.5px;}
+  ul.clean li:before{content:"";position:absolute;left:0;top:10px;width:8px;height:8px;border:1px solid var(--bronze);border-radius:50%;}
+  .note{background:rgba(200,168,120,.12);border:1px solid var(--champagne);border-radius:6px;padding:20px 24px;font-size:15px;color:#5C4A30;margin-top:26px;}
+  .note strong{color:#4A3A22;}
+  .warn{background:rgba(167,121,82,.1);border:1px solid var(--bronze);border-radius:6px;padding:22px 26px;margin-top:8px;}
+  .warn h3{font-size:19px;margin-bottom:8px;}
+  .warn p{font-size:15px;margin-bottom:12px;}
+  .warn p:last-child{margin-bottom:0;}
+  footer .provenance{font-size:13px;color:#B8AE9E;line-height:1.7;}
+  @media (max-width:820px){
+    .cols{grid-template-columns:1fr;} .hero h1{font-size:38px;} h2{font-size:29px;} section{padding:60px 0;}
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" style="background:var(--ivory);">
+  <div class="wrap">
+    <div class="brand">SUNLESS<span>by Jimmy Coco</span></div>
+    <h1>The WhatsApp companion track.</h1>
+    <p class="lead">A lighter, mobile-native sequence that <span class="kicker">interleaves</span> with the email campaign — the accelerator that lands between touches, gets read, and turns a cold list into conversations. Same Sunless voice, shorter and warmer.</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- WARNING -->
+<section class="bg-white">
+  <div class="wrap-narrow">
+    <p class="eyebrow">Before you send a single message</p>
+    <h2>WhatsApp isn't email.</h2>
+    <p class="lead" style="margin-bottom:26px;">It actively polices business messaging, so this track only works where you can legitimately reach a business number — a salon's publicly listed WhatsApp Business number, or someone who's opted in. Don't import a cold list and blast it; that gets numbers banned.</p>
+    <div class="warn">
+      <h3>Two ways to run it</h3>
+      <p><strong>Business app (manual, low volume)</strong> — send personally, one at a time, personalised. Best for a curated shortlist of high-value salons. Never use broadcast lists for cold contacts.</p>
+      <p><strong>Business Platform / API (via a BSP)</strong> — the first business-initiated message must be a <strong>pre-approved template</strong> with an opt-out line. Message 1 has a template-formatted version for this.</p>
+    </div>
+    <div class="note"><strong>The 24-hour window:</strong> once a salon replies, you have 24 hours of free-form conversation before you're back to approved templates. <strong>AU Spam Act 2003:</strong> identify yourself, contact only where relevant, always offer "Reply STOP". (Practical guidance, not legal advice.)</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- CADENCE -->
+<section class="bg-stone">
+  <div class="wrap-narrow">
+    <p class="eyebrow">How it fits</p>
+    <h2>One rhythm, two channels.</h2>
+    <p class="lead" style="margin-bottom:34px;">WhatsApp lands a day or two after each email, so every beat gets a second, softer knock. Ten touches across three weeks — or drop Email 2 for a lighter run.</p>
+    <ul class="timeline">
+      <li class="tl"><span class="day">Day 0</span><span class="chip chip-em">Email</span><p class="txt">Opener + free sample</p></li>
+      <li class="tl wa"><span class="day">Day 1</span><span class="chip chip-wa">WhatsApp</span><p class="txt">Warm intro + sample offer</p></li>
+      <li class="tl"><span class="day">Day 5</span><span class="chip chip-em">Email</span><p class="txt">Nudge</p></li>
+      <li class="tl wa"><span class="day">Day 6</span><span class="chip chip-wa">WhatsApp</span><p class="txt">&ldquo;Want me to post that sample?&rdquo;</p></li>
+      <li class="tl"><span class="day">Day 8</span><span class="chip chip-em">Email</span><p class="txt">Two revenue lines</p></li>
+      <li class="tl wa"><span class="day">Day 9</span><span class="chip chip-wa">WhatsApp</span><p class="txt">Two ways to earn + call / voice note</p></li>
+      <li class="tl"><span class="day">Day 13</span><span class="chip chip-em">Email</span><p class="txt">Season readiness</p></li>
+      <li class="tl wa"><span class="day">Day 15</span><span class="chip chip-wa">WhatsApp</span><p class="txt">Season urgency</p></li>
+      <li class="tl"><span class="day">Day 20</span><span class="chip chip-em">Email</span><p class="txt">Last call</p></li>
+      <li class="tl wa"><span class="day">Day 22</span><span class="chip chip-wa">WhatsApp</span><p class="txt">Warm sign-off + shade guide</p></li>
+    </ul>
+    <div class="note"><strong>Stop both tracks the instant a salon replies on either channel</strong> — then it's a real conversation, not a sequence.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- MESSAGES -->
+<section class="bg-cream">
+  <div class="wrap-narrow">
+    <p class="eyebrow">The messages</p>
+    <h2>Copy-ready, in the thread.</h2>
+    <p class="lead" style="margin-bottom:36px;">Tap <strong>Copy</strong> on any bubble. Tokens in <span style="color:var(--bronze);font-weight:600;">bronze</span> map to your sending tool. Keep them short — resist the urge to lengthen.</p>
+
+    <div class="phone">
+      <div class="screen">
+        <div class="chat-head">
+          <div class="avatar">JC</div>
+          <div><div class="nm">{{salon_name}}</div><div class="st">business chat</div></div>
+        </div>
+        <div class="chat-body">
+
+          <div class="daydiv"><span>Day 1 · WhatsApp 1</span></div>
+          <div class="bubble sent"><button class="copybtn" onclick="cp(this)">Copy</button><p class="msg">Hi <span class="tok">{{first_name}}</span>, it's <span class="tok">{{sender_first}}</span> from Sunless by Jimmy Coco. I dropped <span class="tok">{{salon_name}}</span> an email earlier — we make the professional tanning line behind a lot of Jimmy's red-carpet work.
+
+Before the summer rush kicks in, I'd love to post you a free sample of our Sunset professional solution and Jimmy's shade guide — no cost, no commitment. Happy for me to send it over?</p><span class="time">10:24 ✓✓</span></div>
+
+          <div class="daydiv"><span>Day 6 · WhatsApp 2</span></div>
+          <div class="bubble sent"><button class="copybtn" onclick="cp(this)">Copy</button><p class="msg">Hi <span class="tok">{{first_name}}</span> — just making sure this didn't slip past you. Still happy to post <span class="tok">{{salon_name}}</span> a free sample of the Sunset solution + Jimmy's shade guide so you can trial it on a client before summer.
+
+Want me to pop one in the post this week? A quick "yes" is all I need.</p><span class="time">11:02 ✓✓</span></div>
+
+          <div class="daydiv"><span>Day 9 · WhatsApp 3</span></div>
+          <div class="bubble sent"><button class="copybtn" onclick="cp(this)">Copy</button><p class="msg">Quick thought <span class="tok">{{first_name}}</span> — the reason salons like Jimmy Coco is it earns two ways: a premium tan clients pay more for in the booth, plus a take-home range they buy on the way out. Same brand, no discounting.
+
+Easier to show than type — got 15 mins this week for a quick call? <span class="tok">{{calendar_link}}</span>
+(Or say the word and I'll send a 30-sec voice note instead.)</p><span class="time">09:47 ✓✓</span></div>
+
+          <!-- voice note -->
+          <div class="bubble sent" style="padding-bottom:14px;"><div class="voice"><span class="play">&#9654;</span><span class="wave"><i style="height:6px"></i><i style="height:12px"></i><i style="height:18px"></i><i style="height:10px"></i><i style="height:20px"></i><i style="height:14px"></i><i style="height:8px"></i><i style="height:16px"></i><i style="height:11px"></i><i style="height:19px"></i><i style="height:7px"></i><i style="height:13px"></i></span><span class="vdur">0:25</span></div></div>
+
+          <div class="daydiv"><span>Day 15 · WhatsApp 4</span></div>
+          <div class="bubble sent"><button class="copybtn" onclick="cp(this)">Copy</button><p class="msg">Hi <span class="tok">{{first_name}}</span> — mad as it sounds in mid-winter, now's the moment. Tan bookings take off from the Melbourne Cup (3 Nov) and run right through summer, and getting a booth stocked + staff trained on the shade method takes a few weeks.
+
+Want me to map a ready-for-summer setup for <span class="tok">{{salon_name}}</span>? A free sample's the easiest place to start.</p><span class="time">13:15 ✓✓</span></div>
+
+          <!-- illustrative reply -->
+          <div class="bubble recv"><p class="msg">Go on then — send a sample through and let's find a time to chat 👍</p><span class="time">13:31</span></div>
+
+          <div class="daydiv"><span>Day 22 · WhatsApp 5</span></div>
+          <div class="bubble sent"><button class="copybtn" onclick="cp(this)">Copy</button><p class="msg">All good if the timing's not right, <span class="tok">{{first_name}}</span> — I'll leave it there so I'm not clogging your phone.
+
+Here's Jimmy's shade guide to keep either way — genuinely handy for any solution you're using: <span class="tok">{{shade_guide_link}}</span>
+
+Give me a shout when summer prep kicks off. Wishing <span class="tok">{{salon_name}}</span> a big season.</p><span class="time">10:08 ✓✓</span></div>
+
+        </div>
+      </div>
+    </div>
+    <p class="caption">Brand-styled mockup — in the app these render in WhatsApp's own UI. The reply bubble shows the outcome you're aiming for.</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- TEMPLATE + VOICE -->
+<section class="bg-white">
+  <div class="wrap-narrow">
+    <p class="eyebrow">Two specifics worth getting right</p>
+    <h2>The API template &amp; the voice note.</h2>
+
+    <h3 style="margin-top:8px;">Message 1, formatted as an API template</h3>
+    <p class="muted" style="font-size:15px;">If you send via the WhatsApp Business Platform, your first business-initiated message must be a pre-approved template. This version keeps the promotional restraint low and includes the required opt-out:</p>
+    <div class="phone" style="max-width:400px;">
+      <div class="screen"><div class="chat-body" style="padding:20px 16px;">
+        <div class="bubble sent" style="max-width:96%;"><button class="copybtn" onclick="cp(this)">Copy</button><p class="msg">Hi <span class="tok">{{first_name}}</span>, it's <span class="tok">{{sender_first}}</span> from Sunless by Jimmy Coco — the professional tanning line from artist Jimmy Coco. We'd love to post <span class="tok">{{salon_name}}</span> a complimentary sample of our Sunset solution and shade guide before summer. Would you like us to send it?
+
+Reply STOP to opt out.</p><span class="time">10:24 ✓✓</span></div>
+      </div></div>
+    </div>
+
+    <h3 style="margin-top:40px;">Optional voice-note script (~25 sec)</h3>
+    <p class="muted" style="font-size:15px;">Voice notes convert once there's a flicker of interest — they feel unmistakably human. Read it naturally, don't perform it:</p>
+    <div class="card">
+      <p style="margin:0;font-size:15.5px;line-height:1.6;">&ldquo;Hey <span style="color:var(--bronze);font-weight:600;">{{first_name}}</span>, <span style="color:var(--bronze);font-weight:600;">{{sender_first}}</span> here from Sunless by Jimmy Coco — just a quick one. The thing that makes Jimmy Coco work for a salon is it pays off twice: you can charge a premium for the tan itself because the result and the name carry weight, and then there's the take-home range clients grab on the way out, which is margin you're probably leaving on the table right now. I'd genuinely love to send you a free sample so you can see the colour for yourself before the summer rush. Just reply here and I'll sort it. Cheers!&rdquo;</p>
+    </div>
+    <div class="note"><strong>Media tip:</strong> attach a single product shot (the Sunset 1 Ltr bottle) or one clean before/after with Message 1 or 3 — WhatsApp renders it inline and lifts replies. One image only; more reads as spam.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- SENDING NOTES -->
+<section class="bg-linen">
+  <div class="wrap">
+    <p class="eyebrow">Sending notes</p>
+    <h2>Keep it low, personal, human.</h2>
+    <div class="cols">
+      <div class="card">
+        <h3>Do</h3>
+        <ul class="clean">
+          <li>Message business hours, salon-local — <strong>Tue–Thu, late AM / early arvo</strong></li>
+          <li>Send <strong>one to one</strong> for cold — never broadcast lists</li>
+          <li>Personalise every message with a real first name</li>
+          <li>Keep volume low to protect number health</li>
+          <li>Use a voice note once there's any interest</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Don't</h3>
+        <ul class="clean">
+          <li>Import a bought list and blast it — fast route to a ban</li>
+          <li>Attach more than one image</li>
+          <li>Send evenings or weekends</li>
+          <li>Keep messaging after a reply — switch to a real chat</li>
+          <li>Lengthen the copy; WhatsApp rewards brevity</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSE -->
+<section class="bg-charcoal">
+  <div class="wrap-narrow">
+    <p class="eyebrow">Email + WhatsApp, together</p>
+    <h2>Two knocks, one warm door.</h2>
+    <p class="lead" style="max-width:60ch;">Email carries the detail and the branded moments; WhatsApp carries the warmth and the quick yes. Run them on the one rhythm, stop the moment a salon replies, and let the free sample do the rest. Seed it now — the season looks after itself.</p>
+    <footer style="margin-top:38px;"><p class="provenance">Sunless by Jimmy Coco — AU Salon WhatsApp Companion · Prepared July 2026 · Companion to the email outreach playbook. Voice &amp; palette per <em>website/01-design-system</em>.</p></footer>
+  </div>
+</section>
+
+<script>
+  function cp(btn){
+    var msg = btn.parentElement.querySelector('.msg');
+    var text = msg ? msg.innerText : btn.parentElement.innerText;
+    var done = function(){ var o = btn.textContent; btn.textContent = 'Copied'; setTimeout(function(){ btn.textContent = o; }, 1500); };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(function(){ fb(text); done(); });
+    } else { fb(text); done(); }
+  }
+  function fb(text){
+    var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta);
+  }
+</script>
+</body>
+</html>

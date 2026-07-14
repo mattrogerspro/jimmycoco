@@ -254,72 +254,76 @@ const formatTrigger = (trigger) => trigger
   ? trigger.replaceAll('_', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase())
   : ''
 
+const getDisplayDay = (day) => Number(day) + 1
+
 const getMessageTimingLabel = (message) => {
-  if (!message.isTriggered) return `Day ${message.day}`
+  if (!message.isTriggered) return `Day ${getDisplayDay(message.day)}`
   const trigger = formatTrigger(message.trigger) || 'Trigger-based'
   const delay = Number(message.day) > 0 ? `+${message.day} days` : 'Immediate'
   return `${trigger} · ${delay}`
 }
 
-function SequenceTimeline({ campaign }) {
+function SequenceTimeline({ campaign, analytics, onOpenEmail }) {
   const sequenceMessages = campaign.messages.filter((message) => !message.isSupplemental)
   const getWaitLabel = (message, nextMessage) => {
     if (message.isTriggered || nextMessage.isTriggered) return 'Next event'
     const waitDays = Number(nextMessage.day) - Number(message.day)
     return waitDays === 1 ? 'Wait 1 day' : `Wait ${waitDays} days`
   }
+  const rate = (value, total, enabled = true) => {
+    if (!enabled) return 'Off'
+    return Number(total) ? `${Math.round((Number(value || 0) / Number(total)) * 100)}%` : '—'
+  }
+  const campaignStats = analytics.campaign || {}
 
   return (
     <div className="sequence-timeline">
-      <section className="journey-overview" aria-label={`${campaign.name} email journey`}>
-        <div className="journey-overview-head">
-          <div><span>Email journey</span><strong>{campaign.mode === 'event' ? 'Event-driven delivery map' : 'Send plan at a glance'}</strong></div>
-          <small>{sequenceMessages.length} {sequenceMessages.length === 1 ? 'email' : 'emails'} · {campaign.cadence}</small>
+      <section className="sequence-performance" aria-label="Live campaign performance">
+        <div className="sequence-performance-label">
+          <span><i />Live performance</span>
+          <small>{analytics.loading ? 'Refreshing…' : analytics.configured ? 'Refreshes every 15 seconds' : 'Supabase connection required'}</small>
         </div>
-        <div className="journey-map">
-          {sequenceMessages.map((message, index) => {
-            const nextMessage = sequenceMessages[index + 1]
-            return (
-              <div className="journey-map-segment" key={message.id}>
-                <div className="journey-map-node">
-                  <span className={message.status === 'Live' ? 'live' : ''}>{String(index + 1).padStart(2, '0')}</span>
-                  <strong>{message.isTriggered ? (formatTrigger(message.trigger) || 'On event') : `Day ${message.day}`}</strong>
-                  <small>Email {String(index + 1).padStart(2, '0')}</small>
-                </div>
-                {nextMessage && <div className="journey-map-link"><span>{getWaitLabel(message, nextMessage)}</span><i /></div>}
-              </div>
-            )
-          })}
+        <div className="sequence-performance-metrics">
+          <div><span>Sent</span><strong>{campaignStats.sent || 0}</strong></div>
+          <div><span>Delivered</span><strong>{rate(campaignStats.delivered, campaignStats.sent)}</strong></div>
+          <div><span>Opened</span><strong>{rate(campaignStats.opened, campaignStats.delivered, analytics.tracking?.opens)}</strong></div>
+          <div><span>Clicked</span><strong>{rate(campaignStats.clicked, campaignStats.delivered, analytics.tracking?.clicks)}</strong></div>
+          <div><span>Responses</span><strong>{Number(campaignStats.replies || 0) + Number(campaignStats.conversions || 0)}</strong></div>
         </div>
       </section>
 
-      <div className="email-plan-heading">
-        <div><span>Campaign content</span><h3>Emails in this campaign</h3></div>
-        <small>Subject, preview text and delivery status</small>
-      </div>
-      <div className="email-plan-list">
-        {sequenceMessages.map((message, index) => (
-          <article className="email-plan-card" key={message.id}>
-            <div className="email-plan-number">
-              <small>Email</small>
-              <strong>{String(index + 1).padStart(2, '0')}</strong>
-              <span>of {String(sequenceMessages.length).padStart(2, '0')}</span>
+      <section className="email-sequence-board" aria-label={`${campaign.name} emails`}>
+        <div className="email-sequence-board-head">
+          <span>Email</span><span>Subject and preview</span><span>Live email performance</span><span />
+        </div>
+        {sequenceMessages.map((message, index) => {
+          const nextMessage = sequenceMessages[index + 1]
+          const stats = analytics.steps.find((step) => Number(step.step_number) === message.index) || {}
+          return (
+            <div className="email-board-segment" key={message.id}>
+              <button className="email-board-row" onClick={() => onOpenEmail(campaign.id, message.id)} aria-label={`Open email ${index + 1}: ${message.title}`}>
+                <div className="email-board-position">
+                  <strong>{String(index + 1).padStart(2, '0')}</strong>
+                  <span>{message.isTriggered ? 'Triggered' : `Day ${getDisplayDay(message.day)}`}</span>
+                </div>
+                <div className="email-board-copy">
+                  <div><span className={`email-plan-status ${message.status.toLowerCase()}`}><i />{message.status}</span></div>
+                  <strong>{message.title}</strong>
+                  <small>{message.preview}</small>
+                </div>
+                <div className="email-board-stats">
+                  <span><b>{stats.sent || 0}</b>Sent</span>
+                  <span><b>{rate(stats.delivered, stats.sent)}</b>Delivered</span>
+                  <span><b>{rate(stats.opened, stats.delivered, analytics.tracking?.opens)}</b>Opened</span>
+                  <span><b>{rate(stats.clicked, stats.delivered, analytics.tracking?.clicks)}</b>Clicked</span>
+                </div>
+                <Icon name="arrow" size={18} />
+              </button>
+              {nextMessage && <div className="email-wait-marker"><i /><span>{getWaitLabel(message, nextMessage)}</span></div>}
             </div>
-            <div className="email-plan-content">
-              <div className="email-plan-meta">
-                <span className="email-plan-day">{getMessageTimingLabel(message)}</span>
-                <span className={`email-plan-status ${message.status.toLowerCase()}`}><i />{message.status}</span>
-              </div>
-              <h3>{message.title}</h3>
-              <p>{message.preview}</p>
-              <div className="email-plan-footer">
-                <span>{message.html ? 'Branded HTML' : 'Plain text'}</span>
-                <span><b>Headline</b>{message.headline || 'Campaign email'}</span>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
+          )
+        })}
+      </section>
     </div>
   )
 }
@@ -339,13 +343,29 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
     [marketFilter],
   )
   const campaign = filteredCampaigns.find((item) => item.id === selectedCampaignId) || filteredCampaigns[0] || campaigns[0]
-  const campaignMessageCount = campaign.messages.filter((message) => !message.isSupplemental).length
   const [lifecycleId, setLifecycleId] = useState(lifecycleSequences[0]?.id)
   const lifecycle = lifecycleSequences.find((item) => item.id === lifecycleId) || lifecycleSequences[0]
+  const [analytics, setAnalytics] = useState({ loading: true, configured: null, campaign: null, steps: [], tracking: null })
 
   useEffect(() => {
     if (mode === 'campaigns' && campaign.id !== selectedCampaignId) onSelectCampaign(campaign.id)
   }, [campaign.id, mode, onSelectCampaign, selectedCampaignId])
+  useEffect(() => {
+    let cancelled = false
+    const load = async () => {
+      try {
+        const response = await fetch(`/api/campaigns/stats?campaign_id=${encodeURIComponent(campaign.id)}`)
+        const data = await response.json()
+        if (!cancelled) setAnalytics({ loading: false, configured: Boolean(data.configured), campaign: data.campaign, steps: data.steps || [], tracking: data.tracking })
+      } catch {
+        if (!cancelled) setAnalytics({ loading: false, configured: false, campaign: null, steps: [], tracking: null })
+      }
+    }
+    setAnalytics((current) => ({ ...current, loading: true }))
+    load()
+    const interval = window.setInterval(load, 15000)
+    return () => { cancelled = true; window.clearInterval(interval) }
+  }, [campaign.id])
 
   return (
     <div className="page sequences-page">
@@ -371,7 +391,7 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
             <div className="sequence-list-head"><span>Campaign sequences</span><b>{filteredCampaigns.length}</b></div>
             {filteredCampaigns.map((item) => (
               <button key={item.id} className={item.id === campaign.id ? 'active' : ''} onClick={() => onSelectCampaign(item.id)}>
-                <span className="flag-tile small">{item.flag}</span><div><strong>{item.name}</strong><small>{item.messages.filter((message) => !message.isSupplemental).length} emails · {item.cadence}</small></div><Status value={item.status} />
+                <span className="flag-tile small">{item.flag}</span><div><strong>{item.name}</strong><small>{item.hook}</small></div><Status value={item.status} />
               </button>
             ))}
           </aside>
@@ -381,12 +401,10 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
                 <div className="sequence-kicker"><span className="sequence-market-flag">{campaign.flag}</span><span>{campaign.market}</span><i /> <span>{campaign.channel}</span><Status value={campaign.status} /></div>
                 <h2>{campaign.name}</h2>
                 <p>{campaign.hook}</p>
-                <div className="sequence-ownership"><span><b>Owner</b>{campaign.owner}</span><span><b>Delivery</b>{campaign.mode === 'event' ? 'Event triggered' : campaign.cadence}</span></div>
+                <div className="sequence-ownership"><span><b>Owner</b>{campaign.owner}</span></div>
               </div>
-              <button className="primary-button" onClick={() => onOpenEmail(campaign.id)}><Icon name="mail" />Open live emails</button>
             </div>
-            <div className="sequence-summary"><div><span>Emails</span><strong>{campaignMessageCount}</strong></div><div><span>Journey window</span><strong>{campaign.cadence}</strong></div><div><span>Primary goal</span><strong>Reply</strong></div></div>
-            <SequenceTimeline campaign={campaign} />
+            <SequenceTimeline campaign={campaign} analytics={analytics} onOpenEmail={onOpenEmail} />
           </section>
         </div>
       ) : (
@@ -407,11 +425,13 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
   )
 }
 
-function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
+function EmailStudio({ selectedCampaignId, selectedEmailId, onSelectCampaign }) {
   const campaign = campaigns.find((item) => item.id === selectedCampaignId) || campaigns.find((item) => item.status === 'Live') || campaigns[0]
   const availableMessages = useMemo(() => campaign.messages.filter((message) => message.html), [campaign])
   const sequenceMessages = useMemo(() => availableMessages.filter((item) => !item.isSupplemental), [availableMessages])
-  const [selectedMessageId, setSelectedMessageId] = useState(availableMessages[0]?.id)
+  const [selectedMessageId, setSelectedMessageId] = useState(
+    availableMessages.some((item) => item.id === selectedEmailId) ? selectedEmailId : availableMessages[0]?.id,
+  )
   const [viewport, setViewport] = useState('desktop')
   const [personalised, setPersonalised] = useState(true)
   const [analytics, setAnalytics] = useState({ loading: true, configured: null, campaign: null, steps: [] })
@@ -420,7 +440,9 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
   const message = availableMessages.find((item) => item.id === selectedMessageId) || availableMessages[0]
   const sequenceDuration = sequenceMessages.at(-1)?.day ?? 0
 
-  useEffect(() => { setSelectedMessageId(availableMessages[0]?.id) }, [campaign.id])
+  useEffect(() => {
+    setSelectedMessageId(availableMessages.some((item) => item.id === selectedEmailId) ? selectedEmailId : availableMessages[0]?.id)
+  }, [availableMessages, campaign.id, selectedEmailId])
   useEffect(() => {
     const handleSequenceKeydown = (event) => {
       if (
@@ -511,7 +533,7 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
             ? 'Supplemental triggered email'
             : message.isTriggered
               ? `Triggered email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · ${formatTrigger(message.trigger) || 'Event based'}`
-              : `Sequence email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${message.day}`
+              : `Sequence email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${getDisplayDay(message.day)}`
         ) : 'No HTML'}</span><strong>{message?.title || 'No rendered emails in this campaign'}</strong></div>
         <div className="toolbar-actions">
           <div className="viewport-switch"><button className={viewport === 'desktop' ? 'active' : ''} onClick={() => setViewport('desktop')} aria-label="Desktop preview"><Icon name="monitor" /></button><button className={viewport === 'mobile' ? 'active' : ''} onClick={() => setViewport('mobile')} aria-label="Mobile preview"><Icon name="mobile" /></button></div>
@@ -532,12 +554,12 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
                       <button
                         className={item.id === message?.id ? 'active' : ''}
                         onClick={() => setSelectedMessageId(item.id)}
-                        aria-label={item.isTriggered ? `Open triggered email ${item.index}: ${formatTrigger(item.trigger) || 'event based'}` : `Open sequence email ${item.index}, sent on day ${item.day}`}
+                        aria-label={item.isTriggered ? `Open triggered email ${item.index}: ${formatTrigger(item.trigger) || 'event based'}` : `Open sequence email ${item.index}, sent on day ${getDisplayDay(item.day)}`}
                         aria-pressed={item.id === message?.id}
                         aria-keyshortcuts={index < 9 ? String(index + 1) : undefined}
                       >
                         <b>{String(item.index).padStart(2, '0')}</b>
-                        <span>{item.isTriggered ? (Number(item.day) > 0 ? `+${item.day}d` : 'Now') : `D${item.day}`}</span>
+                        <span>{item.isTriggered ? (Number(item.day) > 0 ? `+${item.day}d` : 'Now') : `D${getDisplayDay(item.day)}`}</span>
                       </button>
                       {nextMessage && <i />}
                     </div>
@@ -556,7 +578,7 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
                   >
                     <span className="email-index">{item.isSupplemental ? '+' : String(item.index).padStart(2, '0')}</span>
                     <div className="email-step-copy">
-                      <span className={`email-send-day ${item.isTriggered ? 'triggered' : ''}`}>{item.isTriggered ? 'Trigger-based' : `Day ${item.day}`}</span>
+                      <span className={`email-send-day ${item.isTriggered ? 'triggered' : ''}`}>{item.isTriggered ? 'Trigger-based' : `Day ${getDisplayDay(item.day)}`}</span>
                       <strong>{personalised ? applyMergeData(item.title, sampleMergeData) : item.title}</strong>
                     </div>
                     {item.status === 'Live' && <i className="live-pulse" />}
@@ -606,7 +628,7 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
               ? 'Trigger-based supplemental'
               : message.isTriggered
                 ? `Triggered email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')}`
-                : `Email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${message.day}`
+                : `Email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${getDisplayDay(message.day)}`
           }</span></div>
           <dl><div><dt>Headline</dt><dd>{message.headline}</dd></div><div><dt>Eyebrow</dt><dd>{message.eyebrow}</dd></div><div><dt>Format</dt><dd>Branded HTML</dd></div><div><dt>Output</dt><dd>{message.output.split('/').pop()}</dd></div></dl>
           <hr />
@@ -625,6 +647,7 @@ export default function App() {
   })
   const [query, setQuery] = useState('')
   const [selectedCampaignId, setSelectedCampaignId] = useState(campaigns.find((item) => item.status === 'Live')?.id || campaigns[0]?.id)
+  const [selectedEmailId, setSelectedEmailId] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => window.localStorage.getItem('sunless-sidebar-collapsed') === 'true')
   const title = navItems.find((item) => item.id === currentView)?.label || 'Overview'
@@ -659,7 +682,11 @@ export default function App() {
     }
     if (view !== 'playbooks') setQuery('')
   }
-  const openEmail = (campaignId) => { setSelectedCampaignId(campaignId); navigate('emails') }
+  const openEmail = (campaignId, emailId = null) => {
+    setSelectedCampaignId(campaignId)
+    setSelectedEmailId(emailId)
+    navigate('emails')
+  }
   const collapseSidebar = () => {
     setSidebarCollapsed(true)
     setSidebarOpen(false)
@@ -672,15 +699,15 @@ export default function App() {
   }
 
   return (
-    <div className={`app-shell ${sidebarCollapsed ? 'sidebar-is-collapsed' : ''} ${currentView === 'emails' ? 'emails-view' : ''}`}>
+    <div className={`app-shell ${sidebarCollapsed ? 'sidebar-is-collapsed' : ''} ${currentView === 'emails' ? 'emails-view' : ''} ${currentView === 'sequences' ? 'sequences-view' : ''}`}>
       <Sidebar currentView={currentView} setCurrentView={navigate} open={sidebarOpen} onClose={() => setSidebarOpen(false)} onCollapse={collapseSidebar} />
       <button className="nav-reopen" onClick={openSidebar} aria-label="Open workspace navigation"><Icon name="menu" /></button>
       <div className="app-main">
-        {currentView !== 'emails' && <Topbar title={title} query={query} setQuery={setQuery} onMenu={openSidebar} showBreadcrumb={currentView !== 'sequences'} compact={currentView === 'sequences'} />}
+        {currentView !== 'emails' && currentView !== 'sequences' && <Topbar title={title} query={query} setQuery={setQuery} onMenu={openSidebar} />}
         {currentView === 'overview' && <Overview onNavigate={navigate} onOpenCampaign={setSelectedCampaignId} />}
         {currentView === 'playbooks' && <Playbooks query={query} />}
         {currentView === 'sequences' && <Sequences selectedCampaignId={selectedCampaignId} onSelectCampaign={setSelectedCampaignId} onOpenEmail={openEmail} />}
-        {currentView === 'emails' && <EmailStudio selectedCampaignId={selectedCampaignId} onSelectCampaign={setSelectedCampaignId} />}
+        {currentView === 'emails' && <EmailStudio selectedCampaignId={selectedCampaignId} selectedEmailId={selectedEmailId} onSelectCampaign={setSelectedCampaignId} />}
       </div>
     </div>
   )

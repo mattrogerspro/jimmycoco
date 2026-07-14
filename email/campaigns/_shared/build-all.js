@@ -22,6 +22,9 @@ function validateMessage(message, manifestPath) {
   if (!Array.isArray(message.blocks)) {
     throw new Error(`${manifestPath}: blocks must be an array`);
   }
+  if (path.basename(message.output) !== message.output) {
+    throw new Error(`${manifestPath}: output must be a filename, not a path`);
+  }
 }
 
 let generated = 0;
@@ -37,10 +40,12 @@ for (const relativeManifest of manifests) {
   }
 
   const campaignDir = path.dirname(manifestPath);
+  const emailsDir = path.join(campaignDir, 'emails');
+  fs.mkdirSync(emailsDir, { recursive: true });
+
   for (const message of campaign.messages) {
     validateMessage(message, relativeManifest);
-    const outputPath = path.join(campaignDir, message.output);
-    fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+    const outputPath = path.join(emailsDir, message.output);
     fs.writeFileSync(outputPath, renderEmail({ ...campaign.defaults, ...message }), 'utf8');
     generated += 1;
     console.log(`generated ${path.relative(campaignsRoot, outputPath)}`);

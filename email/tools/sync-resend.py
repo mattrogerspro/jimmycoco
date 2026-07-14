@@ -35,6 +35,7 @@ import urllib.error
 from pathlib import Path
 
 API_BASE = "https://api.resend.com"
+USER_AGENT = "jimmycoco-template-sync/1.0"
 
 # Resend auto-provides these; they must NOT be declared as custom variables.
 RESERVED_VARS = {"FIRST_NAME", "LAST_NAME", "EMAIL", "UNSUBSCRIBE_URL",
@@ -56,6 +57,7 @@ def _request(method, path, api_key, body=None):
     req.add_header("Authorization", "Bearer " + api_key)
     req.add_header("Content-Type", "application/json")
     req.add_header("Accept", "application/json")
+    req.add_header("User-Agent", USER_AGENT)
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
             raw = resp.read().decode("utf-8") or "{}"
@@ -147,6 +149,10 @@ def load_manifest(manifest_path):
         for req in ("file", "alias", "name"):
             if not t.get(req):
                 raise SyncError(f"{manifest_path}: template #{i+1} missing '{req}'")
+        if len(t["alias"]) > 50:
+            raise SyncError(f"{manifest_path}: template #{i+1} alias exceeds Resend's 50-character limit")
+        if len(t["name"]) > 50:
+            raise SyncError(f"{manifest_path}: template #{i+1} name exceeds Resend's 50-character limit")
         html_path = (manifest_path.parent / t["file"]).resolve()
         if not html_path.is_file():
             raise SyncError(f"{manifest_path}: file not found -> {t['file']}")

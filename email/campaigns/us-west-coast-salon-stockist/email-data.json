@@ -109,7 +109,7 @@
     },
     {
       "output": "emails/onboarding-1-interest-confirmed.html",
-      "alias": "us-west-coast-stockist-onboarding-1-interest-confirmed",
+      "alias": "us-west-coast-onboard-1-interest-confirmed",
       "title": "Thanks — let’s set up your trial",
       "preview": "You’re out of the introduction sequence. A couple of details and we’ll begin.",
       "eyebrow": "Next steps",
@@ -126,7 +126,7 @@
     },
     {
       "output": "emails/onboarding-2-trial-dispatched.html",
-      "alias": "us-west-coast-stockist-onboarding-2-trial-dispatched",
+      "alias": "us-west-coast-onboard-2-trial-dispatched",
       "title": "Your professional trial is on its way",
       "preview": "Dispatch confirmation and what to assess during your professional trial.",
       "eyebrow": "Your professional trial",
@@ -144,7 +144,7 @@
     },
     {
       "output": "emails/onboarding-3-post-trial-check-in.html",
-      "alias": "us-west-coast-stockist-onboarding-3-post-trial-check-in",
+      "alias": "us-west-coast-onboard-3-post-trial-check-in",
       "title": "How did the color develop?",
       "preview": "A quick, honest read on the trial — then a short consultation if it’s a fit.",
       "eyebrow": "How did it perform?",
@@ -176,7 +176,7 @@
     },
     {
       "output": "emails/onboarding-5-first-order-confirmation.html",
-      "alias": "us-west-coast-stockist-onboarding-5-first-order-confirmation",
+      "alias": "us-west-coast-onboard-5-first-order-confirmed",
       "title": "Your first order is confirmed",
       "preview": "Order confirmation and where your team can get started.",
       "eyebrow": "Order confirmed",

@@ -2,15 +2,15 @@
   "campaign": "us-west-coast-salon-stockist",
   "publish": false,
   "templates": [
-    { "file": "emails/1-professional-introduction.html", "alias": "us-west-coast-stockist-1-professional-introduction", "name": "US West Coast Stockist 1 — Professional Introduction", "subject": "A professional tanning partnership for {{business_name}}" },
+    { "file": "emails/1-professional-introduction.html", "alias": "us-west-coast-stockist-1-professional-introduction", "name": "US West Stockist 1 — Professional Introduction", "subject": "A professional tanning partnership for {{business_name}}" },
     { "file": "emails/2-west-coast-light.html", "alias": "us-west-coast-stockist-2-west-coast-light", "name": "US West Coast Stockist 2 — West Coast Light", "subject": "Color that still looks right in West Coast light" },
     { "file": "emails/3-treatment-and-retail.html", "alias": "us-west-coast-stockist-3-treatment-and-retail", "name": "US West Coast Stockist 3 — Treatment and Retail", "subject": "One client relationship, two revenue lines" },
     { "file": "emails/4-partner-pathway.html", "alias": "us-west-coast-stockist-4-partner-pathway", "name": "US West Coast Stockist 4 — Partner Pathway", "subject": "A trial-first way to begin with Sunless" },
     { "file": "emails/5-close-the-loop.html", "alias": "us-west-coast-stockist-5-close-the-loop", "name": "US West Coast Stockist 5 — Close the Loop", "subject": "Shall I close this for now?" },
-    { "file": "emails/onboarding-1-interest-confirmed.html", "alias": "us-west-coast-stockist-onboarding-1-interest-confirmed", "name": "US West Coast Onboarding 1 — Interest Confirmed", "subject": "Thanks — let’s set up your trial" },
-    { "file": "emails/onboarding-2-trial-dispatched.html", "alias": "us-west-coast-stockist-onboarding-2-trial-dispatched", "name": "US West Coast Onboarding 2 — Trial Dispatched", "subject": "Your professional trial is on its way" },
-    { "file": "emails/onboarding-3-post-trial-check-in.html", "alias": "us-west-coast-stockist-onboarding-3-post-trial-check-in", "name": "US West Coast Onboarding 3 — Post-trial Check-in", "subject": "How did the color develop?" },
+    { "file": "emails/onboarding-1-interest-confirmed.html", "alias": "us-west-coast-onboard-1-interest-confirmed", "name": "US West Coast Onboarding 1 — Interest Confirmed", "subject": "Thanks — let’s set up your trial" },
+    { "file": "emails/onboarding-2-trial-dispatched.html", "alias": "us-west-coast-onboard-2-trial-dispatched", "name": "US West Coast Onboarding 2 — Trial Dispatched", "subject": "Your professional trial is on its way" },
+    { "file": "emails/onboarding-3-post-trial-check-in.html", "alias": "us-west-coast-onboard-3-post-trial-check-in", "name": "US West Coast Onboarding 3 — Post-trial Check-in", "subject": "How did the color develop?" },
     { "file": "emails/onboarding-4-trade-summary.html", "alias": "us-west-coast-stockist-onboarding-4-trade-summary", "name": "US West Coast Onboarding 4 — Trade Summary", "subject": "Your partnership terms, in writing" },
-    { "file": "emails/onboarding-5-first-order-confirmation.html", "alias": "us-west-coast-stockist-onboarding-5-first-order-confirmation", "name": "US West Coast Onboarding 5 — First Order Confirmation", "subject": "Your first order is confirmed" }
+    { "file": "emails/onboarding-5-first-order-confirmation.html", "alias": "us-west-coast-onboard-5-first-order-confirmed", "name": "US West Onboarding 5 — First Order Confirmed", "subject": "Your first order is confirmed" }
   ]
 }

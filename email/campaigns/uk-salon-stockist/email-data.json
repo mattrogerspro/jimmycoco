@@ -1,0 +1,36 @@
+{
+  "defaults": {
+    "brand": "SUNLESS",
+    "brandLine": "by Jimmy Coco",
+    "background": "#EAE2D8",
+    "cardBackground": "#FBF8F3",
+    "accent": "#A77952",
+    "text": "#3B3630",
+    "heading": "#24211E",
+    "buttonBackground": "#26231F",
+    "buttonText": "#FFFDF9",
+    "businessName": "Sunless by Jimmy Coco",
+    "businessAddress": "{{business_address}}",
+    "unsubscribeText": "You are receiving this professional-stockist communication from Sunless by Jimmy Coco.",
+    "unsubscribeUrl": "{$unsubscribe}",
+    "senderName": "Sunless by Jimmy Coco",
+    "senderTitle": "Professional Partnerships"
+  },
+  "messages": [
+    {
+      "output": "emails/1-your-clients-know-this-name.html",
+      "title": "Your clients already know this name",
+      "preview": "Bring Hollywood's favourite tan to your salon.",
+      "eyebrow": "Professional stockist invitation",
+      "headline": "Your clients already know this name.",
+      "blocks": [
+        {"type":"paragraph","html":"The celebrity tanning expertise behind some of Hollywood's most recognisable red-carpet colour is now available for professional salons."},
+        {"type":"offer","html":"<strong>Jimmy Coco Malibu professional solution</strong> — {{professional_price}} for {{professional_size}}, with trade support, training and launch assets."},
+        {"type":"bullets","items":["<strong>Celebrity credibility:</strong> a premium name clients can recognise.","<strong>Premium client experience:</strong> a professional formula and service story built for luxury positioning.","<strong>Higher perceived value:</strong> a stronger reason to price and present tanning as a premium treatment.","<strong>Professional support:</strong> trade pricing, training, marketing assets and dedicated stockist help."]},
+        {"type":"quote","html":"I have spent over 20 years perfecting the art of the tan. Malibu is my professional formula, created for artists and salons that care about believable colour and a polished result.","by":"Jimmy Coco"},
+        {"type":"cta","label":"Explore professional stockist options","url":"https://jimmycoco.co.uk/pages/why-choose-pro-professional"},
+        {"type":"note","html":"Trade enquiries: <a href=\"mailto:pro@jimmycoco.co.uk\">pro@jimmycoco.co.uk</a> · <a href=\"{$forward}\">Forward this email</a>"}
+      ]
+    }
+  ]
+}

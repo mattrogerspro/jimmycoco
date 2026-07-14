@@ -321,10 +321,12 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
 function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
   const campaign = campaigns.find((item) => item.id === selectedCampaignId) || campaigns.find((item) => item.status === 'Live') || campaigns[0]
   const availableMessages = campaign.messages.filter((message) => message.html)
+  const sequenceMessages = availableMessages.filter((item) => !item.isSupplemental)
   const [selectedMessageId, setSelectedMessageId] = useState(availableMessages[0]?.id)
   const [viewport, setViewport] = useState('desktop')
   const [personalised, setPersonalised] = useState(true)
   const message = availableMessages.find((item) => item.id === selectedMessageId) || availableMessages[0]
+  const sequenceDuration = sequenceMessages.at(-1)?.day ?? 0
 
   useEffect(() => { setSelectedMessageId(availableMessages[0]?.id) }, [campaign.id])
   const previewHtml = personalised ? applyMergeData(message?.html, sampleMergeData) : message?.html
@@ -339,7 +341,7 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
           </select>
           <Icon name="chevron" size={15} />
         </div>
-        <div className="email-toolbar-title"><span>{message ? `Email ${message.index}` : 'No HTML'}</span><strong>{message?.title || 'No rendered emails in this campaign'}</strong></div>
+        <div className="email-toolbar-title"><span>{message ? (message.isSupplemental ? 'Supplemental triggered email' : `Sequence step ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${message.day}`) : 'No HTML'}</span><strong>{message?.title || 'No rendered emails in this campaign'}</strong></div>
         <div className="toolbar-actions">
           <div className="viewport-switch"><button className={viewport === 'desktop' ? 'active' : ''} onClick={() => setViewport('desktop')} aria-label="Desktop preview"><Icon name="monitor" /></button><button className={viewport === 'mobile' ? 'active' : ''} onClick={() => setViewport('mobile')} aria-label="Mobile preview"><Icon name="mobile" /></button></div>
           <button className={`personalise-toggle ${personalised ? 'active' : ''}`} onClick={() => setPersonalised((value) => !value)}><Icon name="spark" />Sample data<span><i /></span></button>
@@ -348,13 +350,58 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
       <div className="email-workspace">
         <aside className="email-list">
           <div className="email-list-heading"><p className="eyebrow">Rendered emails</p><span>{availableMessages.length}</span></div>
-          {availableMessages.map((item) => (
-            <button key={item.id} className={item.id === message?.id ? 'active' : ''} onClick={() => setSelectedMessageId(item.id)}>
-              <span className="email-index">{String(item.index).padStart(2, '0')}</span>
-              <div><strong>{item.title}</strong><small>Day {item.day} · HTML</small></div>
-              {item.status === 'Live' && <i className="live-pulse" />}
-            </button>
-          ))}
+          {!!sequenceMessages.length && (
+            <div className="email-flow-summary">
+              <div className="email-flow-meta"><strong>{sequenceMessages.length}-step flow</strong><span>Day 0 → Day {sequenceDuration}</span></div>
+              <div className="email-flow-track" aria-label={`${campaign.name} send-day flow`}>
+                {sequenceMessages.map((item, index) => {
+                  const nextMessage = sequenceMessages[index + 1]
+                  return (
+                    <div className="email-flow-segment" key={item.id}>
+                      <button
+                        className={item.id === message?.id ? 'active' : ''}
+                        onClick={() => setSelectedMessageId(item.id)}
+                        aria-label={`Open sequence step ${item.index}, sent on day ${item.day}`}
+                        aria-pressed={item.id === message?.id}
+                      >
+                        <b>{String(item.index).padStart(2, '0')}</b>
+                        <span>Day {item.day}</span>
+                      </button>
+                      {nextMessage && <i><small>+{nextMessage.day - item.day}d</small></i>}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+          <div className="email-sequence">
+            {availableMessages.map((item, index) => {
+              const candidateNextMessage = availableMessages[index + 1]
+              const nextMessage = !item.isSupplemental && !candidateNextMessage?.isSupplemental ? candidateNextMessage : null
+              return (
+                <div className="email-sequence-step" key={item.id}>
+                  <button
+                    className={item.id === message?.id ? 'active' : ''}
+                    onClick={() => setSelectedMessageId(item.id)}
+                    aria-pressed={item.id === message?.id}
+                  >
+                    <span className="email-index"><small>{item.isSupplemental ? 'Extra' : 'Step'}</small><b>{item.isSupplemental ? '+' : String(item.index).padStart(2, '0')}</b></span>
+                    <div className="email-step-copy">
+                      <span className={`email-send-day ${item.isSupplemental ? 'triggered' : ''}`}>{item.isSupplemental ? 'Trigger-based' : `Day ${item.day}`}</span>
+                      <strong>{item.title}</strong>
+                      <small>{item.isSupplemental ? 'Supplemental email' : `Email ${item.index} of ${sequenceMessages.length}`} · Branded HTML</small>
+                    </div>
+                    {item.status === 'Live' && <i className="live-pulse" />}
+                  </button>
+                  {nextMessage && (
+                    <div className="sequence-wait" aria-hidden="true">
+                      <span>{nextMessage.day - item.day === 1 ? 'Next day' : `Wait ${nextMessage.day - item.day} days`}</span>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
           {!availableMessages.length && <div className="empty-list">This campaign has no rendered HTML emails yet.</div>}
           <div className="email-list-note"><Icon name="check" /><p><strong>Read directly from source</strong><span>Rebuild campaign HTML and refresh to see the latest version.</span></p></div>
         </aside>
@@ -374,7 +421,7 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
         </main>
         {message && <aside className="email-inspector">
           <p className="eyebrow">Message details</p>
-          <div className="inspector-status"><Status value={message.status} /><span>Day {message.day}</span></div>
+          <div className="inspector-status"><Status value={message.status} /><span>{message.isSupplemental ? 'Trigger-based supplemental' : `Step ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${message.day}`}</span></div>
           <dl><div><dt>Headline</dt><dd>{message.headline}</dd></div><div><dt>Eyebrow</dt><dd>{message.eyebrow}</dd></div><div><dt>Format</dt><dd>Branded HTML</dd></div><div><dt>Output</dt><dd>{message.output.split('/').pop()}</dd></div></dl>
           <hr />
           <p className="eyebrow">Sample recipient</p>

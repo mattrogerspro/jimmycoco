@@ -410,24 +410,28 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .email-toolbar-title span { font-size: 12px; }
 .email-toolbar-title strong { font-size: 21px; }
 .personalise-toggle { height: 46px; font-size: 14px; }
-.email-workspace { min-height: calc(100vh - 84px); grid-template-columns: 280px minmax(560px, 1fr) 260px; }
-.sidebar-is-collapsed .email-workspace { grid-template-columns: 390px minmax(620px, 1fr) 280px; }
+.email-workspace { min-height: calc(100vh - 84px); grid-template-columns: 320px minmax(560px, 1fr) 260px; }
+.sidebar-is-collapsed .email-workspace { grid-template-columns: 430px minmax(620px, 1fr) 280px; }
 .email-list { padding: 21px 12px; }
-.email-list-heading span { font-size: 11px; }
-.email-flow-summary { padding: 8px 8px 10px; }
-.email-flow-meta strong { font-size: 12px; }
-.email-flow-meta span { font-size: 11px; }
-.email-flow-segment > button { flex-basis: 29px; }
-.email-flow-segment > button b { width: 28px; height: 28px; font-size: 10px; }
-.email-flow-segment > button span { font-size: 9px; }
-.email-flow-segment > i { height: 28px; top: 14px; }
-.email-sequence-step > button { grid-template-columns: 40px minmax(0, 1fr) 8px; padding: 10px 9px; gap: 11px; }
-.email-index { width: 38px; height: 42px; font-size: 14px; }
-.email-send-day { margin-bottom: 4px; padding: 0; font-size: 10px; }
-.email-send-day.triggered { padding: 3px 6px; }
-.email-step-copy strong { font-size: 15px; }
-.email-list-note strong { font-size: 14px; }
-.email-list-note span { font-size: 13px; }
+.email-list-heading { padding-block: 6px 17px; }
+.email-list-heading .eyebrow { font-size: 16px; letter-spacing: .15em; }
+.email-list-heading span { font-size: 15px; }
+.email-flow-summary { padding: 11px 10px 15px; margin-bottom: 15px; }
+.email-flow-meta strong { font-size: 15px; }
+.email-flow-meta span { font-size: 14px; }
+.email-flow-track { margin-top: 13px; }
+.email-flow-segment > button { flex-basis: 35px; }
+.email-flow-segment > button b { width: 34px; height: 34px; font-size: 13px; }
+.email-flow-segment > button span { margin-top: 5px; font-size: 12px; }
+.email-flow-segment > i { height: 34px; top: 17px; }
+.email-sequence-step > button { grid-template-columns: 50px minmax(0, 1fr) 8px; min-height: 80px; padding: 13px 11px; gap: 14px; }
+.email-index { width: 48px; height: 52px; font-size: 18px; }
+.email-send-day { margin-bottom: 6px; padding: 0; font-size: 13px; }
+.email-send-day.triggered { padding: 4px 7px; }
+.email-step-copy strong { font-size: 19px; line-height: 1.3; }
+.email-list-note { padding: 16px; }
+.email-list-note strong { font-size: 16px; }
+.email-list-note span { font-size: 15px; line-height: 1.5; }
 .inbox-header > div { padding: 12px 15px; }
 .inbox-header small { font-size: 12px; }
 .inbox-header strong, .inbox-header span { font-size: 14px; }
@@ -445,8 +449,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
   .source-panel .recent-list { display: grid; grid-template-columns: repeat(3, 1fr); }
   .source-panel .recent-list button { border-top: 0; border-left: 1px solid #ebe5df; padding: 15px; }
   .source-panel .recent-list button:first-child { border-left: 0; }
-  .email-workspace { grid-template-columns: 260px minmax(480px, 1fr); }
-  .sidebar-is-collapsed .email-workspace { grid-template-columns: 350px minmax(520px, 1fr); }
+  .email-workspace { grid-template-columns: 300px minmax(480px, 1fr); }
+  .sidebar-is-collapsed .email-workspace { grid-template-columns: 400px minmax(520px, 1fr); }
   .email-inspector { display: none; }
 }
 
@@ -463,7 +467,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
   .menu-button { display: grid; place-items: center; }
   .topbar { padding: 0 24px; }
   .library-layout, .sequence-layout { grid-template-columns: 340px minmax(0, 1fr); }
-  .email-workspace, .sidebar-is-collapsed .email-workspace { grid-template-columns: 250px minmax(440px, 1fr); }
+  .email-workspace, .sidebar-is-collapsed .email-workspace { grid-template-columns: 300px minmax(440px, 1fr); }
   .email-toolbar { grid-template-columns: 230px minmax(0, 1fr) auto; padding-left: 18px; }
   .personalise-toggle { font-size: 0; }
   .personalise-toggle svg { display: none; }
@@ -513,7 +517,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
   .email-list-heading, .email-list-note { display: none; }
   .email-flow-summary { margin: 0 0 10px; }
   .email-sequence { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
-  .email-sequence-step { flex: 0 0 230px; }
+  .email-sequence-step { flex: 0 0 280px; }
   .email-sequence-step > button { height: 100%; }
   .preview-area { padding: 12px 8px 35px; }
   .inbox-header { grid-template-columns: 1fr; }

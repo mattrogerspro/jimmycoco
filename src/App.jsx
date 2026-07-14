@@ -386,7 +386,7 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
                     <span className="email-index">{item.isSupplemental ? '+' : String(item.index).padStart(2, '0')}</span>
                     <div className="email-step-copy">
                       <span className={`email-send-day ${item.isSupplemental ? 'triggered' : ''}`}>{item.isSupplemental ? 'Trigger-based' : `Day ${item.day}`}</span>
-                      <strong>{item.title}</strong>
+                      <strong>{personalised ? applyMergeData(item.title, sampleMergeData) : item.title}</strong>
                     </div>
                     {item.status === 'Live' && <i className="live-pulse" />}
                   </button>

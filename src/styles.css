@@ -406,8 +406,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .blueprint-grid small { font-size: 13px; }
 
 .email-toolbar { min-height: 116px; }
-.campaign-select-wrap label { margin-bottom: 7px; font-size: 14px; }
-.campaign-select-wrap select { font-size: 24px; font-weight: 650; }
+.campaign-select-wrap label { margin-bottom: 3px; font-size: 12px; }
+.campaign-select-wrap select { font-size: 16px; font-weight: 600; }
 .email-toolbar-title span { font-size: 14px; }
 .email-toolbar-title strong { margin-top: 7px; font-size: 32px; line-height: 1.12; }
 .personalise-toggle { height: 46px; font-size: 14px; }

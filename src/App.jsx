@@ -334,12 +334,6 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
 
   useEffect(() => { setSelectedMessageId(availableMessages[0]?.id) }, [campaign.id])
   useEffect(() => {
-    const isEditableTarget = (target) => {
-      const tagName = target?.tagName?.toLowerCase()
-      return ['input', 'textarea', 'select'].includes(tagName)
-        || target?.isContentEditable
-        || Boolean(target?.closest?.('[contenteditable="true"]'))
-    }
     const handleSequenceKeydown = (event) => {
       if (
         event.defaultPrevented
@@ -348,7 +342,6 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
         || event.ctrlKey
         || event.altKey
         || event.shiftKey
-        || isEditableTarget(event.target)
         || !sequenceMessages.length
       ) return
 

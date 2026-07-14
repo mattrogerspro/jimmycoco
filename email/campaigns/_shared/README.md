@@ -1,11 +1,28 @@
 # Shared Campaign Email Master
 
-This folder contains the single source of truth for branded campaign-email HTML.
+This folder contains the single source of truth for branded campaign-email production.
 
 ## Files
 
-- `master-template.js` — the shared email-safe HTML layout, typography, spacing, CTA, signature and footer system.
+- `EMAIL-CAMPAIGN-GENERATOR-PROMPT.md` — mandatory system prompt for any AI or agent creating, editing, localising or extending a campaign.
+- `master-template.js` — shared email-safe HTML layout, typography, spacing, CTA, signature and footer system.
 - `build-all.js` — regenerates every branded campaign email from its campaign data manifest.
+
+## Mandatory generator rule
+
+Any automated campaign generator must read and follow `EMAIL-CAMPAIGN-GENERATOR-PROMPT.md` before creating files.
+
+The prompt requires:
+
+- repository preflight and source-document disclosure;
+- strategy, lifecycle, copy, asset and delivery checks;
+- use of the shared master template;
+- structured `email-data.json` content;
+- generation rather than hand-maintenance of branded HTML;
+- explicit blocking when source truth is unavailable;
+- evidence-based QA and human approval.
+
+A campaign created without this preflight is non-compliant even when the resulting HTML appears visually acceptable.
 
 ## One-command rebuild
 
@@ -22,7 +39,7 @@ The build reads:
 - `../uk-salon-stockist/email-data.json`
 - `../uae-dubai-salon-stockist/email-data.json`
 
-and writes the production HTML files listed in each message's `output` field.
+and writes the production HTML files listed in each message's `output` field under the relevant campaign’s `emails/` directory.
 
 ## What updates globally
 
@@ -57,8 +74,8 @@ Campaign-specific copy, subject lines, links, tokens and message blocks remain i
 
 Do not hand-edit generated HTML as the primary source. Edit either:
 
-1. `master-template.js` for a global design/system change; or
-2. the relevant campaign's `email-data.json` for message-specific content.
+1. `master-template.js` for a global design or system change; or
+2. the relevant campaign's `email-data.json` and `sequence.md` for message-specific content.
 
 Then run the build and review the regenerated HTML in the priority email clients.
 

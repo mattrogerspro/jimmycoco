@@ -235,9 +235,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .blueprint-grid small { display: block; margin-top: 3px; color: #9a9189; font-size: 7px; }
 .blueprint-grid svg { color: var(--green); }
 
-.email-studio { --email-sequence-column: 320px; min-height: 100vh; display: flex; flex-direction: column; background: #e9e4de; }
+.email-studio { --email-sequence-column: 320px; height: 100vh; height: 100dvh; min-height: 0; overflow: hidden; display: flex; flex-direction: column; background: #e9e4de; }
 .sidebar-is-collapsed .email-studio { --email-sequence-column: 430px; }
-.email-toolbar { min-height: 72px; border-bottom: 1px solid #d8d1ca; background: var(--paper); padding: 11px 0; display: grid; grid-template-columns: var(--email-sequence-column) minmax(0, 1fr) auto; gap: 0; align-items: center; }
+.email-toolbar { position: relative; z-index: 5; flex: 0 0 auto; min-height: 72px; border-bottom: 1px solid #d8d1ca; background: var(--paper); padding: 11px 0; display: grid; grid-template-columns: var(--email-sequence-column) minmax(0, 1fr) auto; gap: 0; align-items: center; }
 .campaign-select-wrap { position: relative; display: flex; flex-direction: column; justify-content: center; align-self: stretch; padding: 0 26px; }
 .sidebar-is-collapsed .campaign-select-wrap { padding-left: 76px; }
 .campaign-select-wrap label { color: #9d958d; font-size: 7px; text-transform: uppercase; letter-spacing: .09em; margin-bottom: 3px; }
@@ -255,9 +255,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .personalise-toggle > span i { display: block; width: 10px; height: 10px; background: #fff; border-radius: 50%; transition: .2s; }
 .personalise-toggle.active > span { background: var(--green); }
 .personalise-toggle.active > span i { transform: translateX(11px); }
-.email-workspace { flex: 1; min-height: calc(100vh - 72px); display: grid; grid-template-columns: var(--email-sequence-column) minmax(520px, 1fr) 220px; }
+.email-workspace { flex: 1; min-height: 0; overflow: hidden; display: grid; grid-template-columns: var(--email-sequence-column) minmax(520px, 1fr) 220px; }
 .email-list, .email-inspector { background: #f8f5f0; }
-.email-list { border-right: 1px solid #d9d2cb; padding: 17px 10px; }
+.email-list { height: 100%; overflow-y: auto; overscroll-behavior: contain; border-right: 1px solid #d9d2cb; padding: 17px 10px; }
 .email-list-heading { padding: 2px 7px 12px; display: flex; justify-content: space-between; align-items: center; }
 .email-list-heading span { color: #928a82; font-size: 8px; }
 .email-flow-summary { margin: 0 4px 12px; padding: 9px 9px 8px; border-bottom: 1px solid #ded4ca; }
@@ -286,7 +286,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .email-list-note p { margin: 0; display: flex; flex-direction: column; }
 .email-list-note strong { color: #625b54; font-size: 8px; }
 .email-list-note span { color: #958c83; font-size: 7px; line-height: 1.4; margin-top: 3px; }
-.preview-area { padding: 18px 24px 50px; min-width: 0; overflow: auto; }
+.preview-area { height: 100%; padding: 18px 24px; min-width: 0; overflow: hidden; display: flex; flex-direction: column; }
 .performance-strip { width: min(100%, 790px); margin: 0 auto 12px; border: 1px solid #d8d0c7; border-radius: 7px; background: rgba(255,253,250,.94); overflow: hidden; box-shadow: 0 6px 20px rgba(70,54,42,.035); }
 .performance-heading { min-height: 34px; padding: 0 13px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line); }
 .performance-heading > span { display: flex; align-items: center; gap: 7px; color: #5d554e; font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; }
@@ -304,14 +304,14 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .inbox-header > div + div { border-left: 1px solid #ded6ce; }
 .inbox-header small { color: #9a928a; font-size: 7px; text-transform: uppercase; letter-spacing: .08em; }
 .inbox-header strong, .inbox-header span { margin-top: 3px; font-size: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.device-frame { margin: 0 auto; background: #fff; border: 1px solid #d2cbc4; border-radius: 8px; box-shadow: 0 14px 40px rgba(48,40,34,.1); overflow: hidden; transition: width .3s ease; }
+.device-frame { flex: 1 1 auto; min-height: 0; margin: 0 auto; background: #fff; border: 1px solid #d2cbc4; border-radius: 8px; box-shadow: 0 14px 40px rgba(48,40,34,.1); overflow: hidden; display: flex; flex-direction: column; transition: width .3s ease; }
 .device-frame.desktop { width: min(100%, 790px); }
 .device-frame.mobile { width: 390px; max-width: 100%; }
 .browser-chrome { height: 30px; display: flex; align-items: center; gap: 5px; padding: 0 10px; border-bottom: 1px solid #ddd6cf; background: #f7f4f0; }
 .browser-chrome span { width: 5px; height: 5px; border-radius: 50%; background: #c8c0b9; }
 .browser-chrome b { margin-left: auto; margin-right: auto; color: #948c85; font-size: 7px; font-weight: 500; }
-.device-frame iframe { display: block; width: 100%; height: calc(100vh - 177px); min-height: 640px; border: 0; background: #fff; }
-.email-inspector { border-left: 1px solid #d9d2cb; padding: 23px 18px; }
+.device-frame iframe { display: block; flex: 1 1 auto; width: 100%; height: auto; min-height: 0; border: 0; background: #fff; }
+.email-inspector { height: 100%; overflow-y: auto; overscroll-behavior: contain; border-left: 1px solid #d9d2cb; padding: 23px 18px; }
 .inspector-status { margin-top: 14px; display: flex; align-items: center; justify-content: space-between; color: #9a9189; font-size: 8px; }
 .email-inspector dl { margin: 22px 0 0; }
 .email-inspector dl div { margin-bottom: 15px; }
@@ -423,7 +423,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .email-toolbar-title span { font-size: 14px; }
 .email-toolbar-title strong { margin-top: 7px; font-size: 32px; line-height: 1.12; }
 .personalise-toggle { height: 46px; font-size: 14px; }
-.email-workspace { min-height: calc(100vh - 116px); grid-template-columns: var(--email-sequence-column) minmax(620px, 1fr) 280px; }
+.email-workspace { min-height: 0; grid-template-columns: var(--email-sequence-column) minmax(620px, 1fr) 280px; }
 .email-list { padding: 21px 12px; }
 .email-list-heading { padding-block: 6px 17px; }
 .email-list-heading .eyebrow { font-size: 16px; letter-spacing: .15em; }
@@ -528,6 +528,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
   .sequence-summary div { padding: 15px; }
   .sequence-timeline { padding: 26px 21px 35px; }
   .blueprint-grid { grid-template-columns: 1fr; padding: 22px 18px; }
+  .email-studio { height: auto; min-height: 100vh; overflow: visible; }
   .email-toolbar { min-height: auto; grid-template-columns: 1fr auto; padding: 12px 14px; }
   .campaign-select-wrap { grid-column: 1; padding: 0; }
   .emails-view .campaign-select-wrap { padding-left: 54px; }
@@ -542,7 +543,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
   .email-sequence { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
   .email-sequence-step { flex: 0 0 280px; }
   .email-sequence-step > button { height: 100%; }
-  .preview-area { padding: 12px 8px 35px; }
+  .preview-area { height: auto; padding: 12px 8px 35px; overflow: visible; display: block; }
   .performance-heading { align-items: flex-start; flex-direction: column; gap: 3px; padding: 10px 12px; }
   .performance-metrics { grid-template-columns: repeat(3, 1fr); }
   .performance-metrics > div:nth-child(3) { border-right: 0; }

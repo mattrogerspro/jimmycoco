@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   applyMergeData,
   campaigns,
@@ -327,6 +327,8 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
   const [viewport, setViewport] = useState('desktop')
   const [personalised, setPersonalised] = useState(true)
   const [analytics, setAnalytics] = useState({ loading: true, configured: null, campaign: null, steps: [] })
+  const studioRef = useRef(null)
+  const previewFrameRef = useRef(null)
   const message = availableMessages.find((item) => item.id === selectedMessageId) || availableMessages[0]
   const sequenceDuration = sequenceMessages.at(-1)?.day ?? 0
 
@@ -346,13 +348,26 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
     const interval = window.setInterval(load, 15000)
     return () => { cancelled = true; window.clearInterval(interval) }
   }, [campaign.id])
+  useEffect(() => {
+    const studio = studioRef.current
+    if (!studio) return undefined
+    const scrollEmailPreview = (event) => {
+      const frameWindow = previewFrameRef.current?.contentWindow
+      if (!frameWindow) return
+      const multiplier = event.deltaMode === 1 ? 24 : event.deltaMode === 2 ? window.innerHeight : 1
+      event.preventDefault()
+      frameWindow.scrollBy(event.deltaX * multiplier, event.deltaY * multiplier)
+    }
+    studio.addEventListener('wheel', scrollEmailPreview, { passive: false })
+    return () => studio.removeEventListener('wheel', scrollEmailPreview)
+  }, [])
   const previewHtml = personalised ? applyMergeData(message?.html, sampleMergeData) : message?.html
   const campaignStats = analytics.campaign || {}
   const selectedStepStats = analytics.steps.find((step) => Number(step.step_number) === message?.index)
   const rate = (value, total) => Number(total) ? `${Math.round((Number(value || 0) / Number(total)) * 100)}%` : '—'
 
   return (
-    <div className="email-studio">
+    <div className="email-studio" ref={studioRef}>
       <div className="email-toolbar">
         <div className="campaign-select-wrap">
           <label>Campaign</label>
@@ -442,7 +457,7 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
               </div>
               <div className={`device-frame ${viewport}`}>
                 <div className="browser-chrome"><span /><span /><span /><b>{viewport === 'desktop' ? 'Email preview · 680px' : 'Mobile preview · 390px'}</b></div>
-                <iframe title={`Preview of ${message.title}`} srcDoc={previewHtml} sandbox="allow-popups" />
+                <iframe ref={previewFrameRef} title={`Preview of ${message.title}`} srcDoc={previewHtml} sandbox="allow-popups allow-same-origin" />
               </div>
             </>
           ) : <div className="empty-preview"><Icon name="mail" size={34} /><h2>No HTML preview yet</h2><p>Choose a campaign with a rendered email, or add one to its emails folder.</p></div>}

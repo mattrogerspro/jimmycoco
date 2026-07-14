@@ -1,0 +1,66 @@
+{
+  "campaign": "uk-salon-onboarding",
+  "market": "UK",
+  "style": "uk-stockist rich (600px, Playfair/Arial, #e7dccd)",
+  "assetBase": "https://jimmycoco.co.uk/email-assets/uk-stockist/",
+  "primaryProduct": "Sunset professional solution (1L, 25-30 tans, Dark/Extra Dark 10% DHA, £60)",
+  "primaryCTA": {
+    "label": "Request your sample kit",
+    "url": "https://jimmycoco.co.uk/pages/why-choose-pro-professional"
+  },
+  "secondary": "take-home retail range (Souffle, Face Brush, glow balm) — optional side panel only (emails 5,6)",
+  "tradeEmail": "pro@jimmycoco.co.uk",
+  "messages": [
+    {
+      "alias": "uk-onboarding-1-welcome",
+      "file": "emails/1-welcome.html",
+      "subject": "Your clients already know this name",
+      "preview": "The celebrity spray tan, now for professional UK salons — start with a sample kit.",
+      "hero": "hero-kendall.jpg"
+    },
+    {
+      "alias": "uk-onboarding-2-the-formula",
+      "file": "emails/2-the-formula.html",
+      "subject": "The professional formula, in one litre",
+      "preview": "25–30 flawless tans per litre — undertone-true colour that never goes orange.",
+      "hero": "product-sunset.jpg"
+    },
+    {
+      "alias": "uk-onboarding-3-the-glow",
+      "file": "emails/3-the-glow.html",
+      "subject": "The glow clients book again for",
+      "preview": "Skincare-led, hydrating, and believable in daylight.",
+      "hero": "glow-hero.jpg, apply-brush.jpg"
+    },
+    {
+      "alias": "uk-onboarding-4-red-carpet",
+      "file": "emails/4-red-carpet.html",
+      "subject": "The tan behind the red carpet",
+      "preview": "Camera-ready colour — now a professional service you can offer.",
+      "hero": "hero-kendall.jpg"
+    },
+    {
+      "alias": "uk-onboarding-5-the-commercial-case",
+      "file": "emails/5-the-commercial-case.html",
+      "subject": "Why the professional line pays for itself",
+      "preview": "A premium booth service — with an optional take-home line to extend it.",
+      "hero": "apply-brush.jpg",
+      "secondaryImage": "product-kit.jpg"
+    },
+    {
+      "alias": "uk-onboarding-6-whats-included",
+      "file": "emails/6-whats-included.html",
+      "subject": "What a Jimmy Coco partnership includes",
+      "preview": "Trade pricing, training, the shade guide and dedicated stockist support.",
+      "hero": "glow-hero.jpg",
+      "secondaryImage": "product-souffle.jpg"
+    },
+    {
+      "alias": "uk-onboarding-7-become-a-stockist",
+      "file": "emails/7-become-a-stockist.html",
+      "subject": "Ready to bring it to your salon?",
+      "preview": "Start with a professional sample kit.",
+      "hero": "hero-kendall.jpg"
+    }
+  ]
+}

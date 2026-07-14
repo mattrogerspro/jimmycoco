@@ -5,16 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sunless by Jimmy Coco — AU Salon Cold Outreach Playbook</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
   :root{
     --ivory:#F8F4EE; --cream:#F4EEE6; --white:#FFFDF9; --stone:#EDE6DD;
     --linen:#E9DED1; --taupe:#CDBAAA; --champagne:#C8A878; --bronze:#A77952;
     --charcoal:#26231F; --ink:#24211E; --secondary:#615A53; --hairline:#D8CEC3;
-    --serif:'Fraunces',Georgia,'Times New Roman',serif;
     --sans:'Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;
   }
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box;font-family:inherit;}
   html{scroll-behavior:smooth;}
   body{margin:0;background:var(--ivory);color:var(--ink);font-family:var(--sans);
     font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;}
@@ -22,7 +21,7 @@
   section{padding:88px 0;}
   .eyebrow{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.22em;
     text-transform:uppercase;color:var(--bronze);margin:0 0 22px;}
-  h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--ink);letter-spacing:-0.012em;margin:0;}
+  h1,h2,h3{font-family:var(--sans);font-weight:600;color:var(--ink);letter-spacing:-0.012em;margin:0;}
   h2{font-size:38px;line-height:1.12;margin:0 0 26px;}
   h3{font-size:24px;line-height:1.2;margin:0 0 14px;}
   p{margin:0 0 18px;color:#3B3630;}
@@ -51,7 +50,7 @@
     margin-top:6px;font-weight:600;}
   .hero h1{font-size:56px;line-height:1.04;margin:34px 0 22px;max-width:16ch;}
   .hero .lead{max-width:56ch;}
-  .kicker{font-family:var(--serif);font-style:italic;color:var(--bronze);}
+  .kicker{font-family:var(--sans);font-style:italic;color:var(--bronze);}
 
   /* at-a-glance grid */
   .glance{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hairline);
@@ -59,7 +58,7 @@
   .glance > div{background:var(--white);padding:26px 24px;}
   .glance .k{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;
     text-transform:uppercase;color:var(--bronze);margin:0 0 10px;}
-  .glance .v{font-family:var(--serif);font-size:21px;line-height:1.2;color:var(--ink);}
+  .glance .v{font-family:var(--sans);font-size:21px;font-weight:600;line-height:1.2;color:var(--ink);}
   .glance .v small{display:block;font-family:var(--sans);font-size:13px;color:var(--secondary);
     margin-top:5px;letter-spacing:0;}
 
@@ -73,8 +72,8 @@
   /* cadence timeline */
   .cadence{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:10px;}
   .step{background:var(--white);border:1px solid var(--hairline);border-radius:6px;padding:24px 20px;position:relative;}
-  .step .day{font-family:var(--serif);font-size:15px;color:var(--bronze);letter-spacing:.02em;margin:0 0 4px;}
-  .step .n{font-family:var(--serif);font-size:34px;line-height:1;color:var(--ink);margin:0 0 12px;}
+  .step .day{font-family:var(--sans);font-size:15px;font-weight:600;color:var(--bronze);letter-spacing:.02em;margin:0 0 4px;}
+  .step .n{font-family:var(--sans);font-size:34px;font-weight:600;line-height:1;color:var(--ink);margin:0 0 12px;}
   .step .t{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink);margin:0 0 6px;}
   .step .d{font-size:13px;line-height:1.45;color:var(--secondary);margin:0;}
   .step .tag{display:inline-block;margin-top:12px;font-size:10px;font-weight:600;letter-spacing:.1em;
@@ -88,7 +87,7 @@
   .matrix th,.matrix td{text-align:left;padding:15px 18px;border-top:1px solid #E7DDCF;vertical-align:top;}
   .matrix thead th{border-top:0;background:var(--cream);font-family:var(--sans);font-size:11px;
     font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--bronze);}
-  .matrix td.em{font-family:var(--serif);font-size:16px;color:var(--ink);white-space:nowrap;}
+  .matrix td.em{font-family:var(--sans);font-size:16px;font-weight:600;color:var(--ink);white-space:nowrap;}
   .matrix .sub{color:var(--ink);}
   .matrix .alt{color:var(--secondary);font-size:14px;}
 
@@ -98,7 +97,7 @@
   .email .top{display:flex;align-items:center;justify-content:space-between;gap:16px;
     padding:22px 30px;background:var(--cream);border-bottom:1px solid var(--hairline);flex-wrap:wrap;}
   .email .top .l{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;}
-  .email .num{font-family:var(--serif);font-size:26px;color:var(--ink);}
+  .email .num{font-family:var(--sans);font-size:26px;font-weight:600;color:var(--ink);}
   .email .name{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.08em;
     text-transform:uppercase;color:var(--bronze);}
   .email .day{font-size:13px;color:var(--secondary);}
@@ -132,7 +131,7 @@
 
   .kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:12px;}
   .kpi .box{background:var(--white);border:1px solid var(--hairline);border-radius:6px;padding:24px 22px;}
-  .kpi .big{font-family:var(--serif);font-size:30px;color:var(--ink);line-height:1;margin:0 0 8px;}
+  .kpi .big{font-family:var(--sans);font-size:30px;font-weight:600;color:var(--ink);line-height:1;margin:0 0 8px;}
   .kpi .lab{font-size:13px;color:var(--secondary);margin:0;}
 
   .note{background:rgba(200,168,120,.12);border:1px solid var(--champagne);border-radius:6px;
@@ -459,7 +458,7 @@ Wishing <span class="tok">{{salon_name}}</span> a busy summer,
   <div class="wrap">
     <p class="eyebrow">Built on the Sunless system</p>
     <h2>Quietly authoritative. Warm. Never discount-led.</h2>
-    <p class="lead" style="max-width:62ch;">Every subject line, sentence and surface here follows the Sunless by Jimmy Coco design system — the editorial serif-and-sans pairing, the warm-ivory-to-charcoal palette, the matte-charcoal calls to action, and the specific, reassuring, cliché-free voice. Seed it now, and the season looks after itself.</p>
+    <p class="lead" style="max-width:62ch;">Every subject line, sentence and surface here follows the Sunless by Jimmy Coco design system — clear sans-serif typography, the warm-ivory-to-charcoal palette, matte-charcoal calls to action, and the specific, reassuring, cliché-free voice. Seed it now, and the season looks after itself.</p>
     <div class="swatches" aria-hidden="true">
       <div class="sw" style="background:#F8F4EE"></div>
       <div class="sw" style="background:#EDE6DD"></div>
@@ -470,7 +469,7 @@ Wishing <span class="tok">{{salon_name}}</span> a busy summer,
       <div class="sw" style="background:#26231F;border-left:1px solid rgba(255,255,255,.14)"></div>
     </div>
     <footer style="margin-top:40px;">
-      <p class="provenance">Sunless by Jimmy Coco — AU Salon Cold Outreach Playbook · Prepared July 2026 · Palette &amp; type per <em>website/01-design-system</em>. Serif set in Fraunces (Georgia fallback), sans in Inter.</p>
+      <p class="provenance">Sunless by Jimmy Coco — AU Salon Cold Outreach Playbook · Prepared July 2026 · Palette &amp; type per <em>website/01-design-system</em>. Interface typography is set exclusively in Inter with system sans-serif fallbacks.</p>
     </footer>
   </div>
 </section>

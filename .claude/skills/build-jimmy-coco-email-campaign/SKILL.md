@@ -1,13 +1,29 @@
 ---
 name: build-jimmy-coco-email-campaign
-description: Build, edit, localise, render, review or release Sunless by Jimmy Coco email campaigns from repository source. Use for new outreach campaigns, sequence changes, campaign HTML generation, Studio preview registration, Resend template comparison or publication, cadence changes, campaign localisation, and email campaign QA.
+description: Turn simple, plain-language requests into complete, high-quality Sunless by Jimmy Coco email campaigns that automatically follow repository strategy, brand, copy, design, asset, lifecycle, compliance and delivery rules. Use whenever anyone asks to build, create, write, plan, edit, improve, localise, render, review or release an email campaign or sequence, including outreach, onboarding, lifecycle and market-specific campaigns.
 ---
 
 # Build Jimmy Coco Email Campaign
 
-Treat the repository as canonical. Produce structured, reviewable campaign source; do not act as an autonomous sender.
+Treat the repository as canonical. Let any colleague request a campaign without knowing the repository, schemas or production process. Produce the strongest compliant campaign possible; do not act as an autonomous sender.
 
-## 1. Protect the workspace
+## 1. Accept a normal request
+
+Do not require the user to paste the canonical generator prompt, complete a long intake form, name files, select templates or understand internal tooling.
+
+Expand a short request such as “Build a five-email salon recruitment campaign for California” into an internal brief containing the market, audience, outcome, offer, message architecture, cadence, channel, recipient basis, exclusions, handoff, facts, assets and approval gaps.
+
+- Infer only from the user's request and current approved repository sources.
+- Use repository defaults when they are genuinely applicable.
+- Make expert recommendations for sequence length, cadence, narrative arc, objections, proof and CTA.
+- Create original strategy and copy for the requested audience; do not merely rename or lightly rewrite a comparable campaign.
+- Ask one concise, consolidated set of questions only when missing information would materially change strategy or make compliant production impossible.
+- Use explicit approval tokens for non-blocking unknown commercial facts instead of interrupting production.
+- Never make the employee reproduce information that can be discovered from the repository.
+
+Unless the user narrows the scope, “build a campaign” means: create the complete repository draft, generate every branded HTML email, make it available to the Studio, run validation, and return it ready for human review. It does not mean publish to Resend, enable sending or contact recipients.
+
+## 2. Protect the workspace
 
 Run `git status --short` and inspect the current branch before editing.
 
@@ -19,7 +35,7 @@ Run `git status --short` and inspect the current branch before editing.
 
 If concurrent work overlaps the requested files, stop and report the exact collision.
 
-## 2. Classify the operation
+## 3. Classify the operation
 
 Identify whether the request is to:
 
@@ -33,15 +49,15 @@ Identify whether the request is to:
 
 Use [references/repository-map.md](references/repository-map.md) to select the required sources. Read [references/release-gates.md](references/release-gates.md) whenever the request touches Resend, Vercel, Supabase, recipients or production state.
 
-## 3. Complete the mandatory preflight
+## 4. Complete the mandatory preflight
 
 Read `email/campaigns/_shared/EMAIL-CAMPAIGN-GENERATOR-PROMPT.md` completely before creating or changing campaign content. Follow its repository-preflight routing; do not claim to have read files that were not opened.
 
-Before writing files, provide the prompt's concise **Compliance Preflight**. Resolve or tokenise unknown product, price, fulfilment, asset, legal, consent and commercial facts. Stop when a required source is missing or contradictory.
+Perform the canonical prompt's preflight automatically. Surface its concise **Compliance Preflight** as a progress update, not as a questionnaire or a request for the user to paste system instructions. If its status is `READY TO PRODUCE`, continue without waiting for another confirmation. Resolve or tokenise unknown product, price, fulfilment, asset, legal, consent and commercial facts. Stop only when a required source is missing or contradictory.
 
 For an existing campaign, read its complete source folder. For a new campaign, read the closest comparable campaign and the relevant lifecycle material under `email/03-sequences/`.
 
-## 4. Maintain canonical campaign source
+## 5. Maintain canonical campaign source
 
 For a new campaign, create or complete:
 
@@ -65,7 +81,7 @@ Add `whatsapp.md`, `onboarding.md`, `docs/` or `resend.json` only when the campa
 
 Use `output`/`title` for newly generated master-template campaigns. Treat existing `file`/`subject` records as supported legacy input, not the preferred new schema.
 
-## 5. Generate; do not hand-maintain HTML
+## 6. Generate; do not hand-maintain HTML
 
 - Edit `email-data.json` and `sequence.md` for campaign-specific changes.
 - Edit `email/campaigns/_shared/master-template.js` only for an approved global rendering change.
@@ -75,7 +91,7 @@ Use `output`/`title` for newly generated master-template campaigns. Treat existi
 
 The Studio discovers campaign folders with `email-data.json` and `studio.json` automatically. Do not add hard-coded UI imports.
 
-## 6. Validate before reporting completion
+## 7. Validate before reporting completion
 
 Run the skill validator for each changed campaign:
 
@@ -94,7 +110,7 @@ For Resend-related work, also run `npm run templates:check`. Treat any failure a
 
 Review the final diff for unrelated files, secrets, temporary output, broken links, unsupported claims, generated/source disagreement and unintended campaign activation.
 
-## 7. Handle external systems safely
+## 8. Handle external systems safely
 
 Use Resend MCP read operations to list or inspect templates and compare aliases, subjects, status and content. Keep MCP/API secrets out of files and output.
 
@@ -109,7 +125,7 @@ Require fresh explicit approval immediately before any consequential write, incl
 
 Never use an ordinary Git push as implicit authority to publish Resend content. Prefer the explicit `npm run templates:publish` release action after all gates pass.
 
-## 8. Report truthfully
+## 9. Report truthfully
 
 Return the canonical prompt's **Production Report** with changed paths, sources actually read, campaign summary, renderer confirmation, outstanding approval tokens, gate results and one permitted final status.
 

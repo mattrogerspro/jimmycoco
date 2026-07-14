@@ -10,7 +10,9 @@
 
 ## Email campaign work
 
-- Use the project skill at `.claude/skills/build-jimmy-coco-email-campaign/SKILL.md` whenever creating, editing, localising, rendering, reviewing or releasing an email campaign.
+- Automatically use the project skill at `.claude/skills/build-jimmy-coco-email-campaign/SKILL.md` whenever anyone asks in normal language to build, create, write, plan, edit, improve, localise, render, review or release an email campaign or sequence.
+- Do not ask employees to paste the canonical prompt, understand repository schemas or complete a long intake form. Convert their request into the internal brief, discover approved repository context, and ask only genuinely blocking business questions.
+- Unless narrowed by the user, “build a campaign” means create the complete repository draft, generate its HTML, expose it in the Studio and validate it. It does not authorise Resend publication or sending.
 - Read `email/campaigns/_shared/EMAIL-CAMPAIGN-GENERATOR-PROMPT.md` completely before changing campaign content.
 - The repository owns campaign truth. Edit structured source and regenerate HTML; do not hand-maintain generated campaign HTML.
 - Keep campaign `README.md`, `sequence.md`, `email-data.json`, `studio.json`, generated `emails/` and any operational registry entry consistent.

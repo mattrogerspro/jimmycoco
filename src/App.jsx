@@ -250,11 +250,12 @@ function Playbooks({ query }) {
 }
 
 function SequenceTimeline({ campaign }) {
+  const sequenceMessages = campaign.messages.filter((message) => !message.isSupplemental)
   return (
     <div className="sequence-timeline">
-      {campaign.messages.map((message, index) => (
+      {sequenceMessages.map((message, index) => (
         <div className="timeline-item" key={message.id}>
-          <div className="timeline-rail"><span className={message.status === 'Live' ? 'live' : ''}>{index + 1}</span>{index < campaign.messages.length - 1 && <i />}</div>
+          <div className="timeline-rail"><span className={message.status === 'Live' ? 'live' : ''}>{index + 1}</span>{index < sequenceMessages.length - 1 && <i />}</div>
           <article>
             <div className="timeline-meta"><span>Day {message.day}</span><Status value={message.status} /></div>
             <h3>{message.title}</h3>
@@ -270,6 +271,7 @@ function SequenceTimeline({ campaign }) {
 function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
   const [mode, setMode] = useState('campaigns')
   const campaign = campaigns.find((item) => item.id === selectedCampaignId) || campaigns[0]
+  const campaignMessageCount = campaign.messages.filter((message) => !message.isSupplemental).length
   const [lifecycleId, setLifecycleId] = useState(lifecycleSequences[0]?.id)
   const lifecycle = lifecycleSequences.find((item) => item.id === lifecycleId) || lifecycleSequences[0]
 
@@ -285,7 +287,7 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
             <div className="sequence-list-head"><span>Campaign sequences</span><b>{campaigns.length}</b></div>
             {campaigns.map((item) => (
               <button key={item.id} className={item.id === campaign.id ? 'active' : ''} onClick={() => onSelectCampaign(item.id)}>
-                <span className="flag-tile small">{item.flag}</span><div><strong>{item.name}</strong><small>{item.messages.length} messages · {item.cadence}</small></div><Status value={item.status} />
+                <span className="flag-tile small">{item.flag}</span><div><strong>{item.name}</strong><small>{item.messages.filter((message) => !message.isSupplemental).length} messages · {item.cadence}</small></div><Status value={item.status} />
               </button>
             ))}
           </aside>
@@ -294,7 +296,7 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
               <div><div className="sequence-kicker"><span>{campaign.market}</span><span>{campaign.channel}</span><Status value={campaign.status} /></div><h2>{campaign.name}</h2><p>{campaign.hook}. Owned by {campaign.owner}, running across {campaign.cadence}.</p></div>
               <button className="primary-button" onClick={() => onOpenEmail(campaign.id)}><Icon name="mail" />Preview emails</button>
             </div>
-            <div className="sequence-summary"><div><strong>{campaign.messages.length}</strong><span>Messages</span></div><div><strong>{campaign.cadence}</strong><span>Total window</span></div><div><strong>Reply</strong><span>Primary goal</span></div></div>
+            <div className="sequence-summary"><div><strong>{campaignMessageCount}</strong><span>Messages</span></div><div><strong>{campaign.cadence}</strong><span>Total window</span></div><div><strong>Reply</strong><span>Primary goal</span></div></div>
             <SequenceTimeline campaign={campaign} />
           </section>
         </div>

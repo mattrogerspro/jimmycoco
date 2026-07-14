@@ -134,16 +134,35 @@ const dayPatterns = {
   'uae-dubai-salon-stockist': [0, 3, 7, 12, 18],
 }
 
+const resolveCampaignHtml = (campaignId, output) => {
+  const normalisedOutput = output.replace(/^\.\//, '').replace(/^\//, '')
+  const candidates = normalisedOutput.startsWith('emails/')
+    ? [normalisedOutput]
+    : [`emails/${normalisedOutput}`, normalisedOutput]
+
+  for (const candidate of candidates) {
+    const htmlPath = `../../email/campaigns/${campaignId}/${candidate}`
+    if (htmlFiles[htmlPath]) return { html: htmlFiles[htmlPath], htmlPath }
+  }
+
+  return {
+    html: null,
+    htmlPath: `../../email/campaigns/${campaignId}/${candidates[0]}`,
+  }
+}
+
 export const campaigns = campaignDefinitions.map((campaign) => ({
   ...campaign,
   messages: campaign.data.messages.map((message, index) => {
-    const htmlPath = `../../email/campaigns/${campaign.id}/${message.output}`
+    const { html, htmlPath } = resolveCampaignHtml(campaign.id, message.output)
     return {
       ...message,
       id: `${campaign.id}-${index + 1}`,
       index: index + 1,
       day: dayPatterns[campaign.id]?.[index] ?? index * 3,
-      html: htmlFiles[htmlPath] || null,
+      html,
+      htmlPath,
+      isSupplemental: /onboarding/i.test(message.output),
       status: campaign.status === 'Live' && index === 0 ? 'Live' : 'Ready',
     }
   }),
@@ -192,12 +211,24 @@ export const sampleMergeData = {
   sender_title: 'Partnerships, Sunless by Jimmy Coco',
   sender_email: 'partnerships@sunlessbyjimmycoco.com',
   calendar_link: '#book-a-call',
+  trial_link: '#professional-trial',
+  trade_link: '#uae-trade',
   shade_guide_link: '#shade-guide',
+  uae_delivery_statement: 'UAE delivery options are confirmed during the partner setup.',
+  uae_partner_terms: 'Trade terms are tailored to the approved professional range.',
   business_address: 'Sunless by Jimmy Coco · London',
   unsubscribe_link: '#unsubscribe',
 }
 
 export function applyMergeData(html, data = sampleMergeData) {
   if (!html) return ''
-  return html.replace(/\{\{\s*([\w.]+)\s*\}\}/g, (match, key) => data[key] ?? match)
+  const aliases = {
+    business_name: 'salon_name',
+    resend_unsubscribe_url: 'unsubscribe_link',
+  }
+
+  return html.replace(/\{\{\{?\s*([\w.]+)\s*\}\}\}?/g, (match, key) => {
+    const normalisedKey = key.toLowerCase()
+    return data[normalisedKey] ?? data[aliases[normalisedKey]] ?? match
+  })
 }

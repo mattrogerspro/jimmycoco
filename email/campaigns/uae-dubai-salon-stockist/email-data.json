@@ -19,7 +19,7 @@
   },
   "messages": [
     {
-      "output": "1-dubai-introduction.html",
+      "output": "emails/1-dubai-introduction.html",
       "title": "A Jimmy Coco introduction for {{business_name}}",
       "preview": "A professional trial conversation for one of Dubai’s premium beauty destinations.",
       "eyebrow": "Dubai professional partnerships",
@@ -35,7 +35,7 @@
       ]
     },
     {
-      "output": "2-colour-in-dubai-light.html",
+      "output": "emails/2-colour-in-dubai-light.html",
       "title": "Colour that still looks right in Dubai light",
       "preview": "Undertone-aware colour designed to remain believable in daylight, photography and evening light.",
       "eyebrow": "The result beyond the treatment room",
@@ -49,7 +49,7 @@
       ]
     },
     {
-      "output": "3-service-and-retail.html",
+      "output": "emails/3-service-and-retail.html",
       "title": "One tan client, two considered revenue lines",
       "preview": "A professional service supported by a curated at-home continuation range.",
       "eyebrow": "Treatment and retail",
@@ -68,7 +68,7 @@
       ]
     },
     {
-      "output": "4-partner-support.html",
+      "output": "emails/4-partner-support.html",
       "title": "What a Jimmy Coco partnership includes",
       "preview": "Shade guidance, team confidence and a considered route to launch.",
       "eyebrow": "Partner support",
@@ -84,7 +84,7 @@
       ]
     },
     {
-      "output": "5-close-the-loop.html",
+      "output": "emails/5-close-the-loop.html",
       "title": "Shall I close this for now?",
       "preview": "I’ll close the conversation unless a professional trial is useful later.",
       "eyebrow": "A final note",

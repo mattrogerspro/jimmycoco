@@ -34,6 +34,20 @@
       ]
     },
     {
+      "output": "emails/2-nudge.html",
+      "title": "re: {{salon_name}} + Jimmy Coco",
+      "preview": "Still happy to post a free sample out before summer.",
+      "eyebrow": "A quick follow-up",
+      "headline": "Still happy to post one out.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"Floating this back to the top of your inbox. The offer still stands — a free sample of the Sunset professional solution and Jimmy's shade guide, sent to {{salon_name}} so you can trial it on a real client before summer."},
+        {"type":"paragraph","html":"Salons tend to switch for the same reason: fewer “it went orange” conversations, and a premium name clients already recognise. Happy to let the sample make the case."},
+        {"type":"cta","label":"Post me a sample","url":"mailto:{{sender_email}}?subject=Send%20me%20a%20sample&amp;body=Yes%2C%20please%20post%20a%20sample%20out%20to%20my%20salon."},
+        {"type":"note","html":"Or a one-word reply is plenty."}
+      ]
+    },
+    {
       "output": "emails/3-two-revenue-lines.html",
       "title": "Two tan revenue lines, one partner",
       "preview": "Your booth and your retail shelf, working together.",
@@ -60,6 +74,20 @@
         {"type":"bullets","items":["Trial the professional solution on a real client.","Train the team on shade selection and application.","Choose the opening professional and retail range.","Prepare launch assets before demand peaks."]},
         {"type":"offer","html":"This is not a discount play. It is a premium service system designed to help {{salon_name}} enter the season prepared and confident."},
         {"type":"cta","label":"Map out the setup","url":"{{calendar_link}}"}
+      ]
+    },
+    {
+      "output": "emails/5-last-call.html",
+      "title": "Should I close the file?",
+      "preview": "Closing this out — but the shade guide is yours to keep.",
+      "eyebrow": "Last one from me",
+      "headline": "I'll leave it there.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"I've reached out a couple of times about getting {{salon_name}} set up with Jimmy Coco before summer and haven't heard back — which is completely fine. I won't keep cluttering your inbox."},
+        {"type":"paragraph","html":"I'll close the file for now. If the timing's just off, reply any time and I'll pick it straight back up."},
+        {"type":"paragraph","html":"Either way, here's Jimmy's shade guide to keep — it's genuinely useful for any solution you're working with."},
+        {"type":"cta","label":"Keep Jimmy's shade guide","url":"{{shade_guide_link}}"}
       ]
     },
     {

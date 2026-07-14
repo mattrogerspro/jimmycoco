@@ -3,7 +3,7 @@ import path from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 import { Resend } from 'resend'
-import { campaignRegistry } from '../shared/campaign-registry.js'
+import { campaignsById } from '../shared/campaign-registry.js'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const publish = process.argv.includes('--publish')
@@ -30,33 +30,63 @@ function normaliseHtml(value) {
 async function localTemplates() {
   const templates = []
   const failures = []
-  for (const campaign of campaignRegistry) {
-    const campaignDir = path.join(root, 'email', 'campaigns', campaign.id)
-    const data = JSON.parse(await fs.readFile(path.join(campaignDir, 'email-data.json'), 'utf8'))
-    const steps = [...campaign.steps, ...(campaign.triggeredSteps || [])]
-    if (data.messages.length !== steps.length) failures.push(`${campaign.id}: registry has ${steps.length} steps but email-data has ${data.messages.length} messages`)
+  const campaignsDir = path.join(root, 'email', 'campaigns')
+  const campaignDirectories = (await fs.readdir(campaignsDir, { withFileTypes: true }))
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith('_'))
+    .map((entry) => entry.name)
+    .sort()
+
+  for (const campaignId of campaignDirectories) {
+    const campaignDir = path.join(campaignsDir, campaignId)
+    let data
+    try {
+      data = JSON.parse(await fs.readFile(path.join(campaignDir, 'email-data.json'), 'utf8'))
+    } catch (error) {
+      if (error.code === 'ENOENT') continue
+      failures.push(`${campaignId}: invalid email-data.json (${error.message})`)
+      continue
+    }
+
+    const campaign = campaignsById[campaignId]
+    const registeredSteps = campaign ? [...campaign.steps, ...(campaign.triggeredSteps || [])] : []
+    const steps = campaign
+      ? registeredSteps
+      : data.messages.map((message, index) => ({
+          key: String(index + 1).padStart(2, '0'),
+          templateAlias: message.alias,
+          templateId: message.templateId || message.alias,
+          subject: message.subject || message.title,
+          requiredVariables: message.requiredVariables,
+        }))
+
+    if (campaign && data.messages.length !== steps.length) failures.push(`${campaignId}: registry has ${steps.length} steps but email-data has ${data.messages.length} messages`)
     for (const [index, step] of steps.entries()) {
       const message = data.messages[index]
       if (!message) continue
-      const sourcePath = path.join(campaignDir, message.output.replace(/^\.\//, ''))
+      const output = message.output || message.file
+      const alias = step.templateAlias || message.alias
+      if (!output) { failures.push(`${campaignId} message ${index + 1}: missing output or file`); continue }
+      if (!alias) { failures.push(`${campaignId} message ${index + 1}: missing template alias`); continue }
+      const sourcePath = path.join(campaignDir, output.replace(/^\.\//, ''))
       let html
-      try { html = await fs.readFile(sourcePath, 'utf8') } catch { failures.push(`${step.templateAlias}: missing ${path.relative(root, sourcePath)}`); continue }
-      if (/storage\.mlcdn\.com/i.test(html)) failures.push(`${step.templateAlias}: legacy MailerLite assets must be migrated before publishing`)
+      try { html = await fs.readFile(sourcePath, 'utf8') } catch { failures.push(`${alias}: missing ${path.relative(root, sourcePath)}`); continue }
+      if (/storage\.mlcdn\.com/i.test(html)) failures.push(`${alias}: legacy MailerLite assets must be migrated before publishing`)
       const renderedHtml = toResendVariables(html)
       const variablesInHtml = new Set([...renderedHtml.matchAll(/\{\{\{([A-Z0-9_]+)\}\}\}/g)].map((match) => match[1]))
-      const declared = new Set(step.requiredVariables)
+      const requiredVariables = step.requiredVariables || [...variablesInHtml].filter((variable) => !reserved.has(variable))
+      const declared = new Set(requiredVariables)
       for (const variable of variablesInHtml) {
-        if (!reserved.has(variable) && !declared.has(variable)) failures.push(`${step.templateAlias}: undeclared variable ${variable}`)
+        if (!reserved.has(variable) && !declared.has(variable)) failures.push(`${alias}: undeclared variable ${variable}`)
       }
       for (const variable of declared) {
-        if (!variablesInHtml.has(variable)) failures.push(`${step.templateAlias}: declared variable ${variable} is not present in HTML`)
+        if (!variablesInHtml.has(variable)) failures.push(`${alias}: declared variable ${variable} is not present in HTML`)
       }
       templates.push({
-        id: step.templateId,
-        alias: step.templateAlias,
-        subject: toResendVariables(message.title || step.subject),
+        id: step.templateId || message.templateId || alias,
+        alias,
+        subject: toResendVariables(message.title || message.subject || step.subject),
         html: renderedHtml,
-        variables: step.requiredVariables.filter((key) => !reserved.has(key)).map((key) => ({ key, type: 'string' })),
+        variables: requiredVariables.filter((key) => !reserved.has(key)).map((key) => ({ key, type: 'string' })),
         sourcePath: path.relative(root, sourcePath),
       })
     }

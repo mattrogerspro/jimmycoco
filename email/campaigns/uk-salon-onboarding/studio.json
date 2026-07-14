@@ -1,0 +1,14 @@
+{
+  "order": 35,
+  "name": "UK Salon Onboarding",
+  "shortName": "UK Onboarding",
+  "market": "UK",
+  "flag": "🇬🇧",
+  "status": "Ready",
+  "hook": "Professional spray-tan line to sample kit",
+  "channel": "Email",
+  "cadence": "21 days",
+  "owner": "UK Sales",
+  "mode": "sequence",
+  "days": [0, 3, 6, 9, 12, 16, 21]
+}

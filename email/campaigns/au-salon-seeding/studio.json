@@ -1,0 +1,15 @@
+{
+  "order": 10,
+  "name": "AU Salon Seeding",
+  "shortName": "AU Seeding",
+  "market": "AU",
+  "flag": "🇦🇺",
+  "status": "Draft",
+  "hook": "Free sample before summer",
+  "channel": "Email + WhatsApp",
+  "cadence": "20 days",
+  "owner": "Partnerships",
+  "mode": "sequence",
+  "days": [0, 3, 8, 13, 20, 0],
+  "supplementalOutputs": ["emails/onboarding-welcome.html"]
+}

@@ -1,0 +1,14 @@
+{
+  "order": 20,
+  "name": "AU Salon Account Flow",
+  "shortName": "AU Account",
+  "market": "AU",
+  "flag": "🇦🇺",
+  "status": "Draft",
+  "hook": "Sample to first order",
+  "channel": "Email + WhatsApp",
+  "cadence": "Event-triggered",
+  "owner": "Partnerships",
+  "mode": "event",
+  "days": [4, 0, 0]
+}

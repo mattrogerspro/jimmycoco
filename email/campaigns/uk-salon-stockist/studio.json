@@ -1,0 +1,14 @@
+{
+  "order": 30,
+  "name": "UK Stockist Recruitment",
+  "shortName": "UK Stockists",
+  "market": "UK",
+  "flag": "🇬🇧",
+  "status": "Live",
+  "hook": "Your clients know this name",
+  "channel": "Email",
+  "cadence": "21 days",
+  "owner": "UK Sales",
+  "mode": "broadcast",
+  "days": [0]
+}

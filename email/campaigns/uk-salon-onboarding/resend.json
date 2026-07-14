@@ -1,0 +1,13 @@
+{
+  "campaign": "uk-salon-onboarding",
+  "publish": true,
+  "templates": [
+    { "file": "emails/1-welcome.html",              "alias": "uk-onboarding-1-welcome",             "name": "UK Onboarding 1 — Welcome",          "subject": "Your clients already know this name" },
+    { "file": "emails/2-the-formula.html",          "alias": "uk-onboarding-2-the-formula",         "name": "UK Onboarding 2 — The Formula",      "subject": "The professional formula, in one litre" },
+    { "file": "emails/3-the-glow.html",             "alias": "uk-onboarding-3-the-glow",            "name": "UK Onboarding 3 — The Glow",         "subject": "The glow clients book again for" },
+    { "file": "emails/4-red-carpet.html",           "alias": "uk-onboarding-4-red-carpet",          "name": "UK Onboarding 4 — Red Carpet",       "subject": "The tan behind the red carpet" },
+    { "file": "emails/5-the-commercial-case.html",  "alias": "uk-onboarding-5-the-commercial-case", "name": "UK Onboarding 5 — The Commercial Case", "subject": "Why the professional line pays for itself" },
+    { "file": "emails/6-whats-included.html",        "alias": "uk-onboarding-6-whats-included",      "name": "UK Onboarding 6 — What's Included",  "subject": "What a Jimmy Coco partnership includes" },
+    { "file": "emails/7-become-a-stockist.html",    "alias": "uk-onboarding-7-become-a-stockist",   "name": "UK Onboarding 7 — Become a Stockist", "subject": "Ready to bring it to your salon?" }
+  ]
+}

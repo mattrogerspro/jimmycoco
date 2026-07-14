@@ -1,0 +1,39 @@
+#!/bin/sh
+# Auto-sync Resend templates from the repo on every push (repo = source of truth).
+#
+#   Bypass once:        SKIP_RESEND_SYNC=1 git push
+#   Needs to actually sync:  RESEND_API_KEY set in your environment.
+#
+# Behaviour:
+#   - SKIP_RESEND_SYNC set        -> skip, allow push
+#   - RESEND_API_KEY not set      -> warn, allow push (templates may drift)
+#   - key set + sync succeeds     -> allow push
+#   - key set + sync fails        -> ABORT push (fix it, or bypass as above)
+
+if [ -n "$SKIP_RESEND_SYNC" ]; then
+  echo "pre-push: SKIP_RESEND_SYNC set — skipping Resend sync."
+  exit 0
+fi
+
+ROOT=$(git rev-parse --show-toplevel)
+SCRIPT="$ROOT/email/tools/sync-resend.py"
+
+if [ ! -f "$SCRIPT" ]; then
+  echo "pre-push: $SCRIPT not found — skipping Resend sync."
+  exit 0
+fi
+
+if [ -z "$RESEND_API_KEY" ]; then
+  echo "pre-push: RESEND_API_KEY not set — skipping Resend sync (templates may drift)."
+  echo "          export RESEND_API_KEY=re_xxx  to enable auto-sync on push."
+  exit 0
+fi
+
+echo "pre-push: syncing email templates to Resend…"
+if python3 "$SCRIPT"; then
+  exit 0
+else
+  echo "pre-push: Resend sync FAILED — push aborted." >&2
+  echo "          fix the error above, or bypass with:  SKIP_RESEND_SYNC=1 git push" >&2
+  exit 1
+fi

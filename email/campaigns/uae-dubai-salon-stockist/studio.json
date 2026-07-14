@@ -1,0 +1,14 @@
+{
+  "order": 40,
+  "name": "Dubai Stockist Recruitment",
+  "shortName": "Dubai Stockists",
+  "market": "UAE",
+  "flag": "🇦🇪",
+  "status": "Draft",
+  "hook": "Premium professional trial",
+  "channel": "Email",
+  "cadence": "18 days",
+  "owner": "Middle East Sales",
+  "mode": "sequence",
+  "days": [0, 4, 8, 13, 18]
+}

@@ -1,8 +1,14 @@
-import auSeedingData from '../../email/campaigns/au-salon-seeding/email-data.json'
-import auAccountData from '../../email/campaigns/au-salon-account-flow/email-data.json'
-import ukStockistData from '../../email/campaigns/uk-salon-stockist/email-data.json'
-import uaeStockistData from '../../email/campaigns/uae-dubai-salon-stockist/email-data.json'
 import { campaignsById } from '../../shared/campaign-registry.js'
+
+const campaignDataFiles = import.meta.glob('../../email/campaigns/*/email-data.json', {
+  import: 'default',
+  eager: true,
+})
+
+const campaignStudioFiles = import.meta.glob('../../email/campaigns/*/studio.json', {
+  import: 'default',
+  eager: true,
+})
 
 const markdownFiles = import.meta.glob('../../email/**/*.md', {
   query: '?raw',
@@ -73,62 +79,40 @@ export const playbookCategories = Object.entries(categoryMap).map(([slug, [name,
   return { slug, name, description, documents }
 })
 
-const campaignDefinitions = [
-  {
-    id: 'au-salon-seeding',
-    name: 'AU Salon Seeding',
-    shortName: 'AU Seeding',
-    market: 'AU',
-    flag: '🇦🇺',
-    status: 'Draft',
-    hook: 'Free sample before summer',
-    channel: 'Email + WhatsApp',
-    cadence: '20 days',
-    owner: 'Partnerships',
-    data: auSeedingData,
-  },
-  {
-    id: 'au-salon-account-flow',
-    name: 'AU Salon Account Flow',
-    shortName: 'AU Account',
-    market: 'AU',
-    flag: '🇦🇺',
-    status: 'Draft',
-    hook: 'Sample to first order',
-    channel: 'Email + WhatsApp',
-    cadence: '14 days',
-    owner: 'Partnerships',
-    data: auAccountData,
-  },
-  {
-    id: 'uk-salon-stockist',
-    name: 'UK Stockist Recruitment',
-    shortName: 'UK Stockists',
-    market: 'UK',
-    flag: '🇬🇧',
-    status: 'Live',
-    hook: 'Your clients know this name',
-    channel: 'Email',
-    cadence: '21 days',
-    owner: 'UK Sales',
-    data: ukStockistData,
-  },
-  {
-    id: 'uae-dubai-salon-stockist',
-    name: 'Dubai Stockist Recruitment',
-    shortName: 'Dubai Stockists',
-    market: 'UAE',
-    flag: '🇦🇪',
-    status: 'Draft',
-    hook: 'Premium professional trial',
-    channel: 'Email',
-    cadence: '18 days',
-    owner: 'Middle East Sales',
-    data: uaeStockistData,
-  },
-]
+const marketFlags = { AU: '🇦🇺', UK: '🇬🇧', UAE: '🇦🇪' }
+
+const campaignDefinitions = Object.entries(campaignDataFiles)
+  .map(([dataPath, data]) => {
+    const id = dataPath.split('/').at(-2)
+    const studio = campaignStudioFiles[`../../email/campaigns/${id}/studio.json`] || {}
+    const registry = campaignsById[id]
+    const days = studio.days || registry?.steps?.map((step) => step.day ?? step.delayDays ?? 0) || []
+    const lastDay = days.length ? Math.max(...days) : Math.max(0, (data.messages?.length - 1) * 3)
+    const market = studio.market || data.market || registry?.market || id.split('-')[0].toUpperCase()
+
+    return {
+      id,
+      name: studio.name || registry?.name || toTitle(id),
+      shortName: studio.shortName || studio.name || registry?.name || toTitle(id),
+      market,
+      flag: studio.flag || marketFlags[market] || '✉️',
+      status: studio.status || 'Draft',
+      hook: studio.hook || 'Email campaign',
+      channel: studio.channel || 'Email',
+      cadence: studio.cadence || `${lastDay} days`,
+      owner: studio.owner || 'Marketing',
+      mode: studio.mode || registry?.mode || 'sequence',
+      days,
+      supplementalOutputs: studio.supplementalOutputs || [],
+      order: studio.order ?? 999,
+      data,
+    }
+  })
+  .filter((campaign) => Array.isArray(campaign.data.messages))
+  .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))
 
 const resolveCampaignHtml = (campaignId, output) => {
+  if (!output) return { html: null, htmlPath: null }
   const normalisedOutput = output.replace(/^\.\//, '').replace(/^\//, '')
   const candidates = normalisedOutput.startsWith('emails/')
     ? [normalisedOutput]
@@ -148,17 +132,25 @@ const resolveCampaignHtml = (campaignId, output) => {
 export const campaigns = campaignDefinitions.map((campaign) => ({
   ...campaign,
   messages: campaign.data.messages.map((message, index) => {
-    const { html, htmlPath } = resolveCampaignHtml(campaign.id, message.output)
+    const output = message.output || message.file
+    const title = message.title || message.subject || `Email ${index + 1}`
+    const { html, htmlPath } = resolveCampaignHtml(campaign.id, output)
     const registryCampaign = campaignsById[campaign.id]
     const registryStep = registryCampaign?.steps[index]
-    const isTriggered = registryCampaign?.mode === 'event' || /onboarding/i.test(message.output)
+    const isTriggered = campaign.mode === 'event'
+      || campaign.supplementalOutputs.includes(output)
+      || registryCampaign?.triggeredSteps?.some((step) => step.templateAlias === message.alias)
     return {
       ...message,
+      output,
+      title,
+      headline: message.headline || title,
+      eyebrow: message.eyebrow || campaign.name,
       id: `${campaign.id}-${index + 1}`,
       index: index + 1,
-      day: registryStep?.day ?? registryStep?.delayDays ?? index * 3,
+      day: registryStep?.day ?? registryStep?.delayDays ?? campaign.days[index] ?? index * 3,
       trigger: registryStep?.trigger,
-      templateAlias: registryStep?.templateAlias,
+      templateAlias: registryStep?.templateAlias || message.alias,
       html,
       htmlPath,
       isSupplemental: isTriggered,

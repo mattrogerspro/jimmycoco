@@ -1,0 +1,81 @@
+{
+  "defaults": {
+    "brand": "SUNLESS",
+    "brandLine": "by Jimmy Coco",
+    "background": "#EAE2D8",
+    "cardBackground": "#FBF8F3",
+    "accent": "#A77952",
+    "text": "#3B3630",
+    "heading": "#24211E",
+    "buttonBackground": "#26231F",
+    "buttonText": "#FFFDF9",
+    "businessName": "Sunless by Jimmy Coco",
+    "businessAddress": "{{business_address}}",
+    "unsubscribeText": "You're receiving this because we thought it was relevant to {{salon_name}}.",
+    "unsubscribeUrl": "{{unsubscribe_link}}",
+    "senderName": "{{sender_name}}",
+    "senderTitle": "{{sender_title}}"
+  },
+  "messages": [
+    {
+      "output": "emails/1-opener.html",
+      "title": "A red-carpet tan for {{salon_name}}?",
+      "preview": "The professional solution behind Jimmy Coco's Hollywood tans — a complimentary sample for your booth.",
+      "eyebrow": "A note for {{salon_name}}",
+      "headline": "Red-carpet colour, in your booth.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"I'll keep this short. I look after salon partnerships for <strong>Sunless by Jimmy Coco</strong> — the professional line from the tanning artist behind a lot of the colour you've seen on red carpets and covers."},
+        {"type":"paragraph","html":"Our <strong>Sunset professional solution</strong> is built around the thing clients notice first: colour that reads warm and believable in daylight — never orange, never flat. It is an undertone-aware professional spray for your booth, with a focused take-home range your clients can buy on the way out."},
+        {"type":"paragraph","html":"With spring racing and summer bookings not far off, now is the quiet window to trial it."},
+        {"type":"offer","html":"Could I send {{salon_name}} a <strong>complimentary sample</strong> of the Sunset solution and Jimmy's shade guide — no cost, no commitment?"},
+        {"type":"cta","label":"Post me a sample","url":"mailto:{{sender_email}}?subject=Send%20it%20%E2%80%94%20{{salon_name}}"},
+        {"type":"note","html":"Or just reply “send it” — that is all I need."}
+      ]
+    },
+    {
+      "output": "emails/3-two-revenue-lines.html",
+      "title": "Two tan revenue lines, one partner",
+      "preview": "Your booth and your retail shelf, working together.",
+      "eyebrow": "The commercial case",
+      "headline": "One partner. Two ways to earn.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"Jimmy Coco can support two revenue lines inside the same salon:"},
+        {"type":"bullets","items":["<strong>In the booth:</strong> Sunset professional solution for premium, believable colour and a service clients can value properly.","<strong>On the shelf:</strong> a curated take-home range that helps clients maintain their result without using more chair time."]},
+        {"type":"offer","html":"One partner, one visual language and two commercial opportunities — without discounting your service or your brand."},
+        {"type":"cta","label":"Book a 15-minute call","url":"{{calendar_link}}"},
+        {"type":"note","html":"The complimentary sample offer is still open — reply and I will arrange it."}
+      ]
+    },
+    {
+      "output": "emails/4-season-readiness.html",
+      "title": "Before the spring racing rush",
+      "preview": "Trial, training and first stock are easier before the peak begins.",
+      "eyebrow": "Plan before the rush",
+      "headline": "Your busy season starts before the bookings do.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"The best time to change or add a professional tanning line is before the diary becomes crowded. A calm trial gives your team time to assess the colour, learn Jimmy's shade method and decide what belongs in the booth and on the shelf."},
+        {"type":"bullets","items":["Trial the professional solution on a real client.","Train the team on shade selection and application.","Choose the opening professional and retail range.","Prepare launch assets before demand peaks."]},
+        {"type":"offer","html":"This is not a discount play. It is a premium service system designed to help {{salon_name}} enter the season prepared and confident."},
+        {"type":"cta","label":"Map out the setup","url":"{{calendar_link}}"}
+      ]
+    },
+    {
+      "output": "emails/onboarding-welcome.html",
+      "title": "Welcome to Jimmy Coco — here is what happens next",
+      "preview": "Three simple steps, and your sample is moving.",
+      "eyebrow": "Welcome, {{salon_name}}",
+      "headline": "Three simple steps from interest to trial.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"Brilliant — really glad you are in. Here is exactly what happens next:"},
+        {"type":"bullets","items":["<strong>Your sample:</strong> reply with the best postal address for {{salon_name}} and I will arrange the Sunset professional solution and Jimmy's shade guide.","<strong>A short setup call:</strong> once you have seen the colour, we will cover Jimmy's shade method, the pro and take-home ranges and trade terms.","<strong>Ready for season:</strong> from there we can get the booth stocked and the team confident before demand increases."]},
+        {"type":"offer","html":"No lock-in and no pressure. The sample is yours to judge on your own clients first."},
+        {"type":"cta","label":"Choose a call time","url":"{{calendar_link}}"},
+        {"type":"note","html":"Jimmy's shade guide: <a href=\"{{shade_guide_link}}\">view the guide</a>."}
+      ]
+    }
+  ]
+}

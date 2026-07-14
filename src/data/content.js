@@ -2,6 +2,7 @@ import auSeedingData from '../../email/campaigns/au-salon-seeding/email-data.jso
 import auAccountData from '../../email/campaigns/au-salon-account-flow/email-data.json'
 import ukStockistData from '../../email/campaigns/uk-salon-stockist/email-data.json'
 import uaeStockistData from '../../email/campaigns/uae-dubai-salon-stockist/email-data.json'
+import { campaignsById } from '../../shared/campaign-registry.js'
 
 const markdownFiles = import.meta.glob('../../email/**/*.md', {
   query: '?raw',
@@ -127,13 +128,6 @@ const campaignDefinitions = [
   },
 ]
 
-const dayPatterns = {
-  'au-salon-seeding': [0, 3, 8, 13, 20],
-  'au-salon-account-flow': [0, 3, 7],
-  'uk-salon-stockist': [0],
-  'uae-dubai-salon-stockist': [0, 3, 7, 12, 18],
-}
-
 const resolveCampaignHtml = (campaignId, output) => {
   const normalisedOutput = output.replace(/^\.\//, '').replace(/^\//, '')
   const candidates = normalisedOutput.startsWith('emails/')
@@ -155,14 +149,19 @@ export const campaigns = campaignDefinitions.map((campaign) => ({
   ...campaign,
   messages: campaign.data.messages.map((message, index) => {
     const { html, htmlPath } = resolveCampaignHtml(campaign.id, message.output)
+    const registryCampaign = campaignsById[campaign.id]
+    const registryStep = registryCampaign?.steps[index]
+    const isTriggered = registryCampaign?.mode === 'event' || /onboarding/i.test(message.output)
     return {
       ...message,
       id: `${campaign.id}-${index + 1}`,
       index: index + 1,
-      day: dayPatterns[campaign.id]?.[index] ?? index * 3,
+      day: registryStep?.day ?? registryStep?.delayDays ?? index * 3,
+      trigger: registryStep?.trigger,
+      templateAlias: registryStep?.templateAlias,
       html,
       htmlPath,
-      isSupplemental: /onboarding/i.test(message.output),
+      isSupplemental: isTriggered,
       status: campaign.status === 'Live' && index === 0 ? 'Live' : 'Ready',
     }
   }),

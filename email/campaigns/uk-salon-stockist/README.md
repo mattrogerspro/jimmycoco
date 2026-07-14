@@ -4,8 +4,8 @@
 **Audience:** UK salons / tanning professionals.
 **Market:** 🇬🇧 UK
 **Offer / hook:** £60 / 1 litre professional solution — "your clients already know this name." Stockist package: exclusive trade pricing, marketing support, professional training, dedicated stockist support.
-**Channel:** Email — **MailerLite** (see merge tags & CDN-hosted images below).
-**Status:** Email 1 live template; rest of sequence TBD.
+**Channel:** Email — Resend.
+**Status:** Published Resend pilot template; send only as a controlled broadcast to a qualified UK segment. The remaining sequence is TBD.
 **Primary CTA:** Order Now → https://jimmycoco.co.uk/pages/why-choose-pro-professional · trade enquiries pro@jimmycoco.co.uk
 
 ## Cadence
@@ -20,6 +20,7 @@
 - `emails/1-your-clients-know-this-name.html` — email 1 (production HTML)
 
 ## Notes — don't break these
-- **Images** are hosted on the MailerLite CDN (`storage.mlcdn.com/account_image/2446693/…`). Keep those URLs live.
-- **Merge tags** `{$unsubscribe}` and `{$forward}` are **MailerLite** syntax — they won't work in Resend without translation.
+- The published Resend template is `uk-stockist-1-your-clients-know-this-name`.
+- The current source HTML still references legacy MailerLite-hosted assets. Migrate those assets to the production email asset host before retiring the old account.
+- Use Resend's unsubscribe variable in the published template. Do not reintroduce MailerLite merge tags.
 - Built with a `Playfair Display` → Georgia serif fallback and Arial body; hero uses a background image with a VML fallback for Outlook.

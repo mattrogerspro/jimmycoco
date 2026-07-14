@@ -23,6 +23,12 @@ The website and email Creative Director Systems are structurally complete. The r
 
 Documentation does not by itself establish that the product is implemented or production-ready. Readiness must be demonstrated through code, data, assets, configuration, tests, rendered output and approval evidence.
 
+## Outreach runtime
+
+The campaign studio now includes a guarded Resend + Supabase + Vercel outreach runtime. Campaign definitions live in [`shared/campaign-registry.js`](shared/campaign-registry.js), the database migration lives in [`supabase/migrations/`](supabase/migrations/), and operating instructions live in [`email/07-resend-integration/14-live-outreach-operations.md`](email/07-resend-integration/14-live-outreach-operations.md).
+
+All campaigns ship disabled. Connecting providers or applying the database migration cannot send email by itself.
+
 ## Production principle
 
 Generate and approve individual creative scenes, modules, templates and releases using the relevant channel documentation plus the shared brand system. Do not ask an image model or implementation agent to invent an entire long-form experience in one uncontrolled pass.

@@ -2,11 +2,11 @@
 
 The written content for the UK stockist campaign. Email 1 pairs with `templates/01-your-clients-know-this-name.html`.
 
-**ESP:** MailerLite · **Merge tags:** `{$unsubscribe}`, `{$forward}`
+**ESP:** Resend · **Template alias:** `uk-stockist-1-your-clients-know-this-name`
 
 ---
 
-## Email 1 — "Your clients already know this name"  ·  Broadcast  ·  `templates/01-your-clients-know-this-name.html`
+## Email 1 — "Your clients already know this name"  ·  Controlled pilot broadcast  ·  `emails/1-your-clients-know-this-name.html`
 
 **Subject:** Your clients already know this name
 **Preview:** Your clients already know this name — bring Hollywood's favourite tan to your salon.

@@ -135,7 +135,7 @@ function MetricCard({ value, label, note, accent }) {
 }
 
 function Overview({ onNavigate, onOpenCampaign }) {
-  const liveCampaign = campaigns.find((campaign) => campaign.status === 'Live')
+  const liveCampaign = campaigns.find((campaign) => campaign.status === 'Live') || campaigns[0]
   const recentDocs = [playbookCategories[0]?.documents[0], playbookCategories[3]?.documents[1], playbookCategories[2]?.documents[0]].filter(Boolean)
 
   return (
@@ -326,11 +326,30 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
   const [selectedMessageId, setSelectedMessageId] = useState(availableMessages[0]?.id)
   const [viewport, setViewport] = useState('desktop')
   const [personalised, setPersonalised] = useState(true)
+  const [analytics, setAnalytics] = useState({ loading: true, configured: null, campaign: null, steps: [] })
   const message = availableMessages.find((item) => item.id === selectedMessageId) || availableMessages[0]
   const sequenceDuration = sequenceMessages.at(-1)?.day ?? 0
 
   useEffect(() => { setSelectedMessageId(availableMessages[0]?.id) }, [campaign.id])
+  useEffect(() => {
+    let cancelled = false
+    const load = async () => {
+      try {
+        const response = await fetch(`/api/campaigns/stats?campaign_id=${encodeURIComponent(campaign.id)}`)
+        const data = await response.json()
+        if (!cancelled) setAnalytics({ loading: false, configured: Boolean(data.configured), campaign: data.campaign, steps: data.steps || [], tracking: data.tracking })
+      } catch {
+        if (!cancelled) setAnalytics({ loading: false, configured: false, campaign: null, steps: [] })
+      }
+    }
+    load()
+    const interval = window.setInterval(load, 15000)
+    return () => { cancelled = true; window.clearInterval(interval) }
+  }, [campaign.id])
   const previewHtml = personalised ? applyMergeData(message?.html, sampleMergeData) : message?.html
+  const campaignStats = analytics.campaign || {}
+  const selectedStepStats = analytics.steps.find((step) => Number(step.step_number) === message?.index)
+  const rate = (value, total) => Number(total) ? `${Math.round((Number(value || 0) / Number(total)) * 100)}%` : '—'
 
   return (
     <div className="email-studio">
@@ -399,6 +418,24 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
         <main className="preview-area">
           {message ? (
             <>
+              <section className="performance-strip" aria-label="Live campaign performance">
+                <div className="performance-heading">
+                  <span><i />Live performance</span>
+                  <small>{analytics.loading ? 'Refreshing…' : analytics.configured ? `${campaign.name} · refreshes every 15 seconds` : 'Supabase connection required'}</small>
+                </div>
+                {analytics.configured ? (
+                  <div className="performance-metrics">
+                    <div><strong>{campaignStats.sent || 0}</strong><span>Sent</span></div>
+                    <div><strong>{rate(campaignStats.delivered, campaignStats.sent)}</strong><span>Delivered</span></div>
+                    <div><strong>{analytics.tracking?.opens ? rate(campaignStats.opened, campaignStats.delivered) : 'Off'}</strong><span>Opened</span></div>
+                    <div><strong>{analytics.tracking?.clicks ? rate(campaignStats.clicked, campaignStats.delivered) : 'Off'}</strong><span>Clicked</span></div>
+                    <div><strong>{Number(campaignStats.replies || 0) + Number(campaignStats.conversions || 0)}</strong><span>Responses</span></div>
+                    <div className="step-performance"><strong>{selectedStepStats?.sent || 0}</strong><span>Step {message.index} sent</span></div>
+                  </div>
+                ) : (
+                  <p className="performance-empty">The dashboard is ready. Apply the Supabase migration and connect the Vercel environment to begin collecting verified Resend events.</p>
+                )}
+              </section>
               <div className="inbox-header">
                 <div><small>Subject</small><strong>{personalised ? applyMergeData(message.title) : message.title}</strong></div>
                 <div><small>Preview text</small><span>{personalised ? applyMergeData(message.preview) : message.preview}</span></div>

@@ -1,4 +1,11 @@
 {
   "framework": "vite",
+  "functions": {
+    "api/cron/process-sequences.js": { "maxDuration": 60 },
+    "api/webhooks/resend.js": { "maxDuration": 30 }
+  },
+  "crons": [
+    { "path": "/api/cron/process-sequences", "schedule": "*/15 * * * *" }
+  ],
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }

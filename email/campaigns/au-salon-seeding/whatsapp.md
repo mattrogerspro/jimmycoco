@@ -36,7 +36,7 @@ WhatsApp actively polices business messaging. Use this track **only** where you 
 | 20 | ✉️ Email | 5 · Last call |
 | 22 | 💬 WhatsApp | 5 · Warm sign-off + shade guide |
 
-> **Lighter option:** if 10 touches feels heavy for your list, drop Email 2 (Day 5) and lead the nudge on WhatsApp instead. **Stop both tracks the instant a salon replies on either channel** and move to a real conversation.
+> **Lighter option:** if 10 touches feels heavy for your list, drop Email 2 (Day 3) and lead the nudge on WhatsApp instead. **Stop both tracks the instant a salon replies on either channel** and move to a real conversation.
 
 ---
 

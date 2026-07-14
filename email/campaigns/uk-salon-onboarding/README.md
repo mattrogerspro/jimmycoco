@@ -23,7 +23,7 @@
 
 ## Images — IMPORTANT
 Email images are hosted, not embedded. They live at **ASSET_BASE** (set in `build_uk.py`):
-`https://jimmycoco.co.uk/email-assets/uk-stockist/`
+`https://jimmycoco.email/email-assets/uk-stockist/`
 Deploy the JPGs in `assets/` to that path (or change ASSET_BASE and re-run `build_uk.py`). Source celeb/product shots were `.webp` (not email-safe); these are converted, resized sRGB JPGs.
 
 ## Notes

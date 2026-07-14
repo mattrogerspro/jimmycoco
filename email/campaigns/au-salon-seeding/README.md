@@ -12,23 +12,23 @@
 |---|-----|-------|---------|------|
 | 1 | 0 | Opener + free sample | Email | `emails/1-opener.html` |
 | — | 1 | Warm intro | WhatsApp | `whatsapp.md` |
-| 2 | 5 | Nudge | Email | _plain text — `sequence.md`_ |
+| 2 | 3 | Nudge | Email | `emails/2-nudge.html` |
 | — | 6 | Sample nudge | WhatsApp | `whatsapp.md` |
 | 3 | 8 | Two revenue lines | Email | `emails/3-two-revenue-lines.html` |
 | — | 9 | Two ways to earn | WhatsApp | `whatsapp.md` |
 | 4 | 13 | Season readiness | Email | `emails/4-season-readiness.html` |
 | — | 15 | Season urgency | WhatsApp | `whatsapp.md` |
-| 5 | 20 | Last call | Email | _plain text — `sequence.md`_ |
+| 5 | 20 | Last call | Email | `emails/5-last-call.html` |
 | — | 22 | Warm sign-off | WhatsApp | `whatsapp.md` |
 | + | on reply | Onboarding | Email + WA | `emails/onboarding-welcome.html` · `onboarding.md` |
 
-_Emails 2 & 5 are plain-text by design (best cold-inbox placement) — copy in `sequence.md`, no HTML file._
+Emails 2 and 5 have published Resend templates. Keep the copy concise even when the branded HTML version is used.
 
 ## Files
 - `sequence.md` — the 5 cold emails (subject, preview, body) + tokens
 - `whatsapp.md` — the 5 WhatsApp messages
 - `onboarding.md` — post-reply "yes, what's next" (email + WhatsApp)
-- `emails/` — branded HTML: `1-opener`, `3-two-revenue-lines`, `4-season-readiness`, `onboarding-welcome`
+- `emails/` — rendered HTML for all five sequence messages plus `onboarding-welcome`
 
 ## Notes
 - `{{shade_guide_link}}` points to the one-page shade guide PDF (hosted wherever you keep assets).

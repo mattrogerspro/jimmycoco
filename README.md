@@ -5,19 +5,26 @@ This repository is the source of truth for the Sunless by Jimmy Coco brand acros
 ## Repository structure
 
 - [`shared/`](shared/) — universal brand DNA, visual language, copy language, approved assets and cross-channel production standards
-- [`website/`](website/) — website strategy, design system, homepage narrative, scene specifications and website image-generation workflow
-- [`email/`](email/) — email strategy, modular template system, lifecycle sequences, copy system and email image-generation workflow
+- [`website/`](website/) — website strategy, design system, homepage narrative, scene specifications and website image-production workflow
+- [`email/`](email/) — email strategy, modular templates, lifecycle sequences, copy, AI production, assets and Resend integration
+- [`implementation/`](implementation/) — delivery roadmap, gap analysis, build plans, data and event foundations, migration, QA and launch controls
 
 ## Architecture rule
 
 Use `shared/` for any rule that must remain consistent across multiple channels. Use `website/` and `email/` for channel-specific layout, interaction, conversion architecture, templates and production instructions.
 
+Use `implementation/` to convert those approved systems into ordered engineering, content, asset, data, testing and launch work.
+
 Channel documentation should reference canonical shared documents rather than creating conflicting duplicates.
 
 ## Current status
 
-The website Creative Director Bible is under active development and has been moved into [`website/`](website/). The email workspace has been established for the next phase.
+The website and email Creative Director Systems are structurally complete. The repository has entered the implementation-planning phase, beginning with repository-wide gap analysis, dependency mapping and staged delivery preparation.
+
+Documentation does not by itself establish that the product is implemented or production-ready. Readiness must be demonstrated through code, data, assets, configuration, tests, rendered output and approval evidence.
 
 ## Production principle
 
-Generate and approve individual creative scenes or modules using the relevant channel documentation plus the shared brand system. Do not ask an image model to invent an entire long-form experience in one pass.
+Generate and approve individual creative scenes, modules, templates and releases using the relevant channel documentation plus the shared brand system. Do not ask an image model or implementation agent to invent an entire long-form experience in one uncontrolled pass.
+
+Build and release in dependency order, preserve approved product and person assets, keep business state inside the application, and use staged rollout with measurable acceptance criteria and rollback.

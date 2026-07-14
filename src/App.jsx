@@ -67,13 +67,14 @@ function Status({ value }) {
   return <span className={`status status-${kind}`}><i />{value}</span>
 }
 
-function Sidebar({ currentView, setCurrentView, open, onClose }) {
+function Sidebar({ currentView, setCurrentView, open, onClose, onCollapse }) {
   return (
     <>
       {open && <button className="sidebar-scrim" onClick={onClose} aria-label="Close navigation" />}
       <aside className={`sidebar ${open ? 'sidebar-open' : ''}`}>
         <div className="sidebar-head">
           <BrandMark />
+          <button className="icon-button sidebar-collapse" onClick={onCollapse} aria-label="Collapse workspace navigation"><Icon name="close" /></button>
           <button className="icon-button sidebar-close" onClick={onClose} aria-label="Close navigation"><Icon name="close" /></button>
         </div>
         <nav className="primary-nav" aria-label="Primary navigation">
@@ -352,7 +353,7 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
           <div className="email-list-heading"><p className="eyebrow">Rendered emails</p><span>{availableMessages.length}</span></div>
           {!!sequenceMessages.length && (
             <div className="email-flow-summary">
-              <div className="email-flow-meta"><strong>{sequenceMessages.length}-step flow</strong><span>Day 0 → Day {sequenceDuration}</span></div>
+              <div className="email-flow-meta"><strong>Sequence</strong><span>{sequenceMessages.length} emails · {sequenceDuration} days</span></div>
               <div className="email-flow-track" aria-label={`${campaign.name} send-day flow`}>
                 {sequenceMessages.map((item, index) => {
                   const nextMessage = sequenceMessages[index + 1]
@@ -365,9 +366,9 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
                         aria-pressed={item.id === message?.id}
                       >
                         <b>{String(item.index).padStart(2, '0')}</b>
-                        <span>Day {item.day}</span>
+                        <span>D{item.day}</span>
                       </button>
-                      {nextMessage && <i><small>+{nextMessage.day - item.day}d</small></i>}
+                      {nextMessage && <i />}
                     </div>
                   )
                 })}
@@ -375,32 +376,22 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
             </div>
           )}
           <div className="email-sequence">
-            {availableMessages.map((item, index) => {
-              const candidateNextMessage = availableMessages[index + 1]
-              const nextMessage = !item.isSupplemental && !candidateNextMessage?.isSupplemental ? candidateNextMessage : null
-              return (
+            {availableMessages.map((item) => (
                 <div className="email-sequence-step" key={item.id}>
                   <button
                     className={item.id === message?.id ? 'active' : ''}
                     onClick={() => setSelectedMessageId(item.id)}
                     aria-pressed={item.id === message?.id}
                   >
-                    <span className="email-index"><small>{item.isSupplemental ? 'Extra' : 'Step'}</small><b>{item.isSupplemental ? '+' : String(item.index).padStart(2, '0')}</b></span>
+                    <span className="email-index">{item.isSupplemental ? '+' : String(item.index).padStart(2, '0')}</span>
                     <div className="email-step-copy">
                       <span className={`email-send-day ${item.isSupplemental ? 'triggered' : ''}`}>{item.isSupplemental ? 'Trigger-based' : `Day ${item.day}`}</span>
                       <strong>{item.title}</strong>
-                      <small>{item.isSupplemental ? 'Supplemental email' : `Email ${item.index} of ${sequenceMessages.length}`} · Branded HTML</small>
                     </div>
                     {item.status === 'Live' && <i className="live-pulse" />}
                   </button>
-                  {nextMessage && (
-                    <div className="sequence-wait" aria-hidden="true">
-                      <span>{nextMessage.day - item.day === 1 ? 'Next day' : `Wait ${nextMessage.day - item.day} days`}</span>
-                    </div>
-                  )}
                 </div>
-              )
-            })}
+            ))}
           </div>
           {!availableMessages.length && <div className="empty-list">This campaign has no rendered HTML emails yet.</div>}
           <div className="email-list-note"><Icon name="check" /><p><strong>Read directly from source</strong><span>Rebuild campaign HTML and refresh to see the latest version.</span></p></div>
@@ -440,6 +431,7 @@ export default function App() {
   const [query, setQuery] = useState('')
   const [selectedCampaignId, setSelectedCampaignId] = useState(campaigns.find((item) => item.status === 'Live')?.id || campaigns[0]?.id)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => window.localStorage.getItem('sunless-sidebar-collapsed') === 'true')
   const title = navItems.find((item) => item.id === currentView)?.label || 'Overview'
 
   useEffect(() => {
@@ -468,12 +460,23 @@ export default function App() {
     if (view !== 'playbooks') setQuery('')
   }
   const openEmail = (campaignId) => { setSelectedCampaignId(campaignId); navigate('emails') }
+  const collapseSidebar = () => {
+    setSidebarCollapsed(true)
+    setSidebarOpen(false)
+    window.localStorage.setItem('sunless-sidebar-collapsed', 'true')
+  }
+  const openSidebar = () => {
+    setSidebarCollapsed(false)
+    setSidebarOpen(true)
+    window.localStorage.setItem('sunless-sidebar-collapsed', 'false')
+  }
 
   return (
-    <div className="app-shell">
-      <Sidebar currentView={currentView} setCurrentView={navigate} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+    <div className={`app-shell ${sidebarCollapsed ? 'sidebar-is-collapsed' : ''} ${currentView === 'emails' ? 'emails-view' : ''}`}>
+      <Sidebar currentView={currentView} setCurrentView={navigate} open={sidebarOpen} onClose={() => setSidebarOpen(false)} onCollapse={collapseSidebar} />
+      <button className="nav-reopen" onClick={openSidebar} aria-label="Open workspace navigation"><Icon name="menu" /></button>
       <div className="app-main">
-        {currentView !== 'emails' && <Topbar title={title} query={query} setQuery={setQuery} onMenu={() => setSidebarOpen(true)} />}
+        {currentView !== 'emails' && <Topbar title={title} query={query} setQuery={setQuery} onMenu={openSidebar} />}
         {currentView === 'overview' && <Overview onNavigate={navigate} onOpenCampaign={setSelectedCampaignId} />}
         {currentView === 'playbooks' && <Playbooks query={query} />}
         {currentView === 'sequences' && <Sequences selectedCampaignId={selectedCampaignId} onSelectCampaign={setSelectedCampaignId} onOpenEmail={openEmail} />}

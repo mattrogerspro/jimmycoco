@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Jimmy Coco Email Campaign"
+  short_description: "Build repository-compliant email campaigns"
+  default_prompt: "Use $build-jimmy-coco-email-campaign to build or update a repository-compliant email campaign through the required release gates."

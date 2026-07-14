@@ -433,14 +433,33 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .country-filter:hover select { border-color: var(--bronze); }
 .country-filter svg { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #8c837a; pointer-events: none; }
 .sequence-layout { grid-template-columns: 420px minmax(0, 1fr); }
-.sequence-list-head { padding: 25px; font-size: 16px; }
-.sequence-list-head b { min-width: 25px; height: 25px; font-size: 11px; }
+.sequence-list-head { padding: 25px; font-size: 19px; }
+.sequence-list-head b { min-width: 29px; height: 29px; font-size: 13px; }
 .sequence-list > button { grid-template-columns: 44px 1fr auto; padding: 20px 18px; gap: 14px; }
-.sequence-list > button strong { font-size: 16px; }
-.sequence-list > button small { font-size: 13px; }
+.sequence-list > button strong { font-size: 19px; }
+.sequence-list > button small { font-size: 16px; line-height: 1.35; }
+.sequence-list .status, .sequence-kicker .status { padding: 8px 11px; font-size: 14px; }
 .sequence-hero { padding: 22px 28px; }
-.sequence-hero p { max-width: 740px; font-size: 16px; }
-.sequence-kicker > span { font-size: 13px; }
+.sequence-hero h2 { font-size: 38px; }
+.sequence-hero p { max-width: 740px; font-size: 19px; }
+.sequence-kicker > span { font-size: 15px; }
+.sequence-ownership span { font-size: 16px; }
+.sequence-ownership b { font-size: 12px; }
+.sequence-performance-label > span { font-size: 14px; }
+.sequence-performance-label small { font-size: 13px; }
+.sequence-performance-metrics span { font-size: 13px; }
+.sequence-performance-metrics strong { font-size: 22px; }
+.email-sequence-board-head { font-size: 12px; }
+.email-board-position strong { width: 48px; height: 48px; font-size: 17px; }
+.email-board-position span { font-size: 13px; }
+.email-plan-status { font-size: 12px; }
+.email-board-copy > strong { font-size: 21px; }
+.email-board-copy > small { font-size: 16px; }
+.email-board-stats span { font-size: 12px; }
+.email-board-stats b { font-size: 18px; }
+.email-wait-marker span { font-size: 12px; }
+.sequence-page-actions .segmented button { font-size: 16px; }
+.country-filter select { font-size: 16px; }
 .sequence-number { width: 36px; height: 36px; font-size: 13px; }
 .lifecycle-list > button { grid-template-columns: 36px 1fr; }
 .blueprint-grid { gap: 11px; }

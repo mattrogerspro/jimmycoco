@@ -110,11 +110,11 @@ function Sidebar({ currentView, setCurrentView, open, onClose, onCollapse }) {
   )
 }
 
-function Topbar({ title, query, setQuery, onMenu }) {
+function Topbar({ title, query, setQuery, onMenu, showBreadcrumb = true, compact = false }) {
   return (
-    <header className="topbar">
+    <header className={`topbar ${compact ? 'topbar-compact' : ''}`}>
       <button className="icon-button menu-button" onClick={onMenu} aria-label="Open navigation"><Icon name="menu" /></button>
-      <div className="topbar-title"><span>Sunless Studio</span><Icon name="arrow" size={14} /><strong>{title}</strong></div>
+      {showBreadcrumb && <div className="topbar-title"><span>Sunless Studio</span><Icon name="arrow" size={14} /><strong>{title}</strong></div>}
       <label className="search-field">
         <Icon name="search" size={17} />
         <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search the workspace" />
@@ -271,22 +271,50 @@ function SequenceTimeline({ campaign }) {
 
 function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
   const [mode, setMode] = useState('campaigns')
-  const campaign = campaigns.find((item) => item.id === selectedCampaignId) || campaigns[0]
+  const [marketFilter, setMarketFilter] = useState('all')
+  const marketOptions = useMemo(() => {
+    const options = new Map()
+    campaigns.forEach((item) => {
+      if (!options.has(item.market)) options.set(item.market, { market: item.market, flag: item.flag })
+    })
+    return [...options.values()]
+  }, [])
+  const filteredCampaigns = useMemo(
+    () => marketFilter === 'all' ? campaigns : campaigns.filter((item) => item.market === marketFilter),
+    [marketFilter],
+  )
+  const campaign = filteredCampaigns.find((item) => item.id === selectedCampaignId) || filteredCampaigns[0] || campaigns[0]
   const campaignMessageCount = campaign.messages.filter((message) => !message.isSupplemental).length
   const [lifecycleId, setLifecycleId] = useState(lifecycleSequences[0]?.id)
   const lifecycle = lifecycleSequences.find((item) => item.id === lifecycleId) || lifecycleSequences[0]
 
+  useEffect(() => {
+    if (mode === 'campaigns' && campaign.id !== selectedCampaignId) onSelectCampaign(campaign.id)
+  }, [campaign.id, mode, onSelectCampaign, selectedCampaignId])
+
   return (
     <div className="page sequences-page">
-      <div className="page-intro page-intro-row">
-        <div><p className="eyebrow">Journey control</p><h1>Sequences</h1><p>See the whole customer journey before a single message leaves the building.</p></div>
-        <div className="segmented"><button className={mode === 'campaigns' ? 'active' : ''} onClick={() => setMode('campaigns')}>Campaigns</button><button className={mode === 'lifecycle' ? 'active' : ''} onClick={() => setMode('lifecycle')}>Lifecycle blueprints</button></div>
+      <div className="sequence-page-header">
+        <div className="sequence-page-heading"><p className="eyebrow">Journey control</p><h1>Sequences</h1></div>
+        <div className="sequence-page-actions">
+          {mode === 'campaigns' && (
+            <label className="country-filter">
+              <span>Country</span>
+              <select value={marketFilter} onChange={(event) => setMarketFilter(event.target.value)} aria-label="Filter campaign sequences by country">
+                <option value="all">All countries</option>
+                {marketOptions.map((option) => <option key={option.market} value={option.market}>{option.flag} {option.market === 'US-West-Coast' ? 'US' : option.market}</option>)}
+              </select>
+              <Icon name="chevron" size={15} />
+            </label>
+          )}
+          <div className="segmented"><button className={mode === 'campaigns' ? 'active' : ''} onClick={() => setMode('campaigns')}>Campaigns</button><button className={mode === 'lifecycle' ? 'active' : ''} onClick={() => setMode('lifecycle')}>Lifecycle blueprints</button></div>
+        </div>
       </div>
       {mode === 'campaigns' ? (
         <div className="sequence-layout">
           <aside className="sequence-list panel">
-            <div className="sequence-list-head"><span>Campaign sequences</span><b>{campaigns.length}</b></div>
-            {campaigns.map((item) => (
+            <div className="sequence-list-head"><span>Campaign sequences</span><b>{filteredCampaigns.length}</b></div>
+            {filteredCampaigns.map((item) => (
               <button key={item.id} className={item.id === campaign.id ? 'active' : ''} onClick={() => onSelectCampaign(item.id)}>
                 <span className="flag-tile small">{item.flag}</span><div><strong>{item.name}</strong><small>{item.messages.filter((message) => !message.isSupplemental).length} messages · {item.cadence}</small></div><Status value={item.status} />
               </button>
@@ -576,7 +604,7 @@ export default function App() {
       <Sidebar currentView={currentView} setCurrentView={navigate} open={sidebarOpen} onClose={() => setSidebarOpen(false)} onCollapse={collapseSidebar} />
       <button className="nav-reopen" onClick={openSidebar} aria-label="Open workspace navigation"><Icon name="menu" /></button>
       <div className="app-main">
-        {currentView !== 'emails' && <Topbar title={title} query={query} setQuery={setQuery} onMenu={openSidebar} />}
+        {currentView !== 'emails' && <Topbar title={title} query={query} setQuery={setQuery} onMenu={openSidebar} showBreadcrumb={currentView !== 'sequences'} compact={currentView === 'sequences'} />}
         {currentView === 'overview' && <Overview onNavigate={navigate} onOpenCampaign={setSelectedCampaignId} />}
         {currentView === 'playbooks' && <Playbooks query={query} />}
         {currentView === 'sequences' && <Sequences selectedCampaignId={selectedCampaignId} onSelectCampaign={setSelectedCampaignId} onOpenEmail={openEmail} />}

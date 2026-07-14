@@ -1,4 +1,5 @@
 import { campaignsById } from '../../shared/campaign-registry.js'
+import { resolveCampaignMessageState } from '../lib/campaign-message-state.js'
 
 const campaignDataFiles = import.meta.glob('../../email/campaigns/*/email-data.json', {
   import: 'default',
@@ -136,10 +137,14 @@ export const campaigns = campaignDefinitions.map((campaign) => ({
     const title = message.title || message.subject || `Email ${index + 1}`
     const { html, htmlPath } = resolveCampaignHtml(campaign.id, output)
     const registryCampaign = campaignsById[campaign.id]
-    const registryStep = registryCampaign?.steps[index]
-    const isTriggered = campaign.mode === 'event'
-      || campaign.supplementalOutputs.includes(output)
-      || registryCampaign?.triggeredSteps?.some((step) => step.templateAlias === message.alias)
+    const { registryStep, isSupplemental, isTriggered } = resolveCampaignMessageState({
+      campaignMode: campaign.mode,
+      index,
+      messageAlias: message.alias,
+      output,
+      supplementalOutputs: campaign.supplementalOutputs,
+      registryCampaign,
+    })
     return {
       ...message,
       output,
@@ -153,7 +158,8 @@ export const campaigns = campaignDefinitions.map((campaign) => ({
       templateAlias: registryStep?.templateAlias || message.alias,
       html,
       htmlPath,
-      isSupplemental: isTriggered,
+      isTriggered,
+      isSupplemental,
       status: campaign.status === 'Live' && index === 0 ? 'Live' : 'Ready',
     }
   }),

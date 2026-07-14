@@ -250,15 +250,29 @@ function Playbooks({ query }) {
   )
 }
 
+const formatTrigger = (trigger) => trigger
+  ? trigger.replaceAll('_', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase())
+  : ''
+
+const getMessageTimingLabel = (message) => {
+  if (!message.isTriggered) return `Day ${message.day}`
+  const trigger = formatTrigger(message.trigger) || 'Trigger-based'
+  const delay = Number(message.day) > 0 ? `+${message.day} days` : 'Immediate'
+  return `${trigger} · ${delay}`
+}
+
 function SequenceTimeline({ campaign }) {
   const sequenceMessages = campaign.messages.filter((message) => !message.isSupplemental)
   return (
     <div className="sequence-timeline">
       {sequenceMessages.map((message, index) => (
         <div className="timeline-item" key={message.id}>
-          <div className="timeline-rail"><span className={message.status === 'Live' ? 'live' : ''}>{index + 1}</span>{index < sequenceMessages.length - 1 && <i />}</div>
+          <div className="timeline-rail">
+            <span className={message.status === 'Live' ? 'live' : ''}><small>Step</small><b>{String(index + 1).padStart(2, '0')}</b></span>
+            {index < sequenceMessages.length - 1 && <i />}
+          </div>
           <article>
-            <div className="timeline-meta"><span>Day {message.day}</span><Status value={message.status} /></div>
+            <div className="timeline-meta"><span className="timeline-day">{getMessageTimingLabel(message)}</span><Status value={message.status} /></div>
             <h3>{message.title}</h3>
             <p>{message.preview}</p>
             <div className="timeline-footer"><span>{message.html ? 'Branded HTML' : 'Plain text'}</span><span>{message.headline || 'Sequence message'}</span></div>
@@ -446,7 +460,13 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
           </select>
           <Icon name="chevron" size={15} />
         </div>
-        <div className="email-toolbar-title"><span>{message ? (message.isSupplemental ? 'Supplemental triggered email' : `Sequence step ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${message.day}`) : 'No HTML'}</span><strong>{message?.title || 'No rendered emails in this campaign'}</strong></div>
+        <div className="email-toolbar-title"><span>{message ? (
+          message.isSupplemental
+            ? 'Supplemental triggered email'
+            : message.isTriggered
+              ? `Triggered step ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · ${formatTrigger(message.trigger) || 'Event based'}`
+              : `Sequence step ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${message.day}`
+        ) : 'No HTML'}</span><strong>{message?.title || 'No rendered emails in this campaign'}</strong></div>
         <div className="toolbar-actions">
           <div className="viewport-switch"><button className={viewport === 'desktop' ? 'active' : ''} onClick={() => setViewport('desktop')} aria-label="Desktop preview"><Icon name="monitor" /></button><button className={viewport === 'mobile' ? 'active' : ''} onClick={() => setViewport('mobile')} aria-label="Mobile preview"><Icon name="mobile" /></button></div>
           <button className={`personalise-toggle ${personalised ? 'active' : ''}`} onClick={() => setPersonalised((value) => !value)}><Icon name="spark" />Sample data<span><i /></span></button>
@@ -457,8 +477,8 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
           <div className="email-list-heading"><p className="eyebrow">Rendered emails</p><span>{availableMessages.length}</span></div>
           {!!sequenceMessages.length && (
             <div className="email-flow-summary">
-              <div className="email-flow-meta"><strong>Sequence</strong><span>{sequenceMessages.length} emails · {sequenceDuration} days</span></div>
-              <div className="email-flow-track" aria-label={`${campaign.name} send-day flow`}>
+              <div className="email-flow-meta"><strong>{campaign.mode === 'event' ? 'Event flow' : 'Sequence'}</strong><span>{campaign.mode === 'event' ? `${sequenceMessages.length} triggered emails` : `${sequenceMessages.length} emails · ${sequenceDuration} days`}</span></div>
+              <div className="email-flow-track" aria-label={`${campaign.name} ${campaign.mode === 'event' ? 'triggered event flow' : 'send-day flow'}`}>
                 {sequenceMessages.map((item, index) => {
                   const nextMessage = sequenceMessages[index + 1]
                   return (
@@ -466,12 +486,12 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
                       <button
                         className={item.id === message?.id ? 'active' : ''}
                         onClick={() => setSelectedMessageId(item.id)}
-                        aria-label={`Open sequence step ${item.index}, sent on day ${item.day}`}
+                        aria-label={item.isTriggered ? `Open triggered step ${item.index}: ${formatTrigger(item.trigger) || 'event based'}` : `Open sequence step ${item.index}, sent on day ${item.day}`}
                         aria-pressed={item.id === message?.id}
                         aria-keyshortcuts={index < 9 ? String(index + 1) : undefined}
                       >
                         <b>{String(item.index).padStart(2, '0')}</b>
-                        <span>D{item.day}</span>
+                        <span>{item.isTriggered ? (Number(item.day) > 0 ? `+${item.day}d` : 'Now') : `D${item.day}`}</span>
                       </button>
                       {nextMessage && <i />}
                     </div>
@@ -490,7 +510,7 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
                   >
                     <span className="email-index">{item.isSupplemental ? '+' : String(item.index).padStart(2, '0')}</span>
                     <div className="email-step-copy">
-                      <span className={`email-send-day ${item.isSupplemental ? 'triggered' : ''}`}>{item.isSupplemental ? 'Trigger-based' : `Day ${item.day}`}</span>
+                      <span className={`email-send-day ${item.isTriggered ? 'triggered' : ''}`}>{item.isTriggered ? 'Trigger-based' : `Day ${item.day}`}</span>
                       <strong>{personalised ? applyMergeData(item.title, sampleMergeData) : item.title}</strong>
                     </div>
                     {item.status === 'Live' && <i className="live-pulse" />}
@@ -535,7 +555,13 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
         </main>
         {message && <aside className="email-inspector">
           <p className="eyebrow">Message details</p>
-          <div className="inspector-status"><Status value={message.status} /><span>{message.isSupplemental ? 'Trigger-based supplemental' : `Step ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${message.day}`}</span></div>
+          <div className="inspector-status"><Status value={message.status} /><span>{
+            message.isSupplemental
+              ? 'Trigger-based supplemental'
+              : message.isTriggered
+                ? `Triggered step ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')}`
+                : `Step ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${message.day}`
+          }</span></div>
           <dl><div><dt>Headline</dt><dd>{message.headline}</dd></div><div><dt>Eyebrow</dt><dd>{message.eyebrow}</dd></div><div><dt>Format</dt><dd>Branded HTML</dd></div><div><dt>Output</dt><dd>{message.output.split('/').pop()}</dd></div></dl>
           <hr />
           <p className="eyebrow">Sample recipient</p>

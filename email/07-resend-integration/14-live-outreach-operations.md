@@ -4,6 +4,8 @@
 
 The repository is the source of truth for campaign timing, classification, template aliases, template IDs and exit rules. The canonical machine-readable definition is `shared/campaign-registry.js`.
 
+Repository HTML is also canonical. `npm run templates:check` validates the local template contract and, when `RESEND_API_KEY` is available, reports drift against published Resend versions. `npm run templates:publish` is the explicit release action that creates a draft from approved repository HTML and publishes it. Never publish automatically on every commit.
+
 Supabase stores contacts, sequence state, queued lifecycle work, sends, append-only webhook events, suppressions and aggregate reporting. Resend stores published email templates and transports messages. Vercel hosts the protected APIs, webhook endpoint and recurring worker.
 
 ## Safety gates
@@ -31,6 +33,8 @@ Keep the registry campaigns disabled while installing and testing infrastructure
 8. Save the returned signing secret as `RESEND_WEBHOOK_SECRET` in Vercel and redeploy.
 9. Send provider test events and confirm they appear in the Live Emails performance strip.
 10. Run a controlled internal-address campaign test before enabling any prospect campaign.
+
+The UK pilot currently contains legacy MailerLite-hosted asset URLs. The template release command intentionally blocks until those are moved to the approved production email asset host.
 
 ## API contracts
 

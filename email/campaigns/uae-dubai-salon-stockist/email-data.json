@@ -1,0 +1,102 @@
+{
+  "defaults": {
+    "brand": "SUNLESS",
+    "brandLine": "by Jimmy Coco",
+    "background": "#EAE2D8",
+    "cardBackground": "#FBF8F3",
+    "accent": "#A77952",
+    "text": "#3B3630",
+    "heading": "#24211E",
+    "buttonBackground": "#26231F",
+    "buttonText": "#FFFDF9",
+    "businessName": "Sunless by Jimmy Coco",
+    "businessAddress": "{{business_address}}",
+    "unsubscribeText": "You are receiving this because we believed this professional partnership message may be relevant to your business.",
+    "unsubscribeHref": "{{unsubscribe_link}}",
+    "unsubscribeLabel": "Unsubscribe",
+    "senderName": "{{sender_name}}",
+    "senderTitle": "{{sender_title}}"
+  },
+  "messages": [
+    {
+      "output": "1-dubai-introduction.html",
+      "title": "A Jimmy Coco introduction for {{business_name}}",
+      "preview": "A professional trial conversation for one of Dubai’s premium beauty destinations.",
+      "eyebrow": "Dubai professional partnerships",
+      "headline": "Red-carpet colour, considered for Dubai.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"I’m reaching out because {{business_name}} looks aligned with the kind of partner we want to build with in Dubai: premium service, strong presentation and clients who care about how colour looks beyond the treatment room."},
+        {"type":"paragraph","html":"<strong>Sunless by Jimmy Coco</strong> is the professional tanning line created by celebrity tanning artist Jimmy Coco. His work is built around believable, undertone-aware colour — the kind that looks polished in daylight, photography and evening light rather than turning flat or orange."},
+        {"type":"offer","html":"We’re opening conversations with selected UAE salons, spas and tanning professionals about the professional solution and a tightly edited take-home range."},
+        {"type":"paragraph","html":"Would it be useful to arrange a professional trial or a short introduction call for {{business_name}}?"},
+        {"type":"cta","label":"Request a professional trial","href":"{{trial_link}}"},
+        {"type":"small","html":"Or reply directly and I’ll keep it simple."}
+      ]
+    },
+    {
+      "output": "2-colour-in-dubai-light.html",
+      "title": "Colour that still looks right in Dubai light",
+      "preview": "Undertone-aware colour designed to remain believable in daylight, photography and evening light.",
+      "eyebrow": "The result beyond the treatment room",
+      "headline": "Colour clients still trust outside.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"The real test of a professional tan is not how it looks under treatment-room lighting. It is how it reads afterwards: in strong daylight, photographs, hotel interiors, restaurants and events."},
+        {"type":"paragraph","html":"That is the principle behind Jimmy Coco’s shade method. The objective is not simply “darker”. It is controlled depth, undertone awareness and a finish that looks considered rather than obvious."},
+        {"type":"bullets","items":["A more confident consultation","A result clients can wear to high-visibility occasions","A premium service story that does not rely on discounting","A recognisable expert name behind the treatment"]},
+        {"type":"cta","label":"View the professional trial route","href":"{{trial_link}}"}
+      ]
+    },
+    {
+      "output": "3-service-and-retail.html",
+      "title": "One tan client, two considered revenue lines",
+      "preview": "A professional service supported by a curated at-home continuation range.",
+      "eyebrow": "Treatment and retail",
+      "headline": "One client journey. Two commercial moments.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"The strongest salon partnerships do more than place a product in the treatment room. They create one coherent client journey."},
+        {"type":"subheading","html":"In the treatment room"},
+        {"type":"paragraph","html":"The professional solution gives the team a premium service proposition built around shade selection, controlled depth and believable colour."},
+        {"type":"subheading","html":"After the appointment"},
+        {"type":"paragraph","html":"A focused take-home edit gives clients a way to maintain, extend or complement the result without turning the reception area into an overstocked retail wall."},
+        {"type":"offer","html":"That creates two useful commercial lines from one client relationship: the professional treatment and relevant take-home retail at the moment intent is highest."},
+        {"type":"paragraph","html":"The exact UAE range, terms and availability must be confirmed through the approved trade route."},
+        {"type":"cta","label":"Explore the UAE trade route","href":"{{trade_link}}"},
+        {"type":"small","html":"Or book a 15-minute partnership conversation: {{calendar_link}}"}
+      ]
+    },
+    {
+      "output": "4-partner-support.html",
+      "title": "What a Jimmy Coco partnership includes",
+      "preview": "Shade guidance, team confidence and a considered route to launch.",
+      "eyebrow": "Partner support",
+      "headline": "More than a professional solution.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"A premium product only works when the team knows how to present it, recommend it and deliver the result consistently."},
+        {"type":"bullets","items":["Professional shade and consultation guidance","A clear treatment and retail story for the team","Approved brand and launch assets","A direct commercial contact","A trial-first route before a wider commitment","UAE-specific fulfilment and trade information once approved"]},
+        {"type":"subheading","html":"Current UAE position"},
+        {"type":"paragraph","html":"<strong>{{uae_delivery_statement}}</strong>"},
+        {"type":"paragraph","html":"<strong>{{uae_partner_terms}}</strong>"},
+        {"type":"cta","label":"Book a partnership conversation","href":"{{calendar_link}}"}
+      ]
+    },
+    {
+      "output": "5-close-the-loop.html",
+      "title": "Shall I close this for now?",
+      "preview": "I’ll close the conversation unless a professional trial is useful later.",
+      "eyebrow": "A final note",
+      "headline": "I’ll leave the timing with you.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"I’ve sent a few notes about a possible Sunless by Jimmy Coco partnership for {{business_name}} and do not want to keep filling your inbox."},
+        {"type":"paragraph","html":"I’ll close the conversation for now."},
+        {"type":"paragraph","html":"Should the timing change, reply at any point and I can reopen it with the current UAE range, trial route and trade information."},
+        {"type":"cta","label":"Keep Jimmy’s shade guide","href":"{{shade_guide_link}}"},
+        {"type":"small","html":"Thank you for reading."}
+      ]
+    }
+  ]
+}

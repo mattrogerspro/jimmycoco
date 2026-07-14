@@ -1,0 +1,66 @@
+{
+  "defaults": {
+    "brand": "SUNLESS",
+    "brandLine": "by Jimmy Coco",
+    "background": "#EAE2D8",
+    "cardBackground": "#FBF8F3",
+    "accent": "#A77952",
+    "text": "#3B3630",
+    "heading": "#24211E",
+    "buttonBackground": "#26231F",
+    "buttonText": "#FFFDF9",
+    "businessName": "Sunless by Jimmy Coco",
+    "businessAddress": "{{business_address}}",
+    "unsubscribeText": "This service email relates to your Jimmy Coco salon account.",
+    "unsubscribeUrl": "{{preferences_link}}",
+    "senderName": "{{sender_name}}",
+    "senderTitle": "{{sender_title}}"
+  },
+  "messages": [
+    {
+      "output": "emails/1-sample-check-in.html",
+      "title": "How did the Sunset tan turn out?",
+      "preview": "Two quick questions, and the next step if you like it.",
+      "eyebrow": "Sample check-in",
+      "headline": "How did the colour develop?",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"Your Sunset sample should have landed at {{salon_name}} by now — I hope you have had a chance to put it on a client."},
+        {"type":"bullets","items":["How did the colour develop for you? Honest feedback is useful, even when something is not the right fit.","If you liked it, let us take 15 minutes to sort your ranges and trade terms: {{calendar_link}}"]},
+        {"type":"offer","html":"No rush and no pressure — reply whenever suits."},
+        {"type":"cta","label":"Choose a call time","url":"{{calendar_link}}"}
+      ]
+    },
+    {
+      "output": "emails/2-trade-terms-summary.html",
+      "title": "Your Jimmy Coco partner terms — as promised",
+      "preview": "Your ranges, terms and the one step to get stocked.",
+      "eyebrow": "Your partner setup",
+      "headline": "Everything from our call, in one place.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"Great chatting today. Here is everything we covered."},
+        {"type":"bullets","items":["<strong>Your ranges:</strong> Sunset professional solution for the booth, plus the agreed take-home retail selection.","<strong>Wholesale margin:</strong> {{wholesale_margin}}","<strong>Opening order:</strong> {{min_opening_order}}","<strong>Reorders:</strong> from {{reorder_minimum}}","<strong>Dispatch:</strong> {{lead_time}}","<strong>Included:</strong> Jimmy's shade guide, method training, launch assets and direct support."]},
+        {"type":"offer","html":"The one next step is your opening order."},
+        {"type":"cta","label":"Place the opening order","url":"{{order_link}}"},
+        {"type":"note","html":"Prefer help? Reply and I will walk through it with you."}
+      ]
+    },
+    {
+      "output": "emails/3-first-order-confirmation.html",
+      "title": "Order confirmed — welcome to Jimmy Coco",
+      "preview": "What is coming, when — and how we get your team ready.",
+      "eyebrow": "Order {{order_number}}",
+      "headline": "Welcome aboard, {{salon_name}}.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{first_name}},"},
+        {"type":"paragraph","html":"Your opening order is confirmed. We are really pleased to have {{salon_name}} on board."},
+        {"type":"bullets","items":["<strong>Items:</strong> {{order_summary}}","<strong>Total:</strong> {{order_total}}","<strong>Dispatch:</strong> {{dispatch_date}} ({{lead_time}})","<strong>Tracking:</strong> <a href=\"{{tracking_link}}\">follow the shipment</a>"]},
+        {"type":"divider"},
+        {"type":"paragraph","html":"Next, we will send your shade guide, method training and launch assets so the team is confident from day one. We will also check in after the first week of tans."},
+        {"type":"cta","label":"View your order","url":"{{order_link}}"},
+        {"type":"note","html":"Anything at all, just reply — you have a direct line to us."}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "order": 50,
+  "name": "US West Coast Stockist Recruitment",
+  "shortName": "US West Coast",
+  "market": "US-West-Coast",
+  "flag": "🇺🇸",
+  "status": "Draft",
+  "hook": "Trial-first professional partnership",
+  "channel": "Email",
+  "cadence": "19 days",
+  "owner": "Unassigned — approval required",
+  "mode": "sequence",
+  "days": [0, 4, 9, 14, 19, 0, 0, 0, 0, 0],
+  "supplementalOutputs": [
+    "emails/onboarding-1-interest-confirmed.html",
+    "emails/onboarding-2-trial-dispatched.html",
+    "emails/onboarding-3-post-trial-check-in.html",
+    "emails/onboarding-4-trade-summary.html",
+    "emails/onboarding-5-first-order-confirmation.html"
+  ]
+}

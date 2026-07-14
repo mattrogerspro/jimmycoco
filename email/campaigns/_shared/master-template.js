@@ -13,6 +13,8 @@ function renderBlock(block, theme) {
   switch (block.type) {
     case 'paragraph':
       return `<p class="sans" style="margin:0 0 18px 0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.62;color:${text};">${block.html || ''}</p>`;
+    case 'subheading':
+      return `<h2 class="sans" style="margin:26px 0 12px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:18px;line-height:1.35;color:${heading};">${block.html || ''}</h2>`;
     case 'bullets':
       return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:2px 0 24px 0;">${(block.items || []).map(item => `<tr><td valign="top" style="width:22px;padding:5px 0;color:${accent};font-size:15px;">•</td><td class="sans" style="padding:5px 0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:15.5px;line-height:1.55;color:${text};">${item}</td></tr>`).join('')}</table>`;
     case 'offer':
@@ -22,8 +24,9 @@ function renderBlock(block, theme) {
     case 'divider':
       return '<div style="height:1px;background:#E4DACE;margin:8px 0 26px 0;line-height:1px;font-size:1px;">&nbsp;</div>';
     case 'cta':
-      return block.label && block.url ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 0 0;"><tr><td bgcolor="${theme.buttonBackground}" style="border-radius:3px;"><a href="${block.url}" class="sans" style="display:inline-block;padding:15px 30px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:${theme.buttonText};text-decoration:none;border-radius:3px;">${block.label}</a></td></tr></table>` : '';
+      return block.label && (block.url || block.href) ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 0 0;"><tr><td bgcolor="${theme.buttonBackground}" style="border-radius:3px;"><a href="${block.url || block.href}" class="sans" style="display:inline-block;padding:15px 30px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:${theme.buttonText};text-decoration:none;border-radius:3px;">${block.label}</a></td></tr></table>` : '';
     case 'note':
+    case 'small':
       return `<p class="sans" style="margin:14px 0 0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;line-height:1.5;color:#7A726A;">${block.html || ''}</p>`;
     default:
       throw new Error(`Unsupported email block type: ${block.type}`);
@@ -60,7 +63,7 @@ function renderEmail(data) {
 <tr><td class="px" style="background:${theme.cardBackground};border-radius:4px;padding:46px 52px 40px;"><p class="sans" style="margin:0 0 20px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:${theme.accent};">${data.eyebrow || ''}</p><h1 class="serif" style="margin:0 0 24px;font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:33px;line-height:1.14;color:${theme.heading};letter-spacing:-.01em;">${data.headline || ''}</h1>${blocks}</td></tr>
 <tr><td class="px" style="padding:30px 52px 8px;"><p class="sans" style="margin:0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:15px;line-height:1.6;color:${theme.text};">${data.senderName || '{{sender_name}}'}<br><span style="color:#7A726A;font-size:13.5px;">${data.senderTitle || '{{sender_title}}'}</span></p></td></tr>
 <tr><td class="px" style="padding:24px 52px 8px;"><div style="border-top:1px solid #DCD2C6;"></div></td></tr>
-<tr><td class="px" style="padding:14px 52px 30px;"><p class="sans" style="margin:0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;line-height:1.6;color:#948B81;">${data.businessName || 'Sunless by Jimmy Coco'} · ${data.businessAddress || '{{business_address}}'}<br>${data.unsubscribeText || 'You are receiving this because this message is relevant to your relationship with Sunless by Jimmy Coco.'} <a href="${data.unsubscribeUrl || '{{unsubscribe_link}}'}" style="color:#948B81;text-decoration:underline;">${unsubscribeLabel}</a>.</p></td></tr>
+<tr><td class="px" style="padding:14px 52px 30px;"><p class="sans" style="margin:0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;line-height:1.6;color:#948B81;">${data.businessName || 'Sunless by Jimmy Coco'} · ${data.businessAddress || '{{business_address}}'}<br>${data.unsubscribeText || 'You are receiving this because this message is relevant to your relationship with Sunless by Jimmy Coco.'} <a href="${data.unsubscribeUrl || data.unsubscribeHref || '{{unsubscribe_link}}'}" style="color:#948B81;text-decoration:underline;">${unsubscribeLabel}</a>.</p></td></tr>
 </table></td></tr></table></body></html>`;
 }
 

@@ -38,8 +38,23 @@ The build reads:
 - `../au-salon-account-flow/email-data.json`
 - `../uk-salon-stockist/email-data.json`
 - `../uae-dubai-salon-stockist/email-data.json`
+- `../us-west-coast-salon-stockist/email-data.json`
 
 and writes the production HTML files listed in each message's `output` field under the relevant campaign’s `emails/` directory.
+
+To rebuild one campaign without touching sibling output, pass its campaign ID:
+
+```bash
+node email/campaigns/_shared/build-all.js us-west-coast-salon-stockist
+```
+
+To validate every registered manifest and render it in memory without rewriting HTML:
+
+```bash
+node email/campaigns/_shared/build-all.js --check
+```
+
+Both `emails/message.html` and the legacy bare `message.html` output form resolve safely inside the campaign's `emails/` directory.
 
 ## What updates globally
 

@@ -5,12 +5,26 @@ const path = require('path');
 const { renderEmail } = require('./master-template');
 
 const campaignsRoot = path.resolve(__dirname, '..');
-const manifests = [
+const allManifests = [
   'au-salon-seeding/email-data.json',
   'au-salon-account-flow/email-data.json',
   'uk-salon-stockist/email-data.json',
-  'uae-dubai-salon-stockist/email-data.json'
+  'uae-dubai-salon-stockist/email-data.json',
+  'us-west-coast-salon-stockist/email-data.json'
 ];
+
+const args = process.argv.slice(2);
+const checkOnly = args.includes('--check');
+const requestedCampaigns = args.filter((arg) => arg !== '--check');
+const manifests = requestedCampaigns.length
+  ? allManifests.filter((manifest) => requestedCampaigns.includes(manifest.split('/')[0]))
+  : allManifests;
+
+for (const campaignId of requestedCampaigns) {
+  if (!allManifests.some((manifest) => manifest.startsWith(`${campaignId}/`))) {
+    throw new Error(`Unknown campaign: ${campaignId}`);
+  }
+}
 
 function validateMessage(message, manifestPath) {
   const required = ['output', 'title', 'preview', 'headline', 'blocks'];
@@ -22,9 +36,21 @@ function validateMessage(message, manifestPath) {
   if (!Array.isArray(message.blocks)) {
     throw new Error(`${manifestPath}: blocks must be an array`);
   }
-  if (path.basename(message.output) !== message.output) {
-    throw new Error(`${manifestPath}: output must be a filename, not a path`);
+}
+
+function resolveOutputPath(campaignDir, output, manifestPath) {
+  const normalised = output.replace(/^\.\//, '').replaceAll('\\', '/');
+  const relativeOutput = path.basename(normalised) === normalised
+    ? path.join('emails', normalised)
+    : normalised;
+  const outputPath = path.resolve(campaignDir, relativeOutput);
+  const emailsDir = path.resolve(campaignDir, 'emails');
+
+  if (outputPath !== emailsDir && !outputPath.startsWith(`${emailsDir}${path.sep}`)) {
+    throw new Error(`${manifestPath}: output must resolve inside the campaign emails directory`);
   }
+
+  return outputPath;
 }
 
 let generated = 0;
@@ -40,16 +66,17 @@ for (const relativeManifest of manifests) {
   }
 
   const campaignDir = path.dirname(manifestPath);
-  const emailsDir = path.join(campaignDir, 'emails');
-  fs.mkdirSync(emailsDir, { recursive: true });
+  const emailsDir = path.resolve(campaignDir, 'emails');
+  if (!checkOnly) fs.mkdirSync(emailsDir, { recursive: true });
 
   for (const message of campaign.messages) {
     validateMessage(message, relativeManifest);
-    const outputPath = path.join(emailsDir, message.output);
-    fs.writeFileSync(outputPath, renderEmail({ ...campaign.defaults, ...message }), 'utf8');
+    const outputPath = resolveOutputPath(campaignDir, message.output, relativeManifest);
+    const html = renderEmail({ ...campaign.defaults, ...message });
+    if (!checkOnly) fs.writeFileSync(outputPath, html, 'utf8');
     generated += 1;
-    console.log(`generated ${path.relative(campaignsRoot, outputPath)}`);
+    console.log(`${checkOnly ? 'validated' : 'generated'} ${path.relative(campaignsRoot, outputPath)}`);
   }
 }
 
-console.log(`\nGenerated ${generated} campaign emails from the shared master template.`);
+console.log(`\n${checkOnly ? 'Validated' : 'Generated'} ${generated} campaign emails with the shared master template.`);

@@ -47,6 +47,8 @@ async function localTemplates() {
       continue
     }
 
+    if (data.esp && data.esp.toLowerCase() !== 'resend') continue
+
     const campaign = campaignsById[campaignId]
     const registeredSteps = campaign ? [...campaign.steps, ...(campaign.triggeredSteps || [])] : []
     const steps = campaign

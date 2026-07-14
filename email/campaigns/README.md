@@ -13,6 +13,7 @@ Home for every **outreach & marketing campaign** — cold acquisition, stockist 
 | UK salon stockist recruitment | [`uk-salon-stockist/`](uk-salon-stockist/) | Email (MailerLite) | 🇬🇧 UK | Email 1 live | “Your clients already know this name” |
 | UK salon onboarding | [`uk-salon-onboarding/`](uk-salon-onboarding/) | Email (Resend) | 🇬🇧 UK | Ready | Professional line → sample kit |
 | UAE / Dubai salon stockist recruitment | [`uae-dubai-salon-stockist/`](uae-dubai-salon-stockist/) | Email (Resend-ready) | 🇦🇪 UAE | Draft | Premium professional trial for Dubai partners |
+| US West Coast salon stockist recruitment (TEST) | [`us-west-coast-salon-stockist/`](us-west-coast-salon-stockist/) | Email (Resend) | 🇺🇸 US-WC | Draft — not approved for send | Camera-ready color for West Coast daylight |
 
 _Keep this table current — it is the single campaign register._
 

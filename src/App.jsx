@@ -321,8 +321,8 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
 
 function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
   const campaign = campaigns.find((item) => item.id === selectedCampaignId) || campaigns.find((item) => item.status === 'Live') || campaigns[0]
-  const availableMessages = campaign.messages.filter((message) => message.html)
-  const sequenceMessages = availableMessages.filter((item) => !item.isSupplemental)
+  const availableMessages = useMemo(() => campaign.messages.filter((message) => message.html), [campaign])
+  const sequenceMessages = useMemo(() => availableMessages.filter((item) => !item.isSupplemental), [availableMessages])
   const [selectedMessageId, setSelectedMessageId] = useState(availableMessages[0]?.id)
   const [viewport, setViewport] = useState('desktop')
   const [personalised, setPersonalised] = useState(true)
@@ -333,6 +333,55 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
   const sequenceDuration = sequenceMessages.at(-1)?.day ?? 0
 
   useEffect(() => { setSelectedMessageId(availableMessages[0]?.id) }, [campaign.id])
+  useEffect(() => {
+    const isEditableTarget = (target) => {
+      const tagName = target?.tagName?.toLowerCase()
+      return ['input', 'textarea', 'select'].includes(tagName)
+        || target?.isContentEditable
+        || Boolean(target?.closest?.('[contenteditable="true"]'))
+    }
+    const handleSequenceKeydown = (event) => {
+      if (
+        event.defaultPrevented
+        || event.isComposing
+        || event.metaKey
+        || event.ctrlKey
+        || event.altKey
+        || event.shiftKey
+        || isEditableTarget(event.target)
+        || !sequenceMessages.length
+      ) return
+
+      const digitMatch = event.code?.match(/^(?:Digit|Numpad)([1-9])$/)
+      if (digitMatch) {
+        const requestedMessage = sequenceMessages[Number(digitMatch[1]) - 1]
+        if (!requestedMessage) return
+        event.preventDefault()
+        setSelectedMessageId(requestedMessage.id)
+        return
+      }
+
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
+      event.preventDefault()
+      const direction = event.key === 'ArrowRight' ? 1 : -1
+      const currentIndex = sequenceMessages.findIndex((item) => item.id === selectedMessageId)
+      const nextIndex = currentIndex === -1
+        ? (direction === 1 ? 0 : sequenceMessages.length - 1)
+        : (currentIndex + direction + sequenceMessages.length) % sequenceMessages.length
+      setSelectedMessageId(sequenceMessages[nextIndex].id)
+    }
+    const frame = previewFrameRef.current
+    const attachToPreview = () => frame?.contentWindow?.addEventListener('keydown', handleSequenceKeydown)
+
+    window.addEventListener('keydown', handleSequenceKeydown)
+    frame?.addEventListener('load', attachToPreview)
+    attachToPreview()
+    return () => {
+      window.removeEventListener('keydown', handleSequenceKeydown)
+      frame?.removeEventListener('load', attachToPreview)
+      frame?.contentWindow?.removeEventListener('keydown', handleSequenceKeydown)
+    }
+  }, [selectedMessageId, sequenceMessages])
   useEffect(() => {
     let cancelled = false
     const load = async () => {
@@ -398,6 +447,7 @@ function EmailStudio({ selectedCampaignId, onSelectCampaign }) {
                         onClick={() => setSelectedMessageId(item.id)}
                         aria-label={`Open sequence step ${item.index}, sent on day ${item.day}`}
                         aria-pressed={item.id === message?.id}
+                        aria-keyshortcuts={index < 9 ? String(index + 1) : undefined}
                       >
                         <b>{String(item.index).padStart(2, '0')}</b>
                         <span>D{item.day}</span>

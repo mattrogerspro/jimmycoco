@@ -1,0 +1,39 @@
+{
+  "assetId": "product-example-email-hero",
+  "name": "Human-readable asset name",
+  "category": "product",
+  "sourcePath": "assets/images/product-images/<source-file>",
+  "status": "REVIEW_REQUIRED",
+  "protectedSource": true,
+  "allowedChannels": [],
+  "allowedMarkets": [],
+  "allowedPurposes": [],
+  "rights": {
+    "owner": "[SOURCE REQUIRED]",
+    "expiry": null,
+    "reference": "[SOURCE REQUIRED]",
+    "notes": ""
+  },
+  "identityMustRemainUnchanged": true,
+  "retouchingAllowed": false,
+  "cropRestrictions": "[SOURCE REQUIRED]",
+  "email": {
+    "desktop": {
+      "path": "assets/email/product/<asset>-email-600x400.jpg",
+      "publicUrl": "[PUBLIC HTTPS URL REQUIRED]",
+      "width": 600,
+      "height": 400
+    },
+    "mobile": {
+      "path": "assets/email/product/<asset>-email-mobile-480x480.jpg",
+      "publicUrl": "[PUBLIC HTTPS URL REQUIRED]",
+      "width": 480,
+      "height": 480
+    }
+  },
+  "altText": "[SOURCE REQUIRED]",
+  "focalPoint": "center",
+  "approvedBy": null,
+  "approvedAt": null,
+  "notes": "Change status to APPROVED only after rights, derivative, accessibility and market/channel/purpose review."
+}

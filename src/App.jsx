@@ -494,6 +494,11 @@ export default function App() {
   const navigate = (view) => {
     window.location.hash = view
     setCurrentView(view)
+    if (view === 'emails') {
+      setSidebarCollapsed(true)
+      setSidebarOpen(false)
+      window.localStorage.setItem('sunless-sidebar-collapsed', 'true')
+    }
     if (view !== 'playbooks') setQuery('')
   }
   const openEmail = (campaignId) => { setSelectedCampaignId(campaignId); navigate('emails') }

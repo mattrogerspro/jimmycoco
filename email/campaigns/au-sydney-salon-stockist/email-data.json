@@ -1,0 +1,111 @@
+{
+  "campaign": "au-sydney-salon-stockist",
+  "market": "AU",
+  "esp": "resend",
+  "status": "DRAFT — NOT APPROVED FOR SEND",
+  "defaults": {
+    "brand": "SUNLESS",
+    "brandLine": "by Jimmy Coco",
+    "lang": "en",
+    "background": "#EAE2D8",
+    "cardBackground": "#FBF8F3",
+    "accent": "#A77952",
+    "text": "#3B3630",
+    "heading": "#24211E",
+    "buttonBackground": "#26231F",
+    "buttonText": "#FFFDF9",
+    "businessName": "Sunless by Jimmy Coco",
+    "businessAddress": "{{business_address}}",
+    "unsubscribeText": "You're receiving this because we thought it was relevant to {{salon_name}} in {{city}}.",
+    "unsubscribeUrl": "{{unsubscribe_link}}",
+    "unsubscribeLabel": "Unsubscribe",
+    "senderName": "{{sender_name}}",
+    "senderTitle": "{{sender_title}}"
+  },
+  "messages": [
+    {
+      "output": "emails/1-opener.html",
+      "alias": "au-sydney-stockist-1-opener",
+      "title": "A sun-safe glow for {{salon_name}}?",
+      "preview": "The professional tan behind Jimmy Coco's work — a complimentary trial for your booth before summer.",
+      "eyebrow": "A note for {{salon_name}}",
+      "headline": "A Sydney glow, without the Sydney sun.",
+      "blocks": [
+        {"type": "paragraph", "html": "Hi {{first_name}},"},
+        {"type": "paragraph", "html": "I'll keep this short. I look after salon partnerships for <strong>Sunless by Jimmy Coco</strong> — the professional line from tanning artist Jimmy Coco, the name behind a lot of the colour you've seen on red carpets and in front of cameras."},
+        {"type": "paragraph", "html": "Your clients want that warm, lit-from-within colour all year — but under some of the harshest UV on earth, more of them would rather not earn it on the sand or in a bed. Our <strong>Sunset professional solution</strong> gives them a believable, sun-safe alternative: undertone-true colour that reads natural in daylight, never orange, never flat."},
+        {"type": "paragraph", "html": "It's also built to behave in a Sydney summer — even wear and a clean fade, not a patchy result by the weekend."},
+        {"type": "offer", "html": "Could I post {{salon_name}} a <strong>complimentary trial</strong> of the Sunset solution and Jimmy's shade guide — no cost, no commitment?"},
+        {"type": "cta", "label": "Post me a trial", "url": "mailto:{{sender_email}}?subject=Send%20a%20trial%20for%20{{salon_name}}"},
+        {"type": "note", "html": "Or just reply 'send it' — that's all I need."}
+      ]
+    },
+    {
+      "output": "emails/2-believable-colour.html",
+      "alias": "au-sydney-stockist-2-believable-colour",
+      "title": "re: colour that survives a Sydney summer",
+      "preview": "Undertone-true colour, built to stay believable in harbour light and hold through the humidity.",
+      "eyebrow": "A quick follow-up",
+      "headline": "Believable in the light. Steady in the humidity.",
+      "blocks": [
+        {"type": "paragraph", "html": "Hi {{first_name}},"},
+        {"type": "paragraph", "html": "Floating this back to the top of your inbox. The real test of a professional tan isn't the treatment room — it's a client at Bondi at midday, in the photos from a February wedding, or out on the harbour three days later."},
+        {"type": "paragraph", "html": "That's what Jimmy's shade method is built for: controlled depth, undertone awareness, and a finish that looks considered rather than obvious — one that wears and fades evenly through a humid Sydney week instead of patching off."},
+        {"type": "bullets", "items": ["A more confident consultation with every client", "Colour clients can wear to weddings, events and a long weekend away", "A premium result that doesn't lean on discounting", "A name your clients already recognise"]},
+        {"type": "paragraph", "html": "The complimentary trial offer still stands — a Sunset sample and Jimmy's shade guide, posted to {{salon_name}} so you can judge the colour on a real client."},
+        {"type": "cta", "label": "Post me a trial", "url": "mailto:{{sender_email}}?subject=Trial%20for%20{{salon_name}}"},
+        {"type": "note", "html": "A one-word reply is plenty."}
+      ]
+    },
+    {
+      "output": "emails/3-two-revenue-lines.html",
+      "alias": "au-sydney-stockist-3-two-revenue-lines",
+      "title": "Two tan revenue lines, one partner",
+      "preview": "Your booth and your retail shelf, working together — without discounting.",
+      "eyebrow": "The commercial case",
+      "headline": "One partner. Two ways to earn.",
+      "blocks": [
+        {"type": "paragraph", "html": "Hi {{first_name}},"},
+        {"type": "paragraph", "html": "A quick note on why Jimmy Coco tends to pay for itself — it works two ways inside the same salon:"},
+        {"type": "bullets", "items": ["<strong>In the booth:</strong> the Sunset professional solution — believable, buildable colour you can price and present as a premium service, not a race to the bottom.", "<strong>On the shelf:</strong> a curated take-home range so clients can keep their colour fresh between visits — real margin, no extra chair time."]},
+        {"type": "offer", "html": "One partner, one aesthetic and two commercial moments from the same client relationship — and the moment a client walks out of your booth is the highest-intent one you get."},
+        {"type": "paragraph", "html": "The exact range and trade terms are confirmed through the approved partner route — I won't quote anything I can't stand behind. Happy to walk you through it on a quick call."},
+        {"type": "cta", "label": "Book a 15-minute call", "url": "{{calendar_link}}"},
+        {"type": "note", "html": "The complimentary trial is still open too — just say the word."}
+      ]
+    },
+    {
+      "output": "emails/4-season-readiness.html",
+      "alias": "au-sydney-stockist-4-season-readiness",
+      "title": "Your summer is booked before summer starts",
+      "preview": "Trial, training and first stock are all easier before the season lands.",
+      "eyebrow": "Plan before the rush",
+      "headline": "Your busy season starts before the bookings do.",
+      "blocks": [
+        {"type": "paragraph", "html": "Hi {{first_name}},"},
+        {"type": "paragraph", "html": "It's the quiet part of the year for tanning, which is exactly why it's the right time to talk. Sydney's demand never really switches off — but it climbs hard through spring and summer: race day, spring and autumn weddings, Christmas parties, New Year on the harbour, and a long run of beach weekends."},
+        {"type": "paragraph", "html": "Salons that are ready early win that whole stretch. Getting ready takes a few weeks — trial the solution, train the team on Jimmy's shade method, and choose an opening range — so the calm window now is the advantage."},
+        {"type": "bullets", "items": ["Trial the professional solution on a real client", "Train the team on shade selection and application", "Choose the opening booth and take-home range", "Have launch assets ready before demand peaks"]},
+        {"type": "offer", "html": "This isn't a discount play. It's a premium service system designed to help {{salon_name}} walk into the season prepared and confident."},
+        {"type": "cta", "label": "Map out the setup", "url": "{{calendar_link}}"},
+        {"type": "note", "html": "A complimentary trial is the easiest place to start — reply and I'll arrange it."}
+      ]
+    },
+    {
+      "output": "emails/5-last-call.html",
+      "alias": "au-sydney-stockist-5-last-call",
+      "title": "Shall I close the file?",
+      "preview": "Closing this out — but the shade guide is yours to keep.",
+      "eyebrow": "Last one from me",
+      "headline": "I'll leave it there.",
+      "blocks": [
+        {"type": "paragraph", "html": "Hi {{first_name}},"},
+        {"type": "paragraph", "html": "I've reached out a couple of times about getting {{salon_name}} set up with Jimmy Coco before summer, and haven't heard back — which is completely fine. I won't keep filling your inbox."},
+        {"type": "paragraph", "html": "I'll close the file for now. If the timing's just off, reply any time and I'll pick it straight back up — there's no deadline and nothing expires."},
+        {"type": "paragraph", "html": "Either way, here's Jimmy's shade guide to keep — it's genuinely useful for any solution you're working with."},
+        {"type": "cta", "label": "Keep Jimmy's shade guide", "url": "{{shade_guide_link}}"},
+        {"type": "note", "html": "Thanks for reading — I appreciate your time."}
+      ]
+    }
+  ]
+}

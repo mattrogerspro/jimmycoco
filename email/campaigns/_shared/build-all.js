@@ -16,7 +16,8 @@ const allManifests = [
   'au-salon-account-flow/email-data.json',
   'uk-salon-stockist/email-data.json',
   'uae-dubai-salon-stockist/email-data.json',
-  'us-west-coast-salon-stockist/email-data.json'
+  'us-west-coast-salon-stockist/email-data.json',
+  'au-sydney-salon-stockist/email-data.json'
 ];
 
 const args = process.argv.slice(2);

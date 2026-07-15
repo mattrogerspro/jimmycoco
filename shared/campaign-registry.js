@@ -101,6 +101,26 @@ export const campaignRegistry = [
       { key: '05', number: 5, day: 18, templateAlias: 'uae-stockist-5-close-the-loop', templateId: '5b53dafb-1349-4616-93b9-e74368135c70', subject: 'Shall I close this for now?', requiredVariables: ['BUSINESS_NAME', 'SHADE_GUIDE_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS'] },
     ],
   },
+  {
+    id: 'au-sydney-salon-stockist',
+    version: '2026-07-14.1',
+    name: 'Sydney Stockist Recruitment',
+    market: 'AU',
+    mode: 'sequence',
+    classification: 'promotional',
+    enabled: false,
+    timezone: 'Australia/Sydney',
+    localSendHour: 10,
+    minimumContactGapHours: 16,
+    exitEvents: ['reply', 'trial_requested', 'sample_requested', 'call_booked', 'unsubscribe', 'complaint', 'hard_bounce', 'existing_customer', 'manual_suppression'],
+    steps: [
+      { key: '01', number: 1, day: 0, templateAlias: 'au-sydney-stockist-1-opener', templateId: '49f9fe6c-62f5-4dec-83ae-839692875e35', subject: 'A sun-safe glow for your salon?', requiredVariables: ['SALON_NAME', 'SENDER_EMAIL', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'CITY'] },
+      { key: '02', number: 2, day: 3, templateAlias: 'au-sydney-stockist-2-believable-colour', templateId: '21274f8f-af91-45b7-bad6-9cefb77ce275', subject: 're: colour that survives a Sydney summer', requiredVariables: ['SALON_NAME', 'SENDER_EMAIL', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'CITY'] },
+      { key: '03', number: 3, day: 8, templateAlias: 'au-sydney-stockist-3-two-revenue-lines', templateId: '4378deba-1be5-4a7b-ab5f-c758812e63e2', subject: 'Two tan revenue lines, one partner', requiredVariables: ['SALON_NAME', 'CALENDAR_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'CITY'] },
+      { key: '04', number: 4, day: 13, templateAlias: 'au-sydney-stockist-4-season-readiness', templateId: '6d3b070c-5ccb-4116-8965-d57b3529ec72', subject: 'Your summer is booked before summer starts', requiredVariables: ['SALON_NAME', 'CALENDAR_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'CITY'] },
+      { key: '05', number: 5, day: 20, templateAlias: 'au-sydney-stockist-5-last-call', templateId: '8187b327-1679-4399-a40c-9f4b5b50d642', subject: 'Shall I close the file?', requiredVariables: ['SALON_NAME', 'SHADE_GUIDE_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'CITY'] },
+    ],
+  },
 ]
 
 export const campaignsById = Object.fromEntries(campaignRegistry.map((campaign) => [campaign.id, campaign]))

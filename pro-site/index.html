@@ -19,7 +19,7 @@
   body{background:var(--paper);color:var(--ink2);font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:21px;line-height:1.65;-webkit-font-smoothing:antialiased}
   img{display:block;max-width:100%}
   a{color:inherit}
-  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+  .wrap{max-width:min(90vw,1900px);margin:0 auto;padding:0 24px}
   .eyebrow{font-size:13.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:16px}
   h2{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(36px,4.8vw,56px);line-height:1.08;color:var(--ink);letter-spacing:-.01em;margin-bottom:18px}
   .sub{font-size:23px;color:var(--muted);max-width:720px}
@@ -111,13 +111,14 @@
   .calc-cta p{color:#B7AB9B;font-size:17px;margin-top:12px}
   /* litre facts band */
   .lstat.lstat-one{grid-template-columns:1fr}
-  .facts{background:var(--paper);border:1px solid var(--line);border-radius:8px;margin-top:56px;padding:40px 36px 34px;display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
-  .fact{display:flex;gap:18px;align-items:center}
-  .fact img{width:92px;height:92px;border-radius:50%;flex:0 0 92px;box-shadow:0 4px 14px rgba(25,21,18,.08)}
-  .fact b{display:block;font-size:16.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:5px;line-height:1.3}
-  .fact span{font-size:16.5px;color:var(--muted);line-height:1.45;display:block}
-  .facts-tag{text-align:center;font-size:17px;color:var(--muted);margin-top:22px}
-  .facts-tag b{color:var(--bronze2)}
+  .facts-strip{background:#281E15;border-top:1px solid rgba(201,149,103,.28);border-bottom:1px solid rgba(201,149,103,.28);padding:60px 0 48px}
+  .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:36px}
+  .fact{display:flex;gap:22px;align-items:center}
+  .fact img{width:100px;height:100px;border-radius:50%;flex:0 0 100px;box-shadow:0 6px 20px rgba(0,0,0,.38)}
+  .fact b{display:block;font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:#FFFDF9;margin-bottom:6px;line-height:1.3}
+  .fact span{font-size:17.5px;color:#B7AB9B;line-height:1.5;display:block}
+  .facts-tag{text-align:center;font-size:18px;color:#B7AB9B;margin-top:32px}
+  .facts-tag b{color:var(--gold)}
   /* steps */
   .steps-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
   .step{display:flex;gap:22px;padding:24px 0;border-bottom:1px solid var(--line)}
@@ -164,7 +165,8 @@
     .shade-grid,.shop-grid{grid-template-columns:1fr;max-width:460px;margin:44px auto 0}
     .nav-links{display:none}
     .fcards,.calc-out,.fieldrow,.lstat{grid-template-columns:1fr}
-    .facts{grid-template-columns:1fr;gap:22px;padding:28px 24px}
+    .facts{grid-template-columns:1fr;gap:26px}
+    .facts-strip{padding:44px 0 38px}
     .ocard.hero-num b{font-size:38px}
     .sticky-cta{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;background:var(--paper);border-top:1px solid var(--line);padding:12px 16px;gap:10px}
     .sticky-cta .btn{flex:1;padding:15px 10px;font-size:13.5px}
@@ -273,6 +275,11 @@
         <p class="note" style="color:var(--muted);font-size:14px;margin-top:14px">*Based on the standard £60 litre at 27 tans. Trade pricing improves this further — confirmed on your setup call.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<div class="facts-strip">
+  <div class="wrap">
     <div class="facts">
       <div class="fact"><img src="data:image/jpeg;base64,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" alt="Professional spray tan icon"><div><b>Professional spray tan</b><span>Designed for a flawless full body tan</span></div></div>
       <div class="fact"><img src="data:image/jpeg;base64,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" alt="One litre bottle icon"><div><b>1 Litre · 33.81 fl.oz.</b><span>Salon size for maximum value</span></div></div>
@@ -281,7 +288,7 @@
     </div>
     <p class="facts-tag"><b>♥</b> Perfect for mobile &amp; salon professionals — consistent results, maximum value from every drop.</p>
   </div>
-</section>
+</div>
 
 <!-- CALCULATOR -->
 <section class="calc" id="calculator">

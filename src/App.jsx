@@ -663,6 +663,35 @@ function Guides({ query }) {
   }, [allGuides, query])
   const [selectedId, setSelectedId] = useState(allGuides[0]?.id)
   const selected = filtered.find((doc) => doc.id === selectedId) || filtered[0]
+  const reportFrameRef = useRef(null)
+
+  const fitReport = () => {
+    const frame = reportFrameRef.current
+    const doc = frame?.contentWindow?.document?.documentElement
+    if (!frame || !doc || document.fullscreenElement === frame) return
+    frame.style.height = `${doc.scrollHeight + 2}px`
+  }
+  const openFullscreen = () => {
+    const frame = reportFrameRef.current
+    if (frame?.requestFullscreen) frame.requestFullscreen()
+    else if (frame?.webkitRequestFullscreen) frame.webkitRequestFullscreen()
+  }
+  useEffect(() => {
+    if (selected?.type !== 'report') return undefined
+    const timer = window.setTimeout(fitReport, 400)
+    window.addEventListener('resize', fitReport)
+    return () => { window.clearTimeout(timer); window.removeEventListener('resize', fitReport) }
+  }, [selected])
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const frame = reportFrameRef.current
+      if (!frame) return
+      if (document.fullscreenElement === frame) frame.style.height = '100%'
+      else fitReport()
+    }
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
+  }, [])
 
   return (
     <div className="page playbook-page">
@@ -684,7 +713,17 @@ function Guides({ query }) {
           {selected ? (selected.type === 'report' ? (
             <>
               <div className="document-meta"><span>Branded report</span><span>Source file · public/guides/{selected.filename}</span></div>
-              <iframe title={selected.title} src={selected.src} style={{ width: '100%', minHeight: '78vh', border: '1px solid rgba(36, 33, 30, 0.12)', borderRadius: '12px', background: '#EAE2D8' }} />
+              <div style={{ display: 'flex', gap: '10px', margin: '0 0 16px' }}>
+                <button className="secondary-button" onClick={openFullscreen}><Icon name="monitor" size={15} /> Full screen</button>
+                <a className="secondary-button" style={{ textDecoration: 'none' }} href={selected.src} target="_blank" rel="noreferrer"><Icon name="external" size={15} /> Open in new tab</a>
+              </div>
+              <iframe
+                ref={reportFrameRef}
+                title={selected.title}
+                src={selected.src}
+                onLoad={fitReport}
+                style={{ width: '100%', height: '1400px', border: 0, borderRadius: '12px', background: '#EAE2D8', display: 'block' }}
+              />
             </>
           ) : (
             <>

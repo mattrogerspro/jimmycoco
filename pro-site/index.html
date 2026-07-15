@@ -26,7 +26,14 @@
   section{padding:88px 0}
   .announce{background:var(--dark);color:#EDE4D7;text-align:center;font-size:14px;letter-spacing:.16em;text-transform:uppercase;padding:11px 14px}
   .announce b{color:var(--gold);font-weight:600}
-  header{position:sticky;top:0;z-index:50;background:rgba(253,251,248,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  header{position:sticky;top:0;z-index:50;background:rgba(253,251,248,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);transition:background .35s ease,border-color .35s ease}
+  header.scrolled{background:rgba(18,14,11,.96);border-bottom-color:rgba(201,149,103,.34)}
+  header.scrolled .logo{background:linear-gradient(100deg,#EBCB9C,#C99567 55%,#EBCB9C);-webkit-background-clip:text;background-clip:text}
+  header.scrolled .logo small{-webkit-text-fill-color:var(--gold);color:var(--gold)}
+  header.scrolled .protag{color:var(--gold);border-color:rgba(201,149,103,.5)}
+  header.scrolled .nav-links a{color:#EBCB9C}
+  header.scrolled .nav-links a:hover{color:#fff}
+  header.scrolled .btn-bronze{background:var(--gold);color:#20180f}
   .nav{display:flex;align-items:center;gap:30px;height:74px}
   .logo{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:27px;letter-spacing:.16em;background:linear-gradient(100deg,#C99567,#8F5B33 60%,#C99567);-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none;line-height:1}
   .logo small{display:block;font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.4em;color:var(--ink2);-webkit-text-fill-color:var(--ink2);margin-top:3px;font-weight:500}
@@ -79,8 +86,8 @@
   .sig small{display:block;font-family:'Jost',sans-serif;font-style:normal;font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:6px}
   /* formula */
   .formula{background:var(--cream);position:relative;overflow:hidden}
-  .fx-bg{position:absolute;top:0;bottom:0;left:0;width:68%;z-index:0;background:#E7DBCB;background-image:url('img/formula-bg.webp');background-repeat:no-repeat;background-size:cover;background-position:22% center}
-  .fx-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--cream) 0%,rgba(246,241,234,.9) 24%,rgba(246,241,234,.5) 44%,rgba(246,241,234,.12) 62%,rgba(246,241,234,0) 74%),linear-gradient(90deg,rgba(246,241,234,0) 84%,var(--cream) 100%)}
+  .fx-bg{position:absolute;top:0;bottom:0;left:0;width:70%;z-index:0;background:#E7DBCB;background-image:url('img/formula-bg.webp');background-repeat:no-repeat;background-size:cover;background-position:center}
+  .fx-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--cream) 0%,rgba(246,241,234,.9) 22%,rgba(246,241,234,.5) 40%,rgba(246,241,234,.12) 56%,rgba(246,241,234,0) 66%),linear-gradient(90deg,rgba(246,241,234,0) 95%,rgba(246,241,234,.55) 100%)}
   .fx-grid{position:relative;z-index:1;display:grid;grid-template-columns:64px 1fr 1.05fr .82fr;gap:52px;align-items:stretch}
   .fx-rail{display:flex;flex-direction:column;align-items:center;gap:24px;padding:8px 0}
   .fx-line{flex:0 0 90px;width:1px;background:var(--ink2);opacity:.35}
@@ -639,6 +646,16 @@
   }
   ids.forEach(function (k) { el[k].addEventListener('input', calc); });
   calc();
+})();
+</script>
+
+<script>
+(function () {
+  var h = document.querySelector('header');
+  if (!h) return;
+  function onScroll(){ h.classList.toggle('scrolled', window.scrollY > 30); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 })();
 </script>
 

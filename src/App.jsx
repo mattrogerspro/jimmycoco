@@ -663,19 +663,39 @@ function Guides({ query }) {
   }, [allGuides, query])
   const [selectedId, setSelectedId] = useState(allGuides[0]?.id)
   const selected = filtered.find((doc) => doc.id === selectedId) || filtered[0]
+  const [reportZoom, setReportZoom] = useState(1)
   const reportFrameRef = useRef(null)
+  const reportShellRef = useRef(null)
 
   const fitReport = () => {
     const frame = reportFrameRef.current
     const doc = frame?.contentWindow?.document?.documentElement
-    if (!frame || !doc || document.fullscreenElement === frame) return
+    if (!frame || !doc || document.fullscreenElement) return
     frame.style.height = `${doc.scrollHeight + 2}px`
   }
-  const openFullscreen = () => {
-    const frame = reportFrameRef.current
-    if (frame?.requestFullscreen) frame.requestFullscreen()
-    else if (frame?.webkitRequestFullscreen) frame.webkitRequestFullscreen()
+  const applyReportZoom = () => {
+    const body = reportFrameRef.current?.contentWindow?.document?.body
+    if (body) body.style.zoom = reportZoom
   }
+  const adjustReportZoom = (delta) => {
+    setReportZoom((zoom) => Math.min(3, Math.max(0.5, Math.round((zoom + delta) * 100) / 100)))
+  }
+  const resetReportZoom = () => setReportZoom(document.fullscreenElement === reportShellRef.current ? 2 : 1)
+  const openFullscreen = () => {
+    const shell = reportShellRef.current
+    if (shell?.requestFullscreen) shell.requestFullscreen()
+    else if (shell?.webkitRequestFullscreen) shell.webkitRequestFullscreen()
+  }
+  const handleReportLoad = () => {
+    applyReportZoom()
+    fitReport()
+  }
+  useEffect(() => {
+    if (selected?.type !== 'report') return undefined
+    applyReportZoom()
+    const timer = window.setTimeout(fitReport, 80)
+    return () => window.clearTimeout(timer)
+  }, [reportZoom, selected])
   useEffect(() => {
     if (selected?.type !== 'report') return undefined
     const timer = window.setTimeout(fitReport, 400)
@@ -684,10 +704,17 @@ function Guides({ query }) {
   }, [selected])
   useEffect(() => {
     const handleFullscreenChange = () => {
+      const shell = reportShellRef.current
       const frame = reportFrameRef.current
-      if (!frame) return
-      if (document.fullscreenElement === frame) frame.style.height = '100%'
-      else fitReport()
+      if (!shell || !frame) return
+      if (document.fullscreenElement === shell) {
+        frame.style.flex = '1 1 auto'
+        frame.style.height = 'auto'
+        setReportZoom(2)
+      } else {
+        frame.style.flex = ''
+        setReportZoom(1)
+      }
     }
     document.addEventListener('fullscreenchange', handleFullscreenChange)
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
@@ -713,17 +740,24 @@ function Guides({ query }) {
           {selected ? (selected.type === 'report' ? (
             <>
               <div className="document-meta"><span>Branded report</span><span>Source file · public/guides/{selected.filename}</span></div>
-              <div style={{ display: 'flex', gap: '10px', margin: '0 0 16px' }}>
-                <button className="secondary-button" onClick={openFullscreen}><Icon name="monitor" size={15} /> Full screen</button>
-                <a className="secondary-button" style={{ textDecoration: 'none' }} href={selected.src} target="_blank" rel="noreferrer"><Icon name="external" size={15} /> Open in new tab</a>
+              <div ref={reportShellRef} style={{ display: 'flex', flexDirection: 'column', background: '#EAE2D8', borderRadius: '12px', overflow: 'hidden' }}>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap', padding: '10px 12px', background: '#FBF8F3', borderBottom: '1px solid rgba(36, 33, 30, 0.1)' }}>
+                  <button className="secondary-button" onClick={openFullscreen}><Icon name="monitor" size={15} /> Full screen</button>
+                  <a className="secondary-button" style={{ textDecoration: 'none' }} href={selected.src} target="_blank" rel="noreferrer"><Icon name="external" size={15} /> Open in new tab</a>
+                  <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginLeft: 'auto' }} aria-label="Report zoom controls">
+                    <button className="icon-button" onClick={() => adjustReportZoom(-0.25)} disabled={reportZoom <= 0.5} aria-label="Zoom out" style={{ fontSize: '17px', lineHeight: 1 }}>−</button>
+                    <button className="secondary-button" onClick={resetReportZoom} aria-label="Reset zoom" title="Reset zoom" style={{ minWidth: '64px', justifyContent: 'center' }}>{Math.round(reportZoom * 100)}%</button>
+                    <button className="icon-button" onClick={() => adjustReportZoom(0.25)} disabled={reportZoom >= 3} aria-label="Zoom in" style={{ fontSize: '17px', lineHeight: 1 }}>+</button>
+                  </div>
+                </div>
+                <iframe
+                  ref={reportFrameRef}
+                  title={selected.title}
+                  src={selected.src}
+                  onLoad={handleReportLoad}
+                  style={{ width: '100%', height: '1400px', border: 0, background: '#EAE2D8', display: 'block' }}
+                />
               </div>
-              <iframe
-                ref={reportFrameRef}
-                title={selected.title}
-                src={selected.src}
-                onLoad={fitReport}
-                style={{ width: '100%', height: '1400px', border: 0, borderRadius: '12px', background: '#EAE2D8', display: 'block' }}
-              />
             </>
           ) : (
             <>

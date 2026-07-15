@@ -170,74 +170,80 @@
   footer a{color:#C9BCAB;text-decoration:none;margin-right:20px}
   .buildlog{margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid rgba(237,228,215,.12);font-size:14px;color:#8F857A;display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
   .buildlog a{color:#C9BCAB;text-decoration:underline;margin-right:12px}
-  /* compact fit — laptop heights: whole buy box lands above the fold */
+  /* compact fit — laptop heights: full-size type, tighter horizontal layout */
   @media (min-width:1000px) and (max-height:1240px){
-    .announce{font-size:12.5px;padding:5px 12px}
-    .nav{height:54px}
-    .logo{font-size:21px}
-    .logo small{font-size:8px;margin-top:2px}
-    .nav-links{font-size:14px;gap:20px}
-    .nav .btn{padding:12px 22px;font-size:12.5px}
-    .protag{font-size:10px;padding:3px 8px}
-    .crumbs{font-size:12.5px;padding:10px 0 0}
-    .pdp{padding:14px 0 56px;gap:44px}
-    .gallery{top:64px}
-    .gmain img{aspect-ratio:auto;height:calc(100vh - 300px);min-height:380px}
-    .gthumbs{gap:8px;margin-top:8px}
-    .bb-eyebrow{font-size:12px;letter-spacing:.22em;margin-bottom:7px}
-    .buybox h1{font-size:26px;margin-bottom:7px}
+    .crumbs{padding:10px 0 0}
+    .pdp{padding:14px 0 56px;gap:48px;grid-template-columns:.92fr 1.08fr}
+    .gallery{top:90px}
+    .gmain img{aspect-ratio:auto;height:calc(100vh - 330px);min-height:400px}
+    .gthumbs{gap:9px;margin-top:9px}
+    .bb-eyebrow{font-size:15px;margin-bottom:6px}
+    .buybox h1{font-size:clamp(30px,2.8vw,44px);margin-bottom:8px}
     .bbr{display:none}
-    .rating-row{font-size:13.5px;margin-bottom:4px;gap:12px}
-    .stars{font-size:14px}
-    .press{margin:2px 0 10px;font-size:11.5px;gap:14px}
-    .press b{font-size:12.5px}
-    .price-row{margin:2px 0 2px;gap:12px}
-    .price-big{font-size:30px}
-    .price-big small{font-size:14px}
-    .pertan{padding:4px 12px;font-size:13px}
-    .klarna{font-size:12px;margin-bottom:8px}
-    .bicons{margin:10px 0}
-    .bicons div{padding:9px 8px;font-size:12px}
-    .bicons i{font-size:16px;margin-bottom:3px}
-    .sel-label{margin:10px 0 7px;font-size:11px}
-    .sel-label output{font-size:13px}
-    .shades{gap:8px}
-    .shade-opt{padding:8px 6px 7px;font-size:11.5px}
-    .shade-opt i{width:20px;height:20px;margin-bottom:5px}
-    .stepper button{width:40px;font-size:17px;height:38px}
-    .stepper output{width:46px;font-size:15px}
-    .qpick{padding:0 14px;font-size:13px}
-    .maths{padding:12px 18px;margin:12px 0 10px;gap:12px}
-    .maths div span{font-size:10px;margin-bottom:2px}
-    .maths div b{font-size:19px}
-    .maths div small{font-size:10.5px;margin-top:2px}
-    .cta-col{gap:7px}
-    .cta-col .btn{padding:12px 14px;font-size:13px}
-    .trust-row{margin-top:10px}
-    .trust-row div{font-size:11px}
-    .trust-row i{font-size:14px;margin-bottom:2px}
-    .trust-row b{font-size:11.5px}
+    .social-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 26px;margin:0 0 6px}
+    .rating-row{margin:0;font-size:16px}
+    .stars{font-size:17px}
+    .press{margin:0;font-size:13.5px;gap:15px}
+    .press b{font-size:14.5px}
+    .price-row{margin:0 0 2px;gap:14px}
+    .price-big{font-size:44px}
+    .price-big small{font-size:17px}
+    .pertan{padding:6px 16px;font-size:15px}
+    .klarna{font-size:14.5px;margin-bottom:8px}
+    .bicons{display:flex;gap:34px;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;margin:10px 0;padding:11px 2px}
+    .bicons div{background:transparent;padding:0;display:flex;align-items:center;gap:9px;font-size:16px}
+    .bicons i{margin:0;font-size:19px}
+    .sel-label{margin:10px 0 7px;font-size:13.5px}
+    .sel-label output{font-size:16px}
+    .shades{gap:9px}
+    .shade-opt{display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 8px;font-size:15px}
+    .shade-opt i{margin:0;width:24px;height:24px;flex:none}
+    .qty-line{display:flex;align-items:center;gap:18px;margin-top:10px}
+    .qty-line .sel-label{margin:0;white-space:nowrap}
+    .stepper button{width:46px;font-size:20px;height:50px}
+    .stepper output{width:54px;font-size:18px}
+    .qpick{padding:0 18px;font-size:15.5px}
+    .maths{padding:14px 24px;margin:12px 0 10px;gap:16px}
+    .maths div span{font-size:11.5px;margin-bottom:2px}
+    .maths div b{font-size:24px}
+    .maths div small{font-size:12px;margin-top:2px}
+    .cta-col{flex-direction:row;gap:10px}
+    .cta-col .btn{flex:1;padding:17px 12px;font-size:14.5px;letter-spacing:.1em}
+    .cta-long{display:none}
+    .trust-row{margin-top:12px}
+    .trust-row div{font-size:12.5px}
+    .trust-row i{font-size:16px;margin-bottom:2px}
+    .trust-row b{font-size:13.5px}
     body .sticky-order{padding:8px 0}
-    body .sticky-order .btn{padding:11px 22px;font-size:12.5px}
+    body .sticky-order .btn{padding:12px 24px;font-size:13px}
   }
-  /* extra-short laptops (≈750px viewports) */
+  /* narrower laptops inside compact mode: keep shade + qty rows on one line */
+  @media (min-width:1000px) and (max-width:1400px) and (max-height:1240px){
+    .shade-opt{font-size:13.5px;gap:8px;padding:13px 5px;white-space:nowrap}
+    .shade-opt i{width:21px;height:21px}
+    .qty-line{gap:12px}
+    .stepper button{width:42px}
+    .stepper output{width:48px}
+    .qpick{padding:0 15px;font-size:14.5px}
+  }
+  /* extra-short laptops (approx. 750px viewports) */
   @media (min-width:1000px) and (max-height:820px){
-    .crumbs{padding:6px 0 0}
-    .pdp{padding:10px 0 56px}
-    .buybox h1{margin-bottom:5px}
-    .press{margin:0 0 7px}
+    .crumbs{padding:4px 0 0}
+    .pdp{padding:8px 0 56px}
+    .buybox h1{margin-bottom:6px}
+    .social-row{margin:0 0 6px}
     .klarna{margin-bottom:6px}
-    .bicons{display:flex;margin:8px 0}
-    .bicons div{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:8px 6px}
-    .bicons i{margin:0;font-size:14px}
+    .bicons{margin:8px 0;padding:7px 2px}
     .sel-label{margin:8px 0 6px}
-    .maths{padding:10px 16px;margin:10px 0 8px}
-    .maths div b{font-size:18px}
-    .cta-col .btn{padding:11px 14px}
+    .qty-line{margin-top:8px}
+    .stepper button{height:42px}
+    .maths{padding:10px 20px;margin:10px 0 8px}
+    .cta-col .btn{padding:14px 12px}
     .trust-row{margin-top:8px}
   }
   /* sticky order bar */
-  .sticky-order{position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(25,21,18,.97);backdrop-filter:blur(8px);padding:14px 0}
+  .sticky-order{position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(25,21,18,.97);backdrop-filter:blur(8px);padding:14px 0;transform:translateY(105%);transition:transform .28s ease}
+  .sticky-order.show{transform:none}
   .sticky-order .wrap{display:flex;align-items:center;gap:20px}
   .so-name{color:#FFFDF9;font-size:17px;font-weight:500;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .so-name small{display:block;color:#B7AB9B;font-size:13.5px;font-weight:400}
@@ -292,8 +298,10 @@
   <div class="buybox">
     <p class="bb-eyebrow">Professional self tan · Salon order</p>
     <h1>Malibu Professional Spray <br class="bbr">1 Litre</h1>
-    <div class="rating-row"><span class="stars">★★★★★</span><span><b>4.9</b> · 1,842 verified reviews</span></div>
-    <div class="press">Featured in <b>VOGUE</b><b>BAZAAR</b><b>COSMOPOLITAN</b></div>
+    <div class="social-row">
+      <div class="rating-row"><span class="stars">★★★★★</span><span><b>4.9</b> · 1,842 verified reviews</span></div>
+      <div class="press">Featured in <b>VOGUE</b><b>BAZAAR</b><b>COSMOPOLITAN</b></div>
+    </div>
     <div class="price-row"><span class="price-big">£60 <small>per litre</small></span><span class="pertan">≈ £2.22 per tan</span></div>
     <p class="klarna">Or 3 interest-free payments of £20.00 with Klarna · Trade terms confirmed on your setup call</p>
 
@@ -311,12 +319,14 @@
       <button class="shade-opt s4" data-shade="Dark · 12% DHA"><i></i>DARK</button>
     </div>
 
+    <div class="qty-line">
     <p class="sel-label">Quantity <output id="o-qty">1 litre</output></p>
     <div class="qtyrow">
       <div class="stepper"><button id="q-minus" aria-label="Decrease quantity">−</button><output id="q-val">1</output><button id="q-plus" aria-label="Increase quantity">+</button></div>
       <button class="qpick active" data-q="1">1 litre</button>
       <button class="qpick" data-q="3">3 litres</button>
       <button class="qpick" data-q="6">6 litres</button>
+    </div>
     </div>
 
     <div class="maths">
@@ -327,7 +337,7 @@
 
     <div class="cta-col">
       <a class="btn btn-bronze" href="#order" id="cta-order">Order for your salon</a>
-      <a class="btn btn-ghost" href="index.html#trial">New to Jimmy Coco? Start with a free trial</a>
+      <a class="btn btn-ghost" href="index.html#trial"><span class="cta-long">New to Jimmy Coco? </span>Start with a free trial</a>
     </div>
 
     <div class="trust-row">
@@ -542,6 +552,17 @@
     });
   });
   render();
+
+  // sticky order bar: only appears once the buy-box CTAs scroll out of view
+  var stickyBar = document.querySelector('.sticky-order');
+  var ctaCol = document.querySelector('.cta-col');
+  if (stickyBar && ctaCol && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      stickyBar.classList.toggle('show', !entries[0].isIntersecting);
+    }, { threshold: 0 }).observe(ctaCol);
+  } else if (stickyBar) {
+    stickyBar.classList.add('show');
+  }
 })();
 </script>
 

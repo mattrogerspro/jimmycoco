@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunless by Jimmy Coco — Full-Funnel Conversion Audit</title>
+<style>
+  :root{--bg:#EAE2D8;--card:#FBF8F3;--accent:#A77952;--text:#3B3630;--heading:#24211E;--dark:#26231F;--line:#E4DACE;--muted:#7A726A;--soft:#F1E9DF;--footer:#948B81;--crit:#B0684F;--good:#66743F}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Helvetica Neue',Arial,sans-serif;font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .page{max-width:880px;margin:0 auto;padding:44px 16px 70px}
+  .masthead{text-align:center;padding:10px 0 30px}
+  .brand{font-size:17px;letter-spacing:.42em;color:var(--dark);text-transform:uppercase;font-weight:600}
+  .brandline{font-size:10px;letter-spacing:.34em;color:var(--accent);text-transform:uppercase;padding-top:6px}
+  .card{background:var(--card);border-radius:5px;padding:48px 54px 42px;margin-bottom:26px}
+  .eyebrow{margin:0 0 16px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+  h1{margin:0 0 18px;font-family:Georgia,serif;font-weight:400;font-size:35px;line-height:1.13;color:var(--heading)}
+  h2{margin:0 0 16px;font-family:Georgia,serif;font-weight:400;font-size:25px;line-height:1.2;color:var(--heading)}
+  h3{margin:26px 0 10px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--heading);font-weight:600}
+  p{margin:0 0 14px}
+  .lede{font-size:17px;line-height:1.65}
+  .meta{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);margin-top:24px;padding-top:13px;line-height:1.7}
+  code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;background:var(--soft);border-radius:3px;padding:1px 6px;color:var(--heading)}
+  table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:13.5px}
+  th{text-align:left;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--accent)}
+  td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
+  tr:last-child td{border-bottom:0}
+  td:first-child{color:var(--heading);font-weight:600}
+  .callout{background:var(--soft);border-left:3px solid var(--accent);padding:16px 20px;margin:20px 0;font-size:14.5px;line-height:1.6}
+  .callout.crit{border-left-color:var(--crit);background:#F3E4DE}
+  .callout strong{color:var(--heading)}
+  .sev{display:inline-block;border-radius:3px;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#FFFDF9;margin-right:6px;vertical-align:middle}
+  .sev.c{background:#8E3B24}.sev.h{background:var(--crit)}.sev.m{background:var(--accent)}.sev.l{background:#948B81}
+  .issue{border:1px solid var(--line);border-radius:8px;padding:18px 22px 14px;margin:0 0 14px}
+  .issue h4{margin:0 0 8px;font-size:15.5px;color:var(--heading)}
+  .issue p{font-size:13.5px;margin:0 0 8px}
+  .issue p b{color:var(--heading)}
+  .scorebar{display:flex;align-items:center;gap:10px;margin:5px 0}
+  .scorebar span:first-child{flex:0 0 210px;font-size:13px;color:var(--heading)}
+  .scorebar .bar{flex:1;height:8px;background:var(--soft);border-radius:4px;overflow:hidden}
+  .scorebar .bar i{display:block;height:100%;border-radius:4px;background:var(--accent)}
+  .scorebar .bar i.lo{background:var(--crit)}.scorebar .bar i.hi{background:var(--good)}
+  .scorebar b{flex:0 0 34px;text-align:right;font-size:13px;color:var(--heading)}
+  .verdict{background:var(--dark);border-radius:8px;padding:26px 30px;margin:22px 0}
+  .verdict p{color:#D9CFC2;font-size:14.5px;margin:0 0 10px}
+  .verdict p b,.verdict h3{color:#EFE7DB}
+  .verdict .big{font-family:Georgia,serif;font-size:24px;color:#FFFDF9;line-height:1.3;margin-bottom:12px}
+  .footer{text-align:center;font-size:11.5px;color:var(--footer);line-height:1.7;padding:8px 20px 0}
+  .grade{display:inline-block;background:var(--crit);color:#FFFDF9;border-radius:4px;padding:7px 14px;font-size:13px;font-weight:700;letter-spacing:.06em}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><div class="brand">SUNLESS</div><div class="brandline">by Jimmy Coco</div></div>
+
+  <div class="card">
+    <p class="eyebrow">Internal commercial review · jimmycoco.co.uk</p>
+    <h1>Full-funnel conversion audit.</h1>
+    <p class="lede">A commercial design review of the current purchase funnel — entry page, both product pages, cart and checkout, plus the embedded Professional Solutions deck — conducted against conversion, trust and revenue outcomes, not aesthetics. The verdict up front: the photography and brand surface are genuinely premium, but the funnel underneath is leaking at every stage, and three of the leaks are severe. The good news is that most fixes are days, not months, and the biggest one is strategic clarity rather than redesign labour.</p>
+    <div class="meta">Prepared 15 July 2026 · Sources: full-page captures in <code>/prosite/</code> (entry page, A-List Glow Kit PDP, Buff &amp; Glow Mitt PDP, cart, checkout, six deck slides) · Benchmarked against the brand's own repository standards (voice, claims and urgency playbooks) and category leaders · Desktop captures; mobile behaviour inferred and flagged as such</div>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">Part one · Commercial context &amp; first impression</p>
+    <h2>The strategic problem: one page serving two different buyers</h2>
+    <p>The page provided as the funnel entry is <code>/pages/why-choose-pro-professional</code> — a <b>trade recruitment page</b> ("THE PRO EDIT — why leading salons choose Jimmy Coco", an embedded B2B sales deck, a £60 professional litre) that is simultaneously doing duty as a <b>consumer landing page</b> ("Shop the professional collection", a £15 mitt, a £79 consumer kit, retail free-shipping offer). Two different buyers, two different decisions, one page — and it converts neither well.</p>
+    <p>A salon owner assessing a wholesale partner needs terms, proof of sell-through and a contact path — none present (the deck has no CTA at all). A consumer wanting a tan needs a reason to believe, social proof and an easy first purchase — but is greeted by a headline about Jimmy, a trade deck she won't read, and the words "professional solutions" describing products she can't identify with. <b>Every downstream problem in this audit is smaller than this one.</b></p>
+    <h3>Five-second test — score 4/10</h3>
+    <p>What the eye meets first: a marquee shipping bar (×3 repeats), then a hero of Jimmy with the headline "THE GO-TO TANNING PRO AND HOLLYWOOD FAVOURITE, JIMMY COCO." It answers <i>who Jimmy is</i> — not <i>what this does for me</i>, <i>why I should care</i>, or <i>what to do next</i>. There is <b>no CTA anywhere in the hero</b>, no product visible, no outcome promised. A first-time visitor knows the founder's name and nothing else. The one-sentence test fails for a consumer ("a celebrity tanner's… something?") and half-passes for trade.</p>
+    <h3>Likely visitor objections, and whether the page answers them</h3>
+    <table>
+      <tr><th>Objection</th><th>Answered?</th><th>Where / gap</th></tr>
+      <tr><td>Will it look natural, not orange?</td><td>Partly</td><td>Claimed in deck slide copy — locked inside images, low credibility, no proof</td></tr>
+      <tr><td>Does it work for people like me?</td><td>No</td><td>Zero reviews, UGC or before/afters anywhere on the entry page</td></tr>
+      <tr><td>Is £79 justified?</td><td>No</td><td>Kit shows no per-item value anchor, and has zero reviews</td></tr>
+      <tr><td>Is this site legitimate?</td><td>Undermined</td><td>A raw Liquid error prints in the cart; glitched logo on deck slide 1</td></tr>
+      <tr><td>What if it goes wrong?</td><td>Buried</td><td>14-day money-back guarantee exists — hidden inside a PDP accordion</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">Part two · The five critical findings</p>
+    <h2>What is actually costing revenue</h2>
+
+    <div class="issue"><h4><span class="sev c">Critical</span>1 · A raw error message prints in the cart</h4>
+      <p><b>Location:</b> Cart page, directly under the line items: <code>Liquid error (sections/main-cart-items line 272): Cannot render sections inside sections</code> — the broken "Add These Essentials" cross-sell block.</p>
+      <p><b>Why it matters:</b> the cart is the moment of maximum spend anxiety. A visible code error at that moment reads as "this site is broken — is my card safe here?" (trust heuristics: surface polish is used as a proxy for backend competence). It also means the cross-sell — the single best AOV lever on the page — renders as an error instead of revenue.</p>
+      <p><b>Fix:</b> repair or remove the section include (a Shopify theme fix, likely under an hour). Replace with a working "complete your routine" row that never recommends items already in the cart. <b>Effort: low. This is the first thing to fix — today.</b></p></div>
+
+    <div class="issue"><h4><span class="sev c">Critical</span>2 · The hero asks for nothing</h4>
+      <p><b>Location:</b> Entry-page hero.</p>
+      <p><b>Why it matters:</b> the most valuable pixels on the site contain a biography headline, no benefit, no button. Visual momentum dies immediately; the first actionable element is three screens down. Serial-position effect means this hero is what visitors remember — and what they remember is a name, not an offer.</p>
+      <p><b>Fix:</b> outcome-led headline + one primary CTA + proof strip (see the blueprint and copy options in Part five). <b>Effort: low-medium.</b></p></div>
+
+    <div class="issue"><h4><span class="sev c">Critical</span>3 · B2B and B2C are one funnel</h4>
+      <p><b>Location:</b> Everywhere — trade deck and £60/1L professional spray sit beside consumer retail; the consumer cart contains a discounted trade litre; "professional collection" labels consumer products.</p>
+      <p><b>Why it matters:</b> split audiences halve message relevance for both. Worse, discounting the professional litre 25% in a public consumer cart quietly undercuts the salon proposition the brand is simultaneously recruiting for (why stock it if consumers buy the trade product cheaper?), and contradicts the brand's own standard that premium positioning never leads with discounting.</p>
+      <p><b>Fix:</b> hard-split the paths. Consumers get a true retail landing page; the pro page keeps the deck but gains a trade-enquiry CTA and loses retail pricing. <b>Effort: medium. Highest strategic payoff.</b></p></div>
+
+    <div class="issue"><h4><span class="sev h">High</span>4 · The flagship £79 kit has zero social proof</h4>
+      <p><b>Location:</b> A-List Glow Kit PDP — "Be the first to write a review" on the hero product, while the £15 mitt shows 20 five-star reviews.</p>
+      <p><b>Why it matters:</b> the highest-consideration purchase carries the least reassurance; at £79 unproven beats-nobody. The kit also never anchors its value (six items, no "worth £X individually" arithmetic despite claiming "save when purchased as a bundle"), and its variant selector is genuinely confusing — "Sunset / Hazy Rose" buttons sit under a lip-balm caption while the kit itself is "Medium", so the buyer can't tell what she's choosing.</p>
+      <p><b>Fix:</b> seed reviews (post-purchase email flow — the infrastructure already exists), add itemised value anchoring ("£112 of products — £79 as the kit"), relabel the selector ("Choose your free lip balm shade"), and move the guarantee out of the accordion to sit beside Add to bag. <b>Effort: low-medium.</b></p></div>
+
+    <div class="issue"><h4><span class="sev h">High</span>5 · The core sales story is trapped inside images</h4>
+      <p><b>Location:</b> The six-slide Professional Solutions deck, embedded as a two-up image carousel.</p>
+      <p><b>Why it matters:</b> everything persuasive the brand has to say — formula benefits, shades, ingredients, application, retail range — is unreadable at carousel size, invisible to Google, invisible to screen readers, unusable on mobile, and interaction-gated behind twelve clicks. Carousel engagement beyond slide one is typically single-digit percent. Slide one also opens with a glitched double-printed logo and a "designed to to bring" typo — on the brand-story slide.</p>
+      <p><b>Fix:</b> rebuild the deck's content as native page sections (text + imagery), keep the PDF as a download for trade. Fix the logo asset and typo regardless. <b>Effort: medium.</b></p></div>
+
+    <div class="callout crit"><strong>Compliance note (High):</strong> the live site copy repeatedly uses claims the brand's own governance forbids without evidence — "streak-free", "zero transfer", "flawless", "non-patchy", "the most natural… and safe way to tan", "suitable for all skin types". Beyond internal inconsistency, absolute claims like these are exactly what the UK ASA challenges. Softening to the approved vocabulary ("even, controlled application", "believable warmth", "designed not to transfer") removes risk without losing persuasion.</div>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">Part three · Page-by-page</p>
+    <h2>Section-by-section findings</h2>
+
+    <h3>Entry page (/pages/why-choose-pro-professional)</h3>
+    <table>
+      <tr><th>Section</th><th>Verdict</th><th>Finding &amp; fix</th></tr>
+      <tr><td>Announcement bar</td><td>Weak</td><td>FREESHIP40 ×3 in a moving marquee: motion for zero information gain (accessibility + banner blindness). Static single instance; make it tappable to auto-apply the code.</td></tr>
+      <tr><td>Navigation</td><td>Useful</td><td>"Who's Loving Sunless?" is charming but low information-scent for the highest-value proof content. Rename "Celebrity Fans" or "Results &amp; Reviews". "Professional" correctly separates trade — build on this.</td></tr>
+      <tr><td>Hero</td><td>Harmful as-is</td><td>No CTA, no outcome, no product. Delete test: replacing it with a benefit-led hero + CTA would <i>increase</i> conversion — the current hero would lose to a blank slate with a button.</td></tr>
+      <tr><td>"The Pro Edit" band</td><td>Distracting</td><td>Trade language addressed to consumers. Move to the pro path.</td></tr>
+      <tr><td>Deck carousel</td><td>Harmful</td><td>See critical finding 5. Content should be native sections; deck becomes a trade download.</td></tr>
+      <tr><td>Product trio</td><td>Essential but starved</td><td>The only shoppable moment on the page: no ratings, no benefit line, generic "Shop now" ×3, a £60 trade litre first. Lead with the kit (hero product), show stars, name the outcome per product, rewrite CTAs (see Part five).</td></tr>
+      <tr><td>Pre-footer</td><td>Dead zone</td><td>A near-empty black band before the footer — prime closing real estate holding payment icons only. Add guarantee + reviews + email capture here.</td></tr>
+    </table>
+
+    <h3>A-List Glow Kit PDP (£79)</h3>
+    <table>
+      <tr><th>Element</th><th>Verdict</th><th>Finding &amp; fix</th></tr>
+      <tr><td>Gallery</td><td>Weak</td><td>Single flat-lay vs the mitt's 7-image carousel. Flagship needs lifestyle, texture, results and contents-breakdown shots.</td></tr>
+      <tr><td>Copy block</td><td>Useful, dense</td><td>Good bones ("What's included" is genuinely persuasive) but wall-of-text; "Why You'll Love It" bullets repeat claims verbatim from above. Chunk with subheads, cut duplication ~30%.</td></tr>
+      <tr><td>Price &amp; anchor</td><td>Missing anchor</td><td>£79 floats with no itemised value. "Six products — £112 bought separately" transforms the ask (anchoring).</td></tr>
+      <tr><td>Variant selector</td><td>High-friction</td><td>Lip-balm shade caption above unlabelled Sunset/Hazy Rose buttons; kit depth ("Medium") only in the title. Purchase-blocking confusion for a careful buyer.</td></tr>
+      <tr><td>Delivery accordion</td><td>Distracting</td><td>Expanded 13-line international rate card pushing everything down. Collapse by default; one-line summary ("Free UK delivery over £30 · 1–3 days").</td></tr>
+      <tr><td>Reviews</td><td>Missing</td><td>Zero on the flagship. Priority one for this page.</td></tr>
+    </table>
+
+    <h3>Buff &amp; Glow Mitt PDP (£15) — the best page in the funnel</h3>
+    <p>Twenty five-star reviews, three credibility badges (Vegan, Made in Britain), a 7-image gallery, tight benefit bullets. It proves the team can build a converting PDP. Two fixes: the same delivery-dump accordion, and "world's first 3-in-1" needs substantiation or softening. Use this page as the internal template for the kit.</p>
+
+    <h3>Cart</h3>
+    <table>
+      <tr><th>Element</th><th>Verdict</th><th>Finding &amp; fix</th></tr>
+      <tr><td>Error text</td><td>Critical</td><td>The Liquid error — fix first (finding 1).</td></tr>
+      <tr><td>Free-shipping momentum</td><td>Missing</td><td>The site's #1 message (free over £40) never appears as progress in the cart ("You're £12 away…"). This is the single cheapest AOV win in e-commerce.</td></tr>
+      <tr><td>Cross-sell</td><td>Broken twice</td><td>The error, plus "You might also like" recommending the mitt <i>already in the cart</i> as a lone card in a huge empty band.</td></tr>
+      <tr><td>CTA hierarchy</td><td>Inverted</td><td>"Continue to checkout" is a small right-aligned button visually outweighed by three express-pay buttons. Make it full-width and dominant; express options secondary.</td></tr>
+      <tr><td>Reassurance</td><td>Missing</td><td>No guarantee, returns or security line at the decision point. One quiet row fixes it.</td></tr>
+    </table>
+
+    <h3>Checkout (Shopify)</h3>
+    <p>Structurally sound — express options first, clean fields, savings surfaced (£15), full policy links. Two notes: the brown "Pay now" reads slightly muddy against the brand palette (test the dark ink #26231F), and order-summary thumbnails inherit the confusing kit variant naming. Checkout is not where this funnel leaks; don't spend effort here first.</p>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">Part four · Scores</p>
+    <h2>Category scores</h2>
+    <div class="scorebar"><span>First impression</span><div class="bar"><i class="lo" style="width:40%"></i></div><b>4.0</b></div>
+    <div class="scorebar"><span>Clarity of proposition</span><div class="bar"><i class="lo" style="width:35%"></i></div><b>3.5</b></div>
+    <div class="scorebar"><span>Visual design</span><div class="bar"><i style="width:65%"></i></div><b>6.5</b></div>
+    <div class="scorebar"><span>Visual hierarchy</span><div class="bar"><i class="lo" style="width:40%"></i></div><b>4.0</b></div>
+    <div class="scorebar"><span>Information architecture</span><div class="bar"><i class="lo" style="width:40%"></i></div><b>4.0</b></div>
+    <div class="scorebar"><span>Cognitive load</span><div class="bar"><i style="width:50%"></i></div><b>5.0</b></div>
+    <div class="scorebar"><span>Copywriting</span><div class="bar"><i class="lo" style="width:45%"></i></div><b>4.5</b></div>
+    <div class="scorebar"><span>Trust</span><div class="bar"><i class="lo" style="width:40%"></i></div><b>4.0</b></div>
+    <div class="scorebar"><span>Conversion psychology</span><div class="bar"><i class="lo" style="width:35%"></i></div><b>3.5</b></div>
+    <div class="scorebar"><span>CTA effectiveness</span><div class="bar"><i class="lo" style="width:35%"></i></div><b>3.5</b></div>
+    <div class="scorebar"><span>Checkout / form UX</span><div class="bar"><i class="hi" style="width:75%"></i></div><b>7.5</b></div>
+    <div class="scorebar"><span>Mobile (inferred)</span><div class="bar"><i class="lo" style="width:45%"></i></div><b>4.5</b></div>
+    <div class="scorebar"><span>Accessibility</span><div class="bar"><i class="lo" style="width:40%"></i></div><b>4.0</b></div>
+    <div class="scorebar"><span>Typography &amp; colour</span><div class="bar"><i style="width:62%"></i></div><b>6.2</b></div>
+    <div class="scorebar"><span>Premium perception</span><div class="bar"><i style="width:60%"></i></div><b>6.0</b></div>
+    <div class="scorebar"><span>Competitive strength</span><div class="bar"><i class="lo" style="width:40%"></i></div><b>4.0</b></div>
+    <p style="margin-top:18px"><span class="grade">Overall 4.6 / 10 — commercially underperforming</span></p>
+    <p style="font-size:13.5px;color:var(--muted);margin-top:10px">Benchmark context: category leaders (Loving Tan, Tan-Luxe, Bondi Sands, Coco &amp; Eve) lead their pages with outcome headlines, review counts in the thousands, UGC galleries, shade-finder quizzes and free-shipping progress bars. This brand has stronger photography and a stronger celebrity story than all of them — and currently deploys almost none of it where buying decisions happen.</p>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">Part five · Redesign blueprint</p>
+    <h2>The consumer landing page, rebuilt for conversion</h2>
+    <p>This is the structure the optimised mock-up will follow — each section earns its place by answering the next objection in sequence:</p>
+    <table>
+      <tr><th>#</th><th>Section</th><th>Job &amp; key elements</th></tr>
+      <tr><td>1</td><td>Hero</td><td>Outcome headline + subline, one primary CTA ("Shop the glow"), secondary "Find your shade", product-in-hand imagery, proof strip (★ rating · "as seen on" press/celebrity line). Static announcement bar above, tappable.</td></tr>
+      <tr><td>2</td><td>Credibility band</td><td>The Hollywood story in one line — Jimmy's authority applied to the buyer's outcome, not a biography. Celebrity/press logos if rights allow.</td></tr>
+      <tr><td>3</td><td>Bestsellers</td><td>Kit first at anchored value ("£112 of products — £79"), mitt with its 20 reviews, soufflé. Stars + one benefit line + specific CTA per card.</td></tr>
+      <tr><td>4</td><td>How it works</td><td>Three steps (prep → apply → develop) with timings — converts the deck's application guide into scannable native content.</td></tr>
+      <tr><td>5</td><td>Proof</td><td>Reviews carousel + UGC/results imagery. The single biggest gap versus competitors.</td></tr>
+      <tr><td>6</td><td>Shade confidence</td><td>Light/Medium/Dark chooser (reusing the deck's swatch imagery) → PDP or quiz. Kills the "wrong shade" objection.</td></tr>
+      <tr><td>7</td><td>Guarantee + shipping</td><td>14-day money-back + free UK delivery over £40, stated plainly with icons — currently the site's best-kept secrets.</td></tr>
+      <tr><td>8</td><td>Email capture</td><td>"Get the Glow Guide + first-order code" — feeds the entire email system already built. Currently no capture exists anywhere.</td></tr>
+      <tr><td>9</td><td>Pro signpost</td><td>One quiet band: "Salon or spa? Explore Professional" → the trade path keeps its deck and gains an enquiry CTA.</td></tr>
+    </table>
+
+    <h3>Hero copy — five options (outcome-led, claims-safe)</h3>
+    <table>
+      <tr><th>Headline</th><th>Subline</th></tr>
+      <tr><td>The red-carpet tan, made practical at home.</td><td>Jimmy Coco's professional formulas — believable colour that reads natural in daylight.</td></tr>
+      <tr><td>Hollywood's tan artist. Your bathroom mirror.</td><td>Salon-quality self-tan, designed for even, controlled application at home.</td></tr>
+      <tr><td>Believable colour. No sun required.</td><td>The professional method behind Hollywood's glow — bottled for home.</td></tr>
+      <tr><td>Glow like you were lit for it.</td><td>Buildable, natural-looking colour from Hollywood's go-to tanning pro.</td></tr>
+      <tr><td>The tan they ask about.</td><td>Jimmy Coco's red-carpet method, now in your routine.</td></tr>
+    </table>
+
+    <h3>CTA rewrites</h3>
+    <table>
+      <tr><th>Location</th><th>Current</th><th>Recommended</th></tr>
+      <tr><td>Hero (new)</td><td>—</td><td><b>Shop the glow</b> · secondary: <b>Find your shade</b></td></tr>
+      <tr><td>Kit card / PDP</td><td>Shop now / Add to bag</td><td><b>Get the complete kit — £79</b> (with "£112 value" beside it)</td></tr>
+      <tr><td>Mitt card</td><td>Shop now</td><td><b>Add the mitt — £15</b> (with ★ 5.0 · 20 reviews)</td></tr>
+      <tr><td>Cart</td><td>Continue to checkout</td><td><b>Checkout securely</b> — full-width, guarantee line beneath</td></tr>
+      <tr><td>Pro band</td><td>—</td><td><b>Partner with Jimmy Coco</b> → trade enquiry</td></tr>
+    </table>
+
+    <h3>Prioritised roadmap (ICE-ranked)</h3>
+    <table>
+      <tr><th>#</th><th>Action</th><th>Impact</th><th>Conf.</th><th>Ease</th><th>ICE</th></tr>
+      <tr><td>1</td><td>Fix the cart Liquid error</td><td>8</td><td>10</td><td>10</td><td>800</td></tr>
+      <tr><td>2</td><td>Hero: headline + CTA + proof strip</td><td>9</td><td>9</td><td>8</td><td>648</td></tr>
+      <tr><td>3</td><td>Cart: free-shipping progress bar + fixed cross-sell + CTA hierarchy</td><td>8</td><td>9</td><td>8</td><td>576</td></tr>
+      <tr><td>4</td><td>Kit PDP: value anchor, selector relabel, guarantee beside CTA, collapse delivery</td><td>8</td><td>9</td><td>7</td><td>504</td></tr>
+      <tr><td>5</td><td>Review generation flow for the kit (email infra exists)</td><td>9</td><td>8</td><td>6</td><td>432</td></tr>
+      <tr><td>6</td><td>Deck → native sections; deck becomes trade download; fix logo + typo</td><td>7</td><td>8</td><td>5</td><td>280</td></tr>
+      <tr><td>7</td><td>Split consumer/pro paths fully; remove trade pricing from consumer flow</td><td>9</td><td>8</td><td>4</td><td>288</td></tr>
+      <tr><td>8</td><td>Email capture section + welcome flow</td><td>8</td><td>8</td><td>6</td><td>384</td></tr>
+      <tr><td>9</td><td>Claims-language pass to approved vocabulary</td><td>6</td><td>9</td><td>8</td><td>432</td></tr>
+      <tr><td>10</td><td>Static announcement bar (kill marquee)</td><td>4</td><td>8</td><td>10</td><td>320</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="verdict">
+      <p class="big">Premium brand, leaking funnel. The assets to fix it already exist.</p>
+      <p><b>Is the funnel converting well today?</b> Almost certainly not to its potential. The entry page doesn't ask, the flagship doesn't reassure, and the cart visibly errors.</p>
+      <p><b>The single highest-impact change:</b> a consumer hero that promises an outcome and asks for the click — followed the same week by the one-hour cart error fix.</p>
+      <p><b>What should not change:</b> the photography, the mitt PDP's structure, the checkout, and the brand's restraint — no fake countdowns or manufactured scarcity were found, and per the brand's own standards none should be added.</p>
+      <p><b>Realistic forecast</b> (assumptions: typical beauty D2C baselines, no traffic change): fixing the top five items plausibly lifts funnel conversion 25–60% relative and AOV 10–20% (shipping-threshold bar + kit anchoring); the strategic B2B/B2C split compounds on top. Treat as ranges to validate with analytics, not promises.</p>
+      <p><b>Next step:</b> the optimised homepage mock-up, built to the Part-five blueprint with the brand's own imagery.</p>
+    </div>
+  </div>
+
+  <div class="footer">Sunless by Jimmy Coco · Internal conversion audit · July 2026 · Compiled from /prosite/ captures; desktop-first, mobile inferred · This document critiques the funnel, not the brand — the brand is the asset the funnel underuses.</div>
+</div>
+</body>
+</html>

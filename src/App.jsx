@@ -664,6 +664,15 @@ function Guides({ query }) {
       src: '/guides/subject-line-system-report.html',
       content: 'subject line preview report flow guardrails gates requirements branded reference',
     },
+    {
+      id: 'report-the-production-system',
+      type: 'report',
+      title: 'The production system: how everything connects',
+      excerpt: 'The systems overview — Claude, the skill, the repo, Vercel, Resend and Supabase: system map, flows, permissions and locks.',
+      filename: 'the-production-system.html',
+      src: '/guides/the-production-system.html',
+      content: 'systems overview architecture claude skill github repository vercel resend supabase mcp webhooks cron worker locks diagram',
+    },
   ]), [])
   const filtered = useMemo(() => {
     if (!query.trim()) return allGuides

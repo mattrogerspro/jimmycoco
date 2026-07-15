@@ -27,6 +27,7 @@ const icons = {
   close: '<path d="m18 6-12 12M6 6l12 12"/>',
   spark: '<path d="m12 3-1.4 3.6a6 6 0 0 1-3.4 3.4L4 11.2l3.2 1.2a6 6 0 0 1 3.4 3.4L12 19l1.4-3.2a6 6 0 0 1 3.4-3.4l3.2-1.2-3.2-1.2a6 6 0 0 1-3.4-3.4Z"/>',
   check: '<path d="m5 12 4 4L19 6"/>',
+  link: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
   help: '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.4 2.4 0 0 1 4.7.6c0 1.6-2.3 2-2.3 3.2"/><path d="M12 16.8h.01"/>',
 }
 
@@ -137,9 +138,26 @@ function MetricCard({ value, label, note, accent }) {
   )
 }
 
-function Overview({ onNavigate, onOpenCampaign }) {
+function CopyLink({ parts }) {
+  const [copied, setCopied] = useState(false)
+  const copy = () => {
+    const hash = parts.filter((part) => part !== null && part !== undefined && part !== '').map((part) => encodeURIComponent(String(part))).join('/')
+    const url = `${window.location.origin}${window.location.pathname}#${hash}`
+    const done = () => { setCopied(true); window.setTimeout(() => setCopied(false), 1600) }
+    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(url).then(done).catch(() => window.prompt('Copy this link', url))
+    else window.prompt('Copy this link', url)
+  }
+  return (
+    <button className="text-button" onClick={copy} title="Copy a shareable link to this exact page" style={{ marginLeft: 'auto', whiteSpace: 'nowrap' }}>
+      <Icon name="link" size={13} /> {copied ? 'Copied' : 'Copy link'}
+    </button>
+  )
+}
+
+function Overview({ routeTo }) {
   const liveCampaign = campaigns.find((campaign) => campaign.status === 'Live') || campaigns[0]
   const recentDocs = [playbookCategories[0]?.documents[0], playbookCategories[3]?.documents[1], playbookCategories[2]?.documents[0]].filter(Boolean)
+  const categorySlugOf = (doc) => doc.id.split('/email/')[1]?.split('/')[0]
 
   return (
     <div className="page overview-page">
@@ -149,7 +167,7 @@ function Overview({ onNavigate, onOpenCampaign }) {
           <h1>Everything in motion,<br /><em>all in one place.</em></h1>
           <p>Review the system, follow every sequence, and see exactly what your customers receive.</p>
         </div>
-        <button className="primary-button" onClick={() => onNavigate('emails')}><Icon name="mail" />View live emails</button>
+        <button className="primary-button" onClick={() => routeTo(['emails'])}><Icon name="mail" />View live emails</button>
       </section>
 
       <section className="metrics-grid" aria-label="Workspace overview">
@@ -162,7 +180,7 @@ function Overview({ onNavigate, onOpenCampaign }) {
         <section className="panel active-campaign-panel">
           <div className="section-heading">
             <div><p className="eyebrow">Currently live</p><h2>{liveCampaign.name}</h2></div>
-            <button className="text-button" onClick={() => { onOpenCampaign(liveCampaign.id); onNavigate('emails') }}>Open campaign <Icon name="arrow" size={15} /></button>
+            <button className="text-button" onClick={() => routeTo(['emails', liveCampaign.id])}>Open campaign <Icon name="arrow" size={15} /></button>
           </div>
           <div className="campaign-highlight">
             <div className="campaign-highlight-top">
@@ -176,15 +194,15 @@ function Overview({ onNavigate, onOpenCampaign }) {
           <div className="next-send">
             <span className="send-icon"><Icon name="send" /></span>
             <div><small>Latest live email</small><strong>{liveCampaign.messages[0]?.title}</strong><span>Branded HTML · Ready to inspect</span></div>
-            <button className="round-arrow" onClick={() => { onOpenCampaign(liveCampaign.id); onNavigate('emails') }} aria-label="Open email"><Icon name="arrow" /></button>
+            <button className="round-arrow" onClick={() => routeTo(['emails', liveCampaign.id, liveCampaign.messages[0]?.index])} aria-label="Open email"><Icon name="arrow" /></button>
           </div>
         </section>
 
         <section className="panel source-panel">
-          <div className="section-heading"><div><p className="eyebrow">Source of truth</p><h2>Recently updated</h2></div><button className="text-button" onClick={() => onNavigate('playbooks')}>All playbooks <Icon name="arrow" size={15} /></button></div>
+          <div className="section-heading"><div><p className="eyebrow">Source of truth</p><h2>Recently updated</h2></div><button className="text-button" onClick={() => routeTo(['playbooks'])}>All playbooks <Icon name="arrow" size={15} /></button></div>
           <div className="recent-list">
             {recentDocs.map((doc, index) => (
-              <button key={doc.id} onClick={() => onNavigate('playbooks')}>
+              <button key={doc.id} onClick={() => routeTo(['playbooks', categorySlugOf(doc), doc.filename])}>
                 <span className="doc-glyph">0{index + 1}</span>
                 <div><strong>{doc.title}</strong><span>{doc.category}</span></div>
                 <Icon name="arrow" size={16} />
@@ -195,11 +213,11 @@ function Overview({ onNavigate, onOpenCampaign }) {
       </div>
 
       <section className="panel campaign-table-panel">
-        <div className="section-heading"><div><p className="eyebrow">Campaign registry</p><h2>All markets</h2></div><button className="secondary-button" onClick={() => onNavigate('sequences')}>View sequences</button></div>
+        <div className="section-heading"><div><p className="eyebrow">Campaign registry</p><h2>All markets</h2></div><button className="secondary-button" onClick={() => routeTo(['sequences'])}>View sequences</button></div>
         <div className="campaign-table">
           <div className="campaign-table-head"><span>Campaign</span><span>Channel</span><span>Cadence</span><span>Status</span><span /></div>
           {campaigns.map((campaign) => (
-            <button className="campaign-table-row" key={campaign.id} onClick={() => { onOpenCampaign(campaign.id); onNavigate('sequences') }}>
+            <button className="campaign-table-row" key={campaign.id} onClick={() => routeTo(['sequences', campaign.id])}>
               <span className="campaign-name"><i>{campaign.flag}</i><span><strong>{campaign.name}</strong><small>{campaign.hook}</small></span></span>
               <span>{campaign.channel}</span><span>{campaign.cadence}</span><span><Status value={campaign.status} /></span><span><Icon name="arrow" size={16} /></span>
             </button>
@@ -210,33 +228,29 @@ function Overview({ onNavigate, onOpenCampaign }) {
   )
 }
 
-function Playbooks({ query }) {
-  const [categorySlug, setCategorySlug] = useState(playbookCategories[0]?.slug)
-  const currentCategory = playbookCategories.find((category) => category.slug === categorySlug) || playbookCategories[0]
+function Playbooks({ query, category, doc, routeTo }) {
+  const currentCategory = playbookCategories.find((item) => item.slug === category) || playbookCategories[0]
   const filteredDocs = useMemo(() => {
     if (!query.trim()) return currentCategory.documents
     const needle = query.toLowerCase()
-    return currentCategory.documents.filter((doc) => `${doc.title} ${doc.excerpt} ${doc.content}`.toLowerCase().includes(needle))
+    return currentCategory.documents.filter((item) => `${item.title} ${item.excerpt} ${item.content}`.toLowerCase().includes(needle))
   }, [currentCategory, query])
-  const [selectedId, setSelectedId] = useState(currentCategory.documents[0]?.id)
-  const selected = filteredDocs.find((doc) => doc.id === selectedId) || filteredDocs[0]
-
-  useEffect(() => { setSelectedId(currentCategory.documents[0]?.id) }, [categorySlug, currentCategory])
+  const selected = filteredDocs.find((item) => item.filename === doc) || filteredDocs[0]
 
   return (
     <div className="page playbook-page">
       <div className="page-intro"><p className="eyebrow">The operating system</p><h1>Playbooks</h1><p>Every approved principle, workflow, and production standard—kept close to the work it governs.</p></div>
       <div className="category-tabs" role="tablist">
-        {playbookCategories.map((category) => <button key={category.slug} className={category.slug === categorySlug ? 'active' : ''} onClick={() => setCategorySlug(category.slug)}>{category.name}<span>{category.documents.length}</span></button>)}
+        {playbookCategories.map((item) => <button key={item.slug} className={item.slug === currentCategory.slug ? 'active' : ''} onClick={() => routeTo(['playbooks', item.slug])}>{item.name}<span>{item.documents.length}</span></button>)}
       </div>
       <div className="library-layout">
         <aside className="document-list panel">
           <div className="document-list-head"><p className="eyebrow">{currentCategory.name}</p><span>{filteredDocs.length} chapters</span></div>
           <p className="category-description">{currentCategory.description}</p>
           <div className="document-buttons">
-            {filteredDocs.map((doc, index) => (
-              <button key={doc.id} className={doc.id === selected?.id ? 'active' : ''} onClick={() => setSelectedId(doc.id)}>
-                <span>{String(index + 1).padStart(2, '0')}</span><div><strong>{doc.title}</strong><small>{doc.excerpt}</small></div><Icon name="arrow" size={15} />
+            {filteredDocs.map((item, index) => (
+              <button key={item.id} className={item.id === selected?.id ? 'active' : ''} onClick={() => routeTo(['playbooks', currentCategory.slug, item.filename])}>
+                <span>{String(index + 1).padStart(2, '0')}</span><div><strong>{item.title}</strong><small>{item.excerpt}</small></div><Icon name="arrow" size={15} />
               </button>
             ))}
             {!filteredDocs.length && <div className="empty-list">No chapters match “{query}”.</div>}
@@ -244,7 +258,7 @@ function Playbooks({ query }) {
         </aside>
         <article className="document-viewer panel">
           {selected ? <>
-            <div className="document-meta"><span>{selected.category}</span><span>Source file · {selected.filename}</span></div>
+            <div className="document-meta"><span>{selected.category}</span><span>Source file · {selected.filename}</span><CopyLink parts={['playbooks', currentCategory.slug, selected.filename]} /></div>
             <div className="markdown-body" dangerouslySetInnerHTML={{ __html: markdownToHtml(selected.content) }} />
           </> : <div className="empty-state"><Icon name="search" size={28} /><h3>No document selected</h3><p>Try a broader search.</p></div>}
         </article>
@@ -331,8 +345,8 @@ function SequenceTimeline({ campaign, analytics, onOpenEmail }) {
   )
 }
 
-function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
-  const [mode, setMode] = useState('campaigns')
+function Sequences({ params, routeTo, onOpenEmail }) {
+  const isLifecycle = params[0] === 'lifecycle'
   const [marketFilter, setMarketFilter] = useState('all')
   const marketOptions = useMemo(() => {
     const options = new Map()
@@ -345,14 +359,10 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
     () => marketFilter === 'all' ? campaigns : campaigns.filter((item) => item.market === marketFilter),
     [marketFilter],
   )
-  const campaign = filteredCampaigns.find((item) => item.id === selectedCampaignId) || filteredCampaigns[0] || campaigns[0]
-  const [lifecycleId, setLifecycleId] = useState(lifecycleSequences[0]?.id)
-  const lifecycle = lifecycleSequences.find((item) => item.id === lifecycleId) || lifecycleSequences[0]
+  const campaign = campaigns.find((item) => item.id === params[0]) || filteredCampaigns[0] || campaigns[0]
+  const lifecycle = lifecycleSequences.find((item) => item.id === params[1]) || lifecycleSequences[0]
   const [analytics, setAnalytics] = useState({ loading: true, configured: null, campaign: null, steps: [], tracking: null })
 
-  useEffect(() => {
-    if (mode === 'campaigns' && campaign.id !== selectedCampaignId) onSelectCampaign(campaign.id)
-  }, [campaign.id, mode, onSelectCampaign, selectedCampaignId])
   useEffect(() => {
     let cancelled = false
     const load = async () => {
@@ -375,7 +385,7 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
       <div className="sequence-page-header">
         <div className="sequence-page-heading"><p className="eyebrow">Journey control</p><h1>Sequences</h1></div>
         <div className="sequence-page-actions">
-          {mode === 'campaigns' && (
+          {!isLifecycle && (
             <label className="country-filter">
               <span>Country</span>
               <select value={marketFilter} onChange={(event) => setMarketFilter(event.target.value)} aria-label="Filter campaign sequences by country">
@@ -385,15 +395,15 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
               <Icon name="chevron" size={15} />
             </label>
           )}
-          <div className="segmented"><button className={mode === 'campaigns' ? 'active' : ''} onClick={() => setMode('campaigns')}>Campaigns</button><button className={mode === 'lifecycle' ? 'active' : ''} onClick={() => setMode('lifecycle')}>Lifecycle blueprints</button></div>
+          <div className="segmented"><button className={!isLifecycle ? 'active' : ''} onClick={() => routeTo(['sequences', campaign.id])}>Campaigns</button><button className={isLifecycle ? 'active' : ''} onClick={() => routeTo(['sequences', 'lifecycle', lifecycle.id])}>Lifecycle blueprints</button></div>
         </div>
       </div>
-      {mode === 'campaigns' ? (
+      {!isLifecycle ? (
         <div className="sequence-layout">
           <aside className="sequence-list panel">
             <div className="sequence-list-head"><span>Campaign sequences</span><b>{filteredCampaigns.length}</b></div>
             {filteredCampaigns.map((item) => (
-              <button key={item.id} className={item.id === campaign.id ? 'active' : ''} onClick={() => onSelectCampaign(item.id)}>
+              <button key={item.id} className={item.id === campaign.id ? 'active' : ''} onClick={() => routeTo(['sequences', item.id])}>
                 <span className="flag-tile small">{item.flag}</span><div><strong>{item.name}</strong><small>{item.hook}</small></div><Status value={item.status} />
               </button>
             ))}
@@ -404,7 +414,7 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
                 <div className="sequence-kicker"><span className="sequence-market-flag">{campaign.flag}</span><span>{campaign.market}</span><i /> <span>{campaign.channel}</span><Status value={campaign.status} /></div>
                 <h2>{campaign.name}</h2>
                 <p>{campaign.hook}</p>
-                <div className="sequence-ownership"><span><b>Owner</b>{campaign.owner}</span></div>
+                <div className="sequence-ownership"><span><b>Owner</b>{campaign.owner}</span><CopyLink parts={['sequences', campaign.id]} /></div>
               </div>
             </div>
             <SequenceTimeline campaign={campaign} analytics={analytics} onOpenEmail={onOpenEmail} />
@@ -414,12 +424,12 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
         <div className="sequence-layout">
           <aside className="sequence-list lifecycle-list panel">
             <div className="sequence-list-head"><span>Lifecycle systems</span><b>{lifecycleSequences.length}</b></div>
-            {lifecycleSequences.map((item) => <button key={item.id} className={item.id === lifecycle.id ? 'active' : ''} onClick={() => setLifecycleId(item.id)}><span className="sequence-number">{item.id.slice(0, 2)}</span><div><strong>{item.title}</strong><small>{item.emailCount} emails · Blueprint</small></div></button>)}
+            {lifecycleSequences.map((item) => <button key={item.id} className={item.id === lifecycle.id ? 'active' : ''} onClick={() => routeTo(['sequences', 'lifecycle', item.id])}><span className="sequence-number">{item.id.slice(0, 2)}</span><div><strong>{item.title}</strong><small>{item.emailCount} emails · Blueprint</small></div></button>)}
           </aside>
           <section className="sequence-detail panel lifecycle-detail">
-            <div className="sequence-hero"><div><div className="sequence-kicker"><Status value="Blueprint" /><span>{lifecycle.emailCount} emails</span></div><h2>{lifecycle.title}</h2><p>{lifecycle.description}</p></div></div>
+            <div className="sequence-hero"><div><div className="sequence-kicker"><Status value="Blueprint" /><span>{lifecycle.emailCount} emails</span><CopyLink parts={['sequences', 'lifecycle', lifecycle.id]} /></div><h2>{lifecycle.title}</h2><p>{lifecycle.description}</p></div></div>
             <div className="blueprint-grid">
-              {lifecycle.documents.map((doc, index) => <article key={doc.id}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{doc.title}</h3><small>{doc.filename}</small></div><Icon name="check" /></article>)}
+              {lifecycle.documents.map((item, index) => <article key={item.id}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{item.title}</h3><small>{item.filename}</small></div><Icon name="check" /></article>)}
             </div>
           </section>
         </div>
@@ -428,24 +438,18 @@ function Sequences({ selectedCampaignId, onSelectCampaign, onOpenEmail }) {
   )
 }
 
-function EmailStudio({ selectedCampaignId, selectedEmailId, onSelectCampaign }) {
-  const campaign = campaigns.find((item) => item.id === selectedCampaignId) || campaigns.find((item) => item.status === 'Live') || campaigns[0]
+function EmailStudio({ campaignId, emailNumber, routeTo }) {
+  const campaign = campaigns.find((item) => item.id === campaignId) || campaigns.find((item) => item.status === 'Live') || campaigns[0]
   const availableMessages = useMemo(() => campaign.messages.filter((message) => message.html), [campaign])
   const sequenceMessages = useMemo(() => availableMessages.filter((item) => !item.isSupplemental), [availableMessages])
-  const [selectedMessageId, setSelectedMessageId] = useState(
-    availableMessages.some((item) => item.id === selectedEmailId) ? selectedEmailId : availableMessages[0]?.id,
-  )
   const [viewport, setViewport] = useState('desktop')
   const [personalised, setPersonalised] = useState(true)
   const [analytics, setAnalytics] = useState({ loading: true, configured: null, campaign: null, steps: [] })
   const studioRef = useRef(null)
   const previewFrameRef = useRef(null)
-  const message = availableMessages.find((item) => item.id === selectedMessageId) || availableMessages[0]
+  const message = availableMessages.find((item) => item.index === emailNumber) || availableMessages[0]
   const sequenceDuration = sequenceMessages.at(-1)?.day ?? 0
 
-  useEffect(() => {
-    setSelectedMessageId(availableMessages.some((item) => item.id === selectedEmailId) ? selectedEmailId : availableMessages[0]?.id)
-  }, [availableMessages, campaign.id, selectedEmailId])
   useEffect(() => {
     const handleSequenceKeydown = (event) => {
       if (
@@ -463,18 +467,18 @@ function EmailStudio({ selectedCampaignId, selectedEmailId, onSelectCampaign }) 
         const requestedMessage = sequenceMessages[Number(digitMatch[1]) - 1]
         if (!requestedMessage) return
         event.preventDefault()
-        setSelectedMessageId(requestedMessage.id)
+        routeTo(['emails', campaign.id, requestedMessage.index], { replace: true })
         return
       }
 
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
       event.preventDefault()
       const direction = event.key === 'ArrowRight' ? 1 : -1
-      const currentIndex = sequenceMessages.findIndex((item) => item.id === selectedMessageId)
+      const currentIndex = sequenceMessages.findIndex((item) => item.id === message?.id)
       const nextIndex = currentIndex === -1
         ? (direction === 1 ? 0 : sequenceMessages.length - 1)
         : (currentIndex + direction + sequenceMessages.length) % sequenceMessages.length
-      setSelectedMessageId(sequenceMessages[nextIndex].id)
+      routeTo(['emails', campaign.id, sequenceMessages[nextIndex].index], { replace: true })
     }
     const frame = previewFrameRef.current
     const attachToPreview = () => frame?.contentWindow?.addEventListener('keydown', handleSequenceKeydown)
@@ -487,7 +491,7 @@ function EmailStudio({ selectedCampaignId, selectedEmailId, onSelectCampaign }) 
       frame?.removeEventListener('load', attachToPreview)
       frame?.contentWindow?.removeEventListener('keydown', handleSequenceKeydown)
     }
-  }, [selectedMessageId, sequenceMessages])
+  }, [message, sequenceMessages, campaign.id])
   useEffect(() => {
     let cancelled = false
     const load = async () => {
@@ -526,7 +530,7 @@ function EmailStudio({ selectedCampaignId, selectedEmailId, onSelectCampaign }) 
       <div className="email-toolbar">
         <div className="campaign-select-wrap">
           <label>Campaign</label>
-          <select value={campaign.id} onChange={(event) => onSelectCampaign(event.target.value)}>
+          <select value={campaign.id} onChange={(event) => routeTo(['emails', event.target.value])}>
             {campaigns.map((item) => <option key={item.id} value={item.id}>{item.flag} {item.name}</option>)}
           </select>
           <Icon name="chevron" size={15} />
@@ -539,6 +543,7 @@ function EmailStudio({ selectedCampaignId, selectedEmailId, onSelectCampaign }) 
               : `Sequence email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${getDisplayDay(message.day)}`
         ) : 'No HTML'}</span><strong>{message?.title || 'No rendered emails in this campaign'}</strong></div>
         <div className="toolbar-actions">
+          <CopyLink parts={['emails', campaign.id, message?.index]} />
           <div className="viewport-switch"><button className={viewport === 'desktop' ? 'active' : ''} onClick={() => setViewport('desktop')} aria-label="Desktop preview"><Icon name="monitor" /></button><button className={viewport === 'mobile' ? 'active' : ''} onClick={() => setViewport('mobile')} aria-label="Mobile preview"><Icon name="mobile" /></button></div>
           <button className={`personalise-toggle ${personalised ? 'active' : ''}`} onClick={() => setPersonalised((value) => !value)}><Icon name="spark" />Sample data<span><i /></span></button>
         </div>
@@ -556,7 +561,7 @@ function EmailStudio({ selectedCampaignId, selectedEmailId, onSelectCampaign }) 
                     <div className="email-flow-segment" key={item.id}>
                       <button
                         className={item.id === message?.id ? 'active' : ''}
-                        onClick={() => setSelectedMessageId(item.id)}
+                        onClick={() => routeTo(['emails', campaign.id, item.index])}
                         aria-label={item.isTriggered ? `Open triggered email ${item.index}: ${formatTrigger(item.trigger) || 'event based'}` : `Open sequence email ${item.index}, sent on day ${getDisplayDay(item.day)}`}
                         aria-pressed={item.id === message?.id}
                         aria-keyshortcuts={index < 9 ? String(index + 1) : undefined}
@@ -576,7 +581,7 @@ function EmailStudio({ selectedCampaignId, selectedEmailId, onSelectCampaign }) 
                 <div className="email-sequence-step" key={item.id}>
                   <button
                     className={item.id === message?.id ? 'active' : ''}
-                    onClick={() => setSelectedMessageId(item.id)}
+                    onClick={() => routeTo(['emails', campaign.id, item.index])}
                     aria-pressed={item.id === message?.id}
                   >
                     <span className="email-index">{item.isSupplemental ? '+' : String(item.index).padStart(2, '0')}</span>
@@ -643,7 +648,9 @@ function EmailStudio({ selectedCampaignId, selectedEmailId, onSelectCampaign }) 
   )
 }
 
-function Guides({ query }) {
+const guideSlug = (item) => (item.type === 'report' ? item.id : item.filename.replace(/\.md$/, ''))
+
+function Guides({ query, slug, routeTo }) {
   const allGuides = useMemo(() => ([
     ...guides,
     {
@@ -679,8 +686,7 @@ function Guides({ query }) {
     const needle = query.toLowerCase()
     return allGuides.filter((doc) => `${doc.title} ${doc.excerpt} ${doc.content}`.toLowerCase().includes(needle))
   }, [allGuides, query])
-  const [selectedId, setSelectedId] = useState(allGuides[0]?.id)
-  const selected = filtered.find((doc) => doc.id === selectedId) || filtered[0]
+  const selected = allGuides.find((doc) => guideSlug(doc) === slug) || filtered[0]
   const [reportZoom, setReportZoom] = useState(1)
   const reportFrameRef = useRef(null)
   const reportShellRef = useRef(null)
@@ -744,10 +750,10 @@ function Guides({ query }) {
       <div className="library-layout">
         <aside className="document-list panel">
           <div className="document-list-head"><p className="eyebrow">Guides</p><span>{filtered.length} guides</span></div>
-          <p className="category-description">Read in order the first time — start with requesting a campaign. The branded subject-line report sits at the end as the shareable reference. The playbooks remain the canonical rules.</p>
+          <p className="category-description">Read in order the first time — start with requesting a campaign. The branded reports sit at the end as the shareable references. The playbooks remain the canonical rules.</p>
           <div className="document-buttons">
             {filtered.map((doc, index) => (
-              <button key={doc.id} className={doc.id === selected?.id ? 'active' : ''} onClick={() => setSelectedId(doc.id)}>
+              <button key={doc.id} className={doc.id === selected?.id ? 'active' : ''} onClick={() => routeTo(['guides', guideSlug(doc)])}>
                 <span>{String(index + 1).padStart(2, '0')}</span><div><strong>{doc.title}</strong><small>{doc.excerpt}</small></div><Icon name="arrow" size={15} />
               </button>
             ))}
@@ -757,7 +763,7 @@ function Guides({ query }) {
         <article className="document-viewer panel">
           {selected ? (selected.type === 'report' ? (
             <>
-              <div className="document-meta"><span>Branded report</span><span>Source file · public/guides/{selected.filename}</span></div>
+              <div className="document-meta"><span>Branded report</span><span>Source file · public/guides/{selected.filename}</span><CopyLink parts={['guides', guideSlug(selected)]} /></div>
               <div ref={reportShellRef} style={{ display: 'flex', flexDirection: 'column', background: '#EAE2D8', borderRadius: '12px', overflow: 'hidden' }}>
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap', padding: '10px 12px', background: '#FBF8F3', borderBottom: '1px solid rgba(36, 33, 30, 0.1)' }}>
                   <button className="secondary-button" onClick={openFullscreen}><Icon name="monitor" size={15} /> Full screen</button>
@@ -779,7 +785,7 @@ function Guides({ query }) {
             </>
           ) : (
             <>
-              <div className="document-meta"><span>Help &amp; guides</span><span>Source file · {selected.filename}</span></div>
+              <div className="document-meta"><span>Help &amp; guides</span><span>Source file · {selected.filename}</span><CopyLink parts={['guides', guideSlug(selected)]} /></div>
               <div className="markdown-body" dangerouslySetInnerHTML={{ __html: markdownToHtml(selected.content) }} />
             </>
           )) : <div className="empty-state"><Icon name="search" size={28} /><h3>No guide selected</h3><p>Try a broader search.</p></div>}
@@ -789,16 +795,20 @@ function Guides({ query }) {
   )
 }
 
-export default function App() {
-  const [currentView, setCurrentView] = useState(() => {
-    const hashView = window.location.hash.replace('#', '')
-    return navItems.some((item) => item.id === hashView) ? hashView : 'overview'
+const parseRoute = () => {
+  const segments = window.location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map((part) => {
+    try { return decodeURIComponent(part) } catch { return part }
   })
+  const view = navItems.some((item) => item.id === segments[0]) ? segments[0] : 'overview'
+  return { view, params: segments.slice(1) }
+}
+
+export default function App() {
+  const [route, setRoute] = useState(parseRoute)
   const [query, setQuery] = useState('')
-  const [selectedCampaignId, setSelectedCampaignId] = useState(campaigns.find((item) => item.status === 'Live')?.id || campaigns[0]?.id)
-  const [selectedEmailId, setSelectedEmailId] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => window.localStorage.getItem('sunless-sidebar-collapsed') === 'true')
+  const currentView = route.view
   const title = navItems.find((item) => item.id === currentView)?.label || 'Overview'
 
   useEffect(() => {
@@ -813,17 +823,20 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    const handleHashChange = () => {
-      const hashView = window.location.hash.replace('#', '')
-      if (navItems.some((item) => item.id === hashView)) setCurrentView(hashView)
-    }
+    const handleHashChange = () => setRoute(parseRoute())
     window.addEventListener('hashchange', handleHashChange)
     return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
 
-  const navigate = (view) => {
-    window.location.hash = view
-    setCurrentView(view)
+  const routeTo = (parts, { replace = false } = {}) => {
+    const clean = (parts || []).filter((part) => part !== null && part !== undefined && part !== '').map((part) => encodeURIComponent(String(part)))
+    const hash = `#${clean.join('/')}`
+    if (window.location.hash !== hash) {
+      if (replace) window.history.replaceState(null, '', hash)
+      else window.location.hash = hash
+    }
+    setRoute(parseRoute())
+    const view = clean.length ? decodeURIComponent(clean[0]) : 'overview'
     if (view === 'emails') {
       setSidebarCollapsed(true)
       setSidebarOpen(false)
@@ -831,10 +844,11 @@ export default function App() {
     }
     if (view !== 'playbooks' && view !== 'guides') setQuery('')
   }
+  const navigate = (view) => routeTo([view])
   const openEmail = (campaignId, emailId = null) => {
-    setSelectedCampaignId(campaignId)
-    setSelectedEmailId(emailId)
-    navigate('emails')
+    const campaign = campaigns.find((item) => item.id === campaignId)
+    const message = campaign?.messages.find((item) => item.id === emailId)
+    routeTo(['emails', campaignId, message?.index])
   }
   const collapseSidebar = () => {
     setSidebarCollapsed(true)
@@ -853,11 +867,11 @@ export default function App() {
       <button className="nav-reopen" onClick={openSidebar} aria-label="Open workspace navigation"><Icon name="menu" /></button>
       <div className="app-main">
         {currentView !== 'emails' && currentView !== 'sequences' && <Topbar title={title} query={query} setQuery={setQuery} onMenu={openSidebar} />}
-        {currentView === 'overview' && <Overview onNavigate={navigate} onOpenCampaign={setSelectedCampaignId} />}
-        {currentView === 'playbooks' && <Playbooks query={query} />}
-        {currentView === 'guides' && <Guides query={query} />}
-        {currentView === 'sequences' && <Sequences selectedCampaignId={selectedCampaignId} onSelectCampaign={setSelectedCampaignId} onOpenEmail={openEmail} />}
-        {currentView === 'emails' && <EmailStudio selectedCampaignId={selectedCampaignId} selectedEmailId={selectedEmailId} onSelectCampaign={setSelectedCampaignId} />}
+        {currentView === 'overview' && <Overview routeTo={routeTo} />}
+        {currentView === 'playbooks' && <Playbooks query={query} category={route.params[0]} doc={route.params[1]} routeTo={routeTo} />}
+        {currentView === 'sequences' && <Sequences params={route.params} routeTo={routeTo} onOpenEmail={openEmail} />}
+        {currentView === 'emails' && <EmailStudio campaignId={route.params[0]} emailNumber={Number(route.params[1]) || null} routeTo={routeTo} />}
+        {currentView === 'guides' && <Guides query={query} slug={route.params[0]} routeTo={routeTo} />}
       </div>
     </div>
   )

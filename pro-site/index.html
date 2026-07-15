@@ -41,9 +41,10 @@
   .btn-bronze{background:var(--bronze);color:#FFFDF9}
   .btn-ghost{border:1.5px solid var(--ink);color:var(--ink);padding:14.5px 28px;background:transparent}
   .btn-sm{padding:13px 24px;font-size:13.5px}
-  /* hero V2 */
-  .hero{background:var(--cream);position:relative;overflow:hidden;padding:0}
-  .hero-inner{max-width:min(90vw,1900px);margin:0 auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;min-height:max(520px,calc(100vh - 356px))}
+  /* hero V2 — the whole fold (hero + metrics + benefits) is locked to one viewport */
+  .fold{display:flex;flex-direction:column;min-height:calc(100vh - 120px)}
+  .hero{background:var(--cream);position:relative;overflow:hidden;padding:0;flex:1 1 auto;min-height:0}
+  .hero-inner{max-width:min(90vw,1900px);margin:0 auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;min-height:100%;height:100%}
   .hero-copy{padding:60px 56px 60px 0;position:relative;z-index:2}
   h1{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(46px,5vw,94px);line-height:1.02;color:var(--ink);letter-spacing:-.02em;margin-bottom:34px}
   h1 em{font-style:italic;color:var(--bronze2)}
@@ -51,20 +52,21 @@
   .hero-stats{display:flex;margin-bottom:40px;max-width:640px}
   .hero-stats div{flex:1;padding:0 28px;border-left:1px solid rgba(58,51,44,.26);font-size:clamp(15px,1.05vw,18px);line-height:1.5;color:var(--ink2)}
   .hero-stats div:first-child{padding-left:0;border-left:0}
-  .hero-ctas{display:flex;gap:16px;flex-wrap:wrap}
+  .hero-ctas{display:flex;gap:16px;flex-wrap:nowrap}
+  .hero-ctas .btn{flex:0 0 auto}
   .hero-img{position:absolute;top:0;bottom:0;right:0;left:49%;z-index:1}
   .hero-img img{width:100%;height:100%;object-fit:cover;object-position:center top}
   /* metrics strip */
-  .metrics{background:#E9DDCB;border-top:1px solid rgba(176,118,74,.22)}
+  .metrics{background:#E9DDCB;border-top:1px solid rgba(176,118,74,.22);flex:none}
   .metrics-inner{max-width:min(90vw,1900px);margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(3,1fr)}
-  .metric{display:flex;align-items:center;justify-content:center;gap:22px;padding:38px 20px;border-left:1px solid rgba(176,118,74,.3)}
+  .metric{display:flex;align-items:center;justify-content:center;gap:26px;padding:40px 20px;border-left:1px solid rgba(176,118,74,.3)}
   .metric:first-child{border-left:0}
-  .metric svg{width:52px;height:52px;flex:none;stroke:var(--bronze);fill:none;stroke-width:1.35}
-  .metric b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(40px,3.4vw,64px);color:var(--ink);line-height:1;display:block}
+  .metric svg{width:66px;height:66px;flex:none;stroke:var(--bronze);fill:none;stroke-width:1.25}
+  .metric b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(44px,3.6vw,70px);color:var(--ink);line-height:1;display:block}
   .metric b small{font-size:.5em;color:var(--muted);font-family:'Jost',sans-serif;margin-left:5px;letter-spacing:.02em}
   .metric span{display:block;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze2);margin-top:8px;font-weight:600}
   /* benefits bar */
-  .benefits{background:var(--dark);padding:19px 0}
+  .benefits{background:var(--dark);padding:19px 0;flex:none}
   .benefits .wrap{display:flex;justify-content:center;align-items:center;flex-wrap:wrap}
   .benefits span{color:#C9BCAB;font-size:14px;letter-spacing:.22em;text-transform:uppercase;padding:2px 34px;border-left:1px solid rgba(201,149,103,.3);line-height:1.5}
   .benefits span:first-child{border-left:0}
@@ -243,9 +245,12 @@
     section{padding:60px 0}
     .story-grid,.steps-grid,.close-grid,.litre-grid,.calc-grid{grid-template-columns:1fr;gap:36px}
     .perks{grid-template-columns:1fr}
-    .hero-inner{grid-template-columns:1fr;min-height:0}
+    .fold{display:block;min-height:0}
+    .hero-inner{grid-template-columns:1fr;min-height:0;height:auto}
     .hero-img{position:relative;left:auto;right:auto;height:clamp(380px,58vh,560px);order:-1;margin:0 -24px}
     .hero-copy{padding:32px 0 48px}
+    .hero-ctas{flex-wrap:wrap}
+    .hero-ctas .btn{flex:1 1 auto}
     .hero-stats{flex-direction:column;gap:16px;max-width:none}
     .hero-stats div{border-left:0;border-top:1px solid rgba(58,51,44,.18);padding:16px 0 0}
     .hero-stats div:first-child{border-top:0;padding-top:0}
@@ -285,6 +290,7 @@
 </header>
 
 <!-- HERO -->
+<div class="fold">
 <section class="hero" id="top">
   <div class="hero-inner">
     <div class="hero-copy">
@@ -301,7 +307,7 @@
       </div>
     </div>
   </div>
-  <div class="hero-img"><img src="img/kyle_j.webp" alt="Professional model holding the Sunless by Jimmy Coco spray tan"></div>
+  <div class="hero-img"><img src="img/hero.webp" alt="Professional model holding the Sunless by Jimmy Coco spray tan"></div>
 </section>
 
 <div class="metrics">
@@ -330,6 +336,7 @@
     <span>Soft focus finish</span>
   </div>
 </div>
+</div><!-- /fold -->
 
 <!-- STORY -->
 <section id="story">

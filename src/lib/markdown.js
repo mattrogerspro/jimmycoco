@@ -7,7 +7,7 @@ const inline = (value) => escapeHtml(value)
   .replace(/`([^`]+)`/g, '<code>$1</code>')
   .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
   .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-  .replace(/\[([^\]]+)]\(([^)]+)\)/g, '<span class="md-link">$1</span>')
+  .replace(/\[([^\]]+)]\(([^)]+)\)/g, (match, text, url) => /^https?:\/\//.test(url) ? `<a href="${url}" target="_blank" rel="noreferrer">${text}</a>` : `<span class="md-link">${text}</span>`)
 
 export function markdownToHtml(markdown) {
   const lines = markdown.split('\n')

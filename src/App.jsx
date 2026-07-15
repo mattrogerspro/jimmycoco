@@ -647,6 +647,15 @@ function Guides({ query }) {
   const allGuides = useMemo(() => ([
     ...guides,
     {
+      id: 'report-how-a-campaign-is-built',
+      type: 'report',
+      title: 'How a campaign is built & structured',
+      excerpt: 'The branded walkthrough — folder anatomy, the production pipeline, cadence and renderer charts, and real Studio screenshots.',
+      filename: 'how-a-campaign-is-built.html',
+      src: '/guides/how-a-campaign-is-built.html',
+      content: 'campaign built structure folder anatomy pipeline cadence master template renderer registry screenshots report branded',
+    },
+    {
       id: 'report-subject-line-system',
       type: 'report',
       title: 'Subject lines: flow, guardrails & gates',

@@ -7,7 +7,7 @@ Employee-facing guides that appear automatically in the Studio's **Help & guides
 - Every `*.md` file here (except this README) is discovered automatically by the Studio via `src/data/content.js` and rendered in the Help & guides view.
 - Files are listed in filename order — keep the `00-`, `01-` numbering.
 - The first `#` heading becomes the guide title; the first paragraph becomes its excerpt.
-- The branded subject-line report lives at `public/guides/subject-line-system-report.html` and is embedded in the same view.
+- The branded reports live in `public/guides/` (`subject-line-system-report.html`, `how-a-campaign-is-built.html`) and are embedded in the same view.
 
 ## Editing rules
 

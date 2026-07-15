@@ -46,6 +46,7 @@
   .hero-copy{padding:70px 0}
   h1{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(44px,5.6vw,72px);line-height:1.05;color:var(--ink);letter-spacing:-.015em;margin-bottom:22px}
   h1 em{font-style:italic;color:var(--bronze2)}
+  h2 em{font-style:italic;color:var(--bronze2)}
   .hero-sub{font-size:24px;color:var(--ink2);max-width:600px;margin-bottom:32px}
   .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:30px}
   .proof{display:flex;gap:26px;flex-wrap:wrap;font-size:18px;color:var(--muted);letter-spacing:.03em}
@@ -132,16 +133,16 @@
   .jimmy-says p{font-family:'Fraunces',Georgia,serif;font-size:25px;line-height:1.45;color:var(--ink)}
   /* retail */
   .retail{background:var(--cream)}
-  .shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:44px}
-  .pcard{background:var(--paper);border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
-  .pcard .pimg{background:#F1EAE0;padding:26px}
+  .shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:52px}
+  .pcard{background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 16px 44px rgba(25,21,18,.08);transition:transform .18s ease,box-shadow .18s ease}.pcard:hover{transform:translateY(-5px);box-shadow:0 26px 60px rgba(25,21,18,.13)}
+  .pcard .pimg{background:#F3EDE4;padding:36px}
   .pcard .pimg img{aspect-ratio:1/1;object-fit:contain;width:100%}
-  .pcard .pbody{padding:24px 26px 28px;display:flex;flex-direction:column;gap:8px;flex:1}
-  .badge{align-self:flex-start;background:var(--cream);color:var(--bronze2);border-radius:3px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px}
-  .pcard h3{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:27px;color:var(--ink)}
-  .pcard .pdesc{font-size:18px;color:var(--muted);flex:1}
-  .price{font-size:18.5px;color:var(--ink);font-weight:600}
-  .price span{color:var(--muted);font-weight:400;font-size:15px}
+  .pcard .pbody{padding:30px 34px 34px;display:flex;flex-direction:column;gap:11px;flex:1}
+  .badge{align-self:flex-start;background:var(--bronze);color:#FFFDF9;border-radius:3px;font-size:13.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:7px 15px}
+  .pcard h3{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:33px;color:var(--ink);line-height:1.12}
+  .pcard .pdesc{font-size:19.5px;color:var(--ink2);flex:1;line-height:1.6}
+  .price{font-family:'Fraunces',Georgia,serif;font-size:26px;color:var(--ink);font-weight:500}
+  .price span{font-family:'Jost',sans-serif;color:var(--muted);font-weight:400;font-size:17px}
   /* package + form */
   .package-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
   .package ul{list-style:none;padding:0;margin:24px 0 30px}
@@ -153,13 +154,45 @@
   .trialform input,.trialform select{width:100%;border:1.5px solid var(--line);border-radius:3px;padding:17px 19px;font-family:inherit;font-size:18.5px;background:var(--paper);margin-bottom:14px;color:var(--ink2)}
   .trialform .btn{width:100%}
   .trialform small{display:block;text-align:center;color:var(--muted);font-size:14px;margin-top:12px}
+  /* partnership close */
+  .partner-close{background:var(--dark)}
+  .partner-close .eyebrow{color:var(--gold)}
+  .partner-close h2{color:#FFFDF9}
+  .partner-close h2 em{font-style:italic;color:var(--gold)}
+  .partner-close .sub{color:#B7AB9B}
+  .close-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:start;margin-top:52px}
+  .trialbox{border:1px solid rgba(201,149,103,.45);background:rgba(201,149,103,.09);border-radius:8px;padding:32px 34px 26px}
+  .tb-tag{display:inline-block;background:var(--bronze);color:#FFFDF9;font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;border-radius:3px;padding:6px 14px;margin-bottom:16px}
+  .trialbox ul{list-style:none;padding:0;margin:0}
+  .trialbox li{padding:16px 0;border-bottom:1px solid rgba(237,228,215,.14)}
+  .trialbox li:last-child{border-bottom:0}
+  .trialbox li b{display:block;color:#FFFDF9;font-size:21px;font-family:'Fraunces',Georgia,serif;font-weight:500;margin-bottom:4px}
+  .trialbox li span{color:#B7AB9B;font-size:17px;line-height:1.5;display:block}
+  .trialbox > p{color:var(--gold);font-size:14px;letter-spacing:.16em;text-transform:uppercase;margin-top:16px;font-weight:600}
+  .perks{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+  .perks div{background:rgba(253,251,248,.05);border:1px solid rgba(237,228,215,.12);border-radius:6px;padding:20px 22px}
+  .perks i{font-style:normal;color:var(--gold);font-size:21px;display:block;margin-bottom:9px}
+  .perks b{display:block;color:#EFE7DB;font-size:18px;margin-bottom:3px}
+  .perks span{color:#9A8F82;font-size:15.5px;line-height:1.45;display:block}
+  .close-note{color:#B7AB9B;font-size:17.5px;margin-top:26px;line-height:1.6}
+  .trialform{box-shadow:0 34px 90px rgba(0,0,0,.55)}
+  .tf-head{display:flex;align-items:center;gap:14px;margin-bottom:4px}
+  .tf-head h3{margin-bottom:0}
+  .tf-badge{background:var(--bronze);color:#FFFDF9;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;padding:6px 14px;border-radius:999px;font-weight:700}
+  .tf-echo{background:var(--cream);border-left:3px solid var(--bronze);border-radius:0 4px 4px 0;padding:14px 18px;font-size:17px;color:var(--ink2);margin:0 0 20px;line-height:1.5}
+  .tf-echo b{color:var(--bronze2);font-size:19px}
+  .tf-steps{list-style:none;padding:0;margin:22px 0 8px;counter-reset:s}
+  .tf-steps li{position:relative;padding:9px 0 9px 44px;font-size:16.5px;color:var(--muted);counter-increment:s}
+  .tf-steps li:before{content:counter(s);position:absolute;left:0;top:7px;width:29px;height:29px;border-radius:50%;background:var(--cream);color:var(--bronze2);font-weight:600;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .tf-steps b{color:var(--ink)}
   footer{background:var(--dark);color:#9A8F82;padding:54px 0 40px;font-size:15.5px}
   footer .wrap{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:center}
   footer a{color:#C9BCAB;text-decoration:none;margin-right:22px}
   .sticky-cta{display:none}
   @media (max-width:900px){
     section{padding:60px 0}
-    .hero-grid,.story-grid,.formula-grid,.steps-grid,.package-grid,.litre-grid,.calc-grid{grid-template-columns:1fr;gap:36px}
+    .hero-grid,.story-grid,.formula-grid,.steps-grid,.close-grid,.litre-grid,.calc-grid{grid-template-columns:1fr;gap:36px}
+    .perks{grid-template-columns:1fr}
     .hero-img{min-height:430px;order:-1}
     .hero-copy{padding:8px 0 56px}
     .shade-grid,.shop-grid{grid-template-columns:1fr;max-width:460px;margin:44px auto 0}
@@ -365,7 +398,7 @@
 <section class="retail" id="retail">
   <div class="wrap">
     <p class="eyebrow">The second revenue line</p>
-    <h2>The moment they step out of the booth<br>is the moment they buy.</h2>
+    <h2>The moment they step out of the booth<br><em>is the moment they buy.</em></h2>
     <p class="sub">A tight retail range at reception lets clients keep their colour looking fresh for a week longer — real margin, no extra chair time, and the same brand story from booth to shelf.</p>
     <div class="shop-grid">
       <div class="pcard">
@@ -400,32 +433,47 @@
 </section>
 
 <!-- PACKAGE + TRIAL FORM -->
-<section id="trial">
-  <div class="wrap package-grid">
-    <div class="package">
-      <p class="eyebrow">The partnership</p>
-      <h2>Everything a stockist needs. One partner.</h2>
-      <ul>
-        <li>Complimentary trial — the Sunset solution and Jimmy's shade guide, posted to your salon</li>
-        <li>Trade pricing on the professional litre and retail range</li>
-        <li>Shade-method training so your team is confident from day one</li>
-        <li>Launch and marketing assets, ready to use</li>
-        <li>Dedicated stockist support with a direct line</li>
-        <li>No lock-in and no pressure at any step</li>
-      </ul>
-      <p class="sub" style="font-size:18px">Trial it on a real client. Judge the colour yourself. Then we talk terms.</p>
+<section class="partner-close" id="trial">
+  <div class="wrap">
+    <p class="eyebrow">The partnership · complimentary trial</p>
+    <h2>Try it on a real client. <em>Free.</em></h2>
+    <p class="sub">Party season books out before it starts. Salons that trial now are stocked, trained and ready before the rush — and the trial costs you nothing but one appointment.</p>
+    <div class="close-grid">
+      <div>
+        <div class="trialbox">
+          <span class="tb-tag">In your trial box</span>
+          <ul>
+            <li><b>The Sunset professional solution</b><span>Enough to tan a real client — judge the colour on skin, not on a screen.</span></li>
+            <li><b>Jimmy's shade guide</b><span>The method behind 20+ years of red-carpet colour. Yours to keep, either way.</span></li>
+          </ul>
+          <p>Posted this week · no cost · no commitment</p>
+        </div>
+        <div class="perks">
+          <div><i>◆</i><b>Trade pricing</b><span>on the professional litre and the retail range</span></div>
+          <div><i>✦</i><b>Team training</b><span>Jimmy's shade method — confident from day one</span></div>
+          <div><i>❋</i><b>Launch assets</b><span>marketing, ready to use on day one</span></div>
+          <div><i>☎</i><b>A direct line</b><span>dedicated stockist support, a real person</span></div>
+        </div>
+        <p class="close-note">No lock-in and no pressure at any step. Trial it, judge it, then we talk terms — or we don't, and the shade guide is still yours.</p>
+      </div>
+      <form class="trialform" action="mailto:pro@jimmycoco.co.uk" method="post" enctype="text/plain">
+        <div class="tf-head"><h3>Get the trial box</h3><span class="tf-badge">Free</span></div>
+        <p>Thirty seconds now. Posted this week.</p>
+        <p class="tf-echo">You calculated <b id="echo-month">£1,282</b> a month. The trial is how you check the colour deserves it.</p>
+        <input type="text" name="salon" placeholder="Salon or business name" required>
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Email address" required>
+        <input type="tel" name="phone" placeholder="Phone (optional)">
+        <select name="type"><option>Salon</option><option>Spa</option><option>Mobile professional</option><option>Multi-site group</option></select>
+        <button class="btn btn-bronze" type="submit">Post me a trial — free</button>
+        <ol class="tf-steps">
+          <li><b>This week:</b> your trial box is posted</li>
+          <li><b>You tan</b> one real client and judge the result</li>
+          <li><b>15 minutes</b> on trade terms — only if you love it</li>
+        </ol>
+        <small>No card. No commitment. One email stops everything.</small>
+      </form>
     </div>
-    <form class="trialform" action="mailto:pro@jimmycoco.co.uk" method="post" enctype="text/plain">
-      <h3>Request your free trial</h3>
-      <p>Posted this week — no cost, no commitment.</p>
-      <input type="text" name="salon" placeholder="Salon or business name" required>
-      <input type="text" name="name" placeholder="Your name" required>
-      <input type="email" name="email" placeholder="Email address" required>
-      <input type="tel" name="phone" placeholder="Phone (optional)">
-      <select name="type"><option>Salon</option><option>Spa</option><option>Mobile professional</option><option>Multi-site group</option></select>
-      <button class="btn btn-bronze" type="submit">Post me a trial</button>
-      <small>Or simply email <b>pro@jimmycoco.co.uk</b> — “send it” is all we need.</small>
-    </form>
   </div>
 </section>
 
@@ -480,6 +528,8 @@
     document.getElementById('r-month').textContent = gbp(month);
     document.getElementById('r-year').textContent = gbp(year) + ' per year';
     document.getElementById('r-litres').textContent = (Math.round(litresMonth * 10) / 10).toLocaleString('en-GB');
+    var echo = document.getElementById('echo-month');
+    if (echo) echo.textContent = gbp(month);
   }
   ids.forEach(function (k) { el[k].addEventListener('input', calc); });
   calc();

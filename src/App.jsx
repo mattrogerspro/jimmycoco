@@ -3,6 +3,7 @@ import {
   applyMergeData,
   campaigns,
   contentStats,
+  guides,
   lifecycleSequences,
   playbookCategories,
   sampleMergeData,
@@ -26,6 +27,7 @@ const icons = {
   close: '<path d="m18 6-12 12M6 6l12 12"/>',
   spark: '<path d="m12 3-1.4 3.6a6 6 0 0 1-3.4 3.4L4 11.2l3.2 1.2a6 6 0 0 1 3.4 3.4L12 19l1.4-3.2a6 6 0 0 1 3.4-3.4l3.2-1.2-3.2-1.2a6 6 0 0 1-3.4-3.4Z"/>',
   check: '<path d="m5 12 4 4L19 6"/>',
+  help: '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.4 2.4 0 0 1 4.7.6c0 1.6-2.3 2-2.3 3.2"/><path d="M12 16.8h.01"/>',
 }
 
 function Icon({ name, size = 18, className = '' }) {
@@ -51,6 +53,7 @@ const navItems = [
   { id: 'playbooks', label: 'Playbooks', icon: 'book' },
   { id: 'sequences', label: 'Sequences', icon: 'sequence' },
   { id: 'emails', label: 'Live emails', icon: 'mail' },
+  { id: 'guides', label: 'Help & guides', icon: 'help' },
 ]
 
 function BrandMark() {
@@ -640,6 +643,61 @@ function EmailStudio({ selectedCampaignId, selectedEmailId, onSelectCampaign }) 
   )
 }
 
+function Guides({ query }) {
+  const allGuides = useMemo(() => ([
+    ...guides,
+    {
+      id: 'report-subject-line-system',
+      type: 'report',
+      title: 'Subject lines: flow, guardrails & gates',
+      excerpt: 'The branded end-to-end report — how subjects are produced, constrained and approved.',
+      filename: 'subject-line-system-report.html',
+      src: '/guides/subject-line-system-report.html',
+      content: 'subject line preview report flow guardrails gates requirements branded reference',
+    },
+  ]), [])
+  const filtered = useMemo(() => {
+    if (!query.trim()) return allGuides
+    const needle = query.toLowerCase()
+    return allGuides.filter((doc) => `${doc.title} ${doc.excerpt} ${doc.content}`.toLowerCase().includes(needle))
+  }, [allGuides, query])
+  const [selectedId, setSelectedId] = useState(allGuides[0]?.id)
+  const selected = filtered.find((doc) => doc.id === selectedId) || filtered[0]
+
+  return (
+    <div className="page playbook-page">
+      <div className="page-intro"><p className="eyebrow">Learn the system</p><h1>Help &amp; guides</h1><p>How to request, generate and release Sunless campaigns — written for every employee. No tooling or repository knowledge required.</p></div>
+      <div className="library-layout">
+        <aside className="document-list panel">
+          <div className="document-list-head"><p className="eyebrow">Guides</p><span>{filtered.length} guides</span></div>
+          <p className="category-description">Read in order the first time — start with requesting a campaign. The branded subject-line report sits at the end as the shareable reference. The playbooks remain the canonical rules.</p>
+          <div className="document-buttons">
+            {filtered.map((doc, index) => (
+              <button key={doc.id} className={doc.id === selected?.id ? 'active' : ''} onClick={() => setSelectedId(doc.id)}>
+                <span>{String(index + 1).padStart(2, '0')}</span><div><strong>{doc.title}</strong><small>{doc.excerpt}</small></div><Icon name="arrow" size={15} />
+              </button>
+            ))}
+            {!filtered.length && <div className="empty-list">No guides match “{query}”.</div>}
+          </div>
+        </aside>
+        <article className="document-viewer panel">
+          {selected ? (selected.type === 'report' ? (
+            <>
+              <div className="document-meta"><span>Branded report</span><span>Source file · public/guides/{selected.filename}</span></div>
+              <iframe title={selected.title} src={selected.src} style={{ width: '100%', minHeight: '78vh', border: '1px solid rgba(36, 33, 30, 0.12)', borderRadius: '12px', background: '#EAE2D8' }} />
+            </>
+          ) : (
+            <>
+              <div className="document-meta"><span>Help &amp; guides</span><span>Source file · {selected.filename}</span></div>
+              <div className="markdown-body" dangerouslySetInnerHTML={{ __html: markdownToHtml(selected.content) }} />
+            </>
+          )) : <div className="empty-state"><Icon name="search" size={28} /><h3>No guide selected</h3><p>Try a broader search.</p></div>}
+        </article>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const [currentView, setCurrentView] = useState(() => {
     const hashView = window.location.hash.replace('#', '')
@@ -680,7 +738,7 @@ export default function App() {
       setSidebarOpen(false)
       window.localStorage.setItem('sunless-sidebar-collapsed', 'true')
     }
-    if (view !== 'playbooks') setQuery('')
+    if (view !== 'playbooks' && view !== 'guides') setQuery('')
   }
   const openEmail = (campaignId, emailId = null) => {
     setSelectedCampaignId(campaignId)
@@ -706,6 +764,7 @@ export default function App() {
         {currentView !== 'emails' && currentView !== 'sequences' && <Topbar title={title} query={query} setQuery={setQuery} onMenu={openSidebar} />}
         {currentView === 'overview' && <Overview onNavigate={navigate} onOpenCampaign={setSelectedCampaignId} />}
         {currentView === 'playbooks' && <Playbooks query={query} />}
+        {currentView === 'guides' && <Guides query={query} />}
         {currentView === 'sequences' && <Sequences selectedCampaignId={selectedCampaignId} onSelectCampaign={setSelectedCampaignId} onOpenEmail={openEmail} />}
         {currentView === 'emails' && <EmailStudio selectedCampaignId={selectedCampaignId} selectedEmailId={selectedEmailId} onSelectCampaign={setSelectedCampaignId} />}
       </div>

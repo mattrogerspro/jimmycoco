@@ -229,3 +229,25 @@ export function applyMergeData(html, data = sampleMergeData) {
     return data[normalisedKey] ?? data[aliases[normalisedKey]] ?? match
   })
 }
+
+const guideFiles = import.meta.glob('../../email/guides/*.md', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+})
+
+export const guides = Object.entries(guideFiles)
+  .filter(([path]) => !path.endsWith('/README.md'))
+  .map(([path, content]) => {
+    const filename = path.split('/').pop()
+    const heading = content.match(/^#\s+(.+)$/m)?.[1]
+    return {
+      id: path,
+      type: 'markdown',
+      title: heading || toTitle(filename),
+      filename,
+      content,
+      excerpt: firstParagraph(content),
+    }
+  })
+  .sort((a, b) => a.filename.localeCompare(b.filename))

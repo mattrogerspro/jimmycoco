@@ -86,8 +86,7 @@
   .sig small{display:block;font-family:'Jost',sans-serif;font-style:normal;font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:6px}
   /* formula */
   .formula{background:var(--cream);position:relative;overflow:hidden}
-  .fx-backdrop{position:absolute;inset:0;z-index:0;display:grid;grid-template-columns:64px 1fr 1.05fr .82fr;gap:52px;align-items:stretch;pointer-events:none}
-  .fx-bg{position:relative;grid-column:1/4;margin-left:calc(0px - max(5vw,(100vw - 1900px)/2) - 24px);margin-right:-22px;background:#E7DBCB;background-image:url('img/formula-bg-3.webp');background-repeat:no-repeat;background-size:auto 100%;background-position:right 22%}
+  .fx-bg{position:absolute;z-index:-1;grid-column:1/4;top:-88px;bottom:-88px;left:calc(0px - max(5vw,(100vw - 1900px)/2) - 24px);right:-22px;background:#E7DBCB;background-image:url('img/formula-bg-3.webp');background-repeat:no-repeat;background-size:auto 100%;background-position:right 22%;pointer-events:none}
   .fx-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--cream) 0%,rgba(246,241,234,.9) 22%,rgba(246,241,234,.5) 40%,rgba(246,241,234,.12) 56%,rgba(246,241,234,0) 66%)}
   .fx-grid{position:relative;z-index:1;display:grid;grid-template-columns:64px 1fr 1.05fr .82fr;gap:52px;align-items:stretch}
   .fx-rail{display:flex;flex-direction:column;align-items:center;gap:24px;padding:8px 0}
@@ -121,10 +120,9 @@
   .fx-feat h3{font-size:16.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:10px;font-weight:600}
   .fx-feat p{font-size:17px;line-height:1.65;color:var(--ink2);max-width:310px}
   @media (max-width:1200px){
-    .fx-backdrop{grid-template-columns:1fr 1fr;gap:40px 48px}
     .fx-grid{grid-template-columns:1fr 1fr;gap:40px 48px}
     .fx-rail{display:none}
-    .fx-bg{grid-column:1/-1;margin-right:calc(0px - max(5vw,(100vw - 1900px)/2) - 24px)}
+    .fx-bg{grid-column:1/-1;right:calc(0px - max(5vw,(100vw - 1900px)/2) - 24px)}
     .fx-bg::after{background:linear-gradient(90deg,var(--cream) 0%,rgba(246,241,234,.82) 32%,rgba(246,241,234,.5) 64%,rgba(246,241,234,.3) 100%)}
     .fx-stat{min-height:420px}
     .fx-feats{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:0 64px;justify-content:stretch;background:var(--cream)}
@@ -371,8 +369,8 @@
 
 <!-- FORMULA -->
 <section class="formula" id="formula">
-  <div class="wrap fx-backdrop" aria-hidden="true"><div class="fx-bg"></div></div>
   <div class="wrap fx-grid">
+    <div class="fx-bg" aria-hidden="true"></div>
     <div class="fx-rail" aria-hidden="true">
       <span class="fx-line"></span>
       <span class="fx-vert">Sunless by Jimmy Coco</span>

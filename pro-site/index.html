@@ -86,7 +86,7 @@
   .sig small{display:block;font-family:'Jost',sans-serif;font-style:normal;font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:6px}
   /* formula */
   .formula{background:var(--cream);position:relative;overflow:hidden}
-  .fx-bg{position:absolute;top:0;bottom:0;left:0;right:calc(21.7% + 15px);width:auto;z-index:0;background:#E7DBCB;background-image:url('img/formula-bg-3.webp');background-repeat:no-repeat;background-size:cover;background-position:right 22%}
+  .fx-bg{position:absolute;top:0;bottom:0;left:0;right:0;width:auto;z-index:0;background:#E7DBCB;background-image:url('img/formula-bg-3.webp');background-repeat:no-repeat;background-size:cover;background-position:right 22%}
   .fx-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--cream) 0%,rgba(246,241,234,.9) 22%,rgba(246,241,234,.5) 40%,rgba(246,241,234,.12) 56%,rgba(246,241,234,0) 66%)}
   .fx-grid{position:relative;z-index:1;display:grid;grid-template-columns:64px 1fr 1.05fr .82fr;gap:52px;align-items:stretch}
   .fx-rail{display:flex;flex-direction:column;align-items:center;gap:24px;padding:8px 0}
@@ -108,6 +108,10 @@
   .fx-badge span{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;line-height:1.9;font-weight:500}
   .fx-note{position:absolute;left:0;right:0;bottom:14px;text-align:center;font-size:12px;color:rgba(255,253,249,.9);letter-spacing:.05em;text-shadow:0 1px 6px rgba(20,16,13,.6)}
   .fx-feats{display:flex;flex-direction:column;justify-content:center}
+  @media (min-width:1201px){
+    .fx-feats{position:relative;background:var(--cream)}
+    .fx-feats::before{content:"";position:absolute;top:0;bottom:0;left:-15px;width:15px;background:var(--cream)}
+  }
   .fx-feat{padding:28px 0;border-bottom:1px solid rgba(58,51,44,.18)}
   .fx-feat:first-child{padding-top:0}
   .fx-feat:last-child{border-bottom:0;padding-bottom:0}

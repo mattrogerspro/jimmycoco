@@ -44,17 +44,33 @@
   .diagram-title{font-size:15px;font-weight:600;color:var(--heading);margin:0 0 3px}
   .diagram-sub{font-size:12.5px;color:var(--muted);margin:0 0 14px}
   .diagram-note{font-size:12px;color:var(--muted);margin:10px 2px 8px;line-height:1.55}
-  /* flow chips */
-  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin:18px 0 6px}
-  .fchip{background:var(--soft);border-radius:6px;padding:11px 14px;font-size:12.5px;line-height:1.45;color:var(--text);flex:1 1 130px;min-width:120px;position:relative}
-  .fchip b{display:block;font-size:12.5px;color:var(--heading);margin-bottom:3px}
-  .fchip.sys b{color:var(--accent)}
-  .farrow{align-self:center;color:var(--accent);font-size:17px;flex:0 0 auto;padding:0 1px}
-  .flow-cap{font-size:12px;color:var(--muted);margin:6px 2px 20px}
-  .gates .fchip{background:#26231F;color:#D9CFC2}
-  .gates .fchip b{color:#EFE7DB}
-  .gates .fchip span{color:#B7AB9B;display:block;font-size:11.5px}
-  .gates .fchip i{font-style:normal;display:block;font-family:Georgia,serif;font-size:19px;color:#C9A278;margin-bottom:4px}
+  /* vertical flows */
+  .vflow{position:relative;margin:20px 0 4px;padding-left:58px}
+  .vflow::before{content:"";position:absolute;left:21px;top:14px;bottom:14px;width:2px;background:var(--line)}
+  .vstep{position:relative;background:var(--soft);border-radius:8px;padding:13px 18px 12px;margin-bottom:12px}
+  .vstep:last-child{margin-bottom:0}
+  .vnum{position:absolute;left:-51px;top:11px;width:32px;height:32px;border-radius:50%;background:var(--card);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:Georgia,'Times New Roman',serif;font-size:14.5px;color:var(--accent)}
+  .vhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+  .vhead b{font-size:14.5px;color:var(--heading)}
+  .vtag{font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);background:var(--card);border:1px solid var(--line);border-radius:3px;padding:2.5px 8px;white-space:nowrap}
+  .vstep p{margin:0;font-size:13px;color:var(--muted);line-height:1.55}
+  .vstep p code{font-size:11.5px}
+  .vstep.vend{background:var(--dark)}
+  .vstep.vend .vhead b{color:#FFFDF9}
+  .vstep.vend .vtag{background:transparent;border-color:#4A443D;color:#C9A278}
+  .vstep.vend p{color:#B7AB9B}
+  .vstep.vend .vnum{background:var(--accent);border-color:var(--accent);color:#FFFDF9;font-size:15px}
+  .vflow.gauntlet .vstep{background:var(--dark)}
+  .vflow.gauntlet .vstep .vhead b{color:#EFE7DB}
+  .vflow.gauntlet .vstep .vtag{background:transparent;border-color:#4A443D;color:#C9A278}
+  .vflow.gauntlet .vstep p{color:#B7AB9B}
+  .vflow.gauntlet .vnum{background:var(--dark);border-color:#C9A278;color:#C9A278}
+  .vflow.gauntlet .vstep.vend{background:var(--accent)}
+  .vflow.gauntlet .vstep.vend .vhead b{color:#FFFDF9}
+  .vflow.gauntlet .vstep.vend p{color:#F7EBDD}
+  .vflow.gauntlet .vstep.vend .vtag{border-color:rgba(255,253,249,.4);color:#FFFDF9}
+  .vflow.gauntlet .vstep.vend .vnum{background:#FFFDF9;border-color:#FFFDF9;color:var(--accent)}
+  .flow-cap{font-size:12px;color:var(--muted);margin:12px 2px 20px;line-height:1.6}
   .figure{margin:24px 0}
   .figure img{width:100%;display:block;border:1px solid var(--line);border-radius:8px}
   .figcap{font-size:12.5px;color:var(--muted);line-height:1.55;margin-top:9px;padding:0 2px}
@@ -122,35 +138,36 @@
     <h2>The three flows that move work through the system</h2>
 
     <h3>Flow 1 · Build &amp; ship — repo to live Studio and synced templates</h3>
-    <div class="flow">
-      <div class="fchip"><b>Request</b>Plain-language ask from anyone</div><span class="farrow">→</span>
-      <div class="fchip sys"><b>Claude + skill</b>Brief · preflight · author · build · validate</div><span class="farrow">→</span>
-      <div class="fchip"><b>Human review</b>Draft approved, facts filled</div><span class="farrow">→</span>
-      <div class="fchip sys"><b>git push</b>Pre-push hook syncs templates to Resend — a failed sync aborts the push</div><span class="farrow">→</span>
-      <div class="fchip sys"><b>GitHub → Vercel</b>Every push builds and deploys the Studio</div><span class="farrow">→</span>
-      <div class="fchip"><b>Live</b>jimmycoco.email serves the new state</div>
+    <div class="vflow">
+      <div class="vstep"><span class="vnum">1</span><div class="vhead"><b>Request</b><span class="vtag">Anyone</span></div><p>A plain-language ask — "build a campaign for Sydney onboarding salon stockists." No schemas, no file names.</p></div>
+      <div class="vstep"><span class="vnum">2</span><div class="vhead"><b>Claude + the skill</b><span class="vtag">The producer</span></div><p>Brief → compliance preflight → author the folder → generate HTML through the master template → validate.</p></div>
+      <div class="vstep"><span class="vnum">3</span><div class="vhead"><b>Human review</b><span class="vtag">The approver</span></div><p>Draft reviewed, approval tokens filled, commercial facts confirmed. Nothing proceeds unapproved.</p></div>
+      <div class="vstep"><span class="vnum">4</span><div class="vhead"><b>git push</b><span class="vtag">The approver</span></div><p>The pre-push hook syncs templates to Resend on the way — a failed sync aborts the push, so the repo and Resend cannot silently diverge.</p></div>
+      <div class="vstep"><span class="vnum">5</span><div class="vhead"><b>GitHub → Vercel</b><span class="vtag">Automated</span></div><p>Every push builds the Studio from source and deploys it.</p></div>
+      <div class="vstep vend"><span class="vnum">✓</span><div class="vhead"><b>Live</b><span class="vtag">jimmycoco.email</span></div><p>The site serves the new state — campaigns, guides and reports included.</p></div>
     </div>
     <p class="flow-cap">Bypass for git-only pushes: <code>SKIP_RESEND_SYNC=1 git push</code>. Deliberate releases use <code>npm run templates:publish</code> after <code>templates:check</code> passes.</p>
 
     <h3>Flow 2 · The send gauntlet — what every single email must pass</h3>
     <p>When (and only when) sending is enabled, Vercel's cron calls the worker every 15 minutes with a bearer secret. Each due message then has to survive six gates in <code>api/_lib/engine.js</code> before Resend is ever contacted:</p>
-    <div class="flow gates">
-      <div class="fchip"><i>1</i><b>Live mode</b><span>EMAIL_LIVE_MODE on, or the worker exits immediately</span></div><span class="farrow">→</span>
-      <div class="fchip"><i>2</i><b>Atomic claim</b><span>Supabase RPC locks the enrollment to one worker</span></div><span class="farrow">→</span>
-      <div class="fchip"><i>3</i><b>Registry enabled</b><span>Campaign must be enabled: true in the registry</span></div><span class="farrow">→</span>
-      <div class="fchip"><i>4</i><b>Suppression</b><span>Unsubscribes, complaints and bounces block the send</span></div><span class="farrow">→</span>
-      <div class="fchip"><i>5</i><b>Frequency</b><span>Minimum contact gap (16h) or it reschedules</span></div><span class="farrow">→</span>
-      <div class="fchip"><i>6</i><b>Idempotency</b><span>A unique key per campaign/step/contact — duplicates can't send twice</span></div>
+    <div class="vflow gauntlet">
+      <div class="vstep"><span class="vnum">1</span><div class="vhead"><b>Live mode</b><span class="vtag">Environment</span></div><p><code>EMAIL_LIVE_MODE</code> must be on, or the worker exits before touching a single enrollment.</p></div>
+      <div class="vstep"><span class="vnum">2</span><div class="vhead"><b>Atomic claim</b><span class="vtag">Supabase</span></div><p>A database RPC locks the enrollment to exactly one worker — no double processing.</p></div>
+      <div class="vstep"><span class="vnum">3</span><div class="vhead"><b>Registry enabled</b><span class="vtag">Repository</span></div><p>The campaign must be <code>enabled: true</code> in the send registry. New campaigns never are.</p></div>
+      <div class="vstep"><span class="vnum">4</span><div class="vhead"><b>Suppression</b><span class="vtag">Supabase</span></div><p>Unsubscribes, complaints and bounces block the send — written by the feedback loop below.</p></div>
+      <div class="vstep"><span class="vnum">5</span><div class="vhead"><b>Frequency</b><span class="vtag">Policy</span></div><p>A minimum contact gap (16 hours) between marketing touches, or the send reschedules itself.</p></div>
+      <div class="vstep"><span class="vnum">6</span><div class="vhead"><b>Idempotency</b><span class="vtag">Ledger</span></div><p>A unique key per campaign, step and contact — a duplicate can never send twice.</p></div>
+      <div class="vstep vend"><span class="vnum">✓</span><div class="vhead"><b>Send</b><span class="vtag">→ Resend</span></div><p><code>sendTemplateEmail</code> with the registry's template ID, at 10am in the contact's own timezone.</p></div>
     </div>
-    <p class="flow-cap">Only then: <code>sendTemplateEmail</code> → Resend, using the template ID from the registry. Timing respects the contact's timezone and the campaign's 10am local send hour; failures retry three times, then park as <code>needs_attention</code>. Lifecycle events pass a <em>triple</em> campaign gate — registry enabled <em>and</em> a database-level enabled flag <em>and</em> suppression.</p>
+    <p class="flow-cap">Failures retry three times, then park as <code>needs_attention</code>. Lifecycle events pass a <em>triple</em> campaign gate — registry enabled <em>and</em> a database-level enabled flag <em>and</em> suppression.</p>
 
     <h3>Flow 3 · The feedback loop — delivery events back to the dashboard</h3>
-    <div class="flow">
-      <div class="fchip sys"><b>Resend</b>Delivers · records opens, clicks, bounces, complaints</div><span class="farrow">→</span>
-      <div class="fchip sys"><b>/api/webhooks/resend</b>Signature verified (svix) before anything is trusted</div><span class="farrow">→</span>
-      <div class="fchip sys"><b>Supabase</b>Message statuses updated · suppressions created from bounces &amp; complaints</div><span class="farrow">→</span>
-      <div class="fchip sys"><b>Stats views</b>email_campaign_stats · email_step_stats</div><span class="farrow">→</span>
-      <div class="fchip"><b>Studio</b>Polls /api/campaigns/stats every 15 seconds</div>
+    <div class="vflow">
+      <div class="vstep"><span class="vnum">1</span><div class="vhead"><b>Resend delivers</b><span class="vtag">ESP</span></div><p>And records what happens next — opens, clicks, bounces, complaints.</p></div>
+      <div class="vstep"><span class="vnum">2</span><div class="vhead"><b>/api/webhooks/resend</b><span class="vtag">Vercel</span></div><p>Every event's signature is verified (svix) before anything is trusted.</p></div>
+      <div class="vstep"><span class="vnum">3</span><div class="vhead"><b>Supabase records</b><span class="vtag">The memory</span></div><p>Message statuses updated; suppressions created automatically from bounces and complaints.</p></div>
+      <div class="vstep"><span class="vnum">4</span><div class="vhead"><b>Stats views aggregate</b><span class="vtag">Supabase</span></div><p><code>email_campaign_stats</code> · <code>email_step_stats</code></p></div>
+      <div class="vstep vend"><span class="vnum">✓</span><div class="vhead"><b>Studio dashboard</b><span class="vtag">The human window</span></div><p>Polls <code>/api/campaigns/stats</code> every 15 seconds — live performance beside every rendered email.</p></div>
     </div>
     <p class="flow-cap">This loop is why a bounce or complaint anywhere becomes a suppression everywhere — gate 4 of the gauntlet reads what the webhook wrote.</p>
 

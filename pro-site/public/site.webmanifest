@@ -1,0 +1,15 @@
+{
+  "name": "Sunless by Jimmy Coco Professional",
+  "short_name": "Jimmy Coco Pro",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4eee5",
+  "theme_color": "#3a332c",
+  "icons": [
+    {
+      "src": "/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

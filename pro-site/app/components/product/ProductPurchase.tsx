@@ -31,6 +31,11 @@ export function ProductPurchase({ state, setState, ctaRef }: {
   const lo = 25 * state.qty;
   const hi = 30 * state.qty;
   const litres = `${state.qty} ${state.qty === 1 ? "litre" : "litres"}`;
+  const coverWeeks = [lo / 12, hi / 12];
+  const formatDuration = (value: number) => value.toLocaleString("en-GB", { maximumFractionDigits: 1 });
+  const stockCover = coverWeeks[0] >= 12
+    ? `${formatDuration(coverWeeks[0] / 4.33)}–${formatDuration(coverWeeks[1] / 4.33)} months`
+    : `${formatDuration(coverWeeks[0])}–${formatDuration(coverWeeks[1])} weeks`;
 
   const setQty = (qty: number) => setState((current) => ({ ...current, qty: Math.max(1, Math.min(48, qty)) }));
 
@@ -61,14 +66,15 @@ export function ProductPurchase({ state, setState, ctaRef }: {
         <div className="qtyrow">
           <div className="stepper"><button type="button" onClick={() => setQty(state.qty - 1)} aria-label="Decrease quantity">−</button><output aria-live="polite">{state.qty}</output><button type="button" onClick={() => setQty(state.qty + 1)} aria-label="Increase quantity">+</button></div>
           <span className="shortcut-label">Quick select</span>
-          {[3, 6].map((qty) => <button type="button" className={`qpick${state.qty === qty ? " active" : ""}`} onClick={() => setQty(qty)} key={qty}>{qty === 3 ? "Popular · 3L" : "Best value · 6L"}</button>)}
+          {[3, 6].map((qty) => <button type="button" aria-pressed={state.qty === qty} aria-label={`Select ${qty} litres${qty === 3 ? ", popular quantity" : ", best value quantity"}`} className={`qpick${state.qty === qty ? " active" : ""}`} onClick={() => setQty(qty)} key={qty}><span>{qty === 3 ? "Popular · 3L" : "Best value · 6L"}</span><i aria-hidden="true">{state.qty === qty ? "✓" : "+"}</i></button>)}
         </div>
       </div>
 
       <div className="maths">
         <div><span>Order total</span><b>{gbp(total)}</b><small>{litres}</small></div>
         <div><span>Tan capacity</span><b>{lo}–{hi}</b><small>full body tans</small></div>
-        <p>Revenue potential from {gbp(lo * 25)} at £25 per tan · <Link to="/#calculator">calculate your margins</Link></p>
+        <div><span>Estimated stock cover</span><b>{stockCover}</b><small>at 12 tans per week</small></div>
+        <div><span>Revenue potential</span><b>{gbp(lo * 25)}+</b><small>at £25 per tan · <Link to="/#calculator">your margins</Link></small></div>
       </div>
 
       <div className="cta-col" ref={ctaRef}><a className="btn btn-bronze" href="#order">Compose your trade order</a><Link className="trial-link" to="/#trial">New to Jimmy Coco? Start with a free trial →</Link></div>

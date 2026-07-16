@@ -65,14 +65,21 @@
   .stepper button{width:44px;border:0;background:var(--cream);font-size:20px;cursor:pointer;color:var(--ink);font-family:inherit}
   .stepper output{width:52px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:var(--ink)}
   .shortcut-label{display:flex;align-items:center;color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-left:4px}
-  .qpick{border:1.5px solid var(--line);border-radius:999px;background:var(--paper);padding:0 16px;font-family:inherit;font-size:13.5px;font-weight:600;color:var(--ink2);cursor:pointer}
-  .qpick.active{border-color:var(--bronze);background:#F6EADF;color:var(--ink)}
-  .maths{background:var(--dark);border-radius:8px;padding:clamp(14px,1.5svh,20px) 24px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px 18px}
-  .maths div span{display:block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#B7AB9B;margin-bottom:5px}
-  .maths div b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:28px;color:#FFFDF9}
-  .maths div small{display:block;font-size:13px;color:#8F857A;margin-top:3px}
-  .maths>p{grid-column:1/-1;border-top:1px solid rgba(237,228,215,.14);padding-top:8px;color:#B7AB9B;font-size:12.5px}
-  .maths>p a{color:var(--gold);text-underline-offset:3px}
+  .qpick{min-height:44px;border:1.5px solid var(--bronze);border-radius:999px;background:#FFF9F2;padding:0 8px 0 17px;display:inline-flex;align-items:center;gap:10px;font-family:inherit;font-size:13.5px;font-weight:650;color:var(--ink2);cursor:pointer;box-shadow:0 3px 0 rgba(143,91,51,.2);transition:transform .15s ease,box-shadow .15s ease,background .15s ease,color .15s ease}
+  .qpick i{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:var(--bronze);color:#fff;font-size:17px;font-style:normal;line-height:1}
+  .qpick:hover{transform:translateY(-2px);box-shadow:0 5px 0 rgba(143,91,51,.25);background:#F8E9DB}
+  .qpick:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(143,91,51,.24)}
+  .qpick.active{border-color:var(--bronze2);background:var(--bronze);color:#fff;box-shadow:0 3px 0 rgba(80,48,25,.28)}
+  .qpick.active i{background:#fff;color:var(--bronze2)}
+  .maths{background:#F4ECE2;border:1px solid #E2D2C1;border-radius:8px;padding:12px 18px;display:grid;grid-template-columns:.72fr .82fr 1.15fr 1fr;align-items:center;gap:0}
+  .maths>div{min-width:0;padding:0 16px;border-left:1px solid #D8C5B3}
+  .maths>div:first-child{padding-left:0;border-left:0}
+  .maths>div:last-child{padding-right:0}
+  .maths div span{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--bronze2);margin-bottom:1px}
+  .maths div b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:25px;color:var(--ink)}
+  .maths div:nth-child(3) b{font-size:clamp(18px,1.45vw,23px);white-space:nowrap}
+  .maths div small{display:block;font-size:12px;color:var(--muted);margin-top:0}
+  .maths a{color:var(--bronze2);font-weight:600;text-underline-offset:3px}
   .cta-col{display:grid;gap:8px;text-align:center}
   .cta-col .btn{width:100%;padding:18px 20px;font-size:15px}
   .trial-link{font-size:14px;color:var(--bronze2);font-weight:600;text-underline-offset:4px}
@@ -179,8 +186,15 @@
     .price-block{padding:7px 0}
     .shade-opt{padding:7px 5px;font-size:12.5px}
     .shade-opt i{width:20px;height:20px}
-    .maths{padding:10px 18px}
+    .maths{padding:9px 15px}
     .cta-col .btn{padding:13px 16px}
+  }
+  @media (min-width:981px) and (max-width:1250px){
+    .maths{grid-template-columns:1fr 1fr}
+    .maths>div{padding:8px 12px;border-left:0;border-top:1px solid #D8C5B3}
+    .maths>div:nth-child(odd){padding-left:0;border-right:1px solid #D8C5B3}
+    .maths>div:nth-child(-n+2){padding-top:0;border-top:0}
+    .maths>div:nth-child(n+3){padding-bottom:0}
   }
   /* sticky order bar */
   .sticky-order{position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(25,21,18,.97);backdrop-filter:blur(8px);padding:14px 0;transform:translateY(105%);transition:transform .28s ease}
@@ -203,6 +217,10 @@
     .cmp-grid{grid-template-columns:1fr 1fr}
     .nav-links{display:none}
     .maths{grid-template-columns:1fr 1fr}
+    .maths>div{padding:10px 14px;border-left:0;border-top:1px solid #D8C5B3}
+    .maths>div:nth-child(odd){padding-left:0;border-right:1px solid #D8C5B3}
+    .maths>div:nth-child(-n+2){padding-top:0;border-top:0}
+    .maths>div:nth-child(n+3){padding-bottom:0}
     .product-proof .wrap{align-items:flex-start;flex-direction:column}
     .product-proof ul{flex-wrap:wrap;gap:10px 22px}
     .so-name small{display:none}

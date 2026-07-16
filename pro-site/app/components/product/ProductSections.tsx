@@ -24,11 +24,6 @@ export function ShadeComparison({ onChoose }: { onChoose: (shade: string) => voi
   return <section className="steps-band"><div className="wrap"><p className="eyebrow">Which shades should your salon stock?</p><h2>Build your shade menu.</h2><p className="sub">Most salons stock two or three depths to cover their full client mix.</p><div className="cmp-grid">{cards.map(([className, title, bestFor, result, shade], index) => <div className={`cmp-card ${className}`} key={title}>{index === 2 && <span className="pop-tag">Most popular</span>}<i /><h3>{title}</h3><dl><dt>Best for</dt><dd>{bestFor}</dd><dt>Result</dt><dd>{result}</dd><dt>Development</dt><dd>6–8 hours</dd></dl><button type="button" className={`btn ${index === 2 ? "btn-dark" : "btn-ghost"} btn-sm pick-shade`} onClick={() => choose(shade)}>Choose {title}</button></div>)}</div></div></section>;
 }
 
-export function Application() {
-  const steps = [["Spray sparingly", "Less than 35ml per session — maximum value from every drop of the litre."], ["Client develops", "6–8 hours on the skin, then a tepid rinse. Colour keeps developing naturally."], ["Express when needed", "Second light layer after 5 minutes for a 3–4 hour express result."]];
-  return <section><div className="wrap steps-grid"><div><p className="eyebrow">In the booth · your team, trained</p><h2>Three steps, every session.</h2>{steps.map(([title, copy], index) => <div className="step" key={title}><b className="n">{index + 1}</b><div><h3>{title}</h3><p>{copy}</p></div></div>)}<p style={{ fontSize: 16, color: "var(--muted)", marginTop: 14 }}>Shade-method training and Jimmy's guide are included with every salon account.</p></div><div className="jimmy-says"><div className="js-head"><img src={asset("product-07-3ddd03e62899.jpg")} alt="Jimmy Coco" loading="lazy" decoding="async" /><h3>Jimmy says:</h3></div><p>Intensify the glow as your client wishes — building colour gradually creates high-level radiance and healthy LA-looking luminosity in 30 minutes!</p></div></div></section>;
-}
-
 export function CrossSell() {
   const items = [
     ["product-08-66f48742c941.jpg", "Buff & Glow Mitt", "The 30-second checkout add-on · ★ 5.0", "RRP £15"],

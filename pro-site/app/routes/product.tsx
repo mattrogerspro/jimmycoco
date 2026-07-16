@@ -1,12 +1,14 @@
 import type { LinksFunction, MetaFunction } from "react-router";
 import { Link } from "react-router";
 import productStyles from "../styles/product.css?url";
+import ritualStyles from "../styles/ritual.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
+import { ApplicationRitual } from "../components/shared/ApplicationRitual";
 import { ProductPurchase, StickyOrder, usePurchaseState } from "../components/product/ProductPurchase";
-import { Application, CrossSell, JimmyStory, OrderSection, ProductDetails, Results, ShadeComparison } from "../components/product/ProductSections";
+import { CrossSell, JimmyStory, OrderSection, ProductDetails, Results, ShadeComparison } from "../components/product/ProductSections";
 import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: productStyles }];
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: productStyles }, { rel: "stylesheet", href: ritualStyles }];
 
 const canonical = absoluteUrl(PRODUCT_PATH);
 
@@ -64,7 +66,7 @@ export default function ProductPage() {
       <JimmyStory />
       <Results />
       <ShadeComparison onChoose={(shade) => setState((current) => ({ ...current, shade }))} />
-      <Application />
+      <ApplicationRitual />
       <CrossSell />
       <ProductDetails />
       <OrderSection state={state} />

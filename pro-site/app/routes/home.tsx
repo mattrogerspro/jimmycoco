@@ -1,12 +1,15 @@
 import { useCallback, useState } from "react";
 import type { LinksFunction, MetaFunction } from "react-router";
+import { Link } from "react-router";
 import homeStyles from "../styles/home.css?url";
+import ritualStyles from "../styles/ritual.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
-import { Formula, Hero, Retail, Ritual, Shades, Story, Trial } from "../components/home/HomeSections";
+import { ApplicationRitual } from "../components/shared/ApplicationRitual";
+import { Formula, Hero, Retail, Shades, Story, Trial } from "../components/home/HomeSections";
 import { ProfitCalculator } from "../components/home/ProfitCalculator";
-import { SITE_URL, absoluteUrl } from "../lib/site";
+import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: homeStyles }];
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: homeStyles }, { rel: "stylesheet", href: ritualStyles }];
 
 export const meta: MetaFunction = () => [
   { title: "Professional Spray Tan Solutions for Salons | Sunless by Jimmy Coco" },
@@ -60,12 +63,12 @@ export default function HomePage() {
         <Formula />
         <Shades />
         <ProfitCalculator onMonthlyChange={updateMonthlyProfit} />
-        <Ritual />
+        <ApplicationRitual />
         <Retail />
         <Trial monthlyProfit={monthlyProfit} />
       </main>
       <SiteFooter />
-      <div className="sticky-cta"><a className="btn btn-bronze" href="#trial">Free trial</a><a className="btn btn-dark" href="#calculator">Profit calculator</a></div>
+      <div className="sticky-cta"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order the litre</Link><a className="btn btn-dark" href="#trial">Free trial</a></div>
     </>
   );
 }

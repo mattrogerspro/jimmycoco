@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router";
 import { gbp } from "../../lib/site";
+import { PRODUCT_PATH } from "../../lib/site";
 
 type SliderProps = {
   label: string;
@@ -78,7 +80,7 @@ export function ProfitCalculator({ onMonthlyChange }: { onMonthlyChange: (value:
             <div className="ocard"><span>Weekly booth profit</span><b>{gbp(totals.boothWeek)}</b><small>on {gbp(totals.revenueWeek)} weekly revenue</small></div>
             <div className="ocard"><span>Weekly retail profit</span><b>{gbp(totals.retailWeek)}</b><small>the highest-intent moment: in the chair</small></div>
             <div className="ocard"><span>Litres you'll need</span><b>{(Math.round(totals.litresMonth * 10) / 10).toLocaleString("en-GB")}</b><small>per month, at your volume</small></div>
-            <div className="calc-cta"><a className="btn btn-bronze" href="#trial">Start with a free trial</a><p>No lock-in, no pressure — the trial is yours to judge on your own clients first.</p></div>
+            <div className="calc-cta"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order the litre — £60</Link><a className="btn btn-outline-light" href="#trial">Start with a free trial</a><p>Ready now or trial first—the next step is yours.</p></div>
           </div>
         </div>
       </div>

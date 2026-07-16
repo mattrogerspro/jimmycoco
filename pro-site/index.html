@@ -195,7 +195,7 @@
   .rit-head{margin-bottom:30px;flex:none;width:100%}
   .rit-h{font-size:clamp(38px,3vw,62px);line-height:1.05;margin-bottom:0}
   .rit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:linear-gradient(180deg,#D9A756,#B07C33);flex:1 1 auto;min-height:0}
-  .rit-panel{position:relative;min-height:0;overflow:hidden;background:#E8DCC8}
+  .rit-panel{position:relative;min-height:0;overflow:hidden;background-color:#E8DCC8;background-size:cover;background-position:center;background-repeat:no-repeat}
   .rit-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top}
   .rit-panel::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(243,236,226,.88) 0%,rgba(243,236,226,.55) 34%,rgba(243,236,226,0) 58%);z-index:1}
   .rit-copy{position:relative;z-index:2;padding:34px 38px}
@@ -541,7 +541,7 @@
     <h2 class="rit-h">Simple for<br><em>every therapist.</em></h2>
   </div>
   <div class="rit-grid">
-    <div class="rit-panel">
+    <div class="rit-panel" style="background-image:url('img/apply_backgroud.webp')">
       <img class="rit-img" src="img/apply_model.webp" alt="Therapist applying with the Jimmy Coco mitt">
       <div class="rit-copy">
         <h3>Apply</h3>
@@ -550,7 +550,7 @@
         <span class="rit-dash"></span>
       </div>
     </div>
-    <div class="rit-panel">
+    <div class="rit-panel" style="background-image:url('img/develope_backgroud.webp')">
       <img class="rit-img" src="img/develope_model.webp" alt="Colour developing naturally">
       <div class="rit-copy">
         <h3>Develop</h3>
@@ -559,7 +559,7 @@
         <span class="rit-dash"></span>
       </div>
     </div>
-    <div class="rit-panel">
+    <div class="rit-panel" style="background-image:url('img/glow_backgroud.webp');background-position:right top">
       <img class="rit-img" src="img/glow_model.webp" alt="The finished Jimmy Coco glow">
       <div class="rit-copy">
         <h3>Glow</h3>

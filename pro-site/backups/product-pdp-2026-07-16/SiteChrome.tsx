@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { PRODUCT_PATH } from "../../lib/site";
 
@@ -13,18 +12,9 @@ export function Announcement({ page = "home" }: HeaderProps) {
 }
 
 export function SiteHeader({ page = "home" }: HeaderProps) {
-  const [scrolled, setScrolled] = useState(false);
   const prefix = page === "home" ? "" : "/";
-
-  useEffect(() => {
-    const updateHeader = () => setScrolled(window.scrollY > 24);
-    updateHeader();
-    window.addEventListener("scroll", updateHeader, { passive: true });
-    return () => window.removeEventListener("scroll", updateHeader);
-  }, []);
-
   return (
-    <header className={scrolled ? "scrolled" : undefined}>
+    <header>
       <div className="wrap nav">
         <Link className="logo" to="/">SUNLESS<small>BY JIMMY COCO®</small></Link>
         <span className="protag">Professional</span>
@@ -35,7 +25,7 @@ export function SiteHeader({ page = "home" }: HeaderProps) {
           <a href={`${prefix}#retail`}>Retail Range</a>
           <a href={`${prefix}#trial`}>Free Trial</a>
         </nav>
-        {page === "home" ? <Link className="btn btn-bronze btn-sm" to={PRODUCT_PATH}>Order Malibu 1L</Link> : <a className="btn btn-bronze btn-sm" href="#order">Compose order</a>}
+        {page === "home" ? <Link className="btn btn-bronze btn-sm" to={PRODUCT_PATH}>Order Malibu 1L</Link> : <a className="btn btn-bronze btn-sm" href="#order">Order for your salon</a>}
       </div>
     </header>
   );

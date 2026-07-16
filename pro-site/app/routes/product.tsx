@@ -2,13 +2,14 @@ import type { LinksFunction, MetaFunction } from "react-router";
 import { Link } from "react-router";
 import productStyles from "../styles/product.css?url";
 import ritualStyles from "../styles/ritual.css?url";
+import chromeStyles from "../styles/chrome.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { ApplicationRitual } from "../components/shared/ApplicationRitual";
-import { ProductPurchase, StickyOrder, usePurchaseState } from "../components/product/ProductPurchase";
+import { ProductProofStrip, ProductPurchase, StickyOrder, usePurchaseState } from "../components/product/ProductPurchase";
 import { CrossSell, JimmyStory, OrderSection, ProductDetails, Results, ShadeComparison } from "../components/product/ProductSections";
 import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: productStyles }, { rel: "stylesheet", href: ritualStyles }];
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: productStyles }, { rel: "stylesheet", href: ritualStyles }, { rel: "stylesheet", href: chromeStyles }];
 
 const canonical = absoluteUrl(PRODUCT_PATH);
 
@@ -61,8 +62,11 @@ export default function ProductPage() {
     <Announcement page="product" />
     <SiteHeader page="product" />
     <main>
-      <div className="wrap crumbs"><Link to="/">Professional</Link> › <Link to="/#shades">Malibu Solution</Link> › <b>1 Litre · Salon Order</b></div>
-      <ProductPurchase state={state} setState={setState} ctaRef={ctaRef} />
+      <section className="pdp-shell">
+        <div className="wrap crumbs"><Link to="/">Professional</Link> › <Link to="/#shades">Malibu Solution</Link> › <b>1 Litre · Salon Order</b></div>
+        <ProductPurchase state={state} setState={setState} ctaRef={ctaRef} />
+      </section>
+      <ProductProofStrip />
       <JimmyStory />
       <Results />
       <ShadeComparison onChoose={(shade) => setState((current) => ({ ...current, shade }))} />

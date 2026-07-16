@@ -145,29 +145,41 @@
   .lstat b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:34px;color:var(--ink);display:block}
   .lstat span{font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
   /* calculator */
-  .calc{background:var(--dark)}
+  .calc{background:var(--dark);height:min(820px,calc(90svh - 74px));min-height:min(640px,calc(90svh - 74px));padding:clamp(30px,4vh,48px) 0;display:flex;align-items:center;scroll-margin-top:74px}
+  .calc > .wrap{width:100%}
+  .calc-head{display:grid;grid-template-columns:.9fr 1.1fr;gap:34px;align-items:end}
   .calc .eyebrow{color:var(--gold)}
-  .calc h2{color:#FFFDF9}
-  .calc .sub{color:#B7AB9B}
-  .calc-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:34px;margin-top:44px;align-items:start}
-  .calc-in{background:rgba(253,251,248,.06);border:1px solid rgba(237,228,215,.15);border-radius:8px;padding:36px 38px}
-  .calc-in h3{font-size:16.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;font-weight:600}
-  .field{margin-bottom:30px}
-  .field label{display:flex;justify-content:space-between;font-size:20px;color:#EDE4D7;margin-bottom:9px}
+  .calc-head .eyebrow{margin-bottom:10px}
+  .calc h2{color:#FFFDF9;margin-bottom:0;font-size:clamp(38px,3.6vw,52px)}
+  .calc .sub{color:#B7AB9B;font-size:20px;line-height:1.5;max-width:680px}
+  .calc-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:28px;margin-top:clamp(20px,2.8vh,30px);align-items:stretch}
+  .calc-in{background:rgba(253,251,248,.06);border:1px solid rgba(237,228,215,.15);border-radius:8px;padding:24px 28px;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;align-items:start}
+  .calc-group h3{font-size:18px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:600}
+  .field{margin-bottom:17px}
+  .field:last-child{margin-bottom:0}
+  .field label{display:flex;justify-content:space-between;gap:12px;font-size:18px;color:#EDE4D7;margin-bottom:5px}
   .field label output{font-weight:600;color:#fff}
-  .field input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:36px;background:transparent;cursor:pointer}.field input[type=range]::-webkit-slider-runnable-track{height:10px;border-radius:5px;background:rgba(237,228,215,.22)}.field input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:var(--bronze);border:4px solid #FFFDF9;margin-top:-10px;box-shadow:0 3px 10px rgba(0,0,0,.45)}.field input[type=range]::-moz-range-track{height:10px;border-radius:5px;background:rgba(237,228,215,.22)}.field input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--bronze);border:4px solid #FFFDF9;box-shadow:0 3px 10px rgba(0,0,0,.45)}
+  .field input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:30px;background:transparent;cursor:pointer}.field input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:rgba(237,228,215,.22)}.field input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--bronze);border:4px solid #FFFDF9;margin-top:-9px;box-shadow:0 3px 10px rgba(0,0,0,.45)}.field input[type=range]::-moz-range-track{height:8px;border-radius:4px;background:rgba(237,228,215,.22)}.field input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--bronze);border:4px solid #FFFDF9;box-shadow:0 3px 10px rgba(0,0,0,.45)}
   .fieldrow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .note{font-size:16px;color:#8F857A;line-height:1.55;margin-top:10px}
-  .calc-out{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .ocard{background:rgba(253,251,248,.06);border:1px solid rgba(237,228,215,.15);border-radius:8px;padding:24px 26px}
-  .ocard span{font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#B7AB9B;display:block;margin-bottom:8px}
-  .ocard b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:46px;color:#FFFDF9;line-height:1}
-  .ocard small{display:block;font-size:17px;color:#8F857A;margin-top:8px}
+  .calc-in > .note{grid-column:1/-1;font-size:15px;color:#8F857A;line-height:1.45;margin-top:0}
+  .calc-out{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ocard{background:rgba(253,251,248,.06);border:1px solid rgba(237,228,215,.15);border-radius:8px;padding:17px 20px}
+  .ocard span{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#B7AB9B;display:block;margin-bottom:5px}
+  .ocard b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:42px;color:#FFFDF9;line-height:1}
+  .ocard small{display:block;font-size:15.5px;color:#8F857A;margin-top:6px;line-height:1.4}
   .ocard.hero-num{grid-column:1/-1;background:linear-gradient(120deg,rgba(176,118,74,.35),rgba(176,118,74,.12));border-color:rgba(201,149,103,.4)}
-  .ocard.hero-num b{font-size:72px;color:#fff}
+  .ocard.hero-num b{font-size:58px;color:#fff}
   .ocard.hero-num span{color:var(--gold)}
-  .calc-cta{grid-column:1/-1;text-align:center;padding-top:8px}
-  .calc-cta p{color:#B7AB9B;font-size:17px;margin-top:12px}
+  .calc-cta{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:20px;text-align:left;padding-top:2px}
+  .calc-cta p{color:#B7AB9B;font-size:15.5px;line-height:1.45;margin-top:0;max-width:380px}
+  @media (min-width:901px) and (max-height:800px){
+    .calc{min-height:min(580px,calc(90svh - 74px));padding:22px 0}
+    .calc-grid{margin-top:16px}
+    .calc-in{padding:18px 22px}
+    .field{margin-bottom:11px}
+    .ocard{padding:13px 18px}
+    .ocard.hero-num b{font-size:48px}
+  }
   /* litre facts band */
   .lstat.lstat-one{grid-template-columns:1fr}
   .facts-strip{background:#281E15;border-top:1px solid rgba(201,149,103,.28);border-bottom:1px solid rgba(201,149,103,.28);padding:60px 0 48px}
@@ -179,25 +191,25 @@
   .facts-tag{text-align:center;font-size:18px;color:#B7AB9B;margin-top:32px}
   .facts-tag b{color:var(--gold)}
   /* application ritual */
-  .ritual{background:linear-gradient(180deg,#F5EFE6 0%,#EDE2CF 100%);padding:88px 0 0}
-  .rit-head{margin-bottom:54px}
-  .rit-h{font-size:clamp(46px,4.2vw,88px);line-height:1.03;margin-bottom:0}
-  .rit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:linear-gradient(180deg,#D9A756,#B07C33)}
-  .rit-panel{position:relative;min-height:clamp(560px,52vw,780px);overflow:hidden;background:#E8DCC8}
+  .ritual{background:linear-gradient(180deg,#F5EFE6 0%,#EDE2CF 100%);padding:46px 0 0;display:flex;flex-direction:column;height:90vh;min-height:640px}
+  .rit-head{margin-bottom:30px;flex:none;width:100%}
+  .rit-h{font-size:clamp(38px,3vw,62px);line-height:1.05;margin-bottom:0}
+  .rit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:linear-gradient(180deg,#D9A756,#B07C33);flex:1 1 auto;min-height:0}
+  .rit-panel{position:relative;min-height:0;overflow:hidden;background:#E8DCC8}
   .rit-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top}
   .rit-panel::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(243,236,226,.88) 0%,rgba(243,236,226,.55) 34%,rgba(243,236,226,0) 58%);z-index:1}
-  .rit-copy{position:relative;z-index:2;padding:52px 44px}
-  .rit-copy h3{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(42px,3.3vw,64px);letter-spacing:.02em;text-transform:uppercase;color:var(--ink);margin-bottom:30px}
-  .rit-copy i{display:block;font-style:normal;margin-bottom:24px}
-  .rit-copy i svg{width:56px;height:56px;stroke:#B07C33;fill:none;stroke-width:1.5}
-  .rit-copy p{max-width:250px;font-size:19.5px;line-height:1.65;color:var(--ink2);font-weight:500}
-  .rit-dash{display:block;width:28px;height:2px;background:var(--bronze2);margin-top:26px}
+  .rit-copy{position:relative;z-index:2;padding:34px 38px}
+  .rit-copy h3{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(34px,2.5vw,50px);letter-spacing:.02em;text-transform:uppercase;color:var(--ink);margin-bottom:18px}
+  .rit-copy i{display:block;font-style:normal;margin-bottom:16px}
+  .rit-copy i svg{width:44px;height:44px;stroke:#B07C33;fill:none;stroke-width:1.5}
+  .rit-copy p{max-width:240px;font-size:17.5px;line-height:1.6;color:var(--ink2);font-weight:500}
+  .rit-dash{display:block;width:28px;height:2px;background:var(--bronze2);margin-top:18px}
   .rit-metrics{background:var(--dark);display:grid;grid-template-columns:repeat(3,1fr)}
-  .rit-metrics > div{display:flex;align-items:center;justify-content:center;gap:30px;padding:46px 20px;border-left:1px solid rgba(201,149,103,.35)}
+  .rit-metrics > div{display:flex;align-items:center;justify-content:center;gap:26px;padding:26px 20px;border-left:1px solid rgba(201,149,103,.35)}
   .rit-metrics > div:first-child{border-left:0}
-  .rit-metrics b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(46px,3.4vw,62px);color:#F3E9D7;line-height:1}
+  .rit-metrics b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(38px,2.6vw,50px);color:#F3E9D7;line-height:1}
   .rit-metrics b small{font-size:.4em;color:#C9BCAB;font-family:'Jost',sans-serif;margin-left:8px;letter-spacing:.04em}
-  .rit-metrics span{font-size:14px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);line-height:1.85;font-weight:600}
+  .rit-metrics span{font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);line-height:1.8;font-weight:600}
   /* steps */
   .steps-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
   .step{display:flex;gap:22px;padding:24px 0;border-bottom:1px solid var(--line)}
@@ -274,7 +286,11 @@
   .sticky-cta{display:none}
   @media (max-width:900px){
     section{padding:60px 0}
+    .calc{height:auto;min-height:0;display:block}
+    .calc-head,.calc-in{grid-template-columns:1fr}
+    .calc-cta{flex-direction:column;text-align:center}
     .story-grid,.steps-grid,.close-grid,.litre-grid,.calc-grid{grid-template-columns:1fr;gap:36px}
+    .ritual{height:auto;min-height:0}
     .rit-grid,.rit-metrics{grid-template-columns:1fr}
     .rit-panel{min-height:520px}
     .rit-metrics > div{border-left:0;border-top:1px solid rgba(201,149,103,.35);justify-content:flex-start;padding:26px 24px}
@@ -462,30 +478,36 @@
 <!-- CALCULATOR -->
 <section class="calc" id="calculator">
   <div class="wrap">
-    <p class="eyebrow">The salon maths</p>
-    <h2>Calculate your tanning profit.</h2>
-    <p class="sub">Your prices, your volume — see what the booth and the shelf earn together. Adjust everything to match your salon.</p>
+    <div class="calc-head">
+      <div>
+        <p class="eyebrow">The salon maths</p>
+        <h2>Calculate your tanning profit.</h2>
+      </div>
+      <p class="sub">Your prices, your volume — see what the booth and the shelf earn together. Adjust everything to match your salon.</p>
+    </div>
     <div class="calc-grid">
       <div class="calc-in">
-        <h3>In the booth</h3>
-        <div class="field">
-          <label>Your price per spray tan <output id="o-price">£25</output></label>
-          <input type="range" id="in-price" min="15" max="60" step="1" value="25">
+        <div class="calc-group">
+          <h3>In the booth</h3>
+          <div class="field">
+            <label>Your price per spray tan <output id="o-price">£25</output></label>
+            <input type="range" id="in-price" min="15" max="60" step="1" value="25">
+          </div>
+          <div class="field">
+            <label>Spray tans per week <output id="o-tans">12</output></label>
+            <input type="range" id="in-tans" min="1" max="60" step="1" value="12">
+          </div>
+          <div class="field">
+            <label>Tans per litre <output id="o-yield">27</output></label>
+            <input type="range" id="in-yield" min="25" max="30" step="1" value="27">
+          </div>
         </div>
-        <div class="field">
-          <label>Spray tans per week <output id="o-tans">12</output></label>
-          <input type="range" id="in-tans" min="1" max="60" step="1" value="12">
-        </div>
-        <div class="field">
-          <label>Tans per litre <output id="o-yield">27</output></label>
-          <input type="range" id="in-yield" min="25" max="30" step="1" value="27">
-        </div>
-        <h3 style="margin-top:30px">On the shelf</h3>
-        <div class="field">
-          <label>Retail add-ons per week <output id="o-units">3</output></label>
-          <input type="range" id="in-units" min="0" max="20" step="1" value="3">
-        </div>
-        <div class="fieldrow">
+        <div class="calc-group">
+          <h3>On the shelf</h3>
+          <div class="field">
+            <label>Retail add-ons per week <output id="o-units">3</output></label>
+            <input type="range" id="in-units" min="0" max="20" step="1" value="3">
+          </div>
           <div class="field">
             <label>Avg retail price <output id="o-rprice">£15</output></label>
             <input type="range" id="in-rprice" min="10" max="79" step="1" value="15">

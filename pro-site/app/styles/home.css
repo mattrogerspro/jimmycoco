@@ -152,7 +152,6 @@
   .shade:nth-child(1)::after{content:"☼  Natural · Soft\A    Light · Subtle";white-space:pre}
   .shade:nth-child(2)::after{content:"☼  Warm · Golden\A    Radiant · Healthy";white-space:pre;background:rgba(91,57,29,.22)}
   .shade:nth-child(3)::after{content:"☼  Rich · Intense\A    Deep · Luxurious";white-space:pre;color:#FFF8EC;background:rgba(42,25,13,.34)}
-  .shades-showcase .litre-grid{display:none}
   @media (max-width:900px){
     .shades-showcase{height:auto;background-position:left top;background-size:auto 720px}
     .shades-showcase .wrap{display:block;min-height:0}
@@ -171,6 +170,11 @@
   }
   .litre-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center;margin-top:56px}
   .litre-grid img{border-radius:6px;box-shadow:var(--shadow)}
+  .litre-offer{background:var(--paper);padding:clamp(64px,8vw,104px) 0}
+  .litre-offer .litre-grid{margin-top:0}
+  .litre-offer h2{font-size:clamp(34px,4vw,52px);max-width:660px}
+  .litre-offer .note{color:var(--muted);font-size:14px;margin-top:14px}
+  .litre-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
   .lstat{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
   .lstat div{background:var(--cream);border-radius:6px;padding:20px 22px}
   .lstat b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:34px;color:var(--ink);display:block}

@@ -132,25 +132,25 @@
     .fx-stat{min-height:360px}
   }
   /* shades */
-  .shades-showcase{position:relative;overflow:hidden;background:#EEE2D1 url('img/backgrounds/Three_shades.webp') center/cover no-repeat;padding:76px 0 72px}
-  .shades-showcase .wrap{min-height:clamp(720px,53vw,970px);display:grid;grid-template-columns:minmax(320px,.76fr) minmax(0,1.72fr);grid-template-rows:auto auto auto 1fr;column-gap:clamp(28px,3vw,58px);align-items:start}
-  .shades-showcase .eyebrow{grid-column:1;grid-row:1;font-size:clamp(14px,1vw,18px);margin:34px 0 24px;color:#8B5B31}
-  .shades-showcase h2{grid-column:1;grid-row:2;font-size:clamp(52px,4.7vw,88px);line-height:1.03;margin:0;max-width:580px}
+  .shades-showcase{position:relative;overflow:hidden;height:calc(90svh - 74px);scroll-margin-top:74px;background:#EEE2D1 url('img/backgrounds/Three_shades.webp') center/cover no-repeat;padding:clamp(22px,3.2vh,38px) 0}
+  .shades-showcase .wrap{height:100%;min-height:0;display:grid;grid-template-columns:minmax(300px,.9fr) minmax(0,1.4fr);grid-template-rows:auto auto auto 1fr;column-gap:clamp(24px,2.6vw,46px);align-items:start}
+  .shades-showcase .eyebrow{grid-column:1;grid-row:1;font-size:clamp(13px,.9vw,17px);margin:12px 0 15px;color:#8B5B31}
+  .shades-showcase h2{grid-column:1;grid-row:2;font-size:clamp(43px,4vw,70px);line-height:1.01;margin:0;max-width:500px}
   .shades-showcase h2 em{display:inline-block;color:#8B613A}
-  .shade-intro{grid-column:1;grid-row:3;max-width:340px;margin-top:42px}
-  .shade-rule{display:block;width:66px;height:2px;background:#966131;margin-bottom:30px}
-  .shade-intro p{font-size:clamp(17px,1.2vw,22px);line-height:1.65;color:#211B17;font-weight:500}
-  .shade-grid{grid-column:2;grid-row:1/5;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin:0;align-self:stretch}
-  .shade{position:relative;display:flex;flex-direction:column;min-width:0;background:#C7A27B;border:0;border-radius:7px;overflow:hidden;box-shadow:0 14px 34px rgba(54,35,19,.12)}
-  .shade::before{display:block;flex:none;padding:26px 26px 24px;font-size:clamp(19px,1.65vw,29px);line-height:1;letter-spacing:.05em;color:#fff;font-weight:600}
+  .shade-intro{grid-column:1;grid-row:3;max-width:320px;margin-top:24px}
+  .shade-rule{display:block;width:54px;height:2px;background:#966131;margin-bottom:19px}
+  .shade-intro p{font-size:clamp(15px,1.05vw,19px);line-height:1.55;color:#211B17;font-weight:500}
+  .shade-grid{grid-column:2;grid-row:1/5;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;width:100%;height:100%;margin:0;align-self:stretch}
+  .shade{position:relative;display:flex;flex-direction:column;min-width:0;height:100%;background:#C7A27B;border:0;border-radius:6px;overflow:hidden;box-shadow:0 10px 24px rgba(54,35,19,.1)}
+  .shade::before{display:block;flex:none;padding:17px 19px 16px;font-size:clamp(17px,1.3vw,23px);line-height:1;letter-spacing:.05em;color:#fff;font-weight:600}
   .shade:nth-child(1)::before{content:"LIGHT  ✦";background:#98724C}
   .shade:nth-child(2)::before{content:"MEDIUM  ✦";background:#73502F}
   .shade:nth-child(3)::before{content:"DARK  ✦";background:#4A2D16}
-  .shade img{width:100%;height:clamp(245px,25vw,390px);aspect-ratio:auto;object-fit:cover}
-  .shade div{flex:1;padding:clamp(24px,2.1vw,38px) clamp(22px,1.8vw,32px);background:#D5B58F}
-  .shade p{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:clamp(23px,1.75vw,32px);line-height:1.28;color:#1D1712}
+  .shade img{width:100%;height:clamp(145px,22svh,220px);aspect-ratio:auto;object-fit:cover}
+  .shade div{flex:1;min-height:0;padding:clamp(15px,1.45vw,24px) clamp(15px,1.35vw,22px);background:#D5B58F}
+  .shade p{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:clamp(18px,1.3vw,24px);line-height:1.2;color:#1D1712}
   .shade p b{color:inherit;font-weight:500}
-  .shade p::after{display:block;margin-top:30px;padding-top:29px;border-top:2px solid rgba(118,76,39,.62);font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(15px,1.05vw,19px);font-weight:500;line-height:1.65;color:#292019}
+  .shade p::after{display:block;margin-top:15px;padding-top:14px;border-top:1px solid rgba(118,76,39,.62);font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(13px,.9vw,16px);font-weight:500;line-height:1.45;color:#292019}
   .shade:nth-child(1) p::after{content:"Perfect for fair to light skin tones or clients wanting a soft, natural radiance."}
   .shade:nth-child(2) p::after{content:"Ideal for medium skin tones or clients wanting a healthy, golden bronze."}
   .shade:nth-child(3) p::after{content:"Designed for deeper skin tones or clients wanting a richer, more intense bronze."}
@@ -158,13 +158,13 @@
   .shade:nth-child(3) div{background:#68492C}
   .shade:nth-child(3) p,.shade:nth-child(3) p::after{color:#FFF8EC}
   .shade:nth-child(3) p::after{border-top-color:rgba(255,248,236,.72)}
-  .shade::after{display:block;flex:none;min-height:100px;padding:25px 24px;font-size:clamp(12px,.82vw,15px);line-height:1.75;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:#261B13;background:rgba(117,77,42,.16)}
+  .shade::after{display:block;flex:none;padding:13px 17px;font-size:clamp(10px,.7vw,12px);line-height:1.55;letter-spacing:.13em;text-transform:uppercase;font-weight:600;color:#261B13;background:rgba(117,77,42,.16)}
   .shade:nth-child(1)::after{content:"☼  Natural · Soft\A    Light · Subtle";white-space:pre}
   .shade:nth-child(2)::after{content:"☼  Warm · Golden\A    Radiant · Healthy";white-space:pre;background:rgba(91,57,29,.22)}
   .shade:nth-child(3)::after{content:"☼  Rich · Intense\A    Deep · Luxurious";white-space:pre;color:#FFF8EC;background:rgba(42,25,13,.34)}
   .shades-showcase .litre-grid{display:none}
-  @media (max-width:1100px){
-    .shades-showcase{background-position:left top;background-size:auto 720px}
+  @media (max-width:900px){
+    .shades-showcase{height:auto;background-position:left top;background-size:auto 720px}
     .shades-showcase .wrap{display:block;min-height:0}
     .shades-showcase .eyebrow{margin-top:0}
     .shades-showcase h2{max-width:650px}
@@ -176,8 +176,8 @@
     .shades-showcase{padding:56px 0;background-position:left 250px;background-size:auto 570px}
     .shades-showcase h2{font-size:clamp(48px,14vw,68px)}
     #shades .shade-grid{grid-template-columns:1fr;margin-top:330px;overflow:visible}
-    .shade img{height:330px}
-    .shade::before{padding:24px}
+    .shade img{height:230px}
+    .shade::before{padding:18px 20px}
   }
   .litre-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center;margin-top:56px}
   .litre-grid img{border-radius:6px;box-shadow:var(--shadow)}

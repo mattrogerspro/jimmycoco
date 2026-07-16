@@ -76,8 +76,8 @@
   .maths>div:first-child{padding-left:0;border-left:0}
   .maths>div:last-child{padding-right:0}
   .maths div span{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#C9BCAB;margin-bottom:1px}
-  .maths div b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:25px;color:#FFFDF9;letter-spacing:-.02em}
-  .maths div:nth-child(3) b{font-size:clamp(18px,1.45vw,23px);white-space:nowrap}
+  .maths div b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:clamp(29px,2vw,35px);color:#FFFDF9;letter-spacing:-.035em;line-height:1.15}
+  .maths div:nth-child(3) b{font-size:clamp(26px,1.75vw,32px);white-space:nowrap}
   .maths div small{display:block;font-size:12px;color:#AFA397;margin-top:0}
   .maths a{color:var(--gold);font-weight:600;text-underline-offset:3px}
   .cta-col{display:grid;gap:8px;text-align:center}

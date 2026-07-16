@@ -161,6 +161,9 @@
   footer{background:var(--dark);color:#9A8F82;padding:50px 0 38px;font-size:15px}
   footer .wrap{display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
   footer a{color:#C9BCAB;text-decoration:none;margin-right:20px}
+  footer .buildlog{flex-basis:100%;margin-top:8px;padding-top:15px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#8B8074}
+  footer .buildlog span{margin-right:8px}
+  footer .buildlog a{margin-right:0;border-bottom:1px solid rgba(201,188,171,.35)}
   /* large desktop navigation */
   @media (min-width:1800px) and (min-height:1300px){
     :root{--nav-height:96px}

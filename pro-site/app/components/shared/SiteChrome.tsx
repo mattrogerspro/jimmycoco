@@ -52,6 +52,7 @@ export function SiteFooter({ page = "home" }: HeaderProps) {
           <a href="https://jimmycoco.co.uk/policies/terms-of-service">Terms</a>
           {page === "home" && <a href="https://jimmycoco.co.uk/policies/privacy-policy">Privacy</a>}
         </div>
+        <div className="buildlog"><span>Build log — how this page was made:</span> <a href="/audits/re-audit-salon-page.html">Conversion re-audit · salon page (8.2/10)</a></div>
       </div>
     </footer>
   );

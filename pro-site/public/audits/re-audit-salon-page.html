@@ -45,6 +45,7 @@
   .row .bar{flex:1;height:9px;background:var(--soft);border-radius:5px;overflow:hidden}
   .row .bar i{display:block;height:100%;border-radius:5px}
   .row.old .bar i{background:#C99B87}
+  .row.mid .bar i{background:#CBA36A}
   .row.new .bar i{background:var(--good)}
   .row b{flex:0 0 30px;text-align:right;font-size:12.5px;color:var(--heading)}
   .grade-strip{display:flex;gap:16px;margin:20px 0 6px;flex-wrap:wrap}
@@ -77,60 +78,75 @@
 
   <div class="card">
     <p class="eyebrow">Part one · The comparative scorecard</p>
-    <h2>Original page vs current page, category by category</h2>
+    <h2>Category by category — original → v2 → now</h2>
     <div class="grade-strip">
       <div class="gcard old"><span>Original entry page</span><b>4.6</b><small>UNDERPERFORMING</small></div>
       <div class="gcard" style="background:#EDE4D7"><span>Re-audit · 15 Jul</span><b>8.0</b><small style="color:#7A726A;font-weight:600">STRONG</small></div>
       <div class="gcard new"><span>This pass · 16 Jul</span><b>8.2</b><small>STRONG — +0.2</small></div>
     </div>
 
-    <div class="cmp"><div class="lbl"><b>First impression (5-second test)</b><span class="delta">+4.7</span></div>
+    <div class="cmp"><div class="lbl"><b>First impression (5-second test)</b><span class="delta">+0.2</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:40%"></i></div><b>4.0</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:87%"></i></div><b>8.7</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Clarity of proposition</b><span class="delta">+5.5</span></div>
+    <div class="cmp"><div class="lbl"><b>Clarity of proposition</b><span class="delta flat">±0</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:35%"></i></div><b>3.5</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:90%"></i></div><b>9.0</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:90%"></i></div><b>9.0</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Visual hierarchy</b><span class="delta">+4.5</span></div>
+    <div class="cmp"><div class="lbl"><b>Visual hierarchy</b><span class="delta flat">±0</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:40%"></i></div><b>4.0</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Information architecture</b><span class="delta">+4.7</span></div>
+    <div class="cmp"><div class="lbl"><b>Information architecture</b><span class="delta">+0.2</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:40%"></i></div><b>4.0</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:87%"></i></div><b>8.7</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Cognitive load</b><span class="delta">+3.0</span></div>
+    <div class="cmp"><div class="lbl"><b>Cognitive load</b><span class="delta flat">±0</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:50%"></i></div><b>5.0</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:80%"></i></div><b>8.0</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:80%"></i></div><b>8.0</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Copywriting</b><span class="delta">+3.7</span></div>
+    <div class="cmp"><div class="lbl"><b>Copywriting</b><span class="delta">+0.2</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:45%"></i></div><b>4.5</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:80%"></i></div><b>8.0</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:82%"></i></div><b>8.2</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Conversion psychology</b><span class="delta">+5.2</span></div>
+    <div class="cmp"><div class="lbl"><b>Conversion psychology</b><span class="delta">+0.2</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:35%"></i></div><b>3.5</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:87%"></i></div><b>8.7</b></div></div>
-    <div class="cmp"><div class="lbl"><b>CTA effectiveness</b><span class="delta">+5.0</span></div>
+    <div class="cmp"><div class="lbl"><b>CTA effectiveness</b><span class="delta flat">±0</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:35%"></i></div><b>3.5</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Trust &amp; proof</b><span class="delta">+3.0</span></div>
+    <div class="cmp"><div class="lbl"><b>Trust &amp; proof</b><span class="delta">+0.5</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:40%"></i></div><b>4.0</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:65%"></i></div><b>6.5</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:70%"></i></div><b>7.0</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Form UX</b> <span style="font-size:11px;color:var(--muted)">(orig: Shopify checkout · now: trial form)</span><span class="delta flat">−1.0</span></div>
+    <div class="cmp"><div class="lbl"><b>Form UX</b> <span style="font-size:11px;color:var(--muted)">(orig = Shopify checkout)</span><span class="delta">+0.5</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:75%"></i></div><b>7.5</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:60%"></i></div><b>6.0</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:65%"></i></div><b>6.5</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Visual design &amp; typography</b><span class="delta">+2.2</span></div>
+    <div class="cmp"><div class="lbl"><b>Visual design &amp; typography</b><span class="delta">+0.2</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:63%"></i></div><b>6.3</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:83%"></i></div><b>8.3</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Mobile (inferred)</b><span class="delta">+3.0</span></div>
+    <div class="cmp"><div class="lbl"><b>Mobile (inferred)</b><span class="delta flat">±0</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:45%"></i></div><b>4.5</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:75%"></i></div><b>7.5</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:75%"></i></div><b>7.5</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Accessibility</b><span class="delta">+3.0</span></div>
+    <div class="cmp"><div class="lbl"><b>Accessibility</b><span class="delta">+0.5</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:40%"></i></div><b>4.0</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:65%"></i></div><b>6.5</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:70%"></i></div><b>7.0</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Premium perception</b><span class="delta">+2.7</span></div>
+    <div class="cmp"><div class="lbl"><b>Premium perception</b><span class="delta">+0.2</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:60%"></i></div><b>6.0</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:87%"></i></div><b>8.7</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Competitive strength (trade category)</b><span class="delta">+4.3</span></div>
+    <div class="cmp"><div class="lbl"><b>Competitive strength (trade category)</b><span class="delta">+0.3</span></div>
       <div class="row old"><span>Orig</span><div class="bar"><i style="width:40%"></i></div><b>4.0</b></div>
+      <div class="row mid"><span>v2</span><div class="bar"><i style="width:80%"></i></div><b>8.0</b></div>
       <div class="row new"><span>Now</span><div class="bar"><i style="width:83%"></i></div><b>8.3</b></div></div>
 
-    <p style="font-size:13px;color:var(--muted);margin-top:16px">Read the deltas against the original entry page; the move that matters for this pass is the smaller one, <b>8.0 → 8.2</b>. Trust and accessibility each gained half a point (a client-survey stat; proper labels on the order form), but the single negative delta persists for the same reason it did in July: the old audit scored Shopify's polished checkout (7.5), and this page's equivalent — the trial form — still submits by <code>mailto:</code> (now 6.5). The two lagging categories, trust and form UX, share one root: the page is finished as a design and still unfinished as plumbing.</p>
+    <p style="font-size:13px;color:var(--muted);margin-top:16px">Three bars per category: the original entry page (pale), the 15 July v2 re-audit (bronze) and now (green) — so the first big leap and this pass's smaller one are both visible. The <span style="color:var(--heading)">delta shown is the latest move, v2 → now</span>. Gains this pass cluster where the July fixes landed — <b>Trust &amp; proof</b>, <b>Form UX</b> and <b>Accessibility</b> each <b>+0.5</b> (the independent client-survey stat, and the newly-labelled order form); six more edge up +0.2–0.3; five (<b>Clarity</b>, <b>Visual hierarchy</b>, <b>Cognitive load</b>, <b>CTA effectiveness</b>, <b>Mobile</b>) are flat at their v2 level. Nothing regressed. One caveat: Form UX is the only place the original bar is <i>highest</i> — the orig 7.5 scored Shopify's polished checkout, not a comparable form; the trial form is the real baseline, and it's still capped by the <code>mailto:</code> wiring. Form UX and Trust remain the two lowest bars because their ceilings are the untouched HIGH findings.</p>
   </div>
 
   <div class="card">

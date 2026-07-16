@@ -8,7 +8,7 @@ startup_timeout_sec = 20
 tool_timeout_sec = 60
 
 [mcp_servers.supabase]
-url = "https://mcp.supabase.com/mcp"
+url = "https://mcp.supabase.com/mcp?project_ref=tfiumxnztxacsmgccukt"
 auth = "oauth"
 enabled = true
 

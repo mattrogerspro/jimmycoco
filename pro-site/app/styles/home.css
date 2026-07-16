@@ -52,7 +52,7 @@
   .metric{display:flex;align-items:center;justify-content:center;gap:26px;padding:40px 20px;border-left:1px solid rgba(176,118,74,.3)}
   .metric:first-child{border-left:0}
   .metric svg{width:66px;height:66px;flex:none;stroke:var(--bronze);fill:none;stroke-width:1.25}
-  .metric b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(44px,3.6vw,70px);color:var(--ink);line-height:1;display:block}
+  .metric b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:clamp(42px,3.4vw,66px);color:var(--ink);line-height:1;display:block;letter-spacing:-.03em}
   .metric b small{font-size:.5em;color:var(--muted);font-family:'Jost',sans-serif;margin-left:5px;letter-spacing:.02em}
   .metric span{display:block;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze2);margin-top:8px;font-weight:600}
   /* benefits bar */
@@ -87,7 +87,7 @@
   .fx-quote small{font-size:13px;color:var(--muted)}
   .fx-stat{position:relative;display:flex;align-items:flex-end;justify-content:center;min-height:0;height:100%}
   .fx-badge{width:clamp(160px,13vw,220px);aspect-ratio:1;margin-bottom:32px;border:1px solid rgba(255,253,249,.85);border-radius:50%;background:rgba(20,16,13,.24);backdrop-filter:blur(3px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#FFFDF9;padding:9%;text-shadow:0 1px 12px rgba(20,16,13,.45)}
-  .fx-badge b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(36px,2.7vw,48px);margin-bottom:7px}
+  .fx-badge b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:clamp(34px,2.5vw,45px);margin-bottom:7px;letter-spacing:-.03em}
   .fx-badge span{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;line-height:1.65;font-weight:500}
   .fx-note{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:10px;color:rgba(255,253,249,.9);letter-spacing:.04em;text-shadow:0 1px 6px rgba(20,16,13,.6)}
   .fx-feats{display:flex;flex-direction:column;justify-content:center}
@@ -171,7 +171,7 @@
   .litre-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
   .lstat{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
   .lstat div{background:var(--cream);border-radius:6px;padding:20px 22px}
-  .lstat b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:34px;color:var(--ink);display:block}
+  .lstat b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:32px;color:var(--ink);display:block;letter-spacing:-.02em}
   .lstat span{font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
   /* calculator */
   .calc{background:var(--dark);height:min(820px,calc(90svh - 74px));min-height:min(640px,calc(90svh - 74px));padding:clamp(30px,4vh,48px) 0;display:flex;align-items:center;scroll-margin-top:74px}
@@ -194,7 +194,7 @@
   .calc-out{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .ocard{background:rgba(253,251,248,.06);border:1px solid rgba(237,228,215,.15);border-radius:8px;padding:17px 20px}
   .ocard span{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#B7AB9B;display:block;margin-bottom:5px}
-  .ocard b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:42px;color:#FFFDF9;line-height:1}
+  .ocard b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:40px;color:#FFFDF9;line-height:1;letter-spacing:-.03em}
   .ocard small{display:block;font-size:15.5px;color:#8F857A;margin-top:6px;line-height:1.4}
   .ocard.hero-num{grid-column:1/-1;background:linear-gradient(120deg,rgba(176,118,74,.35),rgba(176,118,74,.12));border-color:rgba(201,149,103,.4)}
   .ocard.hero-num b{font-size:58px;color:#fff}
@@ -231,7 +231,7 @@
   .badge{align-self:flex-start;background:var(--bronze);color:#FFFDF9;border-radius:3px;font-size:13.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:7px 15px}
   .pcard h3{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:33px;color:var(--ink);line-height:1.12}
   .pcard .pdesc{font-size:19.5px;color:var(--ink2);flex:1;line-height:1.6}
-  .price{font-family:'Fraunces',Georgia,serif;font-size:26px;color:var(--ink);font-weight:500}
+  .price{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:24px;color:var(--ink);font-weight:600}
   .price span{font-family:'Jost',sans-serif;color:var(--muted);font-weight:400;font-size:17px}
   .section-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:42px}
   /* package + form */

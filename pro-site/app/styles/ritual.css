@@ -14,7 +14,7 @@
 .rit-metrics{background:var(--dark);display:grid;grid-template-columns:repeat(3,1fr)}
 .rit-metrics>div{display:flex;align-items:center;justify-content:center;gap:26px;padding:26px 20px;border-left:1px solid rgba(201,149,103,.35)}
 .rit-metrics>div:first-child{border-left:0}
-.rit-metrics b{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(38px,2.6vw,50px);color:#F3E9D7;line-height:1}
+.rit-metrics b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:clamp(36px,2.5vw,48px);color:#F3E9D7;line-height:1;letter-spacing:-.03em}
 .rit-metrics b small{font-size:.4em;color:#C9BCAB;font-family:'Jost',sans-serif;margin-left:8px;letter-spacing:.04em}
 .rit-metrics span{font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);line-height:1.8;font-weight:600}
 

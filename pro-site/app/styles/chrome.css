@@ -1,3 +1,4 @@
+body{margin:0}
 header{transition:background .3s ease,border-color .3s ease,color .3s ease}
 header.scrolled{background:rgba(18,14,11,.97);border-bottom-color:rgba(201,149,103,.34)}
 header.scrolled .logo{background:linear-gradient(100deg,#EBCB9C,#C99567 55%,#EBCB9C);-webkit-background-clip:text;background-clip:text}

@@ -35,7 +35,7 @@ export default function ArticlePage() {
   const canonical = `${SITE_URL}/articles/${article.slug}`;
   const schema = { "@context": "https://schema.org", "@type": "BlogPosting", headline: article.title, description: article.meta_description || article.excerpt, image: article.cover_url ? [article.cover_url] : undefined, datePublished: article.published_at, dateModified: article.updated_at, author: { "@type": "Person", name: article.author?.name || "Jimmy Coco" }, publisher: { "@type": "Organization", name: "Sunless by Jimmy Coco", url: SITE_URL }, mainEntityOfPage: canonical, keywords: article.keywords?.join(", ") };
   const faq = article.faq_items?.length ? { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: article.faq_items.map((item: any) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) } : null;
-  return <>
+  return <div className="content-shell">
     <StructuredData data={faq ? [schema, faq] : [schema]} />
     <Announcement /><SiteHeader page="content" />
     <main className="article-page">
@@ -47,5 +47,5 @@ export default function ArticlePage() {
       </article>
     </main>
     <SiteFooter page="content" />
-  </>;
+  </div>;
 }

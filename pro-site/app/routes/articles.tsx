@@ -31,7 +31,7 @@ const formatDate = (value: string) => new Intl.DateTimeFormat("en-GB", { day: "n
 
 export default function ArticlesPage() {
   const { articles } = useLoaderData<typeof loader>();
-  return <>
+  return <div className="content-shell">
     <Announcement />
     <SiteHeader page="content" />
     <main className="articles-page">
@@ -47,5 +47,5 @@ export default function ArticlesPage() {
       </section>
     </main>
     <SiteFooter page="content" />
-  </>;
+  </div>;
 }

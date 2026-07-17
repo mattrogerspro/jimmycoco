@@ -11,3 +11,7 @@ dist/
 
 # local capture/audit working folder (large PNGs — not for git)
 prosite/
+
+# local Vercel CLI build artifacts and pulled environment files
+.vercel/output/
+.vercel/.env.*.local

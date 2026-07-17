@@ -1,0 +1,51 @@
+{
+  "id": "self_tan_souffle",
+  "name": "The Self Tan Soufflé",
+  "display_name": "The Self Tan Soufflé (Malibu Beach)",
+  "status": "draft",
+  "one_liner": "Self-tan mousse in a taupe pump bottle; dispensed onto an applicator and blended into the skin for an even, streak-free tan.",
+
+  "role": "The self-tan product itself. A MOUSSE, pumped from the bottle onto an applicator (Buff & Glow Mitt velvet side, or a brush), then rubbed/blended into the skin until even. Never the prep tool; always the 'apply' step payload.",
+
+  "routine_positions": ["apply"],
+
+  "form_confirmed": "MOUSSE (confirmed by Matt 2026-07-16). It is rubbed/blended into the skin and absorbs — never left as a thick stripe or dollop on the skin.",
+
+  "shades": ["Medium", "Dark"],
+
+  "hero_action": "A pump of golden-brown mousse dispensed onto the velvet side of the mitt (stills only), and the resulting even, streak-free golden glow on the skin.",
+
+  "correct_motions": [
+    "Dispensed by pump onto the applicator — never squeezed, poured or scooped.",
+    "Blended into the skin via the applicator with long overlapping strokes until even (the applicator's motion rules govern)."
+  ],
+
+  "never_show": [
+    "Applying the mousse with bare hands (stains palms; applicator exists for this).",
+    "Mousse left sitting on the skin as a thick stripe, dollop or painted line — it is blended in until even.",
+    "The bottle being used as the applicator (rubbing the bottle on skin).",
+    "Pumping/dispensing as a VIDEO action — dispensing belongs in approved stills; in video the bottle is held or standing in-frame (label large and static), per the video envelope.",
+    "Relying on legible label text in motion — the label garbles; label close-ups are stills.",
+    "An orange, streaky, patchy or two-tone result."
+  ],
+
+  "canonical_reference": {
+    "colour": "Taupe/mushroom pump bottle, white-framed label panel, copper SUNLESS BY JIMMY COCO wordmark",
+    "medium": "assets/images/product-images/Tinted Tan Souffle Malibu Beach/photo_medium.webp — clean packshot, Medium",
+    "dark": "assets/images/product-images/Tinted Tan Souffle Malibu Beach/photo_dark.webp — clean packshot, Dark",
+    "avoid": "assets/images/product-images/Tinted Tan Souffle Malibu Beach/JC_Amazon_Website_Products.webp — infographic overlay, not a generation reference",
+    "usage_note": "Use the packshot matching the chosen shade. Comfy input alias in current workspace: jc-souffle-malibu (= photo_medium)."
+  },
+
+  "claims": [
+    { "text": "THE SELF TAN SOUFFLÉ — product name as printed.", "source": "pack" },
+    { "text": "Shades as printed: MEDIUM and DARK.", "source": "pack" },
+    { "text": "Malibu Beach (shade/fragrance line as printed).", "source": "pack" },
+    { "text": "SUNLESS BY JIMMY COCO — CELEBRITY TAN EXPERT.", "source": "pack" }
+  ],
+
+  "open_questions": [
+    "Website product copy for the Soufflé has not been supplied — customer-facing claims beyond the label (benefits, development time, scent, DHA %, sizes, price) are UNKNOWN and must not be invented. Provide the website copy to complete this file.",
+    "Confirm whether other shades exist beyond Medium/Dark (kit imagery shows a 'DARK' variant labelled 'THE SELF TAN SOUFFLÉ')."
+  ]
+}

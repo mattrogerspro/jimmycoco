@@ -1,0 +1,173 @@
+import type {
+  ActionFunctionArgs,
+  HeadersFunction,
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "react-router";
+import {
+  Form,
+  Link,
+  data,
+  redirect,
+  useActionData,
+  useNavigation,
+  useSearchParams,
+} from "react-router";
+import adminStyles from "../styles/admin.css?url";
+import { safeAdminDestination } from "../lib/article-auth.server";
+import {
+  createSupabaseServerClient,
+  isSameOriginPost,
+  privateNoStoreHeaders,
+} from "../lib/supabase.server";
+
+type LoginActionData = { error: string };
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: adminStyles },
+];
+
+export const meta: MetaFunction = () => [
+  { title: "Article admin | Sunless by Jimmy Coco" },
+  { name: "robots", content: "noindex, nofollow, noarchive" },
+];
+
+export async function loader(_: LoaderFunctionArgs) {
+  return data(null, { headers: privateNoStoreHeaders() });
+}
+
+export const headers: HeadersFunction = ({ loaderHeaders, actionHeaders }) =>
+  actionHeaders.has("Cache-Control") ? actionHeaders : loaderHeaders;
+
+export async function action({ request }: ActionFunctionArgs) {
+  if (!isSameOriginPost(request)) {
+    return data<LoginActionData>(
+      { error: "That sign-in request could not be verified. Please try again." },
+      { status: 403, headers: privateNoStoreHeaders() },
+    );
+  }
+
+  const formData = await request.formData();
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const next = safeAdminDestination(formData.get("next"));
+
+  if (
+    typeof email !== "string" ||
+    typeof password !== "string" ||
+    !email.trim() ||
+    !password
+  ) {
+    return data<LoginActionData>(
+      { error: "Enter your email address and password." },
+      { status: 400, headers: privateNoStoreHeaders() },
+    );
+  }
+
+  try {
+    const { supabase, responseHeaders } = createSupabaseServerClient(request);
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+
+    if (authError || !authData.user) {
+      return data<LoginActionData>(
+        { error: "That email address or password was not accepted." },
+        { status: 400, headers: responseHeaders },
+      );
+    }
+
+    const { data: profile, error: profileError } = await supabase
+      .from("article_admin_profiles")
+      .select("role, is_active")
+      .eq("user_id", authData.user.id)
+      .maybeSingle();
+
+    if (
+      profileError ||
+      !profile?.is_active ||
+      !["admin", "editor"].includes(profile.role)
+    ) {
+      await supabase.auth.signOut({ scope: "local" });
+      return data<LoginActionData>(
+        { error: "This account does not have access to the article workspace." },
+        { status: 403, headers: responseHeaders },
+      );
+    }
+
+    return redirect(next, { headers: responseHeaders });
+  } catch (error) {
+    console.error(
+      "Article admin sign-in failed",
+      error instanceof Error ? error.message : "Unknown error",
+    );
+    return data<LoginActionData>(
+      { error: "Article admin is not configured yet. Please contact an administrator." },
+      { status: 503, headers: privateNoStoreHeaders() },
+    );
+  }
+}
+
+export default function AdminLogin() {
+  const actionData = useActionData<typeof action>();
+  const navigation = useNavigation();
+  const [searchParams] = useSearchParams();
+  const signingIn = navigation.state === "submitting";
+  const accessRemoved = searchParams.get("reason") === "inactive";
+
+  return (
+    <main className="admin-login-shell">
+      <section className="admin-login-card" aria-labelledby="admin-login-title">
+        <Link className="admin-wordmark" to="/" aria-label="Return to the professional website">
+          <span>Sunless</span>
+          <small>by Jimmy Coco</small>
+        </Link>
+
+        <div className="admin-login-copy">
+          <p className="admin-eyebrow">Private publishing workspace</p>
+          <h1 id="admin-login-title">Welcome back.</h1>
+          <p>Sign in with the account assigned to you by an administrator.</p>
+        </div>
+
+        {(actionData?.error || accessRemoved) && (
+          <div className="admin-alert" role="alert">
+            {actionData?.error ?? "Your article access is inactive. Contact an administrator."}
+          </div>
+        )}
+
+        <Form method="post" className="admin-login-form">
+          <input type="hidden" name="next" value={searchParams.get("next") ?? ""} />
+          <label htmlFor="admin-email">Email address</label>
+          <input
+            id="admin-email"
+            name="email"
+            type="email"
+            autoComplete="username"
+            inputMode="email"
+            required
+            autoFocus
+          />
+
+          <label htmlFor="admin-password">Password</label>
+          <input
+            id="admin-password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            required
+          />
+
+          <button type="submit" disabled={signingIn}>
+            {signingIn ? "Signing in…" : "Sign in securely"}
+          </button>
+        </Form>
+
+        <p className="admin-login-help">
+          Access is limited to approved Jimmy Coco administrators and editors.
+        </p>
+      </section>
+    </main>
+  );
+}

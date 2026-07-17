@@ -1,3 +1,4 @@
+-- Baselines the email outreach schema that predated tracked Supabase migrations.
 begin;
 
 create extension if not exists citext;
@@ -164,7 +165,7 @@ create table if not exists public.email_business_events (
 );
 
 create or replace function public.touch_updated_at()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql set search_path = '' as $$
 begin
   new.updated_at = now();
   return new;
@@ -190,7 +191,7 @@ create or replace function public.upsert_email_contact(
   p_marketing_status text default 'unknown',
   p_properties jsonb default '{}'::jsonb
 ) returns public.email_contacts
-language plpgsql security definer set search_path = public as $$
+language plpgsql security definer set search_path = '' as $$
 declare
   result public.email_contacts;
 begin
@@ -221,7 +222,7 @@ create or replace function public.enroll_email_contact(
   p_context jsonb default '{}'::jsonb,
   p_next_send_at timestamptz default now()
 ) returns public.email_enrollments
-language plpgsql security definer set search_path = public as $$
+language plpgsql security definer set search_path = '' as $$
 declare
   contact_row public.email_contacts;
   enrollment_row public.email_enrollments;
@@ -254,7 +255,7 @@ returns table (
   contact_id uuid, email citext, first_name text, last_name text, business_name text,
   market text, timezone text, context jsonb, retry_count integer
 )
-language sql security definer set search_path = public as $$
+language sql security definer set search_path = '' as $$
   with due as (
     select e.id from public.email_enrollments e
     join public.email_campaigns c on c.id = e.campaign_id and c.enabled = true
@@ -282,7 +283,7 @@ returns table (
   contact_id uuid, email citext, first_name text, last_name text, business_name text,
   market text, timezone text, context jsonb, retry_count integer
 )
-language sql security definer set search_path = public as $$
+language sql security definer set search_path = '' as $$
   with due as (
     select j.id from public.email_jobs j
     join public.email_campaigns c on c.id = j.campaign_id and c.enabled = true
@@ -311,7 +312,7 @@ create or replace function public.exit_email_enrollments(
   p_external_event_id text default null,
   p_data jsonb default '{}'::jsonb
 ) returns integer
-language plpgsql security definer set search_path = public as $$
+language plpgsql security definer set search_path = '' as $$
 declare
   affected integer;
   contact_uuid uuid;
@@ -386,7 +387,10 @@ alter table public.email_events enable row level security;
 alter table public.email_business_events enable row level security;
 
 revoke all on all tables in schema public from anon, authenticated;
-revoke all on all functions in schema public from anon, authenticated;
+-- Functions are executable by PUBLIC by default. Revoking only from anon and
+-- authenticated is insufficient because both roles inherit PUBLIC privileges.
+revoke all on all functions in schema public from public, anon, authenticated;
+alter default privileges for role postgres in schema public revoke execute on functions from public;
 grant usage on schema public to service_role;
 grant all on all tables in schema public to service_role;
 grant execute on all functions in schema public to service_role;

@@ -1,0 +1,50 @@
+{
+  "_comment": "Canonical Sunless by Jimmy Coco tanning routine. DRAFT v0.1.0. Every AI-generated hero/video must declare which step(s) it depicts. A product may not be shown acting outside the routine_positions declared in its product-truth file. 'wardrobe' gives the step-appropriate styling; see _shared/creative-rules.md for full wardrobe rules.",
+  "version": "0.1.0-draft",
+  "styling": {
+    "modesty": "modest & premium (spa-luxury, editorial; never lingerie-styled or sexualised; TikTok/IG-safe)",
+    "apply_wardrobe_varies_by_setting": {
+      "bathroom_bedroom": "towel wrapped and tucked just under the armpits (strapless)",
+      "coastal_outdoor": "dark swimwear (black bikini or one-piece)"
+    }
+  },
+  "routine": [
+    {
+      "id": "prep",
+      "order": 1,
+      "label": "Prep",
+      "description": "Exfoliate and ready clean, dry skin before tanning.",
+      "tools": ["buff_glow_mitt (buff / exfoliation side)"],
+      "wardrobe": "A robe slipped off the limb being buffed, or a towel. Most-covered step; skin dry, no product yet."
+    },
+    {
+      "id": "apply",
+      "order": 2,
+      "label": "Apply",
+      "description": "Apply self-tan evenly to the skin.",
+      "tools": [
+        "buff_glow_mitt (glow / application side)",
+        "the_face_brush",
+        "the_sunless_brush"
+      ],
+      "products_applied": ["self_tan_souffle", "sunset_1ltr_spray"],
+      "wardrobe": "Minimal and stain-safe, straps moved clear (no strap tan-lines, nothing catches product). Towel under the arms indoors, or dark swimwear for coastal. Never a t-shirt or good clothes over an area being tanned. No white/pale fabric near wet product."
+    },
+    {
+      "id": "develop",
+      "order": 3,
+      "label": "Develop",
+      "description": "Allow the tan to develop. Nothing is applied in this step.",
+      "tools": [],
+      "wardrobe": "Loose, DARK, breathable (black oversized tee + shorts, or a robe) so the developing tan doesn't rub off or transfer. Never tight or light-coloured."
+    },
+    {
+      "id": "glow",
+      "order": 4,
+      "label": "Glow / Maintain",
+      "description": "Reveal and maintain the developed tan; weekly upkeep and top-ups.",
+      "tools": [],
+      "wardrobe": "Styled to show the glow: white/cream/neutral or a going-out look; jewellery back on; hair down; reveal outfit pristine."
+    }
+  ]
+}

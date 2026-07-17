@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { PRODUCT_PATH } from "../../lib/site";
 
-type HeaderProps = { page?: "home" | "product" };
+type HeaderProps = { page?: "home" | "product" | "content" };
 
 export function Announcement({ page = "home" }: HeaderProps) {
   return page === "product" ? (
@@ -33,9 +33,10 @@ export function SiteHeader({ page = "home" }: HeaderProps) {
           {page === "home" && <a href="#formula">The Solution</a>}
           <a href={`${prefix}#calculator`}>Profit Calculator</a>
           <a href={`${prefix}#retail`}>Retail Range</a>
+          <Link to="/articles">Articles</Link>
           <a href={`${prefix}#trial`}>Free Trial</a>
         </nav>
-        {page === "home" ? <Link className="btn btn-bronze btn-sm" to={PRODUCT_PATH}>Order Malibu 1L</Link> : <a className="btn btn-bronze btn-sm" href="#order">Compose order</a>}
+        {page === "product" ? <a className="btn btn-bronze btn-sm" href="#order">Compose order</a> : <Link className="btn btn-bronze btn-sm" to={PRODUCT_PATH}>Order Malibu 1L</Link>}
       </div>
     </header>
   );
@@ -47,7 +48,7 @@ export function SiteFooter({ page = "home" }: HeaderProps) {
       <div className="wrap">
         <div>© Jimmy Coco, 2026 · Professional partnerships · <a href="mailto:pro@jimmycoco.co.uk">pro@jimmycoco.co.uk</a></div>
         <div>
-          {page === "product" && <Link to="/">Professional home</Link>}
+          {page !== "home" && <Link to="/">Professional home</Link>}
           <a href="https://jimmycoco.co.uk">Consumer site</a>
           <a href="https://jimmycoco.co.uk/policies/terms-of-service">Terms</a>
           {page === "home" && <a href="https://jimmycoco.co.uk/policies/privacy-policy">Privacy</a>}

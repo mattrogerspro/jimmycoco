@@ -1,0 +1,99 @@
+{
+  "id": "buff_glow_mitt",
+  "name": "Buff & Glow Mitt — Navy",
+  "display_name": "Buff & Glow Mitt — Navy",
+  "status": "reviewed",
+  "one_liner": "The world's first 3-in-1 full-body sunless tanning mitt — exfoliates to prep, then applies tan for a seamless, streak-free finish.",
+
+  "role": "Prep skin then apply self-tan. The textured BUFF side dry-exfoliates to prepare the skin; the velvet GLOW side then applies the tan evenly for a streak-free finish while protecting the hands from staining. A 3-in-1 exfoliator + applicator.",
+
+  "routine_positions": ["prep", "apply"],
+
+  "sequence_confirmed": "BUFF (textured side, on dry skin) FIRST to prep, THEN APPLY tan with the GLOW (velvet) side. Confirmed by Matt 2026-07-16.",
+
+  "sides": {
+    "buff": {
+      "purpose": "Dry exfoliation to prep skin before tanning. Two textures: a larger woven area for the body and a coarser patch at the tip for tougher spots (elbows, knees, heels).",
+      "motion": "Circular buffing on clean, dry skin — BEFORE any tan is applied.",
+      "routine_position": "prep",
+      "reference_image": "assets/images/product-images/Mitt/mitt_front_bare.webp"
+    },
+    "glow": {
+      "purpose": "Plush velvet/suede application side. Dispense tan onto this side and apply to the skin for even distribution and a flawless, streak-free finish.",
+      "motion": "Rub and blend the self-tan MOUSSE into the skin with long, overlapping sweeping strokes, velvet side pressed against the skin. The mousse sits on this velvet side (facing the SKIN, not the camera) and is rubbed in / absorbs to an even tan — not left as a thick painted stripe.",
+      "routine_position": "apply",
+      "reference_image": "assets/images/product-images/Mitt/mitt_rear_bare.webp"
+    }
+  },
+
+  "hero_action": "Glow-side application — dispensing tan onto the velvet side and sweeping it evenly along the skin, protecting the hand from staining, toward a streak-free bronzed result.",
+
+  "correct_motions": [
+    "Buff side: circular exfoliating motions on dry skin, as a prep step, before any tan.",
+    "Glow side: rub and blend the self-tan mousse into the skin with long overlapping strokes until even and streak-free (the mousse absorbs; no thick unblended stripe)."
+  ],
+
+  "never_show": [
+    "Ending a video on the mitt itself — the final beat is the streak-free/glowing skin or the person, not the applicator.",
+    "Applying self-tan with the buff/exfoliation side (tan is applied with the glow/velvet side only).",
+    "Showing self-tan mousse dolloped on the OUTWARD/back face of the mitt while applying — the tan sits on the velvet glow side that CONTACTS the skin, so during application the product-bearing side faces the skin, not the camera.",
+    "Buffing/exfoliating AFTER the tan is on (buff is a dry prep step, before application).",
+    "Leaving a thick, unblended stripe or painted line of product on the skin — the tan is a mousse that is rubbed and blended in to an even, streak-free finish.",
+    "Using this body mitt on the face — a separate Buff & Glow Face Mitt exists for facial use.",
+    "Applying tan with bare hands (defeats the mitt's hand-protection benefit).",
+    "A streaky, patchy or uneven result.",
+    "Use on broken, infected, damaged or irritated skin.",
+    "Depicting it as decorative/incidental with no tanning purpose."
+  ],
+
+  "canonical_reference": {
+    "colour": "Navy blue with gold 'Jimmy Coco' script cuff",
+    "buff_side": "assets/images/product-images/Mitt/mitt_front_bare.webp — textured exfoliating side (coarser patch at tip + woven body texture)",
+    "glow_side": "assets/images/product-images/Mitt/mitt_rear_bare.webp — smooth velvet/suede application side",
+    "pack_front": "assets/images/product-images/Mitt/Jimmy-Coco-mitt-front.webp",
+    "pack_back": "assets/images/product-images/Mitt/Jimmy-Coco-mitt-back.webp",
+    "lifestyle": [
+      "assets/images/product-images/Mitt/Product_008.webp — tan dispensed onto the velvet/glow side (product goes on the velvet side)",
+      "assets/images/product-images/Mitt/5_b6fb0d57-4839-4a76-821b-b085366d0b54.webp — mitt in use on the body"
+    ],
+    "usage_note": "For UGC/hero: use glow_side for application shots and buff_side for prep shots. Do NOT feed a kit/arrangement image — it causes scene-blend artefacts."
+  },
+
+  "claims": [
+    { "text": "The world's first 3-in-1 full-body sunless tanning mitt.", "source": "website" },
+    { "text": "Designed to help you achieve a seamless, streak-free tan every time.", "source": "website" },
+    { "text": "Luxuriously soft velvet finish that glides effortlessly across the skin.", "source": "website" },
+    { "text": "Ensures even product distribution.", "source": "website" },
+    { "text": "Protects your hands and palms from unwanted staining.", "source": "website" },
+    { "text": "Reusable and washable.", "source": "website" },
+    { "text": "Suitable for use with all Jimmy Coco tanning products.", "source": "website" },
+    { "text": "Professional-looking, salon-worthy results from the comfort of home.", "source": "website" },
+    { "text": "For applying your tan before a holiday or event, or maintaining your weekly glow.", "source": "website" },
+    { "text": "World's first patent-protected three-in-one mitt.", "source": "pack" },
+    { "text": "BUFF: two unique exfoliating textures on one side (large area for the body; smaller area for elbows, knees and heels).", "source": "pack" },
+    { "text": "GLOW: flawless skin-finishing applicator on the other side; dispense product onto the mitt and apply with long sweeping motions.", "source": "pack" },
+    { "text": "Designed for use on either hand.", "source": "pack" }
+  ],
+
+  "materials": "64% Polyester, 20% Polyurethane Sponge, 11% Nylon, 5% TPU. Made in the UK. Packaging made with 70% recycled material.",
+
+  "care": [
+    "Rinse regularly by hand, or on a 30°C cycle, and dry naturally.",
+    "Replace at least every six months for optimum efficiency."
+  ],
+
+  "warnings": [
+    "Use the Buff & Glow Face Mitt for facial use.",
+    "Do not use on broken, infected, damaged or irritated skin.",
+    "Not recommended for children."
+  ],
+
+  "notes": [
+    "Mechanic confirmed by Matt 2026-07-16: BUFF (textured side, dry) first to prep, THEN APPLY tan with the GLOW (velvet) side.",
+    "Product form confirmed by Matt 2026-07-16: the self-tan is a MOUSSE. Applied with the velvet side, it is rubbed/blended into the skin (it absorbs) until even — never left as a thick stripe.",
+    "Name confirmed: 'Buff & Glow Mitt — Navy'.",
+    "Positioning: the website leads with the application/streak-free story and does not mention exfoliation. The buff/prep step is real and may feature in creative as a supporting benefit, but customer-facing hero messaging should lead with streak-free application per the website."
+  ],
+
+  "open_questions": []
+}

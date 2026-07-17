@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://jimmycoco/ai-generation/product-truth.schema.json",
+  "title": "Product Truth",
+  "description": "Authoritative facts + creative constraints for one product, consumed by AI generators before prompt-building. DRAFT v0.1.0.",
+  "type": "object",
+  "required": ["id", "name", "status", "role", "routine_positions", "hero_action", "correct_motions", "never_show", "canonical_reference", "claims"],
+  "additionalProperties": true,
+  "properties": {
+    "id": { "type": "string", "description": "Stable snake_case identifier, referenced by the routine model and briefs." },
+    "name": { "type": "string" },
+    "display_name": { "type": "string" },
+    "status": { "type": "string", "enum": ["draft", "reviewed", "approved"] },
+    "one_liner": { "type": "string" },
+    "role": { "type": "string", "description": "The product's single job, in plain language." },
+    "routine_positions": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["prep", "apply", "develop", "glow"] },
+      "minItems": 1
+    },
+    "sides": {
+      "type": "object",
+      "description": "For multi-function products, each functional side/mode.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "purpose": { "type": "string" },
+          "motion": { "type": "string" },
+          "routine_position": { "type": "string" }
+        }
+      }
+    },
+    "hero_action": { "type": "string", "description": "The single action a shot should centre on." },
+    "correct_motions": { "type": "array", "items": { "type": "string" } },
+    "never_show": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Hard prohibitions. A brief that depicts any of these fails validation."
+    },
+    "canonical_reference": {
+      "type": "object",
+      "description": "Which repo image(s) authoritatively define the product's appearance.",
+      "additionalProperties": true
+    },
+    "claims": {
+      "type": "array",
+      "description": "Every usable customer-facing claim, each traced to its source.",
+      "items": {
+        "type": "object",
+        "required": ["text", "source"],
+        "properties": {
+          "text": { "type": "string" },
+          "source": { "type": "string", "enum": ["website", "pack"] }
+        }
+      }
+    },
+    "materials": { "type": "string" },
+    "care": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Unresolved conflicts or gaps for a human to settle before status can advance to 'approved'."
+    }
+  }
+}

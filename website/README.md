@@ -24,6 +24,7 @@ This is an **evolution, not a redesign**. Approximately 95% of the existing Sunl
 - [`03-homepage-scenes/`](03-homepage-scenes/) — individual scene specifications and image prompts
 - [`04-ai-production/`](04-ai-production/) — website prompt workflow, reference protocol, consistency rules and QA
 - [`05-assets/`](05-assets/) — website reference-image manifest and asset guidance
+- [`11-content-hub/`](11-content-hub/) — competitive research, content strategy, editorial and marketing playbooks, publishing calendar and article source files
 
 ## How to use this system
 

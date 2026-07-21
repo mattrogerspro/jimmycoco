@@ -135,7 +135,7 @@ JQUOTE="I have spent over 20 years perfecting the art of the tan. This is my pro
 
 EMAILS=[
  dict(slug="1-welcome", alias="ie-onboarding-1-welcome",
-   subject="Your clients already know this name",
+   subject="Now landing in Irish salons: the celebrity spray tan",
    preview="The celebrity spray tan, now for professional Irish salons — start with a sample kit.",
    rows=lambda:[s_header(), s_hero("hero-kendall.jpg","The celebrity glow, made professional"),
      s_intro("A professional stockist invitation","Your clients already know this name."),
@@ -151,7 +151,7 @@ EMAILS=[
      s_signoff(), s_footer()]),
 
  dict(slug="2-the-formula", alias="ie-onboarding-2-the-formula",
-   subject="The professional formula, in one litre",
+   subject="The professional formula, now stocked in Ireland",
    preview="25–30 flawless tans per litre — undertone-true colour that never goes orange.",
    rows=lambda:[s_header(), s_hero("product-sunset.jpg","Sunset professional spray tan — 1 litre"),
      s_intro("The professional solution","Built for the booth."),
@@ -167,7 +167,7 @@ EMAILS=[
      s_signoff(), s_footer()]),
 
  dict(slug="3-the-glow", alias="ie-onboarding-3-the-glow",
-   subject="The glow clients book again for",
+   subject="The glow Irish clients keep rebooking for",
    preview="Skincare-led, hydrating, and believable in daylight.",
    rows=lambda:[s_header(), s_hero("glow-hero.jpg","A believable, skincare-led glow"),
      s_intro("The result","A glow that looks real in daylight."),
@@ -182,7 +182,7 @@ EMAILS=[
      s_signoff(), s_footer()]),
 
  dict(slug="4-red-carpet", alias="ie-onboarding-4-red-carpet",
-   subject="The tan behind the red carpet",
+   subject="The red-carpet tan — now for salons across Ireland",
    preview="Camera-ready colour — now a professional service you can offer.",
    rows=lambda:[s_header(), s_hero("hero-kendall.jpg","Red-carpet colour, made professional"),
      s_intro("The celebrity standard","Red-carpet colour, made professional."),
@@ -193,7 +193,7 @@ EMAILS=[
      s_signoff(), s_footer()]),
 
  dict(slug="5-the-commercial-case", alias="ie-onboarding-5-the-commercial-case",
-   subject="Why the professional line pays for itself",
+   subject="Why Irish salons are adding this to their price list",
    preview="A premium booth service — with an optional take-home line to extend it.",
    rows=lambda:[s_header(), s_hero("apply-brush.jpg","A premium booth service"),
      s_intro("The commercial case","A premium service, priced like one."),
@@ -207,7 +207,7 @@ EMAILS=[
      s_signoff(), s_footer()]),
 
  dict(slug="6-whats-included", alias="ie-onboarding-6-whats-included",
-   subject="What a Jimmy Coco partnership includes",
+   subject="Inside a Jimmy Coco Ireland stockist partnership",
    preview="Trade pricing, training, the shade guide and dedicated stockist support.",
    rows=lambda:[s_header(), s_hero("glow-hero.jpg","A supported professional partnership"),
      s_intro("Partner support","More than a professional solution."),
@@ -222,7 +222,7 @@ EMAILS=[
      s_signoff(), s_footer()]),
 
  dict(slug="7-become-a-stockist", alias="ie-onboarding-7-become-a-stockist",
-   subject="Ready to bring it to your salon?",
+   subject="Ready to bring it to your Irish salon?",
    preview="Start with a professional sample kit.",
    rows=lambda:[s_header(), s_hero("hero-kendall.jpg","Bring the celebrity tan to your salon"),
      s_intro("Become a stockist","Bring the celebrity tan to your salon."),

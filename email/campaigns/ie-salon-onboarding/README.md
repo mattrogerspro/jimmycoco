@@ -18,13 +18,13 @@
 
 | # | Alias | Subject | Hero |
 |---|-------|---------|------|
-| 1 | ie-onboarding-1-welcome | Your clients already know this name | Kendall |
-| 2 | ie-onboarding-2-the-formula | The professional formula, in one litre | Sunset 1L |
-| 3 | ie-onboarding-3-the-glow | The glow clients book again for | Glow model + application |
-| 4 | ie-onboarding-4-red-carpet | The tan behind the red carpet | Kendall + Jimmy quote |
-| 5 | ie-onboarding-5-the-commercial-case | Why the professional line pays for itself | Application *(secondary: retail)* |
-| 6 | ie-onboarding-6-whats-included | What a Jimmy Coco partnership includes | Glow *(secondary: retail)* |
-| 7 | ie-onboarding-7-become-a-stockist | Ready to bring it to your salon? | Kendall + trust strip |
+| 1 | ie-onboarding-1-welcome | Now landing in Irish salons: the celebrity spray tan | Kendall |
+| 2 | ie-onboarding-2-the-formula | The professional formula, now stocked in Ireland | Sunset 1L |
+| 3 | ie-onboarding-3-the-glow | The glow Irish clients keep rebooking for | Glow model + application |
+| 4 | ie-onboarding-4-red-carpet | The red-carpet tan — now for salons across Ireland | Kendall + Jimmy quote |
+| 5 | ie-onboarding-5-the-commercial-case | Why Irish salons are adding this to their price list | Application *(secondary: retail)* |
+| 6 | ie-onboarding-6-whats-included | Inside a Jimmy Coco Ireland stockist partnership | Glow *(secondary: retail)* |
+| 7 | ie-onboarding-7-become-a-stockist | Ready to bring it to your Irish salon? | Kendall + trust strip |
 
 ## Localisation notes (vs UK)
 - UK → Ireland / Irish salons throughout (emails 1 & 7 copy, email 1 preview).

@@ -2,12 +2,12 @@
   "campaign": "ie-salon-onboarding",
   "publish": false,
   "templates": [
-    { "file": "emails/1-welcome.html",              "alias": "ie-onboarding-1-welcome",             "name": "IE Onboarding 1 — Welcome",          "subject": "Your clients already know this name" },
-    { "file": "emails/2-the-formula.html",          "alias": "ie-onboarding-2-the-formula",         "name": "IE Onboarding 2 — The Formula",      "subject": "The professional formula, in one litre" },
-    { "file": "emails/3-the-glow.html",             "alias": "ie-onboarding-3-the-glow",            "name": "IE Onboarding 3 — The Glow",         "subject": "The glow clients book again for" },
-    { "file": "emails/4-red-carpet.html",           "alias": "ie-onboarding-4-red-carpet",          "name": "IE Onboarding 4 — Red Carpet",       "subject": "The tan behind the red carpet" },
-    { "file": "emails/5-the-commercial-case.html",  "alias": "ie-onboarding-5-the-commercial-case", "name": "IE Onboarding 5 — The Commercial Case", "subject": "Why the professional line pays for itself" },
-    { "file": "emails/6-whats-included.html",        "alias": "ie-onboarding-6-whats-included",      "name": "IE Onboarding 6 — What's Included",  "subject": "What a Jimmy Coco partnership includes" },
-    { "file": "emails/7-become-a-stockist.html",    "alias": "ie-onboarding-7-become-a-stockist",   "name": "IE Onboarding 7 — Become a Stockist", "subject": "Ready to bring it to your salon?" }
+    { "file": "emails/1-welcome.html",              "alias": "ie-onboarding-1-welcome",             "name": "IE Onboarding 1 — Welcome",          "subject": "Now landing in Irish salons: the celebrity spray tan" },
+    { "file": "emails/2-the-formula.html",          "alias": "ie-onboarding-2-the-formula",         "name": "IE Onboarding 2 — The Formula",      "subject": "The professional formula, now stocked in Ireland" },
+    { "file": "emails/3-the-glow.html",             "alias": "ie-onboarding-3-the-glow",            "name": "IE Onboarding 3 — The Glow",         "subject": "The glow Irish clients keep rebooking for" },
+    { "file": "emails/4-red-carpet.html",           "alias": "ie-onboarding-4-red-carpet",          "name": "IE Onboarding 4 — Red Carpet",       "subject": "The red-carpet tan — now for salons across Ireland" },
+    { "file": "emails/5-the-commercial-case.html",  "alias": "ie-onboarding-5-the-commercial-case", "name": "IE Onboarding 5 — The Commercial Case", "subject": "Why Irish salons are adding this to their price list" },
+    { "file": "emails/6-whats-included.html",        "alias": "ie-onboarding-6-whats-included",      "name": "IE Onboarding 6 — What's Included",  "subject": "Inside a Jimmy Coco Ireland stockist partnership" },
+    { "file": "emails/7-become-a-stockist.html",    "alias": "ie-onboarding-7-become-a-stockist",   "name": "IE Onboarding 7 — Become a Stockist", "subject": "Ready to bring it to your Irish salon?" }
   ]
 }

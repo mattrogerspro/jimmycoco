@@ -1,0 +1,14 @@
+{
+  "order": 36,
+  "name": "IE Salon Onboarding",
+  "shortName": "IE Onboarding",
+  "market": "IE",
+  "flag": "🇮🇪",
+  "status": "Draft",
+  "hook": "Professional spray-tan line to sample kit",
+  "channel": "Email",
+  "cadence": "21 days",
+  "owner": "IE Sales",
+  "mode": "sequence",
+  "days": [0, 3, 6, 9, 12, 16, 21]
+}

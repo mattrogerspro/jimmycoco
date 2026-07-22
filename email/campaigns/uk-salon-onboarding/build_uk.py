@@ -7,6 +7,7 @@ ASSET_BASE. Emits template/ (with {{{RESEND_UNSUBSCRIBE_URL}}}) and sent/
 import os
 
 ASSET_BASE = "https://jimmycoco.email/email-assets/uk-stockist/"   # <-- deploy the delivered image folder here (one-line change if hosted elsewhere)
+LOGO_URL   = "https://jimmycoco.email/email-assets/logo.webp"
 PRO_URL   = "https://jimmycoco.co.uk/pages/why-choose-pro-professional"
 PRO_EMAIL = "pro@jimmycoco.co.uk"
 
@@ -20,9 +21,10 @@ def img(name): return ASSET_BASE+name
 
 # ---- section renderers (each returns a <tr> row of the 600px container) ----
 def s_header():
-    return (f'<tr><td style="background:{CARD};padding:26px 36px 10px 36px;" class="pad-x">'
-            f'<div class="serif" style="font-family:{SERIF};font-size:30px;line-height:30px;letter-spacing:5px;color:{BRZ};font-weight:700;">SUNLESS</div>'
-            f'<div class="sans" style="font-family:{SANS};font-size:11px;line-height:15px;letter-spacing:3px;color:{BRZ};padding-top:5px;">BY JIMMY COCO<sup style="font-size:7px;">&reg;</sup></div>'
+    return (f'<tr><td align="center" style="background:{CARD};padding:22px 36px 14px 36px;" class="pad-x">'
+            f'<a href="https://jimmycoco.co.uk" style="display:inline-block;text-decoration:none;">'
+            f'<img src="{LOGO_URL}" width="240" height="70" alt="Sunless by Jimmy Coco" '
+            f'style="display:block;width:240px;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;"></a>'
             f'</td></tr>')
 
 def s_hero(name, alt):
@@ -240,11 +242,10 @@ EMAILS=[
      s_signoff(), s_footer()]),
 ]
 
-tpl="/root/jimmycoco-outreach/uk-build/template"; snt="/root/jimmycoco-outreach/uk-build/sent"
-os.makedirs(tpl,exist_ok=True); os.makedirs(snt,exist_ok=True)
+tpl=os.path.join(os.path.dirname(os.path.abspath(__file__)),"emails")
+os.makedirs(tpl,exist_ok=True)
 for e in EMAILS:
     html=page(e["subject"], e["preview"], e["rows"]())
     open(os.path.join(tpl,e["slug"]+".html"),"w").write(html)
-    open(os.path.join(snt,e["slug"]+".html"),"w").write(html.replace("{{{RESEND_UNSUBSCRIBE_URL}}}","#"))
     print(f'{e["alias"]:34s} {len(html)//1024}KB  "{e["subject"]}"')
 print("ASSET_BASE:",ASSET_BASE)

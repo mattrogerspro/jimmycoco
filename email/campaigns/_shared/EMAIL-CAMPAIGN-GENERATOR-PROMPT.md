@@ -353,6 +353,8 @@ All generated email HTML must:
 - include compliant unsubscribe and business-address treatment where required;
 - have a useful plain-text equivalent.
 
+The brand header must use the current approved logo source at `/assets/email/logo.webp`, delivered from `https://jimmycoco.email/email-assets/logo.webp`. Do not render the Sunless wordmark as substitute live text and do not allow campaign-level data to restore an older logo.
+
 Do not add decorative modules, badges, claims, countdowns, ratings, fake social proof or product imagery merely to make the email feel “designed”. Every module must serve the message purpose.
 
 ---

@@ -8,9 +8,12 @@ Define reusable modules that can be composed into campaigns, sequences and trans
 
 ### Brand header
 Required fields:
-- logo asset
-- logo alt text
+- logo asset: `assets/email/logo.webp`
+- production URL: `https://jimmycoco.email/email-assets/logo.webp`
+- logo alt text: `Sunless by Jimmy Coco`
 - home URL
+
+The shared master supplies these approved defaults globally. Campaign data may not replace them with an older or generated logo. Any future logo replacement must be approved as a shared-template change and propagated by rebuilding every campaign.
 
 ### Editorial hero
 Required fields:

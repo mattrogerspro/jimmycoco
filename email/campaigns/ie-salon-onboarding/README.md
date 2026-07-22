@@ -32,6 +32,7 @@
 - Pricing **unchanged**: £60 / 1 litre (GBP), per owner decision — no EUR conversion.
 - Aliases `uk-onboarding-*` → `ie-onboarding-*`; template names `IE Onboarding N — …`.
 - Imagery **reused** from the UK sequence (`ASSET_BASE = …/email-assets/uk-stockist/`) — identical celebrity/product shots, no new asset deploy required.
+- Brand header uses the shared approved `assets/email/logo.webp`, delivered from `https://jimmycoco.email/email-assets/logo.webp`; the legacy live-text wordmark must not be restored.
 - Trade email and pro URL unchanged (`pro@jimmycoco.co.uk`, `/pages/why-choose-pro-professional`).
 
 ## Build

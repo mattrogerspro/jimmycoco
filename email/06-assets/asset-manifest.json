@@ -1,7 +1,40 @@
 {
-  "version": "1.2.0",
+  "version": "1.3.0",
   "schemaNotes": "All images present under assets/ on 2026-07-22 have standing creative approval. assets/images/celebs/* is pre-approved for every email campaign, market and purpose. Production rendering still requires traceable derivatives, alt text and a stable public HTTPS URL.",
   "assets": [
+    {
+      "assetId": "brand-sunless-logo-v1",
+      "name": "Sunless by Jimmy Coco email logo",
+      "category": "brand",
+      "sourcePath": "assets/email/logo.webp",
+      "status": "APPROVED",
+      "protectedSource": true,
+      "allowedChannels": ["email"],
+      "allowedMarkets": ["global"],
+      "allowedPurposes": ["global"],
+      "rights": {
+        "owner": "Sunless by Jimmy Coco",
+        "expiry": null,
+        "reference": "User direction on 2026-07-22 to replace the email logo globally"
+      },
+      "identityMustRemainUnchanged": true,
+      "retouchingAllowed": false,
+      "email": {
+        "desktop": {
+          "publicUrl": "https://jimmycoco.email/email-assets/logo.webp",
+          "width": 960,
+          "height": 279
+        },
+        "mobile": {
+          "publicUrl": "https://jimmycoco.email/email-assets/logo.webp",
+          "width": 960,
+          "height": 279
+        }
+      },
+      "altText": "Sunless by Jimmy Coco",
+      "approvedBy": "User direction to use the new logo for all existing Resend campaigns",
+      "approvedAt": "2026-07-22"
+    },
     {
       "assetId": "celebrity-heidi-k-source",
       "name": "Heidi K celebrity source",

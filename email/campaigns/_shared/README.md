@@ -54,7 +54,7 @@ The build reads the registered campaign manifests and writes HTML under each cam
 Editing `master-template.js` updates all generated campaign templates on the next build, including:
 
 - page background and maximum width;
-- wordmark;
+- approved image logo (`assets/email/logo.webp`, hosted as `/email-assets/logo.webp`);
 - typography and spacing;
 - paragraph, list, offer and quote styling;
 - image and product modules;

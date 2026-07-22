@@ -9,6 +9,7 @@ ASSET_BASE (shared with the UK sequence). Emits template HTML (with
 import os
 
 ASSET_BASE = "https://jimmycoco.email/email-assets/uk-stockist/"   # shared imagery with the UK sequence (identical celeb/product shots)
+LOGO_URL   = "https://jimmycoco.email/email-assets/logo.webp"
 PRO_URL   = "https://jimmycoco.co.uk/pages/why-choose-pro-professional"
 PRO_EMAIL = "pro@jimmycoco.co.uk"
 
@@ -22,9 +23,10 @@ def img(name): return ASSET_BASE+name
 
 # ---- section renderers (each returns a <tr> row of the 600px container) ----
 def s_header():
-    return (f'<tr><td style="background:{CARD};padding:26px 36px 10px 36px;" class="pad-x">'
-            f'<div class="serif" style="font-family:{SERIF};font-size:30px;line-height:30px;letter-spacing:5px;color:{BRZ};font-weight:700;">SUNLESS</div>'
-            f'<div class="sans" style="font-family:{SANS};font-size:11px;line-height:15px;letter-spacing:3px;color:{BRZ};padding-top:5px;">BY JIMMY COCO<sup style="font-size:7px;">&reg;</sup></div>'
+    return (f'<tr><td align="center" style="background:{CARD};padding:22px 36px 14px 36px;" class="pad-x">'
+            f'<a href="https://jimmycoco.co.uk" style="display:inline-block;text-decoration:none;">'
+            f'<img src="{LOGO_URL}" width="240" height="70" alt="Sunless by Jimmy Coco" '
+            f'style="display:block;width:240px;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;"></a>'
             f'</td></tr>')
 
 def s_hero(name, alt):

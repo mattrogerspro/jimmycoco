@@ -24,7 +24,9 @@ Define one production-ready shell for all Sunless emails sent through Resend.
 
 ## Header rules
 
-The header should be quiet and compact. It may contain the Sunless logo and, where useful, one secondary navigation link. It must not resemble the full website navigation.
+The header must use the approved image logo from `assets/email/logo.webp`, delivered in production from `https://jimmycoco.email/email-assets/logo.webp`. Do not recreate the wordmark with live text, substitute an older logo or generate a logo with AI.
+
+Render it at 240 × 70 CSS pixels with its intrinsic 960 × 279 proportions preserved, descriptive alt text (`Sunless by Jimmy Coco`) and a link to the approved brand home URL. The header should remain quiet and compact and, where useful, may contain one secondary navigation link. It must not resemble the full website navigation.
 
 ## Message hierarchy
 

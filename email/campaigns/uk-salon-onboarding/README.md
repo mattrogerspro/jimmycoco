@@ -26,6 +26,8 @@ Email images are hosted, not embedded. They live at **ASSET_BASE** (set in `buil
 `https://jimmycoco.email/email-assets/uk-stockist/`
 Deploy the JPGs in `assets/` to that path (or change ASSET_BASE and re-run `build_uk.py`). Source celeb/product shots were `.webp` (not email-safe); these are converted, resized sRGB JPGs.
 
+The shared approved brand logo is `assets/email/logo.webp`, delivered from `https://jimmycoco.email/email-assets/logo.webp`. The generator inserts it in every header; do not restore the legacy live-text wordmark.
+
 ## Notes
 - Celebrity imagery is used **generically** (no named endorsements, no fabricated quotes). Only Kendall (tasteful/editorial) + the brand's own model/product shots are used. Kim/Kylie/Teyana were converted but left unused (too revealing for a trade audience + right-of-publicity risk) — confirm rights before using any identifiable celebrity.
 - `build_uk.py` regenerates all 7 emails. `emails/*.html` are the production (Resend) versions with `{{{RESEND_UNSUBSCRIBE_URL}}}`.

@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "schemaNotes": "Production email images must be APPROVED, permitted for email and market/purpose, and have a stable public HTTPS URL.",
   "assets": [
     {
@@ -91,6 +91,42 @@
       "altText": "[SOURCE REQUIRED]",
       "approvedBy": null,
       "approvedAt": null
+    },
+    {
+      "assetId": "test-au-new-salon-outreach-header-v1",
+      "name": "TEST Australia-wide salon outreach fictional product header",
+      "category": "test-fixture-product",
+      "sourcePath": "public/email-assets/test/au-new-salon-outreach-test-header.jpg",
+      "status": "APPROVED",
+      "testOnly": true,
+      "campaignIds": ["au-new-salon-outreach-test"],
+      "protectedSource": false,
+      "allowedChannels": ["email"],
+      "allowedMarkets": ["AU"],
+      "allowedPurposes": ["professional-outreach-test"],
+      "rights": {
+        "owner": "OpenAI-generated fictional TEST fixture for this repository",
+        "expiry": "2026-12-31",
+        "reference": "email/campaigns/au-new-salon-outreach-test/README.md#test-fixtures"
+      },
+      "identityMustRemainUnchanged": false,
+      "retouchingAllowed": false,
+      "email": {
+        "desktop": {
+          "publicUrl": "https://jimmycoco.email/email-assets/test/au-new-salon-outreach-test-header.jpg",
+          "width": 1200,
+          "height": 645
+        },
+        "mobile": {
+          "publicUrl": "https://jimmycoco.email/email-assets/test/au-new-salon-outreach-test-header.jpg",
+          "width": 1200,
+          "height": 645
+        }
+      },
+      "altText": "Fictional unbranded amber salon bottle used only as a TEST campaign fixture.",
+      "approvedBy": "User direction: include a header product photo in a TEST campaign",
+      "approvedAt": "2026-07-22",
+      "disclosure": "TEST ONLY — not a real Sunless by Jimmy Coco product, packshot or product claim"
     }
   ]
 }

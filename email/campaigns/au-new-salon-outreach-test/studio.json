@@ -1,0 +1,15 @@
+{
+  "order": 99,
+  "name": "TEST — Australia-wide New Salon Outreach",
+  "shortName": "TEST AU Salon Outreach",
+  "market": "AU",
+  "flag": "🇦🇺",
+  "status": "TEST — NOT FOR SEND",
+  "hook": "TEST ONLY — a fictional salon partnership review",
+  "channel": "Email (Resend TEST fixture)",
+  "cadence": "16 days",
+  "owner": "TEST Partnerships",
+  "mode": "sequence",
+  "testOnly": true,
+  "days": [0, 4, 9, 16]
+}

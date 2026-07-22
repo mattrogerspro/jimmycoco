@@ -22,7 +22,7 @@ Apply only the gates relevant to the requested stage. File creation does not imp
 - Campaign validator passes.
 - `npm run templates:check` passes with remote comparison when credentials are available.
 - Repository and Resend alias, subject, variables and HTML differences are understood.
-- A human explicitly approves `npm run templates:publish` or equivalent MCP writes.
+- The complete drift set is reviewed, and a human explicitly approves `npm run templates:publish` for that exact set. Do not use MCP writes as an equivalent release path.
 
 ## Sending enablement
 

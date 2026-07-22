@@ -173,9 +173,9 @@ Review the final diff for unrelated files, secrets, temporary output, broken lin
 Resend template creation is a required stage of a complete campaign build, not an optional handoff. Perform it only after source, rendering and validation gates pass.
 
 1. Prepare a release manifest listing every message alias, subject, generated HTML path and required variable.
-2. Run `npm run templates:check` with `RESEND_API_KEY` loaded when available. When the repository-root `.env.local` exists, load it without printing its contents (`set -a; source .env.local; set +a`) before running the template command. Use Resend MCP read operations as the authenticated fallback for inspection.
-3. Immediately before the first Resend write, show the exact templates and action, then obtain fresh explicit human approval. One approval may cover the complete named campaign batch.
-4. After approval, create missing Resend templates as drafts and update existing drafts so alias, subject, HTML and variables match the repository.
+2. Always use the repository tooling as the primary Resend interface: run `npm run templates:check` with `RESEND_API_KEY` loaded when available. When the repository-root `.env.local` exists, load it without printing its contents (`set -a; source .env.local; set +a`) before running the template command. Use Resend MCP only as an optional read-only fallback when the local tooling cannot perform an authenticated inspection; do not substitute MCP writes for the repository release command.
+3. Review the complete drift set reported by `npm run templates:check`. Immediately before the first Resend write, show every template that the repository command will affect and state that `npm run templates:publish` updates and publishes those templates; then obtain fresh explicit human approval for that exact set.
+4. After approval, run `npm run templates:publish`. Do not use it if the reported drift includes templates outside the approved set; resolve or isolate the drift first. If a required template does not yet exist and the repository command cannot create it, report the missing-template blocker instead of switching to an ad hoc MCP/API write.
 5. Record template identifiers in the repository source used by the release/runtime tooling when identifiers are returned. Regenerate or revalidate if metadata changes.
 6. Read every created or updated template back from Resend and compare alias, subject, variables, status and content with the repository.
 
@@ -183,7 +183,7 @@ Do not silently omit Resend because credentials or MCP access are unavailable. R
 
 ## 10. Handle external systems safely
 
-Use Resend MCP read operations to list or inspect templates and compare aliases, subjects, status and content. Use approved writes for the named campaign batch after the gate above. Keep MCP/API secrets out of files and output.
+Use `npm run templates:check` for Resend inspection and `npm run templates:publish` for approved template writes. Resend MCP is an optional read-only fallback when authenticated local inspection is unavailable; it is not the normal write path. Keep MCP/API secrets out of files and output.
 
 Require fresh explicit approval immediately before any consequential write, including:
 

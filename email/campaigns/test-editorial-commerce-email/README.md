@@ -41,6 +41,19 @@ The supplied screenshot is cropped to its exact 1200 × 9078px email canvas, the
 - `build.js` — generates the HTML through the shared editorial-commerce renderer.
 - `emails/1-editorial-commerce-preview.html` — generated output; never edit directly.
 
+## Build and update the Resend test template
+
+Edit `email-data.json` or the source assets, then run this from the repository root:
+
+```bash
+npm run test-email:publish
+```
+
+That command rebuilds the HTML and publishes only
+`test-not-for-send-editorial-commerce-01-preview`. It does not compare or update
+the other Resend templates. To rebuild locally without publishing, run
+`npm run test-email:build`.
+
 ## Production conversion gaps
 
 A real campaign requires a separate campaign ID plus approval of audience, consent basis, market, offer, product facts, claims, prices, availability, links, sender, address, preference handling, asset-manifest records and current hosted derivatives.

@@ -96,7 +96,7 @@ The Studio discovers campaign folders with `email-data.json` and `studio.json` a
 Run the skill validator for each changed campaign:
 
 ```bash
-node "${CLAUDE_SKILL_DIR}/scripts/validate-campaign.mjs" <campaign-id>
+node .agents/skills/build-jimmy-coco-email-campaign/scripts/validate-campaign.mjs <campaign-id>
 ```
 
 Then run:

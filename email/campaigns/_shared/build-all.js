@@ -17,7 +17,8 @@ const allManifests = [
   'uk-salon-stockist/email-data.json',
   'uae-dubai-salon-stockist/email-data.json',
   'us-west-coast-salon-stockist/email-data.json',
-  'au-sydney-salon-stockist/email-data.json'
+  'au-sydney-salon-stockist/email-data.json',
+  'au-gold-coast-salon-stockist/email-data.json'
 ];
 
 const args = process.argv.slice(2);

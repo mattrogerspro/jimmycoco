@@ -2,3 +2,11 @@ interface:
   display_name: "Build Jimmy Coco Email Campaign"
   short_description: "Turn a simple request into a complete campaign"
   default_prompt: "Use $build-jimmy-coco-email-campaign to build a complete five-email salon campaign for my chosen market."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "resend"
+      description: "Inspect and, with explicit approval, manage Resend email resources"
+      transport: "streamable_http"
+      url: "https://mcp.resend.com/mcp"

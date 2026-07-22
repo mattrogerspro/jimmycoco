@@ -1,0 +1,14 @@
+{
+  "order": 16,
+  "name": "Gold Coast Salon Stockist Recruitment",
+  "shortName": "Gold Coast Stockists",
+  "market": "AU",
+  "flag": "🇦🇺",
+  "status": "Draft",
+  "hook": "A more considered professional colour partnership",
+  "channel": "Email",
+  "cadence": "30 days",
+  "owner": "Partnerships",
+  "mode": "sequence",
+  "days": [0, 3, 7, 11, 16, 22, 30]
+}

@@ -15,6 +15,7 @@ Home for every **outreach & marketing campaign** — cold acquisition, stockist 
 | UAE / Dubai salon stockist recruitment | [`uae-dubai-salon-stockist/`](uae-dubai-salon-stockist/) | Email (Resend-ready) | 🇦🇪 UAE | Draft | Premium professional trial for Dubai partners |
 | US West Coast salon stockist recruitment (TEST) | [`us-west-coast-salon-stockist/`](us-west-coast-salon-stockist/) | Email (Resend) | 🇺🇸 US-WC | Draft — not approved for send | Camera-ready color for West Coast daylight |
 | Sydney salon stockist recruitment | [`au-sydney-salon-stockist/`](au-sydney-salon-stockist/) | Email + WhatsApp | 🇦🇺 AU (Sydney) | Draft — not approved for send | A Sydney glow, without the Sydney sun |
+| Gold Coast salon stockist recruitment | [`au-gold-coast-salon-stockist/`](au-gold-coast-salon-stockist/) | Email (Resend) | 🇦🇺 AU (Gold Coast) | Draft — not approved for send | A more considered professional colour partnership |
 
 _Keep this table current — it is the single campaign register._
 

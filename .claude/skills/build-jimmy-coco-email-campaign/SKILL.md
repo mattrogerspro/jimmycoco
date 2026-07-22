@@ -112,7 +112,9 @@ Review the final diff for unrelated files, secrets, temporary output, broken lin
 
 ## 8. Handle external systems safely
 
-Use Resend MCP read operations to list or inspect templates and compare aliases, subjects, status and content. Keep MCP/API secrets out of files and output.
+Always use the repository tooling as the primary Resend interface. Run `npm run templates:check` to validate local templates and, when `RESEND_API_KEY` is available, inspect remote drift. Use Resend MCP only as an optional read-only fallback when authenticated local inspection is unavailable; do not substitute MCP writes for the repository release command. Keep MCP/API secrets out of files and output.
+
+Before any template write, review the complete drift set reported by `npm run templates:check`, show every affected template, state that `npm run templates:publish` updates and publishes those templates, and obtain fresh explicit approval for that exact set. After approval, run `npm run templates:publish`. Do not run it when the drift includes templates outside the approved set; resolve or isolate the drift first. If a required template does not exist and the repository command cannot create it, report the blocker instead of switching to an ad hoc MCP/API write.
 
 Require fresh explicit approval immediately before any consequential write, including:
 

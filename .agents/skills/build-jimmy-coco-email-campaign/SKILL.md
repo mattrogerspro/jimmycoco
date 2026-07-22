@@ -23,6 +23,34 @@ Expand a short request such as “Build a five-email salon recruitment campaign 
 
 Unless the user narrows the scope, “build a campaign” means: create the complete repository draft, generate every branded HTML email, make it available to the Studio, run validation, add or update every campaign template in Resend after the required approval gate, and commit the validated repository changes. It does not mean enable sending, create a broadcast, enrol contacts or contact recipients.
 
+## Staff-facing output contract
+
+Keep all user-facing progress and final output suitable for non-technical staff. Do the detailed reasoning, repository inspection and command execution silently.
+
+For a complete campaign build, output only one short line for each important step, using exactly this sequence:
+
+```text
+STEP 1/7 — CHECK: <plain-language result>
+STEP 2/7 — PLAN: <market, audience, message count and outcome>
+STEP 3/7 — BUILD: <source-copy result>
+STEP 4/7 — RENDER: <number of email previews created>
+STEP 5/7 — TEST: <passed, or one actionable blocker>
+STEP 6/7 — RESEND: <approval needed, drafts verified, or one actionable blocker>
+STEP 7/7 — SAVE: <commit completed, or one actionable blocker>
+```
+
+Rules for these lines:
+
+- Keep each line to one sentence and normally under 140 characters.
+- Use plain language; do not mention internal schemas, shell commands, tool names, token counts, diffs or files read.
+- Do not stream command output, long compliance preflights, checklists, release manifests or technical diagnostics when work succeeds.
+- When approval is required, make the relevant step line the single concise approval request and name the exact action/count.
+- When blocked, output only the failed step line with the one action the employee must take. Put diagnostic detail in repository audit material or provide it only if the user asks.
+- After STEP 7, output one final line only: `DONE — <campaign name>; <status>; <Resend state>; <commit hash>.`
+- For a narrower operation, output only the applicable step lines and the final `DONE` line. Do not manufacture irrelevant steps.
+
+Maintain the canonical Compliance Preflight, Production Report, sources, assumptions, approval tokens and QA evidence inside the campaign `README.md` or `docs/production-report.md`. Do not dump that audit material into the staff conversation unless requested.
+
 ## 2. Protect the workspace
 
 Run `git status --short` and inspect the current branch before editing.
@@ -83,7 +111,7 @@ Mark TEST-mode legal, consent, commercial and delivery release gates `NOT APPLIC
 
 Read `email/campaigns/_shared/EMAIL-CAMPAIGN-GENERATOR-PROMPT.md` completely before creating or changing campaign content. Follow its repository-preflight routing; do not claim to have read files that were not opened.
 
-Perform the canonical prompt's preflight automatically. Surface its concise **Compliance Preflight** as a progress update, not as a questionnaire or a request for the user to paste system instructions. If its status is `READY TO PRODUCE`, continue without waiting for another confirmation. Resolve or tokenise unknown product, price, fulfilment, asset, legal, consent and commercial facts. Stop only when a required source is missing or contradictory.
+Perform the canonical prompt's preflight automatically. Represent its result only in the `STEP 1/7 — CHECK` line and store the full Compliance Preflight in repository audit material. If its status is `READY TO PRODUCE`, continue without waiting for another confirmation. Resolve or tokenise unknown product, price, fulfilment, asset, legal, consent and commercial facts. Stop only when a required source is missing or contradictory.
 
 For an existing campaign, read its complete source folder. For a new campaign, read the closest comparable campaign and the relevant lifecycle material under `email/03-sequences/`.
 
@@ -182,6 +210,6 @@ Do not push the commit unless the user explicitly asks. If validation or Resend 
 
 ## 12. Report truthfully
 
-Return the canonical prompt's **Production Report** with changed paths, sources actually read, campaign summary, renderer confirmation, outstanding approval tokens, gate results, Resend template IDs/statuses, and the local Git commit hash. If Resend or commit completion is blocked, state that prominently and use the corresponding non-complete status.
+Write the canonical prompt's complete **Production Report** into campaign audit material with changed paths, sources actually read, campaign summary, renderer confirmation, outstanding approval tokens, gate results, Resend template IDs/statuses, and the local Git commit hash. In conversation, return only the applicable step lines and final `DONE` line from the staff-facing output contract. If Resend or commit completion is blocked, use that step line for the single actionable blocker and omit `DONE` until the requested workflow is genuinely complete.
 
 Do not say `READY TO SEND` without named human approval of the current recipients, copy, facts, assets and rendered output.

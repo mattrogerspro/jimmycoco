@@ -1,6 +1,6 @@
 ---
 name: build-jimmy-coco-email-campaign
-description: Turn simple, plain-language requests into complete, high-quality Sunless by Jimmy Coco email campaigns that automatically follow repository strategy, brand, copy, design, asset, lifecycle, compliance and delivery rules. Use whenever anyone asks to build, create, write, plan, edit, improve, localise, render, review or release an email campaign or sequence, including outreach, onboarding, lifecycle and market-specific campaigns.
+description: Turn simple, plain-language requests into complete, high-quality Sunless by Jimmy Coco email campaigns that automatically follow repository strategy, brand, copy, design, asset, lifecycle, compliance and delivery rules. Use whenever anyone asks to build, create, write, plan, edit, improve, localise, render, review or release an email campaign or sequence, including outreach, onboarding, lifecycle, market-specific and explicitly labelled TEST or DEMO campaigns for learning.
 ---
 
 # Build Jimmy Coco Email Campaign
@@ -48,9 +48,38 @@ Identify whether the request is to:
 - compare repository templates with Resend;
 - release templates or enable sending.
 
+Also classify the campaign mode:
+
+- **STANDARD** — the default for every campaign unless the user explicitly says `TEST`, `DEMO` or `SANDBOX`.
+- **TEST** — a learning-only campaign that demonstrates what the system can create without requiring production commercial, recipient or legal approvals.
+
 Use [references/repository-map.md](references/repository-map.md) to select the required sources. Read [references/release-gates.md](references/release-gates.md) whenever the request touches Resend, Vercel, Supabase, recipients or production state.
 
-## 4. Complete the mandatory preflight
+## 4. Use TEST mode for safe learning
+
+Activate TEST mode only when the user's request explicitly labels the campaign `TEST`, `DEMO` or `SANDBOX`. Do not infer it merely because a user is exploring ideas.
+
+TEST mode keeps the technical production workflow while replacing production approvals with safe fixtures:
+
+- Use a campaign ID ending in `-test` and display `TEST — NOT FOR SEND` prominently in its README, Studio metadata, subjects, previews and Resend template names/aliases.
+- Use obviously fictional recipients, businesses, offers, prices, terms and links when examples help demonstrate capability. Prefix fictional commercial copy with `TEST ONLY` or use `example.invalid` destinations so it cannot be mistaken for approved truth.
+- Allow representative fixture values instead of waiting for approved commercial, fulfilment, recipient-source or legal facts. Record every fixture in a dedicated **Test fixtures** section in the campaign README.
+- Generate the full strategy, sequence, structured data, branded HTML and Studio preview. Run the same JSON, renderer, accessibility, template, test and build validation as STANDARD mode.
+- Add the templates to Resend as clearly labelled drafts after the normal fresh approval for the named batch. Never publish them, use a production alias, or overwrite a non-test template.
+- Commit the scoped TEST campaign automatically after validation and Resend draft verification.
+
+TEST mode must still enforce these hard boundaries:
+
+- Never import, select or contact real recipients.
+- Never send email, create a broadcast, enable an automation or enable a runtime campaign.
+- Never set `EMAIL_LIVE_MODE=true`, create production data, deploy or modify a production sender/domain.
+- Never use unapproved or rights-restricted real customer, celebrity, product or proof assets. Use no imagery or an explicitly approved test-safe asset.
+- Never present fictional facts as approved, real or production-ready.
+- Never register the campaign as enabled in `shared/campaign-registry.js`.
+
+Mark TEST-mode legal, consent, commercial and delivery release gates `NOT APPLICABLE — TEST FIXTURE; NO RECIPIENTS OR SEND`. Keep repository integrity, rendering, accessibility, secret, Resend-draft isolation and Git-scope gates mandatory. To convert a TEST campaign to production, create a non-test campaign ID, remove every fixture and TEST marker, rerun the complete STANDARD preflight and obtain all current approvals.
+
+## 5. Complete the mandatory preflight
 
 Read `email/campaigns/_shared/EMAIL-CAMPAIGN-GENERATOR-PROMPT.md` completely before creating or changing campaign content. Follow its repository-preflight routing; do not claim to have read files that were not opened.
 
@@ -58,7 +87,7 @@ Perform the canonical prompt's preflight automatically. Surface its concise **Co
 
 For an existing campaign, read its complete source folder. For a new campaign, read the closest comparable campaign and the relevant lifecycle material under `email/03-sequences/`.
 
-## 5. Maintain canonical campaign source
+## 6. Maintain canonical campaign source
 
 For a new campaign, create or complete:
 
@@ -82,7 +111,7 @@ Add `whatsapp.md`, `onboarding.md`, `docs/` or `resend.json` only when the campa
 
 Use `output`/`title` for newly generated master-template campaigns. Treat existing `file`/`subject` records as supported legacy input, not the preferred new schema.
 
-## 6. Generate; do not hand-maintain HTML
+## 7. Generate; do not hand-maintain HTML
 
 - Edit `email-data.json` and `sequence.md` for campaign-specific changes.
 - Edit `email/campaigns/_shared/master-template.js` only for an approved global rendering change.
@@ -92,7 +121,7 @@ Use `output`/`title` for newly generated master-template campaigns. Treat existi
 
 The Studio discovers campaign folders with `email-data.json` and `studio.json` automatically. Do not add hard-coded UI imports.
 
-## 7. Validate before reporting completion
+## 8. Validate before reporting completion
 
 Run the skill validator for each changed campaign:
 
@@ -111,7 +140,7 @@ For Resend-related work, also run `npm run templates:check`. Treat any failure a
 
 Review the final diff for unrelated files, secrets, temporary output, broken links, unsupported claims, generated/source disagreement and unintended campaign activation.
 
-## 8. Add every campaign template to Resend
+## 9. Add every campaign template to Resend
 
 Resend template creation is a required stage of a complete campaign build, not an optional handoff. Perform it only after source, rendering and validation gates pass.
 
@@ -124,7 +153,7 @@ Resend template creation is a required stage of a complete campaign build, not a
 
 Do not silently omit Resend because credentials or MCP access are unavailable. Report the campaign as `BLOCKED` until the required connection or approval is available. Creating or updating a draft does not authorise publishing it, enabling automation or sending it.
 
-## 9. Handle external systems safely
+## 10. Handle external systems safely
 
 Use Resend MCP read operations to list or inspect templates and compare aliases, subjects, status and content. Use approved writes for the named campaign batch after the gate above. Keep MCP/API secrets out of files and output.
 
@@ -139,7 +168,7 @@ Require fresh explicit approval immediately before any consequential write, incl
 
 Never use an ordinary Git push as implicit authority to publish Resend content. Prefer the explicit `npm run templates:publish` release action after all gates pass.
 
-## 10. Commit validated campaign changes
+## 11. Commit validated campaign changes
 
 After the campaign and Resend draft verification pass:
 
@@ -151,7 +180,7 @@ After the campaign and Resend draft verification pass:
 
 Do not push the commit unless the user explicitly asks. If validation or Resend draft verification fails, do not commit a falsely complete campaign; report the blocker and leave the scoped changes available for correction.
 
-## 11. Report truthfully
+## 12. Report truthfully
 
 Return the canonical prompt's **Production Report** with changed paths, sources actually read, campaign summary, renderer confirmation, outstanding approval tokens, gate results, Resend template IDs/statuses, and the local Git commit hash. If Resend or commit completion is blocked, state that prominently and use the corresponding non-complete status.
 

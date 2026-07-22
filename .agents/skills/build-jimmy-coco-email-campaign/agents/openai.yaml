@@ -1,7 +1,7 @@
 interface:
   display_name: "Build Jimmy Coco Email Campaign"
-  short_description: "Build, add to Resend, and commit campaigns"
-  default_prompt: "Use $build-jimmy-coco-email-campaign to build, add to Resend, and commit a complete salon campaign for my chosen market."
+  short_description: "Build live-ready or safe TEST email campaigns"
+  default_prompt: "Use $build-jimmy-coco-email-campaign to build, add to Resend, and commit a complete salon campaign, or label it TEST for a safe learning demo."
 
 dependencies:
   tools:

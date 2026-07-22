@@ -1,0 +1,199 @@
+{
+  "campaign": "au-new-salon-outreach-test",
+  "market": "AU",
+  "purpose": "professional-outreach-test",
+  "esp": "resend",
+  "status": "TEST — NOT FOR SEND",
+  "defaults": {
+    "brand": "SUNLESS TEST",
+    "brandLine": "by Jimmy Coco · NOT FOR SEND",
+    "lang": "en-AU",
+    "background": "#EAE2D8",
+    "cardBackground": "#FBF8F3",
+    "accent": "#A77952",
+    "text": "#3B3630",
+    "heading": "#24211E",
+    "buttonBackground": "#26231F",
+    "buttonText": "#FFFDF9",
+    "businessName": "Sunless by Jimmy Coco — TEST ONLY",
+    "businessAddress": "100 Example Street, Melbourne VIC 3000, Australia",
+    "unsubscribeText": "TEST ONLY — no real recipient is enrolled and no message may be sent.",
+    "unsubscribeUrl": "https://example.invalid/unsubscribe",
+    "unsubscribeLabel": "TEST unsubscribe fixture",
+    "senderName": "TEST Partnerships Team",
+    "senderTitle": "TEST FIXTURE — NOT MONITORED"
+  },
+  "messages": [
+    {
+      "output": "emails/1-practical-introduction.html",
+      "alias": "test-not-for-send-au-new-salon-01-introduction",
+      "templateId": "f2346c4c-a02b-421c-bae5-f03846c68a56",
+      "title": "TEST — NOT FOR SEND — A practical salon introduction",
+      "preview": "TEST fixture: a salon partnership note with a fictional, unbranded product image.",
+      "eyebrow": "TEST ONLY · AU SALON OUTREACH",
+      "headline": "A considered way to assess a new tanning partner.",
+      "requiredVariables": [],
+      "blocks": [
+        {
+          "type": "heroImage",
+          "assetId": "test-au-new-salon-outreach-header-v1",
+          "caption": "TEST ONLY — AI-generated fictional product prop; not a Jimmy Coco product."
+        },
+        {
+          "type": "note",
+          "html": "<strong>TEST — NOT FOR SEND.</strong> No product, sample or offer described here is real."
+        },
+        {
+          "type": "paragraph",
+          "html": "Hello,"
+        },
+        {
+          "type": "paragraph",
+          "html": "If a salon were evaluating a new professional tanning partner, the first conversation should be practical: what is documented, how the range would be assessed, what support is available and which commercial details still need approval."
+        },
+        {
+          "type": "paragraph",
+          "html": "For this test, the next step is a fictional evaluation brief and an unbranded sample bottle. It is simply a safe way to demonstrate a reply-led outreach journey without making product or performance claims."
+        },
+        {
+          "type": "offer",
+          "html": "<strong>TEST ONLY:</strong> Would you like the fictional evaluation brief? Nothing will be supplied."
+        },
+        {
+          "type": "cta",
+          "label": "Request the TEST brief",
+          "url": "mailto:test-partnerships@example.invalid?subject=TEST%20BRIEF"
+        },
+        {
+          "type": "note",
+          "html": "Or reply ‘TEST BRIEF’. The fictional workflow stops after any response."
+        }
+      ]
+    },
+    {
+      "output": "emails/2-trial-checklist.html",
+      "alias": "test-not-for-send-au-new-salon-02-checklist",
+      "templateId": "67ef9115-09bc-458b-8b46-e6113eb483f4",
+      "title": "TEST — NOT FOR SEND — Five questions for a product trial",
+      "preview": "A practical TEST checklist for reviewing a potential professional tanning range.",
+      "eyebrow": "TEST ONLY · PRACTICAL REVIEW",
+      "headline": "A useful trial should create evidence.",
+      "requiredVariables": [],
+      "blocks": [
+        {
+          "type": "note",
+          "html": "<strong>TEST — NOT FOR SEND.</strong> Nothing here represents a real product offer."
+        },
+        {
+          "type": "paragraph",
+          "html": "Hello,"
+        },
+        {
+          "type": "paragraph",
+          "html": "A useful salon trial should create evidence, not simply a first impression. Before considering any professional tanning range, we would ask:"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Are the product, shade and usage facts clearly documented?",
+            "Is the application method practical for the team?",
+            "Can staff explain the client experience without unsupported promises?",
+            "Is there a clear support route when a service question arises?",
+            "Are availability, fulfilment and trade terms confirmed in writing?"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "html": "That is the standard behind the fictional evaluation brief in this demonstration."
+        },
+        {
+          "type": "cta",
+          "label": "Request the TEST checklist",
+          "url": "mailto:test-partnerships@example.invalid?subject=TEST%20CHECKLIST"
+        },
+        {
+          "type": "note",
+          "html": "Any reply or click ends this fictional sequence."
+        }
+      ]
+    },
+    {
+      "output": "emails/3-partnership-review.html",
+      "alias": "test-not-for-send-au-new-salon-03-review",
+      "templateId": "35b42341-1f5d-4d5d-a9d5-085054315972",
+      "title": "TEST — NOT FOR SEND — From trial to partnership review",
+      "preview": "TEST fixture: the fictional steps between initial interest and an informed salon decision.",
+      "eyebrow": "TEST ONLY · PARTNERSHIP PROCESS",
+      "headline": "Make the next decision clearer.",
+      "requiredVariables": [],
+      "blocks": [
+        {
+          "type": "note",
+          "html": "<strong>TEST — NOT FOR SEND.</strong> All process and commercial details are fictional."
+        },
+        {
+          "type": "paragraph",
+          "html": "Hello,"
+        },
+        {
+          "type": "paragraph",
+          "html": "This TEST sequence is designed around one principle: a partnership decision should become clearer at each step."
+        },
+        {
+          "type": "paragraph",
+          "html": "In a real review, that would mean confirming salon fit and contact permissions, validating current product information, agreeing how a trial will be assessed, documenting support, and reviewing approved commercial and fulfilment terms before anyone commits."
+        },
+        {
+          "type": "offer",
+          "html": "For this demonstration, those facts remain fictional and no product will be shipped. The outline exists only to show how a calm, low-pressure next step could work."
+        },
+        {
+          "type": "cta",
+          "label": "View the TEST partnership outline",
+          "url": "https://example.invalid/test-partnership-outline"
+        },
+        {
+          "type": "note",
+          "html": "A fictional outline view or any reply ends the sequence."
+        }
+      ]
+    },
+    {
+      "output": "emails/4-close-the-loop.html",
+      "alias": "test-not-for-send-au-new-salon-04-close",
+      "templateId": "800eb43d-5627-401d-af45-626102330b2c",
+      "title": "TEST — NOT FOR SEND — Closing the test sequence",
+      "preview": "TEST fixture: the final message in this fictional salon outreach demonstration.",
+      "eyebrow": "TEST ONLY · FINAL MESSAGE",
+      "headline": "I’ll leave the example here.",
+      "requiredVariables": [],
+      "blocks": [
+        {
+          "type": "note",
+          "html": "<strong>TEST — NOT FOR SEND.</strong> This is the final fictional message."
+        },
+        {
+          "type": "paragraph",
+          "html": "Hello,"
+        },
+        {
+          "type": "paragraph",
+          "html": "There is no deadline and no real offer to miss. A production campaign should close respectfully when there is no response, then suppress future outreach unless a valid new basis for contact is recorded."
+        },
+        {
+          "type": "paragraph",
+          "html": "The TEST salon-review checklist remains available through the non-operational example link below."
+        },
+        {
+          "type": "cta",
+          "label": "Keep the TEST checklist",
+          "url": "https://example.invalid/test-salon-checklist"
+        },
+        {
+          "type": "note",
+          "html": "Thank you for reviewing the demonstration. The fictional record is now closed."
+        }
+      ]
+    }
+  ]
+}

@@ -47,6 +47,7 @@ The build reads the registered campaign manifests and writes HTML under each cam
 - `../uk-salon-stockist/email-data.json`
 - `../uae-dubai-salon-stockist/email-data.json`
 - `../us-west-coast-salon-stockist/email-data.json`
+- `../au-new-salon-outreach-test/email-data.json`
 
 ## What updates globally
 

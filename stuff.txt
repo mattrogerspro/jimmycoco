@@ -1,2 +1,4 @@
 git config --global user.name "Flo Davenport"
 git config --global user.email "flo@jimmycoco.co.uk"
+
+.agents/skills/build-jimmy-coco-email-campaign/

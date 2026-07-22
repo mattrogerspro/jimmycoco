@@ -21,7 +21,7 @@ Expand a short request such as “Build a five-email salon recruitment campaign 
 - Use explicit approval tokens for non-blocking unknown commercial facts instead of interrupting production.
 - Never make the employee reproduce information that can be discovered from the repository.
 
-Unless the user narrows the scope, “build a campaign” means: create the complete repository draft, generate every branded HTML email, make it available to the Studio, run validation, and return it ready for human review. It does not mean publish to Resend, enable sending or contact recipients.
+Unless the user narrows the scope, “build a campaign” means: create the complete repository draft, generate every branded HTML email, make it available to the Studio, run validation, add or update every campaign template in Resend after the required approval gate, and commit the validated repository changes. It does not mean enable sending, create a broadcast, enrol contacts or contact recipients.
 
 ## 2. Protect the workspace
 
@@ -31,7 +31,8 @@ Run `git status --short` and inspect the current branch before editing.
 - Assume another agent may share the worktree. Do not overwrite files it is changing.
 - Never use `git add -A`; stage only named files belonging to the task.
 - Do not remove `.git/index.lock` while any Git or agent process owns it.
-- Do not commit, push, deploy, publish templates, enable campaigns, import recipients or send email without explicit authority for that action.
+- Campaign-build requests carry standing authority to create one scoped local commit after all validation passes. Stage only the named campaign files and shared registration files changed for that campaign.
+- Do not push, deploy, publish Resend template versions, enable campaigns, import recipients or send email without explicit authority for that action.
 
 If concurrent work overlaps the requested files, stop and report the exact collision.
 
@@ -110,9 +111,22 @@ For Resend-related work, also run `npm run templates:check`. Treat any failure a
 
 Review the final diff for unrelated files, secrets, temporary output, broken links, unsupported claims, generated/source disagreement and unintended campaign activation.
 
-## 8. Handle external systems safely
+## 8. Add every campaign template to Resend
 
-Use Resend MCP read operations to list or inspect templates and compare aliases, subjects, status and content. Keep MCP/API secrets out of files and output.
+Resend template creation is a required stage of a complete campaign build, not an optional handoff. Perform it only after source, rendering and validation gates pass.
+
+1. Prepare a release manifest listing every message alias, subject, generated HTML path and required variable.
+2. Run `npm run templates:check` with `RESEND_API_KEY` loaded when available. Use Resend MCP read operations as the authenticated fallback for inspection.
+3. Immediately before the first Resend write, show the exact templates and action, then obtain fresh explicit human approval. One approval may cover the complete named campaign batch.
+4. After approval, create missing Resend templates as drafts and update existing drafts so alias, subject, HTML and variables match the repository.
+5. Record template identifiers in the repository source used by the release/runtime tooling when identifiers are returned. Regenerate or revalidate if metadata changes.
+6. Read every created or updated template back from Resend and compare alias, subject, variables, status and content with the repository.
+
+Do not silently omit Resend because credentials or MCP access are unavailable. Report the campaign as `BLOCKED` until the required connection or approval is available. Creating or updating a draft does not authorise publishing it, enabling automation or sending it.
+
+## 9. Handle external systems safely
+
+Use Resend MCP read operations to list or inspect templates and compare aliases, subjects, status and content. Use approved writes for the named campaign batch after the gate above. Keep MCP/API secrets out of files and output.
 
 Require fresh explicit approval immediately before any consequential write, including:
 
@@ -125,8 +139,20 @@ Require fresh explicit approval immediately before any consequential write, incl
 
 Never use an ordinary Git push as implicit authority to publish Resend content. Prefer the explicit `npm run templates:publish` release action after all gates pass.
 
-## 9. Report truthfully
+## 10. Commit validated campaign changes
 
-Return the canonical prompt's **Production Report** with changed paths, sources actually read, campaign summary, renderer confirmation, outstanding approval tokens, gate results and one permitted final status.
+After the campaign and Resend draft verification pass:
+
+1. Run `git status --short`, inspect the task diff and identify the exact files owned by the campaign build.
+2. Stage only those paths with explicit `git add <path>...`; never use `git add -A` or `git add .`.
+3. Create one commit using `Build <campaign-id> email campaign` unless the user supplies a message.
+4. If a Git hook would publish templates implicitly, set `SKIP_RESEND_SYNC=1` for the commit because the explicit Resend stage already owns remote writes.
+5. Verify the commit contents and leave unrelated modifications unstaged.
+
+Do not push the commit unless the user explicitly asks. If validation or Resend draft verification fails, do not commit a falsely complete campaign; report the blocker and leave the scoped changes available for correction.
+
+## 11. Report truthfully
+
+Return the canonical prompt's **Production Report** with changed paths, sources actually read, campaign summary, renderer confirmation, outstanding approval tokens, gate results, Resend template IDs/statuses, and the local Git commit hash. If Resend or commit completion is blocked, state that prominently and use the corresponding non-complete status.
 
 Do not say `READY TO SEND` without named human approval of the current recipients, copy, facts, assets and rendered output.

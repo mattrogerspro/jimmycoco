@@ -27,6 +27,7 @@
     {
       "output": "emails/1-introduction.html",
       "alias": "au-gold-coast-stockist-1-introduction",
+      "templateId": "d8f024d3-a409-43d6-8994-c6c5d5794890",
       "title": "A stockist conversation for {{salon_name}}",
       "preview": "A brief introduction to Sunless by Jimmy Coco for relevant Gold Coast salon partners.",
       "eyebrow": "For {{salon_name}}",
@@ -43,6 +44,7 @@
     {
       "output": "emails/2-professional-method.html",
       "alias": "au-gold-coast-stockist-2-professional-method",
+      "templateId": "d39b84d7-44c9-41bb-b009-921158046b6f",
       "title": "What matters in a professional tan range?",
       "preview": "A good partnership should support confident consultation as well as the finished service.",
       "eyebrow": "The professional method",
@@ -59,6 +61,7 @@
     {
       "output": "emails/3-client-experience.html",
       "alias": "au-gold-coast-stockist-3-client-experience",
+      "templateId": "f7df55a6-7134-4e73-8c52-c0551408cf35",
       "title": "A tanning service clients can understand",
       "preview": "Clear choices and practical guidance can make a professional service feel more considered.",
       "eyebrow": "The client experience",
@@ -75,6 +78,7 @@
     {
       "output": "emails/4-partner-support.html",
       "alias": "au-gold-coast-stockist-4-partner-support",
+      "templateId": "55e3b4d0-25b8-4fbc-8014-d5126196e451",
       "title": "What support should a stockist expect?",
       "preview": "The useful question is not only what you stock, but how your team is supported afterwards.",
       "eyebrow": "The partnership",
@@ -91,6 +95,7 @@
     {
       "output": "emails/5-commercial-fit.html",
       "alias": "au-gold-coast-stockist-5-commercial-fit",
+      "templateId": "78bd66b1-1280-472f-87e3-5d01321eec23",
       "title": "The practical stockist questions",
       "preview": "Trade terms, opening requirements and delivery should be verified before any decision.",
       "eyebrow": "Commercial fit",
@@ -107,6 +112,7 @@
     {
       "output": "emails/6-stockist-pathway.html",
       "alias": "au-gold-coast-stockist-6-stockist-pathway",
+      "templateId": "d4105185-4edc-4739-be12-a0b44ffb576f",
       "title": "A simple route to explore stockist fit",
       "preview": "Start with a short conversation, review the approved details and decide whether to continue.",
       "eyebrow": "The next step",
@@ -123,6 +129,7 @@
     {
       "output": "emails/7-close-the-loop.html",
       "alias": "au-gold-coast-stockist-7-close-the-loop",
+      "templateId": "cefce041-11f1-4eb7-8447-30486a873b9d",
       "title": "I'll leave the stockist conversation here",
       "preview": "No pressure and no manufactured deadline — reply later if the timing becomes relevant.",
       "eyebrow": "Closing the loop",

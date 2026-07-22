@@ -116,7 +116,7 @@ Review the final diff for unrelated files, secrets, temporary output, broken lin
 Resend template creation is a required stage of a complete campaign build, not an optional handoff. Perform it only after source, rendering and validation gates pass.
 
 1. Prepare a release manifest listing every message alias, subject, generated HTML path and required variable.
-2. Run `npm run templates:check` with `RESEND_API_KEY` loaded when available. Use Resend MCP read operations as the authenticated fallback for inspection.
+2. Run `npm run templates:check` with `RESEND_API_KEY` loaded when available. When the repository-root `.env.local` exists, load it without printing its contents (`set -a; source .env.local; set +a`) before running the template command. Use Resend MCP read operations as the authenticated fallback for inspection.
 3. Immediately before the first Resend write, show the exact templates and action, then obtain fresh explicit human approval. One approval may cover the complete named campaign batch.
 4. After approval, create missing Resend templates as drafts and update existing drafts so alias, subject, HTML and variables match the repository.
 5. Record template identifiers in the repository source used by the release/runtime tooling when identifiers are returned. Regenerate or revalidate if metadata changes.

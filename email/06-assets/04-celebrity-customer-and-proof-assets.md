@@ -12,7 +12,9 @@ They must remain faithful to the approved source and may not be regenerated, ret
 
 ## Celebrity assets
 
-Celebrity imagery requires:
+All images under `assets/images/celebs/` have standing human approval for inclusion in every email campaign, market and email purpose. The approval is perpetual unless explicitly withdrawn and replaces per-campaign approval for the supplied photographs.
+
+For celebrity imagery outside that pre-approved folder, require:
 
 - verified source;
 - explicit usage approval;
@@ -25,6 +27,8 @@ Celebrity imagery requires:
 - named legal or rights owner.
 
 Possession of a photograph does not establish permission to use a name, likeness or endorsement claim.
+
+For the pre-approved folder, repository placement plus the standing approval establishes permission to include the supplied likeness in email. It does not establish that the person used, endorsed or recommends a product, and it does not approve invented quotes or claims.
 
 ## Pixel-faithful handling
 

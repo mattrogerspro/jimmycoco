@@ -16,6 +16,10 @@ Produce an asset candidate table with asset ID, source path, role in the message
 
 ## Manifest authority
 
+Every image file already present under `assets/` on 22 July 2026 has standing human creative approval. Do not describe one of those source files as unapproved solely because its email manifest record or derivative is incomplete. Files added after that date follow normal approval onboarding.
+
+Every image under `assets/images/celebs/` is pre-approved for all email campaigns, markets and purposes. No per-campaign celebrity-image approval is required. The manifest remains the production delivery contract and must record `email` channel plus `global` market and purpose eligibility.
+
 An image is production-eligible only when its manifest record:
 
 1. has `status: APPROVED`;
@@ -27,7 +31,7 @@ An image is production-eligible only when its manifest record:
 7. has approved alt text;
 8. has a stable public HTTPS URL.
 
-A file merely existing in the repository is not approval.
+A file outside the dated standing-approval scope is not approved merely because it exists in the repository.
 
 ## Template capability
 
@@ -93,7 +97,9 @@ For grids and proof strips:
 
 ## Protected assets
 
-Celebrity and customer-result assets remain blocked until their rights, market, channel, purpose, expiry, derivative and wording permissions are explicitly approved. Do not alter faces, bodies, skin tone, expression, product context or tanning results.
+Celebrity files under `assets/images/celebs/` already have standing rights, market, channel and purpose approval for every email campaign. They remain blocked only by missing production delivery requirements such as a stable public derivative, dimensions or alt text, or by a proposed use that would invent an endorsement or violate the AI-generation rules. Do not alter faces, bodies, skin tone, expression, product context or tanning results.
+
+Customer-result assets and celebrity files outside that folder still require their applicable rights and context approvals.
 
 ## Required generator behaviour
 

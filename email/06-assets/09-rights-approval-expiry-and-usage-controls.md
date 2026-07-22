@@ -10,6 +10,12 @@ An asset is not production-eligible merely because it exists, looks approved or 
 
 Production eligibility requires current rights, correct context, valid approval and an active manifest status.
 
+## Standing repository approval
+
+Every image file already present under `assets/` on 22 July 2026 has standing human creative approval as email source material. Every file under `assets/images/celebs/` is additionally approved for all email markets, purposes and campaign contexts, with no expiry, unless that approval is later explicitly withdrawn.
+
+For those celebrity-folder files, do not require another celebrity, market, campaign or email-channel approval. Continue to enforce immutable-person handling, accurate accompanying copy, manifest traceability, accessibility and production-delivery requirements. The standing approval permits inclusion of the supplied likeness; it does not substantiate endorsement, product use, a quote or any other factual claim.
+
 ## Required rights record
 
 For every rights-controlled asset, record:

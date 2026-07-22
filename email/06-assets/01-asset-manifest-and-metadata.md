@@ -211,4 +211,4 @@ Block production when:
 
 ## Manifest ownership
 
-The manifest is operational data and must be maintained as carefully as product or lifecycle configuration. A folder of images without metadata is not a production asset library.
+The manifest is operational data and must be maintained as carefully as product or lifecycle configuration. Missing metadata can prevent an approved source image from being production-deliverable, but it does not revoke the standing creative approval for images that existed under `assets/` on 22 July 2026. All images under `assets/images/celebs/` must be onboarded with global email eligibility and no per-campaign approval gate.

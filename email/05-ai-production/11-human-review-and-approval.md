@@ -51,7 +51,7 @@ Confirm:
 
 - product and customer data come from approved systems;
 - imagery rights and permitted usage are documented;
-- celebrity or partner use is specifically approved;
+- celebrity or partner use is specifically approved, except that every image under `assets/images/celebs/` carries standing approval for all email campaigns and needs no repeat campaign approval;
 - claims have traceable evidence;
 - policy and legal wording are current;
 - missing information is resolved rather than guessed.
@@ -83,6 +83,8 @@ Confirm:
 Use `../04-copy-system/12-copy-testing-and-qa.md` as the release standard.
 
 ## Protected-asset approval
+
+Standing source approval does not approve AI alteration. Images under `assets/images/celebs/` may be included without another creative or rights review only when the current protected-asset and AI-generation rules are followed.
 
 Compare the final output directly against every protected source asset.
 

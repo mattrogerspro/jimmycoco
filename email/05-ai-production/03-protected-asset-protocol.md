@@ -10,6 +10,8 @@ Define how original product, celebrity, customer-result, founder and brand asset
 
 Includes celebrity, founder, employee, creator and customer photography.
 
+Every source image under `assets/images/celebs/` is pre-approved for inclusion in all email campaigns. That standing approval changes selection eligibility only; it does not relax any pixel-faithfulness or AI-generation restriction in this protocol.
+
 Permitted:
 
 - lossless placement;

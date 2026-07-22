@@ -130,11 +130,17 @@ async function main() {
       console.log(`DRIFT   ${template.alias} ← ${template.sourcePath}`)
       continue
     }
+    const remoteVariables = (remote.data.variables || [])
+      .filter((variable) => !reserved.has(variable.key))
+      .map((variable) => ({ key: variable.key, type: variable.type || 'string' }))
+    const migrationVariables = [...new Map(
+      [...remoteVariables, ...template.variables].map((variable) => [variable.key, variable]),
+    ).values()]
     const updated = await resend.templates.update(template.id, {
       alias: template.alias,
       subject: template.subject,
       html: template.html,
-      variables: template.variables,
+      variables: migrationVariables,
     })
     if (updated.error) throw new Error(`${template.alias}: ${updated.error.message}`)
     const published = await resend.templates.publish(template.id)

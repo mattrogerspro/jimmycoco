@@ -7,7 +7,7 @@ const escapeHtml = (value = '') => String(value)
 
 const DEFAULT_LOGO_URL = 'https://jimmycoco.email/email-assets/logo.webp';
 
-const logoTag = (data) => `<a href="${data.homeUrl || 'https://jimmycoco.co.uk'}" style="display:inline-block;text-decoration:none;"><img src="${data.logoUrl || DEFAULT_LOGO_URL}" width="240" height="70" alt="${escapeHtml(data.logoAlt || 'Sunless by Jimmy Coco')}" style="display:block;width:240px;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;"></a>`;
+const logoTag = (data) => `<a href="${data.homeUrl || 'https://jimmycoco.co.uk'}" style="display:inline-block;text-decoration:none;"><img src="${DEFAULT_LOGO_URL}" width="240" height="70" alt="Sunless by Jimmy Coco" style="display:block;width:240px;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;"></a>`;
 
 const imageTag = (block, maxWidth = 496) => {
   const width = Number(block.width || maxWidth);

@@ -1,0 +1,30 @@
+{
+  "campaign": "test-editorial-commerce-email",
+  "market": "global",
+  "purpose": "editorial-commerce-test",
+  "esp": "resend",
+  "status": "TEST — NOT FOR SEND",
+  "defaults": {
+    "lang": "en-GB"
+  },
+  "messages": [
+    {
+      "output": "emails/1-editorial-commerce-preview.html",
+      "name": "TEST — NOT FOR SEND — Editorial Commerce",
+      "alias": "test-not-for-send-editorial-commerce-01-preview",
+      "title": "TEST — NOT FOR SEND — Editorial commerce master preview",
+      "preview": "Screenshot-fidelity reconstruction of the supplied legacy campaign.",
+      "requiredVariables": [],
+      "slices": [
+        {"name":"Brand hero and primary CTA","src":"https://jimmycoco.email/email-assets/test/screenshot-reconstruction/01-brand-hero-and-primary-cta.webp","height":1736,"alt":"Sunless by Jimmy Coco summer mitt campaign hero with primary shop action.","href":"https://example.invalid/test-shop-mitt"},
+        {"name":"Product story, benefits and CTA","src":"https://jimmycoco.email/email-assets/test/screenshot-reconstruction/02-product-story-benefits-and-cta.webp","height":1440,"alt":"Product story, application images, benefit list and get your glow action.","href":"https://example.invalid/test-shop-mitt"},
+        {"name":"Five-step heat guide","src":"https://jimmycoco.email/email-assets/test/screenshot-reconstruction/03-five-step-heat-guide.webp","height":1656,"alt":"Five-step guide for keeping a glow flawless in hot weather."},
+        {"name":"Bundle editorial bridge","src":"https://jimmycoco.email/email-assets/test/screenshot-reconstruction/04-bundle-editorial-bridge.webp","height":664,"alt":"Bundle Up and Glow editorial banner."},
+        {"name":"Bundle copy and product pair","src":"https://jimmycoco.email/email-assets/test/screenshot-reconstruction/05-bundle-copy-and-product-pair.webp","height":1056,"alt":"Bundle introduction with bundle and tanning mitt product cards.","href":"https://example.invalid/test-shop-bundles"},
+        {"name":"Closing summer hero","src":"https://jimmycoco.email/email-assets/test/screenshot-reconstruction/06-closing-summer-hero.webp","height":816,"alt":"Summer glow closing banner with discover the mitt action.","href":"https://example.invalid/test-discover-mitt"},
+        {"name":"Product value icon grid","src":"https://jimmycoco.email/email-assets/test/screenshot-reconstruction/07-product-value-icon-grid.webp","height":1412,"alt":"Botanical extracts, hydration, gold complex and fine fragrance value icons."},
+        {"name":"Social and legal footer","src":"https://jimmycoco.email/email-assets/test/screenshot-reconstruction/08-social-and-legal-footer.webp","height":298,"alt":"Social links and Jimmy Coco legal footer."}
+      ]
+    }
+  ]
+}

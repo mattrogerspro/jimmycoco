@@ -7,6 +7,9 @@ import { campaignsById } from '../shared/campaign-registry.js'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const publish = process.argv.includes('--publish')
+const onlyArgument = process.argv.find((argument) => argument.startsWith('--only='))
+const onlyIndex = process.argv.indexOf('--only')
+const onlyAlias = onlyArgument?.slice('--only='.length) || (onlyIndex >= 0 ? process.argv[onlyIndex + 1] : null)
 const reserved = new Set(['FIRST_NAME', 'LAST_NAME', 'EMAIL', 'RESEND_UNSUBSCRIBE_URL'])
 const aliases = {
   first_name: 'FIRST_NAME',
@@ -85,6 +88,7 @@ async function localTemplates() {
       }
       templates.push({
         id: step.templateId || message.templateId || alias,
+        name: message.name || `Repository template — ${alias}`,
         alias,
         subject: toResendVariables(message.title || message.subject || step.subject),
         html: renderedHtml,
@@ -97,7 +101,13 @@ async function localTemplates() {
 }
 
 async function main() {
-  const { templates, failures } = await localTemplates()
+  const { templates: discoveredTemplates, failures } = await localTemplates()
+  const templates = onlyAlias
+    ? discoveredTemplates.filter((template) => template.alias === onlyAlias)
+    : discoveredTemplates
+  if (onlyAlias && templates.length === 0) {
+    throw new Error(`Unknown local template alias: ${onlyAlias}`)
+  }
   if (failures.length) {
     console.error(`Local validation found ${failures.length} blocking issue(s):`)
     for (const failure of failures) console.error(`- ${failure}`)
@@ -117,7 +127,27 @@ async function main() {
   let drift = 0
   for (const template of templates) {
     const remote = await resend.templates.get(template.id)
-    if (remote.error) throw new Error(`${template.alias}: ${remote.error.message}`)
+    if (remote.error) {
+      const missing = remote.error.statusCode === 404 || /not found/i.test(remote.error.message || '')
+      if (!missing) throw new Error(`${template.alias}: ${remote.error.message}`)
+      drift += 1
+      if (!publish) {
+        console.log(`MISSING ${template.alias} ← ${template.sourcePath}`)
+        continue
+      }
+      const created = await resend.templates.create({
+        name: template.name,
+        alias: template.alias,
+        subject: template.subject,
+        html: template.html,
+        variables: template.variables,
+      })
+      if (created.error) throw new Error(`${template.alias}: create failed: ${created.error.message}`)
+      const published = await resend.templates.publish(created.data.id)
+      if (published.error) throw new Error(`${template.alias}: publish failed: ${published.error.message}`)
+      console.log(`CREATE  ${template.alias}`)
+      continue
+    }
     const changed = normaliseHtml(remote.data.html || '') !== normaliseHtml(template.html)
       || remote.data.subject !== template.subject
       || remote.data.alias !== template.alias

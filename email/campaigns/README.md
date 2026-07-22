@@ -8,6 +8,7 @@ Home for every **outreach & marketing campaign** — cold acquisition, stockist 
 
 | Campaign | Folder | Channel | Market | Status | Hook |
 |---|---|---|---|---|---|
+| Editorial commerce master preview (TEST) | [`test-editorial-commerce-email/`](test-editorial-commerce-email/) | Email (Resend TEST fixture) | Global test | TEST — NOT FOR SEND | One modular preview of the legacy-inspired editorial-commerce master |
 | Australia-wide new salon outreach (TEST) | [`au-new-salon-outreach-test/`](au-new-salon-outreach-test/) | Email (Resend TEST fixture) | AU | TEST — NOT FOR SEND | A fictional, evidence-led salon partnership review |
 | AU salon seeding (cold outreach) | [`au-salon-seeding/`](au-salon-seeding/) | Email + WhatsApp | 🇦🇺 AU | Draft | Free sample before summer |
 | AU salon account flow (post-sample) | [`au-salon-account-flow/`](au-salon-account-flow/) | Email + WhatsApp | 🇦🇺 AU | Draft | Sample → terms → first order |

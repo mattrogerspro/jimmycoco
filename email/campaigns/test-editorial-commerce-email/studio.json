@@ -1,0 +1,15 @@
+{
+  "order": 100,
+  "name": "TEST — Editorial Commerce Master Preview",
+  "shortName": "TEST Editorial Commerce",
+  "market": "TEST",
+  "flag": "🧪",
+  "status": "TEST — NOT FOR SEND",
+  "hook": "One modular preview of the editorial-commerce master",
+  "channel": "Email (Resend TEST fixture)",
+  "cadence": "Manual review only",
+  "owner": "Internal Creative Review",
+  "mode": "sequence",
+  "testOnly": true,
+  "days": [0]
+}

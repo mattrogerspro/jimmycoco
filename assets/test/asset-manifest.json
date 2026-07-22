@@ -1,0 +1,16 @@
+{
+  "status": "TEST_ONLY_NOT_PRODUCTION_ELIGIBLE",
+  "reference": "/Users/mrogers/Downloads/screencapture-klaviyo-campaign-01KVZJR77KP6Y091Q0QTFBFE5Q-web-view-2026-07-22-14_38_12.png",
+  "generationMethod": "Deterministic ImageMagick resize/crop/export only; no generative model used",
+  "assets": [
+    {"file":"legacy-editorial-commerce-reference.webp","width":900,"height":2343,"sha256":"65c13b62b2985d858cf79a4cb42ef0c9150bf5f7a187d584541767693d281ec1","source":"supplied screenshot","operation":"proportional resize"},
+    {"file":"hero-editorial-portrait.webp","width":1200,"height":900,"sha256":"2fe3f51cb13c723d7a264e505c331e806cf231783541a7701c2b6c24476312e0","source":"assets/images/celebs/k_jenna.webp","operation":"resize to 1200px wide; north-aligned 1200x900 crop in resized coordinates"},
+    {"file":"product-mitt-front.webp","width":900,"height":900,"sha256":"1481d001797404ea693bf14417bb3ccab691c1505a3b89d9d5db834d869e962b","source":"assets/images/product-images/Mitt/3D6A7649_copy4.webp","operation":"proportional resize"},
+    {"file":"method-mitt-body.webp","width":600,"height":450,"sha256":"ad8c2326dedb7fccc4811c99cc01cd3e8bbc68a0d9ac2414b19ef6ffc79c97ac","source":"assets/images/product-images/Mitt/11_f9ca4cea-7322-440f-b4ef-377e318e815a.webp","operation":"resize to 600px wide; centre-aligned 600x450 crop in resized coordinates"},
+    {"file":"method-mitt-leg.webp","width":600,"height":450,"sha256":"b4784f56c5f69f81652f8d0be7aa6665f0e3797f0d721b321913d2118c7b90cc","source":"assets/images/product-images/Mitt/5_b6fb0d57-4839-4a76-821b-b085366d0b54.webp","operation":"resize to 600px wide; centre-aligned 600x450 crop in resized coordinates"},
+    {"file":"method-mitt-dispense.webp","width":600,"height":450,"sha256":"bba4e6905ca516fe859b483ca0cfb5cacf40469d53ec9f864ddcee8023dbfe84","source":"assets/images/product-images/Mitt/Product_008.webp","operation":"resize to 600px wide; centre-aligned 600x450 crop in resized coordinates"},
+    {"file":"editorial-bundle-bridge.webp","width":1200,"height":675,"sha256":"2ab9d9dbad9f0e0c61249cafaccb576141e20a9ab115a4be60abf797f420fba4","source":"assets/images/celebs/kylie_k.webp","operation":"resize to 1200px wide; north-aligned 1200x675 crop in resized coordinates"},
+    {"file":"product-face-brush.webp","width":900,"height":900,"sha256":"593eb3bd612be657f8b0b1135db82e818382adeb62f87550c53b049d410f85c4","source":"assets/images/product-images/The Face Brush/6_2_a6ba9876-2cb7-43b9-8510-c076210f4f3b.webp","operation":"proportional resize"},
+    {"file":"closing-editorial-portrait.webp","width":1200,"height":675,"sha256":"439e4108218fcc2e64bd6c6e832596dd0c82068b9dc14b96a78967e6c4029e65","source":"assets/images/celebs/teyana_t.webp","operation":"resize to 1200px wide; north-aligned 1200x675 crop in resized coordinates"}
+  ]
+}

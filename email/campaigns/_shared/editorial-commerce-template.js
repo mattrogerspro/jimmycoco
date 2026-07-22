@@ -1,0 +1,57 @@
+const escapeHtml = (value = '') => String(value)
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#039;');
+
+const LOGO_URL = 'https://jimmycoco.email/email-assets/logo.webp';
+
+const image = (asset, width, className = '') => `<img src="${escapeHtml(asset.src)}" width="${width}" height="${asset.height || ''}" alt="${escapeHtml(asset.alt || '')}" class="${className}" style="display:block;width:100%;max-width:${width}px;height:auto;border:0;outline:none;text-decoration:none;">`;
+
+const button = (label, href, palette, centered = true) => `<table role="presentation" cellpadding="0" cellspacing="0" border="0"${centered ? ' align="center"' : ''}><tr><td bgcolor="${palette.button}" style="border-radius:24px;"><a href="${escapeHtml(href)}" class="sans mobile-button" style="display:inline-block;padding:14px 28px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:16px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:${palette.buttonText};text-decoration:none;border-radius:24px;">${escapeHtml(label)}</a></td></tr></table>`;
+
+const heading = (text, palette, size = 28) => `<h2 class="serif" style="margin:0 0 14px;font-family:Georgia,'Times New Roman',serif;font-size:${size}px;line-height:1.16;font-weight:400;color:${palette.heading};">${escapeHtml(text)}</h2>`;
+
+function renderSection(section, palette) {
+  switch (section.type) {
+    case 'brandHeader':
+      return `<tr><td align="center" bgcolor="${palette.linen}" style="padding:24px 28px 20px;">${image({ src: LOGO_URL, alt: 'Sunless by Jimmy Coco', height: 70 }, 240)}</td></tr>`;
+    case 'heroStory':
+      return `<tr><td bgcolor="${palette.linen}" style="padding:0 0 28px;">${image(section.asset, 600)}<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="mobile-pad" align="center" style="padding:28px 42px 0;"><p class="sans" style="margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:18px;font-style:italic;color:${palette.text};">${escapeHtml(section.kicker)}</p><h1 class="serif hero-title" style="margin:0 0 18px;font-family:Georgia,'Times New Roman',serif;font-size:40px;line-height:1.08;font-weight:400;color:${palette.heading};">${escapeHtml(section.headline)}</h1><p class="sans" style="margin:0 0 22px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:25px;color:${palette.text};">${escapeHtml(section.copy)}</p>${button(section.cta.label, section.cta.href, palette)}</td></tr></table></td></tr>`;
+    case 'productStory':
+      return `<tr><td bgcolor="${palette.clay}" class="mobile-pad" style="padding:36px 40px 20px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="stack stack-pad" width="35%" valign="middle" style="padding-right:24px;">${image(section.asset, 180)}</td><td class="stack" width="65%" valign="middle">${heading(section.headline, palette, 26)}<p class="sans" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;color:${palette.text};">${escapeHtml(section.copy)}</p></td></tr></table></td></tr>`;
+    case 'usageGallery':
+      return `<tr><td bgcolor="${palette.clay}" class="mobile-pad" style="padding:18px 28px 26px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>${section.assets.map((asset, index) => `<td class="gallery-cell" width="33.33%" valign="top" style="padding:${index === 1 ? '0 6px' : '0'};">${image(asset, 180, 'gallery-image')}</td>`).join('')}</tr></table></td></tr>`;
+    case 'benefitsList':
+      return `<tr><td bgcolor="${palette.clay}" class="mobile-pad" style="padding:0 40px 32px;">${heading(section.headline, palette, 24)}<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${section.items.map(item => `<tr><td valign="top" style="width:22px;padding:4px 0;color:${palette.button};font-size:16px;">•</td><td class="sans" style="padding:4px 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:23px;color:${palette.text};">${escapeHtml(item)}</td></tr>`).join('')}</table></td></tr>`;
+    case 'primaryAction':
+      return `<tr><td align="center" bgcolor="${palette.clay}" style="padding:0 30px 38px;">${button(section.cta.label, section.cta.href, palette)}</td></tr>`;
+    case 'methodGuide':
+      return `<tr><td bgcolor="${palette.ivory}" class="mobile-pad" style="padding:40px 38px 32px;">${heading(section.headline, palette, 29)}<p class="sans" style="margin:0 0 24px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;color:${palette.text};">${escapeHtml(section.intro)}</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${section.steps.map((step, index) => `<tr><td valign="top" style="width:34px;padding:${index ? '16px' : '0'} 10px 16px 0;${index ? `border-top:1px solid ${palette.rule};` : ''}"><span class="serif" style="font-family:Georgia,'Times New Roman',serif;font-size:22px;color:${palette.accent};">${index + 1}</span></td><td style="padding:${index ? '16px' : '0'} 0 16px;${index ? `border-top:1px solid ${palette.rule};` : ''}"><p class="sans" style="margin:0 0 4px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:18px;font-weight:700;text-transform:uppercase;color:${palette.heading};">${escapeHtml(step.title)}</p><p class="sans" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:23px;color:${palette.text};">${escapeHtml(step.copy)}</p></td></tr>`).join('')}</table></td></tr>`;
+    case 'editorialBridge':
+      return `<tr><td bgcolor="${palette.ivory}">${image(section.asset, 600)}<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" class="mobile-pad" style="padding:24px 38px 32px;">${heading(section.headline, palette, 31)}<p class="sans" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;color:${palette.text};">${escapeHtml(section.copy)}</p></td></tr></table></td></tr>`;
+    case 'productPair':
+      return `<tr><td bgcolor="${palette.ivory}" class="mobile-pad" style="padding:0 24px 38px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>${section.items.map((item, index) => `<td class="stack product-card" width="50%" valign="top" align="center" style="padding:${index ? '0 0 0 8px' : '0 8px 0 0'};"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" bgcolor="${palette.card}" style="padding:18px 14px 20px;border-radius:8px;">${image(item.asset, 230)}<h3 class="serif" style="margin:16px 0 6px;font-family:Georgia,'Times New Roman',serif;font-size:20px;line-height:1.2;color:${palette.heading};">${escapeHtml(item.title)}</h3><p class="sans" style="margin:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:19px;color:${palette.text};">${escapeHtml(item.copy)}</p><a href="${escapeHtml(item.cta.href)}" class="sans" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:16px;font-weight:700;text-transform:uppercase;color:${palette.button};">${escapeHtml(item.cta.label)}</a></td></tr></table></td>`).join('')}</tr></table></td></tr>`;
+    case 'closingStory':
+      return `<tr><td bgcolor="${palette.linen}">${image(section.asset, 600)}<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" class="mobile-pad" style="padding:28px 40px 34px;">${heading(section.headline, palette, 31)}<p class="sans" style="margin:0 0 20px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;color:${palette.text};">${escapeHtml(section.copy)}</p>${button(section.cta.label, section.cta.href, palette)}</td></tr></table></td></tr>`;
+    case 'valueGrid':
+      return `<tr><td bgcolor="${palette.ivory}" class="mobile-pad" style="padding:34px 30px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>${section.items.map((item, index) => `<td class="value-cell" width="25%" align="center" valign="top" style="padding:0 8px;"><div class="serif" style="font-family:Georgia,'Times New Roman',serif;font-size:28px;line-height:32px;color:${palette.accent};">${escapeHtml(item.symbol)}</div><p class="sans" style="margin:8px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:16px;color:${palette.text};">${escapeHtml(item.label)}</p></td>`).join('')}</tr></table></td></tr>`;
+    case 'legalFooter':
+      return `<tr><td align="center" bgcolor="${palette.footer}" class="mobile-pad" style="padding:28px 34px;"><p class="sans" style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:18px;color:${palette.footerText};">${escapeHtml(section.socialText)}</p><p class="sans" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:16px;color:${palette.footerText};">${section.html}</p></td></tr>`;
+    default:
+      throw new Error(`Unsupported editorial-commerce section: ${section.type}`);
+  }
+}
+
+function renderEditorialCommerceEmail(data) {
+  const palette = {
+    page: '#F3F0EC', linen: '#E7D0B3', clay: '#BC8A6B', ivory: '#F7F1EC', card: '#EEE8E5',
+    heading: '#251D19', text: '#493B34', accent: '#9A684C', rule: '#DDCFC5', button: '#704B36',
+    buttonText: '#FFFFFF', footer: '#704B36', footerText: '#F8F1EA', ...(data.palette || {}),
+  };
+  const sections = (data.sections || []).map(section => renderSection(section, palette)).join('');
+  return `<!DOCTYPE html><html lang="${escapeHtml(data.lang || 'en')}" xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="x-apple-disable-message-reformatting"><title>${escapeHtml(data.title || 'Sunless by Jimmy Coco')}</title><!--[if mso]><style>.serif{font-family:Georgia,serif!important}.sans{font-family:Arial,sans-serif!important}</style><![endif]--><style>body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}table,td{mso-table-lspace:0;mso-table-rspace:0}img{-ms-interpolation-mode:bicubic}@media only screen and (max-width:600px){.container{width:100%!important}.mobile-pad{padding-left:22px!important;padding-right:22px!important}.stack{display:block!important;width:100%!important}.stack-pad{padding:0 0 20px!important}.product-card{padding:0 0 16px!important}.hero-title{font-size:34px!important}.mobile-button{display:block!important;text-align:center!important}.gallery-cell{padding:0 3px!important}.value-cell{display:inline-block!important;width:42%!important;padding:12px 3%!important}}</style></head><body style="margin:0;padding:0;background:${palette.page};"><div style="display:none;max-height:0;overflow:hidden;opacity:0;font-size:1px;line-height:1px;color:${palette.page};">${escapeHtml(data.preview || '')}&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</div><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${palette.page}" style="background:${palette.page};"><tr><td align="center" style="padding:24px 12px;"><table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;">${sections}</table></td></tr></table></body></html>`;
+}
+
+module.exports = { renderEditorialCommerceEmail };

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Jimmy Coco Test Email"
+  short_description: "Rapid test-template builds and safe test sends"
+  default_prompt: "Use $build-jimmy-coco-test-email to build and publish a test-only email template for review."

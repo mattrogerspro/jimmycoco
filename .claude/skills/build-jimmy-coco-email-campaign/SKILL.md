@@ -1,6 +1,6 @@
 ---
 name: build-jimmy-coco-email-campaign
-description: Turn simple, plain-language requests into complete, high-quality Sunless by Jimmy Coco email campaigns that automatically follow repository strategy, brand, copy, design, asset, lifecycle, compliance and delivery rules. Use whenever anyone asks to build, create, write, plan, edit, improve, localise, render, review or release an email campaign or sequence, including outreach, onboarding, lifecycle and market-specific campaigns.
+description: Turn simple, plain-language requests into complete, production-intended Sunless by Jimmy Coco email campaigns that follow repository strategy, brand, copy, design, asset, lifecycle, compliance and delivery rules. Use for real outreach, onboarding, lifecycle, market-specific campaign and production-release work. Do not use for explicitly test-only templates, prototypes, screenshot reconstructions or controlled reviewer test sends; use build-jimmy-coco-test-email instead.
 ---
 
 # Build Jimmy Coco Email Campaign

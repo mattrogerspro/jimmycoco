@@ -161,7 +161,52 @@ Outlook and anywhere webfonts are blocked. Arial/Helvetica throughout the body.
 - `format-detection` off so iOS stops auto-linking the address and the offer terms.
 - Decorative icons carry empty `alt=""`; photography carries descriptive alt text.
 
-Rendered height: 4,777px desktop / 6,148px at 375px.
+Rendered height: 6,031px desktop / 8,645px at 375px.
+
+### Mobile
+
+Every photograph fills its share of the width — nothing sits marooned at its desktop size.
+Three mechanisms do this, and it is worth knowing which is which before editing:
+
+- `.fluid` releases an image's `max-width` cap under 620px, so it grows to fill the column.
+  Without it an inline `max-width:150px` pins the image at 150px even inside a 50% cell.
+- `.half` turns a four-across strip into two-up (`display:inline-block; width:50%`), so the
+  red-carpet frames render at ~188px instead of ~94px.
+- `.hide-mob` / `.mob-photo` swap layouts. The quote band is three columns on desktop with the
+  quote between the two photographs; on mobile the photographs move to a 2-up strip above the
+  quote. Both reference the same files, so there is no extra download.
+
+Logos are deliberately *not* fluid: the wordmark stays 240px and the Vogue mark 180px.
+
+Verified for overflow at 320, 375, 414, 480, 600 and 700px — 0px at every width. Two traps
+that caused real breakage here and will again:
+
+- **Padding on a `.stack` cell overflows.** `width:100%` plus 48px of padding pushed a 375px
+  viewport to 423px. Padded text columns are nested single-cell tables for this reason.
+- **Pixel widths under `table-layout:fixed` set a floor.** Four `width="150"` columns held the
+  strip at 600px and stopped the *whole email* shrinking below that. Use percentages.
+
+## Links
+
+Every clickable element points at
+`https://jimmycoco.co.uk/pages/why-choose-pro-professional` — the brand header, all three CTA
+buttons, and all fourteen photographic images (hero, bag, editorial portrait, benefits photo,
+lifestyle, swatch, Jimmy, the four red-carpet frames, the offer product shot).
+
+Two deliberate exceptions:
+
+- **`PROSALES@JIMMYCO.CO.UK`** stays a `mailto:` link, because the sentence above it reads
+  "To redeem this exclusive offer, simply email:". A link that doesn't do what its own copy
+  says would be a support problem.
+- **Decorative icons are not linked** — the benefit marks, ticks, formulation icons, envelope
+  and bag. They carry `alt=""` and linking them adds tap targets with no destination value.
+  The Vogue wordmark is also unlinked, since sending it to a product page would misrepresent it.
+
+Social, all three confirmed by the client:
+
+- Facebook — `https://www.facebook.com/jimmycocointernational/`
+- Instagram — `https://www.instagram.com/jimmyjimmycoco/`
+- LinkedIn — `https://www.linkedin.com/company/jimmy-coco/`
 
 ## Before sending
 

@@ -8,12 +8,26 @@ Built from the original photography in `../pro-litre-original-assets/` and the c
 | File | Use |
 |---|---|
 | `index.html` | Local preview — relative `images/` paths |
-| `email.html` | Send-ready — absolute `https://jimmycoco.email/email-assets/pro-litre-offer/…` paths |
+| `email.html` | Send-ready — absolute `https://jimmycoco.email/email-assets/pro-litre-offer/images/…` paths |
 | `email.txt` | Plain-text multipart alternative |
 | `images/` | 9 photographic derivatives + 17 recreated icons — **708 KB total** |
 
 **Subject:** Limited Time: Buy 2 Pro Litres, Get 4 Complimentary Soufflés
 **Preview text:** Discover the professional solution designed to create beautifully bespoke results for every client.
+
+## Hosting
+
+Copy this whole folder (keeping the `images/` subfolder) to
+`public/email-assets/pro-litre-offer/` and deploy. `email.html` expects:
+
+```
+https://jimmycoco.email/email-assets/pro-litre-offer/images/<file>
+```
+
+⚠️ `vercel.json` rewrites every unmatched path to `/index.html`, so a wrong asset path
+does not 404 — it silently returns the Studio SPA and the image just fails to render.
+When an image looks broken, open its URL directly: if you get the Studio page, the path is
+wrong or the file was never deployed.
 
 ## What changed from the sliced version
 

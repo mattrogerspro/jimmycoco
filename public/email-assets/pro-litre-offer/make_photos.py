@@ -48,7 +48,8 @@ hero = load("SALON NEWSLETTER JULY.png").convert("RGB")   # 1536 x 1024
 save(cover(hero, 1200, 800), "hero-shelf")
 
 # ---- single litre detail, cropped from the same shelf photograph -------------
-save(cover(hero.crop((330, 210, 650, 890)), 400, 640), "litre-bottle")
+# (litre-bottle superseded by make_benefits_bg.py — the benefits section now uses
+# the original campaign photograph as a full-bleed background)
 
 # ---- product family for the redemption block --------------------------------
 save(cover(hero.crop((140, 180, 1260, 960)), 560, 390), "offer-products")

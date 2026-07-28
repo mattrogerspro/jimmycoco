@@ -46,13 +46,33 @@ size, JPEG q84 progressive.
 | Hero shelf | `SALON NEWSLETTER JULY.png` | `hero-shelf.jpg` 1200×800 | 600×400 |
 | Bag & Soufflés | `9c52330a.png` | `bag-souffles.jpg` 560×760 | 280×380 |
 | Editorial portrait | `IMG_4624.jpg` | `model-editorial.jpg` 560×1000 | 246×439 |
-| Single litre | crop of the shelf shot | `litre-bottle.jpg` 400×640 | 180×262 |
+| Benefits background | original campaign photograph | `benefits-bg.jpg` 1200×952 | 600×476 full-bleed |
+| Benefits (mobile) | same photograph | `benefits-product.jpg` 760×1164 | stacked, full width |
 | Lifestyle break | `IMG_4625.jpg` | `lifestyle.jpg` 1200×1000 | 600×500 |
 | Shade swatch | `d542e009 (1).jpg` | `leg-swatch.jpg` 400×700 | 170×298 |
 | Jimmy spraying | `JIMMY.png` | `jimmy-spraying.jpg` 400×700 | 170×298 |
 | Offer products | crop of the shelf shot | `offer-products.jpg` 560×390 | 244×170 |
 
 The lifestyle crop is deliberately top-biased so the model's face stays in frame.
+
+### The benefits background
+
+The original design runs a single photograph across the whole section — palm shadow, vase,
+bottle on the plinth — with the checklist sitting over the out-of-focus wall to the right.
+That plinth shot isn't in `pro-litre-original-assets/`, so `make_benefits_bg.py` recovers it
+from the Klaviyo capture: columns 0–470 of the section are clean photography, and from
+column ~455 rightward the frame is plain wall. It keeps the photographic region verbatim and
+extends that flat wall across the remaining width with a smoothstep blend, so the checklist
+has somewhere to sit. No product content is invented, duplicated or retouched — only a flat
+background colour is carried further right.
+
+It is applied as a real CSS background (`background-size:cover`) plus the `background`
+attribute, with a VML `<v:rect>/<v:fill type="frame">` fallback so Outlook's Word engine
+renders it too. Because it's a background rather than an inline image, the photograph fills
+the section whatever height the checklist ends up being — it can't be cut off.
+
+Under 620px the background is switched off and the same photograph is stacked above the list
+instead, since at that width the text would sit on top of the bottle.
 
 ## Recreated graphics
 

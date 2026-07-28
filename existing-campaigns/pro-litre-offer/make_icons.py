@@ -73,6 +73,20 @@ for n, g in benefit.items():
     render(n, svg(RING + g, bg=CREAM), 96)
 
 
+# ------------------------------------------- credibility icons ("meet the man")
+credibility = {
+    "c1-check": f'<path fill="none" stroke="{TAN}" stroke-width="2.8" '
+                f'stroke-linecap="round" stroke-linejoin="round" d="M32 49l11 11 21-23"/>',
+    "c2-award": f'''<circle {G} cx="48" cy="40" r="15"/>
+        <path {G} d="M40 53l-6 19 14-7 14 7-6-19"/>
+        <path fill="none" stroke="{TAN}" stroke-width="1.7" stroke-linejoin="round"
+              d="M48 33l3.2 6.4 7 1-5 4.9 1.2 7-6.4-3.4-6.4 3.4 1.2-7-5-4.9 7-1z"/>''',
+}
+print("Credibility icons (30px display, 3x export):")
+for n, g in credibility.items():
+    render(n, svg(RING + g, bg=CREAM), 96)
+
+
 # ----------------------------------------------------------- formulation icons
 F = (f'fill="none" stroke="{BROWN}" stroke-width="4.6" '
      f'stroke-linecap="round" stroke-linejoin="round"')

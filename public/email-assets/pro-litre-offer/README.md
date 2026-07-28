@@ -55,6 +55,31 @@ size, JPEG q84 progressive.
 
 The lifestyle crop is deliberately top-biased so the model's face stays in frame.
 
+### Credibility sections
+
+Two sections sit between the therapist quote and the redemption block, built from
+`../sourceassets/` via `make_celeb.py`:
+
+**As featured in Vogue** — the four Met Gala frames as a full-bleed four-across strip
+(`celeb-1..4.jpg`, 300×420 each, top-biased so faces stay high in a tall narrow crop),
+then the Vogue wordmark and the article excerpt.
+
+**Meet the man behind Hollywood's glow** — a portrait crop of Jimmy as a full-bleed
+background, with the positioning copy and four credentials beside it. The portrait is framed
+on the upper body so it reads differently from the full-length spraying shot in the quote band.
+
+Two notes on how the supplied assets were used:
+
+- `celeb_text.png`, `vogue_text.png` and `jimmy_expertise.png` are screenshots of copy and
+  layout. That copy is **transcribed into live HTML**, not shipped as pixels, so it stays
+  readable with images blocked and reflows on mobile. Nothing was added to it.
+- The Vogue excerpt is attributed on screen, and the byline keeps the surname as printed
+  ("James Harknett") since it appears that way in the article — worth a look if you'd rather
+  it read "Jimmy Coco" throughout.
+
+The strip's columns are `width="25%"`, not `150px`. With `table-layout:fixed` a pixel width
+holds four columns at 600px total and stops the whole email shrinking below that on mobile.
+
 ### Full-bleed photographic sections
 
 Three sections use the photograph as a genuine CSS background rather than an inline image:

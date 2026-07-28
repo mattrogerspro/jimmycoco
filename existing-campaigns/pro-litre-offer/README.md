@@ -55,6 +55,28 @@ size, JPEG q84 progressive.
 
 The lifestyle crop is deliberately top-biased so the model's face stays in frame.
 
+### Full-bleed photographic sections
+
+Three sections use the photograph as a genuine CSS background rather than an inline image:
+the demand story, the "one solution" editorial and the benefits checklist. In each case the
+image cell carries `background-size:cover`, the `background` attribute and a VML
+`<v:rect>/<v:fill type="frame">` fallback for Outlook's Word engine.
+
+This matters because a table cell stretches to the height of its row, so a background always
+fills the full column — top, bottom and outer edge — no matter how the copy beside it reflows
+or which font the client substitutes. An inline `<img>` is locked to its own dimensions, which
+is what left 14px of cream under the bag shot and 69px under the editorial portrait.
+
+Two supporting details make it hold up:
+
+- The image cells are empty on desktop, so the tables set `table-layout:fixed` — otherwise the
+  text column wins the width negotiation and squeezes the photo (260px was collapsing to 230px).
+- Cell padding never sits on a `.stack` cell. Padding plus `width:100%` overflows the viewport,
+  so every padded text column is a nested single-cell table instead.
+
+Under 620px all three backgrounds switch off and the same image is shown inline above the copy,
+because at that width text would land on top of the photograph.
+
 ### The benefits background
 
 The original design runs a single photograph across the whole section — palm shadow, vase,

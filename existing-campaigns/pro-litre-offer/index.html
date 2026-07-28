@@ -53,10 +53,11 @@
     .btn a{display:block !important;}
     .mob-left{text-align:left !important;}
 
-    /* the background photo would sit under the text at this width — stack instead */
-    .benefits-cell{background-image:none !important;}
+    /* background photos would sit under the text at this width — stack instead */
+    .benefits-cell,.bgphoto{background-image:none !important;}
     .mob-photo{display:block !important;max-height:none !important;overflow:visible !important;}
     .listpad{padding:28px 24px !important;}
+    .textcell{padding:26px 24px !important;}
   }
 
   /* Hold the brand palette where clients force a dark theme */
@@ -143,16 +144,26 @@
   </td></tr>
 
   <!-- ============================================ 04  DEMAND STORY + FREE GIFT -->
-  <tr><td class="bg-cream pad" bgcolor="#F2EDEB" style="background-color:#F2EDEB;padding:0 30px 36px;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr><td class="bg-cream" bgcolor="#F2EDEB" style="background-color:#F2EDEB;padding:0;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="table-layout:fixed;">
       <tr>
-        <td class="stack" width="280" valign="top" style="padding:0 20px 0 0;font-size:0;line-height:0;">
-          <img src="images/bag-souffles.jpg" width="280" height="380" alt="Jimmy Coco retail Souffl&eacute;s beside a branded gift bag." style="display:block;width:100%;max-width:280px;height:auto;border:0;">
+        <td class="stack bgphoto" width="260" valign="top"
+            background="images/bag-souffles.jpg" bgcolor="#E9DED6"
+            style="background-color:#E9DED6;background-image:url('images/bag-souffles.jpg');background-position:center center;background-size:cover;background-repeat:no-repeat;padding:0;font-size:0;line-height:0;">
+          <!--[if gte mso 9]>
+          <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:260px;height:460px;">
+            <v:fill type="frame" src="images/bag-souffles.jpg" color="#E9DED6"/>
+            <v:textbox inset="0,0,0,0">
+          <![endif]-->
+          <img class="mob-photo" src="images/bag-souffles.jpg" width="600" height="814" alt="Jimmy Coco retail Souffl&eacute;s beside a branded gift bag." style="display:none;width:100%;max-width:600px;height:auto;border:0;mso-hide:all;">
+          <!--[if gte mso 9]></v:textbox></v:rect><![endif]-->
         </td>
-        <td class="stack mob-left" width="240" valign="top" style="padding:0;">
+        <td class="stack mob-left" width="340" valign="middle" style="padding:0;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="textcell" style="padding:34px 30px;">
           <p class="sans body" style="margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:24px;color:#3B3630;">As demand continues to grow for healthy, sunless tanning, more clients are choosing professional spray tans for holidays, weddings, festivals, special occasions and year-round confidence. For salons, this is the perfect opportunity to increase treatment bookings while boosting retail sales.</p>
           <p class="sans body" style="margin:0 0 18px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:24px;color:#3B3630;">To help you prepare, we&rsquo;re delighted to offer an exclusive professional promotion.</p>
           <p class="sans body" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:24px;color:#3B3630;">Perfect for retailing in your salon, creating treatment packages or rewarding loyal clients.</p>
+        </td></tr></table>
         </td>
       </tr>
     </table>
@@ -182,17 +193,27 @@
   </td></tr>
 
   <!-- ============================================ 05  ONE SOLUTION -->
-  <tr><td class="bg-cream pad" bgcolor="#F2EDEB" style="background-color:#F2EDEB;padding:0 30px 8px;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr><td class="bg-cream" bgcolor="#F2EDEB" style="background-color:#F2EDEB;padding:0;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="table-layout:fixed;">
       <tr>
-        <td class="stack mob-left" width="292" valign="top" style="padding:0 22px 0 0;">
+        <td class="stack mob-left" width="350" valign="middle" style="padding:0;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="textcell" style="padding:36px 26px 36px 30px;">
           <h2 class="serif ink h2" style="margin:0 0 20px;font-family:'Playfair Display',Georgia,'Times New Roman',serif;font-weight:400;font-size:26px;line-height:32px;color:#171310;">ONE SOLUTION.<br><span class="bronze" style="color:#8C5B3F;">BEAUTIFULLY<br>BESPOKE RESULTS.</span></h2>
           <p class="sans body" style="margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:24px;color:#3B3630;">Exceptional spray tans don&rsquo;t start with choosing more shades&mdash;they start with choosing the right formula.</p>
           <p class="sans body" style="margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:24px;color:#3B3630;">Our Signature Professional Solution has been expertly formulated to deliver outstanding versatility, allowing therapists to create beautifully bespoke results across a wide range of skin tones and desired finishes.</p>
           <p class="sans body" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:24px;color:#3B3630;">With flawless colour, a natural golden finish and beautiful fade, it&rsquo;s the trusted professional solution that gives therapists the confidence to personalise every appointment while simplifying salon stock.</p>
+        </td></tr></table>
         </td>
-        <td class="stack" width="246" valign="top" style="padding:0;font-size:0;line-height:0;">
-          <img src="images/model-editorial.jpg" width="246" height="439" alt="Model with a flawless golden Jimmy Coco tan." style="display:block;width:100%;max-width:246px;height:auto;border:0;">
+        <td class="stack bgphoto" width="250" valign="top"
+            background="images/model-editorial.jpg" bgcolor="#E7E4E2"
+            style="background-color:#E7E4E2;background-image:url('images/model-editorial.jpg');background-position:center center;background-size:cover;background-repeat:no-repeat;padding:0;font-size:0;line-height:0;">
+          <!--[if gte mso 9]>
+          <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:250px;height:560px;">
+            <v:fill type="frame" src="images/model-editorial.jpg" color="#E7E4E2"/>
+            <v:textbox inset="0,0,0,0">
+          <![endif]-->
+          <img class="mob-photo" src="images/model-editorial.jpg" width="600" height="1071" alt="Model with a flawless golden Jimmy Coco tan." style="display:none;width:100%;max-width:600px;height:auto;border:0;mso-hide:all;">
+          <!--[if gte mso 9]></v:textbox></v:rect><![endif]-->
         </td>
       </tr>
     </table>

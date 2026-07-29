@@ -15,7 +15,7 @@ Ranked by expected impact on revenue:
 
 | # | Finding | Severity | Effort |
 |---|---|---|---|
-| 1 | The headline **understates the best discount by 11 percentage points** | Critical | 10 min |
+| 1 | ~~Headline understates the best discount~~ — **resolved by the 29 July repricing** | ✅ Closed | — |
 | 2 | **No deadline** anywhere in a "flash" sale | Critical | 30 min |
 | 3 | Four identical `SHOP NOW` buttons all landing on the **homepage** | Critical | 1 hour |
 | 4 | No **£ savings**, no **best-value signal**, no **ratings** on the bundles | High | 2 hours |
@@ -25,49 +25,49 @@ Ranked by expected impact on revenue:
 | 8 | Single send to the whole list, **no segmentation, no resend** | High | 2 hours |
 | 9 | **No UTM parameters** — this send cannot be attributed | High | 30 min |
 
-Items 1–3 alone are, in my judgement, worth more than everything else combined, and can be
+Item 1 is now closed. Items 2 and 3 remain the highest-value fixes available and can be
 done in an afternoon.
 
 ---
 
-## 2. The single biggest problem: your headline is selling you short
+## 2. ~~The headline is selling you short~~ — RESOLVED 29 July 2026
 
-The hero says **UP TO 25% OFF**. The actual discounts are:
+> **Update:** the Glow Kit and Essentials were repriced on 29 July. The deepest discount is
+> now **25.3%**, so the **UP TO 25% OFF** headline is accurate and this finding is closed.
+> The original analysis is kept below because the reasoning still applies if pricing changes
+> again.
+
+The hero says **UP TO 25% OFF**. The discounts are:
 
 | Bundle | Was | Now | Save | Discount |
 |---|---:|---:|---:|---:|
 | Malibu Beach Duo | £35 | £28 | £7 | 20.0% |
-| **A-List Glow Kit** | **£75** | **£48** | **£27** | **36.0%** |
-| A-List Essentials | £49 | £37 | £12 | 24.5% |
+| **A-List Glow Kit** | **£79** | **£59** | **£20** | **25.3%** |
+| A-List Essentials | £45 | £36 | £9 | 20.0% |
 | The Glow Edit | £40 | £32 | £8 | 20.0% |
 
-**The deepest discount is 36%, not 25%.** The 25% figure is almost exactly the *average*
-(25.1%) — which suggests someone put the mean where the maximum belongs. "Up to" is a
-maximum claim by definition.
+At the *original* prices the deepest discount was 36% while the headline said 25% — the
+25% figure was almost exactly the average, which suggested the mean had been put where the
+maximum belongs. "Up to" is a maximum claim by definition. **The repricing has removed that
+gap**: 25.3% is now both the maximum and the headline.
 
-Two things are going wrong at once:
+### What still stands
 
-**You are voluntarily shrinking your own headline number.** 36 is a materially more arresting
-number than 25 in an inbox. This is free.
+**"Up to" remains a weak construction.** Readers discount it automatically — the well-documented
+reading is "I'll probably get the smallest one." Three of the four bundles are at a flat 20%
+and only the Glow Kit reaches 25.3%, so "up to 25%" is now accurate but is doing the least
+work it possibly can.
 
-**"Up to" is a weak construction.** Readers discount it automatically — the well-documented
-reading is "I'll probably get the smallest one." If the sitewide discount is genuinely a flat
-25%, then say so, because a flat claim always outperforms a hedged one.
-
-### Recommended fix
-
-Split the two claims rather than averaging them into one weak statement:
+If the sitewide discount is genuinely a flat 25% on everything, say that instead:
 
 > **25% OFF EVERYTHING**
-> *Bundles up to 36% off*
 
-This is stronger, more accurate, and lets the bundles do what they should be doing — acting as
-the reason to spend more than the shopper intended.
+A flat claim outperforms a hedged one, and it removes the reader's suspicion that the good
+number applies to one thing they don't want.
 
-⚠️ Confirm which is true before changing anything: is it 25% off sitewide *plus* deeper bundle
-pricing, or is "up to 25%" meant to describe the whole promotion? If the latter, the Glow Kit
-at 36% contradicts the headline and that is a claims-accuracy problem, not just a missed
-opportunity.
+**The rule for next time:** "up to" is a *maximum* claim. Whenever prices change, recompute
+the deepest discount and make sure the headline matches it — the previous set had a 36% item
+sitting under a 25% headline for exactly this reason.
 
 ---
 
@@ -75,14 +75,17 @@ opportunity.
 
 Here is what the email currently asks the reader to feel, in order:
 
+*Updated 29 July to reflect the current running order.*
+
 | Section | Intended job | What it actually does |
 |---|---|---|
+| Brand banner | Identify | ✅ Fine |
 | Hero — FLASH SALE | Stop the scroll | ✅ Works. Strong, confident, unmistakably a sale |
 | Three bundles | Convert | ⚠️ Presents choice before establishing desire or urgency |
 | `SHOP NOW` | Act | ⚠️ Generic label, generic destination |
-| Model band | — | ❌ Does no persuasive work. Pure scroll cost |
-| Kylie Jenner | Justify | ⚠️ Right content, arrives far too late |
-| The Glow Edit | Downsell | ✅ Good. Cheapest entry point as a last chance |
+| Model band | Urge | ✅ Now carries "HURRY, OFFER ENDS SOON" — no longer dead scroll |
+| The Glow Edit | Entry point | ✅ White panel breaks up the photography well |
+| Kylie Jenner | Justify | ⚠️ Right content, still arrives late |
 | Let's Connect / footer | Retain | ✅ Fine |
 
 ### The core structural issue
@@ -95,32 +98,34 @@ it means the entire persuasive burden falls on price.
 Then the strongest asset you own, **Kylie Jenner**, appears at roughly 60% depth. On mobile
 that is about 2,800px of scrolling. Most readers who were going to bounce have already gone.
 
-### The model band is the weakest element
+### ~~The model band is the weakest element~~ — addressed
 
-It is a beautiful image doing no commercial work: no caption, no claim, no CTA, no product. It
-sits between the offer and the proof and costs roughly 330px of desktop scroll (and a full
-screen on mobile) to say nothing.
-
-Either give it a job — overlay a line like *"Two shades. One formula."* or a customer
-quote — or cut it and shorten the path to Kylie.
+It was a beautiful image doing no commercial work — no caption, no claim, no CTA — costing
+330px of desktop scroll to say nothing. It now carries **"HURRY, OFFER ENDS SOON"** on the
+3/4 line, so it earns its place. See section 4 on the claim that line implies.
 
 ### Recommended running order
 
 ```
-Hero (offer + deadline + Kylie proof line)
+Brand banner
   ↓
-Kylie section  ← moved up: earn the desire before naming a price
+Hero (offer + Kylie proof line)
+  ↓
+Kylie section  ← still worth moving up: earn the desire before naming a price
   ↓
 Three bundles + specific CTAs   ← the money block
   ↓
-Model band, now captioned
+Model band (urgency line)   ← done
   ↓
-The Glow Edit  ← downsell / lower entry point
+The Glow Edit  ← lower entry point
   ↓
 Risk reversal + delivery
   ↓
 Footer
 ```
+
+Of this, the model band now does a job and the Glow Edit has moved. The outstanding change is
+Kylie — she still sits after the money block rather than before it.
 
 One line in the hero — *"Kylie Jenner's go-to glow"* — would carry most of the proof benefit
 without moving anything, and is the cheapest version of this change to test.
@@ -179,7 +184,7 @@ time it appears.
 
 | Location | Current | Recommended |
 |---|---|---|
-| Hero | *(image link only)* | **SHOP THE SALE — UP TO 36% OFF** |
+| Hero | *(image link only)* | **SHOP THE SALE — UP TO 25% OFF** |
 | Bundles | SHOP NOW | **SHOP ALL BUNDLES** |
 | Each card image + price | homepage | its own product page |
 | Kylie | SHOP NOW | **SHOP KYLIE'S GLOW** |
@@ -203,7 +208,7 @@ What is missing:
 
 **No £ savings shown.** "NOW £48" states a price; "SAVE £27" states a *gain*. For anything
 above roughly £50, an absolute saving lands harder than a percentage. Show both on the Glow
-Kit: **Save £27 — 36% off**.
+Kit: **Save £20 — 25% off**.
 
 **No best-value signal.** The Glow Kit is your standout deal and the highest-value basket, yet
 it has exactly the same visual weight as the £28 duo. Give it a bronze **BEST VALUE** ribbon and
@@ -229,7 +234,7 @@ adjectives, and it earns the open.
 The subject is weaker. It leads with a category word ("Sitewide Flash Sale"), hedges with "up
 to", and names your smallest headline number. Test against:
 
-- *36% off the A-List Glow Kit — 48 hours only*
+- *£20 off the A-List Glow Kit — 48 hours only*
 - *Your flash sale is live: 25% off everything, ends Sunday*
 - *Kylie's go-to glow, now £48*
 - *{{first_name}}, 25% off everything (ends Sunday)*
@@ -292,7 +297,7 @@ something they paid full price for last week.
 
 ### Do before this sends
 
-1. **Fix the headline number** — 36%, or split into flat 25% sitewide + up to 36% on bundles
+1. ~~Fix the headline number~~ — **done**: repriced 29 July, 25.3% max now matches the headline
 2. **Add a real deadline** — subject, hero, and above every CTA
 3. **Point CTAs at product pages** and make the labels specific
 4. **Add UTM parameters** to every link

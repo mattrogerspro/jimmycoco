@@ -5,7 +5,7 @@ Rebuilt from the four design pages in this folder and the clean raw photography 
 hero lockup.
 
 **Subject:** Sitewide Flash Sale — up to 25% off
-**Preview text:** Up to 25% off sitewide. Malibu Beach Duo £28, A-List Glow Kit £48, A-List Essentials £37, The Glow Edit £32.
+**Preview text:** Up to 25% off sitewide. Malibu Beach Duo £28, A-List Glow Kit £59, A-List Essentials £36, The Glow Edit £32.
 
 ## Files
 

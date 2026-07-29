@@ -48,6 +48,23 @@ def dekey(im, bg, tol=26):
     return Image.fromarray(out)
 
 
+def contain(im, tw, th, bg=None, margin=0.0):
+    """Fit the WHOLE image inside tw x th, padding with the page tone.
+
+    Use this instead of cover() whenever nothing may be cropped — cover() fills the
+    box and trims the overflow, which silently amputates artwork whose aspect ratio
+    doesn't match the target (it was cutting the ends off the signature).
+    """
+    bg = bg or PAGE
+    sw, sh = im.size
+    iw, ih = tw * (1 - 2 * margin), th * (1 - 2 * margin)
+    s = min(iw / sw, ih / sh)
+    im = im.resize((max(1, round(sw * s)), max(1, round(sh * s))), Image.LANCZOS)
+    out = Image.new('RGB', (tw, th), bg)
+    out.paste(im, ((tw - im.size[0]) // 2, (th - im.size[1]) // 2))
+    return out
+
+
 def trim(im, thresh=244, pad=0):
     """Several raws are A4 pages with white margins. Crop to the actual artwork so the
     page white never leaks into the email's warm grey background."""
@@ -115,12 +132,52 @@ save(cover(trim(load('7.jpg')), 1200, 660, bias=0.42), 'model-band')
 # ---- Kylie portrait ----------------------------------------------------------
 save(cover(trim(load('8.jpg')), 760, 1000, bias=0.05), 'kylie')
 
-# ---- glow edit pair and signature, lifted off their white studio ground ------
+# ---- glow edit: split into two bottles ---------------------------------------
+# Split so each product name can sit centred under its own bottle. Both are scaled
+# by the SAME factor and bottom-aligned, so the souffle stays visibly taller than the
+# mist — sizing each to fit its own box would flatten that real size difference.
+# The section is white, so the studio background is kept rather than de-keyed.
+print('\nGlow edit, split into two:')
+ge = trim(load('12.jpg'))
+_a = np.array(ge).astype(int)
+_density = (_a.min(axis=2) < 244).sum(axis=0)
+_empty = np.where(_density == 0)[0]
+_runs, _s, _p = [], None, None
+for _c in _empty:
+    if _s is None:
+        _s = _c
+    elif _c != _p + 1:
+        _runs.append((_s, _p)); _s = _c
+    _p = _c
+if _s is not None:
+    _runs.append((_s, _p))
+_runs = [r for r in _runs if r[0] > ge.size[0] * .15 and r[1] < ge.size[0] * .85]
+_runs.sort(key=lambda r: r[1] - r[0], reverse=True)
+_split = (_runs[0][0] + _runs[0][1]) // 2
+
+bottles = [trim(ge.crop((0, 0, _split, ge.size[1]))),
+           trim(ge.crop((_split, 0, ge.size[0], ge.size[1])))]
+GW, GH, BASE = 300, 720, 18
+_k = (GH - BASE * 2) / max(b.size[1] for b in bottles)
+for b, name in zip(bottles, ['glow-souffle', 'glow-mist']):
+    w, h = max(1, round(b.size[0] * _k)), max(1, round(b.size[1] * _k))
+    panel = Image.new('RGB', (GW, GH), (255, 255, 255))
+    panel.paste(b.resize((w, h), Image.LANCZOS), ((GW - w) // 2, GH - h - BASE))
+    save(panel, name)
+
 print('\nDe-keyed to the page tone:')
-# keep the trimmed aspect so both bottles stay whole rather than being cropped
-save(cover(dekey(trim(load('12.jpg')), PAGE), 660, 1094), 'glow-edit')
+# contain(), not cover() — the signature is 3.17:1 and must never be clipped
 sig = dekey(trim(load('13.jpg')), PAGE)
-save(cover(sig, 560, 200, bias=0.5), 'signature')
+save(contain(sig, 640, 210, margin=0.05), 'signature')
+
+# ---- brand mark for the top banner, on the page background -------------------
+logo_top = load('fullcampaign/image.png')
+logo_top = logo_top.resize((520, round(520 * logo_top.size[1] / logo_top.size[0])),
+                           Image.LANCZOS)
+logo_top = ImageChops.multiply(logo_top, Image.new('RGB', logo_top.size, PAGE))
+logo_top.save(f'{OUT}/logo-top.png', 'PNG', optimize=True)
+print(f'\n  logo-top.png  {logo_top.size[0]}x{logo_top.size[1]}  '
+      f'{os.path.getsize(f"{OUT}/logo-top.png")/1024:.0f} KB')
 
 # ---- brand mark on the footer band ------------------------------------------
 logo = load('fullcampaign/image.png')

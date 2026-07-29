@@ -15,24 +15,26 @@ const html = `<!DOCTYPE html><html><head><meta charset="utf-8">
   body{width:${W}px;height:${H}px;overflow:hidden}
   .stage{position:relative;width:${W}px;height:${H}px;
          background:url(data:image/jpeg;base64,${b64}) center/cover no-repeat;}
-  .top{position:absolute;top:64px;left:0;right:0;text-align:center;
-       font-family:'Playfair Display',serif;font-weight:800;color:#fff;
+  .top{position:absolute;top:58px;left:0;right:0;text-align:center;}
+  .off{font-family:'Playfair Display',serif;font-weight:800;color:#fff;
        font-size:132px;line-height:1;letter-spacing:-1px;
        text-shadow:0 2px 26px rgba(0,0,0,.30);}
-  .top .pc{font-weight:900;}
-  .bottom{position:absolute;bottom:96px;left:0;right:0;text-align:center;}
+  .off .pc{font-weight:900;}
+  .sub{margin-top:26px;font-family:'Poppins',Arial,sans-serif;font-weight:600;
+       color:#fff;font-size:40px;letter-spacing:7px;
+       text-shadow:0 2px 18px rgba(0,0,0,.40);}
+  .bottom{position:absolute;bottom:104px;left:0;right:0;text-align:center;}
   .flash{font-family:'Playfair Display',serif;font-weight:900;color:#fff;
          font-size:250px;line-height:.88;letter-spacing:-2px;
          text-shadow:0 4px 40px rgba(0,0,0,.28);}
-  .sub{margin-top:34px;font-family:'Poppins',Arial,sans-serif;font-weight:600;
-       color:#fff;font-size:40px;letter-spacing:7px;
-       text-shadow:0 2px 18px rgba(0,0,0,.40);}
 </style></head><body>
 <div class="stage">
-  <div class="top">UP TO <span class="pc">25%</span> OFF</div>
+  <div class="top">
+    <div class="off">UP TO <span class="pc">25%</span> OFF</div>
+    <div class="sub">SITEWIDE FLASH SALE</div>
+  </div>
   <div class="bottom">
     <div class="flash">FLASH<br>SALE</div>
-    <div class="sub">SITEWIDE FLASH SALE</div>
   </div>
 </div></body></html>`;
 

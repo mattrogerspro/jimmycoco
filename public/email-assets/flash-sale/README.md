@@ -15,8 +15,8 @@ hero lockup.
 | `email.html` | Send-ready — absolute `https://jimmycoco.email/email-assets/flash-sale/images/…` |
 | `email.txt` | Plain-text multipart alternative |
 | `images/` | 13 assets — **984 KB total** |
-| `make_hero.mjs` | Composites the flash-sale lockup onto the product photograph |
-| `make_assets.py` | Every other derivative, plus the scallop and connect marks |
+| `make_assets.py` | Crops and derivatives, the scallop and connect marks. **Run first.** |
+| `make_hero.mjs` | Playfair type overlays: the hero lockup and the band urgency line. **Run second.** |
 
 ## Hosting
 
@@ -28,15 +28,23 @@ returning the Studio SPA.
 
 Hero → three bundles + SHOP NOW → model band → Kylie Jenner → The Glow Edit → Let's Connect → footer.
 
-## The hero lockup
+## Typographic overlays
 
-The design sets "UP TO 25% OFF" and a very large "FLASH SALE" in Playfair Display over the
-boat photograph. Direct font downloads are blocked in this environment, so `make_hero.mjs`
-renders the lockup through headless Chromium — which *can* reach Google Fonts — and
-screenshots it at 1200×1700. That gives the real typeface rather than a substitute.
+Two images carry baked-in type, both set in **Playfair Display**: the hero lockup
+("UP TO 25% OFF" / "FLASH SALE") and the urgency line on the model band
+("HURRY, OFFER ENDS SOON", on the 3/4 line).
 
-This is the one place type is baked into an image. The offer is carried in the subject line,
-the preview text and the hero's `alt` attribute, so it still lands with images blocked.
+Direct font downloads are blocked in this environment, so `make_hero.mjs` composites both
+through headless Chromium — which *can* reach Google Fonts — and screenshots them. It
+asserts the font actually loaded and throws rather than silently rendering a Georgia
+fallback.
+
+**Run order matters:** `make_assets.py` first (it writes `model-band-base.jpg`, the
+untyped crop), then `make_hero.mjs`, which reads that base and writes the final
+`hero.jpg` and `model-band.jpg`.
+
+Both lines are duplicated into `alt` text and the preheader, so the offer and the urgency
+still land with images blocked.
 
 ## Photography
 

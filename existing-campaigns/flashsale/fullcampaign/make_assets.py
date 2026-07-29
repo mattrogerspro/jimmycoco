@@ -5,7 +5,7 @@ Several raws are shot on pure white. Rather than dropping a white rectangle onto
 email's warm grey, the white is flood-filled from the corners and replaced with the page
 tone, so those products sit on the background instead of in a box.
 """
-from PIL import Image, ImageDraw, ImageChops, ImageFont, ImageFilter
+from PIL import Image, ImageDraw, ImageChops
 import numpy as np, os, cairosvg
 
 SRC   = '/mnt/user-data/uploads/jimmycoco/existing-campaigns/flashsale'
@@ -15,39 +15,6 @@ BAND  = (226, 212, 200)   # #E2D4C8 footer band
 BRONZE = '#BC7D5F'
 os.makedirs(OUT, exist_ok=True)
 
-
-POPPINS = '/usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf'
-
-
-def tracked_text(im, text, cy, size=54, tracking=7, fill=(255, 255, 255)):
-    """Draw centred, letter-spaced caps with a soft shadow, matching the hero strapline.
-
-    PIL has no letter-spacing, so each glyph is placed individually. The shadow is a
-    blurred copy of the same text rather than a hard offset, so it reads as depth over
-    photography instead of a drop-shadow outline.
-    """
-    font = ImageFont.truetype(POPPINS, size)
-    d0 = ImageDraw.Draw(im)
-    widths = [d0.textlength(c, font=font) for c in text]
-    total = sum(widths) + tracking * (len(text) - 1)
-    x0 = (im.size[0] - total) / 2
-    y0 = cy - size * 0.72
-
-    shadow = Image.new('RGBA', im.size, (0, 0, 0, 0))
-    ds = ImageDraw.Draw(shadow)
-    x = x0
-    for c, w in zip(text, widths):
-        ds.text((x, y0), c, font=font, fill=(0, 0, 0, 165))
-        x += w + tracking
-    shadow = shadow.filter(ImageFilter.GaussianBlur(11))
-    im = Image.alpha_composite(im.convert('RGBA'), shadow)
-
-    d = ImageDraw.Draw(im)
-    x = x0
-    for c, w in zip(text, widths):
-        d.text((x, y0), c, font=font, fill=fill)
-        x += w + tracking
-    return im.convert('RGB')
 
 
 def cover(im, tw, th, bias=0.5):
@@ -149,9 +116,9 @@ def card(im, radius_pct=0.066, stroke_pct=0.011, bg=None, edge=CARD_EDGE):
 
 load = lambda n: Image.open(os.path.join(SRC, n)).convert('RGB')
 
-# ---- hero: photograph + composited flash-sale lockup (see make_hero.mjs) -----
-print('Hero:')
-save(Image.open('hero-raw.png'), 'hero', q=86)
+# NOTE: hero.jpg and model-band.jpg carry Playfair Display type and are produced by
+# make_hero.mjs, which must run AFTER this script. Playfair cannot be downloaded in this
+# environment, so the only way to set it is inside headless Chromium.
 
 # ---- three bundle cards; the raws already carry the rounded bronze frame -----
 print('\nBundle cards:')
@@ -161,9 +128,8 @@ for src, name in [('9.jpg', 'bundle-duo'), ('10.jpg', 'bundle-glow-kit'),
 
 # ---- full-bleed model band ---------------------------------------------------
 print('\nBands:')
-# urgency line sits on the 3/4 line, where the photograph is darkest (mean 92/255)
-_band = cover(trim(load('7.jpg')), 1200, 660, bias=0.42)
-save(tracked_text(_band, 'HURRY, OFFER ENDS SOON', round(660 * 0.75)), 'model-band')
+# base crop only — make_hero.mjs adds the urgency line in Playfair
+save(cover(trim(load('7.jpg')), 1200, 660, bias=0.42), 'model-band-base')
 
 # ---- Kylie portrait ----------------------------------------------------------
 save(cover(trim(load('8.jpg')), 760, 1000, bias=0.05), 'kylie')

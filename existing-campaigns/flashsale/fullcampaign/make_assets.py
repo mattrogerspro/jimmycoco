@@ -62,6 +62,40 @@ def trim(im, thresh=244, pad=0):
                     min(rows.max() + 1 - pad, im.size[1])))
 
 
+CARD_EDGE = (173, 113, 87)   # #AD7157 outline sampled from the design
+
+
+def card(im, radius_pct=0.066, stroke_pct=0.011, bg=None, edge=CARD_EDGE):
+    """Round the corners and stroke an outline, baked into the pixels.
+
+    Outlook's Word engine ignores border-radius, so doing this in CSS would give three
+    square cards there and rounded ones everywhere else. Drawing it into the JPEG on the
+    page background means every client renders the same card.
+    Mask is built at 4x and downsampled so the arcs are smooth.
+    """
+    bg = bg or PAGE
+    w, h = im.size
+    r = max(2, round(min(w, h) * radius_pct))
+    sw = max(1, round(w * stroke_pct))
+    SS = 4
+
+    mask = Image.new('L', (w * SS, h * SS), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, w * SS - 1, h * SS - 1],
+                                           radius=r * SS, fill=255)
+    mask = mask.resize((w, h), Image.LANCZOS)
+
+    out = Image.new('RGB', (w, h), bg)
+    out.paste(im, (0, 0), mask)
+
+    line = Image.new('L', (w * SS, h * SS), 0)
+    ImageDraw.Draw(line).rounded_rectangle(
+        [sw * SS // 2, sw * SS // 2, w * SS - 1 - sw * SS // 2, h * SS - 1 - sw * SS // 2],
+        radius=r * SS, outline=255, width=sw * SS)
+    line = line.resize((w, h), Image.LANCZOS)
+    out.paste(Image.new('RGB', (w, h), edge), (0, 0), line)
+    return out
+
+
 load = lambda n: Image.open(os.path.join(SRC, n)).convert('RGB')
 
 # ---- hero: photograph + composited flash-sale lockup (see make_hero.mjs) -----
@@ -72,7 +106,7 @@ save(Image.open('hero-raw.png'), 'hero', q=86)
 print('\nBundle cards:')
 for src, name in [('9.jpg', 'bundle-duo'), ('10.jpg', 'bundle-glow-kit'),
                   ('11.jpg', 'bundle-essentials')]:
-    save(cover(trim(load(src), pad=6), 640, 854), name)
+    save(card(cover(trim(load(src), pad=10), 640, 800)), name)
 
 # ---- full-bleed model band ---------------------------------------------------
 print('\nBands:')

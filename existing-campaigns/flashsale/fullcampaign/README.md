@@ -52,12 +52,21 @@ would also strip the white label panels on the bottles.
 | Slot | Source | Export | Display |
 |---|---|---|---|
 | Hero | `6.jpg` + lockup | `hero.jpg` 1200×1700 | 600×850 |
-| Bundle cards | `9`, `10`, `11.jpg` | 640×854 each | 180×240 desktop, full width mobile |
+| Bundle cards | `9`, `10`, `11.jpg` | 640×800 each | 180×225 desktop, full width mobile |
 | Model band | `7.jpg` | `model-band.jpg` 1200×660 | 600×330 |
 | Kylie | `8.jpg` | `kylie.jpg` 760×1000 | 380×500 |
 | Glow Edit | `12.jpg` | `glow-edit.jpg` 660×1094 | 330×547 |
 | Signature | `13.jpg` | `signature.jpg` 560×200 | 170×61 |
 | Brand mark | `fullcampaign/image.png` | `logo.png` 480×146 | 240×73 |
+
+### Card frames
+
+The three bundle cards carry a rounded `#AD7157` outline, matching the design. That frame is
+**drawn into the JPEG**, not applied with CSS: Outlook's Word engine ignores `border-radius`,
+so a CSS treatment would give rounded cards in Apple Mail and Gmail and square ones in
+Outlook. `card()` masks the corners against the page background and strokes the outline,
+building the mask at 4× and downsampling so the arcs stay smooth. Radius and stroke are
+proportional (6.6% and 1.1% of card width), sampled off the design page.
 
 ## Recreated graphics
 

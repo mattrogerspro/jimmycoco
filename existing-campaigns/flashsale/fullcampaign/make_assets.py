@@ -5,7 +5,7 @@ Several raws are shot on pure white. Rather than dropping a white rectangle onto
 email's warm grey, the white is flood-filled from the corners and replaced with the page
 tone, so those products sit on the background instead of in a box.
 """
-from PIL import Image, ImageDraw, ImageChops
+from PIL import Image, ImageDraw, ImageChops, ImageFont, ImageFilter
 import numpy as np, os, cairosvg
 
 SRC   = '/mnt/user-data/uploads/jimmycoco/existing-campaigns/flashsale'
@@ -14,6 +14,40 @@ PAGE  = (235, 231, 230)   # #EBE7E6 page background
 BAND  = (226, 212, 200)   # #E2D4C8 footer band
 BRONZE = '#BC7D5F'
 os.makedirs(OUT, exist_ok=True)
+
+
+POPPINS = '/usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf'
+
+
+def tracked_text(im, text, cy, size=54, tracking=7, fill=(255, 255, 255)):
+    """Draw centred, letter-spaced caps with a soft shadow, matching the hero strapline.
+
+    PIL has no letter-spacing, so each glyph is placed individually. The shadow is a
+    blurred copy of the same text rather than a hard offset, so it reads as depth over
+    photography instead of a drop-shadow outline.
+    """
+    font = ImageFont.truetype(POPPINS, size)
+    d0 = ImageDraw.Draw(im)
+    widths = [d0.textlength(c, font=font) for c in text]
+    total = sum(widths) + tracking * (len(text) - 1)
+    x0 = (im.size[0] - total) / 2
+    y0 = cy - size * 0.72
+
+    shadow = Image.new('RGBA', im.size, (0, 0, 0, 0))
+    ds = ImageDraw.Draw(shadow)
+    x = x0
+    for c, w in zip(text, widths):
+        ds.text((x, y0), c, font=font, fill=(0, 0, 0, 165))
+        x += w + tracking
+    shadow = shadow.filter(ImageFilter.GaussianBlur(11))
+    im = Image.alpha_composite(im.convert('RGBA'), shadow)
+
+    d = ImageDraw.Draw(im)
+    x = x0
+    for c, w in zip(text, widths):
+        d.text((x, y0), c, font=font, fill=fill)
+        x += w + tracking
+    return im.convert('RGB')
 
 
 def cover(im, tw, th, bias=0.5):
@@ -127,7 +161,9 @@ for src, name in [('9.jpg', 'bundle-duo'), ('10.jpg', 'bundle-glow-kit'),
 
 # ---- full-bleed model band ---------------------------------------------------
 print('\nBands:')
-save(cover(trim(load('7.jpg')), 1200, 660, bias=0.42), 'model-band')
+# urgency line sits on the 3/4 line, where the photograph is darkest (mean 92/255)
+_band = cover(trim(load('7.jpg')), 1200, 660, bias=0.42)
+save(tracked_text(_band, 'HURRY, OFFER ENDS SOON', round(660 * 0.75)), 'model-band')
 
 # ---- Kylie portrait ----------------------------------------------------------
 save(cover(trim(load('8.jpg')), 760, 1000, bias=0.05), 'kylie')

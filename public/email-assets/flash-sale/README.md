@@ -26,7 +26,7 @@ returning the Studio SPA.
 
 ## Structure
 
-Hero → three bundles + SHOP NOW → model band → Kylie Jenner → The Glow Edit → Let's Connect → footer.
+Brand banner → hero → three bundles + SHOP NOW → model band (urgency line) → The Glow Edit (white panel) → Kylie Jenner → Let's Connect → footer.
 
 ## Typographic overlays
 

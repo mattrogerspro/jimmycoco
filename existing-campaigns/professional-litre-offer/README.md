@@ -70,7 +70,7 @@ Total payload **≈1.0 MB** (≈0.5 MB with the WebP set). Rendered height 4,524
 
 1. **`{{unsubscribe_url}}`** in the footer is an ESP-neutral placeholder. Replace with your
    ESP's tag (Klaviyo `{% unsubscribe %}`, Resend `{{unsubscribe_link}}`, MailerLite `{$unsubscribe}`).
-2. **Redemption address** — the artwork reads `PROSALES@JIMMYCO.CO.UK` (one "CO", not "COCO").
+2. **Redemption address** — the artwork reads `PROSALES@JIMMYCOCO.CO.UK` (one "CO", not "COCO").
    Confirm this is the live monitored inbox before send; all three CTAs `mailto:` it.
 3. **Policy links** assume Shopify paths on `jimmycoco.co.uk`. Verify they resolve.
 4. **Social URLs** in the footer are placeholders — confirm the real profile URLs.

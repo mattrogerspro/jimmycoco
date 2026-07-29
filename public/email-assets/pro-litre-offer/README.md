@@ -195,7 +195,7 @@ lifestyle, swatch, Jimmy, the four red-carpet frames, the offer product shot).
 
 Two deliberate exceptions:
 
-- **`PROSALES@JIMMYCO.CO.UK`** stays a `mailto:` link, because the sentence above it reads
+- **`PROSALES@JIMMYCOCO.CO.UK`** stays a `mailto:` link, because the sentence above it reads
   "To redeem this exclusive offer, simply email:". A link that doesn't do what its own copy
   says would be a support problem.
 - **Decorative icons are not linked** — the benefit marks, ticks, formulation icons, envelope
@@ -212,8 +212,9 @@ Social, all three confirmed by the client:
 
 1. **`{{unsubscribe_url}}`** — replace with your ESP's tag (Klaviyo `{% unsubscribe %}`,
    Resend `{{unsubscribe_link}}`, MailerLite `{$unsubscribe}`).
-2. **`prosales@jimmyco.co.uk`** — one "CO", as written in the source artwork and copy deck.
-   All three CTAs `mailto:` it. Confirm it's monitored.
+2. **`PROSALES@JIMMYCOCO.CO.UK`** is the correct address, confirmed by the client on
+   28 July 2026. The supplied artwork and `email-copy.txt` both read `JIMMYCO.CO.UK`
+   (one "CO") — that was a typo in the source, now corrected everywhere in the repo.
 3. **Policy and social URLs** are assumed Shopify paths on `jimmycoco.co.uk` — verify.
 4. **Copyright** updated from the artwork's 2024 to 2026.
 5. **"For a limited time only"** still has no dates. Add real ones or drop the urgency line.

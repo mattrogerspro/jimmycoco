@@ -43,6 +43,6 @@ email to jimmycoco.co.uk
 Terms of Service: https://jimmycoco.co.uk/policies/terms-of-service
 Refund Policy:    https://jimmycoco.co.uk/policies/refund-policy
 Privacy Policy:   https://jimmycoco.co.uk/policies/privacy-policy
-Unsubscribe:      {{unsubscribe_url}}
+Unsubscribe:      {% unsubscribe %}
 
 Jimmy Coco (UK) Ltd, 22 St James's Walk, London, EC1R 0AP

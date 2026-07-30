@@ -1,0 +1,132 @@
+SUNLESS BY JIMMY COCO — RE-ENGAGEMENT SERIES (plain text)
+Status: BUILT AS KLAVIYO DRAFTS, 30 July 2026. Not enabled, nothing sent.
+The copy below is the source of truth and matches the live drafts exactly.
+Keep formatting minimal. {% unsubscribe %} renders the working unsubscribe
+link in Klaviyo (do NOT use {{unsubscribe_url}} — it renders a dead href).
+Sent from the flow "Re-engagement / Sunset" to Segment C (Sleepy).
+Anyone who clicks is removed from the flow before the next email.
+========================================================================
+
+LIVE KLAVIYO OBJECTS
+  Email 1  library template  VBVVTs   flow message  WhydFz
+  Email 2  library template  UvJBeP   flow message  XsX4zr
+  Email 3  library template  VsFrcE   flow message  Uqv5PG
+  Flow     SGGsEB  "Re-engagement / Sunset (market-aware)"  (draft)
+           (replaces RpACcX, deleted 30/07/26 - it auto-suppressed all
+            markets equally, see re-engagement-flow.md)
+
+MARKET NEUTRALITY - IMPORTANT
+  None of these three emails carries a price, discount or shipping claim.
+  That is deliberate: it means a US or unknown-market subscriber can safely
+  receive all three, because "do you still want to hear from us?" is true in
+  every market. Keep it that way. The flow's final split decides the OUTCOME
+  by country (UK -> sunset, everyone else -> sunset_review), so the copy
+  itself never needs a market variant.
+  The one link points at jimmycoco.co.uk, which will show GBP - minor, but
+  worth knowing if US routing is ever added.
+
+  NOTE: Klaviyo flow messages keep their OWN cloned copy of each template.
+  Editing the library template above does NOT change what the flow sends.
+  To push a copy change into the flow, PATCH the flow action's
+  message.template_id back to the library template ID — Klaviyo re-clones it.
+
+FROM (all three):  Jimmy - Sunless by Jimmy Coco  <orders@jimmycoco.co.uk>
+
+
+────────────────────────────────────────────────────────────────────────
+EMAIL 1 — "Still there?"   |   Day 0   |   send to all of Segment C
+────────────────────────────────────────────────────────────────────────
+SUBJECT (chosen):  can I ask you something?
+  alternatives:    still glowing?  /  did we lose you?
+
+Hi {{ first_name|default: 'there' }},
+
+Jimmy here — I run the tan side of things at Sunless.
+
+I noticed it's been a little while since you opened one of our
+emails, and I didn't want to keep landing in your inbox if it's
+not useful to you.
+
+So, quick one: do you still want tips, launches and the odd
+subscriber-only offer from us?
+
+If yes, just tap here and I'll know to keep them coming:
+  → https://jimmycoco.co.uk
+
+If not, no hard feelings at all — there's an unsubscribe link at
+the bottom and you won't hear from us again.
+
+Either way, thank you for being here.
+
+Jimmy
+Sunless by Jimmy Coco
+
+---
+Jimmy Coco (UK) Ltd, 22 St James's Walk, London, EC1R 0AP
+Don't want these? Unsubscribe: {% unsubscribe %}
+
+
+────────────────────────────────────────────────────────────────────────
+EMAIL 2 — "Here's what you're missing"   |   Day 5   |   non-responders only
+────────────────────────────────────────────────────────────────────────
+SUBJECT (chosen):  in case you forgot what we do
+
+  DECISION 30/07/26 — no discount code. The original draft carried a
+  [CODE] for [X]% off placeholder. Matt chose to run the series as a pure
+  permission-pass: a discount reads as promotional and works against the
+  Primary-inbox goal driving this whole project, and it risks buying back
+  discount-only buyers. The subject was switched off "a little something
+  to tempt you back" for the same reason — it promised an offer this
+  email no longer contains.
+
+Hi {{ first_name|default: 'there' }},
+
+Me again — last time I asked if you still wanted to hear from us,
+and I know inboxes are busy, so no worries if you missed it.
+
+Quick reminder of what lands when you stick around:
+ · streak-free tan tips that actually work
+ · first look at new launches
+ · subscriber-only offers we don't run publicly
+
+If any of that sounds useful, just tap here and I'll keep them
+coming:
+  → https://jimmycoco.co.uk
+
+Still glowing,
+Jimmy
+Sunless by Jimmy Coco
+
+---
+Jimmy Coco (UK) Ltd, 22 St James's Walk, London, EC1R 0AP
+Don't want these? Unsubscribe: {% unsubscribe %}
+
+
+────────────────────────────────────────────────────────────────────────
+EMAIL 3 — "Last one from us"   |   Day 12   |   still non-responders
+────────────────────────────────────────────────────────────────────────
+SUBJECT (chosen):  should I stop emailing you?
+  alternative:     last one from me
+
+Hi {{ first_name|default: 'there' }},
+
+This is the last email I'll send for now.
+
+I'd love to keep sharing tips and offers with you, but I only
+want to be in the inboxes of people who actually want us there —
+it's better for you, and honestly better for us too.
+
+If you'd like to stay, just tap here and you're set:
+  → https://jimmycoco.co.uk
+
+If I don't hear from you, I'll quietly take you off the list
+after this — no fuss, and you're always welcome back.
+
+Thanks for having been part of it.
+
+Jimmy
+Sunless by Jimmy Coco
+
+---
+Jimmy Coco (UK) Ltd, 22 St James's Walk, London, EC1R 0AP
+Don't want these? Unsubscribe: {% unsubscribe %}

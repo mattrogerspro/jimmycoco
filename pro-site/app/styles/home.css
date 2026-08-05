@@ -69,8 +69,9 @@
   .sig small{display:block;font-family:'Jost',sans-serif;font-style:normal;font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:6px}
   /* formula */
   .formula{background:var(--cream);position:relative;overflow:hidden;height:calc(90svh - 74px);scroll-margin-top:74px;padding:clamp(22px,3vh,36px) 0;display:flex;align-items:center}
-  .fx-bg{position:absolute;top:0;bottom:0;left:0;width:70.5%;z-index:0;background:#E7DBCB;background-image:url('/img/formula-bg-4.webp');background-repeat:no-repeat;background-size:cover;background-position:right 22%}
-  .fx-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--cream) 0%,rgba(246,241,234,.9) 22%,rgba(246,241,234,.5) 40%,rgba(246,241,234,.12) 56%,rgba(246,241,234,0) 66%)}
+  .fx-bg{position:absolute;inset:0;z-index:0;display:grid;max-width:min(90vw,1900px);margin:0 auto;padding:0 24px;grid-template-columns:48px minmax(250px,1fr) minmax(220px,1fr) minmax(220px,.82fr);gap:clamp(24px,2.5vw,46px)}
+  .fx-bg::before{content:"";grid-column:2/4;justify-self:end;min-width:0;width:clamp(340px,36vw,640px);max-width:100%;background-image:url('/img/formula-bg-4.webp');background-repeat:no-repeat;background-size:cover;background-position:center 42%;-webkit-mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.3) 15%,rgba(0,0,0,.8) 36%,#000 50%,#000 84%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.3) 15%,rgba(0,0,0,.8) 36%,#000 50%,#000 84%,transparent 100%)}
+  .fx-bg::after{content:"";position:absolute;inset:0;background:none}
   .fx-grid{position:relative;z-index:1;width:100%;height:100%;min-height:0;display:grid;grid-template-columns:48px minmax(250px,1fr) minmax(220px,1fr) minmax(220px,.82fr);gap:clamp(24px,2.5vw,46px);align-items:stretch}
   .fx-rail{display:flex;flex-direction:column;align-items:center;gap:24px;padding:8px 0}
   .fx-line{flex:0 0 90px;width:1px;background:var(--ink2);opacity:.35}
@@ -102,7 +103,8 @@
     .formula{height:auto;padding:60px 0;display:block}
     .fx-grid{grid-template-columns:1fr 1fr;gap:40px 48px}
     .fx-rail{display:none}
-    .fx-bg{width:100%}
+    .fx-bg{position:absolute;inset:0;display:block;max-width:none;margin:0;padding:0;background-image:url('/img/formula-bg-4.webp');background-repeat:no-repeat;background-size:cover;background-position:center 30%}
+  .fx-bg::before{display:none}
     .fx-bg::after{background:linear-gradient(90deg,var(--cream) 0%,rgba(246,241,234,.82) 32%,rgba(246,241,234,.5) 64%,rgba(246,241,234,.3) 100%)}
     .fx-stat{min-height:420px;height:auto}
     .fx-feats{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:0 64px;justify-content:stretch;background:var(--cream)}

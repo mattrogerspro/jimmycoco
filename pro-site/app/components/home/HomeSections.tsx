@@ -65,7 +65,7 @@ export function Shades() {
   ];
   return <>
     <section className="shades-showcase" id="shades"><div className="wrap">
-      <p className="eyebrow">The Malibu professional solution</p><h2>Three shades.<br /><em>Every client<br />covered.</em></h2>
+      <p className="eyebrow">The Malibu professional solution</p><h2>One universal shade.<br /><em>Every client<br />covered.</em></h2>
       <div className="shade-intro"><span className="shade-rule" /><p>Our three signature shades are custom-blended to deliver a natural, believable glow — for every skin tone and every moment.</p></div>
       <div className="shade-grid">{shades.map(([src, alt, copy]) => <div className="shade" key={src as string}><img src={`${A}${src}`} alt={alt as string} loading="lazy" decoding="async" /><div><p>{copy}</p></div></div>)}</div>
     </div></section>

@@ -25,7 +25,7 @@ function Slider({ label, value, min, max, step = 1, display, onChange }: SliderP
 export function ProfitCalculator({ onMonthlyChange }: { onMonthlyChange: (value: number) => void }) {
   const [price, setPrice] = useState(25);
   const [tans, setTans] = useState(12);
-  const [yieldPerLitre, setYieldPerLitre] = useState(27);
+  const [yieldPerLitre, setYieldPerLitre] = useState(28);
   const [units, setUnits] = useState(3);
   const [retailPrice, setRetailPrice] = useState(15);
   const [marginPercent, setMarginPercent] = useState(50);
@@ -64,7 +64,7 @@ export function ProfitCalculator({ onMonthlyChange }: { onMonthlyChange: (value:
               <h3>In the booth</h3>
               <Slider label="Your price per spray tan" value={price} min={15} max={60} display={gbp(price)} onChange={setPrice} />
               <Slider label="Spray tans per week" value={tans} min={1} max={60} display={`${tans}`} onChange={setTans} />
-              <Slider label="Tans per litre" value={yieldPerLitre} min={25} max={30} display={`${yieldPerLitre}`} onChange={setYieldPerLitre} />
+              <Slider label="Tans per bottle" value={yieldPerLitre} min={24} max={32} display={`${yieldPerLitre}`} onChange={setYieldPerLitre} />
             </div>
             <div className="calc-group">
               <h3>On the shelf</h3>

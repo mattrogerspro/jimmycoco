@@ -15,12 +15,12 @@ const canonical = absoluteUrl(PRODUCT_PATH);
 
 export const meta: MetaFunction = () => [
   { title: "Malibu Professional Spray Tan Solution 1L | Jimmy Coco" },
-  { name: "description", content: "Order Malibu professional spray tan solution in a salon-size 1 litre bottle. Four shade depths, approximately 25–30 full-body tans per litre." },
+  { name: "description", content: "Order Malibu professional spray tan solution in a salon-size 1 litre bottle. Four shade depths, approximately 28 full-body tans per bottle." },
   { name: "robots", content: "index, follow, max-image-preview:large" },
   { property: "og:type", content: "product" },
   { property: "og:site_name", content: "Sunless by Jimmy Coco Professional" },
   { property: "og:title", content: "Malibu Professional Spray Tan Solution 1L" },
-  { property: "og:description", content: "Salon-size professional spray tan solution with four shade depths and approximately 25–30 full-body tans per litre." },
+  { property: "og:description", content: "Salon-size professional spray tan solution with four shade depths and approximately 28 full-body tans per bottle." },
   { property: "og:url", content: canonical },
   { property: "og:image", content: absoluteUrl("/assets/site/product-01-0003c7706e6e.jpg") },
   { property: "product:price:amount", content: "60.00" },
@@ -38,7 +38,7 @@ const schema = [
     "@context": "https://schema.org",
     "@type": "Product",
     name: "Malibu Professional Spray Tan Solution 1L",
-    description: "Professional salon spray tan solution in a 1 litre bottle, providing approximately 25–30 full-body tans.",
+    description: "Professional salon spray tan solution in a 1 litre bottle, providing approximately 28 full-body tans.",
     image: [absoluteUrl("/assets/site/product-01-0003c7706e6e.jpg")],
     brand: { "@type": "Brand", name: "Sunless by Jimmy Coco" },
     offers: { "@type": "Offer", url: canonical, priceCurrency: "GBP", price: "60.00" },

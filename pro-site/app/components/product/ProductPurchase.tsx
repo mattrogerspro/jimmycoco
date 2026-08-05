@@ -28,14 +28,13 @@ export function ProductPurchase({ state, setState, ctaRef }: {
 }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const total = 60 * state.qty;
-  const lo = 25 * state.qty;
-  const hi = 30 * state.qty;
+  const capacity = 28 * state.qty;
   const litres = `${state.qty} ${state.qty === 1 ? "litre" : "litres"}`;
-  const coverWeeks = [lo / 12, hi / 12];
+  const coverWeeks = capacity / 12;
   const formatDuration = (value: number) => value.toLocaleString("en-GB", { maximumFractionDigits: 1 });
-  const stockCover = coverWeeks[0] >= 12
-    ? `${formatDuration(coverWeeks[0] / 4.33)}–${formatDuration(coverWeeks[1] / 4.33)} months`
-    : `${formatDuration(coverWeeks[0])}–${formatDuration(coverWeeks[1])} weeks`;
+  const stockCover = coverWeeks >= 12
+    ? `${formatDuration(coverWeeks / 4.33)} months`
+    : `${formatDuration(coverWeeks)} weeks`;
 
   const setQty = (qty: number) => setState((current) => ({ ...current, qty: Math.max(1, Math.min(48, qty)) }));
 
@@ -52,7 +51,7 @@ export function ProductPurchase({ state, setState, ctaRef }: {
       </div>
 
       <div className="price-block">
-        <div className="price-row"><span className="price-big">£60 <small>per litre</small></span><span className="pertan">≈ £2.22 per tan</span></div>
+        <div className="price-row"><span className="price-big">£60 <small>per litre</small></span><span className="pertan">≈ £2.14 per tan</span></div>
         <p>Free UK delivery · Trade terms confirmed before payment</p>
       </div>
 
@@ -72,9 +71,9 @@ export function ProductPurchase({ state, setState, ctaRef }: {
 
       <div className="maths">
         <div><span>Order total</span><b>{gbp(total)}</b><small>{litres}</small></div>
-        <div><span>Tan capacity</span><b>{lo}–{hi}</b><small>full body tans</small></div>
+        <div><span>Tan capacity</span><b>≈{capacity}</b><small>full body tans</small></div>
         <div><span>Estimated stock cover</span><b>{stockCover}</b><small>at 12 tans per week</small></div>
-        <div><span>Revenue potential</span><b>{gbp(lo * 25)}+</b><small>at £25 per tan · <Link to="/#calculator">your margins</Link></small></div>
+        <div><span>Revenue potential</span><b>{gbp(capacity * 25)}+</b><small>at £25 per tan · <Link to="/#calculator">your margins</Link></small></div>
       </div>
 
       <div className="cta-col" ref={ctaRef}><a className="btn btn-bronze" href="#order">Compose your trade order</a><Link className="trial-link" to="/#trial">New to Jimmy Coco? Start with a free trial →</Link></div>

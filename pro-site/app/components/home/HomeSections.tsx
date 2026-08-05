@@ -14,7 +14,7 @@ export function Hero() {
         <div className="hero-inner"><div className="hero-copy">
           <p className="eyebrow">For salons, spas &amp; mobile professionals</p>
           <h1>The tan your<br />clients ask for.<br /><em>Now in your booth.</em></h1>
-          <div className="hero-stats"><div>Hollywood's professional spray tan system.</div><div>25–30 full-body tans per litre.</div><div>Designed to create clients who come back.</div></div>
+          <div className="hero-stats"><div>Hollywood's professional spray tan system.</div><div>Approx. 28 full-body tans per bottle.</div><div>Designed to create clients who come back.</div></div>
           <div className="hero-ctas"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order Malibu 1L — £60</Link><a className="btn btn-ghost" href="#trial">Request a free trial</a><a className="hero-profit-link" href="#calculator">Calculate your salon profits →</a></div>
         </div></div>
         <div className="hero-img"><img src="/img/hero.webp" alt="Professional model holding the Sunless by Jimmy Coco spray tan" fetchPriority="high" /></div>
@@ -58,8 +58,7 @@ export function Shades() {
   const facts = [
     ["home-06-bbf76ab992a8.jpg", "Professional spray tan icon", "Professional spray tan", "Designed for a flawless full body tan"],
     ["home-07-8b070f95baed.jpg", "One litre bottle icon", "1 Litre · 33.81 fl.oz.", "Salon size for maximum value"],
-    ["home-08-9c66cf209f5c.jpg", "Medium dark 10 percent shade badge", "Shade", "Medium / Dark · 10% DHA"],
-    ["home-09-ed59b9dc4a36.jpg", "Full body figure icon", "Approx. 25–30", "Full body tans per 1 litre"],
+    ["home-09-ed59b9dc4a36.jpg", "Full body figure icon", "Approx. 28", "Full body tans per bottle"],
   ];
   return <>
     <section className="shades-showcase" id="shades"><div className="wrap">
@@ -67,7 +66,7 @@ export function Shades() {
       <div className="shade-intro"><span className="shade-rule" /><p>One custom-blended formula, engineered to deliver a natural, believable glow — for every skin tone and every moment.</p></div>
       <div className="shade-grid">{shades.map(([src, alt, copy]) => <div className="shade" key={src as string}><span className="shade-swatch"><img src={`${A}${src}`} alt={alt as string} loading="lazy" decoding="async" /><b>Malibu 10% DHA</b></span><div><p>{copy}</p></div></div>)}</div>
     </div></section>
-    <section className="litre-offer" id="malibu-litre"><div className="wrap"><div className="litre-grid"><img src={`${A}home-05-90c11d032981.jpg`} alt="Malibu 1 litre professional spray tan solution — 25 to 30 full body tans" loading="lazy" decoding="async" /><div><p className="eyebrow">Professional salon size</p><h2>The salon-size litre that pays for itself.</h2><p className="sub">Professional spray solution, designed for flawless full-body tans — salon size for maximum value, consistent results from every drop.</p><div className="lstat lstat-one"><div><b>~£2.20 per tan</b><span>your solution cost, at £60 per litre*</span></div></div><p className="note">*Based on the standard £60 litre at 27 tans. Trade pricing improves this further — confirmed on your setup call.</p><div className="litre-actions"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order the litre — £60</Link><Link className="btn btn-ghost" to={`${PRODUCT_PATH}#order`}>View shades &amp; trade order</Link></div></div></div></div></section>
+    <section className="litre-offer" id="malibu-litre"><div className="wrap"><div className="litre-grid"><img src={`${A}home-05-90c11d032981.jpg`} alt="Malibu 1 litre professional spray tan solution — approximately 28 full body tans" loading="lazy" decoding="async" /><div><p className="eyebrow">Professional salon size</p><h2>The salon-size litre that pays for itself.</h2><p className="sub">Professional spray solution, designed for flawless full-body tans — salon size for maximum value, consistent results from every drop.</p><div className="lstat lstat-one"><div><b>~£2.15 per tan</b><span>your solution cost, at £60 per litre*</span></div></div><p className="note">*Based on the standard £60 litre at 28 tans. Trade pricing improves this further — confirmed on your setup call.</p><div className="litre-actions"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order the litre — £60</Link><Link className="btn btn-ghost" to={`${PRODUCT_PATH}#order`}>View shades &amp; trade order</Link></div></div></div></div></section>
     <div className="facts-strip"><div className="wrap"><div className="facts">{facts.map(([src, alt, title, copy]) => <div className="fact" key={src}><img src={`${A}${src}`} alt={alt} loading="lazy" decoding="async" /><div><b>{title}</b><span>{copy}</span></div></div>)}</div><p className="facts-tag"><b>♥</b> Perfect for mobile &amp; salon professionals — consistent results, maximum value from every drop.</p></div></div>
   </>;
 }

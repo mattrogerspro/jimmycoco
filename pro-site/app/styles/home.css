@@ -135,7 +135,7 @@
   .shade:nth-child(3)::before{content:"DARK  ✦";background:#4A2D16}
   .shade-swatch{position:relative;display:block;flex:none}
   .shade img{display:block;width:100%;height:clamp(145px,22svh,220px);aspect-ratio:auto;object-fit:cover}
-  .shade-swatch b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 14px;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:300;font-size:clamp(21px,1.75vw,30px);letter-spacing:.045em;color:#FDF6EA;text-shadow:0 2px 14px rgba(58,34,14,.42)}
+  .shade-swatch b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 14px;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:clamp(27px,2.3vw,40px);letter-spacing:.04em;color:#FDF6EA;text-shadow:0 2px 14px rgba(58,34,14,.42)}
   .shade div{flex:1;min-height:0;padding:clamp(15px,1.45vw,24px) clamp(15px,1.35vw,22px);background:#D5B58F}
   .shade p{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:clamp(18px,1.3vw,24px);line-height:1.2;color:#1D1712}
   .shade p b{color:inherit;font-weight:500}

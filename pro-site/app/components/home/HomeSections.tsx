@@ -40,7 +40,7 @@ export function Formula() {
   const features = [
     ["Tailored to every client", "Custom-blended pigments enhance undertones for a flawless, natural finish."],
     ["Skin-loving hydration", "A curated infusion of hydrating ingredients delivers long-lasting colour with an even fade."],
-    ["Dry before they dress", "Instant dry-down. No transfer. No sticky clients in your chair."],
+    ["Dry before they dress", "Instant dry-down. No transfer."],
     ["A finish clients photograph", "Soft-focus, camera-ready colour that looks beautiful in every light."],
   ];
   return <section className="formula" id="formula"><div className="fx-bg" aria-hidden="true" /><div className="wrap fx-grid">

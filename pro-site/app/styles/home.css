@@ -127,13 +127,15 @@
   .shade-intro{grid-column:1;grid-row:3;max-width:320px;margin-top:24px}
   .shade-rule{display:block;width:54px;height:2px;background:#966131;margin-bottom:19px}
   .shade-intro p{font-size:clamp(15px,1.05vw,19px);line-height:1.55;color:#211B17;font-weight:500}
-  .shade-grid{grid-column:2;grid-row:1/5;display:grid;grid-template-columns:minmax(0,1fr);gap:4px;width:min(100%,430px);justify-self:end;height:100%;margin:0;align-self:stretch}
+  .shade-grid{grid-column:2;grid-row:1/5;display:grid;grid-template-columns:minmax(0,1fr);gap:4px;width:min(100%,352px);justify-self:end;height:100%;margin:0;align-self:stretch}
   .shade{position:relative;display:flex;flex-direction:column;min-width:0;height:100%;background:#C7A27B;border:0;border-radius:6px;overflow:hidden;box-shadow:0 10px 24px rgba(54,35,19,.1)}
   .shade::before{display:block;flex:none;padding:17px 19px 16px;font-size:clamp(17px,1.3vw,23px);line-height:1;letter-spacing:.05em;color:#fff;font-weight:600}
   .shade:nth-child(1)::before{content:"MEDIUM / DARK  ✦";background:#73502F}
   .shade:nth-child(2)::before{content:"MEDIUM  ✦";background:#73502F}
   .shade:nth-child(3)::before{content:"DARK  ✦";background:#4A2D16}
-  .shade img{width:100%;height:clamp(145px,22svh,220px);aspect-ratio:auto;object-fit:cover}
+  .shade-swatch{position:relative;display:block;flex:none}
+  .shade img{display:block;width:100%;height:clamp(145px,22svh,220px);aspect-ratio:auto;object-fit:cover}
+  .shade-swatch b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 14px;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:300;font-size:clamp(21px,1.75vw,30px);letter-spacing:.045em;color:#FDF6EA;text-shadow:0 2px 14px rgba(58,34,14,.42)}
   .shade div{flex:1;min-height:0;padding:clamp(15px,1.45vw,24px) clamp(15px,1.35vw,22px);background:#D5B58F}
   .shade p{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:clamp(18px,1.3vw,24px);line-height:1.2;color:#1D1712}
   .shade p b{color:inherit;font-weight:500}
@@ -146,7 +148,7 @@
   .shade:nth-child(3) p,.shade:nth-child(3) p::after{color:#FFF8EC}
   .shade:nth-child(3) p::after{border-top-color:rgba(255,248,236,.72)}
   .shade::after{display:block;flex:none;padding:13px 17px;font-size:clamp(10px,.7vw,12px);line-height:1.55;letter-spacing:.13em;text-transform:uppercase;font-weight:600;color:#261B13;background:rgba(117,77,42,.16)}
-  .shade:nth-child(1)::after{content:"☼  Warm · Golden\A    Radiant · Healthy";white-space:pre;background:rgba(91,57,29,.22)}
+  .shade:nth-child(1)::after{content:"☼  Medium to Super Dark - Golden\A    Radiant - Healthy";white-space:pre;background:rgba(91,57,29,.22)}
   .shade:nth-child(2)::after{content:"☼  Warm · Golden\A    Radiant · Healthy";white-space:pre;background:rgba(91,57,29,.22)}
   .shade:nth-child(3)::after{content:"☼  Rich · Intense\A    Deep · Luxurious";white-space:pre;color:#FFF8EC;background:rgba(42,25,13,.34)}
   @media (max-width:900px){
@@ -156,7 +158,7 @@
     .shades-showcase .eyebrow{margin-top:0}
     .shades-showcase h2{max-width:650px}
     .shade-intro{max-width:430px;margin-top:32px}
-    #shades .shade-grid{grid-template-columns:1fr;width:min(100%,430px);margin:370px 0 0;padding-bottom:8px}
+    #shades .shade-grid{grid-template-columns:1fr;width:min(100%,352px);margin:370px 0 0;padding-bottom:8px}
     #shades .shade{scroll-snap-align:start}
   }
   @media (max-width:700px){

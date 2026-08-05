@@ -119,7 +119,7 @@
   }
   /* shades */
   .shades-showcase{position:relative;overflow:hidden;height:calc(90svh - 74px);scroll-margin-top:74px;margin-top:clamp(22px,3vh,34px);background:#EFE4D6;padding:clamp(22px,3.2vh,38px) 0}
-  .shades-showcase::before{content:"";position:absolute;left:0;bottom:0;top:0;width:min(46%,620px);z-index:0;background:url('/img/backgrounds/pro-bundle.webp') left bottom/auto 62% no-repeat;-webkit-mask-image:linear-gradient(90deg,#000 0,#000 58%,transparent 100%);mask-image:linear-gradient(90deg,#000 0,#000 58%,transparent 100%)}
+  .shades-showcase::before{content:"";position:absolute;left:0;top:0;bottom:0;width:min(58%,780px);z-index:0;background:url('/img/backgrounds/pro-bundle.webp') left bottom/auto 100% no-repeat;-webkit-mask-image:linear-gradient(90deg,#000 0,#000 64%,transparent 100%),linear-gradient(180deg,rgba(0,0,0,.22) 0,rgba(0,0,0,.5) 30%,rgba(0,0,0,.9) 56%,#000 72%);mask-image:linear-gradient(90deg,#000 0,#000 64%,transparent 100%),linear-gradient(180deg,rgba(0,0,0,.22) 0,rgba(0,0,0,.5) 30%,rgba(0,0,0,.9) 56%,#000 72%);-webkit-mask-composite:source-in;mask-composite:intersect}
   .shades-showcase .wrap{position:relative;z-index:1;height:100%;min-height:0;display:grid;grid-template-columns:minmax(300px,.9fr) minmax(0,1.4fr);grid-template-rows:auto auto auto 1fr;column-gap:clamp(24px,2.6vw,46px);align-items:start}
   .shades-showcase .eyebrow{grid-column:1;grid-row:1;font-size:clamp(13px,.9vw,17px);margin:12px 0 15px;color:#8B5B31}
   .shades-showcase h2{grid-column:1;grid-row:2;font-size:clamp(43px,4vw,70px);line-height:1.01;margin:0;max-width:500px}
@@ -151,7 +151,7 @@
   .shade:nth-child(3)::after{content:"☼  Rich · Intense\A    Deep · Luxurious";white-space:pre;color:#FFF8EC;background:rgba(42,25,13,.34)}
   @media (max-width:900px){
     .shades-showcase{height:auto}
-    .shades-showcase::before{width:min(60%,520px);background-position:left top;background-size:auto 620px}
+    .shades-showcase::before{width:min(64%,560px);background-position:left top;background-size:auto 700px}
     .shades-showcase .wrap{display:block;min-height:0}
     .shades-showcase .eyebrow{margin-top:0}
     .shades-showcase h2{max-width:650px}
@@ -161,7 +161,7 @@
   }
   @media (max-width:700px){
     .shades-showcase{padding:56px 0}
-    .shades-showcase::before{width:min(78%,460px);background-position:left 220px;background-size:auto 500px}
+    .shades-showcase::before{width:min(82%,480px);background-position:left 200px;background-size:auto 560px}
     .shades-showcase h2{font-size:clamp(48px,14vw,68px)}
     #shades .shade-grid{grid-template-columns:1fr;margin-top:330px;overflow:visible}
     .shade img{height:230px}

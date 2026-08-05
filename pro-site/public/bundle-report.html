@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bundle Pricing Review — Sunless by Jimmy Coco</title>
+<style>
+  :root{
+    color-scheme: light;
+    --surface-1:#fcfcfb; --page:#f4f1ee;
+    --ink-1:#14100e; --ink-2:#52514e; --ink-3:#898781;
+    --rule:#e1ddd6; --hair:rgba(11,11,11,.10);
+    --brand:#9E674F; --brand-deep:#6F5445; --brand-soft:#E2D4C8; --brand-wash:#F6F0EA;
+    --critical:#d03b3b; --warning:#fab219; --good:#0ca30c;
+    --crit-wash:#fbeeee; --warn-wash:#fdf6e6; --good-wash:#eaf7ea;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:where(:not([data-theme="light"])){
+      color-scheme: dark;
+      --surface-1:#1a1a19; --page:#0d0d0d;
+      --ink-1:#ffffff; --ink-2:#c3c2b7; --ink-3:#898781;
+      --rule:#2c2c2a; --hair:rgba(255,255,255,.10);
+      --brand:#C9906F; --brand-deep:#DCC0AC; --brand-soft:#3a2f28; --brand-wash:#231d19;
+      --crit-wash:#2a1717; --warn-wash:#292009; --good-wash:#0f2410;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--page);color:var(--ink-1);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px 96px}
+  .sheet{background:var(--surface-1);border:1px solid var(--hair);border-radius:4px;padding:44px 48px;margin-top:32px}
+  @media(max-width:700px){.sheet{padding:28px 22px}.wrap{padding:0 14px 64px}}
+
+  header.masthead{border-bottom:2px solid var(--brand);padding-bottom:22px;margin-bottom:34px}
+  .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brand);font-weight:600;margin:0 0 10px}
+  h1{font-size:31px;line-height:1.2;margin:0 0 12px;letter-spacing:-.01em;font-weight:650}
+  .meta{font-size:13px;color:var(--ink-3);margin:0}
+  .meta b{color:var(--ink-2);font-weight:600}
+
+  h2{font-size:20px;margin:44px 0 6px;letter-spacing:-.01em;font-weight:650;padding-top:14px;border-top:1px solid var(--rule)}
+  h2:first-of-type{border-top:none;padding-top:0}
+  h3{font-size:15px;margin:26px 0 6px;font-weight:650}
+  p{margin:0 0 14px;color:var(--ink-2)}
+  strong{color:var(--ink-1);font-weight:650}
+  .lede{font-size:17.5px;line-height:1.62;color:var(--ink-1)}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:26px 0 8px}
+  @media(max-width:760px){.kpis{grid-template-columns:1fr 1fr}}
+  .kpi{background:var(--brand-wash);border:1px solid var(--hair);border-radius:3px;padding:16px 15px 14px}
+  .kpi .v{font-size:27px;font-weight:680;letter-spacing:-.02em;line-height:1.05;display:block}
+  .kpi .l{font-size:11.5px;color:var(--ink-2);margin-top:7px;display:block;line-height:1.42}
+
+  .box{border-left:3px solid var(--rule);background:var(--brand-wash);padding:16px 18px;margin:20px 0;border-radius:0 3px 3px 0}
+  .box p:last-child{margin-bottom:0}
+  .box.crit{border-left-color:var(--critical);background:var(--crit-wash)}
+  .box.warn{border-left-color:var(--warning);background:var(--warn-wash)}
+  .box.good{border-left-color:var(--good);background:var(--good-wash)}
+  .box .tag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin:0 0 7px;display:block}
+  .box.crit .tag{color:var(--critical)} .box.warn .tag{color:#8a6000} .box.good .tag{color:#046b04}
+  @media (prefers-color-scheme: dark){:root:where(:not([data-theme="light"])) .box.warn .tag{color:var(--warning)} :root:where(:not([data-theme="light"])) .box.good .tag{color:var(--good)}}
+
+  table{width:100%;border-collapse:collapse;margin:18px 0 22px;font-size:14px}
+  caption{text-align:left;font-size:12px;color:var(--ink-3);padding-bottom:8px}
+  th{text-align:left;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:650;padding:0 10px 8px 0;border-bottom:1px solid var(--rule);vertical-align:bottom}
+  td{padding:9px 10px 9px 0;border-bottom:1px solid var(--rule);color:var(--ink-2);vertical-align:top}
+  td:first-child,th:first-child{padding-left:0}
+  .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  tr.tot td{border-top:2px solid var(--brand);border-bottom:none;font-weight:650;color:var(--ink-1);background:var(--brand-wash)}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:var(--brand-soft);padding:1px 5px;border-radius:2px;color:var(--ink-1)}
+
+  .bar{display:flex;height:26px;border-radius:2px;overflow:hidden;margin:6px 0 4px;border:1px solid var(--hair)}
+  .bar span{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:650;color:#fff;white-space:nowrap}
+  .bar .paid{background:var(--brand)}
+  .bar .gap{background:var(--critical)}
+  .barkey{font-size:12px;color:var(--ink-3);margin-bottom:20px}
+
+  ol.recs{margin:16px 0 0;padding:0;list-style:none;counter-reset:r}
+  ol.recs li{counter-increment:r;position:relative;padding:0 0 18px 42px}
+  ol.recs li::before{content:counter(r);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  ol.recs li b{display:block;color:var(--ink-1);font-size:15px;margin-bottom:3px}
+  ol.recs li span{font-size:14px;color:var(--ink-2)}
+
+  .footnote{font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--rule);padding-top:16px;margin-top:44px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="sheet">
+
+<header class="masthead">
+  <p class="eyebrow">Commercial Review · Confidential</p>
+  <h1>Bundle Pricing Review — the £24 Malibu Kit</h1>
+  <p class="meta"><b>Sunless by Jimmy Coco</b> · Prepared 5 August 2026 · Observation period: 29 July – 5 August 2026</p>
+</header>
+
+<h2>Summary</h2>
+
+<p class="lede">A four-product bundle is selling well at <strong>£24.00</strong> — but its components carry <strong>£54.50</strong> of individual value, meaning the business is conceding a <strong>58% discount</strong> on every unit sold. The bundle is also invisible in standard sales reporting, which is why the position has gone unmeasured.</p>
+
+<p>In its first eight days the bundle sold <strong>50 units across 48 orders</strong>. Volume is healthy. The concern is not demand — it is price architecture.</p>
+
+<div class="kpis">
+  <div class="kpi"><span class="v">50</span><span class="l">Units sold in 8 days</span></div>
+  <div class="kpi"><span class="v">58%</span><span class="l">Discount vs individual prices</span></div>
+  <div class="kpi"><span class="v">£1,577</span><span class="l">Conceded in the period</span></div>
+  <div class="kpi"><span class="v">£22.97</span><span class="l">Effective price per bundle</span></div>
+</div>
+
+<h2>1. What the bundle contains, and what it gives away</h2>
+
+<p>The bundle is <strong>Tinted Tan Soufflé + Face Brush + Buff &amp; Glow Mitt + Tinted Lip Balm</strong>, sold at a fixed £24.00. Each component is allocated a reduced price at checkout:</p>
+
+<table>
+  <caption>Component pricing — allocated bundle price vs the price each product sells for on its own</caption>
+  <thead>
+    <tr><th>Component</th><th class="num">In bundle</th><th class="num">Sold individually</th><th class="num">Full RRP</th><th class="num">Given away</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Tinted Tan Soufflé Malibu Beach</td><td class="num">£7.92</td><td class="num">£18.00</td><td class="num">£22.00</td><td class="num">£10.08</td></tr>
+    <tr><td>The Face Brush — Warm Grey</td><td class="num">£5.29</td><td class="num">£12.00</td><td class="num">£15.00</td><td class="num">£6.71</td></tr>
+    <tr><td>Buff &amp; Glow Mitt — Navy</td><td class="num">£5.51</td><td class="num">£12.50</td><td class="num">£15.00</td><td class="num">£6.99</td></tr>
+    <tr><td>Tinted Lip Balm</td><td class="num">£5.28</td><td class="num">£12.00</td><td class="num">£14.50</td><td class="num">£6.72</td></tr>
+    <tr class="tot"><td>Total</td><td class="num">£24.00</td><td class="num">£54.50</td><td class="num">£66.50</td><td class="num">£30.50</td></tr>
+  </tbody>
+</table>
+
+<div class="bar">
+  <span class="paid" style="width:44%">£24.00 received</span>
+  <span class="gap" style="width:56%">£30.50 conceded</span>
+</div>
+<p class="barkey">Every bundle sold against £54.50 of individual product value.</p>
+
+<p>Against the prices these products sell for on their own, the bundle represents a <strong>58% discount</strong>. Measured against full RRP it is <strong>65%</strong>.</p>
+
+<p>The single largest concession is the soufflé: <strong>£18.00 standalone, £7.92 inside the bundle</strong> — a 56% reduction on the range's bestselling product.</p>
+
+<h2>2. It does not appear in sales reporting</h2>
+
+<div class="box crit">
+  <span class="tag">▲ Critical — invisible to standard reporting</span>
+  <p>The bundle breaks into its four components at checkout, so it never appears as a product in the sales report. Meanwhile the two catalogue SKUs created for it — <em>Malibu Beach Face Contour Kit, Medium and Dark</em> — show <strong>zero orders since they were created</strong>, despite 485 units of stock allocated to each.</p>
+</div>
+
+<p>Anyone reviewing product performance would conclude this kit is not selling. It is in fact one of the more active lines on the site. The discount it carries has therefore never surfaced in any report.</p>
+
+<h2>3. Discount codes stack on top of the bundle price</h2>
+
+<p><strong>11 of the 48 orders</strong> also had a promotional code applied — <code>ferne15</code>, <code>WELCOME10</code> or <code>WELCOME20</code> — on top of the already-discounted bundle.</p>
+
+<table>
+  <thead><tr><th>Measure</th><th class="num">Value</th></tr></thead>
+  <tbody>
+    <tr><td>Revenue at bundle list price (50 × £24.00)</td><td class="num">£1,200.00</td></tr>
+    <tr><td>Codes applied on top (11 orders)</td><td class="num">−£51.60</td></tr>
+    <tr class="tot"><td>Revenue actually received</td><td class="num">£1,148.40</td></tr>
+    <tr><td colspan="2" style="border:none;padding-top:12px;color:var(--ink-3);font-size:13px">Effective realised price per bundle: <strong style="color:var(--ink-1)">£22.97</strong></td></tr>
+  </tbody>
+</table>
+
+<p>Roughly one bundle in four is therefore leaving at closer to £19–£21. If stacking was not intended, the bundle should be excluded from promotional codes.</p>
+
+<h2>4. The bundle sells below average order value</h2>
+
+<div class="box warn">
+  <span class="tag">▲ High — works against basket growth</span>
+  <p>Site-wide average order value is <strong>£26.93</strong>. This bundle sells at <strong>£24.00</strong>, and £22.97 after codes. Four physical products are leaving for less than the average customer already spends on a typical order.</p>
+</div>
+
+<p>Bundles normally exist to <em>increase</em> basket size. This one reduces it — while multiplying pick, pack, packaging and shipping weight fourfold.</p>
+
+<p>There is also a cannibalisation risk. A customer who would otherwise buy the soufflé on its own at £18.00 can take the full bundle for £24.00. That is <strong>£6.00 of additional revenue in exchange for three additional products</strong>. Without cost-of-goods data it cannot be confirmed whether that trade is profitable, but it is unlikely to be attractive.</p>
+
+<h2>5. Scale of the concession</h2>
+
+<table>
+  <caption>Observed period, 29 July – 5 August 2026</caption>
+  <thead><tr><th>Measure</th><th class="num">vs individual prices</th><th class="num">vs full RRP</th></tr></thead>
+  <tbody>
+    <tr><td>Value of goods released</td><td class="num">£2,725.00</td><td class="num">£3,325.00</td></tr>
+    <tr><td>Revenue received</td><td class="num">£1,148.40</td><td class="num">£1,148.40</td></tr>
+    <tr class="tot"><td>Concession</td><td class="num">£1,576.60</td><td class="num">£2,176.60</td></tr>
+  </tbody>
+</table>
+
+<p>At the current rate of <strong>6.86 units per day</strong>, this projects to roughly <strong>2,500 units and £78,900 of concession a year</strong>, on approximately £57,500 of revenue.</p>
+
+<div class="box">
+  <span class="tag" style="color:var(--ink-2)">◆ How to read the annual figure</span>
+  <p>The projection rests on seven complete days of trading and includes a launch-day spike (11 orders on day one, then 8, 2, 7, 10, 3, 5). It should be treated as directional only. <strong>The £1,576.60 conceded over the observed period is the figure that can be relied upon.</strong></p>
+</div>
+
+<h2>6. Two content errors on the product listings</h2>
+
+<p><strong>The Dark listing carries the wrong description.</strong> It describes a two-item soufflé-and-mitt bundle and refers to "Malibu Medium" throughout, on a product titled Dark. The Medium listing correctly describes all four components.</p>
+
+<p><strong>The saving is understated by more than £23.</strong> The kit's compare-at price is set to <strong>£31.00</strong>, implying a £7 saving. The genuine à-la-carte value is <strong>£54.50</strong>. The business is conceding a substantial discount and advertising a fraction of it — the single easiest improvement available here.</p>
+
+<h2>Recommendations</h2>
+
+<ol class="recs">
+  <li><b>Confirm the £24 price point is intentional</b>
+    <span>It may well be a deliberate acquisition play. But it has never appeared in reporting, so it should be an explicit decision rather than an inherited setting.</span></li>
+  <li><b>Model it against cost of goods</b>
+    <span>Four products, one parcel, £22.97 realised. This is the only calculation that determines whether the bundle is profitable, and it requires COGS the review did not have access to.</span></li>
+  <li><b>Reprice, or reposition above average order value</b>
+    <span>Moving the bundle to £29–£34 would keep a strong 38–47% saving against the £54.50 individual value while lifting it above the £26.93 average order value. Alternatively, remove the soufflé and sell the three accessories as a lower-priced add-on kit.</span></li>
+  <li><b>Exclude the bundle from promotional codes</b>
+    <span>Prevents the stacking that is already affecting roughly one order in four.</span></li>
+  <li><b>Correct the compare-at price to £54.50</b>
+    <span>Free to do, materially more persuasive, and it makes the real saving visible to the customer.</span></li>
+  <li><b>Fix the Dark product description</b>
+    <span>It currently describes a different product.</span></li>
+  <li><b>Add bundle-level reporting</b>
+    <span>While the bundle decomposes at checkout, its performance cannot be tracked. Any future bundle should carry an identifier that survives into the order record.</span></li>
+</ol>
+
+<p class="footnote">
+  <strong>Method &amp; verification.</strong> Every order containing the bundle's components was retrieved from the Shopify Admin API and matched programmatically on the bundle's unique price signature (£7.92 / £5.29 / £5.51 / £5.28), rather than counted manually. The match is exact: 50 units of each of the four components across 48 orders, in two shade variants (Dark 32, Medium 18). Orders back to 15 July were scanned to confirm the 29 July start date. Component standard and compare-at prices were re-confirmed against live product records. Discount-code impact was apportioned to the bundle's share of each order's subtotal. Annualised figures extrapolate from seven complete trading days and are indicative only. No changes were made to the store during this review.
+</p>
+
+</div>
+</div>
+</body>
+</html>

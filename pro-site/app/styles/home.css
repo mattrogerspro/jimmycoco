@@ -119,7 +119,7 @@
   }
   /* shades */
   .shades-showcase{position:relative;overflow:hidden;height:calc(90svh - 74px);scroll-margin-top:74px;margin-top:clamp(22px,3vh,34px);background:#EFE4D6;padding:clamp(22px,3.2vh,38px) 0}
-  .shades-showcase::before{content:"";position:absolute;left:0;top:0;bottom:0;width:min(58%,780px);z-index:0;background:url('/img/backgrounds/pro-bundle.webp') left bottom/auto 100% no-repeat;-webkit-mask-image:linear-gradient(90deg,#000 0,#000 64%,transparent 100%),linear-gradient(180deg,rgba(0,0,0,.22) 0,rgba(0,0,0,.5) 30%,rgba(0,0,0,.9) 56%,#000 72%);mask-image:linear-gradient(90deg,#000 0,#000 64%,transparent 100%),linear-gradient(180deg,rgba(0,0,0,.22) 0,rgba(0,0,0,.5) 30%,rgba(0,0,0,.9) 56%,#000 72%);-webkit-mask-composite:source-in;mask-composite:intersect}
+  .shades-showcase::before{content:"";position:absolute;left:50%;transform:translateX(-50%);top:0;bottom:0;width:min(40%,600px);z-index:0;background:url('/img/backgrounds/pro-bundle.webp') center bottom/auto 100% no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%),linear-gradient(180deg,rgba(0,0,0,.5) 0,#000 24%);mask-image:linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%),linear-gradient(180deg,rgba(0,0,0,.5) 0,#000 24%);-webkit-mask-composite:source-in;mask-composite:intersect}
   .shades-showcase .wrap{position:relative;z-index:1;height:100%;min-height:0;display:grid;grid-template-columns:minmax(300px,.9fr) minmax(0,1.4fr);grid-template-rows:auto auto auto 1fr;column-gap:clamp(24px,2.6vw,46px);align-items:start}
   .shades-showcase .eyebrow{grid-column:1;grid-row:1;font-size:clamp(13px,.9vw,17px);margin:12px 0 15px;color:#8B5B31}
   .shades-showcase h2{grid-column:1;grid-row:2;font-size:clamp(43px,4vw,70px);line-height:1.01;margin:0;max-width:500px}
@@ -127,10 +127,10 @@
   .shade-intro{grid-column:1;grid-row:3;max-width:320px;margin-top:24px}
   .shade-rule{display:block;width:54px;height:2px;background:#966131;margin-bottom:19px}
   .shade-intro p{font-size:clamp(15px,1.05vw,19px);line-height:1.55;color:#211B17;font-weight:500}
-  .shade-grid{grid-column:2;grid-row:1/5;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;width:100%;height:100%;margin:0;align-self:stretch}
+  .shade-grid{grid-column:2;grid-row:1/5;display:grid;grid-template-columns:minmax(0,1fr);gap:4px;width:min(100%,430px);justify-self:end;height:100%;margin:0;align-self:stretch}
   .shade{position:relative;display:flex;flex-direction:column;min-width:0;height:100%;background:#C7A27B;border:0;border-radius:6px;overflow:hidden;box-shadow:0 10px 24px rgba(54,35,19,.1)}
   .shade::before{display:block;flex:none;padding:17px 19px 16px;font-size:clamp(17px,1.3vw,23px);line-height:1;letter-spacing:.05em;color:#fff;font-weight:600}
-  .shade:nth-child(1)::before{content:"LIGHT  ✦";background:#98724C}
+  .shade:nth-child(1)::before{content:"MEDIUM / DARK  ✦";background:#73502F}
   .shade:nth-child(2)::before{content:"MEDIUM  ✦";background:#73502F}
   .shade:nth-child(3)::before{content:"DARK  ✦";background:#4A2D16}
   .shade img{width:100%;height:clamp(145px,22svh,220px);aspect-ratio:auto;object-fit:cover}
@@ -138,15 +138,15 @@
   .shade p{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:clamp(18px,1.3vw,24px);line-height:1.2;color:#1D1712}
   .shade p b{color:inherit;font-weight:500}
   .shade p::after{display:block;margin-top:15px;padding-top:14px;border-top:1px solid rgba(118,76,39,.62);font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(13px,.9vw,16px);font-weight:500;line-height:1.45;color:#292019}
-  .shade:nth-child(1) p::after{content:"Perfect for fair to light skin tones or clients wanting a soft, natural radiance."}
+  .shade:nth-child(1) p::after{content:"One universal formula — flattering on fair, medium and deeper skin tones alike."}
   .shade:nth-child(2) p::after{content:"Ideal for medium skin tones or clients wanting a healthy, golden bronze."}
   .shade:nth-child(3) p::after{content:"Designed for deeper skin tones or clients wanting a richer, more intense bronze."}
-  .shade:nth-child(2) div{background:#B78C60}
+  .shade:nth-child(1) div,.shade:nth-child(2) div{background:#B78C60}
   .shade:nth-child(3) div{background:#68492C}
   .shade:nth-child(3) p,.shade:nth-child(3) p::after{color:#FFF8EC}
   .shade:nth-child(3) p::after{border-top-color:rgba(255,248,236,.72)}
   .shade::after{display:block;flex:none;padding:13px 17px;font-size:clamp(10px,.7vw,12px);line-height:1.55;letter-spacing:.13em;text-transform:uppercase;font-weight:600;color:#261B13;background:rgba(117,77,42,.16)}
-  .shade:nth-child(1)::after{content:"☼  Natural · Soft\A    Light · Subtle";white-space:pre}
+  .shade:nth-child(1)::after{content:"☼  Warm · Golden\A    Radiant · Healthy";white-space:pre;background:rgba(91,57,29,.22)}
   .shade:nth-child(2)::after{content:"☼  Warm · Golden\A    Radiant · Healthy";white-space:pre;background:rgba(91,57,29,.22)}
   .shade:nth-child(3)::after{content:"☼  Rich · Intense\A    Deep · Luxurious";white-space:pre;color:#FFF8EC;background:rgba(42,25,13,.34)}
   @media (max-width:900px){
@@ -156,7 +156,7 @@
     .shades-showcase .eyebrow{margin-top:0}
     .shades-showcase h2{max-width:650px}
     .shade-intro{max-width:430px;margin-top:32px}
-    #shades .shade-grid{grid-template-columns:repeat(3,minmax(220px,1fr));max-width:none;margin:370px 0 0;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:8px}
+    #shades .shade-grid{grid-template-columns:1fr;width:min(100%,430px);margin:370px 0 0;padding-bottom:8px}
     #shades .shade{scroll-snap-align:start}
   }
   @media (max-width:700px){

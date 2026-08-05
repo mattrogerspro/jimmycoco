@@ -53,9 +53,7 @@ export function Formula() {
 
 export function Shades() {
   const shades = [
-    ["home-02-edc6503156a6.jpg", "Light shade texture", <>Delivers that <b>sunkissed glow</b> of <b>a day in the sun</b> — in one session.</>],
-    ["home-03-d9921088377a.jpg", "Medium shade texture", <>The <b>medium bronze glow</b> of <b>a weekend in the sun</b> — in one session.</>],
-    ["home-04-fcd4099a07c7.jpg", "Dark shade texture", <>The <b>dark bronze glow</b> of <b>a long sunny vacation</b> — in one session.</>],
+    ["home-03-d9921088377a.jpg", "Medium dark shade texture", <>The <b>medium bronze glow</b> of <b>a weekend in the sun</b> — in one session.</>],
   ];
   const facts = [
     ["home-06-bbf76ab992a8.jpg", "Professional spray tan icon", "Professional spray tan", "Designed for a flawless full body tan"],
@@ -66,7 +64,7 @@ export function Shades() {
   return <>
     <section className="shades-showcase" id="shades"><div className="wrap">
       <p className="eyebrow">The Malibu professional solution</p><h2>One universal shade.<br /><em>Every client<br />covered.</em></h2>
-      <div className="shade-intro"><span className="shade-rule" /><p>Our three signature shades are custom-blended to deliver a natural, believable glow — for every skin tone and every moment.</p></div>
+      <div className="shade-intro"><span className="shade-rule" /><p>One custom-blended formula, engineered to deliver a natural, believable glow — for every skin tone and every moment.</p></div>
       <div className="shade-grid">{shades.map(([src, alt, copy]) => <div className="shade" key={src as string}><img src={`${A}${src}`} alt={alt as string} loading="lazy" decoding="async" /><div><p>{copy}</p></div></div>)}</div>
     </div></section>
     <section className="litre-offer" id="malibu-litre"><div className="wrap"><div className="litre-grid"><img src={`${A}home-05-90c11d032981.jpg`} alt="Malibu 1 litre professional spray tan solution — 25 to 30 full body tans" loading="lazy" decoding="async" /><div><p className="eyebrow">Professional salon size</p><h2>The salon-size litre that pays for itself.</h2><p className="sub">Professional spray solution, designed for flawless full-body tans — salon size for maximum value, consistent results from every drop.</p><div className="lstat lstat-one"><div><b>~£2.20 per tan</b><span>your solution cost, at £60 per litre*</span></div></div><p className="note">*Based on the standard £60 litre at 27 tans. Trade pricing improves this further — confirmed on your setup call.</p><div className="litre-actions"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order the litre — £60</Link><Link className="btn btn-ghost" to={`${PRODUCT_PATH}#order`}>View shades &amp; trade order</Link></div></div></div></div></section>

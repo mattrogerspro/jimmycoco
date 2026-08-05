@@ -31,7 +31,7 @@ export function Hero() {
 
 export function Story() {
   return <section id="story"><div className="wrap story-grid">
-    <img src={`${A}home-01-78d26bf05e35.jpg`} alt="Jimmy Coco — the Hollywood tan artist behind the Sunless professional range" loading="lazy" decoding="async" />
+    <img src={`${A}jimmy-coco-story.webp`} alt="Jimmy Coco — the Hollywood tan artist behind the Sunless professional range" loading="lazy" decoding="async" />
     <div><p className="eyebrow">Why leading salons choose Jimmy Coco</p><blockquote className="big">“I wanted to bring my <em>Hollywood Glow</em> to the world's best salons.”</blockquote><p>The iconic red-carpet radiance Jimmy Coco is known for has been meticulously bottled — offering your most selective clients exclusive access to Hollywood's signature glow.</p><p style={{ marginTop: 12 }}>A premium name your clients already recognise means a service you can price and present as premium — never a race to the bottom.</p><div className="sig">Jimmy Coco<small>Hollywood Tan Guru</small></div></div>
   </div></section>;
 }

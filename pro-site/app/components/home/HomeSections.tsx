@@ -99,7 +99,7 @@ export function GlowDuo() {
     ["signature-glow.webp", "Press quote from Hello Magazine calling Jimmy Coco the magician behind Kylie Jenner's signature bronzed glow"],
     ["sunless-bikini.webp", "Sun-kissed tan finish with a Sunless by Jimmy Coco branded towel"],
   ];
-  return <section className="glow-duo"><div className="wrap"><div className="gd-grid">{shots.map(([src, alt]) => <figure className="gd-shot" key={src}><img src={`${A}${src}`} alt={alt} width="1000" height="1505" loading="lazy" decoding="async" sizes="(max-width: 820px) 100vw, 50vw" /></figure>)}</div></div></section>;
+  return <section className="glow-duo"><div className="wrap"><div className="gd-grid">{shots.map(([src, alt]) => <figure className="gd-shot" key={src}><img src={`${A}${src}`} alt={alt} width="1200" height="1394" loading="lazy" decoding="async" sizes="(max-width: 820px) 100vw, 50vw" /></figure>)}</div></div></section>;
 }
 
 export function Trial({ monthlyProfit }: { monthlyProfit: number }) {

@@ -6,7 +6,7 @@ import ritualStyles from "../styles/ritual.css?url";
 import chromeStyles from "../styles/chrome.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { ApplicationRitual } from "../components/shared/ApplicationRitual";
-import { Formula, Hero, Retail, Shades, Story, Trial } from "../components/home/HomeSections";
+import { Formula, GlowDuo, Hero, Retail, Shades, Story, Trial } from "../components/home/HomeSections";
 import { ProfitCalculator } from "../components/home/ProfitCalculator";
 import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 
@@ -66,6 +66,7 @@ export default function HomePage() {
         <ProfitCalculator onMonthlyChange={updateMonthlyProfit} />
         <ApplicationRitual />
         <Retail />
+        <GlowDuo />
         <Trial monthlyProfit={monthlyProfit} />
       </main>
       <SiteFooter />

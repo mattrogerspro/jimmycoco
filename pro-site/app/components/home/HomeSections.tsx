@@ -94,6 +94,14 @@ export function Retail() {
   return <section className="retail" id="retail"><div className="wrap"><p className="eyebrow">The second revenue line</p><h2>The moment they step out of the booth<br /><em>is the moment they buy.</em></h2><p className="sub">A tight retail range at reception lets clients keep their colour looking fresh for a week longer — real margin, no extra chair time, and the same brand story from booth to shelf.</p><div className="shop-grid">{products.map(([src, alt, badge, title, description, price, suffix]) => <div className="pcard" key={src}><div className="pimg"><img src={`${A}${src}`} alt={alt} loading="lazy" decoding="async" /></div><div className="pbody"><span className="badge">{badge}</span><h3>{title}</h3><p className="pdesc">{description}</p><span className="price">{price}<span>{suffix}</span></span></div></div>)}</div><div className="section-actions"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order the professional litre — £60</Link><a className="btn btn-ghost" href="#trial">Request a free trial instead</a></div></div></section>;
 }
 
+export function GlowDuo() {
+  const shots = [
+    ["signature-glow.webp", "Press quote from Hello Magazine calling Jimmy Coco the magician behind Kylie Jenner's signature bronzed glow"],
+    ["sunless-bikini.webp", "Sun-kissed tan finish with a Sunless by Jimmy Coco branded towel"],
+  ];
+  return <section className="glow-duo"><div className="wrap"><div className="gd-grid">{shots.map(([src, alt]) => <figure className="gd-shot" key={src}><img src={`${A}${src}`} alt={alt} width="1000" height="1505" loading="lazy" decoding="async" sizes="(max-width: 820px) 100vw, 50vw" /></figure>)}</div></div></section>;
+}
+
 export function Trial({ monthlyProfit }: { monthlyProfit: number }) {
   return <section className="partner-close" id="trial"><div className="wrap"><p className="eyebrow">The partnership · complimentary trial</p><h2>Try it on a real client. <em>Free.</em></h2><p className="sub">Party season books out before it starts. Salons that trial now are stocked, trained and ready before the rush — and the trial costs you nothing but one appointment.</p><div className="close-grid"><div>
     <div className="trialbox"><span className="tb-tag">In your trial box</span><ul><li><b>The Sunset professional solution</b><span>Enough to tan a real client — judge the colour on skin, not on a screen.</span></li><li><b>Jimmy's shade guide</b><span>The method behind 20+ years of red-carpet colour. Yours to keep, either way.</span></li></ul><p>Posted this week · no cost · no commitment</p></div>

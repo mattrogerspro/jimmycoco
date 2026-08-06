@@ -226,25 +226,25 @@
   .pc-stage{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1fr);gap:clamp(8px,.9vw,16px);align-items:center}
   .pc-notes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(18px,2.4vw,42px)}
   .pc-notes li{display:flex;align-items:center;gap:clamp(6px,.6vw,10px)}
-  .pc-notes span{flex:1 1 auto;text-align:right;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(11px,.88vw,16px);line-height:1.35;letter-spacing:.01em;color:#A9705A}
+  .pc-notes span{flex:1 1 auto;text-align:right;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(12.5px,1.06vw,19px);line-height:1.35;letter-spacing:.01em;color:#A9705A}
   .pc-notes i{flex:0 0 auto;width:clamp(24px,2.8vw,48px);height:3px;background-image:repeating-linear-gradient(to right,#2F3C55 0 7px,transparent 7px 12px)}
   .pc-shot{display:block;width:auto;max-width:100%;height:auto;justify-self:center;max-height:clamp(360px,30vw,540px);-webkit-mask-image:radial-gradient(118% 94% at 50% 50%,#000 58%,rgba(0,0,0,.35) 88%,transparent 100%);mask-image:radial-gradient(118% 94% at 50% 50%,#000 58%,rgba(0,0,0,.35) 88%,transparent 100%)}
   .pc-tile{background:#8C6A3F;color:#FFF9F0;border-radius:3px;padding:clamp(12px,1.4vw,22px) 12px;text-align:center}
-  .pc-tile i{display:block;font-style:normal;font-size:clamp(9.5px,.7vw,12.5px);letter-spacing:.22em;text-transform:uppercase;color:rgba(255,249,240,.88)}
+  .pc-tile i{display:block;font-style:normal;font-size:clamp(11px,.85vw,15px);letter-spacing:.22em;text-transform:uppercase;color:rgba(255,249,240,.88)}
   .pc-tile b{display:block;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:400;font-size:clamp(25px,2.5vw,42px);line-height:1;letter-spacing:.03em;margin:8px 0 9px}
-  .pc-tile span{display:block;font-size:clamp(11px,.85vw,15px);line-height:1.32;letter-spacing:.05em;color:rgba(255,249,240,.94)}
-  .pc-size{margin:clamp(12px,1.2vw,18px) 0 0;text-align:center;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(12.5px,1vw,18px);line-height:1.5;color:#3B342C}
+  .pc-tile span{display:block;font-size:clamp(13px,1.05vw,18px);line-height:1.32;letter-spacing:.05em;color:rgba(255,249,240,.94)}
+  .pc-size{margin:clamp(14px,1.4vw,22px) 0 0;text-align:center;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(15px,1.3vw,23px);line-height:1.5;color:#3B342C}
   .pc-list{list-style:none;margin:clamp(10px,1.1vw,16px) 0 0;padding:0}
-  .pc-list li{display:flex;align-items:center;gap:clamp(10px,1vw,16px);padding:clamp(8px,.95vw,14px) 0;border-top:1px solid rgba(158,118,78,.28)}
+  .pc-list li{display:flex;align-items:center;gap:clamp(14px,1.5vw,24px);padding:clamp(12px,1.35vw,20px) 0;border-top:1px solid rgba(158,118,78,.28)}
   .pc-list li:first-child{border-top:0}
-  .pc-list > li > i{flex:0 0 auto;display:grid;place-items:center;width:clamp(36px,3.4vw,54px);height:clamp(36px,3.4vw,54px);border-radius:50%;background:#E4DACC}
+  .pc-list > li > i{flex:0 0 auto;display:grid;place-items:center;width:clamp(48px,4.6vw,76px);height:clamp(48px,4.6vw,76px);border-radius:50%;background:#E4DACC}
   .pc-list svg{width:64%;height:64%;display:block}
-  .pc-list b{display:block;margin-bottom:3px;font-size:clamp(10.5px,.82vw,14px);letter-spacing:.1em;text-transform:uppercase;line-height:1.25;color:#2B211A}
-  .pc-list span{display:block;font-size:clamp(10.5px,.8vw,14px);line-height:1.4;color:#645749}
+  .pc-list b{display:block;margin-bottom:4px;font-size:clamp(13px,1.06vw,18.5px);letter-spacing:.1em;text-transform:uppercase;line-height:1.25;color:#2B211A}
+  .pc-list span{display:block;font-size:clamp(13px,1.04vw,18px);line-height:1.45;color:#645749}
   .pc-foot{margin:0 calc(-1 * clamp(16px,1.8vw,28px));padding:clamp(11px,1.2vw,18px) clamp(16px,1.8vw,28px);background:#EAE0D4;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;text-align:center}
   .pc-foot i{font-style:normal;line-height:1;color:#8A5A2B;font-size:clamp(17px,1.5vw,24px)}
-  .pc-foot b{font-size:clamp(10.5px,.82vw,14px);letter-spacing:.1em;text-transform:uppercase;color:#2B211A}
-  .pc-foot span{width:100%;margin-top:-2px;font-size:clamp(10.5px,.8vw,14px);color:#645749}
+  .pc-foot b{font-size:clamp(12.5px,1vw,17px);letter-spacing:.1em;text-transform:uppercase;color:#2B211A}
+  .pc-foot span{width:100%;margin-top:0;font-size:clamp(12.5px,.98vw,17px);color:#645749}
   @media (max-width:820px){
     .pc-main{grid-template-columns:1fr;gap:18px}
     .pc-stage{grid-template-columns:minmax(0,1fr) minmax(0,.8fr);max-width:420px;margin:0 auto}

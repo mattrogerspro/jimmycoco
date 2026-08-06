@@ -57,15 +57,15 @@ export function Shades() {
   ];
   const specs = [
     [
-      <svg viewBox="8 6 28 32" fill="none" stroke="#2B211A" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19h9.5a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3h-9.5a3 3 0 0 1-3-3V22a3 3 0 0 1 3-3Z" /><path d="M18.6 19v-4.4h6.8V19" /><path d="M25.4 15.6h4.3l2.3 2.2" /><path d="M14.5 24.6h-3" /><path d="M34.4 12.6h2.6M34.2 16.4h3M34.6 20.2l2.6 1.3" /></svg>,
+      <svg viewBox="0 0 44 44" fill="none" stroke="#2B211A" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19h9.5a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3h-9.5a3 3 0 0 1-3-3V22a3 3 0 0 1 3-3Z" /><path d="M18.6 19v-4.4h6.8V19" /><path d="M25.4 15.6h4.3l2.3 2.2" /><path d="M14.5 24.6h-3" /><path d="M34.4 12.6h2.6M34.2 16.4h3M34.6 20.2l2.6 1.3" /></svg>,
       "Professional spray tan", "Designed for a flawless full body tan",
     ],
     [
-      <svg viewBox="8 6 28 32"><path fill="#2B211A" d="M19.4 9.2h5.2v3.1c0 1.2.5 1.9 1.3 2.7 1.6 1.5 2.6 3 2.6 5.4v13.2c0 1.9-1.2 3.4-3 3.4h-7c-1.8 0-3-1.5-3-3.4V20.4c0-2.4 1-3.9 2.6-5.4.8-.8 1.3-1.5 1.3-2.7V9.2Z" /><rect x="18.5" y="7" width="7" height="2.6" rx="1.1" fill="#2B211A" /></svg>,
+      <svg viewBox="0 0 44 44"><path fill="#2B211A" d="M19.4 9.2h5.2v3.1c0 1.2.5 1.9 1.3 2.7 1.6 1.5 2.6 3 2.6 5.4v13.2c0 1.9-1.2 3.4-3 3.4h-7c-1.8 0-3-1.5-3-3.4V20.4c0-2.4 1-3.9 2.6-5.4.8-.8 1.3-1.5 1.3-2.7V9.2Z" /><rect x="18.5" y="7" width="7" height="2.6" rx="1.1" fill="#2B211A" /></svg>,
       "1 Litre · 33.81 fl.oz.", "Salon size for maximum value",
     ],
     [
-      <svg viewBox="8 6 28 32" fill="none" stroke="#2B211A" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="20.5" cy="14.6" r="4.6" /><path d="M11 36c0-6.3 4.3-11 9.5-11s9.5 4.7 9.5 11" /><path d="M20.5 25.4V36" /><path d="M32.6 10.4l.9 2.3 2.3.9-2.3.9-.9 2.3-.9-2.3-2.3-.9 2.3-.9z" fill="#8B5B31" stroke="none" /></svg>,
+      <svg viewBox="0 0 44 44" fill="none" stroke="#2B211A" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="20.5" cy="14.6" r="4.6" /><path d="M11 36c0-6.3 4.3-11 9.5-11s9.5 4.7 9.5 11" /><path d="M20.5 25.4V36" /><path d="M32.6 10.4l.9 2.3 2.3.9-2.3.9-.9 2.3-.9-2.3-2.3-.9 2.3-.9z" fill="#8B5B31" stroke="none" /></svg>,
       "Approx. 28", "Full body tans per bottle",
     ],
   ];

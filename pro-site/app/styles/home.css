@@ -221,8 +221,13 @@
   /* live product card (rebuilt from the composite artwork) */
   .litre-grid .prodcard{background:#F6EFE9;border:1px solid rgba(158,118,78,.24);border-radius:8px;box-shadow:var(--shadow);padding:clamp(6px,.8vw,14px) clamp(16px,1.8vw,28px) 0;display:flex;flex-direction:column;overflow:hidden}
   .litre-grid .prodcard img{border-radius:0;box-shadow:none}
-  .pc-main{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr);gap:clamp(14px,1.7vw,28px);align-items:center;padding:clamp(10px,1.2vw,18px) 0 clamp(16px,1.9vw,26px)}
-  .pc-shot{display:block;width:100%;height:auto;justify-self:center;max-width:300px;-webkit-mask-image:radial-gradient(118% 94% at 50% 50%,#000 58%,rgba(0,0,0,.35) 88%,transparent 100%);mask-image:radial-gradient(118% 94% at 50% 50%,#000 58%,rgba(0,0,0,.35) 88%,transparent 100%)}
+  .pc-main{display:grid;grid-template-columns:minmax(0,1.32fr) minmax(0,1fr);gap:clamp(12px,1.4vw,24px);align-items:center;padding:clamp(10px,1.2vw,18px) 0 clamp(16px,1.9vw,26px)}
+  .pc-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.78fr);gap:clamp(6px,.7vw,12px);align-items:center}
+  .pc-notes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(14px,1.8vw,30px)}
+  .pc-notes li{display:flex;align-items:center;gap:clamp(6px,.6vw,10px)}
+  .pc-notes span{flex:1 1 auto;text-align:right;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(10px,.78vw,13.5px);line-height:1.35;letter-spacing:.01em;color:#A9705A}
+  .pc-notes i{flex:0 0 auto;width:clamp(20px,2.2vw,36px);height:3px;background-image:repeating-linear-gradient(to right,#2F3C55 0 7px,transparent 7px 12px)}
+  .pc-shot{display:block;width:100%;height:auto;justify-self:center;max-width:230px;-webkit-mask-image:radial-gradient(118% 94% at 50% 50%,#000 58%,rgba(0,0,0,.35) 88%,transparent 100%);mask-image:radial-gradient(118% 94% at 50% 50%,#000 58%,rgba(0,0,0,.35) 88%,transparent 100%)}
   .pc-tile{background:#8C6A3F;color:#FFF9F0;border-radius:3px;padding:clamp(12px,1.4vw,22px) 12px;text-align:center}
   .pc-tile i{display:block;font-style:normal;font-size:clamp(9.5px,.7vw,12.5px);letter-spacing:.22em;text-transform:uppercase;color:rgba(255,249,240,.88)}
   .pc-tile b{display:block;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:400;font-size:clamp(25px,2.5vw,42px);line-height:1;letter-spacing:.03em;margin:8px 0 9px}
@@ -239,9 +244,10 @@
   .pc-foot i{font-style:normal;line-height:1;color:#8A5A2B;font-size:clamp(17px,1.5vw,24px)}
   .pc-foot b{font-size:clamp(10.5px,.82vw,14px);letter-spacing:.1em;text-transform:uppercase;color:#2B211A}
   .pc-foot span{width:100%;margin-top:-2px;font-size:clamp(10.5px,.8vw,14px);color:#645749}
-  @media (max-width:620px){
+  @media (max-width:820px){
     .pc-main{grid-template-columns:1fr;gap:18px}
-    .pc-shot{max-width:210px}
+    .pc-stage{grid-template-columns:minmax(0,1fr) minmax(0,.8fr);max-width:420px;margin:0 auto}
+    .pc-shot{max-width:200px}
   }
   /* litre facts band */
   .lstat.lstat-one{grid-template-columns:1fr}

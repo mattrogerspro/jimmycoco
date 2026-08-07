@@ -3,4 +3,11 @@ Allow: /
 Disallow: /admin/
 Disallow: /portal/
 
+# Internal working documents. Not for indexing, and the commercial reports
+# have been removed from the public directory entirely.
+Disallow: /audits/
+Disallow: /pricing-report.html
+Disallow: /shipping-report.html
+Disallow: /bundle-report.html
+
 Sitemap: https://www.jimmycoco.pro/sitemap.xml

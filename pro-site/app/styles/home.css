@@ -342,7 +342,7 @@
   .partner-close .sub{color:#B7AB9B}
   .close-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:start;margin-top:52px}
   .trialbox{border:1px solid rgba(201,149,103,.45);background:rgba(201,149,103,.09);border-radius:8px;padding:32px 34px 26px}
-  .tb-tag{display:inline-block;background:var(--bronze);color:#FFFDF9;font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;border-radius:3px;padding:6px 14px;margin-bottom:16px}
+  .tb-tag{display:inline-block;background:var(--bronze);color:#FFFDF9;font-size:13px;letter-spacing:.14em;line-height:1.4;text-transform:uppercase;font-weight:600;border-radius:3px;padding:6px 14px;margin-bottom:16px}
   .trialbox ul{list-style:none;padding:0;margin:0}
   .trialbox li{padding:16px 0;border-bottom:1px solid rgba(237,228,215,.14)}
   .trialbox li:last-child{border-bottom:0}
@@ -354,6 +354,8 @@
   .perks i{font-style:normal;color:var(--gold);font-size:21px;display:block;margin-bottom:9px}
   .perks b{display:block;color:#EFE7DB;font-size:18px;margin-bottom:3px}
   .perks span{color:#9A8F82;font-size:15.5px;line-height:1.45;display:block}
+  .perk-link{display:inline-block;margin-top:10px;color:var(--gold);font-size:14px;font-weight:600;letter-spacing:.06em;text-decoration:underline;text-underline-offset:4px}
+  .perk-link:hover{color:#EBCB9C}
   .close-note{color:#B7AB9B;font-size:17.5px;margin-top:26px;line-height:1.6}
   .trial-order{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:24px;padding:20px 22px;background:var(--dark);color:#FFFDF9;border-radius:6px}
   .trial-order b{font-size:17px}

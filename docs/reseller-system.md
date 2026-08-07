@@ -49,6 +49,14 @@ New, for the lifecycle emails (optional — without them events are logged and s
 - `AUTOMATION_API_KEY` — must match the automation project's `AUTOMATION_API_KEY`
 - `RESELLER_NOTICE_EMAIL` — internal notification address, defaults to `pro@jimmycoco.co.uk`
 
+## Sending domain
+
+Outbound mail sends from `email.jimmycoco.pro` (Resend, eu-west-1). The address is
+env-driven — `RESEND_FROM`, `RESEND_REPLY_TO` and `EMAIL_SUPPORT_EMAIL` — with
+`partnerships@email.jimmycoco.pro` only as a code fallback. The domain must be added
+and verified in Resend, and its SPF/DKIM/DMARC records published in DNS, before
+`EMAIL_LIVE_MODE` is switched on.
+
 ## Deploying
 
 ```bash

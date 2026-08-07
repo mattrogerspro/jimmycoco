@@ -66,7 +66,7 @@ still goes through (with a warning). Bypass a single push with
 - The API key is only ever read from `RESEND_API_KEY` and sent in the auth
   header — it is never written to the repo or printed.
 - Templates carry no default `from`; set the sender at send time
-  (e.g. `Sunless by Jimmy Coco <pro@email.jimmycoco.email>`).
+  (e.g. `Sunless by Jimmy Coco <pro@email.jimmycoco.pro>`).
 - Store/CTA links stay on `jimmycoco.co.uk`; only hosted **images** use
   `jimmycoco.email/email-assets/…`.
 - To bring the AU / UAE campaigns under the same sync, add a `resend.json` to

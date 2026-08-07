@@ -16,8 +16,8 @@ function variableDefaults() {
   return {
     SENDER_NAME: process.env.EMAIL_SENDER_NAME || 'Matt',
     SENDER_TITLE: process.env.EMAIL_SENDER_TITLE || 'Partnerships, Sunless by Jimmy Coco',
-    SENDER_EMAIL: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.email',
-    SUPPORT_EMAIL: process.env.EMAIL_SUPPORT_EMAIL || process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.email',
+    SENDER_EMAIL: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
+    SUPPORT_EMAIL: process.env.EMAIL_SUPPORT_EMAIL || process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
     BUSINESS_ADDRESS: process.env.EMAIL_BUSINESS_ADDRESS,
     CALENDAR_LINK: process.env.EMAIL_CALENDAR_LINK,
     TRIAL_LINK: process.env.EMAIL_TRIAL_LINK,
@@ -47,9 +47,9 @@ export async function sendTemplateEmail({ campaign, step, contact, context, idem
   const resend = getResend()
   const variables = buildTemplateVariables(step, contact, context)
   const payload = {
-    from: process.env.RESEND_FROM || 'Sunless Partnerships <partnerships@email.jimmycoco.email>',
+    from: process.env.RESEND_FROM || 'Sunless Partnerships <partnerships@email.jimmycoco.pro>',
     to: [contact.email],
-    replyTo: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.email',
+    replyTo: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
     template: { id: step.templateAlias, variables },
     tags: [
       { name: 'campaign_id', value: campaign.id },

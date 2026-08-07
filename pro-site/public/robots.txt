@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /portal/
 
-Sitemap: https://pro.jimmycoco.email/sitemap.xml
+Sitemap: https://www.jimmycoco.pro/sitemap.xml

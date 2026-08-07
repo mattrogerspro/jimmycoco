@@ -1,4 +1,4 @@
-export const SITE_URL = "https://pro.jimmycoco.email";
+export const SITE_URL = "https://www.jimmycoco.pro";
 export const PRODUCT_PATH = "/products/malibu-professional-spray-1l";
 
 export function absoluteUrl(path = "/") {

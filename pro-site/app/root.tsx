@@ -1,4 +1,7 @@
 import type { LinksFunction } from "react-router";
+import consentStyles from "./styles/consent.css?url";
+import { CONSENT_BOOTSTRAP, GA_MEASUREMENT_ID } from "./lib/consent";
+import { CookieConsent } from "./components/shared/CookieConsent";
 import {
   Links,
   Meta,
@@ -13,6 +16,8 @@ export const links: LinksFunction = () => [
   { rel: "preload", href: "/fonts/fraunces-var.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
   { rel: "preload", href: "/fonts/jost-var.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
   { rel: "preload", href: "/fonts/fraunces-var-italic.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
+  { rel: "preconnect", href: "https://www.googletagmanager.com" },
+  { rel: "stylesheet", href: consentStyles },
   { rel: "icon", href: "/img/favicon.svg", type: "image/svg+xml" },
   { rel: "manifest", href: "/site.webmanifest" },
 ];
@@ -30,10 +35,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="theme-color" content="#3a332c" />
         <Meta />
         <style dangerouslySetInnerHTML={{ __html: FONT_FACES }} />
+        <script dangerouslySetInnerHTML={{ __html: CONSENT_BOOTSTRAP }} />
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        />
         <Links />
       </head>
       <body>
         {children}
+        <CookieConsent />
         <ScrollRestoration />
         <Scripts />
       </body>

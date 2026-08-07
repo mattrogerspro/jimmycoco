@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import { openConsentPreferences } from "../../lib/consent";
 import { PRODUCT_PATH } from "../../lib/site";
 
 type HeaderProps = { page?: "home" | "product" | "content" };
@@ -51,6 +52,7 @@ export function SiteFooter({ page = "home" }: HeaderProps) {
           {page !== "home" && <Link to="/">Professional home</Link>}
           <a href="https://jimmycoco.co.uk">Consumer site</a>
           <a href="https://jimmycoco.co.uk/policies/terms-of-service">Terms</a>
+          <button type="button" className="foot-consent" onClick={() => openConsentPreferences()}>Cookie settings</button>
           {page === "home" && <a href="https://jimmycoco.co.uk/policies/privacy-policy">Privacy</a>}
         </div>
         <div className="buildlog"><span>Build log — how this page was made:</span> <a href="/audits/re-audit-salon-page.html">Conversion re-audit · salon page (8.2/10)</a></div>

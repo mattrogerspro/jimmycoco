@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sunless by Jimmy Coco — Conversion Re-Audit: pro.jimmycoco.email</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Sunless by Jimmy Coco — Conversion Re-Audit: www.jimmycoco.pro</title>
 <style>
   :root{--bg:#EAE2D8;--card:#FBF8F3;--accent:#A77952;--text:#3B3630;--heading:#24211E;--dark:#26231F;--line:#E4DACE;--muted:#7A726A;--soft:#F1E9DF;--footer:#948B81;--crit:#B0684F;--good:#66743F}
   *{box-sizing:border-box}
@@ -63,158 +64,213 @@
   .verdict .big{font-family:Georgia,serif;font-size:24px;color:#FFFDF9;line-height:1.3;margin-bottom:12px}
   .footer{text-align:center;font-size:11.5px;color:var(--footer);line-height:1.7;padding:8px 20px 0}
   .ok{color:var(--good);font-weight:700}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:640px){.two{grid-template-columns:1fr}}
+.kpi{background:var(--soft);border-radius:6px;padding:16px 18px}
+.kpi b{display:block;font-size:26px;color:var(--heading);font-family:Georgia,serif;font-weight:400;line-height:1}
+.kpi span{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:7px}
+.win{border-left:3px solid var(--good)}
+.resolved{color:var(--good);font-weight:600}
 </style>
 </head>
 <body>
 <div class="page">
-  <div class="masthead"><div class="brand">SUNLESS</div><div class="brandline">by Jimmy Coco</div></div>
 
-  <div class="card">
-    <p class="eyebrow">Internal commercial review · Re-audit, second pass</p>
-    <h1>Conversion re-audit: the salon page, revisited.</h1>
-    <p class="lede">The same thirty-phase standard, re-run against the current live salon page at <code>pro.jimmycoco.email</code> and scored against the original funnel entry page from the first audit. The trajectory now reads <b>4.6 → 8.0 → 8.2</b>: every critical from round one stays resolved, and since the 15 July re-audit the page has added a real salon FAQ, proper labelling on the order form, and an independent client-survey stat. But the two findings that actually cap conversion have not moved — the forms still submit by <code>mailto:</code>, so no lead is captured, and there is still no salon owner's voice anywhere on the page. Until those two are fixed, the ceiling is the same. Details below.</p>
-    <div class="meta">Prepared 16 July 2026 · Subject: the current live salon page (React rebuild — hero, formula, three shades, litre offer, profit calculator, application ritual, retail line, partnership close) · Baseline: the original <code>/pages/why-choose-pro-professional</code> entry page from the first audit · Waypoint: the 15 July re-audit scored 8.0 · Note: brand claims language deliberately retained by owner decision — excluded from scoring per instruction, flagged once for the record</div>
+<div class="masthead">
+  <div class="brand">SUNLESS</div>
+  <div class="brandline">by Jimmy Coco</div>
+</div>
+
+<div class="card">
+  <p class="eyebrow">Internal commercial review · Re-audit, third pass</p>
+  <h1>Conversion re-audit: the salon page, after the build-out.</h1>
+  <p class="lede">The same thirty-phase standard, re-run against the salon page now live at
+  <strong>www.jimmycoco.pro</strong>. The trajectory reads <strong>4.6 → 8.0 → 8.2 → 8.8</strong>.
+  The finding that capped every previous pass is gone: the forms no longer submit by
+  <code>mailto:</code> — they write to a database, and there is a reviewed pipeline behind them.
+  Accessibility and performance are now measured rather than inferred, and both are at or near
+  100. What has <em>not</em> moved is the other capping finding: there is still not one salon
+  owner's voice anywhere on this page. That is now the single highest-value fix on the site.</p>
+  <p class="meta">Prepared 7 August 2026 · Subject: the live salon page (hero, story, formula,
+  shade, live product card, profit calculator, application ritual, retail line, editorial duo,
+  trial close, certification) · Baseline for deltas: the 16 July re-audit, which scored 8.2 ·
+  Domain moved from <code>pro.jimmycoco.email</code> to <code>www.jimmycoco.pro</code> since the
+  last pass · Brand claims language remains excluded from scoring per owner instruction</p>
+</div>
+
+<div class="card">
+  <h2>Part one · What changed since 16 July</h2>
+  <p>Measured, not asserted. Every figure below comes from a Lighthouse run or the built output.</p>
+  <div class="two">
+    <div class="kpi"><b>100 / 100 / 100 / 100</b><span>Desktop Lighthouse — perf, a11y, best practices, SEO</span></div>
+    <div class="kpi"><b>96</b><span>Mobile performance (Moto G Power, slow 4G)</span></div>
+    <div class="kpi"><b>0</b><span>Cumulative layout shift — was 0.143</span></div>
+    <div class="kpi"><b>0.6s</b><span>Largest contentful paint, desktop</span></div>
   </div>
+  <div class="callout win"><strong>The headline change.</strong> The trial form and the product
+  order form now post to a server action that validates, rate-limits and writes to
+  <code>reseller_applications</code> in Supabase, then fires lifecycle events. Approval in
+  <code>/admin/resellers</code> creates a trade account; the stockist sets a password and reaches
+  a portal with their own pricing and order history. The page has stopped being a brochure that
+  loses its leads and started being the front of a funnel.</div>
+  <h3>Resolved this pass</h3>
+  <table>
+    <tr><th>Finding</th><th>Status</th><th>Evidence</th></tr>
+    <tr><td>Forms submit by <code>mailto:</code> — no lead captured</td><td class="resolved">Resolved</td><td>React Router actions → Supabase, with honeypot, same-origin check, inline success and error states. Zero <code>mailto:</code> remains anywhere in the source.</td></tr>
+    <tr><td>No analytics — conversion unmeasurable</td><td class="resolved">Resolved</td><td>GA4 <code>G-15N14ECLZG</code> behind Consent Mode v2, defaults denied, cookie-gated, with a withdrawal control in the footer.</td></tr>
+    <tr><td>Accessibility 92, eleven contrast failures</td><td class="resolved">Resolved</td><td>100. Palette tokens darkened at source; slider and select labelling fixed; link no longer colour-only.</td></tr>
+    <tr><td>Layout shift on load (CLS 0.143)</td><td class="resolved">Resolved</td><td>0. Intrinsic dimensions on every image, fonts self-hosted and preloaded, render-blocking third-party CSS removed.</td></tr>
+    <tr><td>Product card was a flat composite JPEG</td><td class="resolved">Resolved</td><td>Rebuilt as live DOM — the spec text is now real text, selectable, translatable and indexable, at 31&nbsp;KB instead of 67&nbsp;KB.</td></tr>
+    <tr><td>No third-party press citation</td><td class="resolved">Improved</td><td>Hello Magazine quote now on-page in the editorial band, plus a credentials block and a certification section.</td></tr>
+  </table>
+</div>
 
-  <div class="card">
-    <p class="eyebrow">Part one · The comparative scorecard</p>
-    <h2>Category by category — original → v2 → now</h2>
-    <div class="grade-strip">
-      <div class="gcard old"><span>Original entry page</span><b>4.6</b><small>UNDERPERFORMING</small></div>
-      <div class="gcard" style="background:#EDE4D7"><span>Re-audit · 15 Jul</span><b>8.0</b><small style="color:#7A726A;font-weight:600">STRONG</small></div>
-      <div class="gcard new"><span>This pass · 16 Jul</span><b>8.2</b><small>STRONG — +0.2</small></div>
-    </div>
-
-    <div class="cmp"><div class="lbl"><b>First impression (5-second test)</b><span class="delta">+0.2</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:40%"></i></div><b>4.0</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:87%"></i></div><b>8.7</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Clarity of proposition</b><span class="delta flat">±0</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:35%"></i></div><b>3.5</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:90%"></i></div><b>9.0</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:90%"></i></div><b>9.0</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Visual hierarchy</b><span class="delta flat">±0</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:40%"></i></div><b>4.0</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Information architecture</b><span class="delta">+0.2</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:40%"></i></div><b>4.0</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:87%"></i></div><b>8.7</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Cognitive load</b><span class="delta flat">±0</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:50%"></i></div><b>5.0</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:80%"></i></div><b>8.0</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:80%"></i></div><b>8.0</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Copywriting</b><span class="delta">+0.2</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:45%"></i></div><b>4.5</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:80%"></i></div><b>8.0</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:82%"></i></div><b>8.2</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Conversion psychology</b><span class="delta">+0.2</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:35%"></i></div><b>3.5</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:87%"></i></div><b>8.7</b></div></div>
-    <div class="cmp"><div class="lbl"><b>CTA effectiveness</b><span class="delta flat">±0</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:35%"></i></div><b>3.5</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Trust &amp; proof</b><span class="delta">+0.5</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:40%"></i></div><b>4.0</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:65%"></i></div><b>6.5</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:70%"></i></div><b>7.0</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Form UX</b> <span style="font-size:11px;color:var(--muted)">(orig = Shopify checkout)</span><span class="delta">+0.5</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:75%"></i></div><b>7.5</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:60%"></i></div><b>6.0</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:65%"></i></div><b>6.5</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Visual design &amp; typography</b><span class="delta">+0.2</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:63%"></i></div><b>6.3</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:83%"></i></div><b>8.3</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Mobile (inferred)</b><span class="delta flat">±0</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:45%"></i></div><b>4.5</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:75%"></i></div><b>7.5</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:75%"></i></div><b>7.5</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Accessibility</b><span class="delta">+0.5</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:40%"></i></div><b>4.0</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:65%"></i></div><b>6.5</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:70%"></i></div><b>7.0</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Premium perception</b><span class="delta">+0.2</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:60%"></i></div><b>6.0</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:85%"></i></div><b>8.5</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:87%"></i></div><b>8.7</b></div></div>
-    <div class="cmp"><div class="lbl"><b>Competitive strength (trade category)</b><span class="delta">+0.3</span></div>
-      <div class="row old"><span>Orig</span><div class="bar"><i style="width:40%"></i></div><b>4.0</b></div>
-      <div class="row mid"><span>v2</span><div class="bar"><i style="width:80%"></i></div><b>8.0</b></div>
-      <div class="row new"><span>Now</span><div class="bar"><i style="width:83%"></i></div><b>8.3</b></div></div>
-
-    <p style="font-size:13px;color:var(--muted);margin-top:16px">Three bars per category: the original entry page (pale), the 15 July v2 re-audit (bronze) and now (green) — so the first big leap and this pass's smaller one are both visible. The <span style="color:var(--heading)">delta shown is the latest move, v2 → now</span>. Gains this pass cluster where the July fixes landed — <b>Trust &amp; proof</b>, <b>Form UX</b> and <b>Accessibility</b> each <b>+0.5</b> (the independent client-survey stat, and the newly-labelled order form); six more edge up +0.2–0.3; five (<b>Clarity</b>, <b>Visual hierarchy</b>, <b>Cognitive load</b>, <b>CTA effectiveness</b>, <b>Mobile</b>) are flat at their v2 level. Nothing regressed. One caveat: Form UX is the only place the original bar is <i>highest</i> — the orig 7.5 scored Shopify's polished checkout, not a comparable form; the trial form is the real baseline, and it's still capped by the <code>mailto:</code> wiring. Form UX and Trust remain the two lowest bars because their ceilings are the untouched HIGH findings.</p>
+<div class="card">
+  <h2>Part two · The scorecard</h2>
+  <p>Two bars per category: the 16 July pass (bronze) and now (green). The delta shown is v3 → now.</p>
+  <div class="grade-strip">
+    <div class="gcard"><span>Re-audit · 16 Jul</span><b>8.2</b><span>STRONG</span></div>
+    <div class="gcard"><span>This pass · 7 Aug</span><b>8.8</b><span>STRONG — +0.6</span></div>
   </div>
+  <div class="row"><div class="lbl">First impression (5-second test) <span class="delta new">+0.3</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:87%;background:var(--accent)"></i></div><b>8.7</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:90%;background:var(--good)"></i></div><b>9.0</b></div></div>
+<div class="row"><div class="lbl">Clarity of proposition <span class="delta flat">±0</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:90%;background:var(--accent)"></i></div><b>9.0</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:90%;background:var(--good)"></i></div><b>9.0</b></div></div>
+<div class="row"><div class="lbl">Visual hierarchy <span class="delta new">+0.5</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:85%;background:var(--accent)"></i></div><b>8.5</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:90%;background:var(--good)"></i></div><b>9.0</b></div></div>
+<div class="row"><div class="lbl">Information architecture <span class="delta new">+0.2</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:87%;background:var(--accent)"></i></div><b>8.7</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:89%;background:var(--good)"></i></div><b>8.9</b></div></div>
+<div class="row"><div class="lbl">Cognitive load <span class="delta flat">±0</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:80%;background:var(--accent)"></i></div><b>8.0</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:80%;background:var(--good)"></i></div><b>8.0</b></div></div>
+<div class="row"><div class="lbl">Copywriting <span class="delta">-0.2</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:82%;background:var(--accent)"></i></div><b>8.2</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:80%;background:var(--good)"></i></div><b>8.0</b></div></div>
+<div class="row"><div class="lbl">Conversion psychology <span class="delta new">+0.3</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:87%;background:var(--accent)"></i></div><b>8.7</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:90%;background:var(--good)"></i></div><b>9.0</b></div></div>
+<div class="row"><div class="lbl">CTA effectiveness <span class="delta new">+0.7</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:85%;background:var(--accent)"></i></div><b>8.5</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:92%;background:var(--good)"></i></div><b>9.2</b></div></div>
+<div class="row"><div class="lbl">Trust &amp; proof <span class="delta new">+1.0</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:70%;background:var(--accent)"></i></div><b>7.0</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:80%;background:var(--good)"></i></div><b>8.0</b></div></div>
+<div class="row"><div class="lbl">Form UX <span class="delta new">+2.5</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:65%;background:var(--accent)"></i></div><b>6.5</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:90%;background:var(--good)"></i></div><b>9.0</b></div></div>
+<div class="row"><div class="lbl">Visual design &amp; typography <span class="delta new">+0.5</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:85%;background:var(--accent)"></i></div><b>8.5</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:90%;background:var(--good)"></i></div><b>9.0</b></div></div>
+<div class="row"><div class="lbl">Mobile (measured) <span class="delta new">+1.0</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:75%;background:var(--accent)"></i></div><b>7.5</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:85%;background:var(--good)"></i></div><b>8.5</b></div></div>
+<div class="row"><div class="lbl">Accessibility <span class="delta new">+2.6</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:70%;background:var(--accent)"></i></div><b>7.0</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:96%;background:var(--good)"></i></div><b>9.6</b></div></div>
+<div class="row"><div class="lbl">Premium perception <span class="delta new">+0.3</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:87%;background:var(--accent)"></i></div><b>8.7</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:90%;background:var(--good)"></i></div><b>9.0</b></div></div>
+<div class="row"><div class="lbl">Competitive strength (trade category) <span class="delta new">+0.4</span></div>
+<div class="cmp"><span class="old">v3</span><div class="bar"><i style="width:83%;background:var(--accent)"></i></div><b>8.3</b></div>
+<div class="cmp"><span class="new">Now</span><div class="bar"><i style="width:87%;background:var(--good)"></i></div><b>8.7</b></div></div>
+  <p>The gains cluster exactly where the work went: <strong>Form UX +2.5</strong> and
+  <strong>Accessibility +2.6</strong> are the two largest movements in the history of this audit,
+  because both were held down by a single blocking defect each. <strong>Trust &amp; proof +1.0</strong>
+  reflects real press and credentials arriving, but it is still the second-lowest bar and will not
+  clear 9 without a named salon. <strong>Copywriting drops 0.2</strong> — the only regression in
+  this pass, and it is a self-inflicted one, explained below.</p>
+</div>
 
-  <div class="card">
-    <p class="eyebrow">Part two · The first audit's critical findings, revisited</p>
-    <h2>All five criticals: resolved on this page</h2>
-    <table>
-      <tr><th>Round-one finding</th><th>Status</th><th>How</th></tr>
-      <tr><td>1 · Raw Liquid error in cart</td><td><span class="ok">N/A here / open on shop</span></td><td>This page has no cart. The error still exists on jimmycoco.co.uk and remains the single most urgent fix in the wider funnel.</td></tr>
-      <tr><td>2 · Hero asks for nothing</td><td><span class="ok">Resolved</span></td><td>Outcome headline, two CTAs (trial / calculator), proof strip. The five-second test now returns: who it's for, what it is, why care, what to do.</td></tr>
-      <tr><td>3 · B2B and B2C in one funnel</td><td><span class="ok">Resolved</span></td><td>Salon-only audience; retail reframed as the salon's second revenue line at RRP with no consumer buy buttons; consumer site linked only in the footer.</td></tr>
-      <tr><td>4 · Flagship with zero social proof</td><td><span class="ok">Partially resolved</span></td><td>No product is asked to carry £79 unproven here; the mitt's 20 reviews are used, and an independent survey stat (200 salon clients, 83% would rebook sooner) has since been added. But salon-side <i>peer</i> proof — an owner's voice — is still absent. See finding 2.</td></tr>
-      <tr><td>5 · Sales story trapped in images</td><td><span class="ok">Resolved</span></td><td>All six deck slides are native, readable, indexable page sections; only decorative photography remains as imagery.</td></tr>
-      <tr><td>— · Claims language</td><td>Retained by decision</td><td>Owner's call, recorded and excluded from scoring: site claims vocabulary kept verbatim pending updated brand guidelines.</td></tr>
-    </table>
-    <div class="callout"><strong>What the rebuild added that the original never had:</strong> the profit calculator. It converts the page's best fact (£60 ÷ 27 tans ≈ £2.22) into the salon's own numbers, and the trial form echoes that result back as the reason to act. Self-generated persuasion is the strongest kind — this is now the page's signature conversion device and its clearest differentiator against every competitor's trade page.</div>
-  </div>
+<div class="card">
+  <h2>Part three · Open findings</h2>
 
-  <div class="card">
-    <p class="eyebrow">Interval · Changed since the 15 July re-audit</p>
-    <h2>Three genuine improvements — none of them the two that matter</h2>
-    <table>
-      <tr><th>Since v2</th><th>Status</th><th>Detail</th></tr>
-      <tr><td>Salon FAQ added</td><td><span class="ok">Resolved</span></td><td>A five-question Salon FAQ (equipment compatibility, tans per litre, mobile supply, training, trade terms) now answers the objections finding 6 flagged — currently on the product page. Worth mirroring a short version above the home-page close too.</td></tr>
-      <tr><td>Order-form labels</td><td><span class="ok">Resolved on the order form</span></td><td>The product order form now has proper visible <code>&lt;label&gt;</code>s on every field. The home trial form is still placeholder-only — see finding 3.</td></tr>
-      <tr><td>Independent proof stat</td><td><span class="ok">Added</span></td><td>&ldquo;83% of clients would rebook sooner&rdquo; (independent survey of 200 salon clients) plus a client-feedback quote now sit in the formula section. Client-side proof — helps trust, but still not a salon owner's voice.</td></tr>
-    </table>
-    <div class="callout"><strong>The pattern of this pass:</strong> every change since July has been polish on categories already scoring well, or a fix to a lower-severity finding. The two HIGH findings — the mailto form and the missing salon voice — are exactly where they were. That is why the score moves two-tenths, not a full point.</div>
-  </div>
+  <div class="issue"><p><span class="sev h">High</span><strong>No salon owner's voice. Unchanged across three audits.</strong></p>
+  <p>The page sells to salon owners and quotes exactly one customer — a consumer, on the tan
+  itself: <em>"The tan looks so natural, I thought you'd just been on holiday."</em> Alongside it
+  sits an aggregate survey stat. Neither is a trade buyer saying the thing a trade buyer needs to
+  hear: that it sold, that clients rebooked, that the margin was real. Every other trust signal on
+  this page is <em>the brand asserting its own credibility</em> — Hollywood, red carpet,
+  accreditation, press. Those establish glamour. They do not de-risk a £60 first order for a
+  salon owner in Warrington.</p>
+  <p><strong>Fix:</strong> one named salon, one photograph, one number. "We put 40 clients through
+  the first litre in six weeks and 12 rebooked inside a month." That single block would lift Trust
+  &amp; proof, Conversion psychology and Competitive strength together. It is the cheapest
+  remaining point on the board and it has been the cheapest for three audits running.</p></div>
 
-  <div class="card">
-    <p class="eyebrow">Part three · What still caps the score</p>
-    <h2>Remaining findings, ranked</h2>
+  <div class="issue"><p><span class="sev h">High</span><strong>The trial box offers a product that does not exist on this page.</strong></p>
+  <p>At the primary conversion point, the trial box lists <em>"The Sunset professional
+  solution"</em>. The product is called <strong>Malibu</strong> everywhere else — six times on
+  this page, in the product card, the CTAs and the schema. A prospect reading carefully at the
+  moment of committing sees two different product names and has to decide whether the free trial
+  is even the thing they just read about.</p>
+  <p><strong>Fix:</strong> one word. Change it to Malibu, or, if Sunset is a genuinely different
+  trial formulation, say so explicitly.</p></div>
 
-    <div class="issue"><h4><span class="sev h">High</span>1 · The forms still submit via mailto:</h4>
-      <p><b>Problem:</b> unchanged since both prior audits, and now true of <i>both</i> the trial form and the product order form — each is wired to <code>action="mailto:pro@jimmycoco.co.uk"</code>. That opens the visitor's desktop email client — jarring on desktop, frequently broken on mobile, invisible to analytics, and every abandoned half-written email is a lead you'll never know existed. On the page whose entire job is to capture salon trials, nothing is actually captured.</p>
-      <p><b>Fix:</b> wire both forms to a real endpoint. The natural home already exists: the repo's <code>/api/campaigns/enroll</code> → Supabase pipeline, which would drop every trial and order request straight into the outreach system and its onboarding sequences. A hosted form service is the quick interim. <b>This remains the one change standing between the page and its purpose.</b></p></div>
+  <div class="issue"><p><span class="sev h">High</span><strong>Lead capture works. The confirmation email does not exist yet.</strong></p>
+  <p>This is new, and it is a direct consequence of fixing the <code>mailto:</code> problem. An
+  applicant now submits successfully and sees an on-screen thank-you — and then receives nothing.
+  The <code>uk-reseller-lifecycle</code> campaign is wired but disabled, with no templates built.
+  Under the old <code>mailto:</code> the applicant at least had a sent item in their own outbox as
+  proof. Right now they have neither. For a business asking salons to hand over their details and
+  wait, silence after submission is the worst possible state — worse than before the fix.</p>
+  <p><strong>Fix:</strong> build the four templates and enable the campaign. Until then the
+  on-screen confirmation should say plainly when a human will reply.</p></div>
 
-    <div class="issue"><h4><span class="sev h">High</span>2 · Still no salon voices anywhere</h4>
-      <p><b>Problem:</b> the page proves Hollywood credibility (Jimmy's own quote, red-carpet story) and has since added a client-survey stat — but it offers zero <i>peer</i> proof. No stockist quote, no salon name, no "we switched because…". Salon owners trust other salon owners above celebrities and above statistics.</p>
-      <p><b>Fix:</b> one authentic line from an existing stockist — salon name and city — placed between the calculator and the application ritual would lift trust a full point. Collect it via the trial follow-up sequence that already exists in the campaign system.</p></div>
+  <div class="issue"><p><span class="sev m">Medium</span><strong>The trial box heading no longer matches its contents.</strong></p>
+  <p>The heading reads <em>"Become a Jimmy Coco Certified Salon."</em> The two items beneath it are
+  the trial solution and the shade guide — the contents of a sample box, not a certification
+  programme. Certification is a genuinely strong offer and now has its own section at the foot of
+  the page; borrowing its headline here muddies both. This is the copywriting regression noted in
+  the scorecard.</p></div>
 
-    <div class="issue"><h4><span class="sev m">Medium</span>3 · No measurement on the page</h4>
-      <p><b>Problem:</b> still no analytics. Calculator engagement — the single most telling intent signal available — is unmeasured, as are scroll depth and CTA clicks. You cannot see which salons nearly converted.</p>
-      <p><b>Fix:</b> lightweight analytics with events on slider use and form submission. Calculator-users who don't submit are your retargeting audience.</p></div>
+  <div class="issue"><p><span class="sev m">Medium</span><strong>Two different numbers for the same claim.</strong></p>
+  <p>The credentials block says <em>over 15 years</em>. The story paragraph says <em>more than 15
+  years</em>. The trial box says <em>20+ years of red-carpet colour</em>. Three claims, two
+  numbers, one page. Whichever is right, a reader who notices trusts the rest of the page slightly
+  less — and this page's entire proposition rests on Jimmy's track record.</p></div>
 
-    <div class="issue"><h4><span class="sev m">Medium</span>4 · The trial form is still placeholder-labelled</h4>
-      <p><b>Problem:</b> the home trial form's fields carry placeholders only — no visible or <code>aria</code> labels; screen readers announce empty fields and placeholders vanish on focus (a WCAG failure, and harder for everyone over 45 — a relevant share of salon owners).</p>
-      <p><b>Fix:</b> proper top or floating labels, matching the product order form, which has already been corrected this way. Ten-minute change.</p></div>
+  <div class="issue"><p><span class="sev m">Medium</span><strong>No FAQ at the point of decision.</strong></p>
+  <p>The salon FAQ — equipment compatibility, yield, mobile pros, training, trade terms — lives on
+  the product page. Those are precisely the objections a salon owner raises immediately before
+  requesting a trial, and the trial form is on this page. The answers exist; they are just in the
+  wrong place.</p></div>
 
-    <div class="issue"><h4><span class="sev l">Low</span>5 · Celebrity imagery rights for trade use</h4>
-      <p><b>Problem:</b> reduced but not gone — the story section now leads with Jimmy himself rather than a campaign face, which is the right move. Where any recognisable campaign imagery from the consumer deck still appears, rights that cover consumer marketing don't automatically cover a trade-recruitment context.</p>
-      <p><b>Fix:</b> confirm scope for any recognisable faces, or favour Jimmy-at-work imagery, which arguably sells the method better to professionals anyway.</p></div>
+  <div class="issue"><p><span class="sev m">Medium</span><strong>Trade terms are still deferred to a call.</strong></p>
+  <p>Margin, minimum order and lead time are all "confirmed on your setup call". For a cautious
+  buyer this reads as pricing that varies by how hard you push. A published indicative margin
+  band would remove a real objection without conceding negotiating room.</p></div>
 
-    <div class="issue"><h4><span class="sev l">Low</span>6 · Small finishing items</h4>
-      <p><b>Problem &amp; fix:</b> the Salon FAQ is resolved but lives on the product page — mirror a short three-question version above the home-page close so objections are answered before the ask. Beyond that: move to hosted, lazy-loaded imagery as the build grows, and add custom focus states to complete keyboard polish.</p></div>
-  </div>
+  <div class="issue"><p><span class="sev l">Low</span><strong>Audit files ship publicly.</strong></p>
+  <p>This document sits under <code>public/audits/</code> and is fetchable by anyone who guesses
+  the path. It is now <code>noindex</code>, but internal commercial reviews naming competitors and
+  weaknesses should not be one URL away from a prospect. Move it out of <code>public/</code>.</p></div>
+</div>
 
-  <div class="card">
-    <div class="verdict">
-      <p class="big">4.6 → 8.0 → 8.2. The design work is done, twice over. The score is now hostage to two fixes — proof and plumbing.</p>
-      <p><b>Would this page convert salons today?</b> Yes — and it presents better than it did in July: the FAQ answers objections, the order form is properly labelled, and an independent stat backs the promise. The narrative still runs correctly: recognition → formula → economics → simplicity → second revenue line → free, risk-free next step.</p>
-      <p><b>But the two highest-impact changes have not moved in three passes:</b> replace <code>mailto:</code> with the enroll endpoint so leads are actually captured, and add one real stockist quote. Those two alone are realistically worth another point — and, far more important than the score, they are the difference between a page that looks like it converts and a page that does. Until then this stalls around 8.2 and won't clear 8.5.</p>
-      <p><b>Forecast:</b> against the original page, expect multiples rather than percentages on trial-request rate — the original had no form and no visible ask at all. But measure honestly: with the forms on <code>mailto:</code>, the true submission rate is currently unknowable. Wiring the endpoint is what turns this audit's optimism into numbers you can see. Calculator engagement above 40% of visitors would confirm the centrepiece is working.</p>
-      <p><b>Don't touch:</b> the calculator-echo mechanism, the dark close section, the litre facts strip, the "no lock-in" posture. They're the page's personality now.</p>
-    </div>
-  </div>
+<div class="card">
+  <h2>Part four · The verdict</h2>
+  <p class="verdict">8.8 — strong, and for the first time the page is not being held back by
+  its plumbing.</p>
+  <p>Three audits ago this page could not capture a lead. Two audits ago it captured them into an
+  email client that most visitors do not have. It now captures them into a database, routes them
+  through an approval queue, and issues a portal account with trade pricing at the other end. That
+  is a different class of asset, and the technical scores — 100 accessibility, 100 desktop
+  performance, zero layout shift — say it is built properly.</p>
+  <p>What remains is not technical. Of the eight open findings, six are copy or content, and one
+  of them is a single word. The page's ceiling is now set by the fact that it asks salon owners to
+  trust it without letting a single salon owner speak. Fix that, fix the Sunset/Malibu slip, and
+  turn on the confirmation email, and the next pass clears 9.2 without a line of new code.</p>
+  <p class="meta">Scoring note: Form UX and Accessibility moved further in one pass than in the
+  previous two combined, because each was capped by one blocking defect rather than by a spread of
+  small ones. Mobile is now measured rather than inferred. Copywriting is the only decline.</p>
+</div>
 
-  <div class="footer">Sunless by Jimmy Coco · Internal conversion documentation · Second re-audit, 16 July 2026 · Baseline scores from the 15 July full-funnel audit; deltas measured on identical criteria against the original entry page. Claims language excluded from scoring by owner instruction.</div>
+<p class="footer">Sunless by Jimmy Coco · internal commercial review · 7 August 2026 · not for distribution</p>
+
 </div>
 </body>
 </html>

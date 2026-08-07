@@ -45,7 +45,8 @@ Already required by the pro-site:
 
 New, for the lifecycle emails (optional — without them events are logged and skipped):
 
-- `AUTOMATION_API_BASE_URL` — origin serving `/api/lifecycle/trigger`
+- `AUTOMATION_API_BASE_URL` — origin serving `/api/lifecycle/trigger`, i.e. the
+  automation project at `https://jimmycoco.email` (not the public site)
 - `AUTOMATION_API_KEY` — must match the automation project's `AUTOMATION_API_KEY`
 - `RESELLER_NOTICE_EMAIL` — internal notification address, defaults to `pro@jimmycoco.co.uk`
 
@@ -56,6 +57,21 @@ env-driven — `RESEND_FROM`, `RESEND_REPLY_TO` and `EMAIL_SUPPORT_EMAIL` — wi
 `partnerships@email.jimmycoco.pro` only as a code fallback. The domain must be added
 and verified in Resend, and its SPF/DKIM/DMARC records published in DNS, before
 `EMAIL_LIVE_MODE` is switched on.
+
+## Deployments
+
+Two Vercel projects come out of this repo:
+
+| Project | Domain | Contains |
+| --- | --- | --- |
+| repo root | `jimmycoco.email` | `api/` — campaign engine, cron, Resend webhook |
+| `pro-site/` | `www.jimmycoco.pro` | public site, trade portal, admin |
+
+The Resend webhook must point at the automation project:
+`https://jimmycoco.email/api/webhooks/resend`, subscribed to at least
+`email.bounced`, `email.complained`, `email.suppressed`, `email.received` and
+`contact.updated` — those are the five `processResendEvent` branches on. Put the
+signing secret in `RESEND_WEBHOOK_SECRET` or every delivery 500s.
 
 ## Deploying
 

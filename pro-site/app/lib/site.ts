@@ -11,3 +11,7 @@ export function gbp(value: number, decimals = 0) {
     maximumFractionDigits: decimals,
   })}`;
 }
+
+export function gbpFromPence(pence: number) {
+  return new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" }).format(pence / 100);
+}

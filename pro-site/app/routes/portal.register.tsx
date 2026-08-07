@@ -1,0 +1,152 @@
+import type {
+  ActionFunctionArgs,
+  HeadersFunction,
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "react-router";
+import { Form, Link, data, redirect, useActionData, useNavigation } from "react-router";
+import portalStyles from "../styles/portal.css?url";
+import { claimResellerAccount } from "../lib/reseller-auth.server";
+import { createSupabaseServerClient, isSameOriginPost, privateNoStoreHeaders } from "../lib/supabase.server";
+
+type RegisterActionData = { error?: string; notice?: string };
+
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: portalStyles }];
+
+export const meta: MetaFunction = () => [
+  { title: "Set your trade portal password | Sunless by Jimmy Coco" },
+  { name: "robots", content: "noindex, nofollow, noarchive" },
+];
+
+export async function loader(_: LoaderFunctionArgs) {
+  return data(null, { headers: privateNoStoreHeaders() });
+}
+
+export const headers: HeadersFunction = ({ loaderHeaders, actionHeaders }) =>
+  actionHeaders.has("Cache-Control") ? actionHeaders : loaderHeaders;
+
+export async function action({ request }: ActionFunctionArgs) {
+  if (!isSameOriginPost(request)) {
+    return data<RegisterActionData>(
+      { error: "That request could not be verified. Please try again." },
+      { status: 403, headers: privateNoStoreHeaders() },
+    );
+  }
+
+  const formData = await request.formData();
+  const email = String(formData.get("email") ?? "").trim();
+  const password = String(formData.get("password") ?? "");
+  const confirm = String(formData.get("confirm") ?? "");
+
+  if (!email || !password) {
+    return data<RegisterActionData>(
+      { error: "Enter the email address on your trade account and choose a password." },
+      { status: 400, headers: privateNoStoreHeaders() },
+    );
+  }
+  if (password.length < 10) {
+    return data<RegisterActionData>(
+      { error: "Please choose a password of at least 10 characters." },
+      { status: 400, headers: privateNoStoreHeaders() },
+    );
+  }
+  if (password !== confirm) {
+    return data<RegisterActionData>(
+      { error: "Those two passwords do not match." },
+      { status: 400, headers: privateNoStoreHeaders() },
+    );
+  }
+
+  try {
+    const { supabase, responseHeaders } = createSupabaseServerClient(request);
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email, password });
+
+    if (signUpError) {
+      // An existing auth user is not an error the visitor needs to decode.
+      return data<RegisterActionData>(
+        {
+          error:
+            "We could not set that password. If you have signed in before, use the sign-in page or reset your password.",
+        },
+        { status: 400, headers: responseHeaders },
+      );
+    }
+
+    // Email confirmation on: no session yet, so nothing to claim until they confirm.
+    if (!signUpData.session) {
+      return data<RegisterActionData>(
+        {
+          notice:
+            "Check your inbox — confirm your email address and then sign in to reach the trade portal.",
+        },
+        { headers: responseHeaders },
+      );
+    }
+
+    const claimed = await claimResellerAccount(supabase);
+    if (!claimed.ok) {
+      await supabase.auth.signOut({ scope: "local" });
+      return data<RegisterActionData>(
+        {
+          error:
+            "There is no approved trade account for that email address yet. Apply first and we will be in touch.",
+        },
+        { status: 403, headers: responseHeaders },
+      );
+    }
+
+    return redirect("/portal", { headers: responseHeaders });
+  } catch (error) {
+    console.error("Reseller registration failed", error instanceof Error ? error.message : "Unknown");
+    return data<RegisterActionData>(
+      { error: "The trade portal is not configured yet. Please contact us." },
+      { status: 503, headers: privateNoStoreHeaders() },
+    );
+  }
+}
+
+export default function PortalRegister() {
+  const actionData = useActionData<typeof action>();
+  const navigation = useNavigation();
+  const saving = navigation.state === "submitting";
+
+  return (
+    <div className="portal portal-shell">
+      <Form method="post" className="portal-form" replace>
+        <h1 style={{ fontSize: 30, marginBottom: 6 }}>Set your password</h1>
+        <p className="portal-lead" style={{ marginBottom: 22 }}>
+          Use the email address on your approved trade account.
+        </p>
+
+        {actionData?.error ? (
+          <p className="portal-alert alert-error" role="alert">
+            {actionData.error}
+          </p>
+        ) : null}
+        {actionData?.notice ? (
+          <p className="portal-alert alert-ok" role="status">
+            {actionData.notice}
+          </p>
+        ) : null}
+
+        <label htmlFor="email">Email address</label>
+        <input id="email" name="email" type="email" autoComplete="email" required />
+
+        <label htmlFor="password">Choose a password</label>
+        <input id="password" name="password" type="password" autoComplete="new-password" minLength={10} required />
+
+        <label htmlFor="confirm">Confirm password</label>
+        <input id="confirm" name="confirm" type="password" autoComplete="new-password" minLength={10} required />
+
+        <button className="portal-btn portal-btn-wide" type="submit" disabled={saving}>
+          {saving ? "Saving…" : "Set password"}
+        </button>
+
+        <p className="portal-note">
+          Already set up? <Link to="/portal/login">Sign in</Link>.
+        </p>
+      </Form>
+    </div>
+  );
+}

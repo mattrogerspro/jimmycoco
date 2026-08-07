@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { LinksFunction, MetaFunction } from "react-router";
+import type { ActionFunctionArgs, LinksFunction, MetaFunction } from "react-router";
 import { Link } from "react-router";
 import homeStyles from "../styles/home.css?url";
 import ritualStyles from "../styles/ritual.css?url";
@@ -9,6 +9,7 @@ import { ApplicationRitual } from "../components/shared/ApplicationRitual";
 import { Certification, Formula, GlowDuo, Hero, Retail, Shades, Story, Trial } from "../components/home/HomeSections";
 import { ProfitCalculator } from "../components/home/ProfitCalculator";
 import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
+import { handleApplicationSubmit } from "../lib/application-action.server";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: homeStyles },
@@ -59,6 +60,10 @@ const schema = [
     inLanguage: "en-GB",
   },
 ];
+
+export async function action({ request }: ActionFunctionArgs) {
+  return handleApplicationSubmit(request, { source: "pro-site-trial", adminBaseUrl: SITE_URL });
+}
 
 export default function HomePage() {
   const [monthlyProfit, setMonthlyProfit] = useState(1282);

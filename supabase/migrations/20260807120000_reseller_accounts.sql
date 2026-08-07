@@ -220,6 +220,44 @@ begin
 end;
 $$;
 
+-- Lets an approved reseller bind the auth user they just created to their
+-- account row. Runs as definer because RLS hides unclaimed rows from them.
+create or replace function public.claim_reseller_account()
+returns uuid
+language plpgsql
+volatile
+security definer
+set search_path = ''
+as $$
+declare
+  caller uuid := (select auth.uid());
+  caller_email text := (select auth.jwt() ->> 'email');
+  target uuid;
+begin
+  if caller is null or coalesce(btrim(caller_email), '') = '' then
+    raise exception 'Not signed in.' using errcode = 'insufficient_privilege';
+  end if;
+
+  select r.id into target
+  from public.resellers r
+  where lower(r.email::text) = lower(caller_email)
+    and r.status = 'active'
+    and (r.user_id is null or r.user_id = caller)
+  limit 1;
+
+  if target is null then
+    raise exception 'No approved trade account matches this email address.'
+      using errcode = 'no_data_found';
+  end if;
+
+  update public.resellers
+  set user_id = caller, updated_at = now()
+  where id = target;
+
+  return target;
+end;
+$$;
+
 -- Keeps order totals honest regardless of what the client posts.
 create or replace function private.recalculate_reseller_order_total()
 returns trigger
@@ -285,8 +323,8 @@ revoke all on table public.reseller_products from public, anon, authenticated;
 revoke all on table public.reseller_orders from public, anon, authenticated;
 revoke all on table public.reseller_order_items from public, anon, authenticated;
 
-grant select on table public.reseller_products to authenticated;
-grant select on table public.resellers to authenticated;
+grant select, insert on table public.reseller_products to authenticated;
+grant select, insert on table public.resellers to authenticated;
 grant select, insert on table public.reseller_orders to authenticated;
 grant select, insert on table public.reseller_order_items to authenticated;
 grant select, insert, update on table public.reseller_applications to authenticated;
@@ -302,6 +340,9 @@ grant all on table
   public.reseller_orders,
   public.reseller_order_items
 to service_role;
+
+revoke all on function public.claim_reseller_account() from public;
+grant execute on function public.claim_reseller_account() to authenticated, service_role;
 
 revoke all on function public.submit_reseller_application(
   text, text, text, text, text, text, text, boolean, text, jsonb
@@ -335,6 +376,11 @@ using (
   user_id = (select auth.uid())
   or (select private.is_reseller_staff())
 );
+
+create policy resellers_staff_insert
+on public.resellers
+for insert to authenticated
+with check ((select private.is_reseller_staff()));
 
 create policy resellers_staff_write
 on public.resellers

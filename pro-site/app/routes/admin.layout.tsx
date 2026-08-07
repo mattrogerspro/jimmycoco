@@ -61,6 +61,7 @@ export default function AdminLayout() {
         <nav aria-label="Article admin navigation">
           <Link to="/admin/articles">Articles</Link>
           <Link to="/admin/media">Media</Link>
+          <Link to="/admin/resellers">Resellers</Link>
           <a href="/" target="_blank" rel="noreferrer">View website</a>
           <Form method="post" action="/admin/logout">
             <button type="submit">Sign out</button>

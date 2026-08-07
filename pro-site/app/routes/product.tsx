@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from "react-router";
+import type { ActionFunctionArgs, LinksFunction, MetaFunction } from "react-router";
 import { Link } from "react-router";
 import productStyles from "../styles/product.css?url";
 import ritualStyles from "../styles/ritual.css?url";
@@ -8,6 +8,7 @@ import { ApplicationRitual } from "../components/shared/ApplicationRitual";
 import { ProductProofStrip, ProductPurchase, StickyOrder, usePurchaseState } from "../components/product/ProductPurchase";
 import { CrossSell, JimmyStory, OrderSection, ProductDetails, Results, ShadeComparison } from "../components/product/ProductSections";
 import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
+import { handleApplicationSubmit } from "../lib/application-action.server";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: productStyles }, { rel: "stylesheet", href: ritualStyles }, { rel: "stylesheet", href: chromeStyles }];
 
@@ -54,6 +55,10 @@ const schema = [
     ],
   },
 ];
+
+export async function action({ request }: ActionFunctionArgs) {
+  return handleApplicationSubmit(request, { source: "pro-site-order", adminBaseUrl: SITE_URL });
+}
 
 export default function ProductPage() {
   const { state, setState, ctaRef } = usePurchaseState();

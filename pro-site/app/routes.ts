@@ -14,5 +14,13 @@ export default [
     route("articles", "routes/admin.articles.tsx"),
     route("articles/:articleId", "routes/admin.article-editor.tsx"),
     route("media", "routes/admin.media.tsx"),
+    route("resellers", "routes/admin.resellers.tsx"),
+  ]),
+  route("portal/login", "routes/portal.login.tsx"),
+  route("portal/register", "routes/portal.register.tsx"),
+  route("portal/logout", "routes/portal.logout.tsx"),
+  route("portal", "routes/portal.layout.tsx", [
+    index("routes/portal.index.tsx"),
+    route("order", "routes/portal.order.tsx"),
   ]),
 ] satisfies RouteConfig;

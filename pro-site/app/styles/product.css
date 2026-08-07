@@ -160,8 +160,8 @@
   .orderform small{display:block;text-align:center;color:var(--muted);font-size:14px;margin-top:12px}
   footer{background:var(--dark);color:#AFA396;padding:50px 0 38px;font-size:15px}
   footer .wrap{display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+  footer .foot-email{color:#C9BCAB}
   footer a{color:#C9BCAB;text-decoration:none;margin-right:20px}
-  footer a[href^="mailto:"]{margin-right:0;text-decoration:underline;text-underline-offset:3px}
   footer .buildlog{flex-basis:100%;margin-top:8px;padding-top:15px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#A2968A}
   footer .buildlog span{margin-right:8px}
   footer .buildlog a{margin-right:0;border-bottom:1px solid rgba(201,188,171,.35)}

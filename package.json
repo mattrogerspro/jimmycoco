@@ -23,6 +23,7 @@
     "react": "latest",
     "react-dom": "latest",
     "resend": "^6.17.2",
+    "supabase": "^2.112.0",
     "vite": "latest"
   }
 }

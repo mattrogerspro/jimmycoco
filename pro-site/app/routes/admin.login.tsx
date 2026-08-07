@@ -15,6 +15,8 @@ import {
   useSearchParams,
 } from "react-router";
 import adminStyles from "../styles/admin.css?url";
+import portalStyles from "../styles/portal.css?url";
+import { PortalSplit } from "../components/portal/PortalSplit";
 import { safeAdminDestination } from "../lib/article-auth.server";
 import {
   createSupabaseServerClient,
@@ -26,6 +28,7 @@ type LoginActionData = { error: string };
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: adminStyles },
+  { rel: "stylesheet", href: portalStyles },
 ];
 
 export const meta: MetaFunction = () => [
@@ -118,56 +121,54 @@ export default function AdminLogin() {
   const accessRemoved = searchParams.get("reason") === "inactive";
 
   return (
-    <main className="admin-login-shell">
-      <section className="admin-login-card" aria-labelledby="admin-login-title">
-        <Link className="admin-wordmark" to="/" aria-label="Return to the professional website">
-          <span>Sunless</span>
-          <small>by Jimmy Coco</small>
-        </Link>
+    <PortalSplit
+      eyebrow="Private publishing workspace"
+      headline={<>Welcome <em>back.</em></>}
+      blurb="The Jimmy Coco admin — articles, media, trade applications and stockist orders."
+    >
+      <Form method="post" className="portal-form" replace>
+        <h1 id="admin-login-title">Sign in</h1>
+        <p>Sign in with the account assigned to you by an administrator.</p>
 
-        <div className="admin-login-copy">
-          <p className="admin-eyebrow">Private publishing workspace</p>
-          <h1 id="admin-login-title">Welcome back.</h1>
-          <p>Sign in with the account assigned to you by an administrator.</p>
-        </div>
-
-        {(actionData?.error || accessRemoved) && (
-          <div className="admin-alert" role="alert">
+        {actionData?.error || accessRemoved ? (
+          <p className="portal-alert alert-error" role="alert">
             {actionData?.error ?? "Your article access is inactive. Contact an administrator."}
-          </div>
-        )}
+          </p>
+        ) : null}
 
-        <Form method="post" className="admin-login-form">
-          <input type="hidden" name="next" value={searchParams.get("next") ?? ""} />
-          <label htmlFor="admin-email">Email address</label>
-          <input
-            id="admin-email"
-            name="email"
-            type="email"
-            autoComplete="username"
-            inputMode="email"
-            required
-            autoFocus
-          />
+        <input type="hidden" name="next" value={searchParams.get("next") ?? ""} />
 
-          <label htmlFor="admin-password">Password</label>
-          <input
-            id="admin-password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-          />
+        <label htmlFor="admin-email">Email address</label>
+        <input
+          id="admin-email"
+          name="email"
+          type="email"
+          autoComplete="username"
+          inputMode="email"
+          required
+          autoFocus
+        />
 
-          <button type="submit" disabled={signingIn}>
-            {signingIn ? "Signing in…" : "Sign in securely"}
-          </button>
-        </Form>
+        <label htmlFor="admin-password">Password</label>
+        <input
+          id="admin-password"
+          name="password"
+          type="password"
+          autoComplete="current-password"
+          required
+        />
 
-        <p className="admin-login-help">
+        <button className="portal-btn portal-btn-wide" type="submit" disabled={signingIn}>
+          {signingIn ? "Signing in…" : "Sign in securely"}
+        </button>
+
+        <p className="portal-note">
           Access is limited to approved Jimmy Coco administrators and editors.
         </p>
-      </section>
-    </main>
+        <p className="portal-note">
+          <Link to="/">Return to the professional website</Link>
+        </p>
+      </Form>
+    </PortalSplit>
   );
 }

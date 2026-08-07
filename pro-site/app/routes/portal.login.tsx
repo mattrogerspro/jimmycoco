@@ -9,6 +9,7 @@ import { Form, Link, data, redirect, useActionData, useNavigation, useSearchPara
 import portalStyles from "../styles/portal.css?url";
 import { claimResellerAccount, safePortalDestination } from "../lib/reseller-auth.server";
 import { createSupabaseServerClient, isSameOriginPost, privateNoStoreHeaders } from "../lib/supabase.server";
+import { PortalSplit } from "../components/portal/PortalSplit";
 
 type LoginActionData = { error: string };
 
@@ -91,12 +92,14 @@ export default function PortalLogin() {
   const reason = searchParams.get("reason");
 
   return (
-    <div className="portal portal-shell">
+    <PortalSplit
+      eyebrow="Stockist access"
+      headline={<>Welcome <em>back.</em></>}
+      blurb="Your trade pricing, your order history and everything you need to reorder — in one place."
+    >
       <Form method="post" className="portal-form" replace>
-        <h1 style={{ fontSize: 30, marginBottom: 6 }}>Trade portal</h1>
-        <p className="portal-lead" style={{ marginBottom: 22 }}>
-          For approved Jimmy Coco stockists.
-        </p>
+        <h1>Sign in</h1>
+        <p>For approved Jimmy Coco stockists.</p>
 
         {reason === "unlinked" ? (
           <p className="portal-alert alert-error" role="alert">
@@ -133,6 +136,6 @@ export default function PortalLogin() {
           Not a stockist yet? <Link to="/#trial">Apply for a trade account</Link>.
         </p>
       </Form>
-    </div>
+    </PortalSplit>
   );
 }

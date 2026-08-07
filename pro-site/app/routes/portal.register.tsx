@@ -9,6 +9,7 @@ import { Form, Link, data, redirect, useActionData, useNavigation } from "react-
 import portalStyles from "../styles/portal.css?url";
 import { claimResellerAccount } from "../lib/reseller-auth.server";
 import { createSupabaseServerClient, isSameOriginPost, privateNoStoreHeaders } from "../lib/supabase.server";
+import { PortalSplit } from "../components/portal/PortalSplit";
 
 type RegisterActionData = { error?: string; notice?: string };
 
@@ -112,12 +113,14 @@ export default function PortalRegister() {
   const saving = navigation.state === "submitting";
 
   return (
-    <div className="portal portal-shell">
+    <PortalSplit
+      eyebrow="First sign-in"
+      headline={<>You are <em>approved.</em></>}
+      blurb="Choose a password and your trade account is ready — pricing, orders and launch assets."
+    >
       <Form method="post" className="portal-form" replace>
-        <h1 style={{ fontSize: 30, marginBottom: 6 }}>Set your password</h1>
-        <p className="portal-lead" style={{ marginBottom: 22 }}>
-          Use the email address on your approved trade account.
-        </p>
+        <h1>Set your password</h1>
+        <p>Use the email address on your approved trade account.</p>
 
         {actionData?.error ? (
           <p className="portal-alert alert-error" role="alert">
@@ -147,6 +150,6 @@ export default function PortalRegister() {
           Already set up? <Link to="/portal/login">Sign in</Link>.
         </p>
       </Form>
-    </div>
+    </PortalSplit>
   );
 }

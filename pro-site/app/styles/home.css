@@ -90,7 +90,7 @@
   .fx-badge{width:clamp(160px,13vw,220px);aspect-ratio:1;margin-bottom:32px;border:1px solid rgba(255,253,249,.85);border-radius:50%;background:rgba(20,16,13,.58);backdrop-filter:blur(3px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#FFFDF9;padding:9%;text-shadow:0 1px 12px rgba(20,16,13,.45)}
   .fx-badge b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:clamp(34px,2.5vw,45px);margin-bottom:7px;letter-spacing:-.03em}
   .fx-badge span{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;line-height:1.65;font-weight:500}
-  .fx-note{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:10px;color:#FFFDF9;letter-spacing:.04em;text-shadow:0 1px 3px rgba(20,16,13,.95),0 1px 10px rgba(20,16,13,.85)}
+  .fx-note{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;width:max-content;max-width:calc(100% - 20px);text-align:center;font-size:10px;color:#FFFDF9;letter-spacing:.04em;background:#191410;border-radius:999px;padding:4px 12px}
   .fx-feats{display:flex;flex-direction:column;justify-content:center}
   .fx-feat{padding:clamp(12px,2vh,20px) 0;border-bottom:1px solid rgba(58,51,44,.18)}
   .fx-feat:first-child{padding-top:0}

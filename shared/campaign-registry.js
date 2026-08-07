@@ -121,6 +121,23 @@ export const campaignRegistry = [
       { key: '05', number: 5, day: 20, templateAlias: 'au-sydney-stockist-5-last-call', templateId: '8187b327-1679-4399-a40c-9f4b5b50d642', subject: 'Shall I close the file?', requiredVariables: ['SALON_NAME', 'SHADE_GUIDE_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'CITY'] },
     ],
   },
+  {
+    id: 'uk-reseller-lifecycle',
+    version: '2026-08-07.1',
+    name: 'UK Reseller Lifecycle',
+    market: 'UK',
+    mode: 'event',
+    classification: 'service',
+    enabled: false,
+    timezone: 'Europe/London',
+    localSendHour: 9,
+    steps: [
+      { key: 'application-received', trigger: 'reseller_application_received', delayDays: 0, number: 1, templateAlias: 'uk-reseller-1-application-received', templateId: null, classification: 'service', subject: 'We have your trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS'] },
+      { key: 'internal-notice', trigger: 'reseller_application_internal_notice', delayDays: 0, number: 2, templateAlias: 'uk-reseller-2-internal-notice', templateId: null, classification: 'transactional', subject: 'New trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'CONTACT_EMAIL', 'BUSINESS_TYPE', 'ADMIN_LINK'] },
+      { key: 'approved-welcome', trigger: 'reseller_approved', delayDays: 0, number: 3, templateAlias: 'uk-reseller-3-approved-welcome', templateId: null, classification: 'service', subject: 'You are approved — welcome to Jimmy Coco', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ACCOUNT_CODE', 'PORTAL_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS'] },
+      { key: 'declined', trigger: 'reseller_declined', delayDays: 0, number: 4, templateAlias: 'uk-reseller-4-declined', templateId: null, classification: 'service', subject: 'About your trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS'] },
+    ],
+  },
 ]
 
 export const campaignsById = Object.fromEntries(campaignRegistry.map((campaign) => [campaign.id, campaign]))

@@ -4,7 +4,7 @@ import type {
   LoaderFunctionArgs,
   MetaFunction,
 } from "react-router";
-import { Form, Link, Outlet, data } from "react-router";
+import { Form, Link, NavLink, Outlet, data, useLoaderData } from "react-router";
 import adminStyles from "../styles/admin.css?url";
 import { requireArticleStaff } from "../lib/article-auth.server";
 
@@ -22,7 +22,7 @@ export const links: LinksFunction = () => [
 ];
 
 export const meta: MetaFunction = () => [
-  { title: "Articles | Jimmy Coco admin" },
+  { title: "Admin | Sunless by Jimmy Coco" },
   { name: "robots", content: "noindex, nofollow, noarchive" },
 ];
 
@@ -50,25 +50,86 @@ export async function loader({ request }: LoaderFunctionArgs) {
   );
 }
 
+function initialsOf(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "JC";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+}
+
+const NAV_GROUPS = [
+  {
+    label: "Content",
+    items: [
+      { to: "/admin/articles", label: "Articles", glyph: "✎" },
+      { to: "/admin/media", label: "Media", glyph: "❖" },
+    ],
+  },
+  {
+    label: "Trade",
+    items: [{ to: "/admin/resellers", label: "Resellers", glyph: "◈" }],
+  },
+];
+
 export default function AdminLayout() {
+  const { staff } = useLoaderData<typeof loader>();
+
   return (
     <div className="admin-app">
-      <header className="admin-header">
-        <Link className="admin-wordmark admin-wordmark-compact" to="/admin/articles">
-          <span>Sunless</span>
-          <small>Article admin</small>
-        </Link>
-        <nav aria-label="Article admin navigation">
-          <Link to="/admin/articles">Articles</Link>
-          <Link to="/admin/media">Media</Link>
-          <Link to="/admin/resellers">Resellers</Link>
-          <a href="/" target="_blank" rel="noreferrer">View website</a>
+      <aside className="admin-side">
+        <div className="admin-side-top">
+          <Link className="admin-org" to="/admin/articles">
+            <span className="admin-org-chip">JC</span>
+            <span className="admin-org-name">
+              <b>Jimmy Coco</b>
+              <small>Professional</small>
+            </span>
+          </Link>
+
+          <div className="admin-user">
+            <span className="admin-user-name">
+              <b>{staff.displayName}</b>
+              <small>{staff.role}</small>
+            </span>
+            <span className="admin-avatar" aria-hidden="true">
+              {initialsOf(staff.displayName)}
+            </span>
+          </div>
+
+          <nav className="admin-nav" aria-label="Admin navigation">
+            {NAV_GROUPS.map((group) => (
+              <div key={group.label} className="admin-nav-block">
+                <p className="admin-nav-group">{group.label}</p>
+                {group.items.map((item) => (
+                  <NavLink key={item.to} to={item.to} className="admin-nav-link">
+                    <i aria-hidden="true">{item.glyph}</i>
+                    <span>{item.label}</span>
+                  </NavLink>
+                ))}
+              </div>
+            ))}
+          </nav>
+        </div>
+
+        <div className="admin-side-foot">
+          <div className="admin-restricted">
+            <b>Restricted area</b>
+            <span>Only active admin users can manage this workspace.</span>
+          </div>
+          <a className="admin-side-btn" href="/" target="_blank" rel="noreferrer">
+            Back to website
+          </a>
           <Form method="post" action="/admin/logout">
-            <button type="submit">Sign out</button>
+            <button className="admin-side-signout" type="submit">
+              Sign out <span aria-hidden="true">→</span>
+            </button>
           </Form>
-        </nav>
-      </header>
-      <Outlet />
+        </div>
+      </aside>
+
+      <div className="admin-body">
+        <Outlet />
+      </div>
     </div>
   );
 }

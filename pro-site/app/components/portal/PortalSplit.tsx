@@ -19,20 +19,6 @@ export function PortalSplit({ eyebrow, headline, blurb, children }: PortalSplitP
           height="1620"
           fetchPriority="high"
         />
-        <div className="portal-chip portal-chip-a">
-          <i>◈</i>
-          <div>
-            <b>Approx. 28</b>
-            <span>Tans per bottle</span>
-          </div>
-        </div>
-        <div className="portal-chip portal-chip-b">
-          <i>✦</i>
-          <div>
-            <b>~£2.15</b>
-            <span>Cost per tan</span>
-          </div>
-        </div>
         <div className="portal-visual-card">
           <p className="portal-visual-brand">
             SUNLESS

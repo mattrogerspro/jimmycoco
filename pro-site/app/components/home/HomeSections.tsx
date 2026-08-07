@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { Form, Link, useActionData, useNavigation } from "react-router";
 import type { ApplicationActionResult } from "../../lib/application-action.server";
+import { track } from "../../lib/analytics";
 import { PRODUCT_PATH, gbp } from "../../lib/site";
 
 const A = "/assets/site/";
@@ -142,11 +144,21 @@ export function Trial({ monthlyProfit }: { monthlyProfit: number }) {
   const result = useActionData() as ApplicationActionResult | undefined;
   const navigation = useNavigation();
   const submitting = navigation.state === "submitting";
+
+  useEffect(() => {
+    if (!result) return;
+    track(result.ok ? "generate_lead" : "form_error", {
+      form_id: "trade_trial",
+      value: result.ok ? 1 : 0,
+      error_message: result.ok ? undefined : result.message,
+    });
+  }, [result]);
+
   return <section className="partner-close" id="trial"><div className="wrap"><p className="eyebrow">The partnership · complimentary trial</p><h2>Try it on a real client. <em>Free.</em></h2><p className="sub">Party season books out before it starts. Salons that trial now are stocked, trained and ready before the rush — and the trial costs you nothing but one appointment.</p><div className="close-grid"><div>
     <div className="trialbox"><span className="tb-tag">Become a Jimmy Coco Certified Salon.</span><ul><li><b>The Sunset professional solution</b><span>Enough to tan a real client — judge the colour on skin, not on a screen.</span></li><li><b>Jimmy's shade guide</b><span>The method behind 20+ years of red-carpet colour. Yours to keep, either way.</span></li></ul><p>Posted this week · no cost · no commitment</p></div>
     <div className="perks"><div><i>◆</i><b>Trade pricing</b><span>on the professional litre and the retail range</span></div><div><i>✦</i><b>Team training</b><span>Jimmy's shade method — confident from day one</span><a className="perk-link" href="#certification">Become a Jimmy Coco Certified Salon →</a></div><div><i>❋</i><b>Launch assets</b><span>marketing, ready to use on day one</span></div></div>
     <p className="close-note">No lock-in and no pressure at any step. Trial it, judge it, then we talk terms — or we don't, and the shade guide is still yours.</p><div className="trial-order"><b>Ready to place an order?</b><Link to={PRODUCT_PATH}>Order Malibu 1L — £60 →</Link></div>
-  </div><Form method="post" className="trialform" replace><div className="tf-head"><h3>Get the trial box</h3><span className="tf-badge">Free</span></div><p>Thirty seconds now. Posted this week.</p><p className="tf-echo">You calculated <b>{gbp(monthlyProfit)}</b> a month. The trial is how you check the colour deserves it.</p><input type="text" name="salon" autoComplete="organization" aria-label="Salon or business name" placeholder="Salon or business name" required /><input type="text" name="name" autoComplete="name" aria-label="Your name" placeholder="Your name" required /><input type="email" name="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required /><input type="tel" name="phone" autoComplete="tel" aria-label="Phone number (optional)" placeholder="Phone (optional)" /><select name="type" aria-label="Business type" defaultValue="Salon"><option>Salon</option><option>Spa</option><option>Mobile professional</option><option>Multi-site group</option></select><input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />
+  </div><Form method="post" className="trialform" data-form-id="trade_trial" replace><div className="tf-head"><h3>Get the trial box</h3><span className="tf-badge">Free</span></div><p>Thirty seconds now. Posted this week.</p><p className="tf-echo">You calculated <b>{gbp(monthlyProfit)}</b> a month. The trial is how you check the colour deserves it.</p><input type="text" name="salon" autoComplete="organization" aria-label="Salon or business name" placeholder="Salon or business name" required /><input type="text" name="name" autoComplete="name" aria-label="Your name" placeholder="Your name" required /><input type="email" name="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required /><input type="tel" name="phone" autoComplete="tel" aria-label="Phone number (optional)" placeholder="Phone (optional)" /><select name="type" aria-label="Business type" defaultValue="Salon"><option>Salon</option><option>Spa</option><option>Mobile professional</option><option>Multi-site group</option></select><input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />
     {result && !result.ok ? <p className="form-error" role="alert">{result.message}</p> : null}
     {result?.ok ? <p className="form-ok" role="status">Thank you — your application is in. We will be in touch this week.</p> : null}
     <button className="btn btn-bronze" type="submit" disabled={submitting}>{submitting ? "Sending…" : "Post me a trial — free"}</button><ol className="tf-steps"><li><b>This week:</b> your trial box is posted</li><li><b>You tan</b> one real client and judge the result</li><li><b>15 minutes</b> on trade terms — only if you love it</li></ol><small>No card. No commitment. One email stops everything.</small></Form></div></div></section>;

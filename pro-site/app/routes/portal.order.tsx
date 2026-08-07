@@ -94,7 +94,7 @@ export default function PortalOrder() {
         </p>
       ) : null}
 
-      <Form method="post" replace>
+      <Form method="post" data-form-id="portal_order" replace>
         <table className="portal-table" style={{ marginBottom: 24 }}>
           <thead>
             <tr>

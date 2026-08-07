@@ -97,7 +97,7 @@ export default function PortalLogin() {
       headline={<>Welcome <em>back.</em></>}
       blurb="Your trade pricing, your order history and everything you need to reorder — in one place."
     >
-      <Form method="post" className="portal-form" replace>
+      <Form method="post" className="portal-form" data-form-id="portal_login" replace>
         <PortalEmblem />
         <h1>Sign in</h1>
         <p>For approved Jimmy Coco stockists.</p>

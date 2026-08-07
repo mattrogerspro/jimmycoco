@@ -128,7 +128,7 @@ export default function PortalRegister() {
       headline={<>You are <em>approved.</em></>}
       blurb="Choose a password and your trade account is ready — pricing, orders and launch assets."
     >
-      <Form method="post" className="portal-form" replace>
+      <Form method="post" className="portal-form" data-form-id="portal_register" replace>
         <PortalEmblem />
         <h1>Set your password</h1>
         <p>Use the email address on your approved trade account.</p>

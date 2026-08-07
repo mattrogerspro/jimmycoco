@@ -2,6 +2,7 @@ import type { LinksFunction } from "react-router";
 import consentStyles from "./styles/consent.css?url";
 import { CONSENT_BOOTSTRAP, GA_MEASUREMENT_ID } from "./lib/consent";
 import { CookieConsent } from "./components/shared/CookieConsent";
+import { AnalyticsBridge } from "./components/shared/AnalyticsBridge";
 import {
   Links,
   Meta,
@@ -44,6 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
+        <AnalyticsBridge />
         <CookieConsent />
         <ScrollRestoration />
         <Scripts />

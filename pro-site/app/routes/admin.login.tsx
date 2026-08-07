@@ -126,7 +126,7 @@ export default function AdminLogin() {
       headline={<>Welcome <em>back.</em></>}
       blurb="The Jimmy Coco admin — articles, media, trade applications and stockist orders."
     >
-      <Form method="post" className="portal-form" replace>
+      <Form method="post" className="portal-form" data-form-id="admin_login" replace>
         <PortalEmblem />
         <h1 id="admin-login-title">Sign in</h1>
         <p>Sign in with the account assigned to you by an administrator.</p>

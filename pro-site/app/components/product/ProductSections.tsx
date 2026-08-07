@@ -1,7 +1,9 @@
 import type { PurchaseState } from "./ProductPurchase";
 import { SHADE_OPTIONS } from "./ProductPurchase";
+import { useEffect } from "react";
 import { Form, useActionData, useNavigation } from "react-router";
 import type { ApplicationActionResult } from "../../lib/application-action.server";
+import { track } from "../../lib/analytics";
 import { gbp } from "../../lib/site";
 
 const asset = (name: string) => `/assets/site/${name}`;
@@ -48,11 +50,20 @@ export function OrderSection({ state }: { state: PurchaseState }) {
   const orderResult = useActionData() as ApplicationActionResult | undefined;
   const navigation = useNavigation();
   const sending = navigation.state === "submitting";
+
+  useEffect(() => {
+    if (!orderResult) return;
+    track(orderResult.ok ? "generate_lead" : "form_error", {
+      form_id: "product_order",
+      value: orderResult.ok ? 1 : 0,
+      error_message: orderResult.ok ? undefined : orderResult.message,
+    });
+  }, [orderResult]);
   const total = state.qty * 60;
   const capacity = state.qty * 28;
   const litres = `${state.qty} ${state.qty === 1 ? "litre" : "litres"}`;
   const order = `Malibu Professional Spray 1L\nShade: ${state.shade}\nQuantity: ${litres}\nList total: ${gbp(total)} (trade terms to be applied)`;
   return <section className="order-band" id="order"><div className="wrap"><p className="eyebrow">Salon order</p><h2>Your order, <em>composed.</em></h2><p className="sub">Review the summary — it follows your selections above — add your details, and it's with the partnerships team same-day. Trade terms applied before anything is charged.</p><div className="order-grid"><div className="osummary"><h3>Order summary</h3><div className="oline"><span>Product</span><b>Malibu Professional Spray</b></div><div className="oline"><span>Shade</span><b>{state.shade}</b></div><div className="oline"><span>Quantity</span><b>{litres}</b></div><div className="oline"><span>Tan capacity</span><b>≈{capacity} tans</b></div><div className="oline total"><span>List total</span><b>{gbp(total)}</b></div><p className="onote">Standard list pricing shown. Your trade terms are applied on the setup call before payment — nothing is charged from this page.</p></div>
-    <Form method="post" className="orderform" replace><h3>Send the order</h3><p>Same-day response, Monday to Friday.</p><label htmlFor="f-salon">Salon or business name</label><input id="f-salon" type="text" name="salon" autoComplete="organization" required /><label htmlFor="f-name">Your name</label><input id="f-name" type="text" name="name" autoComplete="name" required /><label htmlFor="f-email">Email address</label><input id="f-email" type="email" name="email" autoComplete="email" required /><label htmlFor="f-phone">Phone</label><input id="f-phone" type="tel" name="phone" autoComplete="tel" /><label htmlFor="f-order">Your order (auto-filled)</label><textarea id="f-order" name="order" readOnly value={order} /><label htmlFor="f-notes">Notes — retail add-ons, equipment, questions (optional)</label><textarea id="f-notes" name="notes" style={{ minHeight: 70 }} /><input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />{orderResult && !orderResult.ok ? <p className="form-error" role="alert">{orderResult.message}</p> : null}{orderResult?.ok ? <p className="form-ok" role="status">Thank you — your order request is with us. We will confirm trade terms and invoice by email.</p> : null}<button className="btn btn-bronze" type="submit" disabled={sending}>{sending ? "Sending…" : "Send my salon order"}</button><small>No payment taken now · trade terms confirmed first · 14-day guarantee</small></Form>
+    <Form method="post" className="orderform" data-form-id="product_order" replace><h3>Send the order</h3><p>Same-day response, Monday to Friday.</p><label htmlFor="f-salon">Salon or business name</label><input id="f-salon" type="text" name="salon" autoComplete="organization" required /><label htmlFor="f-name">Your name</label><input id="f-name" type="text" name="name" autoComplete="name" required /><label htmlFor="f-email">Email address</label><input id="f-email" type="email" name="email" autoComplete="email" required /><label htmlFor="f-phone">Phone</label><input id="f-phone" type="tel" name="phone" autoComplete="tel" /><label htmlFor="f-order">Your order (auto-filled)</label><textarea id="f-order" name="order" readOnly value={order} /><label htmlFor="f-notes">Notes — retail add-ons, equipment, questions (optional)</label><textarea id="f-notes" name="notes" style={{ minHeight: 70 }} /><input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />{orderResult && !orderResult.ok ? <p className="form-error" role="alert">{orderResult.message}</p> : null}{orderResult?.ok ? <p className="form-ok" role="status">Thank you — your order request is with us. We will confirm trade terms and invoice by email.</p> : null}<button className="btn btn-bronze" type="submit" disabled={sending}>{sending ? "Sending…" : "Send my salon order"}</button><small>No payment taken now · trade terms confirmed first · 14-day guarantee</small></Form>
   </div></div></section>;
 }

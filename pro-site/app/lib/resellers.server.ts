@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createPublicSupabaseClient } from "./supabase.server";
+export { ORDER_STATUSES } from "./reseller-constants";
 
 export type ApplicationStatus = "pending" | "approved" | "declined" | "on_hold";
 export type ResellerStatus = "active" | "suspended" | "closed";
@@ -297,4 +298,151 @@ export async function createOrder(
   if (itemsError) throw new Error(`Could not save the order lines: ${itemsError.message}`);
 
   return order;
+}
+
+/* ---------------------------------------------------------------------------
+ * Detail views
+ * ------------------------------------------------------------------------ */
+
+export type OrderLine = {
+  id: string;
+  sku: string;
+  title: string;
+  unit_price_pence: number;
+  quantity: number;
+  line_total_pence: number;
+};
+
+export async function getApplication(supabase: SupabaseClient, id: string) {
+  const { data, error } = await supabase
+    .from("reseller_applications")
+    .select(
+      "id, business_name, contact_name, email, phone, business_type, market, website, instagram, address, message, wants_trial, status, source, metadata, reviewed_at, review_note, created_at, updated_at",
+    )
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) throw new Error(`Could not load the application: ${error.message}`);
+  return data as (ResellerApplication & {
+    website: string | null;
+    instagram: string | null;
+    address: Record<string, unknown>;
+    metadata: Record<string, unknown>;
+    updated_at: string;
+  }) | null;
+}
+
+export async function getReseller(supabase: SupabaseClient, id: string) {
+  const { data, error } = await supabase
+    .from("resellers")
+    .select(
+      "id, application_id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, user_id, address, internal_notes, approved_at, created_at, updated_at",
+    )
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) throw new Error(`Could not load the trade account: ${error.message}`);
+  return data as (Reseller & {
+    application_id: string | null;
+    address: Record<string, unknown>;
+    internal_notes: string | null;
+    updated_at: string;
+  }) | null;
+}
+
+export async function updateReseller(
+  supabase: SupabaseClient,
+  id: string,
+  patch: {
+    pricing_tier?: Reseller["pricing_tier"];
+    discount_percent?: number;
+    status?: ResellerStatus;
+    phone?: string | null;
+    internal_notes?: string | null;
+  },
+) {
+  const { error } = await supabase.from("resellers").update(patch).eq("id", id);
+  if (error) throw new Error(`Could not update the trade account: ${error.message}`);
+}
+
+/** Order queue with the reseller joined, so the list is readable without N+1. */
+export async function listOrdersDetailed(supabase: SupabaseClient, resellerId?: string) {
+  let query = supabase
+    .from("reseller_orders")
+    .select(
+      "id, reference, status, currency, subtotal_pence, customer_note, internal_note, submitted_at, confirmed_at, reseller_id, resellers(account_code, business_name, contact_name, email)",
+    )
+    .order("submitted_at", { ascending: false })
+    .limit(200);
+
+  if (resellerId) query = query.eq("reseller_id", resellerId);
+
+  const { data, error } = await query;
+  if (error) throw new Error(`Could not load orders: ${error.message}`);
+  return (data ?? []) as unknown as Array<
+    ResellerOrder & {
+      internal_note: string | null;
+      confirmed_at: string | null;
+      reseller_id: string;
+      resellers: { account_code: string; business_name: string; contact_name: string; email: string } | null;
+    }
+  >;
+}
+
+export async function getOrder(supabase: SupabaseClient, id: string) {
+  const { data: order, error } = await supabase
+    .from("reseller_orders")
+    .select(
+      "id, reference, status, currency, subtotal_pence, customer_note, internal_note, delivery_note, submitted_at, confirmed_at, reseller_id, resellers(id, account_code, business_name, contact_name, email, phone, pricing_tier, discount_percent)",
+    )
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) throw new Error(`Could not load the order: ${error.message}`);
+  if (!order) return null;
+
+  const { data: items, error: itemsError } = await supabase
+    .from("reseller_order_items")
+    .select("id, sku, title, unit_price_pence, quantity, line_total_pence")
+    .eq("order_id", id)
+    .order("title", { ascending: true });
+
+  if (itemsError) throw new Error(`Could not load the order lines: ${itemsError.message}`);
+
+  return { order: order as unknown as Record<string, never>, items: (items ?? []) as OrderLine[] };
+}
+
+
+export async function updateOrder(
+  supabase: SupabaseClient,
+  id: string,
+  patch: { status?: OrderStatus; internal_note?: string | null },
+) {
+  const next: Record<string, unknown> = { ...patch };
+  if (patch.status === "confirmed") next.confirmed_at = new Date().toISOString();
+  const { error } = await supabase.from("reseller_orders").update(next).eq("id", id);
+  if (error) throw new Error(`Could not update the order: ${error.message}`);
+}
+
+export async function resellerCounts(supabase: SupabaseClient) {
+  const [apps, accounts, orders] = await Promise.all([
+    supabase.from("reseller_applications").select("status", { count: "exact", head: false }),
+    supabase.from("resellers").select("status", { count: "exact", head: false }),
+    supabase.from("reseller_orders").select("status, subtotal_pence", { count: "exact", head: false }),
+  ]);
+
+  const applications = (apps.data ?? []) as Array<{ status: string }>;
+  const accountRows = (accounts.data ?? []) as Array<{ status: string }>;
+  const orderRows = (orders.data ?? []) as Array<{ status: string; subtotal_pence: number }>;
+
+  return {
+    pending: applications.filter((row) => row.status === "pending").length,
+    applicationsTotal: applications.length,
+    activeAccounts: accountRows.filter((row) => row.status === "active").length,
+    accountsTotal: accountRows.length,
+    openOrders: orderRows.filter((row) => ["submitted", "confirmed"].includes(row.status)).length,
+    orderValuePence: orderRows
+      .filter((row) => row.status !== "cancelled")
+      .reduce((total, row) => total + (row.subtotal_pence ?? 0), 0),
+  };
 }

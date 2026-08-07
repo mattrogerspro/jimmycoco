@@ -1,0 +1,198 @@
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react-router";
+import { Form, Link, data, useActionData, useLoaderData, useNavigation } from "react-router";
+import { requireArticleStaff } from "../lib/article-auth.server";
+import { isSameOriginPost } from "../lib/supabase.server";
+import {
+  approveApplication,
+  getApplication,
+  setApplicationStatus,
+} from "../lib/resellers.server";
+import { emitResellerEventSafely } from "../lib/reseller-events.server";
+import { SITE_URL } from "../lib/site";
+
+export const meta: MetaFunction = () => [
+  { title: "Application | Jimmy Coco admin" },
+  { name: "robots", content: "noindex, nofollow, noarchive" },
+];
+
+export async function loader({ request, params }: LoaderFunctionArgs) {
+  const { supabase, responseHeaders, staff } = await requireArticleStaff(request);
+  const application = await getApplication(supabase, params.applicationId as string);
+  if (!application) throw new Response("Application not found", { status: 404, headers: responseHeaders });
+  return data({ staff, application }, { headers: responseHeaders });
+}
+
+export async function action({ request, params }: ActionFunctionArgs) {
+  const { supabase, responseHeaders, staff } = await requireArticleStaff(request);
+  if (!isSameOriginPost(request)) {
+    return data({ error: "That request could not be verified." }, { status: 403, headers: responseHeaders });
+  }
+
+  const form = await request.formData();
+  const intent = String(form.get("intent") ?? "");
+  const note = String(form.get("note") ?? "").trim() || undefined;
+  const applicationId = params.applicationId as string;
+
+  try {
+    if (intent === "approve") {
+      const tier = String(form.get("pricingTier") ?? "standard") as "standard" | "silver" | "gold";
+      const discount = Number.parseFloat(String(form.get("discountPercent") ?? "0")) || 0;
+      const reseller = await approveApplication(supabase, applicationId, staff.userId, {
+        pricingTier: tier,
+        discountPercent: discount,
+        note,
+      });
+      await emitResellerEventSafely({
+        trigger: "reseller_approved",
+        eventId: `reseller-${reseller.id}-approved`,
+        contact: {
+          email: reseller.email,
+          first_name: reseller.contact_name.split(" ")[0] ?? null,
+          business_name: reseller.business_name,
+          market: reseller.market,
+        },
+        context: {
+          SALON_NAME: reseller.business_name,
+          CONTACT_NAME: reseller.contact_name,
+          ACCOUNT_CODE: reseller.account_code,
+          PORTAL_LINK: `${SITE_URL}/portal/register`,
+        },
+      });
+      return data({ notice: `Approved — account ${reseller.account_code} created.` }, { headers: responseHeaders });
+    }
+
+    if (intent === "decline" || intent === "on_hold") {
+      const status = intent === "decline" ? "declined" : "on_hold";
+      const app = await setApplicationStatus(supabase, applicationId, status, staff.userId, note);
+      if (status === "declined") {
+        await emitResellerEventSafely({
+          trigger: "reseller_declined",
+          eventId: `reseller-application-${applicationId}-declined`,
+          contact: {
+            email: app.email,
+            first_name: app.contact_name.split(" ")[0] ?? null,
+            business_name: app.business_name,
+            market: app.market,
+          },
+          context: { SALON_NAME: app.business_name, CONTACT_NAME: app.contact_name },
+        });
+      }
+      return data(
+        { notice: status === "declined" ? "Application declined." : "Application put on hold." },
+        { headers: responseHeaders },
+      );
+    }
+
+    return data({ error: "Unknown action." }, { status: 400, headers: responseHeaders });
+  } catch (error) {
+    return data({ error: (error as Error).message }, { status: 500, headers: responseHeaders });
+  }
+}
+
+export default function ApplicationDetail() {
+  const { application } = useLoaderData<typeof loader>();
+  const result = useActionData<typeof action>() as { error?: string; notice?: string } | undefined;
+  const navigation = useNavigation();
+  const busy = navigation.state === "submitting";
+  const decided = application.status !== "pending";
+
+  return (
+    <main className="admin-main">
+      <p className="admin-crumb">
+        <Link to="/admin/resellers">← Applications</Link>
+      </p>
+
+      <header className="admin-page-head">
+        <div>
+          <p className="admin-eyebrow">Trade application</p>
+          <h1>{application.business_name}</h1>
+          <p>
+            Received {new Date(application.created_at).toLocaleString("en-GB")} ·{" "}
+            <span className={`admin-status admin-status-${application.status}`}>{application.status}</span>
+          </p>
+        </div>
+      </header>
+
+      {result?.error ? <p className="admin-alert" role="alert">{result.error}</p> : null}
+      {result?.notice ? <p className="admin-alert admin-alert-ok" role="status">{result.notice}</p> : null}
+
+      <div className="admin-split">
+        <div>
+          <section className="admin-panel">
+            <div className="admin-panel-head"><h2>Applicant</h2></div>
+            <dl className="admin-dl">
+              <div><dt>Business</dt><dd>{application.business_name}</dd></div>
+              <div><dt>Contact</dt><dd>{application.contact_name}</dd></div>
+              <div><dt>Email</dt><dd><a href={`mailto:${application.email}`}>{application.email}</a></dd></div>
+              <div><dt>Phone</dt><dd>{application.phone || "—"}</dd></div>
+              <div><dt>Business type</dt><dd>{application.business_type}</dd></div>
+              <div><dt>Market</dt><dd>{application.market}</dd></div>
+              <div><dt>Website</dt><dd>{application.website || "—"}</dd></div>
+              <div><dt>Instagram</dt><dd>{application.instagram || "—"}</dd></div>
+              <div><dt>Wants trial</dt><dd>{application.wants_trial ? "Yes" : "No"}</dd></div>
+              <div><dt>Source</dt><dd>{application.source}</dd></div>
+            </dl>
+          </section>
+
+          <section className="admin-panel">
+            <div className="admin-panel-head"><h2>What they told us</h2></div>
+            <div className="admin-prose">
+              {application.message ? <p>{application.message}</p> : <p className="admin-muted">No message was left.</p>}
+            </div>
+          </section>
+
+          {application.review_note ? (
+            <section className="admin-panel">
+              <div className="admin-panel-head"><h2>Review note</h2></div>
+              <div className="admin-prose"><p>{application.review_note}</p></div>
+            </section>
+          ) : null}
+        </div>
+
+        <aside>
+          <section className="admin-panel">
+            <div className="admin-panel-head"><h2>Decision</h2></div>
+            <div className="admin-panel-body">
+              {decided ? (
+                <p className="admin-muted">
+                  Already {application.status}
+                  {application.reviewed_at ? ` on ${new Date(application.reviewed_at).toLocaleDateString("en-GB")}` : ""}.
+                </p>
+              ) : null}
+
+              <Form method="post" replace>
+                <div className="admin-field">
+                  <label htmlFor="pricingTier">Pricing tier on approval</label>
+                  <select id="pricingTier" name="pricingTier" defaultValue="standard">
+                    <option value="standard">Standard</option>
+                    <option value="silver">Silver</option>
+                    <option value="gold">Gold</option>
+                  </select>
+                </div>
+                <div className="admin-field">
+                  <label htmlFor="discountPercent">Discount off trade (%)</label>
+                  <input id="discountPercent" name="discountPercent" type="number" min={0} max={90} step="0.5" defaultValue={0} />
+                </div>
+                <div className="admin-field">
+                  <label htmlFor="note">Internal note</label>
+                  <textarea id="note" name="note" rows={3} placeholder="Why this decision — visible to staff only." />
+                </div>
+                <div className="admin-actions">
+                  <button className="admin-primary" name="intent" value="approve" type="submit" disabled={busy}>
+                    Approve &amp; create account
+                  </button>
+                  <button name="intent" value="on_hold" type="submit" disabled={busy}>Put on hold</button>
+                  <button className="admin-danger" name="intent" value="decline" type="submit" disabled={busy}>Decline</button>
+                </div>
+              </Form>
+              <p className="admin-hint">
+                Approving creates the trade account and fires the welcome email. Declining fires the
+                close email. Hold changes the status and sends nothing.
+              </p>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </main>
+  );
+}

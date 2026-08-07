@@ -40,7 +40,18 @@ export function ApplicationRitual() {
     <div className="rit-grid">{cards.map(({ title, background, image, alt, copy }, index) => <div className={`rit-panel${image ? "" : " rit-panel-plain"}`} key={title} style={image ? { backgroundColor: "#BD9375" } : { backgroundImage: `url('${background}')` }}>
       {image ? <img className="rit-img" src={image} alt={alt} width="1000" height="1781" loading="lazy" decoding="async" /> : null}
       <div className="rit-copy"><h3>{title}</h3>{image ? <i aria-hidden="true">{icons[index]}</i> : null}<p>{copy}</p><span className="rit-dash" /></div>
-      {image ? null : <div className="rit-clock"><svg viewBox="0 0 24 24" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.2" /><path d="M12 6.6V12l4 2.4" /><path d="M12 2.8v1.4M12 19.8v1.4M21.2 12h-1.4M4.2 12H2.8" /></svg><b>6&ndash;8 <small>hours</small></b><span>Classic development</span></div>}
+      {image ? null : <div className="rit-clock"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <circle cx="24" cy="24" r="21" strokeWidth="1" />
+        <circle cx="24" cy="24" r="18.4" strokeWidth="0.5" opacity="0.55" />
+        <g strokeWidth="1.4" strokeLinecap="round">
+          <path d="M24 6.2v3.4M24 38.4v3.4M41.8 24h-3.4M9.6 24H6.2" />
+        </g>
+        <g strokeWidth="0.9" strokeLinecap="round" opacity="0.65">
+          <path d="M33 8.6l-1.1 1.9M16.1 37.5L15 39.4M39.4 33l-1.9-1.1M10.5 16.1L8.6 15M39.4 15l-1.9 1.1M10.5 31.9L8.6 33M33 39.4l-1.1-1.9M16.1 10.5L15 8.6" />
+        </g>
+        <path d="M24 13.4V24l7.4 4.3" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="24" cy="24" r="1.7" fill="currentColor" stroke="none" />
+      </svg></div>}
     </div>)}</div>
     <div className="rit-metrics"><div><b>35<small>ml</small></b><span>Ideal<br />application</span></div><div><b>6–8<small>hours</small></b><span>Classic<br />development</span></div><div><b>3–4<small>hours</small></b><span>Express<br />development</span></div></div>
   </section>;

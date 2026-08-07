@@ -395,7 +395,7 @@ export async function getOrder(supabase: SupabaseClient, id: string) {
   const { data: order, error } = await supabase
     .from("reseller_orders")
     .select(
-      "id, reference, status, currency, subtotal_pence, customer_note, internal_note, delivery_note, submitted_at, confirmed_at, reseller_id, resellers(id, account_code, business_name, contact_name, email, phone, pricing_tier, discount_percent)",
+      "id, reference, status, currency, subtotal_pence, customer_note, internal_note, delivery_note, submitted_at, confirmed_at, created_at, updated_at, reseller_id, resellers(id, account_code, business_name, contact_name, email, phone, market, address, pricing_tier, discount_percent, status)",
     )
     .eq("id", id)
     .maybeSingle();
@@ -411,10 +411,55 @@ export async function getOrder(supabase: SupabaseClient, id: string) {
 
   if (itemsError) throw new Error(`Could not load the order lines: ${itemsError.message}`);
 
-  return { order: order as unknown as Record<string, never>, items: (items ?? []) as OrderLine[] };
+  const lines = (items ?? []) as OrderLine[];
+
+  // Current catalogue prices, so the page can explain why a unit costs what it
+  // does rather than presenting a bare number. Labelled as *current* list in the
+  // UI, because an old order may have been placed at a different price.
+  const skus = [...new Set(lines.map((line) => line.sku))];
+  let catalogue: Record<string, { trade_price_pence: number; retail_price_pence: number | null; unit_label: string }> = {};
+  if (skus.length) {
+    const { data: products, error: catalogueError } = await supabase
+      .from("reseller_products")
+      .select("sku, trade_price_pence, retail_price_pence, unit_label")
+      .in("sku", skus);
+    if (catalogueError) throw new Error(`Could not load the trade catalogue: ${catalogueError.message}`);
+    catalogue = Object.fromEntries(
+      (products ?? []).map((product) => {
+        const row = product as unknown as {
+          sku: string;
+          trade_price_pence: number;
+          retail_price_pence: number | null;
+          unit_label: string;
+        };
+        return [row.sku, { trade_price_pence: row.trade_price_pence, retail_price_pence: row.retail_price_pence, unit_label: row.unit_label }];
+      }),
+    );
+  }
+
+  // Recent history for the same account — an order rarely makes sense alone.
+  const resellerId = (order as unknown as { reseller_id: string }).reseller_id;
+  const { data: siblings } = await supabase
+    .from("reseller_orders")
+    .select("id, reference, status, subtotal_pence, submitted_at")
+    .eq("reseller_id", resellerId)
+    .neq("id", id)
+    .order("submitted_at", { ascending: false })
+    .limit(5);
+
+  return {
+    order: order as unknown as Record<string, never>,
+    items: lines,
+    catalogue,
+    siblings: (siblings ?? []) as unknown as Array<{
+      id: string;
+      reference: string;
+      status: string;
+      subtotal_pence: number;
+      submitted_at: string;
+    }>,
+  };
 }
-
-
 export async function updateOrder(
   supabase: SupabaseClient,
   id: string,

@@ -269,7 +269,7 @@
   .cert-copy h2{max-width:15ch;font-size:clamp(30px,2.9vw,48px);margin-bottom:14px}
   .cert-lead{color:var(--bronze2);font-weight:600;font-size:clamp(18px,1.4vw,24px);line-height:1.35;max-width:30ch;margin-bottom:18px}
   .cert-body{font-size:clamp(14.5px,1.02vw,17.5px);line-height:1.55;color:var(--muted);max-width:62ch;margin-bottom:11px}
-  .cert-lists{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,3vw,56px);margin-top:clamp(14px,1.6vw,26px);padding-right:clamp(0px,13vw,280px)}
+  .cert-lists{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,3vw,56px);margin-top:clamp(14px,1.6vw,26px);padding-right:clamp(0px,12vw,260px)}
   .cert-lists h3{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(12px,.92vw,15px);font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:12px}
   .cert-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(6px,.62vw,10px)}
   .cert-list li{display:flex;gap:11px;align-items:flex-start;font-size:clamp(14px,1.02vw,17.5px);line-height:1.38;color:var(--ink2)}
@@ -277,7 +277,7 @@
   .cert-star i{color:var(--gold)}
   .cert-art{position:relative;background:linear-gradient(165deg,#8E7F74,#7A6C62)}
   .cert-badge{position:absolute;top:clamp(20px,2.4vw,48px);left:50%;transform:translateX(-50%);width:min(64%,340px);height:auto;z-index:2;filter:drop-shadow(0 18px 40px rgba(20,16,13,.28))}
-  .cert-jimmy{position:absolute;right:0;bottom:0;height:47%;width:auto;max-width:none;z-index:3;pointer-events:none}
+  .cert-jimmy{position:absolute;right:0;bottom:0;height:50%;width:auto;max-width:none;z-index:3;pointer-events:none}
   @media (max-width:1100px){
     .cert-jimmy{height:42%}
   }

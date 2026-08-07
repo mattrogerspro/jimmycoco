@@ -351,3 +351,26 @@ button,input,select,textarea{font:inherit}
   .admin-actionbar{position:static;flex-direction:column;align-items:stretch}
   .admin-override-form{position:static;width:auto}
 }
+
+/* Invoicing --------------------------------------------------------- */
+.admin-status-inv-draft{background:#EDE7E1;color:#6B6058}
+.admin-status-inv-issued{background:#DDE6F0;color:#2C4F72}
+.admin-status-inv-part_paid{background:#EFE6DA;color:#7A5326}
+.admin-status-inv-paid{background:#DFEBDD;color:#33602F}
+.admin-status-inv-void{background:#F1E1E1;color:#7A2E2E}
+.admin-late{display:block;margin-top:4px;color:#8A2F28;font-size:13px;font-weight:600}
+.admin-negative{color:#8A2F28}
+.admin-head-actions{display:flex;align-items:center;gap:12px}
+.admin-secondary-link{display:inline-block;min-height:46px;padding:13px 20px;border:1px solid var(--admin-line);border-radius:8px;background:var(--admin-paper);color:var(--admin-ink2);font-size:13.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+.admin-secondary-link:hover{border-color:var(--admin-bronze);color:var(--admin-bronze-dark)}
+.admin-visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+.admin-lineform{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px}
+.admin-lineform .admin-field{flex:1 1 200px;margin-bottom:0}
+.admin-lineform .admin-field.is-narrow{flex:0 1 130px}
+.admin-lineform .admin-primary{min-height:50px}
+
+.admin-switch{display:flex;align-items:flex-start;gap:12px;margin:0 0 20px;padding:14px 16px;border:1px solid var(--admin-line);border-radius:9px;background:var(--admin-cream);cursor:pointer}
+.admin-switch input{margin-top:4px;width:20px;height:20px;accent-color:var(--admin-bronze)}
+.admin-switch b{display:block;font-size:16.5px;color:var(--admin-ink)}
+.admin-switch span{font-size:14.5px;line-height:1.45;color:var(--admin-muted)}

@@ -1,8 +1,10 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react-router";
-import { Form, Link, data, useActionData, useLoaderData, useNavigation } from "react-router";
+import { Form, Link, data, redirect, useActionData, useLoaderData, useNavigation } from "react-router";
 import { requireArticleStaff } from "../lib/article-auth.server";
 import { isSameOriginPost } from "../lib/supabase.server";
 import { getOrder, updateOrder } from "../lib/resellers.server";
+import { createInvoiceFromOrder, invoiceForOrder } from "../lib/invoices.server";
+import { INVOICE_STATUS_LABELS, isOverdue } from "../lib/invoice-constants";
 import { ORDER_STATUSES } from "../lib/reseller-constants";
 import { gbpFromPence } from "../lib/site";
 
@@ -15,16 +17,29 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const { supabase, responseHeaders } = await requireArticleStaff(request);
   const result = await getOrder(supabase, params.orderId as string);
   if (!result) throw new Response("Order not found", { status: 404, headers: responseHeaders });
-  return data(result as never, { headers: responseHeaders });
+  const invoice = await invoiceForOrder(supabase, params.orderId as string);
+  return data({ ...result, invoice } as never, { headers: responseHeaders });
 }
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const { supabase, responseHeaders } = await requireArticleStaff(request);
+  const { supabase, responseHeaders, staff } = await requireArticleStaff(request);
   if (!isSameOriginPost(request)) {
     return data({ error: "That request could not be verified." }, { status: 403, headers: responseHeaders });
   }
 
   const form = await request.formData();
+
+  // Raising an invoice is a different job from moving the order along, so it
+  // gets its own intent rather than being inferred from the fields present.
+  if (form.get("intent") === "create-invoice") {
+    try {
+      const { id } = await createInvoiceFromOrder(supabase, params.orderId as string, staff?.userId);
+      return redirect(`/admin/invoices/${id}`, { headers: responseHeaders });
+    } catch (error) {
+      return data({ error: (error as Error).message }, { status: 400, headers: responseHeaders });
+    }
+  }
+
   const status = String(form.get("status") ?? "");
   const note = form.get("internalNote");
 
@@ -127,11 +142,19 @@ function waitingFor(value: string) {
 }
 
 export default function OrderDetail() {
-  const { order, items, catalogue, siblings } = useLoaderData<typeof loader>() as unknown as {
+  const { order, items, catalogue, siblings, invoice } = useLoaderData<typeof loader>() as unknown as {
     order: Order;
     items: Line[];
     catalogue: Record<string, { trade_price_pence: number; retail_price_pence: number | null; unit_label: string }>;
     siblings: Array<{ id: string; reference: string; status: string; subtotal_pence: number; submitted_at: string }>;
+    invoice: {
+      id: string;
+      invoice_number: string | null;
+      status: string;
+      gross_pence: number;
+      balance_pence: number;
+      due_date: string | null;
+    } | null;
   };
 
   const result = useActionData<typeof action>() as { error?: string; notice?: string } | undefined;
@@ -434,6 +457,56 @@ export default function OrderDetail() {
                 </>
               ) : (
                 <p className="admin-muted">This order is not attached to an account.</p>
+              )}
+            </div>
+          </section>
+
+          <section className="admin-panel is-secondary">
+            <div className="admin-panel-head">
+              <h2>Invoice</h2>
+              {invoice ? (
+                <Link className="admin-panel-link" to={`/admin/invoices/${invoice.id}`}>
+                  Open
+                </Link>
+              ) : null}
+            </div>
+            <div className="admin-panel-body">
+              {invoice ? (
+                <>
+                  <p className="admin-kv">
+                    <span>Number</span>
+                    <Link to={`/admin/invoices/${invoice.id}`}>{invoice.invoice_number ?? "Draft"}</Link>
+                  </p>
+                  <p className="admin-kv">
+                    <span>Status</span>
+                    <span className={`admin-status admin-status-inv-${invoice.status}`}>
+                      {INVOICE_STATUS_LABELS[invoice.status as keyof typeof INVOICE_STATUS_LABELS] ?? invoice.status}
+                    </span>
+                  </p>
+                  <p className="admin-kv">
+                    <span>Outstanding</span>
+                    <span className={isOverdue(invoice.status, invoice.due_date) ? "admin-negative" : undefined}>
+                      {invoice.balance_pence > 0 ? gbpFromPence(invoice.balance_pence) : "Settled"}
+                    </span>
+                  </p>
+                </>
+              ) : cancelled ? (
+                <p className="admin-muted">Cancelled orders are not invoiced.</p>
+              ) : (
+                <>
+                  <p className="admin-muted">No invoice raised for this order yet.</p>
+                  <Form method="post" replace>
+                    <input type="hidden" name="intent" value="create-invoice" />
+                    <div className="admin-actions">
+                      <button className="admin-primary" type="submit" disabled={busy}>
+                        Raise invoice
+                      </button>
+                    </div>
+                  </Form>
+                  <p className="admin-hint">
+                    Copies these lines at the prices agreed, as a draft you can check before issuing.
+                  </p>
+                </>
               )}
             </div>
           </section>

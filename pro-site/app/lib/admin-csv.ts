@@ -84,3 +84,43 @@ export function accountsCsv(rows: AccountExportRow[], responseHeaders: Headers) 
     responseHeaders,
   );
 }
+
+type InvoiceExportRow = {
+  invoice_number: string | null;
+  status: string;
+  issue_date: string | null;
+  due_date: string | null;
+  currency: string;
+  net_pence: number;
+  vat_pence: number;
+  gross_pence: number;
+  paid_pence: number;
+  balance_pence: number;
+  external_reference: string | null;
+  resellers: { account_code: string; business_name: string; contact_name: string; email: string } | null;
+};
+
+export function invoicesCsv(rows: InvoiceExportRow[], responseHeaders: Headers) {
+  return csvResponse(
+    "jimmy-coco-invoices",
+    ["Invoice", "Status", "Account code", "Business", "Contact", "Email", "Issued", "Due", "Currency", "Net", "VAT", "Total", "Paid", "Outstanding", "Accounting reference"],
+    rows.map((row) => [
+      row.invoice_number ?? "",
+      row.status,
+      row.resellers?.account_code ?? "",
+      row.resellers?.business_name ?? "",
+      row.resellers?.contact_name ?? "",
+      row.resellers?.email ?? "",
+      row.issue_date ?? "",
+      row.due_date ?? "",
+      row.currency,
+      (row.net_pence / 100).toFixed(2),
+      (row.vat_pence / 100).toFixed(2),
+      (row.gross_pence / 100).toFixed(2),
+      (row.paid_pence / 100).toFixed(2),
+      (row.balance_pence / 100).toFixed(2),
+      row.external_reference ?? "",
+    ]),
+    responseHeaders,
+  );
+}

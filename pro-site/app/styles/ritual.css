@@ -12,7 +12,7 @@
 .rit-copy p{max-width:240px;font-size:19px;line-height:1.6;color:var(--ink2);font-weight:500}
 .rit-dash{display:block;width:28px;height:2px;background:var(--bronze2);margin-top:18px}
 .rit-panel-plain{background-color:#EFE5D4}
-.rit-clock{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);z-index:2;display:flex;justify-content:center;padding:0 24px;pointer-events:none}
+.rit-clock{position:absolute;left:0;right:0;top:50%;transform:translateY(calc(-50% + 100px));z-index:2;display:flex;justify-content:center;padding:0 24px;pointer-events:none}
 .rit-clock svg{width:clamp(132px,14vw,232px);height:auto;color:#B07C33;stroke:currentColor;fill:none;display:block}
 .rit-metrics{background:var(--dark);display:grid;grid-template-columns:repeat(3,1fr)}
 .rit-metrics>div{display:flex;align-items:center;justify-content:center;gap:26px;padding:26px 20px;border-left:1px solid rgba(201,149,103,.35)}

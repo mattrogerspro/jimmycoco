@@ -1,5 +1,6 @@
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { Link, data, useLoaderData, useSearchParams } from "react-router";
+import { ClickableRow } from "../components/admin/ClickableRow";
 import { requireArticleStaff } from "../lib/article-auth.server";
 import { listApplications, resellerCounts } from "../lib/resellers.server";
 import { gbpFromPence } from "../lib/site";
@@ -77,7 +78,7 @@ export default function AdminApplications() {
               </thead>
               <tbody>
                 {visible.map((application) => (
-                  <tr key={application.id}>
+                  <ClickableRow key={application.id} to={`/admin/applications/${application.id}`}>
                     <td>
                       <strong><Link to={`/admin/applications/${application.id}`}>{application.business_name}</Link></strong>
                       <span>{application.market} · via {application.source}</span>
@@ -86,7 +87,7 @@ export default function AdminApplications() {
                     <td>{application.business_type}</td>
                     <td>{new Date(application.created_at).toLocaleDateString("en-GB")}</td>
                     <td><span className={`admin-status admin-status-${application.status}`}>{application.status}</span></td>
-                  </tr>
+                  </ClickableRow>
                 ))}
               </tbody>
             </table>

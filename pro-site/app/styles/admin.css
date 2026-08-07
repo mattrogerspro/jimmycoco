@@ -231,3 +231,12 @@ button,input,select,textarea{font:inherit}
   .admin-pager-count{margin-left:0;width:100%}
 }
 .admin-table-wrap td.admin-nowrap{white-space:nowrap}
+
+/* Clickable rows and shared list helpers ---------------------------- */
+.admin-row-link{cursor:pointer}
+.admin-row-link:hover{background:rgba(201,149,103,.09)}
+.admin-row-link:focus-within{background:rgba(201,149,103,.09);box-shadow:inset 3px 0 0 var(--admin-bronze)}
+.admin-capitalise{text-transform:capitalize}
+.admin-capitalise span{text-transform:none}
+.admin-stat b.admin-stat-sm{font-size:22px}
+.admin-filters-divider{display:inline-block;align-self:center;width:1px;height:26px;margin:0 4px;background:var(--admin-line)}

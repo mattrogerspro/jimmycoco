@@ -2,6 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { createPublicSupabaseClient } from "./supabase.server";
 export { ORDER_STATUSES } from "./reseller-constants";
 import type { OrderQuery } from "./orders-query";
+import type { AccountQuery } from "./accounts-query";
 
 export type ApplicationStatus = "pending" | "approved" | "declined" | "on_hold";
 export type ResellerStatus = "active" | "suspended" | "closed";
@@ -470,6 +471,8 @@ const ORDER_COLUMNS =
 type Filterable = {
   eq(column: string, value: unknown): Filterable;
   in(column: string, values: readonly unknown[]): Filterable;
+  is(column: string, value: unknown): Filterable;
+  not(column: string, operator: string, value: unknown): Filterable;
   gte(column: string, value: unknown): Filterable;
   lt(column: string, value: unknown): Filterable;
   lte(column: string, value: unknown): Filterable;
@@ -624,4 +627,181 @@ export async function listResellerOptions(supabase: SupabaseClient) {
 
   if (error) throw new Error(`Could not load reseller accounts: ${error.message}`);
   return (data ?? []) as Array<{ id: string; account_code: string; business_name: string; status: ResellerStatus }>;
+}
+
+/* ------------------------------------------------------------------ *
+ * Accounts list: search, filter, sort, paginate
+ * ------------------------------------------------------------------ */
+
+const ACCOUNT_COLUMNS =
+  "id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, user_id, approved_at, created_at";
+
+function applyAccountFilters<T>(builder: T, query: AccountQuery): T {
+  let next = builder as Filterable;
+
+  if (query.statuses.length) next = next.in("status", query.statuses);
+  if (query.tiers.length) next = next.in("pricing_tier", query.tiers);
+  if (query.market) next = next.eq("market", query.market);
+  if (query.portal === "yes") next = next.not("user_id", "is", null);
+  if (query.portal === "no") next = next.is("user_id", null);
+
+  if (query.q) {
+    const term = `%${query.q}%`;
+    next = next.or(
+      [
+        `business_name.ilike.${term}`,
+        `account_code.ilike.${term}`,
+        `contact_name.ilike.${term}`,
+        `email.ilike.${term}`,
+        `phone.ilike.${term}`,
+        `internal_notes.ilike.${term}`,
+      ].join(","),
+    );
+  }
+
+  return next as T;
+}
+
+export type AccountListRow = Reseller & {
+  /** Filled in from a second pass — the list is useless without trading history. */
+  orderCount: number;
+  openOrders: number;
+  lifetimePence: number;
+  lastOrderAt: string | null;
+};
+
+export type AccountPage = {
+  rows: AccountListRow[];
+  total: number;
+  page: number;
+  pageCount: number;
+  from: number;
+  to: number;
+  stats: { total: number; active: number; suspended: number; signedUp: number };
+  statusCounts: Record<string, number>;
+  tierCounts: Record<string, number>;
+  markets: string[];
+};
+
+export async function listAccountsPage(supabase: SupabaseClient, query: AccountQuery): Promise<AccountPage> {
+  // Summary pass ignores status and tier for the same reason the orders list
+  // does: a pill that reads zero because you already clicked another pill is
+  // worse than no number at all.
+  const summaryBuilder = supabase
+    .from("resellers")
+    .select("status, pricing_tier, user_id, market", { count: "exact" });
+  const { data: summaryData, error: summaryError } = await applyAccountFilters(summaryBuilder, {
+    ...query,
+    statuses: [],
+    tiers: [],
+  }).limit(20000);
+  if (summaryError) throw new Error(`Could not summarise accounts: ${summaryError.message}`);
+
+  const scanned = (summaryData ?? []) as unknown as Array<{
+    status: string;
+    pricing_tier: string;
+    user_id: string | null;
+    market: string;
+  }>;
+
+  const statusCounts: Record<string, number> = {};
+  const tierCounts: Record<string, number> = {};
+  for (const row of scanned) {
+    statusCounts[row.status] = (statusCounts[row.status] ?? 0) + 1;
+    tierCounts[row.pricing_tier] = (tierCounts[row.pricing_tier] ?? 0) + 1;
+  }
+
+  const matching = scanned.filter(
+    (row) =>
+      (!query.statuses.length || query.statuses.includes(row.status)) &&
+      (!query.tiers.length || query.tiers.includes(row.pricing_tier)),
+  );
+
+  const total = matching.length;
+  const pageCount = Math.max(1, Math.ceil(total / query.perPage));
+  const page = Math.min(Math.max(1, query.page), pageCount);
+  const offset = (page - 1) * query.perPage;
+
+  const pageBuilder = supabase.from("resellers").select(ACCOUNT_COLUMNS);
+  const { data, error } = await applyAccountFilters(pageBuilder, query)
+    .order(query.sort, { ascending: query.direction === "asc" })
+    // account_code is unique, so the ordering is total and pages cannot overlap.
+    .order("account_code", { ascending: true })
+    .range(offset, offset + query.perPage - 1);
+  if (error) throw new Error(`Could not load reseller accounts: ${error.message}`);
+
+  const rows = (data ?? []) as unknown as Reseller[];
+
+  // One extra round trip for the trading history of just this page's accounts.
+  const totals = await orderTotalsFor(supabase, rows.map((row) => row.id));
+
+  return {
+    rows: rows.map((row) => ({
+      ...row,
+      orderCount: totals[row.id]?.count ?? 0,
+      openOrders: totals[row.id]?.open ?? 0,
+      lifetimePence: totals[row.id]?.valuePence ?? 0,
+      lastOrderAt: totals[row.id]?.lastOrderAt ?? null,
+    })),
+    total,
+    page,
+    pageCount,
+    from: total === 0 ? 0 : offset + 1,
+    to: offset + rows.length,
+    stats: {
+      total,
+      active: matching.filter((row) => row.status === "active").length,
+      suspended: matching.filter((row) => row.status === "suspended").length,
+      signedUp: matching.filter((row) => row.user_id).length,
+    },
+    statusCounts,
+    tierCounts,
+    markets: [...new Set(scanned.map((row) => row.market).filter(Boolean))].sort(),
+  };
+}
+
+/** Order counts and value for a handful of accounts, aggregated in one pass. */
+export async function orderTotalsFor(supabase: SupabaseClient, resellerIds: string[]) {
+  const totals: Record<string, { count: number; open: number; valuePence: number; lastOrderAt: string | null }> = {};
+  if (!resellerIds.length) return totals;
+
+  const { data, error } = await supabase
+    .from("reseller_orders")
+    .select("reseller_id, status, subtotal_pence, submitted_at")
+    .in("reseller_id", resellerIds)
+    .limit(20000);
+  if (error) throw new Error(`Could not summarise account orders: ${error.message}`);
+
+  for (const row of (data ?? []) as unknown as Array<{
+    reseller_id: string;
+    status: string;
+    subtotal_pence: number;
+    submitted_at: string;
+  }>) {
+    const entry = (totals[row.reseller_id] ??= { count: 0, open: 0, valuePence: 0, lastOrderAt: null });
+    entry.count += 1;
+    if (row.status === "submitted" || row.status === "confirmed") entry.open += 1;
+    if (row.status !== "cancelled") entry.valuePence += row.subtotal_pence ?? 0;
+    if (!entry.lastOrderAt || row.submitted_at > entry.lastOrderAt) entry.lastOrderAt = row.submitted_at;
+  }
+
+  return totals;
+}
+
+/** Every matching account, for a CSV download. Capped, deliberately. */
+export async function listAccountsForExport(supabase: SupabaseClient, query: AccountQuery, limit = 5000) {
+  const builder = supabase.from("resellers").select(ACCOUNT_COLUMNS);
+  const { data, error } = await applyAccountFilters(builder, query)
+    .order(query.sort, { ascending: query.direction === "asc" })
+    .order("account_code", { ascending: true })
+    .limit(limit);
+
+  if (error) throw new Error(`Could not export accounts: ${error.message}`);
+  return (data ?? []) as unknown as Reseller[];
+}
+
+/** Unfiltered trading history for one account — drives the detail page stats. */
+export async function accountOrderTotals(supabase: SupabaseClient, resellerId: string) {
+  const totals = await orderTotalsFor(supabase, [resellerId]);
+  return totals[resellerId] ?? { count: 0, open: 0, valuePence: 0, lastOrderAt: null };
 }

@@ -1,8 +1,17 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react-router";
-import { Form, Link, data, useActionData, useLoaderData, useNavigation } from "react-router";
+import { Form, Link, data, useActionData, useLoaderData, useLocation, useNavigation, useSearchParams } from "react-router";
 import { requireArticleStaff } from "../lib/article-auth.server";
 import { isSameOriginPost } from "../lib/supabase.server";
-import { getReseller, listOrdersDetailed, updateReseller } from "../lib/resellers.server";
+import {
+  accountOrderTotals,
+  getReseller,
+  listOrdersForExport,
+  listOrdersPage,
+  updateReseller,
+} from "../lib/resellers.server";
+import { parseOrderQuery, withParams } from "../lib/orders-query";
+import { OrdersPanel } from "../components/admin/OrdersPanel";
+import { ordersCsv } from "../lib/admin-csv";
 import { gbpFromPence } from "../lib/site";
 
 export const meta: MetaFunction = () => [
@@ -14,8 +23,21 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const { supabase, responseHeaders } = await requireArticleStaff(request);
   const reseller = await getReseller(supabase, params.resellerId as string);
   if (!reseller) throw new Response("Account not found", { status: 404, headers: responseHeaders });
-  const orders = await listOrdersDetailed(supabase, reseller.id);
-  return data({ reseller, orders }, { headers: responseHeaders });
+
+  const url = new URL(request.url);
+  // The account is not a filter the user can change here — it is the page.
+  const query = { ...parseOrderQuery(url.searchParams), resellerId: reseller.id };
+
+  if (url.searchParams.get("export") === "csv") {
+    return ordersCsv(await listOrdersForExport(supabase, query), responseHeaders);
+  }
+
+  const [orders, totals] = await Promise.all([
+    listOrdersPage(supabase, query),
+    accountOrderTotals(supabase, reseller.id),
+  ]);
+
+  return data({ reseller, query, orders, totals }, { headers: responseHeaders });
 }
 
 export async function action({ request, params }: ActionFunctionArgs) {
@@ -40,17 +62,19 @@ export async function action({ request, params }: ActionFunctionArgs) {
 }
 
 export default function AccountDetail() {
-  const { reseller, orders } = useLoaderData<typeof loader>();
+  const { reseller, query, orders, totals } = useLoaderData<typeof loader>();
   const result = useActionData<typeof action>() as { error?: string; notice?: string } | undefined;
   const navigation = useNavigation();
+  const location = useLocation();
+  const [params] = useSearchParams();
   const busy = navigation.state === "submitting";
-  const lifetime = orders
-    .filter((order) => order.status !== "cancelled")
-    .reduce((total, order) => total + order.subtotal_pence, 0);
+  const basePath = location.pathname;
 
   return (
     <main className="admin-main">
-      <p className="admin-crumb"><Link to="/admin/accounts">← Accounts</Link></p>
+      <p className="admin-crumb">
+        <Link to="/admin/accounts">← Accounts</Link>
+      </p>
 
       <header className="admin-page-head">
         <div>
@@ -61,62 +85,99 @@ export default function AccountDetail() {
             <span className={`admin-status admin-status-${reseller.status}`}>{reseller.status}</span>
           </p>
         </div>
+        <a className="admin-primary-link" href={`${basePath}${withParams(params, { export: "csv", page: null })}`}>
+          Download CSV
+        </a>
       </header>
 
-      {result?.error ? <p className="admin-alert" role="alert">{result.error}</p> : null}
-      {result?.notice ? <p className="admin-alert admin-alert-ok" role="status">{result.notice}</p> : null}
+      {result?.error ? (
+        <p className="admin-alert" role="alert">
+          {result.error}
+        </p>
+      ) : null}
+      {result?.notice ? (
+        <p className="admin-alert admin-alert-ok" role="status">
+          {result.notice}
+        </p>
+      ) : null}
 
       <div className="admin-stat-row">
-        <div className="admin-stat"><span>Orders</span><b>{orders.length}</b></div>
-        <div className="admin-stat"><span>Lifetime value</span><b>{gbpFromPence(lifetime)}</b></div>
-        <div className="admin-stat"><span>Pricing tier</span><b style={{ textTransform: "capitalize", fontSize: 24 }}>{reseller.pricing_tier}</b></div>
-        <div className="admin-stat is-flagged"><span>Portal</span><b style={{ fontSize: 20 }}>{reseller.user_id ? "Signed up" : "Not signed up"}</b></div>
+        <div className="admin-stat">
+          <span>Orders</span>
+          <b>{totals.count}</b>
+        </div>
+        <div className="admin-stat">
+          <span>Lifetime value</span>
+          <b>{gbpFromPence(totals.valuePence)}</b>
+        </div>
+        <div className="admin-stat">
+          <span>Pricing tier</span>
+          <b className="admin-capitalise admin-stat-sm">{reseller.pricing_tier}</b>
+        </div>
+        <div className="admin-stat is-flagged">
+          <span>Portal</span>
+          <b className="admin-stat-sm">{reseller.user_id ? "Signed up" : "Not signed up"}</b>
+        </div>
       </div>
 
       <div className="admin-split">
         <div>
-          <section className="admin-panel">
-            <div className="admin-panel-head"><h2>Orders</h2></div>
-            {orders.length === 0 ? (
-              <div className="admin-empty">No orders yet.</div>
-            ) : (
-              <div className="admin-table-wrap">
-                <table>
-                  <thead>
-                    <tr><th scope="col">Reference</th><th scope="col">Placed</th><th scope="col">Status</th><th scope="col">Total</th></tr>
-                  </thead>
-                  <tbody>
-                    {orders.map((order) => (
-                      <tr key={order.id}>
-                        <td><strong><Link to={`/admin/orders/${order.id}`}>{order.reference}</Link></strong></td>
-                        <td>{new Date(order.submitted_at).toLocaleDateString("en-GB")}</td>
-                        <td><span className={`admin-status admin-status-${order.status}`}>{order.status}</span></td>
-                        <td>{gbpFromPence(order.subtotal_pence)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </section>
+          <OrdersPanel basePath={basePath} query={query} page={orders} scoped title="Orders" />
 
           <section className="admin-panel">
-            <div className="admin-panel-head"><h2>Account record</h2></div>
+            <div className="admin-panel-head">
+              <h2>Account record</h2>
+            </div>
             <dl className="admin-dl">
-              <div><dt>Account code</dt><dd>{reseller.account_code}</dd></div>
-              <div><dt>Market</dt><dd>{reseller.market}</dd></div>
-              <div><dt>Email</dt><dd><a href={`mailto:${reseller.email}`}>{reseller.email}</a></dd></div>
-              <div><dt>Phone</dt><dd>{reseller.phone || "—"}</dd></div>
-              <div><dt>Approved</dt><dd>{reseller.approved_at ? new Date(reseller.approved_at).toLocaleString("en-GB") : "—"}</dd></div>
-              <div><dt>Created</dt><dd>{new Date(reseller.created_at).toLocaleString("en-GB")}</dd></div>
-              <div><dt>Application</dt><dd>{reseller.application_id ? <Link to={`/admin/applications/${reseller.application_id}`}>View original</Link> : "—"}</dd></div>
+              <div>
+                <dt>Account code</dt>
+                <dd>{reseller.account_code}</dd>
+              </div>
+              <div>
+                <dt>Market</dt>
+                <dd>{reseller.market}</dd>
+              </div>
+              <div>
+                <dt>Email</dt>
+                <dd>
+                  <a href={`mailto:${reseller.email}`}>{reseller.email}</a>
+                </dd>
+              </div>
+              <div>
+                <dt>Phone</dt>
+                <dd>{reseller.phone || "—"}</dd>
+              </div>
+              <div>
+                <dt>Last order</dt>
+                <dd>{totals.lastOrderAt ? new Date(totals.lastOrderAt).toLocaleString("en-GB") : "—"}</dd>
+              </div>
+              <div>
+                <dt>Approved</dt>
+                <dd>{reseller.approved_at ? new Date(reseller.approved_at).toLocaleString("en-GB") : "—"}</dd>
+              </div>
+              <div>
+                <dt>Created</dt>
+                <dd>{new Date(reseller.created_at).toLocaleString("en-GB")}</dd>
+              </div>
+              <div>
+                <dt>Application</dt>
+                <dd>
+                  {reseller.application_id ? (
+                    <Link to={`/admin/applications/${reseller.application_id}`}>View original</Link>
+                  ) : (
+                    "—"
+                  )}
+                </dd>
+              </div>
             </dl>
           </section>
         </div>
 
         <aside>
           <section className="admin-panel">
-            <div className="admin-panel-head"><h2>Edit account</h2></div>
+            <div className="admin-panel-head">
+              <h2>Edit account</h2>
+            </div>
             <div className="admin-panel-body">
               <Form method="post" replace>
                 <div className="admin-field">
@@ -129,7 +190,15 @@ export default function AccountDetail() {
                 </div>
                 <div className="admin-field">
                   <label htmlFor="discountPercent">Discount off trade (%)</label>
-                  <input id="discountPercent" name="discountPercent" type="number" min={0} max={90} step="0.5" defaultValue={Number(reseller.discount_percent)} />
+                  <input
+                    id="discountPercent"
+                    name="discountPercent"
+                    type="number"
+                    min={0}
+                    max={90}
+                    step="0.5"
+                    defaultValue={Number(reseller.discount_percent)}
+                  />
                 </div>
                 <div className="admin-field">
                   <label htmlFor="status">Status</label>
@@ -148,12 +217,14 @@ export default function AccountDetail() {
                   <textarea id="internalNotes" name="internalNotes" rows={4} defaultValue={reseller.internal_notes ?? ""} />
                 </div>
                 <div className="admin-actions">
-                  <button className="admin-primary" type="submit" disabled={busy}>Save changes</button>
+                  <button className="admin-primary" type="submit" disabled={busy}>
+                    Save changes
+                  </button>
                 </div>
               </Form>
               <p className="admin-hint">
-                Changing the tier or discount affects the price shown in the portal and applied to
-                future orders. Existing orders keep the price they were placed at.
+                Changing the tier or discount affects the price shown in the portal and applied to future orders.
+                Existing orders keep the price they were placed at.
               </p>
             </div>
           </section>

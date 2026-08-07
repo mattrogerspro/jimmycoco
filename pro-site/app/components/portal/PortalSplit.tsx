@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type React from "react";
 
 type PortalSplitProps = {
   eyebrow: string;
@@ -56,17 +57,13 @@ const FIELD_ICONS = {
   ),
 } as const;
 
-type PortalFieldProps = {
+type PortalFieldProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "id" | "className"
+> & {
   id: string;
-  name: string;
   label: string;
-  type: string;
   icon: keyof typeof FIELD_ICONS;
-  autoComplete?: string;
-  required?: boolean;
-  minLength?: number;
-  autoFocus?: boolean;
-  inputMode?: "email" | "text";
 };
 
 /** Label + leading icon + input, so every sign-in screen matches. */

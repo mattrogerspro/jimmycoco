@@ -1,6 +1,6 @@
 {
   "include": ["**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
-  "exclude": ["backups", "build", "node_modules"],
+  "exclude": ["backups", "build", "node_modules", "_stage_lo", "_stage2", "_to_delete", "public/_to_delete"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": ["node", "vite/client"],

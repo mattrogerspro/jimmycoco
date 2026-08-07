@@ -5,11 +5,14 @@ import type {
   LoaderFunctionArgs,
   MetaFunction,
 } from "react-router";
+import { useState } from "react";
 import { Form, Link, data, redirect, useActionData, useNavigation } from "react-router";
 import portalStyles from "../styles/portal.css?url";
 import { claimResellerAccount } from "../lib/reseller-auth.server";
 import { createSupabaseServerClient, isSameOriginPost, privateNoStoreHeaders } from "../lib/supabase.server";
 import { PortalEmblem, PortalField, PortalSplit } from "../components/portal/PortalSplit";
+import { PasswordStrength } from "../components/portal/PasswordStrength";
+import { evaluatePassword } from "../lib/password-policy";
 
 type RegisterActionData = { error?: string; notice?: string };
 
@@ -46,9 +49,10 @@ export async function action({ request }: ActionFunctionArgs) {
       { status: 400, headers: privateNoStoreHeaders() },
     );
   }
-  if (password.length < 10) {
+  const strength = evaluatePassword(password, { email });
+  if (!strength.isStrong) {
     return data<RegisterActionData>(
-      { error: "Please choose a password of at least 10 characters." },
+      { error: strength.message || "Please choose a stronger password." },
       { status: 400, headers: privateNoStoreHeaders() },
     );
   }
@@ -111,6 +115,12 @@ export default function PortalRegister() {
   const actionData = useActionData<typeof action>();
   const navigation = useNavigation();
   const saving = navigation.state === "submitting";
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const strength = evaluatePassword(password, { email });
+  const matches = password.length > 0 && password === confirm;
+  const canSubmit = strength.isStrong && matches && !saving;
 
   return (
     <PortalSplit
@@ -134,11 +144,49 @@ export default function PortalRegister() {
           </p>
         ) : null}
 
-        <PortalField id="email" name="email" label="Email address" type="email" icon="email" autoComplete="email" inputMode="email" required autoFocus />
-        <PortalField id="password" name="password" label="Choose a password" type="password" icon="lock" autoComplete="new-password" minLength={10} required />
-        <PortalField id="confirm" name="confirm" label="Confirm password" type="password" icon="shield" autoComplete="new-password" minLength={10} required />
+        <PortalField
+          id="email"
+          name="email"
+          label="Email address"
+          type="email"
+          icon="email"
+          autoComplete="email"
+          inputMode="email"
+          required
+          autoFocus
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <PortalField
+          id="password"
+          name="password"
+          label="Choose a password"
+          type="password"
+          icon="lock"
+          autoComplete="new-password"
+          required
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
 
-        <button className="portal-btn portal-btn-wide" type="submit" disabled={saving}>
+        <PasswordStrength password={password} email={email} />
+
+        <PortalField
+          id="confirm"
+          name="confirm"
+          label="Confirm password"
+          type="password"
+          icon="shield"
+          autoComplete="new-password"
+          required
+          value={confirm}
+          onChange={(event) => setConfirm(event.target.value)}
+        />
+        {confirm.length > 0 && !matches ? (
+          <p className="pw-mismatch" role="alert">Those two passwords do not match.</p>
+        ) : null}
+
+        <button className="portal-btn portal-btn-wide" type="submit" disabled={!canSubmit}>
           {saving ? "Saving…" : "Set password"}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 12h15" /><path d="m13 6 6 6-6 6" /></svg>
         </button>

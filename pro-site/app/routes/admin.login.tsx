@@ -16,7 +16,7 @@ import {
 } from "react-router";
 import adminStyles from "../styles/admin.css?url";
 import portalStyles from "../styles/portal.css?url";
-import { PortalSplit } from "../components/portal/PortalSplit";
+import { PortalEmblem, PortalField, PortalSplit } from "../components/portal/PortalSplit";
 import { safeAdminDestination } from "../lib/article-auth.server";
 import {
   createSupabaseServerClient,
@@ -127,6 +127,7 @@ export default function AdminLogin() {
       blurb="The Jimmy Coco admin — articles, media, trade applications and stockist orders."
     >
       <Form method="post" className="portal-form" replace>
+        <PortalEmblem />
         <h1 id="admin-login-title">Sign in</h1>
         <p>Sign in with the account assigned to you by an administrator.</p>
 
@@ -138,35 +139,25 @@ export default function AdminLogin() {
 
         <input type="hidden" name="next" value={searchParams.get("next") ?? ""} />
 
-        <label htmlFor="admin-email">Email address</label>
-        <input
-          id="admin-email"
-          name="email"
-          type="email"
-          autoComplete="username"
-          inputMode="email"
-          required
-          autoFocus
-        />
-
-        <label htmlFor="admin-password">Password</label>
-        <input
-          id="admin-password"
-          name="password"
-          type="password"
-          autoComplete="current-password"
-          required
-        />
+        <PortalField id="admin-email" name="email" label="Email address" type="email" icon="email" autoComplete="username" inputMode="email" required autoFocus />
+        <PortalField id="admin-password" name="password" label="Password" type="password" icon="lock" autoComplete="current-password" required />
 
         <button className="portal-btn portal-btn-wide" type="submit" disabled={signingIn}>
           {signingIn ? "Signing in…" : "Sign in securely"}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 12h15" /><path d="m13 6 6 6-6 6" /></svg>
         </button>
 
+        <p className="portal-divider">Staff only</p>
+
         <p className="portal-note">
-          Access is limited to approved Jimmy Coco administrators and editors.
+          <i aria-hidden="true">◆</i>
+          <span>Access is limited to approved Jimmy Coco administrators and editors.</span>
         </p>
         <p className="portal-note">
-          <Link to="/">Return to the professional website</Link>
+          <i aria-hidden="true">✦</i>
+          <span>
+            <Link to="/">Return to the professional website</Link>
+          </span>
         </p>
       </Form>
     </PortalSplit>

@@ -9,7 +9,7 @@ import { Form, Link, data, redirect, useActionData, useNavigation, useSearchPara
 import portalStyles from "../styles/portal.css?url";
 import { claimResellerAccount, safePortalDestination } from "../lib/reseller-auth.server";
 import { createSupabaseServerClient, isSameOriginPost, privateNoStoreHeaders } from "../lib/supabase.server";
-import { PortalSplit } from "../components/portal/PortalSplit";
+import { PortalEmblem, PortalField, PortalSplit } from "../components/portal/PortalSplit";
 
 type LoginActionData = { error: string };
 
@@ -98,6 +98,7 @@ export default function PortalLogin() {
       blurb="Your trade pricing, your order history and everything you need to reorder — in one place."
     >
       <Form method="post" className="portal-form" replace>
+        <PortalEmblem />
         <h1>Sign in</h1>
         <p>For approved Jimmy Coco stockists.</p>
 
@@ -117,23 +118,29 @@ export default function PortalLogin() {
           </p>
         ) : null}
 
-        <label htmlFor="email">Email address</label>
-        <input id="email" name="email" type="email" autoComplete="email" required />
-
-        <label htmlFor="password">Password</label>
-        <input id="password" name="password" type="password" autoComplete="current-password" required />
+        <PortalField id="email" name="email" label="Email address" type="email" icon="email" autoComplete="email" inputMode="email" required autoFocus />
+        <PortalField id="password" name="password" label="Password" type="password" icon="lock" autoComplete="current-password" required />
 
         <input type="hidden" name="next" value={searchParams.get("next") ?? "/portal"} />
 
         <button className="portal-btn portal-btn-wide" type="submit" disabled={signingIn}>
           {signingIn ? "Signing in…" : "Sign in"}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 12h15" /><path d="m13 6 6 6-6 6" /></svg>
         </button>
 
+        <p className="portal-divider">Need help?</p>
+
         <p className="portal-note">
-          Approved but never signed in? <Link to="/portal/register">Set your password</Link>.
+          <i aria-hidden="true">◆</i>
+          <span>
+            Approved but never signed in? <Link to="/portal/register">Set your password</Link>.
+          </span>
         </p>
         <p className="portal-note">
-          Not a stockist yet? <Link to="/#trial">Apply for a trade account</Link>.
+          <i aria-hidden="true">✦</i>
+          <span>
+            Not a stockist yet? <Link to="/#trial">Apply for a trade account</Link>.
+          </span>
         </p>
       </Form>
     </PortalSplit>

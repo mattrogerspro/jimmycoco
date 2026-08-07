@@ -9,7 +9,7 @@ import { Form, Link, data, redirect, useActionData, useNavigation } from "react-
 import portalStyles from "../styles/portal.css?url";
 import { claimResellerAccount } from "../lib/reseller-auth.server";
 import { createSupabaseServerClient, isSameOriginPost, privateNoStoreHeaders } from "../lib/supabase.server";
-import { PortalSplit } from "../components/portal/PortalSplit";
+import { PortalEmblem, PortalField, PortalSplit } from "../components/portal/PortalSplit";
 
 type RegisterActionData = { error?: string; notice?: string };
 
@@ -119,6 +119,7 @@ export default function PortalRegister() {
       blurb="Choose a password and your trade account is ready — pricing, orders and launch assets."
     >
       <Form method="post" className="portal-form" replace>
+        <PortalEmblem />
         <h1>Set your password</h1>
         <p>Use the email address on your approved trade account.</p>
 
@@ -133,22 +134,27 @@ export default function PortalRegister() {
           </p>
         ) : null}
 
-        <label htmlFor="email">Email address</label>
-        <input id="email" name="email" type="email" autoComplete="email" required />
-
-        <label htmlFor="password">Choose a password</label>
-        <input id="password" name="password" type="password" autoComplete="new-password" minLength={10} required />
-
-        <label htmlFor="confirm">Confirm password</label>
-        <input id="confirm" name="confirm" type="password" autoComplete="new-password" minLength={10} required />
+        <PortalField id="email" name="email" label="Email address" type="email" icon="email" autoComplete="email" inputMode="email" required autoFocus />
+        <PortalField id="password" name="password" label="Choose a password" type="password" icon="lock" autoComplete="new-password" minLength={10} required />
+        <PortalField id="confirm" name="confirm" label="Confirm password" type="password" icon="shield" autoComplete="new-password" minLength={10} required />
 
         <button className="portal-btn portal-btn-wide" type="submit" disabled={saving}>
           {saving ? "Saving…" : "Set password"}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 12h15" /><path d="m13 6 6 6-6 6" /></svg>
         </button>
 
+        <p className="portal-divider">Already registered?</p>
+
         <p className="portal-note">
-          Already set up? <Link to="/portal/login">Sign in</Link>.
+          <i aria-hidden="true">◆</i>
+          <span>
+            Already set up? <Link to="/portal/login">Sign in</Link>.
+          </span>
         </p>
+        <small>
+          <i aria-hidden="true">✦</i>
+          <span>Use at least 10 characters. We never see your password.</span>
+        </small>
       </Form>
     </PortalSplit>
   );

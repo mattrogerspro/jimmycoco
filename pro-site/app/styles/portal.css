@@ -91,3 +91,22 @@ body{background:var(--p-cream)}
   .portal-visual-card{position:static;margin:clamp(140px,26vw,220px) clamp(16px,4vw,28px) clamp(18px,4vw,28px)}
   .portal-aside{padding:clamp(26px,7vw,44px) clamp(18px,6vw,32px) 60px}
 }
+
+/* ---- sign-in card flare ------------------------------------------------ */
+.portal-emblem{display:grid;place-items:center;width:52px;height:52px;margin-bottom:20px;border-radius:14px;background:linear-gradient(140deg,#EBCB9C 0%,#B0764A 55%,#8A5730 100%);box-shadow:0 10px 24px rgba(122,74,38,.28),inset 0 1px 0 rgba(255,255,255,.4)}
+.portal-emblem b{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:19px;letter-spacing:.06em;color:#FFF8EC}
+.portal-field{position:relative;display:block}
+.portal-field i{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--p-bronze);pointer-events:none}
+.portal-field i svg{width:100%;height:100%;display:block}
+.portal-form .portal-field input{padding-left:46px}
+.portal-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden;background:linear-gradient(135deg,#A66A3E 0%,#8A5730 60%,#7A4A26 100%)}
+.portal-btn::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.22) 50%,transparent 62%);transform:translateX(-120%);transition:transform .55s ease}
+.portal-btn:hover::after{transform:translateX(120%)}
+.portal-btn svg{width:17px;height:17px;flex:0 0 auto}
+.portal-divider{display:flex;align-items:center;gap:14px;margin:26px 0 4px;color:var(--p-muted);font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+.portal-divider::before,.portal-divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(152,96,58,.34),transparent)}
+.portal-note{display:flex;align-items:flex-start;gap:10px;margin-top:14px;font-size:16px;line-height:1.5;color:var(--p-ink2)}
+.portal-note i{flex:0 0 auto;font-style:normal;color:var(--p-bronze);font-size:15px;line-height:1.5}
+.portal-note a{color:var(--p-bronze2);font-weight:600;text-underline-offset:3px}
+.portal-form small{display:flex;align-items:flex-start;gap:9px;margin-top:18px;font-size:14.5px;line-height:1.5;color:var(--p-muted)}
+.portal-form small i{flex:0 0 auto;font-style:normal;color:var(--p-bronze)}

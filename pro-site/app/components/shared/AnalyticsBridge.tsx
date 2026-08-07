@@ -14,10 +14,12 @@ function labelFor(element: HTMLElement) {
 function sectionOf(element: HTMLElement) {
   const section = element.closest("section, header, footer, form");
   if (!section) return "page";
+  // Deliberately not className — the header toggles .scrolled, which would make
+  // the same element report two different section names.
   return (
     section.getAttribute("id") ||
     section.getAttribute("data-section") ||
-    section.className.toString().split(" ")[0] ||
+    section.getAttribute("data-form-id") ||
     section.tagName.toLowerCase()
   );
 }
@@ -96,6 +98,9 @@ export function AnalyticsBridge() {
       if (field.type === "password" || field.type === "hidden") return;
       const form = field.closest("form");
       const formId = form?.getAttribute("data-form-id") ?? form?.className.split(" ")[0] ?? "form";
+      // An autofocused first field is focused before this listener attaches, so
+      // blur is the earliest reliable place to open the form on those pages.
+      trackOnce(`form_start_${formId}`, "form_start", { form_id: formId });
       track("form_field_complete", {
         form_id: formId,
         field_name: field.getAttribute("name") ?? field.id,

@@ -28,8 +28,8 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const status = String(form.get("status") ?? "");
   const note = form.get("internalNote");
 
-  // The quick actions post a status only. Building the patch from what was
-  // actually submitted stops them wiping the internal note.
+  // Each form on this page posts only its own field, so building the patch from
+  // what was actually submitted stops one form wiping the other's value.
   const patch: { status?: (typeof ORDER_STATUSES)[number]; internal_note?: string | null } = {};
   if ((ORDER_STATUSES as readonly string[]).includes(status)) {
     patch.status = status as (typeof ORDER_STATUSES)[number];
@@ -42,7 +42,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   try {
     await updateOrder(supabase, params.orderId as string, patch);
-    return data({ notice: "Order updated." }, { headers: responseHeaders });
+    return data({ notice: patch.status ? `Order marked ${patch.status}.` : "Note saved." }, { headers: responseHeaders });
   } catch (error) {
     return data({ error: (error as Error).message }, { status: 500, headers: responseHeaders });
   }
@@ -84,57 +84,42 @@ type Order = {
   delivery_note: string | null;
   submitted_at: string;
   confirmed_at: string | null;
-  updated_at: string;
   resellers: Reseller | null;
 };
 
 /** The order's journey. Cancelled is an exit, not a stage, so it sits outside. */
 const STAGES = [
-  { key: "submitted", label: "Submitted", hint: "Requested from the portal" },
-  { key: "confirmed", label: "Confirmed", hint: "Stock and price agreed" },
-  { key: "invoiced", label: "Invoiced", hint: "Raised outside this system" },
-  { key: "shipped", label: "Shipped", hint: "On its way to the salon" },
+  { key: "submitted", label: "Submitted" },
+  { key: "confirmed", label: "Confirmed" },
+  { key: "invoiced", label: "Invoiced" },
+  { key: "shipped", label: "Shipped" },
 ] as const;
 
-/** What the next click should be, given where the order is now. */
+/** The one thing to do next, given where the order is now. */
 const NEXT_ACTION: Record<string, { status: string; label: string; blurb: string } | null> = {
-  submitted: {
-    status: "confirmed",
-    label: "Confirm this order",
-    blurb: "Check stock and price, then confirm. Confirming stamps the time and tells you it is ready to invoice.",
-  },
-  confirmed: {
-    status: "invoiced",
-    label: "Mark as invoiced",
-    blurb: "Raise the invoice in your accounts system, then record it here.",
-  },
-  invoiced: {
-    status: "shipped",
-    label: "Mark as shipped",
-    blurb: "Once the order leaves, mark it shipped. That closes it off.",
-  },
+  submitted: { status: "confirmed", label: "Confirm order", blurb: "Check stock and price, then confirm." },
+  confirmed: { status: "invoiced", label: "Mark invoiced", blurb: "Raise the invoice, then record it here." },
+  invoiced: { status: "shipped", label: "Mark shipped", blurb: "Mark it shipped once it leaves." },
   shipped: null,
   cancelled: null,
 };
 
-const TIER_NOTE: Record<string, string> = {
-  standard: "Standard trade pricing",
-  silver: "Silver trade pricing",
-  gold: "Gold trade pricing",
+const ACCOUNT_WARNING: Record<string, string> = {
+  suspended: "This account is suspended. Check why before you confirm or ship anything.",
+  closed: "This account is closed. It should not be receiving stock.",
 };
 
-function shortDate(value: string | null) {
+function stamp(value: string | null, withTime = true) {
   if (!value) return null;
-  return new Date(value).toLocaleString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  return new Date(value).toLocaleString(
+    "en-GB",
+    withTime
+      ? { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }
+      : { day: "numeric", month: "short", year: "numeric" },
+  );
 }
 
-function daysSince(value: string) {
+function waitingFor(value: string) {
   const days = Math.floor((Date.now() - new Date(value).getTime()) / 86_400_000);
   if (days <= 0) return "today";
   if (days === 1) return "1 day";
@@ -158,6 +143,7 @@ export default function OrderDetail() {
   const cancelled = order.status === "cancelled";
   const next = cancelled ? null : NEXT_ACTION[order.status];
   const open = order.status === "submitted" || order.status === "confirmed";
+  const warning = account && account.status !== "active" ? ACCOUNT_WARNING[account.status] : null;
 
   // Value at the current catalogue price, so the trade discount is visible
   // rather than baked silently into the unit price.
@@ -175,9 +161,15 @@ export default function OrderDetail() {
     shipped: null,
   };
 
-  const address = account?.address ?? null;
-  const addressLines = address
-    ? [address.line1, address.line2, address.city, address.county, address.postcode, address.country].filter(Boolean)
+  const addressLines = account?.address
+    ? [
+        account.address.line1,
+        account.address.line2,
+        account.address.city,
+        account.address.county,
+        account.address.postcode,
+        account.address.country,
+      ].filter(Boolean)
     : [];
 
   return (
@@ -202,16 +194,14 @@ export default function OrderDetail() {
                 <Link to={`/admin/accounts/${account.id}`}>{account.business_name}</Link> ·{" "}
               </>
             ) : null}
-            placed {shortDate(order.submitted_at)}
-            {open ? <> · waiting {daysSince(order.submitted_at)}</> : null}
+            placed {stamp(order.submitted_at)}
+            {open ? <> · waiting {waitingFor(order.submitted_at)}</> : null}
           </p>
         </div>
         <div className="admin-order-head-right">
-          <span className={`admin-status admin-status-lg admin-status-${order.status}`}>{order.status}</span>
           <b className="admin-order-total">{gbpFromPence(order.subtotal_pence)}</b>
           <span className="admin-order-total-note">
-            {units} unit{units === 1 ? "" : "s"} across {items.length} line{items.length === 1 ? "" : "s"} ·{" "}
-            {order.currency}
+            {units} unit{units === 1 ? "" : "s"} · {items.length} line{items.length === 1 ? "" : "s"} · {order.currency}
           </span>
         </div>
       </header>
@@ -227,60 +217,96 @@ export default function OrderDetail() {
         </p>
       ) : null}
 
+      {warning ? (
+        <p className="admin-warn" role="alert">
+          <b>{account?.status === "closed" ? "Closed account" : "Suspended account"}</b>
+          {warning}
+        </p>
+      ) : null}
+
       {cancelled ? (
         <div className="admin-order-cancelled" role="status">
           <b>This order was cancelled.</b>
-          <span>Nothing is due to be picked, invoiced or shipped. Reopen it below if that was a mistake.</span>
+          <span>Nothing is due to be picked, invoiced or shipped.</span>
         </div>
       ) : (
-        <ol className="admin-lifecycle" aria-label="Order progress">
-          {STAGES.map((stage, index) => {
-            const state = index < stageIndex ? "is-done" : index === stageIndex ? "is-current" : "is-todo";
-            return (
-              <li key={stage.key} className={state} aria-current={index === stageIndex ? "step" : undefined}>
-                <span className="admin-lifecycle-dot" aria-hidden="true" />
-                <b>{stage.label}</b>
-                <span>{shortDate(stageTime[stage.key]) ?? (index <= stageIndex ? "done" : stage.hint)}</span>
-              </li>
-            );
-          })}
+        <ol className="admin-steps" aria-label="Order progress">
+          {STAGES.map((stage, index) => (
+            <li
+              key={stage.key}
+              className={index < stageIndex ? "is-done" : index === stageIndex ? "is-current" : "is-todo"}
+              aria-current={index === stageIndex ? "step" : undefined}
+            >
+              <span className="admin-steps-dot" aria-hidden="true" />
+              <b>{stage.label}</b>
+              <span>{stamp(stageTime[stage.key]) ?? (index < stageIndex ? "done" : "")}</span>
+            </li>
+          ))}
         </ol>
       )}
 
-      {next || cancelled ? (
-        <section className="admin-next" aria-label="Next step">
-          <div>
-            <b>{cancelled ? "Reopen this order?" : "Next step"}</b>
-            <p>
-              {cancelled
-                ? "Reopening puts it back in the submitted queue so it can be confirmed again."
-                : next?.blurb}
-            </p>
-          </div>
-          <div className="admin-next-actions">
+      {/* One action bar, pinned. It follows you down a long order rather than
+          scrolling away, and it is the only place the status can be changed. */}
+      <div className="admin-actionbar">
+        <div className="admin-actionbar-lead">
+          <span className={`admin-status admin-status-${order.status}`}>{order.status}</span>
+          <p>
+            {cancelled
+              ? "Reopening puts it back in the submitted queue."
+              : (next?.blurb ?? "Nothing left to do — this order is complete.")}
+          </p>
+        </div>
+
+        <div className="admin-actionbar-actions">
+          {cancelled ? (
             <Form method="post" replace>
-              <input type="hidden" name="status" value={cancelled ? "submitted" : (next?.status ?? "")} />
+              <input type="hidden" name="status" value="submitted" />
               <button className="admin-primary" type="submit" disabled={busy}>
-                {cancelled ? "Reopen order" : next?.label}
+                Reopen order
               </button>
             </Form>
-            {cancelled ? null : (
+          ) : next ? (
+            <>
               <Form method="post" replace>
-                <input type="hidden" name="status" value="cancelled" />
-                <button className="admin-danger" type="submit" disabled={busy}>
-                  Cancel order
+                <input type="hidden" name="status" value={next.status} />
+                <button className="admin-primary" type="submit" disabled={busy}>
+                  {next.label}
                 </button>
               </Form>
-            )}
-          </div>
-        </section>
-      ) : null}
+              <Form method="post" replace>
+                <input type="hidden" name="status" value="cancelled" />
+                <button className="admin-ghost-danger" type="submit" disabled={busy}>
+                  Cancel
+                </button>
+              </Form>
+            </>
+          ) : null}
+
+          <details className="admin-override">
+            <summary>Set status</summary>
+            <Form method="post" replace className="admin-override-form">
+              <label htmlFor="status">Move this order to</label>
+              <select id="status" name="status" defaultValue={order.status}>
+                {ORDER_STATUSES.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+              <button type="submit" disabled={busy}>
+                Apply
+              </button>
+              <p>Use this only to correct a mistake — the buttons above follow the normal order of things.</p>
+            </Form>
+          </details>
+        </div>
+      </div>
 
       <div className="admin-split">
         <div>
-          <section className="admin-panel">
+          <section className="admin-panel is-primary">
             <div className="admin-panel-head">
-              <h2>What was ordered</h2>
+              <h2>Order lines</h2>
               <p className="admin-result-count">
                 {units} unit{units === 1 ? "" : "s"} to pick
               </p>
@@ -305,17 +331,15 @@ export default function OrderDetail() {
                           <strong>{item.title}</strong>
                           <span>{item.sku}</span>
                         </td>
-                        <td className="admin-nowrap">
-                          {item.quantity}
+                        <td className="admin-nowrap admin-qty">
+                          <b>{item.quantity}</b>
                           <span>{catalogue[item.sku]?.unit_label ?? "each"}</span>
                         </td>
                         <td className="admin-nowrap">
                           {gbpFromPence(item.unit_price_pence)}
                           {discounted ? <span>{gbpFromPence(list)} list</span> : null}
                         </td>
-                        <td className="admin-nowrap">
-                          <strong>{gbpFromPence(item.line_total_pence)}</strong>
-                        </td>
+                        <td className="admin-nowrap admin-linetotal">{gbpFromPence(item.line_total_pence)}</td>
                       </tr>
                     );
                   })}
@@ -344,161 +368,130 @@ export default function OrderDetail() {
                 <dd>{gbpFromPence(order.subtotal_pence)}</dd>
               </div>
             </dl>
-            <p className="admin-hint">
-              Prices are those agreed when the order was placed. Nothing is charged online — the invoice is
-              raised separately.
-            </p>
           </section>
 
-          <section className="admin-panel">
+          <section className="admin-panel is-primary">
             <div className="admin-panel-head">
               <h2>Notes</h2>
             </div>
-            <div className="admin-notecards">
-              <article className={order.customer_note ? undefined : "is-empty"}>
+            <div className="admin-panel-body">
+              <div className="admin-quote">
                 <h3>From the stockist</h3>
-                <p>{order.customer_note || "Nothing was added with the order."}</p>
-              </article>
-              <article className={order.delivery_note ? undefined : "is-empty"}>
-                <h3>Delivery instructions</h3>
-                <p>{order.delivery_note || "None given."}</p>
-              </article>
-              <article className={order.internal_note ? "is-internal" : "is-empty"}>
-                <h3>Internal note</h3>
-                <p>{order.internal_note || "Nothing recorded yet."}</p>
-              </article>
+                {order.customer_note ? <p>{order.customer_note}</p> : <p className="admin-muted">Nothing added with the order.</p>}
+              </div>
+
+              <Form method="post" replace className="admin-notefield">
+                <label htmlFor="internalNote">Internal note</label>
+                <textarea
+                  id="internalNote"
+                  name="internalNote"
+                  rows={3}
+                  defaultValue={order.internal_note ?? ""}
+                  placeholder="Anything the next person picking this order up should know."
+                />
+                <div className="admin-actions">
+                  <button className="admin-primary" type="submit" disabled={busy}>
+                    Save note
+                  </button>
+                  <span className="admin-muted">Only visible to staff.</span>
+                </div>
+              </Form>
             </div>
           </section>
-          {siblings.length ? (
-            <section className="admin-panel">
-              <div className="admin-panel-head">
-                <h2>Their other orders</h2>
-              </div>
-              <ul className="admin-minilist">
-                {siblings.map((sibling) => (
-                  <li key={sibling.id}>
-                    <Link to={`/admin/orders/${sibling.id}`}>{sibling.reference}</Link>
-                    <span className={`admin-status admin-status-${sibling.status}`}>{sibling.status}</span>
-                    <b>{gbpFromPence(sibling.subtotal_pence)}</b>
-                    <span className="admin-minilist-date">
-                      {new Date(sibling.submitted_at).toLocaleDateString("en-GB")}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              {account ? (
-                <p className="admin-hint">
-                  <Link to={`/admin/accounts/${account.id}`}>See all orders from this account</Link>
-                </p>
-              ) : null}
-            </section>
-          ) : null}
         </div>
 
         <aside>
-          <section className="admin-panel">
+          <section className="admin-panel is-secondary">
             <div className="admin-panel-head">
-              <h2>Account</h2>
+              <h2>Ship to</h2>
             </div>
-            {account ? (
-              <div className="admin-panel-body admin-accountcard">
-                <p className="admin-accountcard-name">
-                  <Link to={`/admin/accounts/${account.id}`}>{account.business_name}</Link>
+            <div className="admin-panel-body">
+              {account ? (
+                <>
+                  <p className="admin-shipto-name">{account.business_name}</p>
+                  {addressLines.length ? (
+                    <address className="admin-address">
+                      {addressLines.map((line) => (
+                        <span key={line}>{line}</span>
+                      ))}
+                    </address>
+                  ) : (
+                    <p className="admin-muted">No address on the account record.</p>
+                  )}
+                  {order.delivery_note ? (
+                    <p className="admin-address-note">
+                      <b>Delivery instructions</b>
+                      {order.delivery_note}
+                    </p>
+                  ) : null}
+                  <ul className="admin-contactlist">
+                    <li>
+                      {account.contact_name}
+                      <a href={`mailto:${account.email}`}>{account.email}</a>
+                      {account.phone ? <a href={`tel:${account.phone.replace(/\s+/g, "")}`}>{account.phone}</a> : null}
+                    </li>
+                  </ul>
+                </>
+              ) : (
+                <p className="admin-muted">This order is not attached to an account.</p>
+              )}
+            </div>
+          </section>
+
+          {account ? (
+            <section className="admin-panel is-secondary">
+              <div className="admin-panel-head">
+                <h2>Account</h2>
+                <Link className="admin-panel-link" to={`/admin/accounts/${account.id}`}>
+                  Open
+                </Link>
+              </div>
+              <div className="admin-panel-body">
+                <p className="admin-kv">
+                  <span>Account</span>
+                  <Link to={`/admin/accounts/${account.id}`}>{account.account_code}</Link>
                 </p>
-                <p className="admin-accountcard-meta">
-                  {account.account_code} · {account.market} ·{" "}
+                <p className="admin-kv">
+                  <span>Status</span>
                   <span className={`admin-status admin-status-${account.status}`}>{account.status}</span>
                 </p>
-
-                <p className="admin-tierbadge">
-                  <b className="admin-capitalise">{account.pricing_tier}</b>
+                <p className="admin-kv">
+                  <span>Terms</span>
                   <span>
-                    {TIER_NOTE[account.pricing_tier] ?? "Trade pricing"}
+                    <b className="admin-capitalise">{account.pricing_tier}</b>
                     {Number(account.discount_percent) > 0 ? ` · ${account.discount_percent}% off list` : ""}
                   </span>
                 </p>
-
-                <ul className="admin-contactlist">
-                  <li>
-                    <span>Contact</span>
-                    {account.contact_name}
-                  </li>
-                  <li>
-                    <span>Email</span>
-                    <a href={`mailto:${account.email}`}>{account.email}</a>
-                  </li>
-                  <li>
-                    <span>Phone</span>
-                    {account.phone ? <a href={`tel:${account.phone.replace(/\s+/g, "")}`}>{account.phone}</a> : "—"}
-                  </li>
-                </ul>
-
-                <div className="admin-actions">
-                  <Link className="admin-primary-link" to={`/admin/accounts/${account.id}`}>
-                    Open account
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <div className="admin-empty">This order is not attached to an account.</div>
-            )}
-          </section>
-
-          {addressLines.length ? (
-            <section className="admin-panel">
-              <div className="admin-panel-head">
-                <h2>Deliver to</h2>
-              </div>
-              <div className="admin-panel-body">
-                <address className="admin-address">
-                  {addressLines.map((line) => (
-                    <span key={line}>{line}</span>
-                  ))}
-                </address>
-                {order.delivery_note ? <p className="admin-address-note">{order.delivery_note}</p> : null}
+                <p className="admin-kv">
+                  <span>Market</span>
+                  <span>{account.market}</span>
+                </p>
               </div>
             </section>
           ) : null}
 
-          <section className="admin-panel">
-            <div className="admin-panel-head">
-              <h2>Update</h2>
-            </div>
-            <div className="admin-panel-body">
-              <Form method="post" replace>
-                <div className="admin-field">
-                  <label htmlFor="status">Status</label>
-                  <select id="status" name="status" defaultValue={order.status}>
-                    {ORDER_STATUSES.map((status) => (
-                      <option key={status} value={status}>
-                        {status}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="admin-field">
-                  <label htmlFor="internalNote">Internal note</label>
-                  <textarea
-                    id="internalNote"
-                    name="internalNote"
-                    rows={4}
-                    defaultValue={order.internal_note ?? ""}
-                    placeholder="Anything the next person picking this order up should know."
-                  />
-                </div>
-                <div className="admin-actions">
-                  <button className="admin-primary" type="submit" disabled={busy}>
-                    Save
-                  </button>
-                </div>
-              </Form>
-              <p className="admin-hint">
-                Moving an order to <b>confirmed</b> stamps the confirmation time. Invoicing and payment happen
-                outside this system.
-              </p>
-            </div>
-          </section>
-
+          {siblings.length ? (
+            <section className="admin-panel is-secondary">
+              <div className="admin-panel-head">
+                <h2>Recent orders</h2>
+                {account ? (
+                  <Link className="admin-panel-link" to={`/admin/accounts/${account.id}`}>
+                    All
+                  </Link>
+                ) : null}
+              </div>
+              <ul className="admin-minilist">
+                {siblings.slice(0, 4).map((sibling) => (
+                  <li key={sibling.id}>
+                    <Link to={`/admin/orders/${sibling.id}`}>{sibling.reference}</Link>
+                    <span className="admin-minilist-date">{stamp(sibling.submitted_at, false)}</span>
+                    <span className={`admin-status admin-status-${sibling.status}`}>{sibling.status}</span>
+                    <b>{gbpFromPence(sibling.subtotal_pence)}</b>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
         </aside>
       </div>
     </main>

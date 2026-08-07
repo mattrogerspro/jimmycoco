@@ -19,7 +19,8 @@ const allManifests = [
   'us-west-coast-salon-stockist/email-data.json',
   'au-sydney-salon-stockist/email-data.json',
   'au-gold-coast-salon-stockist/email-data.json',
-  'au-new-salon-outreach-test/email-data.json'
+  'au-new-salon-outreach-test/email-data.json',
+  'uk-reseller-lifecycle/email-data.json'
 ];
 
 const args = process.argv.slice(2);

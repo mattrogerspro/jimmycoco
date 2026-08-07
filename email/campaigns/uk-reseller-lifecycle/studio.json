@@ -1,0 +1,19 @@
+{
+  "order": 40,
+  "name": "UK Reseller Lifecycle",
+  "shortName": "UK Reseller",
+  "market": "UK",
+  "flag": "🇬🇧",
+  "status": "Draft",
+  "hook": "Trade application to open account",
+  "channel": "Email",
+  "cadence": "Event-triggered",
+  "owner": "Partnerships",
+  "mode": "event",
+  "days": [
+    0,
+    0,
+    0,
+    0
+  ]
+}

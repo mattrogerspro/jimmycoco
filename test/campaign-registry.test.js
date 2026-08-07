@@ -5,7 +5,11 @@ import { campaignRegistry, findStepByTemplateId } from '../shared/campaign-regis
 test('campaign IDs and template IDs are unique', () => {
   const campaignIds = campaignRegistry.map((campaign) => campaign.id)
   assert.equal(new Set(campaignIds).size, campaignIds.length)
-  const templateIds = campaignRegistry.flatMap((campaign) => [...campaign.steps, ...(campaign.triggeredSteps || [])].map((step) => step.templateId))
+  // Steps awaiting a Resend template legitimately carry templateId: null. Uniqueness
+  // applies to assigned IDs; an absent ID is not a duplicate.
+  const templateIds = campaignRegistry
+    .flatMap((campaign) => [...campaign.steps, ...(campaign.triggeredSteps || [])].map((step) => step.templateId))
+    .filter((templateId) => templateId !== null && templateId !== undefined)
   assert.equal(new Set(templateIds).size, templateIds.length)
 })
 

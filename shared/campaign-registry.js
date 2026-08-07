@@ -132,10 +132,10 @@ export const campaignRegistry = [
     timezone: 'Europe/London',
     localSendHour: 9,
     steps: [
-      { key: 'application-received', trigger: 'reseller_application_received', delayDays: 0, number: 1, templateAlias: 'uk-reseller-1-application-received', templateId: null, classification: 'service', subject: 'We have your trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS'] },
+      { key: 'application-received', trigger: 'reseller_application_received', delayDays: 0, number: 1, templateAlias: 'uk-reseller-1-application-received', templateId: null, classification: 'service', subject: 'We have your trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'PREFERENCES_LINK'] },
       { key: 'internal-notice', trigger: 'reseller_application_internal_notice', delayDays: 0, number: 2, templateAlias: 'uk-reseller-2-internal-notice', templateId: null, classification: 'transactional', subject: 'New trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'CONTACT_EMAIL', 'BUSINESS_TYPE', 'ADMIN_LINK'] },
-      { key: 'approved-welcome', trigger: 'reseller_approved', delayDays: 0, number: 3, templateAlias: 'uk-reseller-3-approved-welcome', templateId: null, classification: 'service', subject: 'You are approved — welcome to Jimmy Coco', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ACCOUNT_CODE', 'PORTAL_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS'] },
-      { key: 'declined', trigger: 'reseller_declined', delayDays: 0, number: 4, templateAlias: 'uk-reseller-4-declined', templateId: null, classification: 'service', subject: 'About your trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS'] },
+      { key: 'approved-welcome', trigger: 'reseller_approved', delayDays: 0, number: 3, templateAlias: 'uk-reseller-3-approved-welcome', templateId: null, classification: 'service', subject: 'You are approved — welcome to Jimmy Coco', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ACCOUNT_CODE', 'PORTAL_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'PREFERENCES_LINK'] },
+      { key: 'declined', trigger: 'reseller_declined', delayDays: 0, number: 4, templateAlias: 'uk-reseller-4-declined', templateId: null, classification: 'service', subject: 'About your trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'PREFERENCES_LINK'] },
     ],
   },
 ]

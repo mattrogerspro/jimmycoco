@@ -1,0 +1,180 @@
+{
+  "campaign": "uk-reseller-lifecycle",
+  "market": "UK",
+  "purpose": "professional-outreach",
+  "defaults": {
+    "brand": "SUNLESS",
+    "brandLine": "by Jimmy Coco",
+    "background": "#EAE2D8",
+    "cardBackground": "#FBF8F3",
+    "accent": "#A77952",
+    "text": "#3B3630",
+    "heading": "#24211E",
+    "buttonBackground": "#26231F",
+    "buttonText": "#FFFDF9",
+    "businessName": "Sunless by Jimmy Coco",
+    "businessAddress": "{{BUSINESS_ADDRESS}}",
+    "unsubscribeText": "This is a service message about the trade application you submitted at www.jimmycoco.pro.",
+    "unsubscribeLabel": "Ask us to remove your details",
+    "unsubscribeUrl": "{{PREFERENCES_LINK}}",
+    "senderName": "{{SENDER_NAME}}",
+    "senderTitle": "{{SENDER_TITLE}}",
+    "lang": "en-GB"
+  },
+  "messages": [
+    {
+      "output": "emails/1-application-received.html",
+      "title": "We have your trade application",
+      "preview": "It is with us — here is what happens next, and when you will hear back.",
+      "eyebrow": "Trade application · received",
+      "headline": "Thank you — we have your application.",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "html": "Hi {{CONTACT_NAME}},"
+        },
+        {
+          "type": "paragraph",
+          "html": "Your trade application for <b>{{SALON_NAME}}</b> has reached us. Nothing else is needed from you at this stage."
+        },
+        {
+          "type": "subheading",
+          "html": "What happens next"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "We read every application ourselves — there is no automated decision.",
+            "We look at where you are, the treatments you already offer, and whether the professional line genuinely suits your room.",
+            "You will hear back from us either way. If the answer is yes, your account and trade pricing come with it."
+          ]
+        },
+        {
+          "type": "offer",
+          "html": "If anything has changed since you applied, or you would rather talk it through first, reply to this email — it comes straight to us."
+        },
+        {
+          "type": "note",
+          "html": "Applied by mistake, or changed your mind? Reply and we will remove your details."
+        }
+      ]
+    },
+    {
+      "output": "emails/2-internal-notice.html",
+      "title": "New trade application — {{SALON_NAME}}",
+      "preview": "A salon has applied for a trade account. Review it in the admin.",
+      "eyebrow": "Internal · new application",
+      "headline": "New trade application.",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "html": "A new trade application has come in through www.jimmycoco.pro."
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Business: <b>{{SALON_NAME}}</b>",
+            "Contact: {{CONTACT_NAME}}",
+            "Email: {{CONTACT_EMAIL}}",
+            "Type: {{BUSINESS_TYPE}}"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "html": "Approving it creates the trade account and sends the welcome pack. Declining sends a courteous close. Putting it on hold sends nothing."
+        },
+        {
+          "type": "cta",
+          "label": "Review in the admin",
+          "url": "{{ADMIN_LINK}}"
+        },
+        {
+          "type": "small",
+          "html": "Internal notification. Not sent to the applicant."
+        }
+      ]
+    },
+    {
+      "output": "emails/3-approved-welcome.html",
+      "title": "You are approved — welcome to Jimmy Coco",
+      "preview": "Your trade account is open. Set a password and your pricing is waiting.",
+      "eyebrow": "Trade account · approved",
+      "headline": "You are approved.",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "html": "Hi {{CONTACT_NAME}},"
+        },
+        {
+          "type": "paragraph",
+          "html": "<b>{{SALON_NAME}}</b> is now a Jimmy Coco trade account. Your account reference is <b>{{ACCOUNT_CODE}}</b>."
+        },
+        {
+          "type": "subheading",
+          "html": "Set your password to open the portal"
+        },
+        {
+          "type": "paragraph",
+          "html": "Use the email address this message was sent to. Once you are in, you will find your trade pricing, your order history, and a form to place an order whenever you need stock."
+        },
+        {
+          "type": "cta",
+          "label": "Set your password",
+          "url": "{{PORTAL_LINK}}"
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "subheading",
+          "html": "What is waiting for you"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Your trade pricing on the professional litre and the retail range.",
+            "Order requests straight from the portal — we confirm stock and invoice you, nothing is charged online.",
+            "Jimmy's shade method training and the shade guide, so your team is confident from the first client."
+          ]
+        },
+        {
+          "type": "offer",
+          "html": "Trade terms, minimum order and lead times: {{approved_trade_terms}}"
+        },
+        {
+          "type": "paragraph",
+          "html": "If anything is unclear, reply to this email and a person will answer."
+        }
+      ]
+    },
+    {
+      "output": "emails/4-declined.html",
+      "title": "About your trade application",
+      "preview": "We are not able to open an account right now — and what that does and does not mean.",
+      "eyebrow": "Trade application · outcome",
+      "headline": "Not this time — but thank you.",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "html": "Hi {{CONTACT_NAME}},"
+        },
+        {
+          "type": "paragraph",
+          "html": "Thank you for applying for a trade account for <b>{{SALON_NAME}}</b>. We are not able to open one at the moment."
+        },
+        {
+          "type": "paragraph",
+          "html": "That is a decision about fit and timing, not about the quality of your business. We keep the professional line deliberately tight in each area, and we would rather say so plainly than leave you waiting."
+        },
+        {
+          "type": "offer",
+          "html": "If your circumstances change — a new site, a change of treatment mix, or simply a later date — you are welcome to apply again. Replying to this email reaches us directly if you would like to talk it through."
+        },
+        {
+          "type": "note",
+          "html": "We will keep your details only as long as we need them for this decision. Reply at any time and we will remove them."
+        }
+      ]
+    }
+  ]
+}

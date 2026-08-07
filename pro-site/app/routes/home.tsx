@@ -6,7 +6,7 @@ import ritualStyles from "../styles/ritual.css?url";
 import chromeStyles from "../styles/chrome.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { ApplicationRitual } from "../components/shared/ApplicationRitual";
-import { Formula, GlowDuo, Hero, Retail, Shades, Story, Trial } from "../components/home/HomeSections";
+import { Certification, Formula, GlowDuo, Hero, Retail, Shades, Story, Trial } from "../components/home/HomeSections";
 import { ProfitCalculator } from "../components/home/ProfitCalculator";
 import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 
@@ -68,6 +68,7 @@ export default function HomePage() {
         <Retail />
         <GlowDuo />
         <Trial monthlyProfit={monthlyProfit} />
+        <Certification />
       </main>
       <SiteFooter />
       <div className="sticky-cta"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order the litre</Link><a className="btn btn-dark" href="#trial">Free trial</a></div>

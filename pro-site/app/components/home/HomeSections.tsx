@@ -102,6 +102,41 @@ export function GlowDuo() {
   return <section className="glow-duo"><div className="wrap"><div className="gd-grid">{shots.map(([src, alt]) => <figure className="gd-shot" key={src}><img src={`${A}${src}`} alt={alt} width="1200" height="1394" loading="lazy" decoding="async" sizes="(max-width: 820px) 100vw, 50vw" /></figure>)}</div></div></section>;
 }
 
+export function Certification() {
+  const included = [
+    "1-hour online training with Jimmy Coco",
+    "Hollywood application techniques",
+    "Product knowledge & consultation tips",
+    "Professional certification quiz",
+    "Official Jimmy Coco certificate",
+    "Digital accreditation badge for social media & website",
+    "Listed as a Jimmy Coco Certified Salon (if applicable)",
+  ];
+  const matters = [
+    "Builds trust with new clients",
+    "Adds prestige to your salon",
+    "Differentiates you from competitors",
+    "Gives clients confidence they're receiving a professional Hollywood-standard tan",
+  ];
+  return <section className="certify" id="certification"><div className="cert-grid">
+    <div className="cert-copy">
+      <p className="eyebrow">The accreditation</p>
+      <h2>Become a Jimmy Coco <em>Certified Salon.</em></h2>
+      <p className="sub cert-lead">Give your clients Hollywood's most sought-after glow.</p>
+      <p className="cert-body">Be selected as a Jimmy Coco Professional Partner and you'll gain exclusive access to Jimmy's online certification programme, where he personally teaches the signature tanning techniques used on some of the world's most photographed women.</p>
+      <p className="cert-body">Complete the online training and short assessment to become a Jimmy Coco Certified Salon, and receive your official certificate and accreditation badge to display in your salon, on your website and across social media.</p>
+      <div className="cert-lists">
+        <div><h3>What's included</h3><ul className="cert-list cert-check">{included.map((item) => <li key={item}><i aria-hidden="true">&#10003;</i><span>{item}</span></li>)}</ul></div>
+        <div><h3>Why it matters</h3><ul className="cert-list cert-star">{matters.map((item) => <li key={item}><i aria-hidden="true">&#10022;</i><span>{item}</span></li>)}</ul></div>
+      </div>
+    </div>
+    <div className="cert-art">
+      <img className="cert-badge" src={`${A}certified-badge.webp`} alt="Certified Jimmy Coco Hollywood Tan Artist accreditation badge" width="620" height="616" loading="lazy" decoding="async" />
+      <img className="cert-jimmy" src={`${A}jimmy-certified.webp`} alt="Jimmy Coco presenting the certification programme" width="1600" height="902" loading="lazy" decoding="async" />
+    </div>
+  </div></section>;
+}
+
 export function Trial({ monthlyProfit }: { monthlyProfit: number }) {
   return <section className="partner-close" id="trial"><div className="wrap"><p className="eyebrow">The partnership · complimentary trial</p><h2>Try it on a real client. <em>Free.</em></h2><p className="sub">Party season books out before it starts. Salons that trial now are stocked, trained and ready before the rush — and the trial costs you nothing but one appointment.</p><div className="close-grid"><div>
     <div className="trialbox"><span className="tb-tag">In your trial box</span><ul><li><b>The Sunset professional solution</b><span>Enough to tan a real client — judge the colour on skin, not on a screen.</span></li><li><b>Jimmy's shade guide</b><span>The method behind 20+ years of red-carpet colour. Yours to keep, either way.</span></li></ul><p>Posted this week · no cost · no commitment</p></div>

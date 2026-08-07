@@ -17,7 +17,7 @@ export function Hero() {
           <div className="hero-stats"><div>Hollywood's professional spray tan system.</div><div>Approx. 28 full-body tans per bottle.</div><div>Designed to create clients who come back.</div></div>
           <div className="hero-ctas"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order Malibu 1L — £60</Link><a className="btn btn-ghost" href="#trial">Request a free trial</a><a className="hero-profit-link" href="#calculator">Calculate your salon profits →</a></div>
         </div></div>
-        <div className="hero-img"><img src="/img/hero-v2.webp" alt="Professional model holding the Sunless by Jimmy Coco spray tan" width="1100" height="1213" fetchPriority="high" /></div>
+        <div className="hero-img"><img src="/img/hero-1100.webp" srcSet="/img/hero-560.webp 560w, /img/hero-760.webp 760w, /img/hero-1100.webp 1100w" sizes="(max-width: 900px) 100vw, 50vw" alt="Professional model holding the Sunless by Jimmy Coco spray tan" width="1100" height="1213" fetchPriority="high" /></div>
       </section>
       <div className="metrics"><div className="metrics-inner">
         <div className="metric"><DropIcon /><div><b>35<small>ml</small></b><span>Ideal application</span></div></div>
@@ -31,7 +31,7 @@ export function Hero() {
 
 export function Story() {
   return <section id="story"><div className="wrap story-grid">
-    <img src={`${A}jimmy-coco-story-v2.webp`} alt="Jimmy Coco — the Hollywood tan artist behind the Sunless professional range" width="760" height="932" loading="lazy" decoding="async" />
+    <img src={`${A}jimmy-coco-story-760.webp`} srcSet={`${A}jimmy-coco-story-460.webp 460w, ${A}jimmy-coco-story-760.webp 760w`} sizes="(max-width: 900px) 100vw, 42vw" alt="Jimmy Coco — the Hollywood tan artist behind the Sunless professional range" width="760" height="932" loading="lazy" decoding="async" />
     <div><p className="eyebrow">Why leading salons choose Jimmy Coco</p><blockquote className="big">“I wanted to bring my <em>Hollywood Glow</em> to the world's best salons.”</blockquote><p>For more than 15 years, Jimmy Coco has been the trusted tanning expert behind Hollywood's biggest stars, iconic red-carpet moments, and world-renowned beauty campaigns.</p><p style={{ marginTop: 12 }}>The iconic red-carpet radiance Jimmy Coco is known for has been meticulously bottled — offering your most selective clients exclusive access to Hollywood's signature glow.</p><p style={{ marginTop: 12 }}>A premium name your clients already recognise means a service you can price and present as premium — never a race to the bottom.</p><div className="sig">Jimmy Coco<small>Hollywood Tan Guru</small></div></div>
   </div></section>;
 }

@@ -10,7 +10,18 @@ import { Certification, Formula, GlowDuo, Hero, Retail, Shades, Story, Trial } f
 import { ProfitCalculator } from "../components/home/ProfitCalculator";
 import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: homeStyles }, { rel: "stylesheet", href: ritualStyles }, { rel: "stylesheet", href: chromeStyles }];
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: homeStyles },
+  { rel: "stylesheet", href: ritualStyles },
+  { rel: "stylesheet", href: chromeStyles },
+  {
+    rel: "preload",
+    as: "image",
+    href: "/img/hero-1100.webp",
+    imageSrcSet: "/img/hero-560.webp 560w, /img/hero-760.webp 760w, /img/hero-1100.webp 1100w",
+    imageSizes: "(max-width: 900px) 100vw, 50vw",
+  } as never,
+];
 
 export const meta: MetaFunction = () => [
   { title: "Professional Spray Tan Solutions for Salons | Sunless by Jimmy Coco" },

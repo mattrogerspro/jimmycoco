@@ -229,10 +229,10 @@
   .pc-notes span{flex:1 1 auto;text-align:right;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(12.5px,1.06vw,19px);line-height:1.35;letter-spacing:.01em;color:#A9705A}
   .pc-notes i{flex:0 0 auto;width:clamp(24px,2.8vw,48px);height:3px;background-image:repeating-linear-gradient(to right,#2F3C55 0 7px,transparent 7px 12px)}
   .pc-shot{display:block;width:auto;max-width:100%;height:auto;justify-self:center;max-height:clamp(360px,30vw,540px);-webkit-mask-image:radial-gradient(118% 94% at 50% 50%,#000 58%,rgba(0,0,0,.35) 88%,transparent 100%);mask-image:radial-gradient(118% 94% at 50% 50%,#000 58%,rgba(0,0,0,.35) 88%,transparent 100%)}
-  .pc-tile{background:#8C6A3F;color:#FFF9F0;border-radius:3px;padding:clamp(12px,1.4vw,22px) 12px;text-align:center}
-  .pc-tile i{display:block;font-style:normal;font-size:clamp(11px,.85vw,15px);letter-spacing:.22em;text-transform:uppercase;color:rgba(255,249,240,.88)}
-  .pc-tile b{display:block;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:400;font-size:clamp(25px,2.5vw,42px);line-height:1;letter-spacing:.03em;margin:8px 0 9px}
-  .pc-tile span{display:block;font-size:clamp(13px,1.05vw,18px);line-height:1.32;letter-spacing:.05em;color:rgba(255,249,240,.94)}
+  .pc-tile{background:#8C6A3F;color:#FFF9F0;border-radius:3px;padding:clamp(22px,2.6vw,44px) clamp(12px,1.4vw,22px);text-align:center}
+  .pc-shade{margin:0;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:300;font-size:clamp(22px,2.15vw,38px);line-height:1.24;letter-spacing:.01em;color:#FFF9F0}
+  .pc-shade b{font-weight:700}
+  .pc-tile span{display:block;margin-top:clamp(16px,2vw,34px);font-size:clamp(13px,1.05vw,18px);line-height:1.32;letter-spacing:.05em;color:rgba(255,249,240,.94)}
   .pc-size{margin:clamp(14px,1.4vw,22px) 0 0;text-align:center;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(15px,1.3vw,23px);line-height:1.5;color:#3B342C}
   .pc-list{list-style:none;margin:clamp(10px,1.1vw,16px) 0 0;padding:0}
   .pc-list li{display:flex;align-items:center;gap:clamp(14px,1.5vw,24px);padding:clamp(12px,1.35vw,20px) 0;border-top:1px solid rgba(158,118,78,.28)}

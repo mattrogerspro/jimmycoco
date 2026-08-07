@@ -8,6 +8,7 @@ import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../compone
 import { ApplicationRitual } from "../components/shared/ApplicationRitual";
 import { Certification, Formula, GlowDuo, Hero, Retail, Shades, Story, Trial } from "../components/home/HomeSections";
 import { ProfitCalculator } from "../components/home/ProfitCalculator";
+import { siteEntityGraph } from "../lib/entity";
 import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 import { handleApplicationSubmit } from "../lib/application-action.server";
 
@@ -25,7 +26,7 @@ export const links: LinksFunction = () => [
 ];
 
 export const meta: MetaFunction = () => [
-  { title: "Professional Spray Tan Solutions for Salons | Sunless by Jimmy Coco" },
+  { title: "Professional Spray Tan Solutions | Sunless by Jimmy Coco" },
   { name: "description", content: "Premium professional spray tan solutions, salon training and retail support from Hollywood tan artist Jimmy Coco. Request a complimentary salon trial." },
   { name: "robots", content: "index, follow, max-image-preview:large" },
   { property: "og:type", content: "website" },
@@ -40,26 +41,10 @@ export const meta: MetaFunction = () => [
   { name: "twitter:image", content: absoluteUrl("/img/hero.webp") },
   { tagName: "link", rel: "canonical", href: SITE_URL },
   { tagName: "link", rel: "alternate", hrefLang: "en-GB", href: SITE_URL },
+  { tagName: "link", rel: "alternate", hrefLang: "x-default", href: SITE_URL },
 ];
 
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Sunless by Jimmy Coco",
-    url: SITE_URL,
-    email: "pro@jimmycoco.co.uk",
-    founder: { "@type": "Person", name: "Jimmy Coco" },
-    sameAs: ["https://jimmycoco.co.uk"],
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Sunless by Jimmy Coco Professional",
-    url: SITE_URL,
-    inLanguage: "en-GB",
-  },
-];
+const schema = siteEntityGraph;
 
 export async function action({ request }: ActionFunctionArgs) {
   return handleApplicationSubmit(request, { source: "pro-site-trial", adminBaseUrl: SITE_URL });

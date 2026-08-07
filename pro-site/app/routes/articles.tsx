@@ -18,6 +18,8 @@ export const meta: MetaFunction = () => [
   { property: "og:title", content: "Professional Spray Tan Articles | Sunless by Jimmy Coco" },
   { property: "og:url", content: `${SITE_URL}/articles` },
   { tagName: "link", rel: "canonical", href: `${SITE_URL}/articles` },
+  { tagName: "link", rel: "alternate", hrefLang: "en-GB", href: `${SITE_URL}/articles` },
+  { tagName: "link", rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/articles` },
 ];
 
 export async function loader(_: LoaderFunctionArgs) {

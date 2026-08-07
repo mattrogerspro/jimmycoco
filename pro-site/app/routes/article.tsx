@@ -4,6 +4,7 @@ import articleStyles from "../styles/articles.css?url";
 import chromeStyles from "../styles/chrome.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { getPublishedArticle } from "../lib/articles.server";
+import { ORG_ID, PERSON_ID, brandEntities } from "../lib/entity";
 import { SITE_URL } from "../lib/site";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: articleStyles }, { rel: "stylesheet", href: chromeStyles }];
@@ -33,10 +34,12 @@ export const meta: MetaFunction<typeof loader> = ({ data: loaderData }) => {
 export default function ArticlePage() {
   const { article }: any = useLoaderData<typeof loader>();
   const canonical = `${SITE_URL}/articles/${article.slug}`;
-  const schema = { "@context": "https://schema.org", "@type": "BlogPosting", headline: article.title, description: article.meta_description || article.excerpt, image: article.cover_url ? [article.cover_url] : undefined, datePublished: article.published_at, dateModified: article.updated_at, author: { "@type": "Person", name: article.author?.name || "Jimmy Coco" }, publisher: { "@type": "Organization", name: "Sunless by Jimmy Coco", url: SITE_URL }, mainEntityOfPage: canonical, keywords: article.keywords?.join(", ") };
+  const schema = { "@context": "https://schema.org", "@type": "BlogPosting", headline: article.title, description: article.meta_description || article.excerpt, image: article.cover_url ? [article.cover_url] : undefined, datePublished: article.published_at, dateModified: article.updated_at, author: article.author?.name && article.author.name !== "Jimmy Coco"
+      ? { "@type": "Person", name: article.author.name }
+      : { "@id": PERSON_ID }, publisher: { "@id": ORG_ID }, mainEntityOfPage: canonical, keywords: article.keywords?.join(", ") };
   const faq = article.faq_items?.length ? { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: article.faq_items.map((item: any) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) } : null;
   return <div className="content-shell">
-    <StructuredData data={faq ? [schema, faq] : [schema]} />
+    <StructuredData data={[...brandEntities, schema, ...(faq ? [faq] : [])]} />
     <Announcement /><SiteHeader page="content" />
     <main className="article-page">
       <article>

@@ -419,3 +419,13 @@
     .trial-order{align-items:flex-start;flex-direction:column}
     body{padding-bottom:70px}
   }
+
+  /* Below ~560px the header ran out of room: logo + "Professional" tag + the
+     order button exceeded the viewport and made every page scroll sideways.
+     The nav-links are already hidden at 980px; this shrinks what is left. */
+  @media (max-width:560px){
+    .nav{gap:12px;height:64px}
+    .logo{font-size:20px;letter-spacing:.1em}
+    .protag{display:none}
+    .nav .btn-sm{padding:11px 14px;font-size:12px;white-space:nowrap}
+  }

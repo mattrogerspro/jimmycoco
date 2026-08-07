@@ -90,7 +90,7 @@ export function Shades() {
 
 export function Retail() {
   const products = [
-    ["retail-mitt.webp", "Buff & Glow Mitt in navy", "The easy add-on", "Buff & Glow Mitt", "The world's first 3-in-1 tanning mitt — streak-free maintenance between visits. The natural “add this to your visit” at checkout.", "RRP £15", " · ★ 5.0 from 20 reviews"],
+    ["retail-mitt.webp", "Buff & Glow Mitt in navy", "The easy add-on", "Buff & Glow Mitt", "The world's first 3-in-1 tanning mitt — streak-free maintenance between visits. The natural “add this to your visit” at checkout.", "RRP £15", ""],
     ["retail-souffle.webp", "The Self Tan Soufflé with mitt and face mist bundle", "The top-up seller", "The Self Tan Soufflé", "Instant tint, Jimmy's iconic scent and a moisture-locking formula — the take-home that extends your work between appointments.", "Medium · Dark", ""],
     ["retail-kit.webp", "The A-List Glow Kit complete routine", "The gift purchase", "The A-List Glow Kit", "The complete six-piece routine — soufflé, world-first mitt, luxury brushes, face mist and lip balm. Your premium shelf anchor.", "RRP £79", " · 6 pieces"],
   ];

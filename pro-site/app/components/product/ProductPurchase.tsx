@@ -11,12 +11,12 @@ export const SHADE_OPTIONS = [
   { name: "Dark · 12% DHA", label: "DARK", className: "s4" },
 ];
 
-const gallery = [
-  ["product-01-0003c7706e6e.jpg", "Bottle"],
-  ["product-02-90c11d032981.jpg", "Product details"],
-  ["product-03-d9921088377a.jpg", "Solution texture"],
-  ["product-04-313d9d6a60b1.jpg", "Results"],
-  ["product-05-e60eda7f1217.jpg", "Application"],
+const gallery: Array<[string, string, number, number]> = [
+  ["product-01-0003c7706e6e.jpg", "Bottle", 900, 900],
+  ["product-02-90c11d032981.jpg", "Product details", 900, 855],
+  ["product-03-d9921088377a.jpg", "Solution texture", 440, 492],
+  ["product-04-313d9d6a60b1.jpg", "Results", 760, 1777],
+  ["product-05-e60eda7f1217.jpg", "Application", 1000, 1678],
 ];
 
 const asset = (name: string) => `/assets/site/${name}`;
@@ -40,14 +40,13 @@ export function ProductPurchase({ state, setState, ctaRef }: {
 
   return <div className="wrap pdp">
     <div className="gallery">
-      <div className="gmain"><img src={asset(gallery[selectedImage][0])} alt="Malibu professional spray tan solution, 1 litre bottle" fetchPriority="high" /></div>
-      <div className="gthumbs">{gallery.map(([src, label], index) => <button className={selectedImage === index ? "active" : ""} onClick={() => setSelectedImage(index)} aria-label={label} type="button" key={src}><img src={asset(src)} alt="" loading="lazy" decoding="async" /></button>)}</div>
+      <div className="gmain"><img src={asset(gallery[selectedImage][0])} alt="Malibu professional spray tan solution, 1 litre bottle" width={gallery[selectedImage][2]} height={gallery[selectedImage][3]} fetchPriority="high" /></div>
+      <div className="gthumbs">{gallery.map(([src, label, width, height], index) => <button className={selectedImage === index ? "active" : ""} onClick={() => setSelectedImage(index)} aria-label={label} type="button" key={src}><img src={asset(src)} alt="" width={width} height={height} loading="lazy" decoding="async" /></button>)}</div>
     </div>
     <div className="buybox">
       <div className="product-heading">
         <p className="bb-eyebrow">Professional self tan · Salon order</p>
         <h1>Malibu Professional Spray 1 Litre</h1>
-        <div className="rating-row"><span className="stars" aria-hidden="true">★★★★★</span><span><b>4.9 out of 5</b> · 1,842 verified reviews</span></div>
       </div>
 
       <div className="price-block">

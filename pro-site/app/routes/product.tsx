@@ -6,8 +6,11 @@ import chromeStyles from "../styles/chrome.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { ApplicationRitual } from "../components/shared/ApplicationRitual";
 import { ProductProofStrip, ProductPurchase, StickyOrder, usePurchaseState } from "../components/product/ProductPurchase";
-import { CrossSell, JimmyStory, OrderSection, ProductDetails, Results, ShadeComparison } from "../components/product/ProductSections";
-import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
+import { CrossSell, JimmyStory, OrderSection, ProductDetails, SalonFaq, ShadeComparison, Specification } from "../components/product/ProductSections";
+import { ORG_ID, brandEntities } from "../lib/entity";
+import { faqPageSchema } from "../lib/faq";
+import { priceValidUntil, specSchemaProperties } from "../lib/specs";
+import { CONTENT_UPDATED, PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 import { handleApplicationSubmit } from "../lib/application-action.server";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: productStyles }, { rel: "stylesheet", href: ritualStyles }, { rel: "stylesheet", href: chromeStyles }];
@@ -32,18 +35,30 @@ export const meta: MetaFunction = () => [
   { name: "twitter:image", content: absoluteUrl("/assets/site/product-01-0003c7706e6e.jpg") },
   { tagName: "link", rel: "canonical", href: canonical },
   { tagName: "link", rel: "alternate", hrefLang: "en-GB", href: canonical },
+  { tagName: "link", rel: "alternate", hrefLang: "x-default", href: canonical },
 ];
 
 const schema = [
+  ...brandEntities,
+  faqPageSchema,
   {
     "@context": "https://schema.org",
     "@type": "Product",
     name: "Malibu Professional Spray Tan Solution 1L",
     description: "Professional salon spray tan solution in a 1 litre bottle, providing approximately 28 full-body tans.",
     image: [absoluteUrl("/assets/site/product-01-0003c7706e6e.jpg")],
-    brand: { "@type": "Brand", name: "Sunless by Jimmy Coco" },
-    offers: { "@type": "Offer", url: canonical, priceCurrency: "GBP", price: "60.00" },
-    aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "1842" },
+    brand: { "@id": ORG_ID },
+    manufacturer: { "@id": ORG_ID },
+    offers: {
+      "@type": "Offer", url: canonical, priceCurrency: "GBP", price: "60.00",
+      availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+      seller: { "@id": ORG_ID },
+      priceValidUntil: priceValidUntil(),
+    },
+    sku: "MALIBU-1L",
+    additionalProperty: specSchemaProperties,
+    dateModified: CONTENT_UPDATED,
   },
   {
     "@context": "https://schema.org",
@@ -73,11 +88,12 @@ export default function ProductPage() {
       </section>
       <ProductProofStrip />
       <JimmyStory />
-      <Results />
       <ShadeComparison onChoose={(shade) => setState((current) => ({ ...current, shade }))} />
       <ApplicationRitual />
       <CrossSell />
+      <Specification />
       <ProductDetails />
+      <SalonFaq />
       <OrderSection state={state} />
     </main>
     <SiteFooter page="product" />

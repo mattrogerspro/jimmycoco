@@ -1,4 +1,11 @@
 export const SITE_URL = "https://www.jimmycoco.pro";
+/**
+ * Date the site's static content last changed materially. Feeds dateModified in
+ * structured data and lastmod for static routes in the sitemap. Bump it when you
+ * change page copy — not on every deploy, or the freshness signal means nothing.
+ */
+export const CONTENT_UPDATED = "2026-08-07";
+
 export const PRODUCT_PATH = "/products/malibu-professional-spray-1l";
 
 export function absoluteUrl(path = "/") {

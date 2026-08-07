@@ -10,15 +10,15 @@ import {
 } from "react-router";
 
 export const links: LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Jost:wght@300;400;500;600&display=swap",
-  },
+  { rel: "preload", href: "/fonts/fraunces-var.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
+  { rel: "preload", href: "/fonts/jost-var.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
   { rel: "icon", href: "/img/favicon.svg", type: "image/svg+xml" },
   { rel: "manifest", href: "/site.webmanifest" },
 ];
+
+const FONT_FACES = `@font-face{font-family:'Fraunces';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/fraunces-var.woff2) format('woff2-variations')}
+@font-face{font-family:'Fraunces';font-style:italic;font-weight:100 900;font-display:swap;src:url(/fonts/fraunces-var-italic.woff2) format('woff2-variations')}
+@font-face{font-family:'Jost';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/jost-var.woff2) format('woff2-variations')}`;
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -28,6 +28,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#3a332c" />
         <Meta />
+        <style dangerouslySetInnerHTML={{ __html: FONT_FACES }} />
         <Links />
       </head>
       <body>

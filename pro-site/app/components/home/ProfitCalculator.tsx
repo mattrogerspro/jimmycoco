@@ -35,10 +35,13 @@ export function ProfitCalculator({ onMonthlyChange }: { onMonthlyChange: (value:
   // One debounced reporter per control, so dragging sends the settled value only.
   const reportChange = useRef(debounceTrack(700)).current;
   const reportResult = useRef(debounceTrack(1200)).current;
+  // Stays false until they touch a control, so the default numbers never report as a result.
+  const engaged = useRef(false);
 
   const trackControl = useCallback(
     (control: string, value: number, setter: (next: number) => void) => (next: number) => {
       setter(next);
+      engaged.current = true;
       trackOnce("calculator_start", "calculator_start", { section: "calculator" });
       reportChange("calculator_adjust", { control, control_value: next });
     },
@@ -68,6 +71,7 @@ export function ProfitCalculator({ onMonthlyChange }: { onMonthlyChange: (value:
 
   // The outcome the visitor actually saw, once they stop moving things.
   useEffect(() => {
+    if (!engaged.current) return;
     reportResult("calculator_result", {
       monthly_profit: Math.round(totals.month),
       yearly_profit: Math.round(totals.year),

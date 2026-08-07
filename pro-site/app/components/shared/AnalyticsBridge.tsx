@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router";
 import { track, trackOnce } from "../../lib/analytics";
 
@@ -28,9 +28,14 @@ function sectionOf(element: HTMLElement) {
  */
 export function AnalyticsBridge() {
   const location = useLocation();
+  const firstRender = useRef(true);
 
-  // SPA navigations — gtag only sends the first page_view by itself.
+  // SPA navigations only — gtag's own config call already sent the first page_view.
   useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
     track("page_view", {
       page_path: location.pathname + location.search,
       page_title: typeof document !== "undefined" ? document.title : undefined,
@@ -70,7 +75,7 @@ export function AnalyticsBridge() {
         track(isSubmit ? "form_submit_click" : "button_click", {
           button_label: label,
           section,
-          form_id: button.form?.getAttribute("class") ?? undefined,
+          form_id: button.form?.getAttribute("data-form-id") ?? undefined,
         });
       }
     };

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { Link } from "react-router";
 import { gbp } from "../../lib/site";
 import { PRODUCT_PATH } from "../../lib/site";
@@ -14,10 +14,11 @@ type SliderProps = {
 };
 
 function Slider({ label, value, min, max, step = 1, display, onChange }: SliderProps) {
+  const id = useId();
   return (
     <div className="field">
-      <label>{label} <output>{display}</output></label>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={(event) => onChange(Number(event.target.value))} />
+      <label htmlFor={id}>{label} <output>{display}</output></label>
+      <input id={id} type="range" min={min} max={max} step={step} value={value} aria-valuetext={display} onChange={(event) => onChange(Number(event.target.value))} />
     </div>
   );
 }

@@ -6,7 +6,7 @@
   *{box-sizing:border-box;margin:0}
   html{scroll-behavior:smooth}
   body{background:var(--paper);color:var(--ink2);font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:21px;line-height:1.65;-webkit-font-smoothing:antialiased}
-  img{display:block;max-width:100%}
+  img{display:block;max-width:100%;height:auto}
   a{color:inherit}
   .wrap{max-width:min(90vw,1900px);margin:0 auto;padding:0 24px}
   .eyebrow{font-size:17px;letter-spacing:.26em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:18px}

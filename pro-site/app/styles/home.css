@@ -303,7 +303,7 @@
   /* editorial duo */
   .glow-duo{background:var(--paper);padding:0}
   .glow-duo .wrap{max-width:none;width:100%;padding:0}
-  .gd-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
+  .gd-grid{display:grid;grid-template-columns:30% 70%;gap:0}
   .gd-shot{margin:0;overflow:hidden;background:#EFE7DE;line-height:0}
   .gd-shot img{display:block;width:100%;height:clamp(380px,34vw,620px);object-fit:cover;object-position:50% 45%}
   @media (max-width:820px){

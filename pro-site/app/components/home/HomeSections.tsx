@@ -132,7 +132,7 @@ export function Certification() {
     </div>
     <div className="cert-art">
       <img className="cert-badge" src={`${A}certified-badge.webp`} alt="Certified Jimmy Coco Hollywood Tan Artist accreditation badge" width="620" height="616" loading="lazy" decoding="async" />
-      <img className="cert-jimmy" src={`${A}jimmy-certified.webp`} alt="Jimmy Coco presenting the certification programme" width="1600" height="902" loading="lazy" decoding="async" />
+      <img className="cert-jimmy" src={`${A}jimmy-certified.webp`} alt="Jimmy Coco presenting the certification programme" width="1600" height="872" loading="lazy" decoding="async" />
     </div>
   </div></section>;
 }

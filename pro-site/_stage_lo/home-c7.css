@@ -277,7 +277,7 @@
   .cert-star i{color:var(--gold)}
   .cert-art{position:relative;background:linear-gradient(165deg,#8E7F74,#7A6C62)}
   .cert-badge{position:absolute;top:clamp(20px,2.4vw,48px);left:50%;transform:translateX(-50%);width:min(64%,340px);height:auto;z-index:2;filter:drop-shadow(0 18px 40px rgba(20,16,13,.28))}
-  .cert-jimmy{position:absolute;right:-11%;bottom:-17%;height:62%;width:auto;max-width:none;z-index:3;pointer-events:none}
+  .cert-jimmy{position:absolute;right:-11%;bottom:-9%;height:60%;width:auto;max-width:none;z-index:3;pointer-events:none}
   @media (max-width:1100px){
     .cert-jimmy{height:48%;bottom:-6%}
   }

@@ -331,80 +331,78 @@ assumptions are listed above so you can.</em></p>
     title: "How many spray tans do you get from a litre?",
     category: "The Economics of Tanning",
     tags: ["costs", "margin", "equipment", "technique"],
-    readingTimeMinutes: 6,
+    readingTimeMinutes: 5,
     isFeatured: false,
     seoTitle: "How Many Spray Tans in a Litre? The UK Answer, in £",
-    metaDescription: "Approximately 28 full-body tans from a litre, at about 36ml each and £2.14 of solution per tan. How to measure your own yield in a week, and what each tan is worth.",
+    metaDescription: "About 28 full-body tans from a litre — roughly 36ml a client and £2.14 of solution. How to measure your own yield in one week, and what the difference is worth.",
     ogTitle: "How many spray tans do you get from a litre?",
-    ogDescription: "28 to the litre, 36ml a tan, £2.14 of solution. Measure your own in a week — and see what a tan of difference is actually worth.",
+    ogDescription: "28 to the litre, 36ml a tan, £2.14 of solution. Measure your own in a week — and find out whether the difference is worth chasing.",
     keywords: ["how many spray tans in a litre", "spray tan solution per client", "ml per spray tan", "spray tan cost per treatment", "tans per litre uk", "how much solution for a spray tan"],
-    excerpt: "About 28 — roughly 36ml a client and £2.14 of solution. Here's how to find out what you actually get, in a week, and whether the difference is worth chasing.",
+    excerpt: "About 28 — roughly 36ml a client and £2.14 of solution. How to measure what you actually get, in one week, and whether the difference is worth chasing.",
     content: `
 <blockquote>
-<p><strong>About 28</strong> from a litre of the professional solution. At £60 a litre that's
-<strong>£2.14 of solution per tan</strong>, and roughly <strong>36ml</strong> on the client.</p>
-<p>Yours might be 24. It might be 31. Both are completely normal — and by the end of
-this you'll know which one you are, and whether it's worth doing anything about.</p>
+<p><strong>About 28</strong> from a litre of the professional solution — roughly <strong>36ml</strong> on
+each client, and <strong>£2.14</strong> of solution per tan.</p>
+<p>Yours might be 24. It might be 31. Both are normal, and this will tell you which
+one you are.</p>
 </blockquote>
 <p>If you've ever stood in front of the shelf on a Sunday night working out whether
 two litres will see you through the month, this is the number you were after.</p>
 <p>It's also the one most of us have only ever guessed at. Someone says "about 30"
 at a training day, and that's the figure you carry around for the next five
-years. So let's pin it down — and then let's find yours, because yours is the one
-your ordering actually runs on.</p>
-<h2>The figure</h2>
-<p><strong>A litre of Sunless by Jimmy Coco professional solution is rated at
-approximately 28 full-body tans.</strong> The solution is 10% DHA.</p>
-<p>You can check the arithmetic yourself:</p>
-<p><code>1,000ml ÷ 28 tans = 35.7ml per full-body tan</code></p>
-<p>That's the dose the rating assumes — a shade under 36ml on the client, once. Not
-per coat, not per pass, and not counting what you lose to the cup, the line and
-the tent.</p>
-<h2>What it costs you</h2>
+years.</p>
+<h2>Where 28 comes from</h2>
+<p>A litre of Sunless by Jimmy Coco professional solution is rated at approximately
+<strong>28 full-body tans</strong>. The solution is 10% DHA.</p>
+<p>That rating is just a division, and you can check it:</p>
+<p><code>1,000ml ÷ 28 tans = 35.7ml per tan</code></p>
+<p>So it assumes a shade under 36ml goes onto each client — the whole treatment, not
+one coat of it, and not counting what stays behind in the cup, the line and the
+tent.</p>
+<p>At £60 a litre, that makes your solution cost:</p>
 <p><code>£60 ÷ 28 = £2.14 per tan</code></p>
-<p>On a £30 treatment, that's <strong>7.1% of the ticket</strong> — a far smaller share than
-most of us carry around in our heads.</p>
-<h2>What actually moves your number</h2>
-<p>Six things, roughly in order of how much difference they make:</p>
-<p><strong>Coverage.</strong> A full-body tan on a size 8 and a full-body tan on a size 20 are
-not the same amount of solution. It's the single biggest variable, and no rating
-on any bottle can account for it.</p>
-<p><strong>Technique.</strong> How far back you hold the gun, how fast you pass, how much you
-overlap, how many passes you make. A tight, efficient hand covers a body in
-noticeably less — and this is the one you can actually train.</p>
-<p><strong>Equipment and setup.</strong> Gun, needle, air pressure, pattern width. A pattern
-that's too wide puts solution past the edge of your client and onto the tent.</p>
-<p><strong>Priming and line loss.</strong> Every prime, every purge, every colour change. Tiny
-per session, real across a week.</p>
-<p><strong>Cup residue.</strong> Whatever won't come out of the cup at the end of the day.</p>
-<p><strong>Depth chasing.</strong> Going back over an area to darken it instead of choosing the
-right depth to begin with. It's the most expensive habit on this list, and it
-doesn't reliably give you a darker result either — depth comes from the solution
-and the development, not from piling more onto the skin.</p>
-<p>Nobody can put a number on any of those for you; too much of it is in your hands
-specifically. Which is exactly why an hour spent measuring your own is worth it.</p>
-<h2>How to measure yours</h2>
-<p>One week, and about ten minutes of actual effort.</p>
+<p>On a £30 treatment, <strong>the solution is 7.1% of what your client pays you</strong>. That
+is a good deal smaller than most of us carry around in our heads.</p>
+<h2>Why yours won't be 28</h2>
+<p>Twenty-eight is an average of a lot of different hands. Four things pull your own
+number away from it, and they don't matter equally.</p>
+<p><strong>Coverage does most of it.</strong> A full-body tan on a size 8 and a full-body tan on
+a size 20 are simply not the same amount of solution. No rating on any bottle can
+know your client list.</p>
+<p><strong>Then pattern width.</strong> If your fan is wider than the part of the body you're
+working on, the overspill lands on the tent instead of the client. This is the
+most common reason a yield comes in low, and it's a two-minute adjustment.</p>
+<p><strong>Then passes.</strong> Distance, speed, and how much you overlap. A tight hand covers a
+body in noticeably less than a heavy one — and unlike coverage, this is something
+you can train.</p>
+<p><strong>Then the small losses.</strong> Priming, purging, colour changes, and whatever won't
+come out of the cup at the end of the day. Tiny per client, real across a week.</p>
+<p>One habit sits outside that list, because it costs more than the rest of them
+put together: <strong>going back over an area to make it darker</strong>. It doesn't work.
+Depth comes from the DHA and the development time, not from how much solution is
+sitting on the skin — so a second pass buys you very little colour and a lot of
+litre.</p>
+<h2>Measuring yours takes a week</h2>
+<p>Five steps, and about ten minutes of real effort.</p>
 <ol>
-<li><strong>Start a fresh litre</strong> and write the date on it.</li>
-<li><strong>Tally every full-body tan</strong> you do from it — a biro mark on the bottle is
-   plenty. Don't count touch-ups, half-bodies or practice.</li>
-<li><strong>Stop when it's genuinely empty</strong>, not when it looks nearly done.</li>
-<li><strong>Divide.</strong> Tans ÷ 1 litre is your yield.</li>
-<li><strong>Divide again.</strong> £60 ÷ your yield is your real solution cost per tan.</li>
+<li><strong>Open a fresh litre</strong> and write the date on it.</li>
+<li><strong>Mark the bottle for every full-body tan you do from it.</strong> A biro tally is
+   plenty. Leave out touch-ups, half-bodies and practice.</li>
+<li><strong>Keep going until it's genuinely empty</strong> — not until it looks nearly done.</li>
+<li><strong>Count your marks.</strong> That is your yield.</li>
+<li><strong>Divide £60 by it.</strong> That is what solution really costs you per tan.</li>
 </ol>
-<p>Two things keep it honest: run it across a normal week rather than a quiet one,
-and don't change how you spray while you're counting. A yield measured on your
-best behaviour tells you what's possible, not what's happening.</p>
-<h2>What a tan of difference is worth</h2>
-<p>At 12 tans a week — 624 a year — <strong>each extra tan you get from a litre is worth
-about £46 a year.</strong> Forty-six pounds. That's the whole prize.</p>
+<p>Two things keep the answer honest. Run it across an ordinary week rather than a
+quiet one, and don't change how you spray while you're counting. A yield measured
+on your best behaviour tells you what's possible, not what's happening.</p>
+<h2>What the difference is actually worth</h2>
+<p>Every yield from 26 to 30, at 12 tans a week — 624 a year:</p>
 <table>
 <thead>
 <tr>
 <th>Your yield</th>
 <th>Solution per tan</th>
-<th>Cost per year at 624 tans</th>
+<th>Solution per year</th>
 </tr>
 </thead>
 <tbody>
@@ -435,76 +433,38 @@ about £46 a year.</strong> Forty-six pounds. That's the whole prize.</p>
 </tr>
 </tbody>
 </table>
-<p>The full spread between a heavy hand and an efficient one — four tans a litre —
-comes to about <strong>£223 a year</strong>. Real money, and worth having. But set it next to
-what's sitting beside it in the same business: three retail sales a week is
-£1,404 a year, and £2 on your price is £1,229.</p>
-<p><strong>Yield is worth improving. It isn't worth obsessing over.</strong> If measuring it
-turns into changing supplier over 8p a tan, the tail is wagging the dog — and a
-cheaper litre that gives you one result you're not happy with costs more than a
-year of the saving. The <a href="/articles/what-a-spray-tan-costs">full cost
-model</a> shows where the money really is.</p>
-<h2>What it means for ordering</h2>
-<p>Once you know your own yield, reordering stops being guesswork:</p>
-<p><code>litres per month = (tans per week × 52 ÷ 12) ÷ your yield</code></p>
+<p>Two things fall out of that table.</p>
+<p><strong>One extra tan from every litre is worth about £46 a year</strong> — roughly 8p a
+treatment.</p>
+<p><strong>The whole range, heaviest hand to most efficient, is £192 a year.</strong> That is
+the entire prize for getting this right.</p>
+<p>Which is worth knowing before you give up a Saturday to it. £192 is real money
+and you should have it. But in the same business over the same year, selling
+three retail items a week is worth <strong>£1,404</strong>, and putting £2 on your price is
+worth <strong>£1,229</strong>. Each of those is roughly seven times the size of your entire
+yield problem.</p>
+<p>So measure it, sort your pattern width if it's out, and then leave it alone. The
+one thing not to do is change supplier over 8p a tan — a cheaper litre that gives
+you a single result you're unhappy with costs more than a year of the saving. The
+<a href="/articles/what-a-spray-tan-costs">full cost model</a> shows where your
+money actually is.</p>
+<h2>Ordering from your own number</h2>
+<p>Once you know your yield, reordering stops being guesswork:</p>
+<p><code>litres a month = (tans a week × 52 ÷ 12) ÷ your yield</code></p>
 <p>At 12 tans a week and 28 to the litre, that's <strong>1.9 litres a month</strong>, or about
-<strong>22 litres a year</strong>. At 20 tans a week it's 3.1 a month.</p>
-<p>Order to your measured number rather than the rated one, and keep a litre of
-headroom for a busy week. Running out in the middle of the season costs a great
-deal more than a spare bottle does.</p>
-<h2>Assumptions</h2>
-<table>
-<thead>
-<tr>
-<th>Assumption</th>
-<th>Used here</th>
-<th>Note</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Yield</td>
-<td>28 tans per litre</td>
-<td>The product figure for the professional solution</td>
-</tr>
-<tr>
-<td>Litre price</td>
-<td>£60</td>
-<td>Current list price</td>
-</tr>
-<tr>
-<td>Volume</td>
-<td>12 tans a week, 624 a year</td>
-<td>For the worked examples only — substitute yours</td>
-</tr>
-<tr>
-<td>Ticket price</td>
-<td>£30</td>
-<td>Mid-point of the £20–£40 national range</td>
-</tr>
-</tbody>
-</table>
-<h2>What to do about it</h2>
-<ol>
-<li><strong>Measure one litre.</strong> A tally on the bottle, one week.</li>
-<li><strong>Redo your cost per tan</strong> with your number rather than the rated one.</li>
-<li><strong>Set your reorder point</strong> from that, instead of from when the shelf looks
-   empty.</li>
-<li><strong>If you're well under 28, look at pattern width and passes first</strong> — they're
-   the two things you can change on Monday.</li>
-<li><strong>Then stop thinking about it.</strong> Solution is 7% of your ticket. The levers
-   worth your attention are in the cost model.</li>
-</ol>
-<p><em>These figures are a model, not a forecast. Substitute your own — the
-assumptions are listed above so you can.</em></p>
+22 a year. At 20 tans a week it's 3.1 a month.</p>
+<p>Order against your measured number rather than the rated one, and keep a litre of
+headroom for a busy week. Running out mid-season costs a great deal more than a
+spare bottle does.</p>
+<p><em>The worked figures here use £60 a litre, 12 tans a week and a £30 treatment —
+the middle of the £20–£40 national range. Put your own in and the arithmetic
+holds.</em></p>
 `,
     faq: [
-      { question: "How many spray tans in a litre of solution?", answer: "Approximately 28 full-body tans from a litre of Sunless by Jimmy Coco professional solution, which works out at about 36ml a treatment. Yours will land either side of that depending on coverage, technique and equipment. Measure a full litre across a normal week to find out where you sit." },
-      { question: "How much solution should a full-body spray tan use?", answer: "Around 36ml, which is what 28 tans to a litre works out at. Using a lot more usually points to a pattern that's too wide, too much distance from the skin, or repeated passes over the same area — rather than to a better result." },
-      { question: "How much does the solution cost per spray tan?", answer: "£2.14, at £60 a litre and 28 tans to the litre. On a £30 treatment that's 7.1% of what your client pays you. Total consumables, including disposables, filters and laundry, come to about £3.24 a tan." },
-      { question: "How do I work out my own tans per litre?", answer: "Start a fresh litre, tally every full-body tan you do from it, stop when the bottle is genuinely empty, and divide. Do it across a normal week, and don't change how you spray while you're counting. Then divide £60 by that number for your real solution cost." },
-      { question: "Is it worth switching solution to get more tans per litre?", answer: "Rarely. Each extra tan per litre is worth about £46 a year at 12 tans a week, and the full realistic spread is around £223. One client lost to a result you weren't happy with costs more than that." },
-      { question: "How many litres should I order a month?", answer: "Take your tans per week, multiply by 52, divide by 12, then divide by your measured yield. At 12 tans a week and 28 to the litre that's 1.9 litres a month. Keep a litre of headroom for a busy week." },
+      { question: "Should I count half-body tans and touch-ups when I measure?", answer: "No — count full-body treatments only. A half-body uses roughly half the solution, so mixing them in gives you a per-tan figure that doesn't describe either one. If half-bodies are a real part of your column, tally them separately on a second litre." },
+      { question: "My yield is closer to 22 than 28. Is something wrong with the bottle?", answer: "Almost certainly not. A gap that size is usually pattern width — a fan wider than the body part you're working on puts solution onto the tent rather than the client. Check that first, then how many passes you're making. Heavier average coverage across your client list will account for the rest." },
+      { question: "Does a darker tan use more solution?", answer: "No. Depth comes from the DHA percentage and how long the tan develops, not from the volume sitting on the skin. Going back over an area to darken it is the most common way to lose solution without gaining colour — select the right depth at the start instead." },
+      { question: "Does any of this change if I'm mobile?", answer: "Your yield doesn't. The same hand uses the same solution wherever it's working. What changes is everything around it — travel time, fuel, equipment wear, and a no-show costing you the journey as well as the slot." },
     ],
     citations: [
       { text: "Sunset 1 Ltr Professional Spray product specification, Sunless by Jimmy Coco, 2026", url: "https://www.jimmycoco.pro/products/malibu-professional-spray-1l" },

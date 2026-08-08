@@ -1,0 +1,81 @@
+{
+  "$comment": "Maps 1:1 onto the fields in app/routes/admin.article-editor.tsx. Blocked only by the product-name question in brief.md and the brand-byline schema fix. No [VERIFY] items outstanding.",
+
+  "title": "How many spray tans do you get from a litre?",
+  "slug": "tans-per-litre",
+  "excerpt": "Twenty-eight from a litre, at about 36ml a tan and £2.14 of solution. Here is how to measure your own yield in a week, and what each tan of difference is actually worth.",
+
+  "author": "Sunless by Jimmy Coco Trade Team",
+  "category": "The Economics of Tanning",
+  "tags": ["costs", "margin", "equipment", "technique"],
+
+  "status": "draft",
+  "reading_time_minutes": 6,
+  "is_featured": false,
+  "noindex": false,
+
+  "seo_title": "How Many Spray Tans in a Litre? The UK Answer, in £",
+  "meta_description": "Approximately 28 full-body tans from a litre, at about 36ml each and £2.14 of solution per tan. How to measure your own yield in a week, and what each tan is worth.",
+  "og_title": "How many spray tans do you get from a litre?",
+  "og_description": "28 to the litre, 36ml a tan, £2.14 of solution. Measure your own in a week — and see what a tan of difference is actually worth.",
+  "keywords": [
+    "how many spray tans in a litre",
+    "spray tan solution per client",
+    "ml per spray tan",
+    "spray tan cost per treatment",
+    "tans per litre uk",
+    "how much solution for a spray tan"
+  ],
+
+  "faq_items": [
+    {
+      "question": "How many spray tans in a litre of solution?",
+      "answer": "Approximately 28 full-body tans from a litre of Sunless by Jimmy Coco professional solution, which works out at about 36ml per treatment. Your own number will sit either side of that depending on coverage, technique and equipment. Measure a full litre over a normal week to find yours."
+    },
+    {
+      "question": "How much solution should a full-body spray tan use?",
+      "answer": "Around 36ml, which is what 28 tans to a litre works out at. Using materially more usually points to a pattern that is too wide, too much distance from the skin or repeated passes over the same area — rather than to a better result."
+    },
+    {
+      "question": "How much does the solution cost per spray tan?",
+      "answer": "£2.14 at £60 a litre and 28 tans to the litre. On a £30 treatment that is 7.1% of what the client pays you. Total consumables, including disposables, filters and laundry, come to about £3.24 a tan."
+    },
+    {
+      "question": "How do I work out my own tans per litre?",
+      "answer": "Start a fresh litre, tally every full-body tan you do from it, stop when the bottle is genuinely empty, and divide. Do it across a normal week and do not change how you spray while you are counting. Then divide £60 by that number for your true solution cost."
+    },
+    {
+      "question": "Is it worth switching solution to get more tans per litre?",
+      "answer": "Rarely. Each extra tan per litre is worth about £46 a year at 12 tans a week, and the full realistic spread is around £223. One client lost to a result you were not happy with costs more than that."
+    },
+    {
+      "question": "How many litres should I order a month?",
+      "answer": "Take your tans per week, multiply by 52, divide by 12, then divide by your measured yield. At 12 tans a week and 28 to the litre that is 1.9 litres a month. Keep a litre of headroom for a busy week."
+    }
+  ],
+
+  "citations": [
+    { "text": "Sunset 1 Ltr Professional Spray product specification, Sunless by Jimmy Coco, 2026", "url": "https://www.jimmycoco.pro/products/malibu-professional-spray-1l" },
+    { "text": "Spray tan pricing benchmarks, UK sector data, 2025–26", "url": "" }
+  ],
+
+  "cover": {
+    "file": "",
+    "alt": "A litre of professional spray tan solution beside a marked measuring cup in a salon treatment room"
+  },
+
+  "_pipeline": {
+    "pillar": "1 — The Economics of Tanning",
+    "pattern": "A — costing",
+    "primary_reader": "owner-operator; mobile therapist",
+    "primary_cta": "what-a-spray-tan-costs",
+    "secondary_cta": "tans-per-litre yield tool (not built)",
+    "internal_links": ["what-a-spray-tan-costs", "what-to-charge-for-a-spray-tan"],
+    "open_verify_items": 0,
+    "blocked_by": [
+      "product naming — Sunset vs Malibu vs Laguna, see brief.md",
+      "structure-patterns.md#known-implementation-gaps item 1 — brand byline typed as Person in article.tsx",
+      "cover image not yet produced"
+    ]
+  }
+}

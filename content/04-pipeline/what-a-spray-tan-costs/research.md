@@ -28,7 +28,7 @@ can't follow is weaker than one we describe precisely — see
 
 | Assumption | Value used | Range | Why this value |
 |---|---|---|---|
-| Yield per litre | 28 tans | 24–32 | Our working figure; 24–32 is the range the site calculator already exposes. Depends on equipment, technique and coverage. |
+| Yield per litre | 28 tans | product figure | Confirmed by Matt 8 Aug 2026: approx 28 tans per bottle, 10% DHA. Not an assumption — this is the product figure. No published spread exists, so none is quoted. |
 | Disposables per tan | £0.75 | £0.40–£1.50 | Hairnet, sticky feet, disposable briefs, barrier cream, wipes. Varies enormously with what you provide. |
 | Extraction filter + tent liner, amortised | £0.15 | £0.05–£0.30 | Depends on booth type and volume. |
 | Laundry — towels, gown | £0.20 | £0.10–£0.40 | Zero if the client brings her own and you don't gown. |

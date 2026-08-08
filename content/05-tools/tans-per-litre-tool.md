@@ -27,8 +27,8 @@ The primary mode, and the honest one. A short guided calculation:
 - Number of tans done
 - → **Your actual yield**, plus your real cost per tan at your litre price
 
-Then the comparison that makes it useful: where that sits against the 24–32
-range, and what the difference is worth per year at her volume.
+Then the comparison that makes it useful: how her number compares with the 28
+the litre is rated for, and what the difference is worth per year at her volume.
 
 Include a "how to measure this properly" note — mark the bottle, count over a
 full week rather than a day, don't count practice or touch-ups.
@@ -61,7 +61,7 @@ guesses at two.
 
 - Your yield, in tans per litre
 - Your solution cost per tan at your litre price
-- Where you sit in the 24–32 range
+- How your number compares with the rated 28
 - What a 4-tan improvement is worth per year at your volume
 - A link through to the full profit calculator with the figure carried over
 

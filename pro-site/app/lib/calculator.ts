@@ -181,7 +181,7 @@ function fmtUnit(value: number) {
 
 /** Stated assumptions, with ranges — rendered as crawlable prose on the tool page. */
 export const ASSUMPTIONS: Array<{ name: string; used: string; range: string }> = [
-  { name: "Yield per litre", used: "28 tans", range: "24–32" },
+  { name: "Yield per litre", used: "28 tans", range: "the product figure — measure your own" },
   { name: "Disposables per tan", used: "£0.75", range: "£0.40–£1.50" },
   { name: "Filters, liners and laundry per tan", used: "£0.35", range: "£0.15–£0.70" },
   { name: "Chair time, door to door", used: "25 minutes", range: "20–35 minutes" },
@@ -240,7 +240,7 @@ export function calculatorFaq(): Array<{ question: string; answer: string }> {
     },
     {
       question: "How many spray tans do you get from a litre?",
-      answer: `Around ${DEFAULTS.tansPerLitre} as a working figure, with a realistic range of 24 to 32 depending on equipment, technique and coverage. Measure your own: mark the bottle, count the tans over a week and divide. Every other figure in this calculator depends on it.`,
+      answer: `${DEFAULTS.tansPerLitre} for the Sunset professional litre. Your own number will sit either side of that depending on equipment, technique and coverage. Measure your own: mark the bottle, count the tans over a week and divide. Every other figure in this calculator depends on it.`,
     },
     {
       question: "Is this calculator free?",

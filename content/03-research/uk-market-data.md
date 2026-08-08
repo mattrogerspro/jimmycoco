@@ -77,7 +77,7 @@ Due a 2026 refresh before the pricing article publishes — see
 | Figure | Note |
 |---|---|
 | Sunset 1 Ltr Professional Spray — **£60** | The litre used in every worked example |
-| ~**28 tans** per litre | Working figure; range 24–32 is what the site's calculator exposes |
+| **28 tans** per litre · **10% DHA** | Product figures, confirmed by Matt 8 Aug 2026. No published spread — do not quote a range. |
 | **£2.14** solution cost per tan | £60 ÷ 28 |
 | A-List Glow Kit **£59** · Tinted Tan Soufflé **£18** · mitt **£12.50** | Confirmed 8 Aug 2026 — [decision 5](../00-strategy/decisions.md#5-retail-pricing-the-lower-prices-are-correct) |
 

@@ -13,7 +13,7 @@
 thing.
 
 **Current inputs:** price per tan (£15–60) · tans per week (1–60) · tans per
-bottle (24–32) · retail add-ons per week (0–20) · average retail price (£10–79)
+bottle (24–32, to be narrowed) · retail add-ons per week (0–20) · average retail price (£10–79)
 · retail margin (20–70%).
 
 **Current model:**
@@ -86,7 +86,7 @@ fine; a tool that contradicts the full one is not.
 |---|---|---|---|
 | **In the booth** | Your price per spray tan | £30 | £15–£60 |
 | | Spray tans per week | 12 | 1–60 |
-| | Tans per litre | 28 | 24–32 |
+| | Tans per litre | 28 | 24–32 slider range; 28 is the product figure |
 | | Litre price | £60 | £40–£90 |
 | **Consumables** | Disposables per tan | £0.75 | £0–£2.00 |
 | | Filters, liners, laundry per tan | £0.35 | £0–£1.00 |

@@ -80,7 +80,7 @@ citations in [`source-library.md`](source-library.md).
 > 10%).** The UK rinse-off figure is 22.5%, and whether a booth application is
 > correctly categorised as rinse-off is precisely the unresolved point.
 
-This matters to us as a manufacturer as well as a publisher.
+**This does not affect our own product.** The Sunset professional litre is 10% DHA (confirmed 8 Aug 2026) — at the EU limit and comfortably inside the UK leave-on figure of 14%. The unresolved question is about the 18% rapid solutions sold elsewhere in the industry, which is a point in our favour rather than a risk to us.
 
 **Nothing about DHA percentage compliance publishes until this is resolved.**
 Not in the compliance pillar, not in the craft pillar, not in an FAQ answer.

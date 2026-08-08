@@ -38,16 +38,17 @@ A litre of Sunset Professional is £60. At 28 tans to the litre:
 
 `£60 ÷ 28 = £2.14 per tan`
 
-Twenty-eight is our working figure, not a specification. Real yield runs
-somewhere around 24 to 32 depending on your equipment, your technique and how
-much of the body you're covering — a therapist doing full-coverage tans on
-larger frames with an older gun will land at the bottom of that; a light,
-efficient hand with a well-set-up HVLP will beat it.
+Twenty-eight is the figure for the Sunset professional litre. Your own number
+will sit either side of it depending on your equipment, your technique and how
+much of the body you're covering — a therapist doing full-coverage tans on larger
+frames with an older gun will get fewer; a light, efficient hand with a
+well-set-up HVLP will get more. We have not seen a published study putting
+numbers on that spread, so we are not going to invent one.
 
 **Measure your own.** Mark the bottle, count the tans, divide. It takes one
 week and it's the single most useful number in this article, because everything
-downstream depends on it. At 24 tans your solution cost is £2.50; at 32 it's
-£1.88.
+downstream depends on it. Every tan you gain or lose per litre moves your
+solution cost by roughly 8p.
 
 ### Disposables — £0.75
 
@@ -214,7 +215,7 @@ Everything above that we chose rather than sourced. Change them to yours.
 
 | Assumption | Used here | Realistic range |
 |---|---|---|
-| Yield per litre | 28 tans | 24–32 |
+| Yield per litre | 28 tans | product figure — measure your own |
 | Disposables per tan | £0.75 | £0.40–£1.50 |
 | Filter and liner, amortised | £0.15 | £0.05–£0.30 |
 | Laundry | £0.20 | £0.10–£0.40 |
@@ -244,13 +245,14 @@ Everything above that we chose rather than sourced. Change them to yours.
 
 **How much does a litre of spray tan solution cost per treatment?**
 At £60 a litre and 28 treatments to the litre, £2.14 a tan. Real yield runs
-about 24–32 depending on equipment, technique and coverage, which puts the range
-at £1.88 to £2.50. Solution is only part of your consumable cost — with
+either side of that depending on equipment, technique and coverage. Solution is
+only part of your consumable cost — with
 disposables, filters and laundry, budget around £3.24 a treatment.
 
 **How many spray tans do you get from a litre?**
-Around 28 as a working figure, with a realistic range of 24 to 32. It depends on
-your equipment, your technique and how much of the body you cover. Measure your
+Twenty-eight for the Sunset professional litre. Your own number will sit either
+side of that depending on equipment, technique and how much of the body you
+cover. Measure your
 own: mark the bottle, count the tans over a week, and divide. It's the number
 every other calculation depends on.
 

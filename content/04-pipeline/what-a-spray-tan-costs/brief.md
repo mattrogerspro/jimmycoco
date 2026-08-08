@@ -72,7 +72,7 @@ raise prices within three months. She is doing this arithmetic right now.
 |---|---|
 | Any PSI / CFM figure for equipment | **Not mentioned.** Equipment appears only as an amortised consumable cost. |
 | Ventilation standards | **Not mentioned.** Extraction appears as a filter cost, with no performance claim. |
-| Yield per litre as a marketing claim | 28 is stated as **our working figure with a 24–32 range**, and the article tells her to measure her own. Not presented as a specification. |
+| Yield per litre as a marketing claim | 28 is the product figure, confirmed 8 Aug 2026. No invented spread is quoted; the article tells her to measure her own. |
 | Solution shelf life | Out of scope — pillar 5. |
 
 ## Commercial route

@@ -130,25 +130,15 @@ function ArticleCard({
   onDelete: () => void;
 }) {
   const live = article.status === "published";
-  // A cover can 404 if the media row survives but the storage object does not.
-  // Fall back to the placeholder rather than showing a broken-image icon.
-  const [coverFailed, setCoverFailed] = useState(false);
-  const showCover = Boolean(article.cover_url) && !coverFailed;
-
   return (
     <article className={`art-card art-card-${view} art-card-${article.status}`}>
       <div className="art-card-media">
-        {showCover ? (
-          <img
-            src={article.cover_url!}
-            alt={article.cover_alt ?? ""}
-            loading="lazy"
-            onError={() => setCoverFailed(true)}
-          />
+        {article.cover_url ? (
+          <img src={article.cover_url} alt={article.cover_alt ?? ""} loading="lazy" />
         ) : (
           <div className="art-card-nocover">
             <IconFile size={26} />
-            <span>{article.cover_url ? "Cover image missing" : "No cover image"}</span>
+            <span>No cover image</span>
           </div>
         )}
         <div className="art-card-chips">
@@ -174,7 +164,7 @@ function ArticleCard({
           <code>/articles/{article.slug}</code>
           {article.is_featured ? <span className="art-flag art-flag-good">Featured</span> : null}
           {article.noindex ? <span className="art-flag art-flag-warn">Hidden from search</span> : null}
-          {!showCover ? <span className="art-flag art-flag-warn">Needs a cover</span> : null}
+          {!article.cover_url ? <span className="art-flag art-flag-warn">Needs a cover</span> : null}
           {!article.excerpt ? <span className="art-flag art-flag-warn">Needs an excerpt</span> : null}
         </div>
       </div>

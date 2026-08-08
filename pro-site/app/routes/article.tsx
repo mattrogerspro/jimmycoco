@@ -4,14 +4,16 @@ import articleStyles from "../styles/articles.css?url";
 import chromeStyles from "../styles/chrome.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { getPublishedArticle } from "../lib/articles.server";
+ import { recordArticleView } from "../lib/article-view.server";
 import { ORG_ID, PERSON_ID, brandEntities } from "../lib/entity";
 import { SITE_URL } from "../lib/site";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: articleStyles }, { rel: "stylesheet", href: chromeStyles }];
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
   const article = await getPublishedArticle(params.slug ?? "");
   if (!article) throw new Response("Article not found", { status: 404 });
+  recordArticleView(request, article.slug);
   return data({ article }, { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=86400" } });
 }
 

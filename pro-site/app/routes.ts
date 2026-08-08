@@ -14,6 +14,7 @@ export default [
     index("routes/admin.index.tsx"),
     route("articles", "routes/admin.articles.tsx"),
     route("articles/:articleId", "routes/admin.article-editor.tsx"),
+    route("article-stats", "routes/admin.article-stats.tsx"),
     route("media", "routes/admin.media.tsx"),
     route("resellers", "routes/admin.resellers.tsx"),
     route("applications/:applicationId", "routes/admin.application-detail.tsx"),

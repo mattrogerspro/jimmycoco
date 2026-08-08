@@ -100,7 +100,7 @@ export function ProfitCalculator({ onMonthlyChange }: { onMonthlyChange: (value:
             <div className="calc-group">
               <h3>On the shelf</h3>
               <Slider label="Retail add-ons per week" value={units} min={0} max={20} display={`${units}`} onChange={trackControl("retail_units_per_week", units, setUnits)} />
-              <Slider label="Avg retail price" value={retailPrice} min={10} max={79} display={gbp(retailPrice)} onChange={trackControl("retail_price", retailPrice, setRetailPrice)} />
+              <Slider label="Avg retail price" value={retailPrice} min={10} max={59} display={gbp(retailPrice)} onChange={trackControl("retail_price", retailPrice, setRetailPrice)} />
               <Slider label="Your retail margin" value={marginPercent} min={20} max={70} step={5} display={`${marginPercent}%`} onChange={trackControl("retail_margin", marginPercent, setMarginPercent)} />
             </div>
             <p className="note">Solution cost uses the standard £60 litre. Retail margin is illustrative — your exact trade terms are confirmed on your setup call.</p>

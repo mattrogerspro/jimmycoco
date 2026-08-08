@@ -27,9 +27,9 @@ export function ShadeComparison({ onChoose }: { onChoose: (shade: string) => voi
 
 export function CrossSell() {
   const items: Array<[string, string, string, string, number, number]> = [
-    ["product-08-66f48742c941.jpg", "Buff & Glow Mitt", "The 30-second checkout add-on", "RRP £15", 700, 700],
-    ["product-09-d075d24d746f.jpg", "The Self Tan Soufflé", "The top-up seller between visits · L / M / D", "From RRP £28", 950, 950],
-    ["product-10-64a58fd5e4a1.jpg", "The A-List Glow Kit", "The gift purchase · six pieces", "RRP £79", 900, 888],
+    ["product-08-66f48742c941.jpg", "Buff & Glow Mitt", "The 30-second checkout add-on", "RRP £12.50", 700, 700],
+    ["product-09-d075d24d746f.jpg", "The Self Tan Soufflé", "The top-up seller between visits · L / M / D", "From RRP £18", 950, 950],
+    ["product-10-64a58fd5e4a1.jpg", "The A-List Glow Kit", "The gift purchase · six pieces", "RRP £59", 900, 888],
   ];
   return <section className="steps-band"><div className="wrap"><p className="eyebrow">Complete the order</p><h2>Stock the shelf while you're at it.</h2><p className="sub">The retail range turns every tanning visit into a second sale — same brand, real margin, no extra chair time.</p><div className="xs-grid">{items.map(([src, title, copy, price, width, height]) => <div className="xs-card" key={src}><div className="xi"><img src={asset(src)} alt={title} width={width} height={height} loading="lazy" decoding="async" /></div><div className="xb"><h3>{title}</h3><p>{copy}</p><b>{price}</b></div></div>)}</div><p style={{ marginTop: 22, fontSize: 16.5, color: "var(--muted)" }}>Add retail to your order in the notes below — trade pricing across the range on your setup call.</p></div></section>;
 }

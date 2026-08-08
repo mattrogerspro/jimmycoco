@@ -1,0 +1,92 @@
+{
+  "$comment": "Maps 1:1 onto the fields in app/routes/admin.article-editor.tsx. See ../../01-editorial-system/structure-patterns.md#field-mapping. Do NOT enter this article until the 8 [VERIFY] items in research.md are resolved and the brand-byline schema fix in structure-patterns.md#known-implementation-gaps is in place.",
+
+  "title": "What a spray tan actually costs you to deliver",
+  "slug": "what-a-spray-tan-costs",
+  "excerpt": "At £30 a tan, the solution costs £2.14 and your consumables £3.24. Here is the full model — chair time, overhead apportionment and all — and the five levers that actually move your margin.",
+
+  "author": "Sunless by Jimmy Coco Trade Team",
+  "category": "The Economics of Tanning",
+  "tags": ["costs", "pricing", "margin", "retail"],
+
+  "status": "draft",
+  "reading_time_minutes": 10,
+  "is_featured": true,
+  "noindex": false,
+
+  "seo_title": "What a spray tan costs to deliver: the full UK model",
+  "meta_description": "A spray tan costs £2.14 in solution and £3.24 in consumables. The full loaded cost is about £18.70. Here's the model, in sterling, and the five levers that actually move your margin.",
+  "og_title": "What a spray tan actually costs you to deliver",
+  "og_description": "The full UK cost model in sterling — solution, consumables, chair time and overheads — and why the litre price is the smallest lever you have.",
+  "keywords": [
+    "spray tan cost per treatment",
+    "how much does a spray tan cost to do",
+    "spray tan profit margin uk",
+    "cost per tan uk",
+    "how many tans from a litre",
+    "salon spray tan economics"
+  ],
+
+  "faq_items": [
+    {
+      "question": "How much does a litre of spray tan solution cost per treatment?",
+      "answer": "At £60 a litre and 28 treatments to the litre, £2.14 a tan. Real yield runs about 24–32 depending on equipment, technique and coverage, which puts the range at £1.88 to £2.50. Solution is only part of your consumable cost — with disposables, filters and laundry, budget around £3.24 a treatment."
+    },
+    {
+      "question": "How many spray tans do you get from a litre?",
+      "answer": "Around 28 as a working figure, with a realistic range of 24 to 32. It depends on your equipment, your technique and how much of the body you cover. Measure your own: mark the bottle, count the tans over a week, and divide. It's the number every other calculation depends on."
+    },
+    {
+      "question": "What profit is there in a spray tan?",
+      "answer": "On a £30 tan with an employed therapist, about £11.30 after consumables, card fees, loaded chair time and a share of fixed costs — roughly 37%. If you do the tans yourself, about £17.65, though that includes what you'd otherwise pay someone. Against an average UK salon margin around 8%, tanning is a strong column."
+    },
+    {
+      "question": "Is it worth switching to a cheaper spray tan solution?",
+      "answer": "Probably not. At 12 tans a week, a solution 20% cheaper saves about £267 a year — roughly £5 a week, and the smallest lever in the model. Selling three retail items a week is worth £1,404, and putting £2 on your price is worth £1,229. One lost client from a poor result wipes out the saving."
+    },
+    {
+      "question": "How do I work out my overhead per spray tan?",
+      "answer": "Take the fixed costs attributable to the tanning room each month — a share of rent, rates, utilities, insurance and booking software — and divide by the treatments you did that month. At £450 a month and 52 tans, that's £8.65 a tan. The figure falls as you get busier, which is why filling the room is the same thing as making it cheaper."
+    },
+    {
+      "question": "What does a spray tan cost to deliver if I'm mobile?",
+      "answer": "The consumables are the same, but travel time, fuel and equipment amortisation change the picture materially, and a no-show costs you the journey as well as the slot. That model is different enough to need its own article."
+    }
+  ],
+
+  "citations": [
+    { "text": "National Living Wage rates, gov.uk, 2026", "url": "https://www.gov.uk/national-minimum-wage-rates" },
+    { "text": "Employer National Insurance secondary threshold, HM Treasury, 2025", "url": "" },
+    { "text": "NHBF, State of the Industry, March 2026 (n=423)", "url": "" },
+    { "text": "SalonIQ, salon retail benchmarks, 2026", "url": "" },
+    { "text": "Phorest, salon client research, 2025 (n=716)", "url": "" },
+    { "text": "Treatwell, UK no-show data, 2025", "url": "" },
+    { "text": "Sunset 1 Ltr Professional Spray price list, Sunless by Jimmy Coco, 2026", "url": "https://www.jimmycoco.pro/products/malibu-professional-spray-1l" }
+  ],
+
+  "cover": {
+    "file": "",
+    "alt": "A litre of Sunset Professional spray tan solution on a salon treatment room counter"
+  },
+
+  "_pipeline": {
+    "pillar": "1 — The Economics of Tanning",
+    "pattern": "A — costing",
+    "primary_reader": "owner-operator",
+    "primary_cta": "profit calculator",
+    "secondary_cta": "Salon Business Brief",
+    "internal_links": [
+      "what-to-charge-for-a-spray-tan",
+      "retail-attach-maths",
+      "mobile-spray-tan-profit",
+      "spray-tan-no-shows",
+      "/tools/spray-tan-profit-calculator"
+    ],
+    "open_verify_items": 8,
+    "blocked_by": [
+      "8 [VERIFY] items in research.md",
+      "structure-patterns.md#known-implementation-gaps item 1 — brand byline is currently typed as a Person in article.tsx",
+      "cover image not yet produced"
+    ]
+  }
+}

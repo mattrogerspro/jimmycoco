@@ -1,0 +1,44 @@
+{
+  "$comment": "Maps 1:1 onto the fields in app/routes/admin.article-editor.tsx. See ../../01-editorial-system/structure-patterns.md#field-mapping. Do not set published_at by hand — the editor sets it when status first becomes published.",
+
+  "title": "",
+  "slug": "",
+  "excerpt": "",
+
+  "author": "Sunless by Jimmy Coco Trade Team",
+  "category": "",
+  "tags": [],
+
+  "status": "draft",
+  "reading_time_minutes": 5,
+  "is_featured": false,
+  "noindex": false,
+
+  "seo_title": "",
+  "meta_description": "",
+  "og_title": "",
+  "og_description": "",
+  "keywords": [],
+
+  "faq_items": [
+    { "question": "", "answer": "" }
+  ],
+
+  "citations": [
+    { "text": "", "url": "" }
+  ],
+
+  "cover": {
+    "file": "",
+    "alt": ""
+  },
+
+  "_pipeline": {
+    "pillar": "",
+    "pattern": "",
+    "primary_reader": "",
+    "primary_cta": "",
+    "internal_links": [],
+    "open_verify_items": 0
+  }
+}

@@ -25,7 +25,7 @@ export function SiteHeader({ page = "home" }: HeaderProps) {
   }, []);
 
   return (
-    <header className={scrolled ? "scrolled" : undefined}>
+    <header className={scrolled ? "site-header scrolled" : "site-header"}>
       <div className="wrap nav">
         <Link className="logo" to="/">SUNLESS<small>BY JIMMY COCO®</small></Link>
         <span className="protag">Professional</span>

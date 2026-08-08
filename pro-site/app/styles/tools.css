@@ -228,3 +228,13 @@
 .levers-table tbody td{color:#FFFDF9}
 .levers-table tbody tr:last-child th,
 .levers-table tbody tr:last-child td{opacity:.78}
+
+/* The hero is a <header> element. Only the site nav should ever pin, so state
+   that here too rather than relying on the selector in home.css staying scoped. */
+.tool-page .tool-hero{
+  position:static;
+  z-index:auto;
+  backdrop-filter:none;
+  border-bottom:0;
+  background:var(--cream);
+}

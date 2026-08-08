@@ -12,7 +12,8 @@
   section{padding:80px 0}
   .announce{background:var(--dark);color:#EDE4D7;text-align:center;font-size:15px;letter-spacing:.06em;padding:9px 14px}
   .announce b{color:var(--gold);font-weight:600}
-  header{position:sticky;top:0;z-index:50;background:rgba(253,251,248,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  /* Scoped to the site header — see the note in home.css. */
+  header.site-header{position:sticky;top:0;z-index:50;background:rgba(253,251,248,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .nav{display:flex;align-items:center;gap:28px;height:74px}
   .logo{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:26px;letter-spacing:.16em;background:linear-gradient(100deg,#C99567,#8F5B33 60%,#C99567);-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none;line-height:1}
   .logo small{display:block;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.4em;color:var(--ink2);-webkit-text-fill-color:var(--ink2);margin-top:3px;font-weight:500}

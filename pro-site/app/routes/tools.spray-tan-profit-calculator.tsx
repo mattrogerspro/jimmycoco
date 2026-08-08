@@ -114,9 +114,8 @@ export default function CalculatorPage() {
               <em>in pounds.</em>
             </h1>
             <p className="sub">
-              Every spray tan calculator we could find prices your business in dollars. This one
-              doesn't. Put your own figures in — solution, consumables, chair time, premises and the
-              shelf — and see what a tan actually leaves you.
+              Put your own figures in — solution, consumables, chair time, premises and the shelf
+              — and see what a tan actually leaves you.
             </p>
           </div>
         </header>

@@ -307,19 +307,6 @@ day, and it's only worth anything if you fill them.</p>
 </ol>
 <p><em>These figures are a model, not a forecast. Substitute your own numbers — the
 assumptions are listed above so you can.</em></p>
-<h2>Questions</h2>
-<h3>How much does a litre of spray tan solution cost per treatment?</h3>
-<p>At £60 a litre and 28 treatments to the litre, £2.14 a tan. Your own number will sit either side of that depending on equipment, technique and coverage. Solution is only part of your consumable cost — with disposables, filters and laundry, budget around £3.24 a treatment.</p>
-<h3>How many spray tans do you get from a litre?</h3>
-<p>Twenty-eight for the Sunset professional litre. Your own number will sit either side of that depending on equipment, technique and how much of the body you cover. Measure your own: mark the bottle, count the tans over a week, and divide. It's the number every other calculation depends on.</p>
-<h3>What profit is there in a spray tan?</h3>
-<p>On a £30 tan with an employed therapist, about £11.30 after consumables, card fees, loaded chair time and a share of fixed costs — roughly 37%. If you do the tans yourself, about £17.65, though that includes what you'd otherwise pay someone. Against an average UK salon margin around 8%, tanning is a strong column.</p>
-<h3>Is it worth switching to a cheaper spray tan solution?</h3>
-<p>Probably not. At 12 tans a week, a solution 20% cheaper saves about £267 a year — roughly £5 a week, and the smallest lever in the model. Selling three retail items a week is worth £1,404, and putting £2 on your price is worth £1,229. One lost client from a poor result wipes out the saving.</p>
-<h3>How do I work out my overhead per spray tan?</h3>
-<p>Take the fixed costs attributable to the tanning room each month — a share of rent, rates, utilities, insurance and booking software — and divide by the treatments you did that month. At £450 a month and 52 tans, that's £8.65 a tan. The figure falls as you get busier, which is why filling the room is the same thing as making it cheaper.</p>
-<h3>What does a spray tan cost to deliver if I'm mobile?</h3>
-<p>The consumables are the same, but travel time, fuel and equipment amortisation change the picture materially, and a no-show costs you the journey as well as the slot. That model is different enough to need its own article.</p>
 `,
     faq: [
       { question: "How much does a litre of spray tan solution cost per treatment?", answer: "At £60 a litre and 28 treatments to the litre, £2.14 a tan. Your own number will sit either side of that depending on equipment, technique and coverage. Solution is only part of your consumable cost — with disposables, filters and laundry, budget around £3.24 a treatment." },
@@ -514,19 +501,6 @@ bottle.</p>
 </ol>
 <p><em>These figures are a model, not a forecast. Substitute your own numbers — the
 assumptions are listed above so you can.</em></p>
-<h2>Questions</h2>
-<h3>How many spray tans in a litre of solution?</h3>
-<p>Approximately 28 full-body tans from a litre of Sunless by Jimmy Coco professional solution, which works out at about 36ml per treatment. Your own number will sit either side of that depending on coverage, technique and equipment. Measure a full litre over a normal week to find yours.</p>
-<h3>How much solution should a full-body spray tan use?</h3>
-<p>Around 36ml, which is what 28 tans to a litre works out at. Using materially more usually points to a pattern that is too wide, too much distance from the skin or repeated passes over the same area — rather than to a better result.</p>
-<h3>How much does the solution cost per spray tan?</h3>
-<p>£2.14 at £60 a litre and 28 tans to the litre. On a £30 treatment that is 7.1% of what the client pays you. Total consumables, including disposables, filters and laundry, come to about £3.24 a tan.</p>
-<h3>How do I work out my own tans per litre?</h3>
-<p>Start a fresh litre, tally every full-body tan you do from it, stop when the bottle is genuinely empty, and divide. Do it across a normal week and do not change how you spray while you are counting. Then divide £60 by that number for your true solution cost.</p>
-<h3>Is it worth switching solution to get more tans per litre?</h3>
-<p>Rarely. Each extra tan per litre is worth about £46 a year at 12 tans a week, and the full realistic spread is around £223. One client lost to a result you were not happy with costs more than that.</p>
-<h3>How many litres should I order a month?</h3>
-<p>Take your tans per week, multiply by 52, divide by 12, then divide by your measured yield. At 12 tans a week and 28 to the litre that is 1.9 litres a month. Keep a litre of headroom for a busy week.</p>
 `,
     faq: [
       { question: "How many spray tans in a litre of solution?", answer: "Approximately 28 full-body tans from a litre of Sunless by Jimmy Coco professional solution, which works out at about 36ml per treatment. Your own number will sit either side of that depending on coverage, technique and equipment. Measure a full litre over a normal week to find yours." },

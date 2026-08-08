@@ -115,6 +115,22 @@ export default function ArticlePage() {
 
   return (
     <div className="content-shell">
+      {/* The cover is the LCP element on every article, and it lives on a third
+          origin, so the browser only discovers it after parsing the markup.
+          React 19 hoists this into <head>, which starts the fetch alongside the
+          CSS instead of behind it. imageSrcSet/imageSizes must mirror the <img>
+          exactly or the browser preloads one candidate and then downloads a
+          different one. */}
+      {article.cover_url ? (
+        <link
+          rel="preload"
+          as="image"
+          href={article.cover_url}
+          imageSrcSet={responsiveSrcSet(article.cover_url)}
+          imageSizes={SIZES.lead}
+          fetchPriority="high"
+        />
+      ) : null}
       <StructuredData data={[...brandEntities, schema, breadcrumbs, ...(faq ? [faq] : [])]} />
       <Announcement />
       <SiteHeader page="content" />

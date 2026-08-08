@@ -172,7 +172,13 @@ async function ladder(name, sourcePath, sourceWidth) {
 // --- step 3: upload + attach -------------------------------------------------
 async function upload(supabase, storagePath, filePath, contentType = 'image/webp') {
   const body = readFileSync(filePath);
-  const { error } = await supabase.storage.from(BUCKET).upload(storagePath, body, { contentType, upsert: true });
+  /* Supabase Storage defaults to a 1 hour cache, which Lighthouse flags: every
+     repeat visitor re-downloads every cover. 30 days is the trade — a cover
+     that gets republished can be stale for a returning reader for that long,
+     which is fine for a photograph and would not be for a price. */
+  const { error } = await supabase.storage
+    .from(BUCKET)
+    .upload(storagePath, body, { contentType, upsert: true, cacheControl: '2592000' });
   if (error) throw new Error(`upload ${storagePath}: ${error.message}`);
   return body.length;
 }

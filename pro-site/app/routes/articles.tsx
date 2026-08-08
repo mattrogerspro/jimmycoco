@@ -49,6 +49,16 @@ const HERO_FRAMES = [
 export default function ArticlesPage() {
   const { articles } = useLoaderData<typeof loader>();
   return <div className="content-shell">
+    {/* Only frame one — the other four fade in later and must not compete with
+        it for bandwidth on the first paint. */}
+    <link
+      rel="preload"
+      as="image"
+      href={HERO_FRAMES[0]}
+      imageSrcSet={responsiveSrcSet(HERO_FRAMES[0])}
+      imageSizes={SIZES.lead}
+      fetchPriority="high"
+    />
     <Announcement />
     <SiteHeader page="content" />
     <main className="articles-page">

@@ -429,3 +429,61 @@
     .protag{display:none}
     .nav .btn-sm{padding:11px 14px;font-size:12px;white-space:nowrap}
   }
+
+  /* Header nav needed ~1300px inside a 90vw wrap, so every viewport between the
+     980px link-hide breakpoint and ~1560px scrolled sideways. */
+  @media (max-width:1560px){ .protag{display:none} }
+  @media (max-width:1440px){
+    .nav{gap:20px}
+    .nav-links{gap:clamp(12px,1.3vw,18px);font-size:15px}
+  }
+  @media (max-width:1180px){
+    .nav{gap:14px}
+    .nav-links{gap:11px;font-size:14px}
+    .nav .btn-sm{padding:12px 16px;font-size:12px}
+  }
+
+  /* Grid children default to min-width:auto, so an image's intrinsic width and a
+     long unbreakable heading both set a floor the column cannot go below. */
+  .story-grid>*,.close-grid>*,.litre-grid>*,.calc-grid>*{min-width:0}
+  .story-grid img{width:100%}
+  blockquote.big{overflow-wrap:break-word}
+  @media (max-width:980px){
+    .hero-img{margin-left:0;margin-right:0;max-width:100%}
+    .hero-img img{max-width:100%}
+  }
+
+  /* Buttons keep their min-content width; these let them shrink or stack. */
+  .litre-actions,.section-actions{max-width:100%}
+  .litre-actions .btn,.section-actions .btn{max-width:100%;white-space:normal}
+  .cert-art{overflow:hidden}
+  .calc-cta{flex-wrap:wrap;max-width:100%;min-width:0}
+  .calc-cta p{min-width:0}
+  .calc-cta .btn{max-width:100%;white-space:normal}
+  @media (max-width:560px){
+    .litre-actions,.section-actions{flex-direction:column;align-items:stretch}
+    .litre-actions .btn,.section-actions .btn{width:100%}
+  }
+
+  /* ".litre-offer .litre-grid" (two columns) outranks the mobile
+     ".litre-grid{grid-template-columns:1fr}" rule, so it never applied. */
+  @media (max-width:980px){
+    .litre-offer .litre-grid{grid-template-columns:1fr;gap:36px}
+  }
+
+  .calc-out,.ocard{min-width:0}
+  .ocard b,.ocard small,.ocard span{overflow-wrap:break-word}
+  @media (max-width:400px){
+    .calc-out{grid-template-columns:1fr}
+    .ocard b{font-size:34px}
+    .ocard.hero-num b{font-size:44px}
+    .ocard{padding:15px 16px}
+    .calc-cta{flex-direction:column;align-items:stretch;width:100%}
+    .calc-cta .btn{width:100%}
+  }
+
+  /* Global guards against min-content blowout. */
+  .wrap,.close-grid>*,.trialform>*{min-width:0}
+  .btn{max-width:100%}
+  input,select,textarea{max-width:100%;min-width:0}
+  .trialform .btn,.trialform button{white-space:normal;word-break:break-word}

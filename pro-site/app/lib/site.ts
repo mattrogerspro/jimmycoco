@@ -1,10 +1,14 @@
 export const SITE_URL = "https://www.jimmycoco.pro";
+/** Injected by Vite at build time — see resolveContentDate() in vite.config.ts. */
+declare const __CONTENT_UPDATED__: string;
+
 /**
- * Date the site's static content last changed materially. Feeds dateModified in
- * structured data and lastmod for static routes in the sitemap. Bump it when you
- * change page copy — not on every deploy, or the freshness signal means nothing.
+ * Date the site's content last changed. Resolved automatically at build time
+ * from the last commit touching app/routes, app/components or app/styles, so
+ * there is nothing to remember to bump. Feeds sitemap <lastmod> and
+ * dateModified in structured data.
  */
-export const CONTENT_UPDATED = "2026-08-07";
+export const CONTENT_UPDATED = __CONTENT_UPDATED__;
 
 export const PRODUCT_PATH = "/products/malibu-professional-spray-1l";
 

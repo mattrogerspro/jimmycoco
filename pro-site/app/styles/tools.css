@@ -199,3 +199,32 @@
   .levers-table tbody td { font-size: 21px; }
   .tool-table th[scope="row"], .tool-table td { padding-top: 11px; padding-bottom: 11px; }
 }
+
+/* ---- fixes for hosting .calc outside the home page --------------------- */
+
+/* On the home page `.calc` is a hero sized to one viewport:
+   height:min(820px, 90svh - 74px) with display:flex;align-items:center.
+   The full calculator is far taller than that, so the content overflowed the
+   box and, because it was centred, spilled UPWARD over the header and hero.
+   Unlock the box on the tool page. */
+.tool-page .calc{
+  height:auto;
+  min-height:0;
+  display:block;
+  padding:clamp(44px,5vw,76px) 0;
+}
+
+/* `.calc` is a DARK section — every element inside it needs an explicit light
+   colour. The levers panel and the slider hints were inheriting the page's
+   dark brown body colour, which rendered them invisible on near-black. */
+.calc .field-hint{color:#B7AB9B;opacity:1}
+.calc-levers{color:#EDE4D7}
+.calc-levers-head h3{color:#FFFDF9}
+.calc-levers-head p{color:#B7AB9B;opacity:1}
+.calc-levers .note{color:#B7AB9B}
+.levers-table thead th{color:#B7AB9B;opacity:1}
+.levers-table tbody th{color:#EDE4D7}
+.levers-table tbody th small{color:#8F857A;opacity:1}
+.levers-table tbody td{color:#FFFDF9}
+.levers-table tbody tr:last-child th,
+.levers-table tbody tr:last-child td{opacity:.78}

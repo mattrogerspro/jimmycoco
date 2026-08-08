@@ -1,0 +1,201 @@
+/* Tool pages — layered on top of home.css, which supplies the base type,
+   buttons, chrome and the .calc grid the calculator itself uses. */
+
+.tool-page h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(40px, 4.6vw, 72px);
+  line-height: 1.05;
+  color: var(--ink);
+  letter-spacing: -.02em;
+  margin-bottom: 22px;
+}
+
+.tool-page h1 em { font-style: italic; color: var(--bronze2); }
+
+.tool-hero { background: var(--cream); padding: 76px 0 68px; }
+.tool-hero .sub { max-width: 760px; }
+
+/* --- levers panel, inside the calculator ------------------------------ */
+
+.calc-levers {
+  margin-top: 46px;
+  padding: 34px clamp(20px, 3vw, 40px);
+  border: 1px solid rgba(237, 228, 215, .22);
+  border-radius: 6px;
+  background: rgba(255, 253, 249, .05);
+}
+
+.calc-levers-head h3 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(26px, 2.6vw, 36px);
+  margin-bottom: 6px;
+}
+
+.calc-levers-head p { font-size: 18px; opacity: .74; margin-bottom: 24px; }
+
+.levers-table { width: 100%; border-collapse: collapse; font-size: 18px; }
+
+.levers-table th[scope="col"],
+.levers-table td:first-child {
+  text-align: left;
+}
+
+.levers-table thead th {
+  font-size: 13px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  opacity: .6;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(237, 228, 215, .22);
+}
+
+.levers-table thead th:last-child,
+.levers-table tbody td { text-align: right; }
+
+.levers-table tbody th {
+  text-align: left;
+  font-weight: 600;
+  padding: 16px 20px 16px 0;
+  border-bottom: 1px solid rgba(237, 228, 215, .14);
+}
+
+.levers-table tbody th small {
+  display: block;
+  font-weight: 400;
+  font-size: 15px;
+  opacity: .62;
+  margin-top: 4px;
+  max-width: 46ch;
+}
+
+.levers-table tbody td {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(22px, 2.2vw, 30px);
+  white-space: nowrap;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(237, 228, 215, .14);
+  vertical-align: top;
+}
+
+.levers-table tbody tr:last-child th,
+.levers-table tbody tr:last-child td { opacity: .72; }
+
+.calc-levers .note { margin-top: 22px; }
+
+.field-hint {
+  display: block;
+  font-size: 14.5px;
+  opacity: .58;
+  margin-top: 6px;
+  max-width: 46ch;
+}
+
+/* --- crawlable prose beneath the calculator --------------------------- */
+
+.tool-prose { padding: 84px 0 96px; }
+.tool-prose .wrap { max-width: 860px; }
+
+.tool-prose h2 {
+  font-size: clamp(30px, 3.4vw, 44px);
+  margin-top: 56px;
+}
+
+.tool-prose > .wrap > h2:first-child { margin-top: 0; }
+
+.tool-prose h3 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(23px, 2.3vw, 30px);
+  color: var(--ink);
+  margin: 44px 0 14px;
+}
+
+.tool-prose p { font-size: 20px; margin-bottom: 18px; max-width: 68ch; }
+
+.tool-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 26px 0 32px;
+  font-size: 18px;
+}
+
+.tool-table caption {
+  text-align: left;
+  font-size: 13px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  font-weight: 600;
+  padding-bottom: 12px;
+}
+
+.tool-table th[scope="col"] {
+  text-align: left;
+  font-size: 13px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  padding: 0 14px 10px 0;
+}
+
+.tool-table th[scope="col"]:last-child,
+.tool-table td:last-child { text-align: right; }
+
+.tool-table th[scope="row"] {
+  text-align: left;
+  font-weight: 500;
+  color: var(--ink2);
+  padding: 13px 14px 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.tool-table td {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.tool-table tr.tool-total th,
+.tool-table tr.tool-total td {
+  font-weight: 700;
+  color: var(--ink);
+  border-bottom: 2px solid var(--ink);
+  border-top: 1px solid var(--ink);
+}
+
+.tool-faq { margin: 24px 0 40px; }
+.tool-faq > div { padding: 22px 0; border-bottom: 1px solid var(--line); }
+
+.tool-faq dt {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 22px;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.tool-faq dd { margin: 0; font-size: 19px; color: var(--muted); max-width: 68ch; }
+
+.tool-note {
+  font-size: 17px !important;
+  color: var(--muted);
+  font-style: italic;
+  border-left: 2px solid var(--line);
+  padding-left: 20px;
+  margin: 36px 0 40px;
+}
+
+.tool-next { display: flex; flex-wrap: wrap; gap: 14px; }
+
+@media (max-width: 760px) {
+  .tool-hero { padding: 52px 0 46px; }
+  .tool-prose { padding: 56px 0 68px; }
+  .tool-prose p { font-size: 18px; }
+  .tool-table, .levers-table { font-size: 16px; }
+  .levers-table tbody td { font-size: 21px; }
+  .tool-table th[scope="row"], .tool-table td { padding-top: 11px; padding-bottom: 11px; }
+}

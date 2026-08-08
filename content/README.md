@@ -28,8 +28,22 @@ That is the gap. See [`03-research/competitive-landscape.md`](03-research/compet
 | [`03-research/`](03-research/) | Market data, competitive landscape, the claims register, source library |
 | [`04-pipeline/`](04-pipeline/) | Per-article production folders — the unit of work |
 | [`05-tools/`](05-tools/) | Calculator and template-pack specifications |
-| [`06-distribution/`](06-distribution/) | Article → email → social mapping |
+| [`06-distribution/`](06-distribution/) | Article → email → social mapping — governed by the email playbook chapter below |
 | [`07-measurement/`](07-measurement/) | What we track and what good looks like |
+
+## How this connects to email
+
+The point of the system is that one research effort produces three assets:
+article, email and tool. That connection is not optional and not improvised — it
+is specified in the email playbook as **Strategy › Content-Triggered Campaigns**
+(`email/00-strategy/07-content-triggered-campaigns.md`), which appears in the
+Studio's Playbooks screen alongside the other strategy chapters.
+
+Four mechanisms: the monthly **Salon Business Brief**, **lifecycle inserts** into
+the existing onboarding and reseller sequences, **seasonal triggers** from the UK
+tanning year, and **tool-triggered follow-ups** off the Business-tool user
+lifecycle state. [`06-distribution/`](06-distribution/README.md) says which
+article becomes which campaign.
 
 ## The production unit
 

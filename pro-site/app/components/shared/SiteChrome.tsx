@@ -32,7 +32,7 @@ export function SiteHeader({ page = "home" }: HeaderProps) {
         <nav className="nav-links" aria-label="Primary navigation">
           <a href={`${prefix}#story`}>Why Jimmy Coco</a>
           {page === "home" && <a href="#formula">The Solution</a>}
-          <a href={`${prefix}#calculator`}>Profit Calculator</a>
+          <Link to="/tools/spray-tan-profit-calculator">Profit Calculator</Link>
           <a href={`${prefix}#retail`}>Retail Range</a>
           <Link to="/articles">Articles</Link>
           <a href={`${prefix}#trial`}>Free Trial</a>

@@ -4,6 +4,7 @@ export default [
   index("routes/home.tsx"),
   route("products/malibu-professional-spray-1l", "routes/product.tsx"),
   route("articles", "routes/articles.tsx"),
+  route("tools/spray-tan-profit-calculator", "routes/tools.spray-tan-profit-calculator.tsx"),
   route("articles/:slug", "routes/article.tsx"),
   route("sitemap.xml", "routes/sitemap.ts"),
   route("rss.xml", "routes/rss.ts"),

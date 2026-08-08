@@ -22,6 +22,10 @@ Home for every **outreach & marketing campaign** — cold acquisition, stockist 
 
 _Keep this table current — it is the single campaign register._
 
+## Content-derived campaigns
+
+Campaigns built from the content programme — the Salon Business Brief, lifecycle inserts, seasonal triggers and tool-triggered follow-ups — are governed by **Strategy › Content-Triggered Campaigns** (`../00-strategy/07-content-triggered-campaigns.md`). The article → campaign map is `content/06-distribution/`. They are ordinary campaign folders and follow every rule below.
+
 ## Master email template
 
 All branded campaign emails are controlled by one shared renderer:

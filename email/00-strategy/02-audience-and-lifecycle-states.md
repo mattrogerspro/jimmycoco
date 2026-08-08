@@ -34,6 +34,10 @@ Has purchased recently and may be learning the routine, replenishing or expandin
 
 Has demonstrated product fit. Prioritise convenience, replenishment, relevant launches and loyalty recognition.
 
+### Business-tool user
+
+Has run a business calculator or taken a template pack on the professional site. A high-intent trade signal, and one that arrives before any purchase. Needs the article that answers the question the tool raised, not a product pitch. See `07-content-triggered-campaigns.md`.
+
 ### Lapsed customer
 
 Has exceeded the expected reorder window. Diagnose probable barriers before offering an incentive.
@@ -58,6 +62,9 @@ Use when available:
 - Engagement recency
 - Discount sensitivity
 - Return or support history
+- Business tool used, and the result band it produced
+- Content pillar engaged with
+- Trade or consumer relationship
 
 ## Suppression rules
 

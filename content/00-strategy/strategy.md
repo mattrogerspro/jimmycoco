@@ -99,11 +99,20 @@ somewhere to send the reader.
 4. Then the pillar articles, in the order set out in each pillar file, starting
    with **[what a spray tan costs to deliver](../04-pipeline/what-a-spray-tan-costs/)**
 
-## One research effort, three assets
+## One research effort, three assets — the crux
 
-Every commissioned piece produces an article, an email and a tool link. This is
-what makes the cadence sustainable at one person's capacity — see
-[`06-distribution/`](../06-distribution/README.md).
+Every commissioned piece produces an article, an email and a tool. This is what
+makes the cadence sustainable at one person's capacity, and it is the reason the
+programme lives in this repository rather than in a document.
+
+**The contract lives in the email playbook**, as Strategy › Content-Triggered
+Campaigns (`email/00-strategy/07-content-triggered-campaigns.md`), visible in the
+Studio's Playbooks screen alongside the other strategy chapters. Four mechanisms:
+the monthly Salon Business Brief, lifecycle inserts into the existing onboarding
+and reseller sequences, seasonal triggers from the UK tanning year, and
+tool-triggered follow-ups off the Business-tool user lifecycle state.
+[`06-distribution/`](../06-distribution/README.md) is the specification it
+governs — which article becomes which campaign, through which mechanism.
 
 The recurring email — the **Salon Business Brief** — matters beyond
 distribution. The trade programme currently has no reason to email a salon that

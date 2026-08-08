@@ -7,7 +7,7 @@ import chromeStyles from "../styles/chrome.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { ApplicationRitual } from "../components/shared/ApplicationRitual";
 import { Certification, Formula, GlowDuo, Hero, Retail, Shades, Story, Trial } from "../components/home/HomeSections";
-import { ProfitCalculator } from "../components/home/ProfitCalculator";
+import { ProfitCalculator } from "../components/shared/ProfitCalculator";
 import { siteEntityGraph } from "../lib/entity";
 import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 import { handleApplicationSubmit } from "../lib/application-action.server";
@@ -64,7 +64,7 @@ export default function HomePage() {
         <Story />
         <Formula />
         <Shades />
-        <ProfitCalculator onMonthlyChange={updateMonthlyProfit} />
+        <ProfitCalculator mode="compact" onMonthlyChange={updateMonthlyProfit} />
         <ApplicationRitual />
         <Retail />
         <GlowDuo />

@@ -3,7 +3,7 @@ import { vercelPreset } from "@vercel/react-router/vite";
 import { createClient } from "@supabase/supabase-js";
 
 async function prerenderRoutes() {
-  const routes = ["/", "/products/malibu-professional-spray-1l"];
+  const routes = ["/", "/products/malibu-professional-spray-1l", "/tools/spray-tan-profit-calculator"];
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) return routes;

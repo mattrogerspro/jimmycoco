@@ -70,7 +70,7 @@ button,input,select,textarea{font:inherit}
 .admin-stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:clamp(20px,2.2vw,30px)}
 .admin-stat{padding:18px 20px;border:1px solid var(--admin-line);border-radius:12px;background:var(--admin-paper)}
 .admin-stat span{display:block;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--admin-muted);font-weight:600}
-.admin-stat b{display:block;margin-top:8px;font-size:30px;font-weight:500;line-height:1;letter-spacing:-.02em;color:var(--admin-ink)}
+.admin-stat b{display:block;margin-top:8px;font-size:30px;font-weight:500;line-height:1;letter-spacing:-.02em;color:var(--admin-ink);font-variant-numeric:tabular-nums lining-nums}
 .admin-stat.is-flagged{border-left:3px solid var(--admin-gold);background:linear-gradient(120deg,rgba(201,149,103,.1),var(--admin-paper) 60%)}
 
 .admin-panel{margin-bottom:26px;border:1px solid var(--admin-line);border-left:3px solid var(--admin-bronze);border-radius:12px;background:var(--admin-paper);overflow:hidden}
@@ -248,7 +248,8 @@ button,input,select,textarea{font:inherit}
 .admin-order-sub{margin:0;color:var(--admin-muted);font-size:16.5px}
 .admin-order-sub a{color:var(--admin-bronze-dark)}
 .admin-order-head-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;text-align:right}
-.admin-order-total{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(30px,3.4vw,44px);line-height:1;letter-spacing:-.02em;color:var(--admin-ink)}
+/* Money is data: sans, tabular figures. Never Fraunces. */
+.admin-order-total{font-family:'Jost',sans-serif;font-weight:500;font-size:clamp(30px,3.4vw,44px);line-height:1;letter-spacing:-.02em;color:var(--admin-ink);font-variant-numeric:tabular-nums lining-nums}
 .admin-order-total-note{color:var(--admin-muted);font-size:14.5px}
 
 /* Compact progress strip — state and date only. */
@@ -312,7 +313,7 @@ button,input,select,textarea{font:inherit}
 .admin-figures-off dd{color:var(--admin-bronze-dark)}
 .admin-figures-total{border-top:1px solid var(--admin-line);background:var(--admin-cream)}
 .admin-figures-total dt{color:var(--admin-ink);font-size:17px;font-weight:600}
-.admin-figures-total dd{font-family:'Fraunces',Georgia,serif;font-size:27px;color:var(--admin-ink)}
+.admin-figures-total dd{font-family:'Jost',sans-serif;font-weight:500;font-size:27px;color:var(--admin-ink);font-variant-numeric:tabular-nums lining-nums}
 
 .admin-quote{padding:0 0 18px;margin:0 0 18px;border-bottom:1px solid var(--admin-line)}
 .admin-quote h3,.admin-notefield label{display:block;margin:0 0 8px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--admin-muted);font-weight:600}
@@ -472,7 +473,7 @@ button,input,select,textarea{font:inherit}
 .stat-card{padding:18px 20px;border:1px solid var(--admin-line);border-left:5px solid var(--admin-bronze);border-radius:12px;background:var(--admin-paper);box-shadow:0 8px 22px rgba(45,31,20,.05)}
 .stat-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
 .stat-card span{display:block;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--admin-muted);font-weight:600}
-.stat-card b{display:block;margin-top:8px;font-size:34px;font-weight:500;line-height:1;letter-spacing:-.02em;color:var(--admin-ink)}
+.stat-card b{display:block;margin-top:8px;font-size:34px;font-weight:500;line-height:1;letter-spacing:-.02em;color:var(--admin-ink);font-variant-numeric:tabular-nums lining-nums}
 .stat-card b i{margin-left:3px;font-style:normal;font-size:17px;color:var(--admin-muted)}
 .stat-card p{margin:14px 0 0;color:var(--admin-muted);font-size:14px;line-height:1.45}
 .stat-card-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:10px;flex:0 0 auto}
@@ -619,7 +620,9 @@ button,input,select,textarea{font:inherit}
 .ed-code{width:100%;min-height:520px;padding:18px 20px;border:0;background:#FFFDFA;color:var(--admin-ink);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;line-height:1.65;resize:vertical;outline:none}
 .ed-panes-split .ed-code{border-right:1px solid var(--admin-line)}
 .ed-preview{padding:22px 26px;overflow:auto;background:#FFFDFA}
-.ed-preview .article-body{font-size:16.5px;line-height:1.65;color:var(--admin-ink2)}
+/* Same reading face the published page uses, so the preview is honest about
+   what the article will look like. Scaled down to fit the editor pane. */
+.ed-preview .article-body{font-family:'Literata',Georgia,serif;font-size:17.5px;line-height:1.68;color:var(--admin-ink2)}
 .ed-preview .article-body h2{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:27px;margin:26px 0 10px;color:var(--admin-ink)}
 .ed-preview .article-body h3{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:21px;margin:22px 0 8px;color:var(--admin-ink)}
 .ed-preview .article-body p{margin:0 0 14px}

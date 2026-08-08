@@ -15,6 +15,47 @@ Suggested fallback stacks:
 
 Do not depend on a custom webfont to preserve meaning or layout.
 
+## Never set numbers or data in a serif
+
+**This is a hard rule and it applies everywhere the brand appears — email, the professional site, the admin, articles, tools and decks. There is no exception for a figure that "looks nicer" in the display face.**
+
+Serif faces are drawn for running prose. Their figures carry varying widths, and in several of the faces we use they are old-style — different heights, some dropping below the baseline. In a paragraph that is invisible. In a column of money it is a mess: the decimal points stop lining up, digits are harder to tell apart at a glance, and a reader comparing two rows has to work for it.
+
+**Set in the sans, with tabular lining figures:**
+
+- Prices, totals, subtotals and any currency
+- Every cell of every table, and its header row
+- Statistics, KPI figures and dashboard cards
+- Calculator inputs and outputs
+- Percentages, quantities, measurements and dates
+- Order numbers, invoice numbers, SKUs and reference codes
+- Formulas and worked arithmetic (monospace is also acceptable here)
+
+**The serif is for:**
+
+- Headlines and section headings
+- Pull quotes and standfirsts
+- Running prose — including numbers that appear *inside* a sentence, which stay in the reading face because breaking mid-sentence into another typeface is worse than the problem it solves
+
+The distinction is display versus prose. A number a reader is meant to *compare, scan or check* is data and takes the sans. A number they simply read past in a line of text is prose.
+
+### How to implement it
+
+Always pair the sans with tabular figures — a sans alone does not fix alignment, because most sans faces still default to proportional digits.
+
+```css
+font-family: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+font-variant-numeric: tabular-nums lining-nums;
+```
+
+In email, where `font-variant-numeric` is unreliable across clients, use the sans stack and align numeric columns right so the decimals stack regardless.
+
+### Where this is already wired in
+
+- `pro-site/app/styles/articles.css` — the `--data` custom property; all article tables and formulas use it
+- `pro-site/app/styles/admin.css` — order totals, invoice figures and every stat card
+- Anything new: take the sans from `--data` rather than restating the stack
+
 ## Type scale
 
 ### Desktop

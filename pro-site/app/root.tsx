@@ -17,6 +17,7 @@ export const links: LinksFunction = () => [
   { rel: "preload", href: "/fonts/fraunces-var.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
   { rel: "preload", href: "/fonts/jost-var.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
   { rel: "preload", href: "/fonts/fraunces-var-italic.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
+  { rel: "preload", href: "/fonts/literata-var.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
   { rel: "preconnect", href: "https://www.googletagmanager.com" },
   { rel: "stylesheet", href: consentStyles },
   { rel: "icon", href: "/img/favicon.svg", type: "image/svg+xml" },
@@ -25,7 +26,9 @@ export const links: LinksFunction = () => [
 
 const FONT_FACES = `@font-face{font-family:'Fraunces';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/fraunces-var.woff2) format('woff2-variations')}
 @font-face{font-family:'Fraunces';font-style:italic;font-weight:100 900;font-display:swap;src:url(/fonts/fraunces-var-italic.woff2) format('woff2-variations')}
-@font-face{font-family:'Jost';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/jost-var.woff2) format('woff2-variations')}`;
+@font-face{font-family:'Jost';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/jost-var.woff2) format('woff2-variations')}
+@font-face{font-family:'Literata';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/literata-var.woff2) format('woff2-variations')}
+@font-face{font-family:'Literata';font-style:italic;font-weight:100 900;font-display:swap;src:url(/fonts/literata-var-italic.woff2) format('woff2-variations')}`;
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

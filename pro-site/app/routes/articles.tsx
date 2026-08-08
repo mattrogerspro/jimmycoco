@@ -4,6 +4,7 @@ import articleStyles from "../styles/articles.css?url";
 import chromeStyles from "../styles/chrome.css?url";
 import { Announcement, SiteFooter, SiteHeader } from "../components/shared/SiteChrome";
 import { getPublishedArticles } from "../lib/articles.server";
+import { SIZES, responsiveSrcSet } from "../lib/responsive-image";
 import { SITE_URL } from "../lib/site";
 
 export const links: LinksFunction = () => [
@@ -56,7 +57,7 @@ export default function ArticlesPage() {
             paints on a single image; the rest arrive lazily behind it. */}
         <div className="articles-lead-frames" aria-hidden="true">
           {HERO_FRAMES.map((src, index) => (
-            <img key={src} src={src} alt="" loading={index === 0 ? "eager" : "lazy"} decoding="async" />
+            <img key={src} src={src} srcSet={responsiveSrcSet(src)} sizes={SIZES.lead} alt="" loading={index === 0 ? "eager" : "lazy"} decoding="async" />
           ))}
         </div>
         <span className="articles-lead-scrim" aria-hidden="true" />
@@ -68,7 +69,7 @@ export default function ArticlesPage() {
       <section className="articles-grid" aria-label="Published articles">
         {articles.map((article: any) => <article className="article-card" key={article.id}>
           <Link to={`/articles/${article.slug}`} className="article-card-image">
-            {article.cover_url ? <img src={article.cover_url} alt={article.cover?.alt_text || ""} loading="lazy" /> : <span className="article-card-fallback" />}
+            {article.cover_url ? <img src={article.cover_url} srcSet={responsiveSrcSet(article.cover_url)} sizes={SIZES.card} alt={article.cover?.alt_text || ""} loading="lazy" decoding="async" /> : <span className="article-card-fallback" />}
             <span className="article-card-scrim" aria-hidden="true" />
             {article.category?.name ? <span className="article-card-chip">{article.category.name}</span> : null}
           </Link>

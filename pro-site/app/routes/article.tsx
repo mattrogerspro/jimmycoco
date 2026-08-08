@@ -6,6 +6,7 @@ import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../compone
 import { getPublishedArticle, getPublishedArticles } from "../lib/articles.server";
 import { recordArticleView } from "../lib/article-view.server";
 import { ORG_ID, PERSON_ID, brandEntities } from "../lib/entity";
+import { SIZES, responsiveSrcSet } from "../lib/responsive-image";
 import { PRODUCT_PATH, SITE_URL } from "../lib/site";
 
 export const links: LinksFunction = () => [
@@ -125,7 +126,7 @@ export default function ArticlePage() {
               legible without dimming the whole photograph. */}
           <header className={`article-lead${article.cover_url ? "" : " is-plain"}`}>
             {article.cover_url ? (
-              <img className="article-lead-img" src={article.cover_url} alt={article.cover?.alt_text || ""} width={2752} height={1536} />
+              <img className="article-lead-img" src={article.cover_url} srcSet={responsiveSrcSet(article.cover_url)} sizes={SIZES.lead} alt={article.cover?.alt_text || ""} width={2752} height={1536} fetchPriority="high" decoding="async" />
             ) : null}
             <span className="article-lead-scrim" aria-hidden="true" />
 
@@ -208,7 +209,7 @@ export default function ArticlePage() {
               {related.map((item: any) => (
                 <article className="article-card" key={item.id}>
                   <Link to={`/articles/${item.slug}`} className="article-card-image">
-                    {item.cover_url ? <img src={item.cover_url} alt={item.cover?.alt_text || ""} loading="lazy" /> : <span />}
+                    {item.cover_url ? <img src={item.cover_url} srcSet={responsiveSrcSet(item.cover_url)} sizes={SIZES.card} alt={item.cover?.alt_text || ""} loading="lazy" decoding="async" /> : <span />}
                   </Link>
                   <div>
                     <p className="article-card-meta">

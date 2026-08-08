@@ -1,0 +1,102 @@
+{
+  "/img/articles/journal-hero-1.webp": {
+    "w": [
+      480,
+      768,
+      1200,
+      1600,
+      2048
+    ],
+    "s": 2400
+  },
+  "/img/articles/journal-hero-2.webp": {
+    "w": [
+      480,
+      768,
+      1200,
+      1600,
+      2048
+    ],
+    "s": 2400
+  },
+  "/img/articles/journal-hero-3.webp": {
+    "w": [
+      480,
+      768,
+      1200,
+      1600,
+      2048
+    ],
+    "s": 2400
+  },
+  "/img/articles/journal-hero-4.webp": {
+    "w": [
+      480,
+      768,
+      1200,
+      1600,
+      2048
+    ],
+    "s": 2400
+  },
+  "/img/articles/journal-hero-5.webp": {
+    "w": [
+      480,
+      768,
+      1200,
+      1600,
+      2048
+    ],
+    "s": 2400
+  },
+  "https://tfiumxnztxacsmgccukt.supabase.co/storage/v1/object/public/article-media/articles/what-a-spray-tan-costs.webp": {
+    "w": [
+      480,
+      768,
+      1200,
+      1600,
+      2048
+    ],
+    "s": 2400
+  },
+  "https://tfiumxnztxacsmgccukt.supabase.co/storage/v1/object/public/article-media/articles/tans-per-litre.webp": {
+    "w": [
+      480,
+      768,
+      1200,
+      1600,
+      2048
+    ],
+    "s": 2400
+  },
+  "https://tfiumxnztxacsmgccukt.supabase.co/storage/v1/object/public/article-media/articles/what-to-charge-for-a-spray-tan.webp": {
+    "w": [
+      480,
+      768,
+      1200,
+      1600,
+      2048
+    ],
+    "s": 2400
+  },
+  "https://tfiumxnztxacsmgccukt.supabase.co/storage/v1/object/public/article-media/articles/mobile-spray-tan-profit.webp": {
+    "w": [
+      480,
+      768,
+      1200,
+      1600,
+      2048
+    ],
+    "s": 2400
+  },
+  "https://tfiumxnztxacsmgccukt.supabase.co/storage/v1/object/public/article-media/articles/retail-attach-maths.webp": {
+    "w": [
+      480,
+      768,
+      1200,
+      1600,
+      2048
+    ],
+    "s": 2400
+  }
+}

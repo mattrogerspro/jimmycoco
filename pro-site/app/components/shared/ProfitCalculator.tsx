@@ -146,7 +146,7 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
               <div className="calc-group">
                 <h3>Chair time</h3>
                 <Slider label="Minutes per tan, door to door" value={input.minutesPerTan} min={15} max={45} display={`${input.minutesPerTan} min`} hint="Consultation, prep, treatment, clean-down and reset." onChange={set("minutesPerTan", "minutes_per_tan")} />
-                <Slider label="Therapist hourly rate" value={input.hourlyRate} min={0} max={25} step={0.01} display={gbp(input.hourlyRate, 2)} hint="Set to £0 if you do the tans yourself. On-costs of 1.20× are added automatically." onChange={set("hourlyRate", "hourly_rate")} />
+                <Slider label="Therapist hourly rate" value={input.hourlyRate} min={0} max={25} step={0.01} display={gbp(input.hourlyRate, 2)} hint="Set to £0 if you do the tans yourself. Employer costs are added on top." onChange={set("hourlyRate", "hourly_rate")} />
               </div>
             )}
 
@@ -196,7 +196,7 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
                 <div className="ocard">
                   <span>After labour and premises</span>
                   <b>{gbp(totals.netMonth)}</b>
-                  <small>on standard chair-time and overhead assumptions</small>
+                  <small>once you count the chair and the room</small>
                 </div>
               </>
             )}
@@ -243,7 +243,7 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
                   <a className="btn btn-outline-light" href="#trial">
                     Start with a free trial
                   </a>
-                  <p>The full version adds chair time, premises and what each change is worth.</p>
+                  <p>Full figures or a free trial—the next step is yours.</p>
                 </>
               )}
             </div>

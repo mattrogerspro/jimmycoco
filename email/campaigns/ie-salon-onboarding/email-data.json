@@ -3,7 +3,7 @@
   "market": "IE",
   "style": "uk-stockist rich (600px, Playfair/Arial, #e7dccd)",
   "assetBase": "https://jimmycoco.email/email-assets/uk-stockist/",
-  "primaryProduct": "Sunset professional solution (1L, 25-30 tans, Dark/Extra Dark 10% DHA, £60)",
+  "primaryProduct": "Sunset professional solution (1L, approx. 28 tans, Dark/Extra Dark 10% DHA, £60)",
   "primaryCTA": {
     "label": "Request your sample kit",
     "url": "https://jimmycoco.co.uk/pages/why-choose-pro-professional"
@@ -22,7 +22,7 @@
       "alias": "ie-onboarding-2-the-formula",
       "file": "emails/2-the-formula.html",
       "subject": "The professional formula, now stocked in Ireland",
-      "preview": "25–30 flawless tans per litre — undertone-true colour that never goes orange.",
+      "preview": "Approximately 28 flawless tans per litre — undertone-true colour that never goes orange.",
       "hero": "product-sunset.jpg"
     },
     {

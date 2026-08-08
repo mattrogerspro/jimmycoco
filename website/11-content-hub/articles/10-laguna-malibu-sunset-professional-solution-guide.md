@@ -64,7 +64,7 @@ Deeper does not mean heavier spray technique. The current professional pages rec
 All three current one-litre pages state:
 
 - use sparingly, preferably less than 35 ml;
-- approximately 25–30 full-body tans per litre;
+- approximately 28 full-body tans per litre;
 - shake well before use;
 - store in a cool, dark environment away from elevated heat and sunlight;
 - bring the solution to room temperature before use;
@@ -118,7 +118,7 @@ Do not publish or use a mixing system unless Jimmy Coco supplies an approved pro
 
 ### How much solution should one service use?
 
-The current pages recommend less than 35 ml and state 25–30 full-body tans per litre. Actual use must reflect equipment, technique and coverage while remaining inside approved directions.
+The current pages state approximately 28 full-body tans per litre, which works out at about 36 ml per service. Actual use must reflect equipment, technique and coverage while remaining inside approved directions.
 
 ### Which solution should a first-time client choose?
 

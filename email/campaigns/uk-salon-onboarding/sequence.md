@@ -10,8 +10,8 @@ Hero: Kendall. Feature strip: 20+ years · Celebrity tan expert · Professional 
 Brand intro (professional spray-tan line, now for UK salons). *Why it belongs in your salon:* celebrity credibility · premium positioning · a professional formula · full trade support.
 
 ## 2 — The professional formula, in one litre  ·  `uk-onboarding-2-the-formula`
-**Preview:** 25–30 flawless tans per litre — undertone-true colour that never goes orange.
-Hero: Sunset 1L infographic. Sunset professional solution — 1L, 25–30 tans, Dark/Extra Dark 10% DHA, undertone-true, buildable, even fade. *What makes it professional* (4 specs). £60 / 1 litre.
+**Preview:** Approximately 28 flawless tans per litre — undertone-true colour that never goes orange.
+Hero: Sunset 1L infographic. Sunset professional solution — 1L, approx. 28 tans, Dark/Extra Dark 10% DHA, undertone-true, buildable, even fade. *What makes it professional* (4 specs). £60 / 1 litre.
 
 ## 3 — The glow clients book again for  ·  `uk-onboarding-3-the-glow`
 **Preview:** Skincare-led, hydrating, and believable in daylight.
@@ -23,7 +23,7 @@ Hero: Kendall. Celebrity-standard expertise → camera-ready, undertone-true col
 
 ## 5 — Why the professional line pays for itself  ·  `uk-onboarding-5-the-commercial-case`
 **Preview:** A premium booth service — with an optional take-home line to extend it.
-Hero: application. Premium service pricing; £60/1L → 25–30 tans; repeat bookings. **SECONDARY panel:** optional take-home retail edit (Soufflé, Face Brush, glow balm) → "Ask about the retail range".
+Hero: application. Premium service pricing; £60/1L → approx. 28 tans; repeat bookings. **SECONDARY panel:** optional take-home retail edit (Soufflé, Face Brush, glow balm) → "Ask about the retail range".
 
 ## 6 — What a Jimmy Coco partnership includes  ·  `uk-onboarding-6-whats-included`
 **Preview:** Trade pricing, training, the shade guide and dedicated stockist support.

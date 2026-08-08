@@ -33,10 +33,16 @@ and the first article pipeline folder end to end.
   never `git add -A`; never publish Resend templates or send email without fresh
   explicit approval; the repository owns campaign truth, so edit structured
   source and regenerate HTML rather than hand-editing generated output.
-- **The local build is broken** for an unrelated reason: a missing
-  `@rolldown/binding-linux-arm64-gnu` native binding. Fix with
-  `rm -rf node_modules package-lock.json && npm i` in `pro-site/`.
-  `npx tsc --noEmit` works fine regardless.
+- **The build is NOT broken — corrected 8 Aug 2026.** An earlier note here
+  claimed a missing `@rolldown/binding-linux-arm64-gnu` binding and advised
+  reinstalling `node_modules`. That was wrong, and following it would have
+  thrown away a correct install. `pro-site/node_modules` holds
+  `@rolldown/binding-darwin-arm64` — right for Matt's Mac, along with
+  darwin-arm64 builds of esbuild, rollup and lightningcss. The error only
+  appears when an agent runs the build through the device bridge, which
+  executes as Linux aarch64 against a macOS install and therefore looks for a
+  Linux binding that should not be there. `npm run build` and
+  `npm run typecheck` work fine on the machine itself.
 - **Verify in a browser, not by reading code.** Several problems this session were
   only visible in the rendered page — a dangling schema reference, a layout
   regression, a robots.txt that parsed differently than it read. Playwright

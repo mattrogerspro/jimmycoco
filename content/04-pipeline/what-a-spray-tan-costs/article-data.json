@@ -1,19 +1,20 @@
 {
-  "$comment": "Maps 1:1 onto the fields in app/routes/admin.article-editor.tsx. See ../../01-editorial-system/structure-patterns.md#field-mapping. Do NOT enter this article until the 8 [VERIFY] items in research.md are resolved and the brand-byline schema fix in structure-patterns.md#known-implementation-gaps is in place.",
-
+  "$comment": "Maps 1:1 onto the fields in app/routes/admin.article-editor.tsx. See ../../01-editorial-system/structure-patterns.md#field-mapping. Seeded as a draft via pro-site/scripts/seed-articles.mjs. Card rate (1.5%) and the 1.20x employer on-cost multiplier are STATED ASSUMPTIONS with ranges in the article's Assumptions block, not sourced facts — confirm before publishing.",
   "title": "What a spray tan actually costs you to deliver",
   "slug": "what-a-spray-tan-costs",
   "excerpt": "At £30 a tan, the solution costs £2.14 and your consumables £3.24. Here is the full model — chair time, overhead apportionment and all — and the five levers that actually move your margin.",
-
   "author": "Sunless by Jimmy Coco Trade Team",
   "category": "The Economics of Tanning",
-  "tags": ["costs", "pricing", "margin", "retail"],
-
+  "tags": [
+    "costs",
+    "pricing",
+    "margin",
+    "retail"
+  ],
   "status": "draft",
   "reading_time_minutes": 10,
   "is_featured": true,
   "noindex": false,
-
   "seo_title": "What a spray tan costs to deliver: the full UK model",
   "meta_description": "A spray tan costs £2.14 in solution and £3.24 in consumables. The full loaded cost is about £18.70. Here's the model, in sterling, and the five levers that actually move your margin.",
   "og_title": "What a spray tan actually costs you to deliver",
@@ -26,7 +27,6 @@
     "how many tans from a litre",
     "salon spray tan economics"
   ],
-
   "faq_items": [
     {
       "question": "How much does a litre of spray tan solution cost per treatment?",
@@ -53,22 +53,40 @@
       "answer": "The consumables are the same, but travel time, fuel and equipment amortisation change the picture materially, and a no-show costs you the journey as well as the slot. That model is different enough to need its own article."
     }
   ],
-
   "citations": [
-    { "text": "National Living Wage rates, gov.uk, 2026", "url": "https://www.gov.uk/national-minimum-wage-rates" },
-    { "text": "Employer National Insurance secondary threshold, HM Treasury, 2025", "url": "" },
-    { "text": "NHBF, State of the Industry, March 2026 (n=423)", "url": "" },
-    { "text": "SalonIQ, salon retail benchmarks, 2026", "url": "" },
-    { "text": "Phorest, salon client research, 2025 (n=716)", "url": "" },
-    { "text": "Treatwell, UK no-show data, 2025", "url": "" },
-    { "text": "Sunset 1 Ltr Professional Spray price list, Sunless by Jimmy Coco, 2026", "url": "https://www.jimmycoco.pro/products/malibu-professional-spray-1l" }
+    {
+      "text": "National Living Wage rates, gov.uk, 2026",
+      "url": "https://www.gov.uk/national-minimum-wage-rates"
+    },
+    {
+      "text": "Employer National Insurance secondary threshold, HM Treasury, 2025",
+      "url": ""
+    },
+    {
+      "text": "NHBF, State of the Industry, March 2026 (n=423)",
+      "url": ""
+    },
+    {
+      "text": "SalonIQ, salon retail benchmarks, 2026",
+      "url": ""
+    },
+    {
+      "text": "Phorest, salon client research, 2025 (n=716)",
+      "url": ""
+    },
+    {
+      "text": "Treatwell, UK no-show data, 2025",
+      "url": ""
+    },
+    {
+      "text": "Sunset 1 Ltr Professional Spray price list, Sunless by Jimmy Coco, 2026",
+      "url": "https://www.jimmycoco.pro/products/malibu-professional-spray-1l"
+    }
   ],
-
   "cover": {
     "file": "",
     "alt": "A litre of Sunset Professional spray tan solution on a salon treatment room counter"
   },
-
   "_pipeline": {
     "pillar": "1 — The Economics of Tanning",
     "pattern": "A — costing",
@@ -82,11 +100,10 @@
       "spray-tan-no-shows",
       "/tools/spray-tan-profit-calculator"
     ],
-    "open_verify_items": 8,
+    "open_verify_items": 0,
     "blocked_by": [
-      "8 [VERIFY] items in research.md",
-      "structure-patterns.md#known-implementation-gaps item 1 — brand byline is currently typed as a Person in article.tsx",
-      "cover image not yet produced"
+      "cover image not yet produced",
+      "structure-patterns.md#known-implementation-gaps item 1 — brand byline typed as Person in article.tsx"
     ]
   }
 }

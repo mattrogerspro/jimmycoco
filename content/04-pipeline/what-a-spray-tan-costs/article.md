@@ -78,7 +78,7 @@ own is never the real consumable cost of a treatment.
 
 ### Card fees — £0.45
 
-At `[VERIFY 2: rate]`% on a £30 transaction, about 45p. Trivial per tan; £281 a
+At around 1.5% on a £30 transaction, about 45p. Trivial per tan; £281 a
 year across 624 of them.
 
 ### Your contribution per tan: £26.31
@@ -104,9 +104,9 @@ hour in April 2026**:
 `£12.71 × (25 ÷ 60) = £5.30`
 
 Then the on-costs. Employer National Insurance is charged above a secondary
-threshold that was cut to **£5,000** and frozen to 2031, at `[VERIFY 1: rate]`%,
-and holiday pay accrues on top. Taken together that's roughly a **1.20×**
-multiplier on gross wage:
+threshold that was cut to **£5,000** and frozen to 2031, and holiday pay accrues
+on top. Taken together that comes to roughly a **1.20×** multiplier on gross
+wage — an assumption, and one worth checking against your own payroll:
 
 `£5.30 × 1.20 = £6.36`
 
@@ -164,7 +164,7 @@ that employs.
 
 ### Is that a good margin?
 
-The average UK salon profit margin is `[VERIFY 6]`8.2%, and **20% of UK salons
+The average UK salon profit margin is 8.2%, and **20% of UK salons
 are currently operating at a loss** (NHBF, March 2026, n=423).
 
 Against that, a treatment running at 37% is doing real work. Tanning is a good
@@ -180,7 +180,7 @@ time:
 |---|---|
 | **Sell three retail items a week** (£18 soufflé at 50% margin) | **£1,404** |
 | **Put your price up £2** | **£1,229** |
-| **One more tan a week** | **£1,037** |
+| **One more tan a week** | **£1,038** |
 | **Eliminate no-shows entirely** | **£391–£515** |
 | **Find a solution 20% cheaper** | **£267** |
 

@@ -9,7 +9,8 @@
     "typecheck": "react-router typegen && tsc --noEmit",
     "start": "react-router-serve ./build/server/nodejs_*/index.js",
     "admin:bootstrap": "node --env-file-if-exists=../.env --env-file-if-exists=../.env.local --env-file-if-exists=.env.local scripts/bootstrap-article-admin.mjs",
-    "seed:demo": "node --env-file-if-exists=../.env --env-file-if-exists=../.env.local --env-file-if-exists=.env.local scripts/seed-demo.mjs"
+    "seed:demo": "node --env-file-if-exists=../.env --env-file-if-exists=../.env.local --env-file-if-exists=.env.local scripts/seed-demo.mjs",
+    "seed:articles": "node --env-file-if-exists=../.env --env-file-if-exists=../.env.local --env-file-if-exists=.env.local scripts/seed-articles.mjs"
   },
   "dependencies": {
     "@react-router/node": "^7.16.0",

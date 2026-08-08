@@ -1,5 +1,7 @@
 # Product, Shade and Routine Language
 
+> This chapter governs how the product is described. For the figures themselves — price, DHA percentage, yield, retail prices — see `14-professional-product-facts.md`, which is the single source. Do not restate a product figure from anywhere else.
+
 ## Purpose
 
 Define how Sunless describes products, shades, outcomes and routines in email so that copy remains commercially clear, aesthetically refined and technically honest.

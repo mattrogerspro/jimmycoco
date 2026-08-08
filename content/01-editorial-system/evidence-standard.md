@@ -90,6 +90,10 @@ Grep before publishing:
 grep -rn "\[VERIFY" content/04-pipeline/<slug>/
 ```
 
+## Product figures
+
+Every figure about our own product — price, DHA percentage, yield, development time, retail prices — comes from one place. See Copy system › Professional Product Facts (`email/04-copy-system/14-professional-product-facts.md`) — the single source for product figures. Never take a product figure from another article, an older campaign or a slide; that is precisely how "25–30 tans" and "24–32 tans" both ended up in circulation alongside the approved figure.
+
 ## Sources we use, in order of preference
 
 1. **Regulators and statute** — legislation.gov.uk, HSE, the UK SAG-CS opinion,

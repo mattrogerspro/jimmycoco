@@ -10,8 +10,8 @@ Hero: Kendall. Feature strip: 20+ years · Celebrity tan expert · Professional 
 Brand intro (professional spray-tan line, now for Irish salons). *Why it belongs in your salon:* celebrity credibility · premium positioning · a professional formula · full trade support. CTA subline: £60 / 1 litre · professional sample kit · fast delivery to Ireland.
 
 ## 2 — The professional formula, now stocked in Ireland  ·  `ie-onboarding-2-the-formula`
-**Preview:** 25–30 flawless tans per litre — undertone-true colour that never goes orange.
-Hero: Sunset 1L infographic. Sunset professional solution — 1L, 25–30 tans, Dark/Extra Dark 10% DHA, undertone-true, buildable, even fade. *What makes it professional* (4 specs). Price note: £60 for 1 litre · professional grade · fast delivery to Ireland.
+**Preview:** Approximately 28 flawless tans per litre — undertone-true colour that never goes orange.
+Hero: Sunset 1L infographic. Sunset professional solution — 1L, approx. 28 tans, Dark/Extra Dark 10% DHA, undertone-true, buildable, even fade. *What makes it professional* (4 specs). Price note: £60 for 1 litre · professional grade · fast delivery to Ireland.
 
 ## 3 — The glow Irish clients keep rebooking for  ·  `ie-onboarding-3-the-glow`
 **Preview:** Skincare-led, hydrating, and believable in daylight.
@@ -23,7 +23,7 @@ Hero: Kendall. Celebrity-standard expertise → camera-ready, undertone-true col
 
 ## 5 — Why Irish salons are adding this to their price list  ·  `ie-onboarding-5-the-commercial-case`
 **Preview:** A premium booth service — with an optional take-home line to extend it.
-Hero: application. Premium service pricing; £60/1L → 25–30 tans; repeat bookings. **SECONDARY panel:** optional take-home retail edit (Soufflé, Face Brush, glow balm) → "Ask about the retail range".
+Hero: application. Premium service pricing; £60/1L → approx. 28 tans; repeat bookings. **SECONDARY panel:** optional take-home retail edit (Soufflé, Face Brush, glow balm) → "Ask about the retail range".
 
 ## 6 — Inside a Jimmy Coco Ireland stockist partnership  ·  `ie-onboarding-6-whats-included`
 **Preview:** Trade pricing, training, the shade guide and dedicated stockist support.

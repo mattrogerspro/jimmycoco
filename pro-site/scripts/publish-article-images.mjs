@@ -42,10 +42,13 @@ const DIR = resolve('public/img/articles');
 // --- what each image is, and what it says to a screen reader -----------------
 // `slug` null means it is not an article cover — it stays on disk.
 const IMAGES = {
-  'journal-hero': {
-    slug: null,
-    alt: 'A professional spray tanning room with an open tanning tent and a trolley holding a litre of Sunless by Jimmy Coco professional solution.',
-  },
+  // The five index-hero frames stay on disk and crossfade on /articles.
+  // slug null = optimised to webp, never uploaded, never attached.
+  'journal-hero-1': { slug: null, alt: '' },
+  'journal-hero-2': { slug: null, alt: '' },
+  'journal-hero-3': { slug: null, alt: '' },
+  'journal-hero-4': { slug: null, alt: '' },
+  'journal-hero-5': { slug: null, alt: '' },
   'what-a-spray-tan-costs': {
     slug: 'what-a-spray-tan-costs',
     alt: 'An empty salon spray tanning room between clients, late afternoon light across the floor, the tent open and unoccupied.',

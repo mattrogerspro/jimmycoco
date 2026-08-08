@@ -87,11 +87,39 @@ const PRO_REFS = ['pro-litre-front', 'pro-litre-second'];
 // Composition and light only. The references carry the product.
 const SHOTS = [
   {
-    id: 'journal',
-    file: 'journal-hero',
+    id: 'journal-1',
+    file: 'journal-hero-1',
     refs: PRO_REFS,
     aspect: '16:9',
-    prompt: `A professional spray tanning room in a UK salon, mid-afternoon, photographed from the doorway. A stainless treatment trolley in the foreground carries the bottle from the reference images and a spray gun resting in its cradle, hose coiled loosely. An open pop-up tanning tent stands behind, ivory fabric catching low window light. Folded cream towels on a stool. Pale wood floor, warm off-white walls, long raking shadows. Composition weighted left, warm empty space to the right for a masthead. ${LOOK} Full-frame 35mm at f/2.8, eye level. ${PIN} ${STRIP}`,
+    prompt: `A professional spray tanning room in a UK salon, mid-afternoon, photographed from the doorway. A stainless treatment trolley in the foreground carries the bottle from the reference images and a spray gun resting in its cradle, hose coiled loosely. An open pop-up tanning tent stands behind, ivory fabric catching low window light. Folded cream towels on a stool. Pale wood floor, warm off-white walls, long raking shadows. Composition weighted left, warm empty space to the right for a masthead. Full-frame 35mm at f/2.8, eye level. ${LOOK} ${PIN} ${STRIP}`,
+  },
+  {
+    id: 'journal-2',
+    file: 'journal-hero-2',
+    refs: PRO_REFS,
+    aspect: '16:9',
+    prompt: `A close three-quarter view of a salon treatment trolley set up for a spray tan. The bottle from the reference images stands at the left with its label to camera, a spray gun rests in its cradle beside it with the hose coiled, a folded cream towel and a sealed hairnet sit on the shelf below. Behind, thrown well out of focus, the ivory wall of an open tanning tent glows with late window light. Shallow depth, the bottle sharp and everything behind soft. Full-frame 85mm at f/2.2, just below trolley height. Subject weighted left, warm bokeh right for a masthead. ${LOOK} ${PIN} ${STRIP}`,
+  },
+  {
+    id: 'journal-3',
+    file: 'journal-hero-3',
+    refs: PRO_REFS,
+    aspect: '16:9',
+    prompt: `An overhead flat-lay of a professional spray tan kit on pale linen. The bottle from the reference images lies on its side with the label up, a spray gun with its hose in a neat coil, folded cream towels, a sealed hairnet, disposable slippers and a soft applicator mitt, all spaced with air around them. Warm daylight from the left throwing soft shadows right. Full-frame 50mm at f/4, perpendicular overhead. Objects grouped low and left, clean empty linen across the top and right for a masthead. ${LOOK} ${PIN} ${STRIP}`,
+  },
+  {
+    id: 'journal-4',
+    file: 'journal-hero-4',
+    refs: PRO_REFS,
+    aspect: '16:9',
+    prompt: `The bottle from the reference images standing on a pale travertine salon counter in low golden late-afternoon sun, the light raking across the label so the bronze lettering catches. Behind and far out of focus, the ivory curve of an open tanning tent and a warm lamp. Long soft shadow stretching to the right across the stone. Quiet, still, almost nothing else in frame. Full-frame 85mm at f/2.0, camera low and close so the bottle stands tall in the lower left, wide empty warm space above and right for a masthead. ${LOOK} ${PIN} ${STRIP}`,
+  },
+  {
+    id: 'journal-5',
+    file: 'journal-hero-5',
+    refs: PRO_REFS,
+    aspect: '16:9',
+    prompt: `A salon back-bar shelf in warm afternoon light, stocked for the week. Three bottles from the reference images stand together at the left, labels to camera, beside a neat stack of folded cream towels, a rolled tent liner and a small stack of sealed disposables. Pale timber shelf, warm off-white wall, soft shadow falling below. Uncrowded and orderly, closer to a gallery than a stockroom. Full-frame 50mm at f/2.8, straight on and slightly below shelf height. Weighted left, clean shelf and wall to the right for a masthead. ${LOOK} ${PIN} ${STRIP}`,
   },
   {
     id: 'what-a-spray-tan-costs',

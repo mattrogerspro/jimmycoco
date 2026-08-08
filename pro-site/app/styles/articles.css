@@ -290,6 +290,12 @@
 }
 .article-lead-img{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;
+  /* The lead frame is wider than 16:9, so cover crops vertically. Centred, it
+     took equal bites off the top and bottom and cut the subject in half — the
+     bottle in the car boot sits low right and simply vanished. These photographs
+     put their subject on the lower third, so anchor the crop to the bottom and
+     lose the ceiling or the sky instead. */
+  object-position: 50% 100%;
 }
 .article-lead.is-plain{
   background:linear-gradient(135deg,#2c221a 0%,#6b4527 55%,#c99567 100%);
@@ -344,4 +350,71 @@
   .article-lead .article-nav-all{justify-self:start;grid-column:1}
   .article-lead-copy h1{max-width:none}
   .article-page .article-hero{padding:28px 20px 22px}
+}
+
+
+/* ======================================================================== */
+/* Journal index — crossfading hero.                                         */
+/*                                                                           */
+/* Five frames stacked, each held then cross-dissolved, on one shared 45s    */
+/* loop. Pure CSS: no JS, no layout shift, and nothing to hydrate. Only the  */
+/* first frame is eager — the rest are lazy, so the page still paints on one */
+/* image. Honours prefers-reduced-motion by freezing on frame one.           */
+/* ======================================================================== */
+
+.articles-lead{
+  position:relative;isolation:isolate;
+  width:100vw;margin-left:calc(50% - 50vw);
+  min-height:clamp(420px,60vh,660px);
+  display:flex;align-items:flex-end;
+  overflow:hidden;background:#17130f;
+}
+.articles-lead-frames{position:absolute;inset:0;z-index:-2}
+.articles-lead-frames img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 100%;
+  opacity:0;animation:articles-hero-fade 45s infinite;
+}
+.articles-lead-frames img:nth-child(1){animation-delay:0s}
+.articles-lead-frames img:nth-child(2){animation-delay:9s}
+.articles-lead-frames img:nth-child(3){animation-delay:18s}
+.articles-lead-frames img:nth-child(4){animation-delay:27s}
+.articles-lead-frames img:nth-child(5){animation-delay:36s}
+
+/* 9s per frame in a 45s loop: ~1.8s in, hold, ~1.8s out. The percentages are
+   the seconds divided by 45 — keep them in step if the duration changes. */
+@keyframes articles-hero-fade{
+  0%{opacity:0}
+  4%{opacity:1}
+  20%{opacity:1}
+  24%{opacity:0}
+  100%{opacity:0}
+}
+
+.articles-lead-scrim{
+  position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(15,11,8,.5) 0%,rgba(15,11,8,.12) 26%,rgba(15,11,8,0) 46%),
+    linear-gradient(0deg,rgba(15,11,8,.9) 0%,rgba(15,11,8,.58) 30%,rgba(15,11,8,0) 68%);
+}
+.articles-lead-copy{
+  width:min(calc(100% - 48px),1240px);margin:0 auto;
+  padding:0 0 clamp(38px,5vw,62px);
+}
+.articles-page .articles-lead-copy p{
+  color:#EBCB9C;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  margin:0;text-shadow:0 1px 14px rgba(15,11,8,.6);
+}
+.articles-page .articles-lead-copy h1{
+  margin:18px 0 0;font-family:var(--reading);font-weight:800;
+  font-size:clamp(38px,5.6vw,74px);line-height:1.02;letter-spacing:-.03em;
+  color:#FFFDF9;text-shadow:0 2px 34px rgba(15,11,8,.55);
+}
+.articles-page .articles-lead-copy em{font-style:normal;color:#EBCB9C}
+
+@media (prefers-reduced-motion: reduce){
+  .articles-lead-frames img{animation:none;opacity:0}
+  .articles-lead-frames img:nth-child(1){opacity:1}
+}
+@media (max-width:760px){
+  .articles-lead{min-height:clamp(340px,48vh,460px)}
 }

@@ -35,13 +35,36 @@ export async function loader(_: LoaderFunctionArgs) {
 
 const formatDate = (value: string) => new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(new Date(value));
 
+/** Static files in public/img/articles/, produced by scripts/generate-article-images.mjs.
+ *  Missing frames simply never fade in, so this is safe to ship before they all exist. */
+const HERO_FRAMES = [
+  "/img/articles/journal-hero-1.webp",
+  "/img/articles/journal-hero-2.webp",
+  "/img/articles/journal-hero-3.webp",
+  "/img/articles/journal-hero-4.webp",
+  "/img/articles/journal-hero-5.webp",
+];
+
 export default function ArticlesPage() {
   const { articles } = useLoaderData<typeof loader>();
   return <div className="content-shell">
     <Announcement />
     <SiteHeader page="content" />
     <main className="articles-page">
-      <header className="articles-hero"><p>Professional journal</p><h1>Advice for better tans<br /><em>and stronger salons.</em></h1></header>
+      <header className="articles-lead">
+        {/* Five frames on one CSS loop. Only the first is eager so the page
+            paints on a single image; the rest arrive lazily behind it. */}
+        <div className="articles-lead-frames" aria-hidden="true">
+          {HERO_FRAMES.map((src, index) => (
+            <img key={src} src={src} alt="" loading={index === 0 ? "eager" : "lazy"} decoding="async" />
+          ))}
+        </div>
+        <span className="articles-lead-scrim" aria-hidden="true" />
+        <div className="articles-lead-copy">
+          <p>Professional journal</p>
+          <h1>Advice for better tans<br /><em>and stronger salons.</em></h1>
+        </div>
+      </header>
       <section className="articles-grid" aria-label="Published articles">
         {articles.map((article: any) => <article className="article-card" key={article.id}>
           <Link to={`/articles/${article.slug}`} className="article-card-image">

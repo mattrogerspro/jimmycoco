@@ -48,7 +48,8 @@ whether anything left with her.</p>
 own numbers in.</p>
 <h2>The worked example</h2>
 <p>One room, one therapist on the payroll, twelve tans a week — 624 a year — at £30
-each. Deliberately middling: tans run £20–£40 around the country, and twelve a
+each. Both are chosen, not surveyed: there is no published UK benchmark for what a
+spray tan costs a client, so £30 is a placeholder for your own price and twelve a
 week is a real column rather than a wishful one.</p>
 <p>Every figure that was chosen rather than sourced is listed in one block near the
 end, with the range it realistically moves in. Swap in yours as you go.</p>
@@ -95,10 +96,10 @@ run it in 20. Plenty run it in 35 once the reset is counted honestly.</p>
 <p>For an employed therapist on the National Living Wage, which went to <strong>£12.71 an
 hour in April 2026</strong>:</p>
 <p><code>£12.71 × (25 ÷ 60) = £5.30</code></p>
-<p>Then the on-costs. Employer National Insurance kicks in above a secondary
-threshold that was cut to <strong>£5,000</strong> and frozen to 2031, and holiday pay accrues
-on top. Together that's roughly a <strong>1.20×</strong> multiplier on gross wage — worth
-checking against your own payroll:</p>
+<p>Then the on-costs. Employer National Insurance runs at <strong>15%</strong> on earnings above
+a secondary threshold of <strong>£5,000</strong>, and holiday pay accrues on top. Together
+that's roughly a <strong>1.20×</strong> multiplier on gross wage — worth checking against your
+own payroll, and against your Employment Allowance:</p>
 <p><code>£5.30 × 1.20 = £6.36</code></p>
 <p><strong>After labour, the tan leaves you £19.95.</strong></p>
 <p>If you're doing the tans yourself there's no wage leaving the business — but
@@ -173,11 +174,15 @@ you take one thing away from all this, take that.</p>
 into it. Worth being straight with yourself about that when you're comparing your
 figures to a salon that employs.</p>
 <h3>Is that a good margin?</h3>
-<p>The average UK salon runs at 8.2%, and <strong>one in five is currently trading at a
-loss</strong> (NHBF, March 2026, n=423).</p>
-<p>Against that, a treatment at 37% is pulling its weight. Tanning is a good column.
-If yours isn't landing somewhere near this, the model above will show you which
-line has gone wrong.</p>
+<p>Nobody publishes an average net margin for a UK salon — the sector survey measures
+profitability in bands rather than percentages, so any "average salon margin" figure
+you see quoted should be treated with suspicion.</p>
+<p>What the survey does show is the shape of it: <strong>one in five salons is trading at a
+loss</strong>, 35% are breaking even, and only 7.8% describe themselves as making a good
+profit (NHBF State of the Sector, fieldwork February 2026, n=423).</p>
+<p>Against that spread, a treatment column running at 37% is pulling its weight.
+Tanning is a good column. If yours isn't landing somewhere near this, the model
+above will show you which line has gone wrong.</p>
 <h2>What actually moves the number</h2>
 <p>Same salon, 624 tans a year, one change at a time:</p>
 <table>
@@ -217,15 +222,22 @@ if a cheaper solution costs you a single client — one woman whose colour went
 wrong, who says nothing and quietly books somewhere else — you're behind for the
 year.</p>
 <p><strong>Retail is the biggest lever, and it costs you no chair time at all.</strong> Three
-items a week. Retail is running at <strong>4% of UK salon revenue against a 15–25%
-benchmark</strong> (SalonIQ, 2026), and <strong>70% of clients who don't buy say they'd like
-to</strong> (Phorest). That gap is the most under-claimed money in your business.</p>
-<p><strong>No-shows are worth more than they look.</strong> Tanning has the <strong>highest no-show
-rate of any treatment, at 3.14%</strong>, and it peaks June to August (Treatwell, 2025).
-On 624 tans that's about 20 empty slots a year — £391 if you're not paying
-someone to sit through them, £515 if you are. Nationally, no-shows cost the
-sector £1.6bn a year at roughly £39 a miss. Pre-payment halves them, and only 17%
-of salons ask for it.</p>
+items a week.</p>
+<p>Two things make that the easiest money on the list. <strong>70% of salon clients who
+don't currently buy products say they would like to</strong> (Phorest Consumer Insights
+2025, n=716, UK and Ireland). And the category is growing fast — <strong>UK self-tan
+sales rose 43% in the year to April 2026</strong> (Circana, 2026) — but that growth is
+measured in shops and online, which is to say it is happening in the channel you
+don't control. Your client is already buying self-tan. The question is only
+whether she buys it from you.</p>
+<p><strong>No-shows are worth more than they look.</strong> Take 3% of your bookings as
+no-shows — an assumption, not a measurement, and the honest range is 1% to 5%. On
+624 tans a year that's about 20 empty slots. Recovering them is worth £391 if the
+therapist's hours are avoidable, £515 if you're paying her to sit through them.</p>
+<p>Count your own over a season before you spend anything on fixing it. The
+sector-wide no-show figures that circulate in the trade press come from platform
+press releases with no published sample or method, and one of the most-quoted is
+out by roughly a factor of ten against the sector's own revenue.</p>
 <p><strong>And trimming chair time isn't a saving, it's capacity.</strong> Getting a tan from 25
 minutes down to 20 doesn't put £1.27 in your pocket. It puts 25% more slots in
 your day — and it's worth nothing at all unless you fill them.</p>
@@ -307,22 +319,28 @@ your day — and it's worth nothing at all unless you fill them.</p>
 </ol>
 <p><em>These figures are a model, not a forecast. Substitute your own — the
 assumptions are listed above so you can.</em></p>
+<hr />
+<p><em><strong>Corrected 8 August 2026.</strong> An earlier version of this article gave an
+average UK salon profit margin of 8.2%; no such figure is published, and it has been
+replaced with the profitability spread the sector survey actually reports. The
+no-show costs and the retail-share benchmark were sourced to platform press releases
+with no published sample or method; the no-show rate is now stated as an assumption
+with a range, and the retail figures have been replaced with sourced ones.</em></p>
 `,
     faq: [
       { question: "How much does a litre of spray tan solution cost per treatment?", answer: "At £60 a litre and 28 treatments to the litre, £2.14 a tan. Yours will land either side of that depending on equipment, technique and coverage. Solution is only part of what a treatment consumes — with disposables, filters and laundry, budget around £3.24 a tan." },
       { question: "How many spray tans do you get from a litre?", answer: "Around 28 for the Sunset professional litre. Yours will land either side of that depending on equipment, technique and how much of the body you're covering. Measure it: mark the bottle, count the tans over a normal week, divide. Every other calculation depends on that one number." },
-      { question: "What profit is there in a spray tan?", answer: "On a £30 tan with an employed therapist, about £11.30 once you've taken off consumables, card fees, loaded chair time and a share of your fixed costs — roughly 37%. If you do the tans yourself it's about £17.65, though that includes what you'd otherwise be paying someone. Against an average UK salon margin of around 8%, tanning is a strong column." },
+      { question: "What profit is there in a spray tan?", answer: "On a £30 tan with an employed therapist, about £11.30 once you've taken off consumables, card fees, loaded chair time and a share of your fixed costs — roughly 37%. If you do the tans yourself it's about £17.65, though that includes what you'd otherwise be paying someone. There is no published average net margin for a UK salon to compare that against, but with one in five salons trading at a loss, a treatment column at 37% is a strong one." },
       { question: "Is it worth switching to a cheaper spray tan solution?", answer: "Probably not. At 12 tans a week, a solution 20% cheaper saves about £267 a year — roughly £5 a week, and the smallest lever in the model. Selling three retail items a week is worth £1,404, and putting £2 on your price is worth £1,229. One client lost to a poor result wipes out the saving." },
       { question: "How do I work out my overhead per spray tan?", answer: "Take the fixed costs that belong to the tanning room each month — a share of rent, rates, utilities, insurance and booking software — and divide by the treatments you did that month. At £450 a month and 52 tans, that's £8.65 a tan. It falls as you get busier, which is why filling the room is the same thing as making it cheaper." },
       { question: "What does a spray tan cost to deliver if I'm mobile?", answer: "The consumables are the same, but travel time, fuel and equipment wear change the picture materially, and a no-show costs you the journey as well as the slot. That one needs its own article." },
     ],
     citations: [
-      { text: "National Living Wage rates, gov.uk, 2026", url: "https://www.gov.uk/national-minimum-wage-rates" },
-      { text: "Employer National Insurance secondary threshold, HM Treasury, 2025", url: "" },
-      { text: "NHBF, State of the Industry, March 2026 (n=423)", url: "" },
-      { text: "SalonIQ, salon retail benchmarks, 2026", url: "" },
-      { text: "Phorest, salon client research, 2025 (n=716)", url: "" },
-      { text: "Treatwell, UK no-show data, 2025", url: "" },
+      { text: "National Minimum Wage and National Living Wage rates, GOV.UK, 2026", url: "https://www.gov.uk/national-minimum-wage-rates" },
+      { text: "Rates and thresholds for employers 2026 to 2027, HMRC, 2026", url: "https://www.gov.uk/guidance/rates-and-thresholds-for-employers-2026-to-2027" },
+      { text: "NHBF, State of the Sector, fieldwork February 2026 (n=423)", url: "https://www.nhbf.co.uk/about-the-nhbf/campaigning-for-you/industry-research-reports-and-statistics/nhbf-state-of-the-industry-surveys/" },
+      { text: "Phorest, Consumer Insights Report 2025 (n=716, UK and Ireland)", url: "" },
+      { text: "Circana, UK self-tan retail sales, year to April 2026", url: "https://cosmeticsbusiness.com/self-tan-sales-rise-43-as-sunless-tanning" },
       { text: "Sunset 1 Ltr Professional Spray price list, Sunless by Jimmy Coco, 2026", url: "https://www.jimmycoco.pro/products/malibu-professional-spray-1l" },
     ],
   },

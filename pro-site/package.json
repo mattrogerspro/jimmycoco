@@ -10,7 +10,9 @@
     "start": "react-router-serve ./build/server/nodejs_*/index.js",
     "admin:bootstrap": "node --env-file-if-exists=../.env --env-file-if-exists=../.env.local --env-file-if-exists=.env.local scripts/bootstrap-article-admin.mjs",
     "seed:demo": "node --env-file-if-exists=../.env --env-file-if-exists=../.env.local --env-file-if-exists=.env.local scripts/seed-demo.mjs",
-    "seed:articles": "node --env-file-if-exists=../.env --env-file-if-exists=../.env.local --env-file-if-exists=.env.local scripts/seed-articles.mjs"
+    "seed:articles": "node --env-file-if-exists=../.env --env-file-if-exists=../.env.local --env-file-if-exists=.env.local scripts/seed-articles.mjs",
+    "images:generate": "node scripts/generate-article-images.mjs",
+    "images:publish": "node scripts/publish-article-images.mjs"
   },
   "dependencies": {
     "@react-router/node": "^7.16.0",
@@ -30,6 +32,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@types/sanitize-html": "^2.16.1",
+    "sharp": "^0.35.3",
     "typescript": "^5.9.0",
     "vite": "^8.1.0"
   },

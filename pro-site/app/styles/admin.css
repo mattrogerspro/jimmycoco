@@ -469,7 +469,13 @@ button,input,select,textarea{font:inherit}
 .art-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
 
 /* ---- stats: cards ------------------------------------------------------ */
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:22px}
+.stat-page{--stat-cols:12;--stat-gap:20px}
+.stat-grid,.stat-layout{
+  display:grid;grid-template-columns:repeat(var(--stat-cols),minmax(0,1fr));
+  gap:var(--stat-gap);align-items:start;
+}
+.stat-grid{margin-bottom:var(--stat-gap)}
+.stat-grid > *{grid-column:span 3}
 .stat-card{padding:18px 20px;border:1px solid var(--admin-line);border-left:5px solid var(--admin-bronze);border-radius:12px;background:var(--admin-paper);box-shadow:0 8px 22px rgba(45,31,20,.05)}
 .stat-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
 .stat-card span{display:block;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--admin-muted);font-weight:600}
@@ -482,7 +488,10 @@ button,input,select,textarea{font:inherit}
 .stat-card-good{border-left-color:#4C8A46}.stat-card-good .stat-card-icon{background:#DFEBDD;color:#33602F}
 .stat-card-plum{border-left-color:#7A5A78}.stat-card-plum .stat-card-icon{background:#EDE3EC;color:#5F4460}
 
-.stat-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+.stat-layout-main{grid-column:span 9;min-width:0}
+.stat-layout-side{grid-column:span 3;min-width:0}
+/* The panels carry their own 26px bottom margin, so the column gap stays 0
+   here — setting both would double the space between stacked panels. */
 .stat-layout-main,.stat-layout-side{display:grid;gap:0}
 .stat-layout-side{position:sticky;top:20px}
 .stat-panel-title{display:flex;align-items:center;gap:12px}
@@ -536,8 +545,6 @@ button,input,select,textarea{font:inherit}
 .admin-return svg{vertical-align:-3px;margin-right:6px;color:var(--admin-muted)}
 
 @media (max-width:1280px){
-  .stat-layout{grid-template-columns:1fr}
-  .stat-layout-side{position:static}
   .leaderboard li{grid-template-columns:34px minmax(0,1fr) 170px 80px;gap:12px}
 }
 @media (max-width:900px){
@@ -690,3 +697,18 @@ button,input,select,textarea{font:inherit}
 .ed-card-body input[type="file"]{padding:10px 12px;font-size:14px}
 .ed-side .ed-card{min-width:0}
 .ed-serp{overflow:hidden}
+
+
+/* ---- stats: grid at narrower widths ------------------------------------ */
+/* At 1100 four cards across leaves each too narrow for a 34px figure plus two
+   lines of helper text, so they pair up and the aside drops below the main
+   column at the same moment — one break rather than two staggered ones. */
+@media (max-width:1100px){
+  .stat-grid > *{grid-column:span 6}
+  .stat-layout-main,.stat-layout-side{grid-column:span 12}
+  .stat-layout-side{position:static}
+}
+@media (max-width:720px){
+  .stat-page{--stat-gap:14px}
+  .stat-grid > *{grid-column:span 12}
+}

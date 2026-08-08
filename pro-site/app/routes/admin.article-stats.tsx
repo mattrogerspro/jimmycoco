@@ -203,7 +203,7 @@ export default function AdminArticleStats() {
   const { stats } = useLoaderData<typeof loader>();
 
   return (
-    <main className="admin-main">
+    <main className="admin-main stat-page">
       <header className="admin-page-head">
         <div>
           <p className="admin-eyebrow">Publishing workspace</p>

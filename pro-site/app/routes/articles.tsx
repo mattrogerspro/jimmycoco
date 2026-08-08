@@ -25,7 +25,11 @@ export const meta: MetaFunction = () => [
 export async function loader(_: LoaderFunctionArgs) {
   return data(
     { articles: await getPublishedArticles() },
-    { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=86400" } },
+    // s-maxage keeps the edge cache useful; stale-while-revalidate is deliberately
+    // SHORT. At 86400 the CDN served a day-old copy of this page while it
+    // revalidated behind the reader — which is why a freshly seeded article, or a
+    // newly attached cover, appeared only after a hard refresh.
+    { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120" } },
   );
 }
 

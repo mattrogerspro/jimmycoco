@@ -269,3 +269,79 @@
   .article-card-body{padding:20px}
   .article-card-foot{flex-wrap:wrap}
 }
+
+
+/* ======================================================================== */
+/* Full-bleed article lead.                                                  */
+/*                                                                           */
+/* The cover runs the full viewport width with the navigation and the title  */
+/* over it. Two scrims rather than one: a short dark wash at the top so the  */
+/* prev/next links read against a bright sky, and a taller one from the      */
+/* bottom for the headline. A single flat overlay would have to be heavy     */
+/* enough for the worst case and would grey out the whole photograph.        */
+/* ======================================================================== */
+
+.article-lead{
+  position:relative;isolation:isolate;
+  width:100vw;margin-left:calc(50% - 50vw);
+  min-height:clamp(440px,62vh,700px);
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:0;overflow:hidden;background:#17130f;
+}
+.article-lead-img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;
+}
+.article-lead.is-plain{
+  background:linear-gradient(135deg,#2c221a 0%,#6b4527 55%,#c99567 100%);
+  min-height:clamp(300px,40vh,420px);
+}
+.article-lead-scrim{
+  position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(15,11,8,.62) 0%,rgba(15,11,8,.22) 22%,rgba(15,11,8,0) 40%),
+    linear-gradient(0deg,rgba(15,11,8,.88) 0%,rgba(15,11,8,.55) 26%,rgba(15,11,8,0) 62%);
+}
+
+/* ---- navigation, sitting on the image ---------------------------------- */
+.article-page .article-lead .article-nav{
+  width:min(calc(100% - 48px),1240px);margin:26px auto 0;padding:0;border-bottom:0;
+}
+.article-page .article-lead .article-nav a{color:#FFFDF9}
+.article-page .article-lead .article-nav span{color:#EBCB9C;text-shadow:0 1px 12px rgba(15,11,8,.5)}
+.article-page .article-lead .article-nav b{
+  color:#FFFDF9;font-family:var(--reading);font-weight:600;font-size:15.5px;line-height:1.35;
+  text-shadow:0 1px 14px rgba(15,11,8,.6);-webkit-line-clamp:1;
+}
+.article-page .article-lead .article-nav > div > a:hover b{color:#EBCB9C}
+.article-lead .article-nav-all{
+  border-color:rgba(255,253,249,.42);background:rgba(15,11,8,.34);color:#FFFDF9;
+  backdrop-filter:blur(6px);font-size:13px;padding:10px 20px;
+}
+.article-lead .article-nav-all:hover{border-color:#EBCB9C;background:rgba(15,11,8,.55);color:#EBCB9C}
+
+/* ---- title block, sitting on the gradient ------------------------------ */
+.article-lead-copy{
+  width:min(calc(100% - 48px),1240px);margin:0 auto;
+  padding:0 0 clamp(34px,4.5vw,56px);max-width:min(calc(100% - 48px),980px);
+  margin-inline:auto;
+}
+.article-lead-copy .article-kicker{color:#E4D9C9;font-size:15px;text-shadow:0 1px 14px rgba(15,11,8,.6)}
+.article-lead-copy .article-tag{background:rgba(255,253,249,.15);color:#FFFDF9;backdrop-filter:blur(6px)}
+.article-lead-copy h1{
+  margin:16px 0 0;font-family:var(--reading);font-weight:800;
+  font-size:clamp(34px,4.6vw,58px);line-height:1.05;letter-spacing:-.03em;
+  color:#FFFDF9;text-shadow:0 2px 30px rgba(15,11,8,.55);
+  max-width:16ch;
+}
+
+/* The standfirst and byline drop back onto the page below the image. */
+.article-page .article-hero{max-width:var(--measure);margin:0 auto;padding:40px 24px 30px;text-align:left}
+
+@media (max-width:760px){
+  .article-lead{min-height:clamp(360px,52vh,520px)}
+  .article-page .article-lead .article-nav{grid-template-columns:auto 1fr;gap:10px;margin-top:18px}
+  .article-page .article-lead .article-nav > div{display:none}
+  .article-lead .article-nav-all{justify-self:start;grid-column:1}
+  .article-lead-copy h1{max-width:none}
+  .article-page .article-hero{padding:28px 20px 22px}
+}

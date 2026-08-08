@@ -32,7 +32,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
   return data(
     { article, newer, older, related },
-    { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=86400" } },
+    // s-maxage keeps the edge cache useful; stale-while-revalidate is deliberately
+    // SHORT. At 86400 the CDN served a day-old copy of this page while it
+    // revalidated behind the reader — which is why a freshly seeded article, or a
+    // newly attached cover, appeared only after a hard refresh.
+    { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120" } },
   );
 }
 
@@ -115,40 +119,47 @@ export default function ArticlePage() {
       <SiteHeader page="content" />
 
       <main className="article-page">
-        <nav className="article-nav" aria-label="Article navigation">
-          <div>
-            {older ? (
-              <Link to={`/articles/${older.slug}`}>
-                <span>← Previous</span>
-                <b>{older.title}</b>
-              </Link>
-            ) : <span className="article-nav-empty" />}
-          </div>
-          <Link className="article-nav-all" to="/articles">All articles</Link>
-          <div className="article-nav-next">
-            {newer ? (
-              <Link to={`/articles/${newer.slug}`}>
-                <span>Next →</span>
-                <b>{newer.title}</b>
-              </Link>
-            ) : <span className="article-nav-empty" />}
-          </div>
-        </nav>
-
         <article>
-          {article.cover_url ? (
-            <figure className="article-cover">
-              <img src={article.cover_url} alt={article.cover?.alt_text || ""} width={1100} height={620} />
-            </figure>
-          ) : null}
+          {/* Full-bleed lead. The cover fills the viewport width, the navigation
+              and the title sit on top of it, and a two-stop scrim keeps both
+              legible without dimming the whole photograph. */}
+          <header className={`article-lead${article.cover_url ? "" : " is-plain"}`}>
+            {article.cover_url ? (
+              <img className="article-lead-img" src={article.cover_url} alt={article.cover?.alt_text || ""} width={2752} height={1536} />
+            ) : null}
+            <span className="article-lead-scrim" aria-hidden="true" />
 
-          <header className="article-hero">
-            <p className="article-kicker">
-              {article.category?.name ? <span className="article-tag">{article.category.name}</span> : null}
-              {article.published_at ? <span>{formatDate(article.published_at)}</span> : null}
-              <span>{article.reading_time_minutes || 5} min read</span>
-            </p>
-            <h1>{article.title}</h1>
+            <nav className="article-nav" aria-label="Article navigation">
+              <div>
+                {older ? (
+                  <Link to={`/articles/${older.slug}`}>
+                    <span>← Previous</span>
+                    <b>{older.title}</b>
+                  </Link>
+                ) : <span className="article-nav-empty" />}
+              </div>
+              <Link className="article-nav-all" to="/articles">All articles</Link>
+              <div className="article-nav-next">
+                {newer ? (
+                  <Link to={`/articles/${newer.slug}`}>
+                    <span>Next →</span>
+                    <b>{newer.title}</b>
+                  </Link>
+                ) : <span className="article-nav-empty" />}
+              </div>
+            </nav>
+
+            <div className="article-lead-copy">
+              <p className="article-kicker">
+                {article.category?.name ? <span className="article-tag">{article.category.name}</span> : null}
+                {article.published_at ? <span>{formatDate(article.published_at)}</span> : null}
+                <span>{article.reading_time_minutes || 5} min read</span>
+              </p>
+              <h1>{article.title}</h1>
+            </div>
+          </header>
+
+          <div className="article-hero">
             {article.excerpt ? <p className="article-standfirst">{article.excerpt}</p> : null}
 
             <div className="article-byline">
@@ -159,7 +170,7 @@ export default function ArticlePage() {
                 {article.author?.bio ? <small>{article.author.bio}</small> : null}
               </span>
             </div>
-          </header>
+          </div>
 
           <div className="article-body" dangerouslySetInnerHTML={{ __html: article.content_html }} />
 

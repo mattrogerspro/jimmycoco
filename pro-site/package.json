@@ -1,5 +1,6 @@
 {
   "name": "jimmy-coco-professional-site",
+  "packageManager": "pnpm@10.28.2",
   "private": true,
   "version": "1.0.0",
   "type": "module",

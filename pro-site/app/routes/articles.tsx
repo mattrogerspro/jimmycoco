@@ -41,9 +41,24 @@ export default function ArticlesPage() {
       <section className="articles-grid" aria-label="Published articles">
         {articles.map((article: any) => <article className="article-card" key={article.id}>
           <Link to={`/articles/${article.slug}`} className="article-card-image">
-            {article.cover_url ? <img src={article.cover_url} alt={article.cover?.alt_text || ""} loading="lazy" /> : <span />}
+            {article.cover_url ? <img src={article.cover_url} alt={article.cover?.alt_text || ""} loading="lazy" /> : <span className="article-card-fallback" />}
+            <span className="article-card-scrim" aria-hidden="true" />
+            {article.category?.name ? <span className="article-card-chip">{article.category.name}</span> : null}
           </Link>
-          <div><p className="article-card-meta">{article.category?.name || "Professional advice"} · {formatDate(article.published_at)}</p><h2><Link to={`/articles/${article.slug}`}>{article.title}</Link></h2><p>{article.excerpt}</p><Link className="article-read" to={`/articles/${article.slug}`}>Read article →</Link></div>
+          <div className="article-card-body">
+            <h2><Link to={`/articles/${article.slug}`}>{article.title}</Link></h2>
+            <span className="article-card-rule" aria-hidden="true" />
+            <p className="article-card-excerpt">{article.excerpt}</p>
+            <div className="article-card-foot">
+              <span className="article-card-meta">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+                {article.reading_time_minutes || 5} min read
+                <i aria-hidden="true">·</i>
+                {formatDate(article.published_at)}
+              </span>
+              <span className="article-read">Read article <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" /></svg></span>
+            </div>
+          </div>
         </article>)}
         {!articles.length && <p className="articles-empty">The first articles are being prepared.</p>}
       </section>

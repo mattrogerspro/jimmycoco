@@ -22,8 +22,9 @@
 
 import { createClient } from "@supabase/supabase-js";
 import batch1 from "./blog-content/posts-1.mjs";
+import batch2 from "./blog-content/posts-2.mjs";
 
-const ARTICLES = [...batch1];
+const ARTICLES = [...batch1, ...batch2];
 
 /** Applied to every article — nothing that does not vary lives in a post file. */
 const AUTHORS = {

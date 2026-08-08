@@ -29,6 +29,9 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: consentStyles },
   { rel: "icon", href: "/img/favicon.svg", type: "image/svg+xml" },
   { rel: "manifest", href: "/site.webmanifest" },
+  // Advertise the LLM-readable index from the head, the way above-guide does.
+  // Nothing requires it, but it is how an agent finds the file without guessing.
+  { rel: "alternate", type: "text/plain", href: "https://www.jimmycoco.pro/llms.txt", title: "Sunless by Jimmy Coco Professional — LLM-readable site index" },
 ];
 
 const SUPABASE_ORIGIN = "https://tfiumxnztxacsmgccukt.supabase.co";

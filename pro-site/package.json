@@ -13,7 +13,8 @@
     "seed:demo": "node --env-file-if-exists=../.env --env-file-if-exists=../.env.local --env-file-if-exists=.env.local scripts/seed-demo.mjs",
     "seed:articles": "node --env-file-if-exists=../.env --env-file-if-exists=../.env.local --env-file-if-exists=.env.local scripts/seed-articles.mjs",
     "images:generate": "node scripts/generate-article-images.mjs",
-    "images:publish": "node scripts/publish-article-images.mjs"
+    "images:publish": "node scripts/publish-article-images.mjs",
+    "llms:generate": "node scripts/generate-llms-txt.mjs"
   },
   "dependencies": {
     "@react-router/node": "^7.16.0",

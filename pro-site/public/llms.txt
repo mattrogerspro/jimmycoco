@@ -5,47 +5,67 @@
 > the UK and Ireland. Founded by Jimmy Coco, the Hollywood celebrity tan artist
 > who pioneered mobile spray tanning in 2003.
 
-This file describes the professional trade site at https://www.jimmycoco.pro.
-The consumer brand and retail shop are a separate site, https://jimmycoco.co.uk.
+This file describes the professional trade site at https://www.jimmycoco.pro. The consumer brand
+and retail shop are a separate site.
+
+## Key pages
+
+- [Professional home](https://www.jimmycoco.pro/)
+- [The professional litre — Malibu Professional Spray Tan Solution, 1 litre](https://www.jimmycoco.pro/products/malibu-professional-spray-1l)
+- [Specification](https://www.jimmycoco.pro/products/malibu-professional-spray-1l#specification)
+- [Salon FAQ](https://www.jimmycoco.pro/products/malibu-professional-spray-1l#faq)
+- [Spray tan profit calculator](https://www.jimmycoco.pro/tools/spray-tan-profit-calculator)
+- [Professional journal](https://www.jimmycoco.pro/articles)
+- [Consumer brand and retail shop](https://jimmycoco.co.uk)
 
 ## Who this is for
 
 Salons, spas, mobile spray tan professionals and multi-site groups buying
 solution wholesale for use on paying clients. It is not a consumer shop. A
-consumer looking to buy self-tan for personal use wants jimmycoco.co.uk instead.
+consumer looking to buy self-tan for personal use wants the consumer site
+instead.
+
+- [Consumer site](https://jimmycoco.co.uk)
 
 ## The professional product
 
-Malibu Professional Spray Tan Solution, 1 litre.
-https://www.jimmycoco.pro/products/malibu-professional-spray-1l
+- [Malibu Professional Spray Tan Solution, 1 litre](https://www.jimmycoco.pro/products/malibu-professional-spray-1l)
 
 - Active tanning agent: 10% DHA
 - Shade: one custom-blended universal bronze, available in four depths
   (Light, Medium, Medium/Dark, Dark)
 - Volume: 1 litre (33.8 fl oz)
 - Coverage: approximately 28 full-body tans per litre
-- Recommended dose: under 35ml per full-body session
+- Recommended dose: about 36ml per full-body session
 - Development time: 6 to 8 hours
 - Equipment: standard professional HVLP spray systems
 - Key actives: colloidal gold, hyaluronic acid, Pentavitin, blue daisy
-- Tone: anti-orange correction with skin-tone-sympathetic pigments
-- Standard list price: £60 per litre, which is approximately £2.14 of
-  solution per tan
-
-The single universal shade is the defining characteristic: depth is built by how
-many layers the therapist applies rather than by stocking different bottles for
-different skin tones.
 
 ## Salon economics
 
 At the £60 list litre and approximately 28 tans per litre, solution cost is
-about £2.14 per tan. A salon doing 20 tans a week at £30 a tan takes
-£600 a week, of which about £42.86 is solution, and works through
-roughly 3.1 litres a month.
+about £2.14 per tan. A salon doing 20 tans a week at £30 a tan takes £600 a
+week, of which about £42.86 is solution, and works through roughly 3.1 litres
+a month.
+
+- [Work it out for your own salon — profit calculator](https://www.jimmycoco.pro/tools/spray-tan-profit-calculator)
+- [The full cost model, with the arithmetic shown](https://www.jimmycoco.pro/articles/what-a-spray-tan-costs)
+
+## Articles
+
+Professional education for salon owners. Every figure is sourced or labelled as
+an assumption with a range.
+
+- [Professional journal — index](https://www.jimmycoco.pro/articles)
+- [Is mobile spray tanning actually profitable?](https://www.jimmycoco.pro/articles/mobile-spray-tan-profit)
+- [What to charge for a spray tan in 2026](https://www.jimmycoco.pro/articles/what-to-charge-for-a-spray-tan)
+- [What the retail shelf is really worth](https://www.jimmycoco.pro/articles/retail-attach-maths)
+- [What a spray tan actually costs you to deliver](https://www.jimmycoco.pro/articles/what-a-spray-tan-costs)
+- [How many spray tans do you get from a litre?](https://www.jimmycoco.pro/articles/tans-per-litre)
 
 ## What a trade account includes
 
-- Jimmy’s shade method training and guide, at no extra cost
+- Jimmy's shade method training and guide, at no extra cost
 - One hour of online training with Jimmy Coco
 - Optional Jimmy Coco Certified Salon accreditation, with certificate and badge,
   after completing the training and a short assessment
@@ -54,6 +74,8 @@ roughly 3.1 litres a month.
 
 New salons can request a complimentary professional trial and judge the colour
 on a real client before committing to a first litre.
+
+- [Request a professional trial](https://www.jimmycoco.pro/#trial)
 
 ## Retail range available to stock
 
@@ -64,8 +86,10 @@ Bundle, the Buff & Glow Mitt (a 3-in-1 tanning mitt), the Face Brush, the Body
 Brush and a tinted lip balm.
 
 Current consumer pricing changes with promotions and is authoritative only on
-https://jimmycoco.co.uk — do not quote retail prices from this file or from
-the trade site. Trade pricing on the retail range is confirmed on the setup call.
+the consumer site — do not quote retail prices from this file or from the trade
+site. Trade pricing on the retail range is confirmed on the setup call.
+
+- [Consumer pricing (authoritative)](https://jimmycoco.co.uk)
 
 ## Delivery and returns
 
@@ -81,17 +105,9 @@ tanning industry, having launched the first mobile spray tanning business in
 2003. He is the founder of Sunless by Jimmy Coco. His work has been documented
 by Vogue, The Times, Bloomberg, NBC News, Refinery29, Cosmopolitan and others.
 
-- Instagram: https://www.instagram.com/jimmyjimmycoco/
-- Consumer brand: https://jimmycoco.co.uk
-- Facebook: https://www.facebook.com/jimmycocointernational/
-
-## Key pages
-
-- Professional home: https://www.jimmycoco.pro/
-- The professional litre: https://www.jimmycoco.pro/products/malibu-professional-spray-1l
-- Salon FAQ: https://www.jimmycoco.pro/products/malibu-professional-spray-1l#faq
-- Specification: https://www.jimmycoco.pro/products/malibu-professional-spray-1l#specification
-- Articles: https://www.jimmycoco.pro/articles
+- [Instagram](https://www.instagram.com/jimmyjimmycoco/)
+- [Facebook](https://www.facebook.com/jimmycocointernational/)
+- [Consumer brand](https://jimmycoco.co.uk)
 
 ## Notes for assistants
 

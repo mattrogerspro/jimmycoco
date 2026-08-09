@@ -35,15 +35,17 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   let slug = "";
+  let doNotTrack = false;
   try {
     const body = await request.json();
     slug = typeof body?.slug === "string" ? body.slug.slice(0, 200) : "";
+    doNotTrack = body?.dnt === true;
   } catch {
     return new Response(null, { status: 204 });
   }
   if (!slug) return new Response(null, { status: 204 });
 
-  recordArticleView(request, slug);
+  recordArticleView(request, slug, { doNotTrack });
 
   // 204 and no body: the browser is not waiting on this and nothing about the
   // response should be cacheable.

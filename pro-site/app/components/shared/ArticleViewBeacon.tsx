@@ -13,17 +13,32 @@ import { useEffect } from "react";
  */
 const recorded = new Set<string>();
 
+/**
+ * The first version of this component returned here and sent nothing, which is
+ * why ten reads of an article still showed as one: Do Not Track is switched on
+ * in a lot of browsers — and forced on by several privacy extensions — so most
+ * real traffic was being discarded before it left the page.
+ *
+ * Counting a page read is not tracking. The view is now always recorded; this
+ * flag travels with it so the server stores the row with no visitor hash at
+ * all. A Do Not Track reader therefore counts towards reads, never towards
+ * uniques, and leaves nothing that could be tied back to them.
+ */
+function doNotTrack() {
+  if (typeof navigator === "undefined") return false;
+  const nav = navigator as Navigator & { msDoNotTrack?: string | null };
+  const win = window as unknown as { doNotTrack?: string | null };
+  return nav.doNotTrack === "1" || nav.msDoNotTrack === "1" || win.doNotTrack === "1";
+}
+
 export function ArticleViewBeacon({ slug }: { slug: string }) {
   useEffect(() => {
     if (!slug || recorded.has(slug)) return;
     recorded.add(slug);
 
-    // Respect the browser signal here as well as on the server, so a reader who
-    // has asked not to be tracked does not even send the request.
-    if (navigator.doNotTrack === "1" || (window as any).doNotTrack === "1") return;
+    const body = JSON.stringify({ slug, dnt: doNotTrack() });
 
     const send = () => {
-      const body = JSON.stringify({ slug });
       // keepalive lets the request survive the reader navigating away
       // immediately, which is exactly when a bounce would otherwise go
       // uncounted.

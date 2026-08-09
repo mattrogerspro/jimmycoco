@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderFunctionArgs, MetaFunction } from "react-router";
+import type { HeadersFunction, LinksFunction, LoaderFunctionArgs, MetaFunction } from "react-router";
 import { Link, data, useLoaderData } from "react-router";
 import articleStyles from "../styles/articles.css?url";
 import chromeStyles from "../styles/chrome.css?url";
@@ -38,6 +38,15 @@ export async function loader({ params }: LoaderFunctionArgs) {
     { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120" } },
   );
 }
+
+/**
+ * Without this the Cache-Control set in the loader never reaches the document
+ * response, and the page falls back to Vercel's default — which is what makes
+ * an edit look like it did not save.
+ */
+export const headers: HeadersFunction = ({ loaderHeaders }) => ({
+  "Cache-Control": loaderHeaders.get("Cache-Control") ?? "public, s-maxage=60, stale-while-revalidate=120",
+});
 
 export const meta: MetaFunction<typeof loader> = ({ data: loaderData }) => {
   if (!loaderData?.article) return [{ title: "Article not found | Jimmy Coco" }, { name: "robots", content: "noindex" }];

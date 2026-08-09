@@ -1,25 +1,25 @@
 import type { Config } from "@react-router/dev/config";
 import { vercelPreset } from "@vercel/react-router/vite";
-import { createClient } from "@supabase/supabase-js";
 
-async function prerenderRoutes() {
-  const routes = ["/", "/products/malibu-professional-spray-1l", "/tools/spray-tan-profit-calculator"];
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_PUBLISHABLE_KEY;
-  if (!url || !key) return routes;
-
-  const supabase = createClient(url, key, { auth: { persistSession: false } });
-  const { data, error } = await supabase
-    .from("articles")
-    .select("slug")
-    .eq("status", "published")
-    .lte("published_at", new Date().toISOString());
-  if (error) throw new Error(`Could not load published article routes: ${error.message}`);
-  return [...routes, "/articles", ...(data ?? []).map((article) => `/articles/${article.slug}`)];
-}
-
+/**
+ * Only the pages whose content lives in this repository are prerendered.
+ *
+ * Articles used to be in this list, resolved by querying Supabase at build
+ * time. That baked every article into static HTML, which meant editing one in
+ * the admin changed nothing on the live site until the next deploy — the CMS
+ * appeared to save and then do nothing, no matter how hard the reader
+ * refreshed. Publishing a new article had the same problem.
+ *
+ * Articles are therefore server-rendered on request and cached at the edge for
+ * a minute (see the Cache-Control in each route's loader). An edit is live
+ * within that minute, everywhere, with no build.
+ *
+ * A second thing this fixes: the build no longer needs a database. It used to
+ * fail outright if Supabase was unreachable or the keys were missing from the
+ * build environment.
+ */
 export default {
   ssr: true,
   presets: [vercelPreset()],
-  prerender: prerenderRoutes,
+  prerender: ["/", "/products/malibu-professional-spray-1l", "/tools/spray-tan-profit-calculator"],
 } satisfies Config;

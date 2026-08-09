@@ -4,7 +4,7 @@ import articleStyles from "../styles/articles.css?url";
 import chromeStyles from "../styles/chrome.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { getPublishedArticle, getPublishedArticles } from "../lib/articles.server";
-import { recordArticleView } from "../lib/article-view.server";
+import { ArticleViewBeacon } from "../components/shared/ArticleViewBeacon";
 import { ORG_ID, PERSON_ID, brandEntities } from "../lib/entity";
 import { SIZES, responsiveSrcSet } from "../lib/responsive-image";
 import { PRODUCT_PATH, SITE_URL } from "../lib/site";
@@ -14,11 +14,9 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: chromeStyles },
 ];
 
-export async function loader({ params, request }: LoaderFunctionArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const article = await getPublishedArticle(params.slug ?? "");
   if (!article) throw new Response("Article not found", { status: 404 });
-
-  recordArticleView(request, article.slug);
 
   // Newest first, so the "previous" article is the one published after this
   // one. Related prefers the same category and falls back to recency.
@@ -131,6 +129,7 @@ export default function ArticlePage() {
           fetchPriority="high"
         />
       ) : null}
+      <ArticleViewBeacon slug={article.slug} />
       <StructuredData data={[...brandEntities, schema, breadcrumbs, ...(faq ? [faq] : [])]} />
       <Announcement />
       <SiteHeader page="content" />

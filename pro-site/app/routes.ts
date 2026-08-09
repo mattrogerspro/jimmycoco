@@ -6,6 +6,7 @@ export default [
   route("articles", "routes/articles.tsx"),
   route("tools/spray-tan-profit-calculator", "routes/tools.spray-tan-profit-calculator.tsx"),
   route("articles/:slug", "routes/article.tsx"),
+  route("api/article-view", "routes/api.article-view.ts"),
   route("sitemap.xml", "routes/sitemap.ts"),
   route("rss.xml", "routes/rss.ts"),
   route("admin/login", "routes/admin.login.tsx"),

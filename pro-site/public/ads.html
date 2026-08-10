@@ -336,8 +336,62 @@ footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-si
     <p class="src">Blended store AOV over the same window is £27.26. Ferne's orders are worth £28.63 — 5% above blended, and essentially identical to what your own welcome popup delivers at £28.80. <b>She is not bringing higher-value customers.</b></p>
   </div>
 
+  <h3>"Why would anyone buy without using the code?"</h3>
+  <p class="lede">A fair challenge — the code is written into her ad copy, so people are strongly prompted to use it. But your data shows three specific routes around it, and together they are large.</p>
+
+  <div class="grid3">
+    <div class="box">
+      <h3 style="margin-top:0">1. They used a better code</h3>
+      <p class="lede">WELCOME20 gives <b>20% off</b>. FERNE15 gives <b>15%</b>. A new customer arriving from Ferne hits your popup and takes the bigger discount.</p>
+      <table>
+        <thead><tr><th>Month</th><th class="num">Ferne days live</th><th class="num">WELCOME orders</th></tr></thead>
+        <tbody>
+          <tr><td>Feb 2026</td><td class="num mono">0</td><td class="num mono">67</td></tr>
+          <tr><td>Mar 2026</td><td class="num mono">0</td><td class="num mono">39</td></tr>
+          <tr style="background:#F2F8F4"><td><b>Apr 2026</b></td><td class="num mono"><b>29</b></td><td class="num mono"><b>346</b></td></tr>
+          <tr><td>May 2026</td><td class="num mono">31</td><td class="num mono">91</td></tr>
+          <tr><td>Jun 2026</td><td class="num mono">19</td><td class="num mono">140</td></tr>
+        </tbody>
+      </table>
+      <p class="src">April's WELCOME redemptions ran <b>281 orders above</b> the March/May baseline — in the exact month Ferne was live 29 of 30 days. Those are almost certainly her customers, credited to your popup.</p>
+    </div>
+
+    <div class="box">
+      <h3 style="margin-top:0">2. Most social orders carry no code at all</h3>
+      <p class="lede">May 2026 — Ferne live every single day:</p>
+      <table>
+        <tbody>
+          <tr><td>Social orders with <b>no code</b></td><td class="num mono">262</td></tr>
+          <tr><td>Social orders using ferne15</td><td class="num mono">23</td></tr>
+          <tr><td>Social orders using WELCOME</td><td class="num mono">9</td></tr>
+        </tbody>
+      </table>
+      <p class="src">89% of social-referred orders that month used no discount code whatsoever. People buy at full price far more often than a discount-led read of the business would suggest — which is quietly good news about your pricing.</p>
+    </div>
+
+    <div class="box">
+      <h3 style="margin-top:0">3. Not every ad carries a code</h3>
+      <p class="lede" style="margin-bottom:0">Only some of her creatives mention FERNE15. "My most complimented tan EVER" carries no code. The "20% OFF ALERT" piece points at a sitewide sale, where a 15% code is <i>worse</i> than the offer already on the site — so nobody would use it. And a sitewide flash sale beats her code outright, so during those windows her influence is invisible by design.</p>
+    </div>
+  </div>
+
+  <h3>So how much did she really drive? A measurement, not a guess</h3>
+  <div class="box">
+    <p class="lede">Rather than assume a halo percentage, compare social revenue in months she was live against months she was dark — matched on how much <i>other</i> advertising was running, and excluding November and December to strip out Black Friday and Christmas.</p>
+    <table>
+      <thead><tr><th></th><th>Months</th><th class="num">Avg other ads live</th><th class="num">Mean social revenue</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ferne live</b></td><td>Jan, Apr, May, Jun 2026</td><td class="num mono">2.3</td><td class="num mono"><b>£7,404</b></td></tr>
+        <tr><td><b>Ferne dark</b></td><td>Jul 2025, Feb, Mar 2026</td><td class="num mono">1.9</td><td class="num mono"><b>£2,297</b></td></tr>
+        <tr style="background:var(--cream)"><td><b>Uplift</b></td><td>—</td><td class="num mono">comparable</td><td class="num mono"><b>+£5,107/mo (3.2×)</b></td></tr>
+      </tbody>
+    </table>
+    <p class="src">Other-ad volume is near-identical across the two groups (2.3 vs 1.9 average live ads), so the difference is not explained by more advertising generally. Applied across her four matched months that is <b>£20,428</b>; extrapolated to all eight of her live months, <b>£40,857</b>.</p>
+    <p class="lede" style="margin-bottom:0;margin-top:18px">Against £27,798 of code-attributed sales, that puts the code at capturing roughly <b>68%</b> of her true contribution — so about a third of her sales do arrive without it, exactly as you suspected was implausible. It is real, but it is smaller than the 40–60% industry rule of thumb, precisely because your code is so prominent in the copy.</p>
+  </div>
+
   <h3>The calculator</h3>
-  <p class="lede">Only two numbers are missing, and both are yours: what you actually pay, and what your gross margin is. Move the sliders.</p>
+  <p class="lede">The code-share slider now defaults to the measured 68% rather than a guess. The two numbers still missing are yours: the real fee, and your real gross margin.</p>
 
   <div class="box">
     <div class="calc" id="calcInputs">
@@ -347,10 +401,10 @@ footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-si
         <input type="range" id="iPieces" min="1" max="12" step="1" value="6"></label>
       <label>Your gross margin <output id="oMargin">58%</output>
         <input type="range" id="iMargin" min="30" max="85" step="1" value="58"></label>
-      <label>Share of her sales that use the code <output id="oHalo">60%</output>
-        <input type="range" id="iHalo" min="30" max="100" step="5" value="60"></label>
+      <label>Share of her sales that use the code <output id="oHalo">68%</output>
+        <input type="range" id="iHalo" min="30" max="100" step="1" value="68"></label>
     </div>
-    <p class="src" style="margin-bottom:22px">Margin defaults to 58%, the only figure derivable from your Shopify cost data — but that covers a tiny slice of orders, so replace it with your real number. "Share using the code" is the honest unknown: industry experience suggests 40–70% of creator-driven sales never touch the code, which is why it matters so much.</p>
+    <p class="src" style="margin-bottom:22px">Margin defaults to 58%, the only figure derivable from your Shopify cost data — but that covers a tiny slice of orders, so replace it with your real number. Code share defaults to <b>68%</b>, measured from the live-vs-dark uplift above rather than assumed.</p>
 
     <div class="cards" id="calcOut"></div>
     <div id="calcVerdict"></div>
@@ -359,9 +413,17 @@ footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-si
   <h3>What the data can say without any assumptions</h3>
   <div class="grid2">
     <div class="box">
-      <h3 style="margin-top:0">On code-attributed revenue alone, she loses money at £5,000</h3>
-      <p class="lede">Six pieces at £5,000 is £30,000. Her codes generated £22,762 net of her own discount. Even at a <b>100% gross margin</b> — impossible — the fee exceeds the revenue. At a realistic 58–70% margin, code-attributed gross profit is £13,000–£16,000 against a £30,000 fee.</p>
-      <p class="lede" style="margin-bottom:0">For her to break even at £5,000 a piece, roughly <b>half of everything she sells must never touch the code</b>, and your margin needs to be near 70%. That is possible. It is not comfortable.</p>
+      <h3 style="margin-top:0">She does not cover £5,000 a piece — even on the generous estimate</h3>
+      <p class="lede">Six pieces at £5,000 is £30,000. Taking the <i>uplift</i> estimate of £40,857 rather than the £27,798 of coded sales — the most favourable reading the data supports:</p>
+      <table>
+        <tbody>
+          <tr><td>at 50% margin</td><td class="num mono">£20,428 profit</td><td class="num mono down">−£9,572</td></tr>
+          <tr><td>at 58% margin</td><td class="num mono">£23,697 profit</td><td class="num mono down">−£6,303</td></tr>
+          <tr><td>at 65% margin</td><td class="num mono">£26,557 profit</td><td class="num mono down">−£3,443</td></tr>
+          <tr><td>at 70% margin</td><td class="num mono">£28,600 profit</td><td class="num mono down">−£1,400</td></tr>
+        </tbody>
+      </table>
+      <p class="src" style="margin-bottom:0">She only reaches break-even at roughly a <b>73% gross margin</b>, and that is using the extrapolated £40,857 rather than the conservative £20,428. On the conservative figure she is £15,700–£19,800 short at every margin. The answer does not hinge on the halo — it hinges on the fee.</p>
     </div>
     <div class="box">
       <h3 style="margin-top:0">But a discount cannot replace her, because they do different jobs</h3>

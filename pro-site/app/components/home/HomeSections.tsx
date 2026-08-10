@@ -80,7 +80,7 @@ export function Shades() {
   return <>
     <section className="shades-showcase" id="shades"><div className="wrap">
       <p className="eyebrow">The Malibu professional solution</p><h2>One universal shade.<br /><em>Every client<br />covered.</em></h2>
-      <div className="shade-intro"><span className="shade-rule" /><p>One custom-blended formula, engineered to deliver a natural, believable glow — for every skin tone and every moment.</p></div>
+      <div className="shade-intro"><span className="shade-rule" /><p>One custom-blended formula, engineered to deliver a natural, believable glow — for every skin tone.</p></div>
       <div className="shade-grid">{shades.map(([src, alt, copy]) => <div className="shade" key={src as string}><span className="shade-swatch"><img src={`${A}${src}`} alt={alt as string} width="408" height="218" loading="lazy" decoding="async" /><b>Malibu 10% DHA</b></span><div><p>{copy}</p></div></div>)}</div>
     </div></section>
     <section className="litre-offer" id="malibu-litre"><div className="wrap"><div className="litre-grid"><div className="prodcard"><div className="pc-main"><div className="pc-stage"><ul className="pc-notes"><li><span>Shade compliments all skin tones and depth of colour</span><i aria-hidden="true" /></li><li><span>Jimmy’s iconic scent</span><i aria-hidden="true" /></li><li><span>Moisture locking formula</span><i aria-hidden="true" /></li><li><span>Anti-orange tone</span><i aria-hidden="true" /></li></ul><img className="pc-shot" src={`${A}malibu-bottle.webp`} alt="Malibu 1 litre professional spray tan solution bottle" width="700" height="1954" loading="lazy" decoding="async" /></div><div className="pc-spec"><div className="pc-tile"><p className="pc-shade">Universal<br /><b>Bronze Glow</b><br />Shade</p><span>10% DHA</span></div><p className="pc-size">1 Litre ℮ 33.81 fl.oz.<br />Approx. 28 Full Body Tans</p><ul className="pc-list">{specs.map(([icon, title, copy]) => <li key={title as string}><i aria-hidden="true">{icon}</i><div><b>{title}</b><span>{copy}</span></div></li>)}</ul></div></div><p className="pc-foot"><i aria-hidden="true">♥</i><b>Perfect for mobile &amp; salon professionals</b><span>Consistent results. Maximum value from every drop.</span></p></div><div><p className="eyebrow">Professional salon size</p><h2>The salon-size litre that pays for itself.</h2><p className="sub">Professional spray solution, designed for flawless full-body tans — salon size for maximum value, consistent results from every drop.</p><div className="lstat lstat-one"><div><b>~£2.15 per tan</b><span>your solution cost, at £60 per litre*</span></div></div><p className="note">*Based on the standard £60 litre at 28 tans. Trade pricing improves this further — confirmed on your setup call.</p><div className="litre-actions"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order the litre — £60</Link><Link className="btn btn-ghost" to={`${PRODUCT_PATH}#order`}>View shades &amp; trade order</Link></div></div></div></div></section>
@@ -98,11 +98,17 @@ export function Retail() {
 }
 
 export function GlowDuo() {
-  const shots = [
-    ["glow-duo-bikini.webp", "Sun-kissed tan finish with a Sunless by Jimmy Coco branded towel", 1080, 1620],
-    ["glow-duo-quote.webp", "Press quote from Hello Magazine calling Jimmy Coco the magician behind Kylie Jenner's signature bronzed glow", 1080, 1674],
-  ];
-  return <section className="glow-duo"><div className="wrap"><div className="gd-grid">{shots.map(([src, alt, w, h]) => <figure className="gd-shot" key={src as string}><img src={`${A}${src}`} alt={alt as string} width={w as number} height={h as number} loading="lazy" decoding="async" sizes="(max-width: 820px) 100vw, 60vw" /></figure>)}</div></div></section>;
+  return <section className="glow-duo"><div className="wrap"><div className="gd-grid">
+    <figure className="gd-shot">
+      <img src={`${A}glow-duo-bikini.webp`} alt="Sun-kissed tan finish with a Sunless by Jimmy Coco branded towel" width={1080} height={1620} loading="lazy" decoding="async" sizes="(max-width: 820px) 100vw, 34vw" />
+    </figure>
+    <figure className="gd-shot gd-product">
+      <img src={`${A}malibu-bottle.webp`} alt="Malibu professional spray tan solution in the 1 litre salon bottle" width={700} height={1954} loading="lazy" decoding="async" sizes="(max-width: 820px) 60vw, 18vw" />
+    </figure>
+    <figure className="gd-shot">
+      <img src={`${A}glow-duo-quote.webp`} alt="Press quote from Hello Magazine calling Jimmy Coco the magician behind Kylie Jenner's signature bronzed glow" width={1080} height={1674} loading="lazy" decoding="async" sizes="(max-width: 820px) 100vw, 48vw" />
+    </figure>
+  </div></div></section>;
 }
 
 export function Certification() {

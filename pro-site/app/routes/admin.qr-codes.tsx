@@ -1,4 +1,5 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react-router";
+import { useState } from "react";
 import {
   Form,
   data,
@@ -19,8 +20,10 @@ import { isSameOriginPost } from "../lib/supabase.server";
 import {
   IconDownload,
   IconExternal,
+  IconGrid,
   IconPlus,
   IconQrCode,
+  IconRows,
 } from "../components/admin/AdminIcons";
 
 export const meta: MetaFunction = () => [
@@ -106,6 +109,7 @@ const date = new Intl.DateTimeFormat("en-GB", {
 export default function AdminQrCodes() {
   const { staff, qrCodes, unavailable } = useLoaderData<typeof loader>();
   const result = useActionData<typeof action>() as { error?: string; notice?: string } | undefined;
+  const [view, setView] = useState<"cards" | "list">("cards");
   const busy = useNavigation().state === "submitting";
   const canManage = staff.role === "admin";
   const active = qrCodes.filter((qr) => qr.is_active).length;
@@ -119,6 +123,26 @@ export default function AdminQrCodes() {
           <h1>QR codes</h1>
           <p>Print once, then change where each code lands whenever you need to.</p>
         </div>
+        {!unavailable && qrCodes.length > 0 ? (
+          <div className="qr-viewtoggle" role="group" aria-label="QR code view">
+            <button
+              className={view === "cards" ? "is-active" : undefined}
+              type="button"
+              aria-pressed={view === "cards"}
+              onClick={() => setView("cards")}
+            >
+              <IconGrid size={17} /> Cards
+            </button>
+            <button
+              className={view === "list" ? "is-active" : undefined}
+              type="button"
+              aria-pressed={view === "list"}
+              onClick={() => setView("list")}
+            >
+              <IconRows size={18} /> List
+            </button>
+          </div>
+        ) : null}
       </header>
 
       {result?.error ? <p className="admin-alert" role="alert">{result.error}</p> : null}
@@ -174,7 +198,7 @@ export default function AdminQrCodes() {
                 <p>Create the first record above, then download its SVG for print.</p>
               </div>
             </section>
-          ) : (
+          ) : view === "cards" ? (
             <div className="qr-grid">
               {qrCodes.map((qr) => {
                 const shortUrl = qrRedirectUrl(qr.code);
@@ -227,6 +251,85 @@ export default function AdminQrCodes() {
                 );
               })}
             </div>
+          ) : (
+            <section className="qr-list" aria-label="QR codes in list view">
+              <div className="qr-list-head" aria-hidden="true">
+                <span>Code</span>
+                <span>Name &amp; destination</span>
+                <span>Permanent URL</span>
+                <span>Scans</span>
+                <span>Status</span>
+                <span>Actions</span>
+              </div>
+              {qrCodes.map((qr) => {
+                const shortUrl = qrRedirectUrl(qr.code);
+                const assetBase = `/admin/qr-assets/${qr.id}`;
+                return (
+                  <Form
+                    method="post"
+                    replace
+                    className={`qr-list-row${qr.is_active ? "" : " is-inactive"}`}
+                    key={qr.id}
+                  >
+                    <input type="hidden" name="intent" value="update" />
+                    <input type="hidden" name="qrId" value={qr.id} />
+
+                    <div className="qr-list-code">
+                      <img src={`${assetBase}/svg`} alt={`QR code for ${qr.name}`} loading="lazy" />
+                      <code>{qr.code}</code>
+                    </div>
+
+                    <div className="qr-list-fields">
+                      <div className="admin-field">
+                        <label className="admin-visually-hidden" htmlFor={`qr-list-name-${qr.id}`}>Internal name</label>
+                        <input id={`qr-list-name-${qr.id}`} name="name" defaultValue={qr.name} maxLength={120} required readOnly={!canManage} />
+                      </div>
+                      <div className="admin-field">
+                        <label className="admin-visually-hidden" htmlFor={`qr-list-destination-${qr.id}`}>Destination URL</label>
+                        <input id={`qr-list-destination-${qr.id}`} name="destinationUrl" type="url" defaultValue={qr.destination_url} maxLength={2048} required readOnly={!canManage} />
+                      </div>
+                    </div>
+
+                    <div className="qr-list-url">
+                      <span className="qr-list-mobile-label">Permanent URL</span>
+                      <code>{shortUrl}</code>
+                    </div>
+
+                    <div className="qr-list-scan">
+                      <span className="qr-list-mobile-label">Scans</span>
+                      <b>{number.format(Number(qr.scan_count))}</b>
+                      <small>{qr.last_scanned_at ? date.format(new Date(qr.last_scanned_at)) : "Never scanned"}</small>
+                    </div>
+
+                    <div className="qr-list-status">
+                      {canManage ? (
+                        <label>
+                          <input type="checkbox" name="isActive" defaultChecked={qr.is_active} />
+                          <span>Redirect</span>
+                        </label>
+                      ) : (
+                        <span className={`admin-status admin-status-${qr.is_active ? "active" : "archived"}`}>
+                          {qr.is_active ? "Active" : "Inactive"}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="qr-list-actions">
+                      {canManage ? <button className="admin-primary" type="submit" disabled={busy}>Save</button> : null}
+                      <a className="qr-list-action" href={qr.destination_url} target="_blank" rel="noreferrer" title="Test destination">
+                        <IconExternal size={16} /> Test
+                      </a>
+                      <a className="qr-list-action" href={`${assetBase}/svg?download=1`} title="Download SVG for print">
+                        <IconDownload size={16} /> SVG
+                      </a>
+                      <a className="qr-list-action" href={`${assetBase}/png?download=1`} title="Download 2048px PNG">
+                        <IconDownload size={16} /> PNG
+                      </a>
+                    </div>
+                  </Form>
+                );
+              })}
+            </section>
           )}
         </>
       )}

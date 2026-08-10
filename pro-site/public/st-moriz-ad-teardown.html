@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>St. Moriz — Meta Ads Teardown</title>
+<style>
+:root{
+  --ivory:#F8F4EE; --cream:#F1EAE0; --white:#FFFDF9; --stone:#E4DACD; --linen:#E9DED1;
+  --taupe:#5C5349; --champagne:#B8914F; --bronze:#8A5C33; --charcoal:#1B1916; --ink:#1B1916;
+  --sec:#453F39; --hair:#C9BCAD;
+  --boots:#123c80; --sdrug:#b32458; --amz:#9c6206; --other:#5f594f;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ivory);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:none;width:100%;margin:0;padding:0 48px 120px}
+@media(max-width:700px){.wrap{padding:0 20px 80px}}
+
+header.top{border-bottom:2px solid var(--hair);background:var(--white);padding:46px 0 34px}
+header.top .wrap{padding-bottom:0}
+.eyebrow{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--bronze);font-weight:700}
+h1{font-size:46px;line-height:1.12;margin:14px 0 12px;font-weight:700;letter-spacing:-.022em}
+.sub{color:var(--sec);font-size:20px;max-width:1000px;line-height:1.55}
+.meta-line{margin-top:20px;font-size:16px;color:var(--sec);display:flex;gap:26px;flex-wrap:wrap}
+.meta-line b{color:var(--ink);font-weight:700}
+
+nav.tabs{position:sticky;top:0;z-index:20;background:var(--ivory);border-bottom:2px solid var(--hair);
+  display:flex;gap:10px;flex-wrap:wrap;padding:16px 48px;max-width:none;margin:0;
+  box-shadow:0 2px 10px rgba(27,25,22,.05)}
+@media(max-width:700px){nav.tabs{padding:12px 20px;gap:7px}}
+nav.tabs button{background:var(--white);border:2px solid var(--hair);border-radius:10px;padding:12px 20px;
+  font:inherit;font-size:17px;font-weight:600;color:var(--sec);cursor:pointer;white-space:nowrap;
+  transition:all .12s ease}
+nav.tabs button:hover{border-color:var(--charcoal);color:var(--ink);background:var(--cream)}
+nav.tabs button.on{background:var(--charcoal);border-color:var(--charcoal);color:#FFFDF9;font-weight:700}
+
+section.panel{display:none;padding-top:44px}
+section.panel.on{display:block}
+h2{font-size:34px;margin:0 0 8px;font-weight:700;letter-spacing:-.02em}
+h3{font-size:22px;margin:40px 0 14px;font-weight:700;letter-spacing:-.01em}
+.lede{color:var(--sec);font-size:19px;margin:0 0 26px;max-width:1100px;line-height:1.6}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:24px 0 10px}
+.card{background:var(--white);border:2px solid var(--hair);border-radius:12px;padding:22px 24px}
+.card .k{font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1.05;color:var(--ink)}
+.card .l{font-size:17px;color:var(--sec);margin-top:9px;line-height:1.4;font-weight:600}
+.card .n{font-size:15px;color:var(--taupe);margin-top:8px;line-height:1.4}
+
+.box{background:var(--white);border:2px solid var(--hair);border-radius:12px;padding:28px 30px;margin:22px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:1100px){.grid2,.grid3{grid-template-columns:1fr}}
+
+table{width:100%;border-collapse:collapse;font-size:17px}
+th{text-align:left;font-weight:700;font-size:14px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink);border-bottom:2px solid var(--hair);padding:12px 14px 12px 0;background:var(--ivory)}
+td{padding:14px 14px 14px 0;border-bottom:1px solid var(--stone);vertical-align:top;line-height:1.5}
+tbody tr:hover{background:var(--cream)}
+td.num,th.num{text-align:right;padding-right:22px;font-variant-numeric:tabular-nums}
+.mono{font-variant-numeric:tabular-nums}
+
+.bar{height:16px;border-radius:8px;background:var(--stone);overflow:hidden;display:flex}
+.bar span{display:block;height:100%}
+.legend{display:flex;gap:22px;flex-wrap:wrap;font-size:16px;color:var(--sec);margin-top:14px;font-weight:600}
+.legend i{width:14px;height:14px;border-radius:3px;display:inline-block;margin-right:8px;vertical-align:-2px}
+
+.chart{display:flex;align-items:flex-end;gap:10px;height:280px;margin:28px 0 10px}
+.chart .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;position:relative}
+.chart .stack{width:100%;display:flex;flex-direction:column-reverse;border-radius:5px 5px 0 0;overflow:hidden}
+.chart .stack span{display:block;width:100%}
+.chart .lab{font-size:15px;color:var(--sec);margin-top:12px;white-space:nowrap;font-weight:600;
+  transform:rotate(-45deg);transform-origin:top center;height:52px}
+.chart .val{font-size:17px;color:var(--ink);margin-bottom:7px;font-variant-numeric:tabular-nums;font-weight:700}
+
+.tag{display:inline-block;font-size:14px;padding:4px 11px;border-radius:20px;border:2px solid var(--hair);
+  background:var(--cream);color:var(--sec);margin:0 5px 5px 0;white-space:nowrap;font-weight:600}
+.tag.creator{background:#f0e2d3;border-color:#b08a63;color:#7a4c26}
+.tag.dco{background:#e3e9f2;border-color:#8ba0c0;color:#2d4467}
+.tag.live{background:#daeade;border-color:#7fae8e;color:#1e5230}
+
+.filters{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:26px 0 18px}
+.filters select,.filters input{font:inherit;font-size:17px;padding:11px 14px;border:2px solid var(--hair);
+  border-radius:10px;background:var(--white);color:var(--ink);font-weight:600}
+.filters input{min-width:320px;font-weight:400}
+.count{font-size:16px;color:var(--sec);margin-left:auto;font-weight:600}
+
+.copy{font-size:17px;line-height:1.55}
+.copy .t{color:var(--bronze);font-size:15px;display:block;margin-bottom:4px;font-weight:700}
+
+ul.clean{margin:12px 0 0;padding-left:24px}
+ul.clean li{margin-bottom:14px}
+ul.clean li b{font-weight:700}
+
+.callout{border-left:6px solid var(--champagne);background:var(--white);padding:22px 26px;
+  border-radius:0 12px 12px 0;margin:24px 0;font-size:19px;line-height:1.6}
+.callout.warn{border-left-color:var(--bronze);background:#F7EFE5}
+.callout .h{font-weight:700;display:block;margin-bottom:9px;font-size:20px;color:var(--ink)}
+
+.play{background:var(--white);border:2px solid var(--hair);border-radius:12px;padding:26px 30px;margin-bottom:20px}
+.play .n{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--bronze);font-weight:700}
+.play h4{margin:10px 0 12px;font-size:26px;font-weight:700;letter-spacing:-.015em}
+.play p{margin:0 0 12px;font-size:19px;color:var(--sec);line-height:1.6}
+.play .do{font-size:18px;background:var(--cream);border-radius:10px;padding:18px 20px;margin-top:14px;line-height:1.6}
+.play .do b{color:var(--ink);font-weight:700}
+
+.src{font-size:15px;color:var(--taupe);margin-top:12px;line-height:1.5}
+footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-size:16px;color:var(--sec)}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;vertical-align:-1px;margin-right:5px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Competitor teardown · Meta Ad Library</div>
+    <h1>St. Moriz — ad profile, targeting profile &amp; what to steal</h1>
+    <p class="sub">A full read of every Meta ad St. Moriz has run in the UK over the last 13 months, plus the German market test that accidentally discloses their exact targeting parameters — and what it means for Sunless by Jimmy Coco.</p>
+    <div class="meta-line">
+      <span>Page ID <b>234479433234119</b></span>
+      <span>Page likes <b>51,274</b></span>
+      <span>Category <b>Health/beauty</b></span>
+      <span>Data pulled <b>10 Aug 2026</b></span>
+      <span>Window <b>Jul 2025 – Aug 2026</b></span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="on" data-p="p1">Snapshot</button>
+  <button data-p="p2">Ad profile</button>
+  <button data-p="p3">Creative library</button>
+  <button data-p="p4">Targeting profile</button>
+  <button data-p="p5">What they optimise for</button>
+  <button data-p="p6">Category benchmark</button>
+  <button data-p="p7">Your playbook</button>
+  <button data-p="p8">Method &amp; caveats</button>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ SNAPSHOT ============ -->
+<section class="panel on" id="p1">
+  <h2>Snapshot</h2>
+  <p class="lede">St. Moriz runs a narrow, disciplined, retailer-funded machine. Very few unique ideas, recycled hard, always pointing at Boots or Superdrug — never at their own website.</p>
+
+  <div class="cards">
+    <div class="card"><div class="k">219</div><div class="l">Ad instances in the UK</div><div class="n">Jul 2025 – Aug 2026</div></div>
+    <div class="card"><div class="k">34</div><div class="l">Unique creatives</div><div class="n">6.4 placements each</div></div>
+    <div class="card"><div class="k">7</div><div class="l">Live right now</div><div class="n">All in one catalogue layer</div></div>
+    <div class="card"><div class="k">79%</div><div class="l">Video creative</div><div class="n">Rest is catalogue DCO</div></div>
+    <div class="card"><div class="k">100%</div><div class="l">"Shop now" CTA</div><div class="n">Zero other CTAs, ever</div></div>
+    <div class="card"><div class="k">0%</div><div class="l">Traffic to own site</div><div class="n">All to retailers</div></div>
+    <div class="card"><div class="k">29d</div><div class="l">Median flight length</div><div class="n">Monthly refresh rhythm</div></div>
+    <div class="card"><div class="k">18–34</div><div class="l">Age target (disclosed)</div><div class="n">Women only</div></div>
+  </div>
+
+  <div class="grid2" style="margin-top:26px">
+    <div class="box">
+      <h3 style="margin-top:0">The five things that matter</h3>
+      <ul class="clean">
+        <li><b>They are a trade marketer, not a DTC brand.</b> 215 of 219 ads send traffic to boots.com, superdrug.com or amazon.co.uk — the other four to TikTok Shop. Not one goes to their own site. They own no first-party customer.</li>
+        <li><b>Creator-whitelisted video is the whole engine.</b> 79% video, overwhelmingly vertical UGC, much of it running from the creator's own page rather than the brand's.</li>
+        <li><b>One always-on catalogue layer underneath.</b> A single dynamic (DCO) ad set has run continuously since 16 Dec 2025 — 47 instances, still live today.</li>
+        <li><b>Their calendar is the retailer's promo calendar</b>, not their own. Headlines are literally "Buy one get one half price", "Save 1/3 at Superdrug".</li>
+        <li><b>Germany is a live test.</b> A 31-day, four-creator burst in Jun–Jul 2026 racked up ~1.13m reach across four creatives — and EU law forced them to publish the targeting.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3 style="margin-top:0">Where the money points</h3>
+      <p class="lede" style="margin-bottom:14px">Destination domain, share of all 219 UK ads.</p>
+      <div class="bar" style="height:14px">
+        <span style="width:51.1%;background:var(--boots)"></span>
+        <span style="width:44.8%;background:var(--sdrug)"></span>
+        <span style="width:2.3%;background:var(--amz)"></span>
+        <span style="width:1.8%;background:var(--other)"></span>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--boots)"></i>Boots 112 (51%)</span>
+        <span><i style="background:var(--sdrug)"></i>Superdrug 98 (45%)</span>
+        <span><i style="background:var(--amz)"></i>Amazon 5 (2%)</span>
+        <span><i style="background:var(--other)"></i>TikTok Shop 4 (2%)</span>
+      </div>
+      <div class="callout" style="margin-top:20px">
+        <span class="h">The gap this leaves you</span>
+        St. Moriz cannot retarget, cannot email, cannot see a purchase event and cannot build LTV. They are renting audiences and handing the customer to Boots. A DTC brand with its own pixel and list is playing a structurally different — and better — game.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AD PROFILE ============ -->
+<section class="panel" id="p2">
+  <h2>Ad profile</h2>
+  <p class="lede">Formats, placements, flight lengths and the shape of their year.</p>
+
+  <h3>Monthly ad volume, split by destination retailer</h3>
+  <div class="box">
+    <div class="chart" id="chartMonthly"></div>
+    <div class="legend">
+      <span><i style="background:var(--boots)"></i>Boots</span>
+      <span><i style="background:var(--sdrug)"></i>Superdrug</span>
+      <span><i style="background:var(--amz)"></i>Amazon / other</span>
+    </div>
+    <p class="src">Counted by ad start date. Jan 2026 = zero new ads.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="box">
+      <h3 style="margin-top:0">Two things this chart tells you</h3>
+      <ul class="clean">
+        <li><b>They go dark in January.</b> Nothing launched between 16 Dec 2025 and 4 Feb 2026 except the always-on catalogue ad. Post-Christmas is conceded territory.</li>
+        <li><b>They switched retailers.</b> H2 2025 was Superdrug-led (69% of ads Jul–Dec). 2026 flipped hard to Boots-led (75% of ads Feb–Jul). That reads as a co-op funding deal moving, not a media-performance decision.</li>
+      </ul>
+      <h3>Seasonal peak</h3>
+      <p class="lede" style="margin-bottom:0">July 2026 alone accounts for <b>52 of 219 ads (24%)</b>. June + July 2026 = 35% of everything they have run in 13 months. The summer window is where their budget actually lives.</p>
+    </div>
+
+    <div class="box">
+      <h3 style="margin-top:0">Format mix</h3>
+      <table>
+        <tbody>
+          <tr><td>Video (vertical UGC / creator)</td><td class="num mono">172</td><td class="num mono" style="color:var(--sec)">79%</td></tr>
+          <tr><td>DCO — dynamic catalogue</td><td class="num mono">47</td><td class="num mono" style="color:var(--sec)">21%</td></tr>
+          <tr><td>Static image</td><td class="num mono">0</td><td class="num mono" style="color:var(--sec)">0%</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Call to action</h3>
+      <table>
+        <tbody>
+          <tr><td>SHOP_NOW</td><td class="num mono">219</td><td class="num mono" style="color:var(--sec)">100%</td></tr>
+        </tbody>
+      </table>
+      <p class="src">No LEARN_MORE, no SIGN_UP, no lead-gen. Not one awareness or consideration ad in 13 months.</p>
+
+      <h3>Flight length</h3>
+      <table>
+        <tbody>
+          <tr><td>15–30 days</td><td class="num mono">143</td><td class="num mono" style="color:var(--sec)">65%</td></tr>
+          <tr><td>Over 60 days</td><td class="num mono">26</td><td class="num mono" style="color:var(--sec)">12%</td></tr>
+          <tr><td>31–60 days</td><td class="num mono">23</td><td class="num mono" style="color:var(--sec)">11%</td></tr>
+          <tr><td>8–14 days</td><td class="num mono">20</td><td class="num mono" style="color:var(--sec)">9%</td></tr>
+          <tr><td>7 days or fewer</td><td class="num mono">7</td><td class="num mono" style="color:var(--sec)">3%</td></tr>
+        </tbody>
+      </table>
+      <p class="src">Median 29 days. This is a monthly creative cycle, not rapid-fire testing.</p>
+    </div>
+  </div>
+
+  <h3>Placement strategy</h3>
+  <div class="box">
+    <p class="lede">Every ad runs Facebook + Instagram + Audience Network. Beyond that they let Meta open the taps — Threads is on 73% of ads, and Messenger/WhatsApp rotate in. This is the signature of <b>Advantage+ placements left on default</b>, not hand-picked placements.</p>
+    <table>
+      <thead><tr><th>Placement bundle</th><th class="num">Ads</th><th class="num">Share</th></tr></thead>
+      <tbody>
+        <tr><td>FB · IG · Audience Network · Messenger · Threads</td><td class="num mono">80</td><td class="num mono">37%</td></tr>
+        <tr><td>FB · IG · Audience Network · WhatsApp · Threads</td><td class="num mono">62</td><td class="num mono">28%</td></tr>
+        <tr><td>FB · IG · Audience Network · Messenger</td><td class="num mono">59</td><td class="num mono">27%</td></tr>
+        <tr><td>FB · IG · Audience Network · Threads</td><td class="num mono">18</td><td class="num mono">8%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Creator roster</h3>
+  <div class="box">
+    <p class="lede">Ads that run from a creator's own page (branded-content partnership ads) rather than the brand page. This borrows the creator's engagement signal and social proof.</p>
+    <table>
+      <thead><tr><th>Creator page</th><th class="num">Ad instances</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>D JONES</td><td class="num mono">18</td><td>Longest-running partner — Oct 2025 through Jul 2026. Educational/technique angle.</td></tr>
+        <tr><td>Sienna Walker</td><td class="num mono">10</td><td>Summer 2026 only. Beach / GRWM.</td></tr>
+        <tr><td>Lidia Pia</td><td class="num mono">6</td><td>Jun–Jul 2026. "grwm for dinner" — going-out occasion.</td></tr>
+        <tr><td>Nya Grace Temple</td><td class="num mono">6</td><td>Jun–Jul 2026. Explicitly addresses Black skin tones — deliberate shade-inclusivity play.</td></tr>
+        <tr><td>tallulahmetcalfe_</td><td class="num mono">6</td><td>Jul 2026. Confidence angle.</td></tr>
+        <tr><td>St. Moriz (brand page)</td><td class="num mono">173</td><td>Includes creator-shot footage run from the brand page.</td></tr>
+      </tbody>
+    </table>
+    <p class="src">Counted by ad instance. Creator-page-attributed ads went from zero across Feb–May 2026 to 21 instances launched in June and 17 in July — a deliberate summer escalation.</p>
+  </div>
+</section>
+
+<!-- ============ CREATIVE LIBRARY ============ -->
+<section class="panel" id="p3">
+  <h2>Creative library</h2>
+  <p class="lede">All 34 unique creatives, ranked by how many placements each was given. Placement count is the closest public proxy for how much a brand believed in a creative — Meta shows how many ad instances share the same creative and copy. The top row is the dynamic catalogue layer, which bundles many rendered variants under one template.</p>
+
+  <div class="filters">
+    <select id="fRetail"><option value="">All destinations</option><option>boots.com</option><option>superdrug.com</option><option>amazon.co.uk</option><option>vm.tiktok.com</option></select>
+    <select id="fType"><option value="">All types</option><option value="creator">Creator page</option><option value="brand">Brand page</option><option value="dco">Catalogue (DCO)</option></select>
+    <select id="fYear"><option value="">All dates</option><option value="2025">Started 2025</option><option value="2026">Started 2026</option></select>
+    <input id="fSearch" placeholder="Search copy — e.g. glow, SPF, mousse">
+    <span class="count" id="cCount"></span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="num" style="width:80px">Uses</th>
+        <th style="width:180px">Ran</th>
+        <th style="width:220px">From</th>
+        <th style="width:200px">To</th>
+        <th>Copy</th>
+      </tr>
+    </thead>
+    <tbody id="tbodyCreative"></tbody>
+  </table>
+</section>
+
+<!-- ============ TARGETING ============ -->
+<section class="panel" id="p4">
+  <h2>Targeting profile</h2>
+  <p class="lede">UK ads disclose nothing — Britain isn't covered by the EU's transparency rules. But St. Moriz ran a German test in summer 2026, and the DSA forced Meta to publish the exact audience parameters. This is the real thing, not an inference.</p>
+
+  <div class="callout">
+    <span class="h">Disclosed targeting — identical across all four German creatives</span>
+    <b>Location:</b> Germany · country level · Included (no region, city or postcode narrowing, no exclusions) &nbsp;·&nbsp;
+    <b>Age:</b> 18–34 &nbsp;·&nbsp;
+    <b>Gender:</b> Women
+  </div>
+
+  <div class="grid3">
+    <div class="card"><div class="k">1.13m</div><div class="l">Summed EU reach across 4 creatives</div><div class="n">31-day burst · overlapping audiences</div></div>
+    <div class="card"><div class="k">64%</div><div class="l">Of disclosed reach was age 25–34</div><div class="n">720,679 accounts</div></div>
+    <div class="card"><div class="k">35%</div><div class="l">Of disclosed reach was age 18–24</div><div class="n">395,463 accounts</div></div>
+  </div>
+
+  <div class="box">
+    <h3 style="margin-top:0">Per-creative disclosure</h3>
+    <table>
+      <thead><tr><th>Creator</th><th>Angle</th><th>Retailer</th><th class="num">Reach</th><th class="num">25–34</th><th class="num">18–24</th></tr></thead>
+      <tbody>
+        <tr><td>Sabina Markin</td><td>Full self-tan routine, mitt technique, 4–6h develop time</td><td>mueller.de</td><td class="num mono">393,495</td><td class="num mono">237,541</td><td class="num mono">146,583</td></tr>
+        <tr><td>vallixpauline</td><td>"Glow without sun damage" + self-care question hook</td><td>rossmann.de</td><td class="num mono">367,691</td><td class="num mono">219,998</td><td class="num mono">150,507</td></tr>
+        <tr><td>luisalion</td><td>SPF benefits — non-greasy, no white cast, water-resistant, vegan</td><td>rossmann.de</td><td class="num mono">270,385</td><td class="num mono">198,709</td><td class="num mono">67,288</td></tr>
+        <tr><td>Leonora Bytyqi</td><td>"My perfect summer prep"</td><td>mueller.de</td><td class="num mono">96,033</td><td class="num mono">64,431</td><td class="num mono">31,085</td></tr>
+      </tbody>
+    </table>
+    <p class="src">All four: Germany / country / included · 18–34 · Women. Each ad discloses exactly three rows — 25–34 female, 18–24 female, and a tiny "unknown age" female bucket (6–30 accounts). Those rows do not reconcile exactly to the headline reach figure, which Meta states is estimated and rounds independently.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="box">
+      <h3 style="margin-top:0">How to read this</h3>
+      <ul class="clean">
+        <li><b>No interest targeting at all.</b> Country + age + gender, nothing else. They are handing audience-finding entirely to Meta's algorithm and letting creative do the targeting.</li>
+        <li><b>The hard gender filter is a choice, not a default.</b> Meta's own guidance is to leave gender open; St. Moriz deliberately restricted to Women, which usually signals they tested open and it lost.</li>
+        <li><b>18–34, not 18–44.</b> They have written off the 35+ self-tan buyer entirely in this test.</li>
+        <li><b>Delivery skewed older than the target.</b> 64% of disclosed reach landed in 25–34, not 18–24 — the algorithm found its cheapest delivery at the top of their age band.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3 style="margin-top:0">Reasonable inference for their UK setup</h3>
+      <p class="lede">The German test was almost certainly a clone of the UK playbook — same creative logic, same retailer routing, same creator format. So the UK setup is very likely:</p>
+      <ul class="clean">
+        <li>United Kingdom, country level, no geo narrowing</li>
+        <li>Women, 18–34</li>
+        <li>Broad audience with Advantage+ expansion; no interest stacks</li>
+        <li>Advantage+ placements on default</li>
+        <li>Optimising for link clicks or landing-page views — see the next tab for why</li>
+      </ul>
+      <p class="src">Flagged as inference. The four German data points are observed fact; the UK mapping is a judgement call.</p>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <span class="h">Germany is a beachhead, not a one-off</span>
+    Four creators, two retail chains (Müller and Rossmann), 31 days, 1.13m summed reach, all in German with proper <i>Werbung</i>/<i>Anzeige</i> disclosure in the copy. That is a funded market-entry test, not a spillover. Expect a bigger German push in summer 2027 — and note they picked the two drugstore chains that mirror Boots and Superdrug exactly.
+  </div>
+</section>
+
+<!-- ============ OPTIMISATION ============ -->
+<section class="panel" id="p5">
+  <h2>What they optimise for</h2>
+  <p class="lede">The Ad Library doesn't publish objectives or bid strategy. But when every ad routes to a third-party retailer, the set of things they <i>can</i> optimise for shrinks to almost nothing — and that constraint is the most exploitable thing about them.</p>
+
+  <div class="callout">
+    <span class="h">The core deduction</span>
+    You cannot fire a Meta purchase pixel on boots.com. St. Moriz has no pixel, no Conversions API and no purchase event on any of its 219 destinations. Therefore they physically <b>cannot</b> run purchase-optimised campaigns. What's left is Link Clicks, Landing Page Views, ThruPlay or Reach.
+  </div>
+
+  <div class="grid2">
+    <div class="box">
+      <h3 style="margin-top:0">What the evidence says they optimise</h3>
+      <table>
+        <thead><tr><th>Signal</th><th>What it implies</th></tr></thead>
+        <tbody>
+          <tr><td>100% SHOP_NOW on retailer URLs</td><td>Traffic / Landing Page Views objective. The KPI is almost certainly clicks delivered to the retailer, reported back as co-op media value.</td></tr>
+          <tr><td>79% video, mostly 15–30s vertical UGC</td><td>A ThruPlay or video-views layer sitting alongside traffic, buying cheap attention.</td></tr>
+          <tr><td>Always-on DCO with <span class="mono">{{product.name}}</span> tokens</td><td>Advantage+ catalogue running off a retailer product feed — optimising for catalogue clicks, not ROAS.</td></tr>
+          <tr><td>Median 29-day flights, low creative volume</td><td>Budget is planned monthly against retail promos, not reallocated daily on performance.</td></tr>
+          <tr><td>Zero retargeting-shaped creative</td><td>No cart-abandon, no "still thinking about it", no offer-escalation ladder. There is no funnel — just one wide top.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box">
+      <h3 style="margin-top:0">What they are really buying</h3>
+      <p class="lede">Read commercially rather than technically, the campaign is doing three jobs, in this order:</p>
+      <ul class="clean">
+        <li><b>1. Defending shelf space.</b> Demonstrable digital support is what keeps a brand in Boots' and Superdrug's ranging decisions. Half of this spend is a listing-retention cost.</li>
+        <li><b>2. Amplifying the retailer's promo.</b> "Buy one get one half price", "Save 1/3" — the ad is the promo's megaphone, timed to the retailer's mechanic.</li>
+        <li><b>3. Cheap reach among 18–34 women.</b> Creator UGC at scale, letting the algorithm find volume.</li>
+      </ul>
+      <p class="lede" style="margin-bottom:0">Notably absent: acquiring a customer, capturing an email, building a repeat-purchase base, or defending a price point.</p>
+    </div>
+  </div>
+
+  <h3>Their creative formula, decoded</h3>
+  <div class="box">
+    <p class="lede">Thirty-four creatives, but really only six repeating templates. This is the pattern worth copying — the discipline, not the aesthetics.</p>
+    <table>
+      <thead><tr><th style="width:180px">Template</th><th style="width:90px" class="num">Creatives</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><b>GRWM / routine</b></td><td class="num mono">~9</td><td class="copy">"My morning routine with St. Moriz! Nothing beats the feeling of a fresh tan, especially when it's this quick 🤩"</td></tr>
+        <tr><td><b>Occasion trigger</b></td><td class="num mono">~7</td><td class="copy">"Tonight's agenda is: 🌸💕🍕🧚🏼🍨 &amp; glow" · "grwm for dinner" · "Last minute plans always turn out the best"</td></tr>
+        <tr><td><b>Product launch</b></td><td class="num mono">~6</td><td class="copy">"Our Glow Cream Bronzer has just launched in Boots ✨ … Hyaluronic Acid, Vitamin E &amp; Aloe Vera"</td></tr>
+        <tr><td><b>Technique / education</b></td><td class="num mono">~5</td><td class="copy">"How to match your face to your body when it comes to self-tan! 😳 It's definitely one of the hardest things to get right"</td></tr>
+        <tr><td><b>Promo amplifier</b></td><td class="num mono">~4</td><td class="copy">Headline does the work: "Buy one get one half price 😍", "Save 1/3 at Superdrug ✨"</td></tr>
+        <tr><td><b>Identity / inclusion</b></td><td class="num mono">~3</td><td class="copy">"Black girlies start self tanning &amp; thank me later 🤏🏾 St. Moriz ultra dark self tan is that gurllllll!!!!!"</td></tr>
+      </tbody>
+    </table>
+    <p class="src">Copy is short — median body length is around 17 words, and 41% of creatives run under 15. Emojis in essentially every ad. No substantiation-heavy claims and no pricing in body copy; the offer always sits in the headline.</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="h">The one genuinely clever thing they do</span>
+    The headline carries the retailer and the commercial job, while the body carries the creator's voice with no sell at all. One real pair: headline "Shop at Boots 💖", body "My go-to body oil ✨" — that's the entire ad. Another: headline "Buy one get one half price 😍", body "My secret to bronzed, glowy skin ✨". The ad reads as content and converts as promo. That separation of jobs between headline and body is worth copying wholesale.
+  </div>
+</section>
+
+<!-- ============ BENCHMARK ============ -->
+<section class="panel" id="p6">
+  <h2>Category benchmark</h2>
+  <p class="lede">The same 13-month UK pull for four other self-tan advertisers, so you can tell what's category convention from what's specific to St. Moriz.</p>
+
+  <div class="box">
+    <table>
+      <thead>
+        <tr><th>Brand</th><th class="num">Ads</th><th class="num">Live</th><th class="num">Unique</th><th class="num">Video</th><th>Destination</th><th class="num">Median flight</th><th>CTA mix</th></tr>
+      </thead>
+      <tbody>
+        <tr style="background:var(--cream)">
+          <td><b>St. Moriz</b></td><td class="num mono">219</td><td class="num mono">7</td><td class="num mono">34</td><td class="num mono">79%</td>
+          <td>100% retailer<br><span class="src">Boots 51% · Superdrug 45%</span></td><td class="num mono">29d</td><td>Shop now 100%</td>
+        </tr>
+        <tr>
+          <td><b>Bondi Sands</b></td><td class="num mono">360</td><td class="num mono">14</td><td class="num mono">42</td><td class="num mono">11%</td>
+          <td>37% own site / 63% retailer<br><span class="src">Boots, Superdrug, Lookfantastic, Sainsbury's</span></td><td class="num mono">18d</td><td>Shop now 91% · Learn more 9%</td>
+        </tr>
+        <tr>
+          <td><b>Coco &amp; Eve</b></td><td class="num mono">360</td><td class="num mono">16</td><td class="num mono">87</td><td class="num mono">43%</td>
+          <td>98% own site<br><span class="src">cocoandeve.com</span></td><td class="num mono">18d</td><td>Shop now 99%</td>
+        </tr>
+        <tr>
+          <td><b>Tan-Luxe</b></td><td class="num mono">178</td><td class="num mono">0</td><td class="num mono">18</td><td class="num mono">92%</td>
+          <td>100% retailer<br><span class="src">Amazon, Lookfantastic, Sephora, Space NK</span></td><td class="num mono">19d</td><td>Shop now 98%</td>
+        </tr>
+        <tr>
+          <td><b>Sienna X Professional</b></td><td class="num mono">132</td><td class="num mono">28</td><td class="num mono">9</td><td class="num mono">5%</td>
+          <td>96% own site<br><span class="src">sienna-x.co.uk</span></td><td class="num mono">39d</td><td>Learn more 45% · Shop now 43% · <b>Sign up 7%</b> · See details 5%</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="src">All figures: UK, active + inactive, ad instances (not campaigns), 13-month window to 10 Aug 2026.</p>
+  </div>
+
+  <div class="grid3">
+    <div class="box">
+      <h3 style="margin-top:0">Sienna X is your real comparator</h3>
+      <p class="lede" style="margin-bottom:0">The only professional/salon brand in the set — and the only one running <b>SIGN_UP</b> ads. 45% LEARN_MORE, 39-day flights, 132 ads from just 9 creatives, 28 still live. That's a lead-generation machine for salon accounts, run patiently. It is a far closer template for Jimmy Coco PRO than anything St. Moriz does.</p>
+    </div>
+    <div class="box">
+      <h3 style="margin-top:0">Coco &amp; Eve shows what DTC looks like</h3>
+      <p class="lede" style="margin-bottom:0">87 unique creatives — 2.6× St. Moriz — on the same 360 ad instances. Own-site traffic 98%. That creative volume is only affordable because they can measure purchases and kill losers fast. Owning the pixel is what buys creative velocity.</p>
+    </div>
+    <div class="box">
+      <h3 style="margin-top:0">Tan-Luxe: premium, but stalled</h3>
+      <p class="lede" style="margin-bottom:0">Instagram-only, 92% video, prestige retailers (Sephora, Space NK) — the closest positioning to Jimmy Coco. <b>Zero ads currently live.</b> The premium end of UK self-tan on Meta is quiet right now. That's an opening.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="h">What's category convention vs. what's St. Moriz-specific</span>
+    <b>Convention:</b> Shop-now CTAs, vertical video, creator UGC, ~18-day flights, Advantage+ placements, summer peak.<br>
+    <b>St. Moriz-specific:</b> 100% retailer routing with no DTC at all, only 34 creatives in 13 months, seven weeks dark over the new year, and a hard 18–34 female age gate.
+  </div>
+</section>
+
+<!-- ============ PLAYBOOK ============ -->
+<section class="panel" id="p7">
+  <h2>Your playbook</h2>
+  <p class="lede">Eight moves for Sunless by Jimmy Coco, drawn from what the data actually supports. Ordered by how quickly they pay back.</p>
+
+  <div class="play">
+    <div class="n">Move 01 · Positioning</div>
+    <h4>Take the premium lane while it's empty</h4>
+    <p>Tan-Luxe — the only prestige self-tan advertiser in the set — has zero live ads. St. Moriz competes entirely on promo mechanics ("half price", "1/3 off"). Nobody in this category is currently buying Meta attention with a craft-and-expertise story.</p>
+    <div class="do"><b>Do:</b> Lead with the professional method and Jimmy's credentials. Never match their discount language — your brand voice already rules it out, and the data says the discount lane is crowded and the expertise lane is vacant.</div>
+  </div>
+
+  <div class="play">
+    <div class="n">Move 02 · Targeting</div>
+    <h4>Start where their disclosure points, then widen where they won't</h4>
+    <p>Their tested setup is country + Women + 18–34, no interests. 64% of disclosed delivery landed in 25–34. But a premium price point and a professional-method story should sell older than a high-street drugstore mousse.</p>
+    <div class="do"><b>Do:</b> Run UK · Women · broad, but set <b>25–54</b>, not 18–34. Their disclosed age gate is tuned to mass-market economics. Test 35–54 as its own ad set — that's audience they have explicitly excluded and nobody in this set is bidding against you for it.</div>
+  </div>
+
+  <div class="play">
+    <div class="n">Move 03 · Measurement</div>
+    <h4>Weaponise the one thing they don't have</h4>
+    <p>219 ads, zero purchase events. St. Moriz optimises for clicks because clicks are all they can see. You sell direct — you can run purchase-optimised campaigns with Conversions API and let Meta's algorithm do work theirs never will.</p>
+    <div class="do"><b>Do:</b> Get server-side CAPI live with purchase, add-to-cart and view-content events before spending meaningfully. Optimise for purchase from day one, not traffic. This single structural advantage is worth more than any creative idea on this page.</div>
+  </div>
+
+  <div class="play">
+    <div class="n">Move 04 · Creative</div>
+    <h4>Copy their headline/body split, not their aesthetic</h4>
+    <p>Their sharpest mechanic: the <i>headline</i> carries the commercial job ("Shop at Boots 💖") while the <i>body</i> carries a creator's unsold voice ("My go-to body oil ✨"). The ad reads as content and converts as commerce.</p>
+    <div class="do"><b>Do:</b> Body copy under 15 words, first-person, no sell. Headline carries the specific action in your voice — "Book the Sunset spray", "Shop the Tinted Soufflé" — never "Learn More" or "Discover".</div>
+  </div>
+
+  <div class="play">
+    <div class="n">Move 05 · PRO channel</div>
+    <h4>Run the Sienna X model, not the St. Moriz model, for salon acquisition</h4>
+    <p>Sienna X Professional runs 132 ads from just 9 creatives, median 39-day flights, 28 live today, with LEARN_MORE and SIGN_UP CTAs to their own site. That is patient B2B lead-gen for salon accounts — exactly the shape of your PRO stockist ambition.</p>
+    <div class="do"><b>Do:</b> A separate PRO campaign — small creative set, long flights, lead-gen objective, landing on your pro page. Different creative language entirely: margin, booth economics, client retention, treatment time. Not glow.</div>
+  </div>
+
+  <div class="play">
+    <div class="n">Move 06 · Calendar</div>
+    <h4>Own January, and start summer in May</h4>
+    <p>They launched nothing new between 16 Dec 2025 and 4 Feb 2026 — seven weeks dark. And 35% of their annual output landed in June–July, meaning auction prices in your category spike exactly then.</p>
+    <div class="do"><b>Do:</b> Fund a January "reset" push into vacated auction space. Then front-run their summer — build audience and creative learnings across May so you're in optimised delivery by the time they flood June.</div>
+  </div>
+
+  <div class="play">
+    <div class="n">Move 07 · Creative volume</div>
+    <h4>Match Coco &amp; Eve's velocity, not St. Moriz's</h4>
+    <p>St. Moriz: 34 creatives / 13 months. Coco &amp; Eve: 87. The DTC brand can afford more because it can measure and kill fast. Once CAPI is live, creative volume becomes your compounding advantage.</p>
+    <div class="do"><b>Do:</b> Target 6–8 new creative concepts a month, 2-week evaluation windows. You already have an AI generation pipeline in the repo — that's the cheapest route to the volume the winners run.</div>
+  </div>
+
+  <div class="play">
+    <div class="n">Move 08 · Where they're vulnerable</div>
+    <h4>The gaps nobody in the category is covering</h4>
+    <p>Across 1,249 ads from five brands, some obvious territory is untouched.</p>
+    <div class="do">
+      <b>Unclaimed:</b>
+      <ul class="clean" style="margin-top:8px">
+        <li><b>35+ / mature skin.</b> Explicitly age-gated out by St. Moriz. Zero competitor creative addresses it.</li>
+        <li><b>Event-driven urgency.</b> Weddings, red carpet, holidays as a dated occasion — Jimmy's actual origin story, and nobody is running it.</li>
+        <li><b>Fixing a bad tan.</b> Streaks, patches, orange tone. Their strongest educational creative (D JONES on face-to-body matching) was deployed 8 times, more than almost any other single video — yet they built only a handful of teaching ads in 13 months.</li>
+        <li><b>Salon-to-home bridge.</b> "What the professional actually does differently." Sienna X gestures at it; nobody has owned it.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout warn" style="margin-top:26px">
+    <span class="h">One caution before you spend</span>
+    Everything above is competitor intelligence, not a performance forecast. Ad Library shows what brands <i>ran</i>, never what worked — placement counts are a proxy for belief, not results. Treat these as hypotheses to test at small budget, not as a plan to fund at scale.
+  </div>
+</section>
+
+<!-- ============ METHOD ============ -->
+<section class="panel" id="p8">
+  <h2>Method &amp; caveats</h2>
+
+  <div class="grid2">
+    <div class="box">
+      <h3 style="margin-top:0">How this was built</h3>
+      <ul class="clean">
+        <li>Meta Ad Library queried directly for page 234479433234119, active + inactive, UK and then all other markets.</li>
+        <li>219 UK ad records and 16 German records extracted with full metadata: dates, platforms, display format, CTA type, destination URL, body copy, headline, collation count.</li>
+        <li>EU transparency panels opened individually on all four German creatives to read the disclosed location, age, gender and reach data.</li>
+        <li>Four comparator brands pulled the same way: Bondi Sands (378860292512613), Coco &amp; Eve (1627356637522836), Tan-Luxe (1644750522420228), Sienna X Professional (882202738468251).</li>
+        <li>Data pulled 10 August 2026. Ad Library is a live surface — figures will drift.</li>
+      </ul>
+    </div>
+
+    <div class="box">
+      <h3 style="margin-top:0">What is observed vs. inferred</h3>
+      <p class="lede" style="margin-bottom:10px"><b>Observed fact</b> — all ad counts, dates, formats, CTAs, destination domains, platforms, copy and creator pages, for St. Moriz and for all four comparator brands; the page like count and category; and the four German targeting disclosures with their reach and age figures.</p>
+      <p class="lede" style="margin-bottom:10px"><b>Inferred, clearly flagged</b> — the UK targeting setup (mapped from the German test), the campaign objective and bid strategy, the co-op funding interpretation of the Boots/Superdrug switch, and the creative-template groupings.</p>
+      <p class="lede" style="margin-bottom:0"><b>Not available at all</b> — spend, impressions, CPM, CTR, ROAS, campaign structure, audience sizes, or any UK targeting parameters. The Ad Library does not publish commercial performance data for non-political ads, and the UK is outside the EU transparency regime.</p>
+    </div>
+  </div>
+
+  <div class="box">
+    <h3 style="margin-top:0">Known limitations</h3>
+    <ul class="clean">
+      <li><b>"Uses" is a proxy, not a metric.</b> It counts ad instances sharing one creative — a signal of how widely a creative was deployed, not how it performed.</li>
+      <li><b>The catalogue row bundles many rendered ads.</b> All 47 DCO instances share one templated body (<span class="mono">{{product.brand}}</span>) in the underlying data, but each renders different live copy and imagery from the product feed. So "34 unique creatives" counts 33 fixed creatives plus one dynamic layer — the true rendered-creative count is higher.</li>
+      <li><b>Ads with no impressions are omitted</b> by Meta, so very short or paused tests may be invisible.</li>
+      <li><b>Paid influencer content posted organically</b> (not run as an ad) does not appear here. St. Moriz's real creator footprint is larger than 5 partners.</li>
+      <li><b>Google, TikTok, retail media and Amazon Ads are entirely outside this view.</b> Four ads pointing at TikTok Shop hint at TikTok activity this teardown cannot see.</li>
+      <li><b>The German reach rows don't sum to the headline reach.</b> Meta labels reach as estimated and rounds the breakdown independently; residuals run from −2,814 to +9,371 per ad. Treat the age split as directional, not exact.</li>
+      <li><b>Summed reach is not unique people.</b> The 1.13m German figure adds four per-creative reach numbers whose audiences overlap. Unique reach was lower.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3 style="margin-top:0">Source</h3>
+    <p class="lede" style="margin-bottom:0">Meta Ad Library — <span class="mono">facebook.com/ads/library</span>, page ID 234479433234119, plus the four comparator page IDs listed above.</p>
+  </div>
+</section>
+
+<footer>
+  Prepared for Sunless by Jimmy Coco · Competitor teardown · 10 August 2026 · Data source: Meta Ad Library
+</footer>
+
+</div>
+
+<script>
+const CREATIVES = [
+ {n:47,s:"2025-12-16",e:"",p:"St. Moriz",r:"boots.com / superdrug.com",f:"DCO",t:"{{product.name}}",b:"Dynamic catalogue ad — name, brand and description pulled from a live product feed. Running continuously since 16 Dec 2025; all 7 currently-live ads sit in this layer. Their July 2026 rendered copy reads: \"Say hello to St. Moriz Suncare ☀️ SPF 30 & 50 protection, daily UVA & UVB defence\" and \"Last minute plans always turn out the best especially when your glowing with St. Moriz Fast Mousse ✨\"."},
+ {n:10,s:"2025-07-16",e:"2025-09-26",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Save up to half price at Superdrug ✨",b:"Come for a picnic with me! 🍓and I'll show you my summer SPF routine ☀️ The St. Moriz suncare range smells gorgeous, looks gorgeous AND hydrates gorgeously! 😍"},
+ {n:10,s:"2025-08-11",e:"2025-11-02",p:"St. Moriz",r:"boots.com",f:"VIDEO",t:"Shop now at Boots ✨",b:"A holiday must have!!! ☀️✨💛 no outfit is complete without my fave St. Moriz glow oil 👏🏼"},
+ {n:8,s:"2025-10-07",e:"2025-11-06",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Shop at Superdrug ✨",b:"How the St. Moriz glow oil makes me feel 😏"},
+ {n:8,s:"2025-10-07",e:"2025-11-05",p:"D JONES",r:"boots.com",f:"VIDEO",t:"",b:"How to match your face to your body when it comes to self-tan! 😳 It's definitely one of the hardest things to get right, especially when wanting your self-tan to look as natural as possible 🙏 The tanning match made in heaven is @stmoriz Professional Self-Tan"},
+ {n:6,s:"2026-07-09",e:"2026-08-08",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Shop at Superdrug 💫",b:"Tonight's agenda is: 🌸💕🍕🧚🏼🍨 & glow"},
+ {n:6,s:"2026-07-09",e:"2026-08-08",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Shop at Superdrug 💫",b:"St. Moriz body glow everyone!!!! Omg I'm obsessed🤏🏾✨✨✨"},
+ {n:5,s:"2026-06-19",e:"2026-07-18",p:"Lidia Pia",r:"superdrug.com",f:"VIDEO",t:"Shop at Superdrug 💫",b:"grwm for dinner ⭐️👼🏼🍓💕🍨"},
+ {n:5,s:"2025-11-10",e:"2025-12-11",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Buy one get one half price 😍",b:"My secret to bronzed, glowy skin ✨"},
+ {n:5,s:"2025-08-14",e:"2025-11-03",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Shop now at Superdrug ✨",b:"GRWM in Crete! 🥹🌴🥥🌺💦 This is my morning sunscreen routine! Obvs using all of the NEW St. Moriz suncare range ☀️💗 available now!"},
+ {n:5,s:"2026-06-12",e:"2026-07-11",p:"Nya Grace Temple",r:"boots.com",f:"VIDEO",t:"Shop on Amazon 💫",b:"Black girlies start self tanning & thank me later 🤏🏾 St. Moriz ultra dark self tan is that gurllllll!!!!!"},
+ {n:5,s:"2026-06-12",e:"2026-07-12",p:"D JONES",r:"superdrug.com",f:"VIDEO",t:"",b:"POV: your contour is actually self tan 👀🤎 Using the @stmoriz Dark Tanning Mousse to sculpt & define, then finishing with the NEW Glow stick for that bronzed glowy finish! 😍"},
+ {n:5,s:"2025-11-24",e:"2025-12-11",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Buy one get one half price ✨",b:"Just give me two hours and the St. Moriz Fast Tan and I'm good to go 😍"},
+ {n:5,s:"2026-07-09",e:"2026-08-08",p:"St. Moriz",r:"boots.com",f:"VIDEO",t:"Shop now at Boots 💫",b:"St. Moriz keeping us safe during hot girl summer ❤️‍🔥"},
+ {n:5,s:"2026-07-09",e:"2026-08-08",p:"Sienna Walker",r:"boots.com",f:"VIDEO",t:"",b:"the secret to always looking tan and glowy!🤎✨ @stmoriz #stmoriz ad"},
+ {n:5,s:"2026-07-09",e:"2026-08-08",p:"tallulahmetcalfe_",r:"boots.com",f:"VIDEO",t:"",b:"AD My instant confidence boost 🫶🏼 @stmoriz #stmoriz"},
+ {n:5,s:"2026-07-09",e:"2026-08-08",p:"D JONES",r:"boots.com",f:"VIDEO",t:"",b:"This is going to be your heatwave essential… 👀🥵☀️ @stmoriz Tinted face sunscreen gives you a weightless natural looking glow whilst keeping you protected"},
+ {n:5,s:"2026-06-12",e:"2026-07-11",p:"Sienna Walker",r:"boots.com",f:"VIDEO",t:"",b:"My go-to glowy beach GRWM 🌊✨ obsessed with this glow from @stmoriz 🤍 #ad #stmoriz #glowgetit #grwm #glowyskin"},
+ {n:5,s:"2026-06-12",e:"2026-07-11",p:"St. Moriz",r:"boots.com",f:"VIDEO",t:"",b:"My long awaited tanning routine! All from @stmoriz 🤎 #stmoriz #glowgetit #spf #ad"},
+ {n:5,s:"2025-11-28",e:"2025-12-11",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Buy one get one half price 😍",b:"We can all relate right? Tis the season to find that glow! Whether its for you or as a gift, St. Moriz has got you!"},
+ {n:5,s:"2025-09-02",e:"2025-11-03",p:"St. Moriz",r:"amazon.co.uk",f:"VIDEO",t:"Shop now at Amazon ✨",b:"Almost love this St. Moriz Fast Tan as much as my love for oxtail 😋"},
+ {n:5,s:"2026-07-01",e:"2026-07-31",p:"St. Moriz",r:"boots.com",f:"VIDEO",t:"Shop now at Boots 💫",b:"How the girls are GLOWING with St. Moriz 🌞 this tanning routine will make you look 👩‍🍳💋"},
+ {n:5,s:"2025-07-18",e:"2025-10-18",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Shop now at Superdrug ✨",b:"My morning routine with St. Moriz! Nothing beats the feeling of a fresh tan, especially when it's this quick 🤩"},
+ {n:5,s:"2025-08-06",e:"2025-11-02",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Shop now at Superdrug ✨",b:"Glowy, bronzed & protected ☀️🍓🥝⛱️ using my St. Moriz holiday make up must-haves"},
+ {n:4,s:"2026-02-04",e:"2026-03-06",p:"St. Moriz",r:"boots.com",f:"VIDEO",t:"Shop now at Boots 🛍️",b:"Our Advanced Bronze Shimmer Self-Tan has just launched in Boots ✨ Get that instant glow whilst a gradual tan develops underneath 😍"},
+ {n:4,s:"2026-02-10",e:"2026-03-12",p:"St. Moriz",r:"boots.com",f:"VIDEO",t:"NEW at Boots 😍",b:"Our Glow Cream Bronzer has just launched in Boots ✨ A perfect addition to your everyday makeup routine ❤️ It has Hyaluronic Acid, Vitamin E & Aloe Vera to nourish, hydrate and protect your skin."},
+ {n:4,s:"2025-12-14",e:"2026-02-02",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Save 1/3 at Superdrug ✨",b:"It's officially party season 🪩✨ And let's be honest… the only tan I'm getting this winter is from a bottle 😂🎄 Using St. Moriz to stay bronzed and glowy all through Christmas"},
+ {n:4,s:"2025-08-22",e:"2025-09-21",p:"St. Moriz",r:"boots.com",f:"VIDEO",t:"Shop at Boots 💖",b:"My go-to body oil ✨"},
+ {n:4,s:"2026-07-01",e:"2026-07-31",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Shop now at Superdrug",b:"We are totally here for this summer glow routine ✨☀️"},
+ {n:4,s:"2026-02-12",e:"2026-03-14",p:"St. Moriz",r:"boots.com",f:"VIDEO",t:"Shop now at Boots ❤️",b:"Zero Tan 100% Glow ✨ Our new Glow Cream Bronzer gives an instant bronzed, sun-kissed look without the commitment!"},
+ {n:4,s:"2025-12-16",e:"2026-01-16",p:"St. Moriz",r:"vm.tiktok.com",f:"VIDEO",t:"NEW Bronze Shimmer Self Tan ✨",b:"THE SECRET IS FINALLY OUT ✨ St. Moriz NEW Bronze Shimmer Self Tan! She gradual develops leaving you with the perfect bronzing effect 🤎"},
+ {n:4,s:"2025-08-18",e:"2025-10-16",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Shop at Superdrug ✨",b:"My glowy no makeup look ☁️🥒"},
+ {n:4,s:"2025-10-24",e:"2025-11-10",p:"St. Moriz",r:"boots.com",f:"VIDEO",t:"Exclusive to Boots ✨",b:"Multitask your way to GLOWY skin!😍 Mix 1 pump of Moisturiser 💧 with 1 pump of Tanning Drops 💫 for the perfect buildable face tan 🤩 Infused with Hyaluronic Acid 🫧"},
+ {n:3,s:"2025-08-18",e:"2025-08-31",p:"St. Moriz",r:"superdrug.com",f:"VIDEO",t:"Available at Superdrug & Amazon ☀️",b:"Ready for the summer with the St. Moriz suncare range"}
+];
+
+const MONTHLY = [
+ ["Jul 25",0,10,0],["Aug 25",9,27,0],["Sep 25",0,0,5],["Oct 25",12,8,0],["Nov 25",0,15,0],
+ ["Dec 25",0,8,4],["Jan 26",0,0,0],["Feb 26",12,0,0],["Mar 26",12,0,0],["Apr 26",4,4,0],
+ ["May 26",12,0,0],["Jun 26",15,10,0],["Jul 26",36,16,0]
+];
+
+// tabs
+document.getElementById('tabs').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on', x===b));
+  document.querySelectorAll('section.panel').forEach(s=>s.classList.toggle('on', s.id===b.dataset.p));
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+// monthly chart
+(function(){
+  const max = Math.max(...MONTHLY.map(m=>m[1]+m[2]+m[3]));
+  document.getElementById('chartMonthly').innerHTML = MONTHLY.map(m=>{
+    const tot = m[1]+m[2]+m[3];
+    const h = tot===0 ? 0 : Math.max(6, Math.round(tot/max*200));
+    const seg = (v,c)=> v? `<span style="height:${Math.round(v/tot*100)}%;background:${c}"></span>`:'';
+    return `<div class="col">
+      <div class="val">${tot||''}</div>
+      <div class="stack" style="height:${h}px">
+        ${seg(m[1],'var(--boots)')}${seg(m[2],'var(--sdrug)')}${seg(m[3],'var(--amz)')}
+      </div>
+      <div class="lab">${m[0]}</div></div>`;
+  }).join('');
+})();
+
+// creative table
+const tb = document.getElementById('tbodyCreative');
+const esc = s => s.replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function render(){
+  const fr = fRetail.value, ft = fType.value, fy = fYear.value, q = fSearch.value.toLowerCase().trim();
+  const rows = CREATIVES.filter(c=>{
+    if(fr && !c.r.includes(fr)) return false;
+    if(fy && !c.s.startsWith(fy)) return false;
+    if(ft==='dco' && c.f!=='DCO') return false;
+    if(ft==='creator' && c.p==='St. Moriz') return false;
+    if(ft==='brand' && c.p!=='St. Moriz') return false;
+    if(q && !(c.b+' '+c.t).toLowerCase().includes(q)) return false;
+    return true;
+  }).sort((a,b)=>b.n-a.n);
+  cCount.textContent = rows.length + ' of ' + CREATIVES.length + ' creatives · ' +
+    rows.reduce((s,c)=>s+c.n,0) + ' ad instances';
+  tb.innerHTML = rows.map(c=>{
+    const live = !c.e;
+    const tags = [
+      c.p!=='St. Moriz' ? `<span class="tag creator">${esc(c.p)}</span>` : '',
+      c.f==='DCO' ? `<span class="tag dco">Catalogue</span>` : '',
+      live ? `<span class="tag live">Live</span>` : ''
+    ].join('');
+    return `<tr>
+      <td class="num mono"><b style="font-size:22px">${c.n}</b></td>
+      <td class="mono" style="font-size:16px;color:var(--sec)">${c.s} →<br>${c.e||'<b style="color:#1e5230">running</b>'}</td>
+      <td>${tags||'<span class="tag">Brand page</span>'}</td>
+      <td style="font-size:16px">${esc(c.r)}</td>
+      <td class="copy">${c.t?`<span class="t">${esc(c.t)}</span>`:''}${esc(c.b)}</td>
+    </tr>`;
+  }).join('');
+}
+['fRetail','fType','fYear','fSearch'].forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener(id==='fSearch'?'input':'change', render);
+});
+render();
+</script>
+</body>
+</html>

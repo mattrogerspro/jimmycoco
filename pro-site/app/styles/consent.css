@@ -1,6 +1,6 @@
 .cc-root{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:flex;justify-content:center;padding:clamp(12px,2vw,24px);pointer-events:none}
-.cc-panel{pointer-events:auto;width:min(100%,940px);background:#14100D;color:#EDE4D7;border:1px solid rgba(201,149,103,.34);border-radius:12px;box-shadow:0 26px 70px rgba(12,9,7,.5);padding:clamp(20px,2.4vw,30px);font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:16.5px;line-height:1.55}
-.cc-copy h2{margin:0 0 8px;font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(22px,2.2vw,28px);color:#FFFDF9}
+.cc-panel{pointer-events:auto;width:min(100%,940px);background:#14100D;color:#EDE4D7;border:1px solid rgba(201,149,103,.34);border-radius:12px;box-shadow:0 26px 70px rgba(12,9,7,.5);padding:clamp(20px,2.4vw,30px);font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:16.5px;line-height:1.55}
+.cc-copy h2{margin:0 0 8px;font-family:'Walbaum',Georgia,serif;font-weight:400;font-size:clamp(22px,2.2vw,28px);color:#FFFDF9}
 .cc-copy p{margin:0;color:#C4B8A9;max-width:70ch}
 .cc-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:20px}
 .cc-btn{border:1px solid rgba(237,228,215,.34);background:transparent;color:#EDE4D7;border-radius:6px;padding:14px 24px;font:inherit;font-size:15px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}

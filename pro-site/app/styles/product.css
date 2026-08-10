@@ -1,12 +1,12 @@
 :root{--cream:#F6F1EA;--paper:#FDFBF8;--ink:#191512;--ink2:#3A332C;--muted:#665E54;--bronze:#98603A;--bronze2:#87542E;--gold:#C99567;--line:#E7DFD4;--dark:#14100D;--shadow:0 20px 50px rgba(25,21,18,.10);--nav-height:74px}
   *{box-sizing:border-box;margin:0}
   html{scroll-behavior:smooth}
-  body{background:var(--paper);color:var(--ink2);font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:88px}
+  body{background:var(--paper);color:var(--ink2);font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:88px}
   img{display:block;max-width:100%;height:auto}
   a{color:inherit}
   .wrap{max-width:min(90vw,1900px);margin:0 auto;padding:0 24px}
   .eyebrow{font-size:17px;letter-spacing:.26em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:16px}
-  h2{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(34px,4.4vw,52px);line-height:1.08;color:var(--ink);letter-spacing:-.01em;margin-bottom:16px}
+  h2{font-family:'Walbaum',Georgia,serif;font-weight:400;font-size:clamp(34px,4.4vw,52px);line-height:1.08;color:var(--ink);letter-spacing:-.01em;margin-bottom:16px}
   h2 em{font-style:italic;color:var(--bronze2)}
   .sub{font-size:22px;color:var(--muted);max-width:720px}
   section{padding:80px 0}
@@ -15,8 +15,8 @@
   /* Scoped to the site header — see the note in home.css. */
   header.site-header{position:sticky;top:0;z-index:50;background:rgba(253,251,248,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .nav{display:flex;align-items:center;gap:28px;height:74px}
-  .logo{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:26px;letter-spacing:.16em;background:linear-gradient(100deg,#C99567,#8F5B33 60%,#C99567);-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none;line-height:1}
-  .logo small{display:block;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.4em;color:var(--ink2);-webkit-text-fill-color:var(--ink2);margin-top:3px;font-weight:500}
+  .logo{font-family:'Walbaum',Georgia,serif;font-weight:500;font-size:26px;letter-spacing:.16em;background:linear-gradient(100deg,#C99567,#8F5B33 60%,#C99567);-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none;line-height:1}
+  .logo small{display:block;font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:.4em;color:var(--ink2);-webkit-text-fill-color:var(--ink2);margin-top:3px;font-weight:500}
   .protag{font-size:11px;letter-spacing:.3em;color:var(--bronze);border:1px solid var(--line);border-radius:3px;padding:4px 9px;text-transform:uppercase;font-weight:600}
   .nav-links{display:flex;gap:24px;margin-left:auto;font-size:16px;font-weight:500}
   .nav-links a{text-decoration:none;color:var(--ink2)}
@@ -44,13 +44,13 @@
   .buybox{height:100%;min-height:0;display:flex;flex-direction:column;justify-content:space-between;gap:clamp(10px,1.15svh,18px);padding:2px 0}
   .product-heading{display:grid;gap:5px}
   .bb-eyebrow{font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:12px}
-  h1{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(36px,3.2vw,52px);line-height:1.04;color:var(--ink);letter-spacing:-.01em;margin-bottom:4px}
+  h1{font-family:'Walbaum',Georgia,serif;font-weight:400;font-size:clamp(36px,3.2vw,52px);line-height:1.04;color:var(--ink);letter-spacing:-.01em;margin-bottom:4px}
   .rating-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:15.5px;color:var(--muted)}
   .stars{color:var(--bronze);letter-spacing:2px;font-size:18px}
   .price-block{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(9px,1.1svh,15px) 0}
   .price-row{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
-  .price-big{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:44px;color:var(--ink);letter-spacing:-.03em}
-  .price-big small{font-size:19px;color:var(--muted);font-family:'Jost',sans-serif}
+  .price-big{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:44px;color:var(--ink);letter-spacing:-.03em}
+  .price-big small{font-size:19px;color:var(--muted);font-family:'Montserrat',sans-serif}
   .pertan{background:var(--cream);border:1px solid var(--line);color:var(--bronze2);border-radius:999px;padding:8px 18px;font-size:16px;font-weight:600}
   .price-block>p{font-size:14px;color:var(--muted);margin-top:2px}
   .purchase-control{display:grid;gap:7px}
@@ -77,7 +77,7 @@
   .maths>div:first-child{padding-left:0;border-left:0}
   .maths>div:last-child{padding-right:0}
   .maths div span{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#C9BCAB;margin-bottom:1px}
-  .maths div b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:clamp(29px,2vw,35px);color:#FFFDF9;letter-spacing:-.035em;line-height:1.15}
+  .maths div b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:clamp(29px,2vw,35px);color:#FFFDF9;letter-spacing:-.035em;line-height:1.15}
   .maths div:nth-child(3) b{font-size:clamp(26px,1.75vw,32px);white-space:nowrap}
   .maths div small{display:block;font-size:12px;color:#AFA397;margin-top:0}
   .maths a{color:var(--gold);font-weight:600;text-underline-offset:3px}
@@ -101,13 +101,13 @@
   .jtip{background:var(--paper);border-left:3px solid var(--bronze);border-radius:0 8px 8px 0;padding:24px 28px;margin-top:26px}
   .jtip b{display:block;font-size:13.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze2);margin-bottom:9px}
   .jtip p{font-size:18px;color:var(--ink2);margin:0}
-  .sig{font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:32px;color:var(--bronze2);margin-top:20px}
-  .sig small{display:block;font-family:'Jost',sans-serif;font-style:normal;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+  .sig{font-family:'Walbaum',Georgia,serif;font-style:italic;font-size:32px;color:var(--bronze2);margin-top:20px}
+  .sig small{display:block;font-family:'Montserrat',sans-serif;font-style:normal;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:5px}
   /* results */
   .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:44px}
   .res-card{background:var(--cream);border-radius:10px;padding:32px 32px 28px;position:relative}
-  .res-card:before{content:"”";font-family:'Fraunces',Georgia,serif;font-size:90px;line-height:.5;color:var(--gold);position:absolute;top:38px;right:28px;opacity:.45}
-  .res-card p{font-family:'Fraunces',Georgia,serif;font-size:23px;line-height:1.4;color:var(--ink);margin-bottom:16px;padding-right:30px}
+  .res-card:before{content:"”";font-family:'Walbaum',Georgia,serif;font-size:90px;line-height:.5;color:var(--gold);position:absolute;top:38px;right:28px;opacity:.45}
+  .res-card p{font-family:'Walbaum',Georgia,serif;font-size:23px;line-height:1.4;color:var(--ink);margin-bottom:16px;padding-right:30px}
   .res-card b{font-size:16px;color:var(--ink2)}
   .res-card .stars{font-size:15px;display:block;margin-top:5px}
   .res-note{font-size:14px;color:var(--muted);margin-top:18px;text-align:center}
@@ -118,7 +118,7 @@
   .pop-tag{position:absolute;top:-13px;left:24px;background:var(--bronze);color:#FFFDF9;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;border-radius:3px;padding:5px 12px}
   .cmp-card i{display:block;width:44px;height:44px;border-radius:50%;border:3px solid #FFFDF9;box-shadow:0 3px 9px rgba(25,21,18,.3);margin-bottom:16px}
   .cmp-card.c1 i{background:#E4B98C}.cmp-card.c2 i{background:#C98F5C}.cmp-card.c3 i{background:#9C6432}.cmp-card.c4 i{background:#71431E}
-  .cmp-card h3{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:25px;color:var(--ink);margin-bottom:14px}
+  .cmp-card h3{font-family:'Walbaum',Georgia,serif;font-weight:500;font-size:25px;color:var(--ink);margin-bottom:14px}
   .cmp-card dl{margin:0 0 20px;flex:1}
   .cmp-card dt{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--bronze2);font-weight:600;margin-top:12px}
   .cmp-card dd{margin:2px 0 0;font-size:16.5px;color:var(--ink2)}
@@ -130,9 +130,9 @@
   .xs-card .xi{background:#F3EDE4;padding:28px}
   .xs-card .xi img{aspect-ratio:1/1;object-fit:contain;width:100%}
   .xs-card div.xb{padding:24px 28px 28px}
-  .xs-card h3{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:25px;color:var(--ink);margin-bottom:6px}
+  .xs-card h3{font-family:'Walbaum',Georgia,serif;font-weight:500;font-size:25px;color:var(--ink);margin-bottom:6px}
   .xs-card p{font-size:16.5px;color:var(--muted);margin-bottom:10px}
-  .xs-card b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:20px;color:var(--ink);font-weight:600}
+  .xs-card b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:20px;color:var(--ink);font-weight:600}
   /* accordions */
   details.acc{border-bottom:1px solid var(--line)}
   details.acc summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:22px 4px;font-size:20px;font-weight:600;color:var(--ink)}
@@ -144,7 +144,7 @@
   .spec-table th,.spec-table td{text-align:left;padding:14px 4px;border-bottom:1px solid var(--line);font-size:17px;vertical-align:top}
   .spec-table th{width:38%;font-weight:600;color:var(--ink)}
   .spec-table td{color:var(--muted)}
-  .spec-sub{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:26px;margin:46px 0 16px}
+  .spec-sub{font-family:'Walbaum',Georgia,serif;font-weight:400;font-size:26px;margin:46px 0 16px}
   .spec-worked{max-width:900px}
   .spec-worked p{font-size:17.5px;line-height:1.7;color:var(--muted);margin:0 0 14px;padding-left:18px;border-left:2px solid var(--gold)}
   .spec-worked b{color:var(--ink)}
@@ -170,10 +170,10 @@
   .oline{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(237,228,215,.12);font-size:18px;color:#EDE4D7}
   .oline b{color:#FFFDF9}
   .oline.total{border-bottom:0;font-size:22px;padding-top:18px}
-  .oline.total b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:28px;font-weight:600}
+  .oline.total b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:28px;font-weight:600}
   .onote{font-size:15.5px;color:#8F857A;margin-top:16px;line-height:1.55}
   .orderform{background:var(--paper);border-radius:10px;padding:36px 38px;box-shadow:0 34px 90px rgba(0,0,0,.55)}
-  .orderform h3{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:29px;color:var(--ink);margin-bottom:4px}
+  .orderform h3{font-family:'Walbaum',Georgia,serif;font-weight:500;font-size:29px;color:var(--ink);margin-bottom:4px}
   .orderform > p{font-size:17px;color:var(--muted);margin-bottom:20px}
   .orderform label{display:block;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--bronze2);font-weight:600;margin:0 0 6px}
   .orderform input,.orderform select,.orderform textarea{width:100%;border:1.5px solid var(--line);border-radius:4px;padding:15px 17px;font-family:inherit;font-size:17.5px;background:var(--paper);margin-bottom:16px;color:var(--ink2)}
@@ -239,7 +239,7 @@
   .sticky-order .wrap{display:flex;align-items:center;gap:20px}
   .so-name{color:#FFFDF9;font-size:17px;font-weight:500;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .so-name small{display:block;color:#B7AB9B;font-size:13.5px;font-weight:400}
-  .so-price{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:600;color:#FFFDF9;font-size:24px;white-space:nowrap}
+  .so-price{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:600;color:#FFFDF9;font-size:24px;white-space:nowrap}
   .sticky-order .btn{padding:15px 30px;font-size:14px}
   @media (max-width:980px){
     section{padding:56px 0}
@@ -294,9 +294,10 @@
 
   @media (max-width:1560px){ .protag{display:none} }
   @media (max-width:1440px){ .nav{gap:20px} .nav-links{gap:clamp(12px,1.3vw,18px);font-size:15px} }
-  @media (max-width:1180px){ .nav{gap:14px} .nav-links{gap:11px;font-size:14px} .nav .btn-sm{padding:12px 16px;font-size:12px} }
-  /* Links hide at 900px, so 901–979px still had to fit all six plus the order
-     button. One more tightening step instead of a sideways scroll. */
-  @media (max-width:1000px){ .nav{gap:10px} .nav-links{gap:8px;font-size:12.5px} .nav .btn-sm{padding:10px 11px;font-size:10.5px} }
+  /* Montserrat sets wider than Jost, so each rung is a step tighter. Links hide
+     at 900px, so the band down to 901px must fit all six plus the button. */
+  @media (max-width:1180px){ .nav{gap:12px} .nav-links{gap:10px;font-size:13px} .nav .btn-sm{padding:11px 13px;font-size:11px} }
+  @media (max-width:1000px){ .nav{gap:10px} .nav-links{gap:8px;font-size:12px} .nav .btn-sm{padding:10px 11px;font-size:10.5px} }
+  @media (max-width:940px){ .nav{gap:8px} .nav-links{gap:7px;font-size:11px} .nav .btn-sm{padding:9px 10px;font-size:10px} }
   .wrap{min-width:0}
   .btn{max-width:100%}

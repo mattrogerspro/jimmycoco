@@ -29,7 +29,16 @@ export function Hero() {
           <div className="hero-ctas"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order Malibu 1L — £60</Link><a className="btn btn-ghost" href="#trial">Request a free trial</a><a className="hero-profit-link" href="#calculator">Calculate your salon profits →</a></div>
         </div>
         <HeroBottle /></div>
-        <div className="hero-img"><img src="/img/hero-1100.webp" srcSet="/img/hero-560.webp 560w, /img/hero-760.webp 760w, /img/hero-1100.webp 1100w" sizes="(max-width: 900px) 100vw, 50vw" alt="Professional model holding the Sunless by Jimmy Coco spray tan" width="1100" height="1213" fetchPriority="high" /></div>
+        {/* The headline over this photo used to be burnt into the raster, which
+            meant one fixed line-break for every screen and nothing for search or
+            screen readers. It is live text now. */}
+        <div className="hero-img">
+          <img src="/img/hero-kk-996.webp" srcSet="/img/hero-kk-560.webp 560w, /img/hero-kk-760.webp 760w, /img/hero-kk-996.webp 996w" sizes="(max-width: 900px) 100vw, 34vw" alt="Professional model with a Sunless by Jimmy Coco spray tan" width="996" height="1270" fetchPriority="high" />
+          <div className="hero-overlay">
+            <p className="ho-head">Glow like<br />a Kardashian</p>
+            <p className="ho-sub">Hollywood&rsquo;s sunless tan experts<br />Professional tan formula</p>
+          </div>
+        </div>
       </section>
       <div className="metrics"><div className="metrics-inner">
         <div className="metric"><DropIcon /><div><b>35<small>ml</small></b><span>Ideal application</span></div></div>

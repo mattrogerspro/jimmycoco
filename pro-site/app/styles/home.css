@@ -5,12 +5,12 @@
   }
   *{box-sizing:border-box;margin:0}
   html{scroll-behavior:smooth}
-  body{background:var(--paper);color:var(--ink2);font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:21px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  body{background:var(--paper);color:var(--ink2);font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:21px;line-height:1.65;-webkit-font-smoothing:antialiased}
   img{display:block;max-width:100%;height:auto}
   a{color:inherit}
   .wrap{max-width:min(90vw,1900px);margin:0 auto;padding:0 24px}
   .eyebrow{font-size:17px;letter-spacing:.26em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:18px}
-  h2{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(36px,4.8vw,56px);line-height:1.08;color:var(--ink);letter-spacing:-.01em;margin-bottom:18px}
+  h2{font-family:'Walbaum',Georgia,serif;font-weight:400;font-size:clamp(36px,4.8vw,56px);line-height:1.08;color:var(--ink);letter-spacing:-.01em;margin-bottom:18px}
   .sub{font-size:23px;color:var(--muted);max-width:720px}
   section{padding:88px 0}
   .announce{background:var(--dark);color:#EDE4D7;text-align:center;font-size:14px;letter-spacing:.16em;text-transform:uppercase;padding:11px 14px}
@@ -20,8 +20,8 @@
      was inheriting position:sticky and pinning itself over the calculator. */
   header.site-header{position:sticky;top:0;z-index:50;background:rgba(253,251,248,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .nav{display:flex;align-items:center;gap:30px;height:74px}
-  .logo{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:27px;letter-spacing:.16em;background:linear-gradient(100deg,#C99567,#8F5B33 60%,#C99567);-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none;line-height:1}
-  .logo small{display:block;font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.4em;color:var(--ink2);-webkit-text-fill-color:var(--ink2);margin-top:3px;font-weight:500}
+  .logo{font-family:'Walbaum',Georgia,serif;font-weight:500;font-size:27px;letter-spacing:.16em;background:linear-gradient(100deg,#C99567,#8F5B33 60%,#C99567);-webkit-background-clip:text;background-clip:text;color:transparent;text-decoration:none;line-height:1}
+  .logo small{display:block;font-family:'Montserrat',sans-serif;font-size:9.5px;letter-spacing:.4em;color:var(--ink2);-webkit-text-fill-color:var(--ink2);margin-top:3px;font-weight:500}
   .protag{font-size:11.5px;letter-spacing:.3em;color:var(--bronze);border:1px solid rgba(152,96,58,.42);border-radius:3px;padding:4px 9px;text-transform:uppercase;font-weight:600}
   .nav-links{display:flex;gap:clamp(14px,1.7vw,26px);margin-left:auto;font-size:16px;letter-spacing:.05em;font-weight:500;flex-wrap:nowrap}
   .nav-links a{white-space:nowrap}
@@ -51,7 +51,7 @@
               align-items:center;min-height:100%;height:100%}
   /* Column 1 of the shared 3-up grid. */
   .hero-copy{grid-column:1;padding:0 24px 0 0;position:relative;z-index:2;min-width:0}
-  h1{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(46px,5vw,94px);line-height:1.02;color:var(--ink);letter-spacing:-.02em;margin-bottom:34px}
+  h1{font-family:'Walbaum',Georgia,serif;font-weight:400;font-size:clamp(46px,5vw,94px);line-height:1.02;color:var(--ink);letter-spacing:-.02em;margin-bottom:34px}
   h1 em{font-style:italic;color:var(--bronze2)}
   h2 em{font-style:italic;color:var(--bronze2)}
   .hero-stats{display:flex;margin-bottom:40px;max-width:640px}
@@ -66,9 +66,10 @@
      mobile rules below; the query keeps them off the stacked layout entirely. */
   @media (min-width:901px){
     .hero-copy .eyebrow{font-size:clamp(11px,.86vw,15px);letter-spacing:.2em;margin-bottom:14px;line-height:1.5}
-    /* 3.3vw ≈ 11.5% of the column — the largest size that still keeps
-       "clients ask for." on one line at every width from 1200 to 2560. */
-    .hero-copy h1{font-size:clamp(33px,3.3vw,70px);margin-bottom:22px}
+    /* 2.95vw ≈ 10.3% of the column — the largest size that still keeps
+       "clients ask for." on one line at every width from 1200 to 2560. Walbaum
+       sets about 12% wider than Fraunces did, so this dropped from 3.3vw. */
+    .hero-copy h1{font-size:clamp(30px,2.95vw,64px);margin-bottom:22px}
     .hero-copy .hero-stats{margin-bottom:24px;max-width:none}
     .hero-copy .hero-stats div{padding:0 12px;font-size:clamp(12px,.86vw,15px);line-height:1.45}
     .hero-copy .hero-ctas{gap:10px 12px}
@@ -92,27 +93,48 @@
   /* Starts exactly on the column-3 boundary, still bleeds to the viewport edge. */
   .hero-img{position:absolute;top:0;bottom:0;right:0;left:calc(var(--edge) + var(--col)*2);width:auto;z-index:1}
   .hero-img img{width:100%;height:100%;object-fit:cover;object-position:center top}
+  /* Live text over the photo. The old artwork had this burnt in, which meant one
+     fixed line-break for every screen size and nothing for search or a screen
+     reader. Sized in cqw so it tracks the photo's own box rather than the
+     viewport — the photo is ~35vw at desktop but full-bleed under 900px. */
+  .hero-img{container-type:size;container-name:heroimg}
+  .hero-overlay{position:absolute;inset:auto 0 0 0;z-index:2;text-align:center;
+                padding:0 6% clamp(16px,6cqh,52px);color:#FFFDF9;pointer-events:none;
+                background:linear-gradient(to top,rgba(20,16,13,.60) 0%,rgba(20,16,13,.40) 42%,rgba(20,16,13,.10) 74%,transparent 100%)}
+  /* 10.5cqw keeps "a Kardashian" on one line at every width — measured against
+     the real Walbaum metrics, which top out at 11.4cqw before it breaks. */
+  .ho-head{font-family:'Walbaum',Georgia,serif;font-weight:400;text-transform:uppercase;
+           font-size:clamp(22px,10.5cqw,96px);line-height:1.06;letter-spacing:.005em;
+           margin:0 0 clamp(9px,2cqw,20px);
+           text-shadow:0 2px 18px rgba(20,16,13,.42)}
+  .ho-sub{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:400;
+          text-transform:uppercase;font-size:clamp(10px,3.15cqw,23px);line-height:1.5;
+          letter-spacing:.1em;margin:0;color:#F4EDE4;
+          text-shadow:0 1px 10px rgba(20,16,13,.5)}
   /* metrics strip */
   .metrics{background:#E9DDCB;border-top:1px solid rgba(176,118,74,.22);flex:none}
   .metrics-inner{max-width:var(--wrap);margin:0 auto;padding:0 var(--pad);display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
   .metric{display:flex;align-items:center;justify-content:center;gap:26px;padding:40px 20px;border-left:1px solid rgba(176,118,74,.3)}
   .metric:first-child{border-left:0}
   .metric svg{width:66px;height:66px;flex:none;stroke:var(--bronze);fill:none;stroke-width:1.25}
-  .metric b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:clamp(42px,3.4vw,66px);color:var(--ink);line-height:1;display:block;letter-spacing:-.03em}
-  .metric b small{font-size:.5em;color:var(--muted);font-family:'Jost',sans-serif;margin-left:5px;letter-spacing:.02em}
+  .metric b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:clamp(42px,3.4vw,66px);color:var(--ink);line-height:1;display:block;letter-spacing:-.03em}
+  .metric b small{font-size:.5em;color:var(--muted);font-family:'Montserrat',sans-serif;margin-left:5px;letter-spacing:.02em}
   .metric span{display:block;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#7F4E2A;margin-top:8px;font-weight:600}
   /* benefits bar */
   .benefits{background:var(--dark);padding:19px 0;flex:none}
   .benefits .wrap{display:flex;justify-content:center;align-items:center;flex-wrap:wrap}
-  .benefits span{color:#C9BCAB;font-size:14px;letter-spacing:.22em;text-transform:uppercase;padding:2px 34px;border-left:1px solid rgba(201,149,103,.3);line-height:1.5}
+  /* Five items on one rule line. Montserrat needs ~1300px at the old fixed
+     14px/34px, which broke the bar onto two lines on everything under 1600 —
+     fluid type and padding keep it single-line down to about 1000px. */
+  .benefits span{color:#C9BCAB;font-size:clamp(10px,.95vw,14px);letter-spacing:clamp(.12em,.16vw,.22em);text-transform:uppercase;padding:2px clamp(8px,1.6vw,34px);border-left:1px solid rgba(201,149,103,.3);line-height:1.5}
   .benefits span:first-child{border-left:0}
   /* story */
   .story-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:center}
   .story-grid img{border-radius:6px;box-shadow:var(--shadow)}
-  blockquote.big{font-family:'Fraunces',Georgia,serif;font-size:clamp(31px,4vw,47px);line-height:1.18;color:var(--ink);margin-bottom:22px}
+  blockquote.big{font-family:'Walbaum',Georgia,serif;font-size:clamp(31px,4vw,47px);line-height:1.18;color:var(--ink);margin-bottom:22px}
   blockquote.big em{color:var(--bronze2);font-style:italic}
-  .sig{font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:34px;color:var(--bronze2);margin-top:26px}
-  .sig small{display:block;font-family:'Jost',sans-serif;font-style:normal;font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+  .sig{font-family:'Walbaum',Georgia,serif;font-style:italic;font-size:34px;color:var(--bronze2);margin-top:26px}
+  .sig small{display:block;font-family:'Montserrat',sans-serif;font-style:normal;font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:6px}
   /* credentials list (Jimmy Coco sections) */
   .creds{list-style:none;margin:clamp(18px,2vw,28px) 0 clamp(20px,2.2vw,30px);padding:clamp(16px,1.8vw,24px) clamp(18px,2vw,28px);display:flex;flex-direction:column;gap:clamp(10px,1.1vw,16px);background:var(--cream);border-radius:6px}
   .creds li{display:flex;align-items:center;gap:clamp(12px,1.3vw,20px)}
@@ -128,20 +150,22 @@
   .fx-rail{display:flex;flex-direction:column;align-items:center;gap:24px;padding:8px 0}
   .fx-line{flex:0 0 90px;width:1px;background:var(--ink2);opacity:.35}
   .fx-vert{writing-mode:vertical-rl;transform:rotate(180deg);font-size:13px;letter-spacing:.5em;text-transform:uppercase;color:var(--ink2);font-weight:500}
-  .fx-jc{margin-top:auto;font-family:'Fraunces',Georgia,serif;font-size:36px;color:var(--gold);line-height:1}
+  .fx-jc{margin-top:auto;font-family:'Walbaum',Georgia,serif;font-size:36px;color:var(--gold);line-height:1}
   .fx-copy{padding-top:8px}
   .fx-copy .eyebrow{font-size:clamp(13px,1vw,17px);font-weight:700;letter-spacing:.2em;margin-bottom:14px}
   @media (min-width:1800px){.fx-copy .eyebrow{white-space:nowrap;font-size:18px}}
   .fx-h{font-size:clamp(43px,4vw,72px);line-height:.98;margin-bottom:19px;font-weight:500}
   .fx-rule{display:block;width:52px;height:2px;background:var(--bronze);margin:0 0 18px}
   .fx-lead{font-size:clamp(16px,1.25vw,21px);line-height:1.48;color:var(--ink);font-weight:600;margin-bottom:22px}
-  .fx-qmark{font-family:'Fraunces',Georgia,serif;font-size:58px;line-height:.5;color:var(--bronze);display:block;margin-bottom:12px}
-  .fx-quote p{font-family:'Fraunces',Georgia,serif;font-size:clamp(17px,1.3vw,22px);line-height:1.35;color:var(--ink);max-width:320px;margin-bottom:9px}
+  .fx-qmark{font-family:'Walbaum',Georgia,serif;font-size:58px;line-height:.5;color:var(--bronze);display:block;margin-bottom:12px}
+  .fx-quote p{font-family:'Walbaum',Georgia,serif;font-size:clamp(17px,1.3vw,22px);line-height:1.35;color:var(--ink);max-width:320px;margin-bottom:9px}
   .fx-quote small{font-size:13px;color:var(--muted)}
   .fx-stat{position:relative;display:flex;align-items:flex-end;justify-content:center;min-height:0;height:100%}
   .fx-badge{width:clamp(160px,13vw,220px);aspect-ratio:1;margin-bottom:32px;border:1px solid rgba(255,253,249,.85);border-radius:50%;background:rgba(20,16,13,.58);backdrop-filter:blur(3px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#FFFDF9;padding:9%;text-shadow:0 1px 12px rgba(20,16,13,.45)}
-  .fx-badge b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:clamp(34px,2.5vw,45px);margin-bottom:7px;letter-spacing:-.03em}
-  .fx-badge span{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;line-height:1.65;font-weight:500}
+  .fx-badge b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:clamp(34px,2.5vw,45px);margin-bottom:7px;letter-spacing:-.03em}
+  /* Tighter tracking than the other captions: this one is set inside a circle,
+     where every extra line box eats the width it has to fit into. */
+  .fx-badge span{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;line-height:1.5;font-weight:500}
   .fx-note{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;width:max-content;max-width:calc(100% - 20px);text-align:center;font-size:10px;color:#FFFDF9;letter-spacing:.04em;background:#191410;border-radius:999px;padding:4px 12px}
   .fx-feats{display:flex;flex-direction:column;justify-content:center}
   .fx-feat{padding:clamp(9px,1.5vh,18px) 0;border-bottom:1px solid rgba(58,51,44,.18)}
@@ -187,11 +211,11 @@
   .shade:nth-child(3)::before{content:"DARK  ✦";background:#4A2D16}
   .shade-swatch{position:relative;display:block;flex:none}
   .shade img{display:block;width:100%;height:clamp(145px,22svh,220px);aspect-ratio:auto;object-fit:cover}
-  .shade-swatch b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 14px;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:clamp(27px,2.3vw,40px);letter-spacing:.04em;color:#FDF6EA;text-shadow:0 2px 14px rgba(58,34,14,.42)}
+  .shade-swatch b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 14px;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:clamp(27px,2.3vw,40px);letter-spacing:.04em;color:#FDF6EA;text-shadow:0 2px 14px rgba(58,34,14,.42)}
   .shade div{flex:1;min-height:0;padding:clamp(15px,1.45vw,24px) clamp(15px,1.35vw,22px);background:#D5B58F}
-  .shade p{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:clamp(18px,1.3vw,24px);line-height:1.2;color:#1D1712}
+  .shade p{font-family:'Walbaum',Georgia,serif;font-weight:500;font-size:clamp(18px,1.3vw,24px);line-height:1.2;color:#1D1712}
   .shade p b{color:inherit;font-weight:500}
-  .shade p::after{display:block;margin-top:15px;padding-top:14px;border-top:1px solid rgba(118,76,39,.62);font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(13px,.9vw,16px);font-weight:500;line-height:1.45;color:#292019}
+  .shade p::after{display:block;margin-top:15px;padding-top:14px;border-top:1px solid rgba(118,76,39,.62);font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:clamp(13px,.9vw,16px);font-weight:500;line-height:1.45;color:#292019}
   .shade:nth-child(1) p::after{content:"One universal formula — flattering on fair, medium and deeper skin tones alike."}
   .shade:nth-child(2) p::after{content:"Ideal for medium skin tones or clients wanting a healthy, golden bronze."}
   .shade:nth-child(3) p::after{content:"Designed for deeper skin tones or clients wanting a richer, more intense bronze."}
@@ -235,10 +259,15 @@
   .litre-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
   .lstat{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
   .lstat div{background:var(--cream);border-radius:6px;padding:20px 22px}
-  .lstat b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:32px;color:var(--ink);display:block;letter-spacing:-.02em}
+  .lstat b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:32px;color:var(--ink);display:block;letter-spacing:-.02em}
   .lstat span{font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
   /* calculator */
-  .calc{background:var(--dark);height:min(820px,calc(90svh - 74px));min-height:min(640px,calc(90svh - 74px));padding:clamp(30px,4vh,48px) 0;display:flex;align-items:center;scroll-margin-top:74px}
+  /* min-height, not height. The calculator needs 760–820px of content and the
+     fixed height gave it 617 on a 768px laptop, so the sliders and the closing
+     line fell out of the dark band and onto the section below. It still fills
+     the viewport where there is room; it just stops cutting content where
+     there isn't. */
+  .calc{background:var(--dark);min-height:min(820px,calc(90svh - 74px));padding:clamp(30px,4vh,48px) 0;display:flex;align-items:center;scroll-margin-top:74px}
   .calc > .wrap{width:100%}
   .calc-head{display:grid;grid-template-columns:.9fr 1.1fr;gap:34px;align-items:end}
   .calc .eyebrow{color:var(--gold)}
@@ -258,7 +287,7 @@
   .calc-out{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .ocard{background:rgba(253,251,248,.06);border:1px solid rgba(237,228,215,.15);border-radius:8px;padding:17px 20px}
   .ocard span{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#B7AB9B;display:block;margin-bottom:5px}
-  .ocard b{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:40px;color:#FFFDF9;line-height:1;letter-spacing:-.03em}
+  .ocard b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:40px;color:#FFFDF9;line-height:1;letter-spacing:-.03em}
   .ocard small{display:block;font-size:15.5px;color:#8F857A;margin-top:6px;line-height:1.4}
   .ocard.hero-num{grid-column:1/-1;background:linear-gradient(120deg,rgba(176,118,74,.35),rgba(176,118,74,.12));border-color:rgba(201,149,103,.4)}
   .ocard.hero-num b{font-size:58px;color:#fff}
@@ -277,7 +306,7 @@
     /* A laptop at 1280x720 leaves 358px of hero between the nav and the metrics
        strip. Take the height back from the strip and the headline rather than
        letting the copy run under the strip. */
-    .hero-copy h1{font-size:clamp(30px,min(3.3vw,4.4vh),70px);margin-bottom:16px}
+    .hero-copy h1{font-size:clamp(28px,min(2.95vw,4vh),64px);margin-bottom:16px}
     .hero-copy .hero-stats{margin-bottom:16px}
     .metric{padding:24px 18px;gap:18px}
     .metric svg{width:46px;height:46px}
@@ -300,14 +329,14 @@
   .pc-stage{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1fr);gap:clamp(8px,.9vw,16px);align-items:center}
   .pc-notes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(12px,min(2.4vw,3.4vh),42px)}
   .pc-notes li{display:flex;align-items:center;gap:clamp(6px,.6vw,10px)}
-  .pc-notes span{flex:1 1 auto;text-align:right;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(12.5px,1.06vw,19px);line-height:1.35;letter-spacing:.01em;color:#8A5730}
+  .pc-notes span{flex:1 1 auto;text-align:right;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:clamp(12.5px,1.06vw,19px);line-height:1.35;letter-spacing:.01em;color:#8A5730}
   .pc-notes i{flex:0 0 auto;width:clamp(24px,2.8vw,48px);height:3px;background-image:repeating-linear-gradient(to right,#2F3C55 0 7px,transparent 7px 12px)}
   .pc-shot{display:block;width:auto;max-width:100%;height:auto;justify-self:center;max-height:clamp(190px,min(31vw,52vh),560px);-webkit-mask-image:radial-gradient(118% 94% at 50% 50%,#000 58%,rgba(0,0,0,.35) 88%,transparent 100%);mask-image:radial-gradient(118% 94% at 50% 50%,#000 58%,rgba(0,0,0,.35) 88%,transparent 100%)}
   .pc-tile{background:#7E5C34;color:#FFF9F0;border-radius:3px;padding:clamp(14px,min(2.6vw,3.2vh),44px) clamp(12px,1.4vw,22px);text-align:center}
-  .pc-shade{margin:0;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-weight:300;font-size:clamp(20px,min(2.15vw,3.4vh),38px);line-height:1.24;letter-spacing:.01em;color:#FFF9F0}
+  .pc-shade{margin:0;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:300;font-size:clamp(20px,min(2.15vw,3.4vh),38px);line-height:1.24;letter-spacing:.01em;color:#FFF9F0}
   .pc-shade b{font-weight:700}
   .pc-tile span{display:block;margin-top:clamp(10px,min(2vw,2.2vh),34px);font-size:clamp(13px,1.05vw,18px);line-height:1.32;letter-spacing:.05em;color:#FFF9F0}
-  .pc-size{margin:clamp(10px,min(1.4vw,1.6vh),22px) 0 0;text-align:center;font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(14px,min(1.3vw,1.9vh),23px);line-height:1.5;color:#3B342C}
+  .pc-size{margin:clamp(10px,min(1.4vw,1.6vh),22px) 0 0;text-align:center;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:clamp(14px,min(1.3vw,1.9vh),23px);line-height:1.5;color:#3B342C}
   .pc-list{list-style:none;margin:clamp(6px,min(1.1vw,1.2vh),16px) 0 0;padding:0}
   .pc-list li{display:flex;align-items:center;gap:clamp(12px,1.5vw,24px);padding:clamp(7px,min(1.35vw,1.5vh),20px) 0;border-top:1px solid rgba(158,118,78,.28)}
   .pc-list li:first-child{border-top:0}
@@ -344,7 +373,7 @@
   .cert-lead{color:var(--bronze2);font-weight:600;font-size:clamp(18px,1.4vw,24px);line-height:1.35;max-width:30ch;margin-bottom:18px}
   .cert-body{font-size:clamp(14.5px,1.02vw,17.5px);line-height:1.55;color:var(--muted);max-width:62ch;margin-bottom:11px}
   .cert-lists{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,3vw,56px);margin-top:clamp(14px,1.6vw,26px);padding-right:clamp(0px,13vw,280px)}
-  .cert-lists h3{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:clamp(12px,.92vw,15px);font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:12px}
+  .cert-lists h3{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:clamp(12px,.92vw,15px);font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:12px}
   .cert-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(6px,.62vw,10px)}
   .cert-list li{display:flex;gap:11px;align-items:flex-start;font-size:clamp(14px,1.02vw,17.5px);line-height:1.38;color:var(--ink2)}
   .cert-list i{flex:0 0 auto;font-style:normal;line-height:1.35;color:var(--bronze)}
@@ -384,10 +413,10 @@
   .pcard .pimg img{aspect-ratio:1/1;object-fit:contain;width:100%}
   .pcard .pbody{padding:30px 34px 34px;display:flex;flex-direction:column;gap:11px;flex:1}
   .badge{align-self:flex-start;background:var(--bronze);color:#FFFDF9;border-radius:3px;font-size:13.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:7px 15px}
-  .pcard h3{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:33px;color:var(--ink);line-height:1.12}
+  .pcard h3{font-family:'Walbaum',Georgia,serif;font-weight:500;font-size:33px;color:var(--ink);line-height:1.12}
   .pcard .pdesc{font-size:19.5px;color:var(--ink2);flex:1;line-height:1.6}
-  .price{font-family:'Jost','Helvetica Neue',Arial,sans-serif;font-size:24px;color:var(--ink);font-weight:600}
-  .price span{font-family:'Jost',sans-serif;color:var(--muted);font-weight:400;font-size:17px}
+  .price{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:24px;color:var(--ink);font-weight:600}
+  .price span{font-family:'Montserrat',sans-serif;color:var(--muted);font-weight:400;font-size:17px}
   .section-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:42px}
   /* package + form */
   .package-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
@@ -395,7 +424,7 @@
   .package li{padding:14px 0 14px 36px;position:relative;font-size:20px;color:var(--ink2);border-bottom:1px solid var(--line)}
   .package li:before{content:"✓";position:absolute;left:2px;color:var(--bronze);font-weight:600}
   .trialform{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:36px 38px;box-shadow:var(--shadow)}
-  .trialform h3{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:29px;color:var(--ink);margin-bottom:6px}
+  .trialform h3{font-family:'Walbaum',Georgia,serif;font-weight:500;font-size:29px;color:var(--ink);margin-bottom:6px}
   .trialform > p{font-size:18px;color:var(--muted);margin-bottom:22px}
   .trialform input,.trialform select{width:100%;border:1.5px solid var(--line);border-radius:3px;padding:17px 19px;font-family:inherit;font-size:18.5px;background:var(--paper);margin-bottom:14px;color:var(--ink2)}
   .trialform .btn{width:100%}
@@ -415,7 +444,7 @@
   .trialbox ul{list-style:none;padding:0;margin:0}
   .trialbox li{padding:16px 0;border-bottom:1px solid rgba(237,228,215,.14)}
   .trialbox li:last-child{border-bottom:0}
-  .trialbox li b{display:block;color:#FFFDF9;font-size:21px;font-family:'Fraunces',Georgia,serif;font-weight:500;margin-bottom:4px}
+  .trialbox li b{display:block;color:#FFFDF9;font-size:21px;font-family:'Walbaum',Georgia,serif;font-weight:500;margin-bottom:4px}
   .trialbox li span{color:#B7AB9B;font-size:17px;line-height:1.5;display:block}
   .trialbox > p{color:var(--gold);font-size:14px;letter-spacing:.16em;text-transform:uppercase;margin-top:16px;font-weight:600}
   .perks{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
@@ -458,8 +487,12 @@
     .litre-offer{min-height:0;display:block;padding:clamp(48px,7vw,88px) 0}
     .perks{grid-template-columns:1fr}
     .fold{display:block;height:auto;min-height:0}
+    /* .hero-img is a sibling of .hero-inner, not a child, so its order:-1 was
+       inert against a plain block parent — the photo sat under the copy on every
+       phone. The column makes the order declaration mean something. */
+    .hero{display:flex;flex-direction:column}
     .hero-inner{grid-template-columns:1fr;grid-template-rows:none;min-height:0;height:auto}
-    .hero-img{position:relative;left:auto;right:auto;width:auto;aspect-ratio:1355/1494;max-height:640px;order:-1;margin:0 -24px}
+    .hero-img{position:relative;left:auto;right:auto;width:auto;aspect-ratio:996/1270;max-height:640px;order:-1;margin:0 -24px}
     .hero-bottle{display:none}
     .hero-copy{padding:32px 0 48px}
     .hero-ctas{flex-wrap:wrap}
@@ -472,7 +505,7 @@
     .metric{border-left:0;border-top:1px solid rgba(176,118,74,.3);justify-content:flex-start;padding:22px 4px}
     .metric:first-child{border-top:0}
     .benefits .wrap{gap:6px 0}
-    .benefits span{font-size:12px;padding:2px 16px}
+    .benefits span{font-size:11px;padding:2px 10px}
     .shade-grid,.shop-grid{grid-template-columns:1fr;max-width:460px;margin:44px auto 0}
     .nav-links{display:none}
     .calc-out,.fieldrow,.lstat{grid-template-columns:1fr}
@@ -502,18 +535,23 @@
     .nav{gap:20px}
     .nav-links{gap:clamp(12px,1.3vw,18px);font-size:15px}
   }
+  /* Montserrat sets wider than Jost did, so each rung of this ladder is one
+     step tighter than before. The links only disappear at 900px, so the band
+     down to 901px still has to fit all six plus the order button. */
   @media (max-width:1180px){
-    .nav{gap:14px}
-    .nav-links{gap:11px;font-size:14px}
-    .nav .btn-sm{padding:12px 16px;font-size:12px}
+    .nav{gap:12px}
+    .nav-links{gap:10px;font-size:13px}
+    .nav .btn-sm{padding:11px 13px;font-size:11px}
   }
-  /* The links only disappear at 900px, so 901–979px still had to fit all six
-     plus the order button — 982px of content in a 901px viewport. One more
-     step of tightening keeps the nav visible instead of scrolling sideways. */
   @media (max-width:1000px){
     .nav{gap:10px}
-    .nav-links{gap:8px;font-size:12.5px}
+    .nav-links{gap:8px;font-size:12px}
     .nav .btn-sm{padding:10px 11px;font-size:10.5px}
+  }
+  @media (max-width:940px){
+    .nav{gap:8px}
+    .nav-links{gap:7px;font-size:11px}
+    .nav .btn-sm{padding:9px 10px;font-size:10px}
   }
 
   /* Grid children default to min-width:auto, so an image's intrinsic width and a
@@ -564,8 +602,10 @@
   /* ---- Tablet: the hero photo must fill the width, not sit in a 580px box ---- */
   @media (max-width:900px){
     .hero-img{position:relative;left:auto;right:auto;width:auto;order:-1;margin:0 -24px;
-              aspect-ratio:auto;height:clamp(280px,42svh,460px);max-height:none}
-    .hero-img img{width:100%;height:100%;object-fit:cover;object-position:center 16%}
+              aspect-ratio:auto;height:clamp(300px,46svh,520px);max-height:none}
+    /* The new shot is taller and her face sits higher in the frame, so the
+       landscape crop has to hold nearer the top than the old 16% did. */
+    .hero-img img{width:100%;height:100%;object-fit:cover;object-position:center 8%}
     .hero-copy{padding:28px 0 40px}
     h1{font-size:clamp(38px,5.6vw,58px);margin-bottom:26px}
     .hero-stats{gap:14px;margin-bottom:32px}
@@ -580,7 +620,7 @@
     .nav .btn-sm{padding:10px 12px;font-size:11px}
     .hero-copy .eyebrow{font-size:11px;letter-spacing:.13em;line-height:1.5}
     h1{font-size:clamp(31px,8.6vw,40px);line-height:1.06;margin-bottom:20px}
-    .hero-img{height:clamp(240px,38svh,360px);margin:0 -24px}
+    .hero-img{height:clamp(300px,44svh,420px);margin:0 -24px}
     .hero-stats div{font-size:15px;padding-top:13px}
     .hero-ctas{gap:10px}
     .hero-ctas .btn{width:100%;padding:15px 12px;font-size:13px}

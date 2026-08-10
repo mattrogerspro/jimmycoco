@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jimmy Coco — Meta Ads × Shopify Effectiveness</title>
+<style>
+:root{
+  --ivory:#F8F4EE; --cream:#F1EAE0; --white:#FFFDF9; --stone:#E4DACD;
+  --taupe:#5C5349; --champagne:#B8914F; --bronze:#8A5C33; --charcoal:#1B1916; --ink:#1B1916;
+  --sec:#453F39; --hair:#C9BCAD;
+  --pos:#1e5230; --neg:#96261f; --meta:#123c80; --disc:#b32458; --amb:#9c6206;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ivory);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:none;width:100%;margin:0;padding:0 48px 120px}
+@media(max-width:700px){.wrap{padding:0 20px 80px}}
+
+header.top{border-bottom:2px solid var(--hair);background:var(--white);padding:46px 0 34px}
+header.top .wrap{padding-bottom:0}
+.eyebrow{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--bronze);font-weight:700}
+h1{font-size:46px;line-height:1.12;margin:14px 0 12px;font-weight:700;letter-spacing:-.022em}
+.sub{color:var(--sec);font-size:20px;max-width:1050px;line-height:1.55}
+.meta-line{margin-top:20px;font-size:16px;color:var(--sec);display:flex;gap:26px;flex-wrap:wrap}
+.meta-line b{color:var(--ink);font-weight:700}
+
+nav.tabs{position:sticky;top:0;z-index:20;background:var(--ivory);border-bottom:2px solid var(--hair);
+  display:flex;gap:10px;flex-wrap:wrap;padding:16px 48px;margin:0;box-shadow:0 2px 10px rgba(27,25,22,.05)}
+@media(max-width:700px){nav.tabs{padding:12px 20px;gap:7px}}
+nav.tabs button{background:var(--white);border:2px solid var(--hair);border-radius:10px;padding:12px 20px;
+  font:inherit;font-size:17px;font-weight:600;color:var(--sec);cursor:pointer;white-space:nowrap;transition:all .12s}
+nav.tabs button:hover{border-color:var(--charcoal);color:var(--ink);background:var(--cream)}
+nav.tabs button.on{background:var(--charcoal);border-color:var(--charcoal);color:#FFFDF9;font-weight:700}
+
+section.panel{display:none;padding-top:44px}
+section.panel.on{display:block}
+h2{font-size:34px;margin:0 0 8px;font-weight:700;letter-spacing:-.02em}
+h3{font-size:22px;margin:40px 0 14px;font-weight:700;letter-spacing:-.01em}
+.lede{color:var(--sec);font-size:19px;margin:0 0 26px;max-width:1100px;line-height:1.6}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:24px 0 10px}
+.card{background:var(--white);border:2px solid var(--hair);border-radius:12px;padding:22px 24px}
+.card.hot{border-color:var(--neg);background:#FCF3F2}
+.card.good{border-color:var(--pos);background:#F2F8F4}
+.card .k{font-size:42px;font-weight:700;letter-spacing:-.03em;line-height:1.05;color:var(--ink)}
+.card .l{font-size:17px;color:var(--sec);margin-top:9px;line-height:1.4;font-weight:600}
+.card .n{font-size:15px;color:var(--taupe);margin-top:8px;line-height:1.4}
+
+.box{background:var(--white);border:2px solid var(--hair);border-radius:12px;padding:28px 30px;margin:22px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:1100px){.grid2,.grid3{grid-template-columns:1fr}}
+
+table{width:100%;border-collapse:collapse;font-size:17px}
+th{text-align:left;font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);border-bottom:2px solid var(--hair);padding:12px 14px 12px 0;background:var(--ivory)}
+td{padding:13px 14px 13px 0;border-bottom:1px solid var(--stone);vertical-align:top;line-height:1.5}
+tbody tr:hover{background:var(--cream)}
+td.num,th.num{text-align:right;padding-right:20px;font-variant-numeric:tabular-nums}
+.mono{font-variant-numeric:tabular-nums}
+.up{color:var(--pos);font-weight:700}.down{color:var(--neg);font-weight:700}
+
+.legend{display:flex;gap:22px;flex-wrap:wrap;font-size:16px;color:var(--sec);margin-top:14px;font-weight:600}
+.legend i{width:14px;height:14px;border-radius:3px;display:inline-block;margin-right:8px;vertical-align:-2px}
+
+.dual{margin:26px 0 8px}
+.dual .row{display:flex;align-items:center;gap:14px;margin-bottom:9px}
+.dual .mlab{width:98px;font-size:16px;font-weight:700;color:var(--ink);flex-shrink:0;font-variant-numeric:tabular-nums}
+.dual .bars{flex:1;display:flex;flex-direction:column;gap:4px}
+.dual .b{height:19px;border-radius:4px;display:flex;align-items:center;padding-left:9px;
+  font-size:13.5px;font-weight:700;color:#FFFDF9;white-space:nowrap;min-width:3px}
+.dual .b.ads{background:var(--amb)}
+.dual .b.rev{background:var(--meta)}
+.dual .b span{opacity:.95}
+
+.callout{border-left:6px solid var(--champagne);background:var(--white);padding:22px 26px;
+  border-radius:0 12px 12px 0;margin:24px 0;font-size:19px;line-height:1.6}
+.callout.warn{border-left-color:var(--neg);background:#FCF3F2}
+.callout.good{border-left-color:var(--pos);background:#F2F8F4}
+.callout .h{font-weight:700;display:block;margin-bottom:9px;font-size:20px;color:var(--ink)}
+
+ul.clean{margin:12px 0 0;padding-left:24px}
+ul.clean li{margin-bottom:14px}
+ul.clean li b{font-weight:700}
+
+.tag{display:inline-block;font-size:14px;padding:4px 11px;border-radius:20px;border:2px solid var(--hair);
+  background:var(--cream);color:var(--sec);margin:0 5px 5px 0;white-space:nowrap;font-weight:600}
+.tag.creator{background:#f0e2d3;border-color:#b08a63;color:#7a4c26}
+.tag.dco{background:#e3e9f2;border-color:#8ba0c0;color:#2d4467}
+.tag.live{background:#daeade;border-color:#7fae8e;color:#1e5230}
+.tag.off{background:#f9e2e0;border-color:#c08480;color:#96261f}
+
+.filters{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:26px 0 18px}
+.filters select,.filters input{font:inherit;font-size:17px;padding:11px 14px;border:2px solid var(--hair);
+  border-radius:10px;background:var(--white);color:var(--ink);font-weight:600}
+.filters input{min-width:320px;font-weight:400}
+.count{font-size:16px;color:var(--sec);margin-left:auto;font-weight:600}
+.copy{font-size:17px;line-height:1.55}
+.copy .t{color:var(--bronze);font-size:15px;display:block;margin-bottom:4px;font-weight:700}
+
+.play{background:var(--white);border:2px solid var(--hair);border-radius:12px;padding:26px 30px;margin-bottom:20px}
+.play .n{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--bronze);font-weight:700}
+.play h4{margin:10px 0 12px;font-size:26px;font-weight:700;letter-spacing:-.015em}
+.play p{margin:0 0 12px;font-size:19px;color:var(--sec);line-height:1.6}
+.play .do{font-size:18px;background:var(--cream);border-radius:10px;padding:18px 20px;margin-top:14px;line-height:1.6}
+.play .do b{color:var(--ink);font-weight:700}
+
+.src{font-size:15px;color:var(--taupe);margin-top:12px;line-height:1.5}
+footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-size:16px;color:var(--sec)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Own-brand teardown · Meta Ad Library × Shopify</div>
+    <h1>Jimmy Coco — what your ads are actually doing to your revenue</h1>
+    <p class="sub">Every Meta ad run from the Jimmy Coco International page over 13 months, joined day-by-day against real Shopify revenue, orders, discounts and attribution — plus the head-to-head against St. Moriz and four other UK self-tan advertisers.</p>
+    <div class="meta-line">
+      <span>Page ID <b>93634194988</b></span>
+      <span>Page likes <b>21,559</b></span>
+      <span>Store <b>jimmycoco.co.uk</b></span>
+      <span>Window <b>Jul 2025 – Aug 2026</b></span>
+      <span>Pulled <b>10 Aug 2026</b></span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="on" data-p="p1">Snapshot</button>
+  <button data-p="p2">Effectiveness</button>
+  <button data-p="p3">Ad profile</button>
+  <button data-p="p4">Creative library</button>
+  <button data-p="p5">Revenue &amp; products</button>
+  <button data-p="p6">Head-to-head</button>
+  <button data-p="p7">What to fix</button>
+  <button data-p="p8">Method &amp; caveats</button>
+</nav>
+
+<div class="wrap">
+
+<!-- SNAPSHOT -->
+<section class="panel on" id="p1">
+  <h2>Snapshot</h2>
+  <p class="lede">Two datasets, one window. 255 Meta ads on the left; £370,633 of Shopify revenue on the right. They do not tell the story you would expect.</p>
+
+  <div class="cards">
+    <div class="card"><div class="k">255</div><div class="l">Ad instances in the UK</div><div class="n">Jul 2025 – Aug 2026</div></div>
+    <div class="card"><div class="k">29</div><div class="l">Unique creatives</div><div class="n">St. Moriz ran 34</div></div>
+    <div class="card hot"><div class="k">79%</div><div class="l">Is one catalogue layer</div><div class="n">201 of 255 ads share one DCO template</div></div>
+    <div class="card"><div class="k">7d</div><div class="l">Median flight length</div><div class="n">St. Moriz: 29 days</div></div>
+    <div class="card"><div class="k">95%</div><div class="l">Traffic to your own site</div><div class="n">St. Moriz: 0%</div></div>
+    <div class="card"><div class="k">£371k</div><div class="l">Shopify revenue, 13 months</div><div class="n">13,596 orders</div></div>
+    <div class="card"><div class="k">28.2%</div><div class="l">Revenue attributed to Meta</div><div class="n">£104,590 from FB + IG</div></div>
+    <div class="card hot"><div class="k">71</div><div class="l">Days with zero live ads</div><div class="n">17% of the period, incl. 27 days in April</div></div>
+  </div>
+
+  <div class="grid2" style="margin-top:30px">
+    <div class="box">
+      <h3 style="margin-top:0">The five things that matter</h3>
+      <ul class="clean">
+        <li><b>Your ad volume and your revenue move in opposite directions.</b> Correlation between average live ads and monthly revenue is <b class="down">−0.50</b>. Your four heaviest advertising months averaged £22,374. Your five lightest averaged £34,381 — 54% more. Ad instances are not spend, so read this as "no evidence that more ads produced more revenue", not as proof that ads hurt.</li>
+        <li><b>Discounting is what actually moves your numbers.</b> Discount spend correlates with orders at <b class="up">+0.86</b>. That is the strongest relationship in the entire dataset, and it is not a flattering one.</li>
+        <li><b>You are buying volume with margin.</b> Orders up 4.8× from Jul 2025 to May 2026, but AOV fell from £29.49 to £19.95 — down 32%.</li>
+        <li><b>Ferne McCann is your single most valuable measurable asset.</b> 971 orders and £27,798 through her codes — 7.2% of all revenue — off only 22 paid ad instances.</li>
+        <li><b>Ten ads on your page have nothing to do with your brand.</b> Six for Admiral Business insurance, three for Ascot, one for a podcast. Worth knowing who has access.</li>
+      </ul>
+    </div>
+
+    <div class="box">
+      <h3 style="margin-top:0">Ads running vs revenue earned, by month</h3>
+      <p class="lede" style="margin-bottom:6px;font-size:17px">Amber = average live ads that month. Blue = total revenue. If ads drove revenue, these bars would track each other.</p>
+      <div class="dual" id="dualChart"></div>
+      <div class="legend">
+        <span><i style="background:var(--amb)"></i>Avg. live ads (scaled)</span>
+        <span><i style="background:var(--meta)"></i>Monthly revenue (scaled)</span>
+      </div>
+      <p class="src">Sep–Oct 2025: most ads, least revenue. Apr–Jun 2026: fewest ads, strong revenue.</p>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <span class="h">Read this before you act on any of it</span>
+    Ad Library shows ad <i>instances</i>, not spend. A single Advantage+ campaign with a large budget appears as very few "ads", so a low count does not prove low investment. What follows is a correlation between two public/observed datasets — it is strong enough to raise serious questions about where your money is going, and not strong enough to prove causation on its own. The fix is to pull actual spend from Meta Ads Manager and re-run this join. That analysis is one export away.
+  </div>
+</section>
+
+<!-- EFFECTIVENESS -->
+<section class="panel" id="p2">
+  <h2>Effectiveness</h2>
+  <p class="lede">The month-by-month join. Ad activity from the Ad Library, everything else straight out of Shopify.</p>
+
+  <div class="box">
+    <table>
+      <thead>
+        <tr>
+          <th>Month</th><th class="num">Avg live ads</th><th class="num">Dark days</th>
+          <th class="num">Revenue</th><th class="num">Meta-attributed</th><th class="num">Meta share</th>
+          <th class="num">Orders</th><th class="num">AOV</th><th class="num">Discounts</th><th class="num">Conv. rate</th>
+        </tr>
+      </thead>
+      <tbody id="tbodyMonths"></tbody>
+    </table>
+    <p class="src">"Avg live ads" = mean number of Jimmy Coco ad instances live on any given day that month. "Dark days" = days with none live. Meta-attributed = Shopify orders with referrer source <span class="mono">social</span> (Facebook + Instagram). Aug 2026 is a partial month and is excluded from all averages and correlations.</p>
+  </div>
+
+  <div class="grid3">
+    <div class="card hot"><div class="k">−0.50</div><div class="l">Correlation: live ads vs revenue</div><div class="n">Negative — no observed benefit</div></div>
+    <div class="card hot"><div class="k">−0.16</div><div class="l">Correlation: live ads vs Meta revenue</div><div class="n">No relationship even within Meta's own channel</div></div>
+    <div class="card"><div class="k">+0.86</div><div class="l">Correlation: discounts vs orders</div><div class="n">The strongest signal in the dataset</div></div>
+  </div>
+
+  <div class="callout warn">
+    <span class="h">Three caveats that belong right next to those numbers</span>
+    <b>Ad instances are not spend.</b> One Advantage+ campaign at £10k appears as a handful of ads; forty small tests appear as forty. Until Meta spend is joined to this, −0.50 means "no evidence that more ads produced more revenue", not "ads reduced revenue".<br><br>
+    <b>Thirteen monthly data points is a small sample</b> with heavy seasonality — Black Friday, the spring tanning ramp. Correlation is not causation at any n, and especially not at this one.<br><br>
+    <b>Flight length is per-ad, not per-ad-set.</b> A 7-day ad flight tells you nothing certain about how long the underlying ad set or budget ran. The learning-phase argument later in this report rests on an assumption the Ad Library cannot confirm.
+  </div>
+
+  <h3>The April 2026 anomaly</h3>
+  <div class="callout good">
+    <span class="h">27 of 30 days with zero live ads — and your fourth-best month of the year</span>
+    April 2026: <b>0.2</b> average live ads, <b>£36,772</b> revenue, <b>1,371</b> orders, <b>20,963</b> social sessions — the highest social traffic of any month in the dataset. And <b>398 Ferne McCann code orders worth £10,202</b>, more than double any other month. 10 April alone did 119 orders and £3,491 — your single biggest revenue day in 13 months.
+    <br><br>
+    <b>What was actually running:</b> one Ferne McCann video ad (4 instances, 2 Apr – 19 Jun) carrying the FERNE15 code — and essentially nothing else. Meta-attributed revenue that month was £7,981, about 22% of the total. So this is not proof that organic creator activity works without paid support; a small paid creator flight was live throughout, carrying the exact code that spiked.
+    <br><br>
+    What it <i>does</i> show is that <b>one creator ad outperformed months running twenty times the ad volume</b>. September and October 2025 averaged 19.5 and 20.5 live ads and produced £11,687 and £12,936. April ran essentially one creator flight and produced £36,772. Whether the lift came from the paid flight, Ferne's own organic posting alongside it, or both, cannot be separated from this data — and separating it is worth doing, because whichever it is, it is the most efficient thing in the dataset.
+  </div>
+
+  <h3>Ferne McCann, quantified</h3>
+  <div class="grid2">
+    <div class="box">
+      <table>
+        <thead><tr><th>Code</th><th class="num">Orders</th><th class="num">Gross</th><th class="num">Discount given</th><th class="num">Net</th></tr></thead>
+        <tbody>
+          <tr><td><b>ferne15</b></td><td class="num mono">594</td><td class="num mono">£15,506</td><td class="num mono">−£2,322</td><td class="num mono">£13,075</td></tr>
+          <tr><td><b>ferne20</b></td><td class="num mono">377</td><td class="num mono">£12,292</td><td class="num mono">−£2,464</td><td class="num mono">£9,687</td></tr>
+          <tr style="background:var(--cream)"><td><b>Total</b></td><td class="num mono"><b>971</b></td><td class="num mono"><b>£27,798</b></td><td class="num mono"><b>−£4,786</b></td><td class="num mono"><b>£22,762</b></td></tr>
+        </tbody>
+      </table>
+      <p class="src">7.2% of all revenue in the window, from a creator who appears in only 22 of your 255 ad instances. Code figures cover Sep 2025 – Aug 2026 inclusive.</p>
+    </div>
+    <div class="box">
+      <h3 style="margin-top:0">Ferne code orders by month</h3>
+      <table>
+        <tbody>
+          <tr><td>Sep 2025</td><td class="num mono">79</td><td class="num mono">£2,729</td></tr>
+          <tr><td>Oct 2025</td><td class="num mono">87</td><td class="num mono">£2,884</td></tr>
+          <tr><td>Nov 2025</td><td class="num mono">186</td><td class="num mono">£6,034</td></tr>
+          <tr><td>Dec 2025 – Mar 2026</td><td class="num mono">25</td><td class="num mono">£645</td></tr>
+          <tr style="background:#F2F8F4"><td><b>Apr 2026</b></td><td class="num mono"><b>398</b></td><td class="num mono"><b>£10,202</b></td></tr>
+          <tr><td>May 2026</td><td class="num mono">69</td><td class="num mono">£1,790</td></tr>
+          <tr><td>Jun 2026</td><td class="num mono">82</td><td class="num mono">£2,026</td></tr>
+          <tr><td>Jul 2026</td><td class="num mono">33</td><td class="num mono">£1,148</td></tr>
+          <tr><td>Aug 2026 (partial)</td><td class="num mono">12</td><td class="num mono">£340</td></tr>
+        </tbody>
+      </table>
+      <p class="src">The four-month gap Dec–Mar ran at roughly 6 orders a month against a surrounding run rate of 75–100. On that counterfactual it cost somewhere around 70–95 orders a month — an estimate, not a measurement.</p>
+    </div>
+  </div>
+
+  <h3>What you are trading away for growth</h3>
+  <div class="grid3">
+    <div class="card hot"><div class="k">−32%</div><div class="l">Average order value</div><div class="n">£29.49 (Jul 25) → £19.95 (May 26)</div></div>
+    <div class="card hot"><div class="k">12.6%</div><div class="l">Of revenue given away in discounts</div><div class="n">£46,529 over 13 months</div></div>
+    <div class="card hot"><div class="k">46% → 11%</div><div class="l">Returning customer rate</div><div class="n">Jul 25 (small base) → Mar 26; back to 26% in Jul 26</div></div>
+  </div>
+  <div class="callout">
+    <span class="h">The pattern under those three numbers</span>
+    Order count grew 4.8× between Jul 2025 and May 2026. Revenue grew 3.0×. AOV fell 32% and discount spend rose from £538 a month to £9,545. You are acquiring more customers who spend less, and the returning-customer rate has not kept pace. That is a viable strategy if the second purchase eventually arrives.
+    <br><br>
+    Two honest qualifications. The 46% returning rate in July 2025 sat on only 439 orders, so it is a small-base figure and a poor baseline. And the rate had already started falling in September 2025, before heavy discounting began in February 2026 — so discounting is a plausible contributor, not a demonstrated cause. The recovery to 26% in Jun–Jul 2026 is the most encouraging number in this section and worth protecting either way.
+  </div>
+</section>
+
+<!-- AD PROFILE -->
+<section class="panel" id="p3">
+  <h2>Ad profile</h2>
+  <p class="lede">What you are actually running, structurally.</p>
+
+  <div class="grid2">
+    <div class="box">
+      <h3 style="margin-top:0">Format mix</h3>
+      <table>
+        <tbody>
+          <tr><td>DCO — dynamic catalogue</td><td class="num mono">205</td><td class="num mono" style="color:var(--sec)">80%</td></tr>
+          <tr><td>Video</td><td class="num mono">29</td><td class="num mono" style="color:var(--sec)">11%</td></tr>
+          <tr><td>DPA — dynamic product ads</td><td class="num mono">10</td><td class="num mono" style="color:var(--sec)">4%</td></tr>
+          <tr><td>Carousel</td><td class="num mono">10</td><td class="num mono" style="color:var(--sec)">4%</td></tr>
+          <tr><td>Static image</td><td class="num mono">1</td><td class="num mono" style="color:var(--sec)">&lt;1%</td></tr>
+        </tbody>
+      </table>
+      <p class="src">St. Moriz is the mirror image: 79% video, 21% catalogue. They put creative in front of people; you put a product feed in front of them.</p>
+
+      <h3>Call to action</h3>
+      <table>
+        <tbody>
+          <tr><td>Shop now</td><td class="num mono">217</td></tr>
+          <tr><td>Learn more</td><td class="num mono">20</td></tr>
+          <tr><td>Get quote <span class="tag off">not yours</span></td><td class="num mono">6</td></tr>
+          <tr><td>See details</td><td class="num mono">3</td></tr>
+          <tr><td>Book travel <span class="tag off">not yours</span></td><td class="num mono">3</td></tr>
+          <tr><td>Sign up</td><td class="num mono">2</td></tr>
+          <tr><td>Listen now <span class="tag off">not yours</span></td><td class="num mono">1</td></tr>
+          <tr><td>None recorded</td><td class="num mono">3</td></tr>
+        </tbody>
+      </table>
+      <p class="src">Only two SIGN_UP ads in 13 months, and no lead-generation campaign of any kind.</p>
+    </div>
+
+    <div class="box">
+      <h3 style="margin-top:0">Monthly ad launches</h3>
+      <table>
+        <thead><tr><th>Month</th><th class="num">Launched</th><th class="num">Catalogue</th><th class="num">Video</th><th class="num">Creator</th></tr></thead>
+        <tbody>
+          <tr><td>Jul 2025</td><td class="num mono">5</td><td class="num mono">3</td><td class="num mono">1</td><td class="num mono">0</td></tr>
+          <tr><td>Aug 2025</td><td class="num mono">19</td><td class="num mono">3</td><td class="num mono">12</td><td class="num mono">0</td></tr>
+          <tr><td>Sep 2025</td><td class="num mono">75</td><td class="num mono">64</td><td class="num mono">1</td><td class="num mono">6</td></tr>
+          <tr><td>Oct 2025</td><td class="num mono">45</td><td class="num mono">45</td><td class="num mono">0</td><td class="num mono">5</td></tr>
+          <tr><td>Nov 2025</td><td class="num mono">11</td><td class="num mono">8</td><td class="num mono">2</td><td class="num mono">4</td></tr>
+          <tr><td>Dec 2025</td><td class="num mono">8</td><td class="num mono">4</td><td class="num mono">0</td><td class="num mono">0</td></tr>
+          <tr><td>Jan 2026</td><td class="num mono">17</td><td class="num mono">14</td><td class="num mono">2</td><td class="num mono">2</td></tr>
+          <tr><td>Feb 2026</td><td class="num mono">3</td><td class="num mono">3</td><td class="num mono">0</td><td class="num mono">3</td></tr>
+          <tr><td>Mar 2026</td><td class="num mono">8</td><td class="num mono">7</td><td class="num mono">1</td><td class="num mono">1</td></tr>
+          <tr><td>Apr 2026</td><td class="num mono">3</td><td class="num mono">2</td><td class="num mono">1</td><td class="num mono">1</td></tr>
+          <tr><td>May 2026</td><td class="num mono">5</td><td class="num mono">3</td><td class="num mono">2</td><td class="num mono">3</td></tr>
+          <tr><td>Jun 2026</td><td class="num mono">5</td><td class="num mono">3</td><td class="num mono">2</td><td class="num mono">5</td></tr>
+          <tr><td>Jul 2026</td><td class="num mono">30</td><td class="num mono">30</td><td class="num mono">0</td><td class="num mono">0</td></tr>
+          <tr><td>Aug 2026</td><td class="num mono">21</td><td class="num mono">16</td><td class="num mono">5</td><td class="num mono">1</td></tr>
+        </tbody>
+      </table>
+      <p class="src">Feb–Jun 2026: 24 ads launched across five months. Sep 2025 alone: 75.</p>
+    </div>
+  </div>
+
+  <h3>Creator roster</h3>
+  <div class="box">
+    <table>
+      <thead><tr><th>Creator page</th><th class="num">Ad instances</th><th>Measurable?</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ferne McCann</b> (fernemccann / Fernemccann)</td><td class="num mono">22</td><td><b class="up">Yes</b> — ferne15 &amp; ferne20 codes, 971 orders, £27,798</td></tr>
+        <tr><td>Chloe Sims</td><td class="num mono">4</td><td><b class="down">No code</b> — contribution invisible</td></tr>
+        <tr><td>Faye Winter</td><td class="num mono">3</td><td><b class="down">No code</b> — contribution invisible</td></tr>
+        <tr><td>Phoebe Torrance</td><td class="num mono">1</td><td><b class="down">No code</b> — contribution invisible</td></tr>
+        <tr><td>True Reflections podcast <span class="tag off">not yours</span></td><td class="num mono">1</td><td>Third-party ad on your page</td></tr>
+        <tr><td>Jimmy Coco International (brand page)</td><td class="num mono">224</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p class="src">Three of your four creators have no attributable code. You cannot tell whether Chloe Sims, Faye Winter or Phoebe Torrance sold a single unit.</p>
+  </div>
+
+  <h3 style="color:var(--neg)">Ads on your page that are not yours</h3>
+  <div class="callout warn">
+    <span class="h">10 ad instances, three unrelated advertisers</span>
+    <table style="margin-top:12px">
+      <thead><tr><th>Destination</th><th class="num">Ads</th><th>Ran</th><th>Copy</th></tr></thead>
+      <tbody>
+        <tr><td><b>admiralbusiness.com</b></td><td class="num mono">6</td><td>27 Oct – 12 Dec 2025</td><td>"Accidents happen… for as little as £6.72 a month. Head over to Admiral Business" · also a photographer public-liability variant</td></tr>
+        <tr><td><b>ascot.com</b></td><td class="num mono">3</td><td>11 Mar &amp; 1 Apr 2026</td><td>Ascot racecourse</td></tr>
+        <tr><td><b>podcasts.apple.com</b></td><td class="num mono">1</td><td>14–16 Mar 2026</td><td>True Reflections podcast</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:16px 0 0;font-size:17px">These ran from the Jimmy Coco International page with Jimmy Coco as the disclosed advertiser. That happens when a partner or agency has been granted page access in Business Manager and runs unrelated campaigns through it. It may be a deal you know about. If it isn't, it's worth an audit of who holds page and ad-account roles — those ads carry your brand name in the Ad Library permanently.</p>
+  </div>
+</section>
+
+<!-- CREATIVE LIBRARY -->
+<section class="panel" id="p4">
+  <h2>Creative library</h2>
+  <p class="lede">All 29 unique creatives. The first row is the catalogue layer, which alone accounts for 201 of your 255 ad instances and has run near-continuously since 21 July 2025. Note that the six Admiral Business ads also carry the templated catalogue body, so they sit inside that 201 — your own catalogue instances number roughly 195.</p>
+  <p class="lede" style="font-size:17px;color:var(--taupe)">Each row's format and page label is the dominant value for that creative group; Meta bundles ad instances that share copy, and instances within a group can differ. The instance-level totals in the Ad profile tab are the authoritative counts.</p>
+
+  <div class="filters">
+    <select id="fType"><option value="">All types</option><option value="creator">Creator page</option><option value="brand">Brand page</option><option value="dco">Catalogue / DPA</option><option value="video">Video</option></select>
+    <select id="fYear"><option value="">All dates</option><option value="2025">Started 2025</option><option value="2026">Started 2026</option></select>
+    <input id="fSearch" placeholder="Search copy — e.g. Malibu, 20% off, Kardashian">
+    <span class="count" id="cCount"></span>
+  </div>
+
+  <table>
+    <thead><tr><th class="num" style="width:80px">Uses</th><th style="width:200px">Ran</th><th style="width:230px">From</th><th>Copy</th></tr></thead>
+    <tbody id="tbodyCreative"></tbody>
+  </table>
+</section>
+
+<!-- REVENUE & PRODUCTS -->
+<section class="panel" id="p5">
+  <h2>Revenue &amp; products</h2>
+  <p class="lede">Where the £371k actually came from, and where your ads point relative to that.</p>
+
+  <div class="grid2">
+    <div class="box">
+      <h3 style="margin-top:0">Top products by gross sales</h3>
+      <table>
+        <thead><tr><th>Product</th><th class="num">Orders</th><th class="num">Gross</th></tr></thead>
+        <tbody>
+          <tr><td>Tinted Tan Soufflé Malibu Beach — two shades</td><td class="num mono">5,771</td><td class="num mono">£134,839</td></tr>
+          <tr><td>Tinted Tan Soufflé Malibu Beach — Medium</td><td class="num mono">3,988</td><td class="num mono">£64,306</td></tr>
+          <tr><td>Tinted Tan Soufflé Malibu Beach — Dark</td><td class="num mono">2,194</td><td class="num mono">£37,354</td></tr>
+          <tr><td>Buff &amp; Glow Mitt — Navy</td><td class="num mono">2,472</td><td class="num mono">£23,846</td></tr>
+          <tr><td>Tinted Tan Soufflé Face &amp; Body — Medium</td><td class="num mono">965</td><td class="num mono">£23,745</td></tr>
+          <tr><td>The Face Brush</td><td class="num mono">1,886</td><td class="num mono">£18,537</td></tr>
+          <tr><td>The Body Brush</td><td class="num mono">1,587</td><td class="num mono">£17,721</td></tr>
+          <tr><td>Tinted Tan Soufflé Face &amp; Body — Dark</td><td class="num mono">615</td><td class="num mono">£16,192</td></tr>
+          <tr><td>Malibu Beach Duo</td><td class="num mono">359</td><td class="num mono">£10,262</td></tr>
+          <tr><td>Essential Glow Mitt — Black</td><td class="num mono">1,306</td><td class="num mono">£9,376</td></tr>
+          <tr><td>The A-List Face Tanning Mist</td><td class="num mono">430</td><td class="num mono">£7,081</td></tr>
+          <tr><td>Tinted Tan Soufflé Face &amp; Body — Light</td><td class="num mono">203</td><td class="num mono">£5,128</td></tr>
+          <tr style="background:#FCF3F2"><td><b>Malibu 1 Ltr Professional Spray</b></td><td class="num mono"><b>23</b></td><td class="num mono"><b>£1,484</b></td></tr>
+        </tbody>
+      </table>
+      <p class="src">The three Malibu Beach Soufflé lines alone are £236,499 — 64% of everything you sell. Product figures cover the full window including partial Aug 2026.</p>
+    </div>
+
+    <div class="box">
+      <h3 style="margin-top:0">Two things this list says</h3>
+      <ul class="clean">
+        <li><b>You are effectively a one-product business.</b> Soufflé plus the Face &amp; Body variants is £281,564 — 76% of gross revenue. Your ads are broadly aligned with this, which is right — but it also means a single formulation, supply or review problem is an existential risk.</li>
+        <li><b>The professional line is invisible.</b> The 1 Ltr Professional Spray did <b>23 orders and £1,484</b> in 13 months. Not one of your 255 ads mentions the salon or professional channel. There is no PRO campaign, no lead-gen ad, no sign-up objective. Sienna X Professional — the closest comparable — runs 132 ads with LEARN_MORE and SIGN_UP CTAs to exactly this audience, and has 28 live today.</li>
+      </ul>
+      <h3>Where your revenue is attributed</h3>
+      <table>
+        <thead><tr><th>Source</th><th class="num">Orders</th><th class="num">Revenue</th><th class="num">Share</th></tr></thead>
+        <tbody>
+          <tr><td>Direct / unattributed</td><td class="num mono">7,278</td><td class="num mono">£170,386</td><td class="num mono">44%</td></tr>
+          <tr><td>Google search</td><td class="num mono">2,001</td><td class="num mono">£65,703</td><td class="num mono">17%</td></tr>
+          <tr><td>Facebook</td><td class="num mono">1,849</td><td class="num mono">£57,291</td><td class="num mono">15%</td></tr>
+          <tr><td>Instagram</td><td class="num mono">1,709</td><td class="num mono">£52,588</td><td class="num mono">14%</td></tr>
+          <tr><td>jimmycoco (own referral)</td><td class="num mono">932</td><td class="num mono">£27,956</td><td class="num mono">7%</td></tr>
+          <tr><td>Everything else</td><td class="num mono">432</td><td class="num mono">£14,205</td><td class="num mono">4%</td></tr>
+        </tbody>
+      </table>
+      <p class="src">Full window including partial Aug 2026; denominator £388,130. 44% unattributed is high — typical of iOS privacy loss plus creator traffic arriving direct. It also means nearly half your revenue cannot be assigned to any channel, which limits how confidently anyone — agency included — can claim credit.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="h">Email capture is quietly working</span>
+    WELCOME10 (1,109 orders, £31,460) and WELCOME20 (667 orders, £19,691) together drove <b>1,776 orders and £51,151</b> — nearly twice what Ferne's codes did, and roughly on a par with what Facebook (£57,291) and Instagram (£52,588) delivered individually, from a channel that costs you a discount rather than a media budget. Your popup and first-purchase flow is one of the healthiest parts of the operation and deserves more attention than it is getting.
+  </div>
+</section>
+
+<!-- HEAD TO HEAD -->
+<section class="panel" id="p6">
+  <h2>Head-to-head</h2>
+  <p class="lede">You, St. Moriz, and the four other UK self-tan advertisers benchmarked in the St. Moriz teardown. Same 13-month window, same method, UK only, active + inactive.</p>
+
+  <div class="box">
+    <table>
+      <thead>
+        <tr><th>Brand</th><th class="num">Ads</th><th class="num">Live</th><th class="num">Unique</th><th class="num">Video</th><th class="num">Catalogue</th><th>Destination</th><th class="num">Median flight</th><th class="num">Creators</th></tr>
+      </thead>
+      <tbody>
+        <tr style="background:var(--cream)">
+          <td><b>Jimmy Coco</b></td><td class="num mono">255</td><td class="num mono">13</td><td class="num mono">29</td><td class="num mono">11%</td><td class="num mono">84%</td>
+          <td>95% own site</td><td class="num mono">7d</td><td class="num mono">4</td>
+        </tr>
+        <tr><td><b>St. Moriz</b></td><td class="num mono">219</td><td class="num mono">7</td><td class="num mono">34</td><td class="num mono">79%</td><td class="num mono">21%</td>
+          <td>100% retailer (Boots, Superdrug)</td><td class="num mono">29d</td><td class="num mono">5</td></tr>
+        <tr><td><b>Bondi Sands</b></td><td class="num mono">360</td><td class="num mono">14</td><td class="num mono">42</td><td class="num mono">11%</td><td class="num mono">87%</td>
+          <td>37% own site / 63% retailer</td><td class="num mono">18d</td><td class="num mono">15</td></tr>
+        <tr><td><b>Coco &amp; Eve</b></td><td class="num mono">360</td><td class="num mono">16</td><td class="num mono">87</td><td class="num mono">43%</td><td class="num mono">54%</td>
+          <td>98% own site</td><td class="num mono">18d</td><td class="num mono">15</td></tr>
+        <tr><td><b>Tan-Luxe</b></td><td class="num mono">178</td><td class="num mono">0</td><td class="num mono">18</td><td class="num mono">92%</td><td class="num mono">6%</td>
+          <td>100% retailer (Amazon, Sephora, Space NK)</td><td class="num mono">19d</td><td class="num mono">1</td></tr>
+        <tr><td><b>Sienna X Professional</b></td><td class="num mono">132</td><td class="num mono">28</td><td class="num mono">9</td><td class="num mono">5%</td><td class="num mono">90%</td>
+          <td>96% own site</td><td class="num mono">39d</td><td class="num mono">1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid3">
+    <div class="box">
+      <h3 style="margin-top:0">Where you win</h3>
+      <ul class="clean">
+        <li><b>You own the customer.</b> 95% own-site traffic. St. Moriz and Tan-Luxe send 100% of their Meta traffic to retailers, so those buyers become Boots' and Sephora's customers, not theirs. Both brands run their own sites and lists too — but none of their paid media is feeding them.</li>
+        <li><b>You can measure.</b> This report exists because you have a Shopify store behind your ads. A brand routing every ad to a retailer cannot join media to revenue at all.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3 style="margin-top:0">Where you lose</h3>
+      <ul class="clean">
+        <li><b>Creative volume.</b> 29 unique creatives against Coco &amp; Eve's 87 — and 79% of your ad instances are a single catalogue template. Effectively you are running about 28 real creative ideas in 13 months.</li>
+        <li><b>Creator bench.</b> Four creators, three unmeasurable. Bondi Sands and Coco &amp; Eve run 15 each.</li>
+        <li><b>Flight discipline.</b> 7-day median. Meta's learning phase typically needs ~50 conversions per ad set per week; week-long flights often kill an ad before it exits learning.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3 style="margin-top:0">The uncomfortable mirror</h3>
+      <p class="lede" style="margin-bottom:0">Your format profile is closest to <b>Bondi Sands</b> (11% video, 87% catalogue) — a mass-market volume brand competing on price and distribution. Your <i>positioning</i> is closest to <b>Tan-Luxe</b> (premium, celebrity, prestige). You are buying media like a discounter while charging like a luxury brand. The AOV decline in the Effectiveness tab is what that contradiction looks like on a P&amp;L.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT TO FIX -->
+<section class="panel" id="p7">
+  <h2>What to fix</h2>
+  <p class="lede">Seven moves, ordered by how fast they pay back. Every one is grounded in a number from this report.</p>
+
+  <div class="play">
+    <div class="n">Fix 01 · This week</div>
+    <h4>Export Meta spend and re-run this join</h4>
+    <p>Everything here rests on ad <i>instances</i> as a proxy for investment, which is the weakest link in the analysis. A spend export by campaign and day turns a −0.50 correlation from a red flag into a decision.</p>
+    <div class="do"><b>Do:</b> Pull daily spend, impressions and reported purchases by campaign from Ads Manager for Jul 2025 onward. Join to the Shopify daily revenue series. If spend genuinely was flat while instances spiked, the negative correlation dissolves. If it wasn't, you have found a large leak.</div>
+  </div>
+
+  <div class="play">
+    <div class="n">Fix 02 · This week</div>
+    <h4>Audit who can run ads on your page</h4>
+    <p>Ten ads for Admiral Business, Ascot and a podcast ran under the Jimmy Coco name. They are in the public Ad Library permanently, attached to your brand.</p>
+    <div class="do"><b>Do:</b> Check Business Manager page roles and ad-account partner access. Remove anything you don't recognise. If it's a deliberate arrangement, fine — but it should be a decision, not a discovery.</div>
+  </div>
+
+  <div class="play">
+    <div class="n">Fix 03 · Highest expected value</div>
+    <h4>Give every creator a code, and build the bench to eight</h4>
+    <p>Ferne delivered 971 orders and £27,798 — 7.2% of revenue — from 22 ad instances, and April showed one creator flight outperforming months with twenty times the ad volume. Chloe Sims, Faye Winter and Phoebe Torrance have no codes, so their contribution is literally unmeasurable.</p>
+    <div class="do"><b>Do:</b> Unique discount code plus a unique UTM landing page per creator, non-negotiable, before any content goes live. Then double the roster — Bondi Sands and Coco &amp; Eve run 15 creators each; you run four. Track cost per acquired customer per creator and cut the bottom half after 60 days.</div>
+  </div>
+
+  <div class="play">
+    <div class="n">Fix 04 · Structural</div>
+    <h4>Stop the seven-day flights</h4>
+    <p>Your median flight is 7 days against comparator medians of 18–39. Meta's published guidance is that an ad set generally needs around 50 optimisation events per week to exit the learning phase; week-long flights make that hard to reach, which typically means repeatedly paying learning-phase delivery costs. <b>Caveat:</b> the Ad Library reports per-ad flights, not ad-set duration — an ad set may well have run longer with creative rotating inside it. Confirm in Ads Manager before acting.</p>
+    <div class="do"><b>Do:</b> If ad-set durations really are this short, move to a minimum 21-day flight, consolidate budget into fewer longer-running ad sets, and judge creative at day 14 rather than day 3.</div>
+  </div>
+
+  <div class="play">
+    <div class="n">Fix 05 · Margin</div>
+    <h4>Wean the business off the discount reflex</h4>
+    <p>Discounts correlate with orders at +0.86 — by far the strongest signal in the data. But AOV has fallen 32%, £46,529 has gone out in discounts, and returning-customer rate collapsed from 46% to 11% during the discounting period. You are renting volume.</p>
+    <div class="do"><b>Do:</b> Test bundle-led offers instead of sitewide percentage-off. The Malibu Beach Duo already averages £28.58 per order against a 13-month blended AOV of £27.26 — a modest premium, but it holds price where a sitewide 20% off does not, and May 2026's AOV was down at £19.95. Cap sitewide discounting to two events a year. Track contribution margin per order, not order count.</div>
+  </div>
+
+  <div class="play">
+    <div class="n">Fix 06 · Untapped</div>
+    <h4>Build the PRO campaign that doesn't exist</h4>
+    <p>The 1 Ltr Professional Spray did 23 orders and £1,484 in 13 months. Zero of your 255 ads address salons or professionals. Sienna X Professional runs 132 ads with LEARN_MORE and SIGN_UP CTAs at exactly this audience, 39-day flights, 28 live right now.</p>
+    <div class="do"><b>Do:</b> A separate lead-gen campaign to your pro page, with its own creative language — booth economics, treatment time, margin per client, Jimmy's professional credentials. Not glow. This is the one part of your range where your celebrity-artist story is a genuine, defensible advantage and nobody is competing for the attention.</div>
+  </div>
+
+  <div class="play">
+    <div class="n">Fix 07 · Creative</div>
+    <h4>Put creative back in front of the catalogue</h4>
+    <p>84% of your ad instances are a product feed. St. Moriz runs 79% video and Coco &amp; Eve produce 87 unique creatives to your 29. Catalogue ads harvest demand that already exists; they do not create it. A reasonable hypothesis — untested by this data — is that thin video volume leaves you with little demand creation, which is why promotions end up doing the heavy lifting. Worth testing rather than assuming.</p>
+    <div class="do"><b>Do:</b> Target 6–8 new video concepts a month. You already have the AI generation pipeline in the repo and a professional-method story competitors cannot tell. Keep the catalogue layer running underneath — it's cheap and it converts warm traffic — but stop letting it be the whole strategy.</div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section class="panel" id="p8">
+  <h2>Method &amp; caveats</h2>
+
+  <div class="grid2">
+    <div class="box">
+      <h3 style="margin-top:0">How this was built</h3>
+      <ul class="clean">
+        <li>Meta Ad Library queried directly for page 93634194988, UK, active and inactive — 255 ad records with dates, platforms, format, CTA, destination, copy and creator attribution.</li>
+        <li>Daily ad coverage computed by expanding every flight window across all 406 days from 1 Jul 2025 to 10 Aug 2026.</li>
+        <li>Shopify Admin API via ShopifyQL: daily and monthly sales, orders, AOV, discounts, referrer attribution, sessions, conversion rate, returning-customer rate, product-level sales and discount-code performance.</li>
+        <li>Correlations are Pearson's r across the 13 complete months (Jul 2025 – Jul 2026). August 2026 is partial and excluded from every average and correlation.</li>
+      </ul>
+    </div>
+
+    <div class="box">
+      <h3 style="margin-top:0">Observed vs inferred</h3>
+      <p class="lede" style="margin-bottom:10px"><b>Observed fact</b> — every ad count, date, format, CTA, destination and creator; every Shopify figure including revenue, orders, AOV, discounts, codes, sessions and attribution. All directly queried.</p>
+      <p class="lede" style="margin-bottom:10px"><b>Calculated</b> — daily ad coverage, dark days, the correlations, heavy-vs-light month averages.</p>
+      <p class="lede" style="margin-bottom:0"><b>Inferred, flagged as such</b> — that low ad-instance counts imply low spend; that short per-ad flights imply short ad-set durations and therefore learning-phase inefficiency; the counterfactual cost of the Dec–Mar Ferne gap; and the reading of the Admiral/Ascot/podcast ads as third-party page access. April 2026's performance is <i>not</i> attributed to organic activity — a paid Ferne flight was live throughout, and the two cannot be separated from this data.</p>
+    </div>
+  </div>
+
+  <div class="box">
+    <h3 style="margin-top:0">Limitations you should hold in mind</h3>
+    <ul class="clean">
+      <li><b>Instances are not spend.</b> The single biggest caveat. One Advantage+ campaign at £10k appears as a handful of ads; forty small tests appear as forty. Until spend is joined, the −0.50 correlation is a question, not a verdict.</li>
+      <li><b>Correlation is not causation, and n = 13.</b> Thirteen monthly data points is a small sample with heavy seasonality (Black Friday, spring/summer tanning). The discount-to-orders relationship is strong and consistent; the ads-to-revenue one is best treated as "no evidence of benefit" rather than "ads reduce revenue".</li>
+      <li><b>Shopify attribution understates paid social.</b> Last-click referrer misses view-through conversions and anything landing via direct after seeing an ad. The true Meta contribution is higher than 28.2% — though the 44% unattributed bucket cuts both ways, since Google, email and creator traffic sit in there too.</li>
+      <li><b>Ads with no impressions are omitted</b> by Meta, so brief tests may be invisible.</li>
+      <li><b>Organic creator posts are not in the Ad Library.</b> April 2026 had both a live paid Ferne flight and, very likely, organic posting. Nothing in this data can apportion the £36,772 between them. Ferne's posting calendar plus Meta spend for that flight would settle it.</li>
+      <li><b>Google, TikTok and email are outside this analysis</b>, and Google alone is 17% of your revenue.</li>
+      <li><b>Two different date bases are in play.</b> Revenue totals, orders, AOV, discounts and every correlation use the 13 complete months to 31 Jul 2026 (£370,633). Product sales, referrer attribution, discount-code totals and the creator roster use the full window including partial August 2026 (£388,130). Each table states its basis; the difference is why "£104,590 from Meta" and "£57,291 + £52,588" do not match.</li>
+      <li><b>Creative-group labels are approximations.</b> Meta collates ad instances that share copy, so a group's stated format and page reflect the dominant value, not every instance. Grouped counts in the Creative library will not always reconcile exactly with the instance-level tables in the Ad profile tab.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3 style="margin-top:0">Sources</h3>
+    <p class="lede" style="margin-bottom:0">Meta Ad Library — <span class="mono">facebook.com/ads/library</span>, page 93634194988 (Jimmy Coco International), 234479433234119 (St. Moriz), 378860292512613 (Bondi Sands), 1627356637522836 (Coco &amp; Eve), 1644750522420228 (Tan-Luxe), 882202738468251 (Sienna X Professional). Shopify Admin API — <span class="mono">jimmy-coco-international.myshopify.com</span>.</p>
+  </div>
+</section>
+
+<footer>
+  Prepared for Sunless by Jimmy Coco · Meta Ad Library × Shopify effectiveness analysis · 10 August 2026
+</footer>
+
+</div>
+
+<script>
+// month, avgLiveAds, darkDays, revenue, metaRev, orders, aov, discounts, convRate
+const MONTHS=[
+["Jul 2025",1.3,16,16307.45,2733.49,439,29.49,538.23,1.71],
+["Aug 2025",6.7,0,10535.78,1636.76,269,32.36,1147.00,1.82],
+["Sep 2025",19.5,1,11686.97,3835.90,317,29.76,757.16,1.68],
+["Oct 2025",20.5,0,12935.68,5743.96,364,28.54,837.57,2.79],
+["Nov 2025",2.9,0,36511.82,22416.05,1160,26.34,1959.01,4.71],
+["Dec 2025",3.3,0,33449.24,20240.66,1173,24.45,1199.93,3.46],
+["Jan 2026",4.3,0,15274.42,6171.22,613,21.57,976.22,4.35],
+["Feb 2026",2.9,2,23995.10,2991.73,1054,20.41,6902.79,2.01],
+["Mar 2026",1.4,14,29587.37,1164.29,1330,20.01,5619.14,2.92],
+["Apr 2026",0.2,27,36772.18,7980.76,1371,22.99,4255.15,3.25],
+["May 2026",1.5,6,48169.94,7632.17,2101,19.95,9545.05,5.20],
+["Jun 2026",1.2,5,41069.21,7830.14,1500,22.26,4668.81,3.82],
+["Jul 2026",6.9,0,54338.07,14212.57,1905,24.80,8123.05,4.28],
+["Aug 2026*",14.4,0,17496.91,5289.40,605,24.37,430.14,3.82]
+];
+
+const CREATIVES=[
+{n:201,s:"2025-07-21",e:"",f:"DCO",p:"brand",b:"Dynamic catalogue layer — product name, brand and description pulled from your Shopify feed. Running near-continuously since 21 July 2025 and still live. This single template accounts for 79% of every ad you have run."},
+{n:4,s:"2026-04-02",e:"2026-06-19",f:"VIDEO",p:"Ferne McCann",b:"Always get asked what tan I use… and it's always Jimmy Coco 🤍 I genuinely wouldn't use anything else, the soufflé tan goes on seamlessly, never streaky, and gives the most gorgeous natural glow. It smells unreal (no biscuit vibes 🙅🏼‍♀️) and I always get compliments when I wear it. I use shade medium ✨ Use code FERNE15 for 15% off at jimmycoco.co.uk"},
+{n:4,s:"2025-11-26",e:"2026-01-07",f:"VIDEO",p:"Ferne McCann",b:"My most complimented tan EVER 🤎 I'm always getting asked if my tan is oh natural🙊… Jimmy Coco's Malibu Tan is my go-to… perfect for party season💫✨ smells insane and gives the most even, gorgeous glow!!! The Black Friday savings are so good — perfect time to grab yours!"},
+{n:4,s:"2025-09-09",e:"2025-10-20",f:"CAROUSEL",p:"brand",b:"Say goodbye to streaks and dryness. Our Self-Tan Soufflé blends effortlessly, hydrates deeply, and leaves you with a radiant golden finish that lasts."},
+{n:3,s:"2026-02-10",e:"2026-02-26",f:"DCO",p:"Faye Winter",b:"Life falling apart? Cover it in Sunless by @jimmyjimmycoco and I swear it will get better overnight, with no smell and over 15 years experience tanning"},
+{n:3,s:"2025-12-29",e:"2026-01-04",f:"DPA",p:"brand",b:"Boxing Day Sale – 20% off sitewide! Treat yourself to the Bronzed Goddess bundle from Jimmy Coco. Hurry and grab yours before it ends."},
+{n:3,s:"2025-08-18",e:"2025-08-26",f:"VIDEO",p:"brand",b:"Get the iconic Jimmy Coco sunless tan loved by stars. Buy 1, get 1 HALF PRICE — only for a limited time! Stock up now."},
+{n:3,s:"2026-08-04",e:"",f:"VIDEO",p:"brand",b:"🚨 FLASH SALE 🚨 Save up to 25% OFF sitewide. The celebrity-loved glow has never been better value. Limited time only."},
+{n:2,s:"2025-11-21",e:"2025-12-23",f:"DPA",p:"brand",b:"Treat yourself to the Bronzed Goddess bundle from Jimmy Coco for only £38. Hurry and get yours before the Black Friday sale ends!"},
+{n:2,s:"2026-08-03",e:"",f:"VIDEO",p:"Chloe Sims",b:"🚨 FLASH SALE IS HERE. 🚨 Your favourite celebrity-loved glow is now up to 25% OFF. The self-tan behind iconic bronzed skin is finally on sale—but not for long. ✨ Streak-free. ✨ Natural-looking. ✨ Red carpet-worthy results."},
+{n:2,s:"2025-08-13",e:"2025-09-07",f:"VIDEO",p:"brand",b:"Looking for the most natural looking tan? Watch as Rebecca shows how she preps her skin to achieve a long lasting glow."},
+{n:2,s:"2025-09-09",e:"2025-09-26",f:"CAROUSEL",p:"brand",b:"Get the flawless, golden glow the Kardashians swear by. Our Self-Tan Soufflé is ultra-moisturising, easy to blend, and streak-free — all without the fake tan smell. Shop now for £29."},
+{n:2,s:"2025-09-09",e:"2025-09-16",f:"CAROUSEL",p:"brand",b:"Get the Hollywood treatment with Jimmy Coco's sunless tanning. Ultra-hydrating, a flawless smooth finish, and no fake tan smell."},
+{n:2,s:"2025-08-06",e:"2025-08-21",f:"VIDEO",p:"brand",b:"Get the Celebrity Look — Explore the Jimmy Coco Range, everything you need for an iconic glow."},
+{n:2,s:"2025-09-09",e:"2025-09-16",f:"CAROUSEL",p:"brand",b:"Loved by stars like Heidi Klum and Ariana Grande, Jimmy Coco's iconic Self-Tan Soufflé delivers a flawless finish."},
+{n:2,s:"2025-08-20",e:"2025-08-28",f:"VIDEO",p:"brand",b:"Tanning disaster? Been there! 😩 But @jimmyjimmycoco is my secret to a perfect, natural-looking tan."},
+{n:2,s:"2025-08-19",e:"2025-08-27",f:"VIDEO",p:"brand",b:"Want that naturally gorgeous, long-lasting glow? Here's how to prep your skin for the glowiest result."},
+{n:1,s:"2026-06-26",e:"2026-08-08",f:"VIDEO",p:"Chloe Sims",b:"Get the glow everyone's talking about... Meet Jimmy Coco Malibu Tan — your shortcut to golden, sun-kissed skin with a radiant finish that looks like you've just stepped off the beach."},
+{n:1,s:"2026-05-18",e:"2026-06-09",f:"VIDEO",p:"brand",b:"20% OFF ALERT 🚨✨ Hollywood glow, no glam squad required. ✨ Create a deep, even bronze with a seamless finish designed to turn heads. Loved by celebrities and beauty insiders."},
+{n:1,s:"2026-05-12",e:"2026-05-19",f:"VIDEO",p:"Phoebe Torrance",b:"The only self tan I'd ever use and that's because it's @jimmyjimmycoco AD"},
+{n:1,s:"2026-01-07",e:"2026-01-26",f:"DPA",p:"brand",b:"Discover a soft, dewy bronze with Jimmy Coco's Malibu Tan. Hydrating, skin-loving, and effortlessly radiant. Don't wait — shop now!"},
+{n:1,s:"2025-07-17",e:"2025-08-19",f:"VIDEO",p:"brand",b:"Stop what you're doing! Sunless by Jimmy Coco is giving new customers 20% off their first purchase."},
+{n:1,s:"2025-08-28",e:"2025-09-07",f:"VIDEO",p:"brand",b:"Tanning disaster? Been there! 😩 But @jimmyjimmycoco is my secret to a perfect, natural-looking tan every single time."},
+{n:1,s:"2025-08-18",e:"2025-08-27",f:"DPA",p:"brand",b:"QUICK! Self-Tan Soufflé is now buy one, get one 50% off for a limited time. Grab yours before midnight on Monday."},
+{n:1,s:"2025-07-30",e:"2025-08-14",f:"DPA",p:"brand",b:"Holiday Season is here and your perfect tan is back in stock & ready to glo! ✨ ☀️The perfect option for nervous or new to tanning"},
+{n:1,s:"2025-08-14",e:"2025-08-19",f:"DPA",p:"brand",b:"Tan the easy way with Sunless by Jimmy Coco ✨ ☀️The perfect option for nervous or new to tanning ☀️Vegan"},
+{n:1,s:"2025-09-09",e:"2025-09-19",f:"VIDEO",p:"brand",b:"The Kardashians. Ariana Grande. Heidi Klum. What do they all have in common? A Jimmy Coco tan. Hollywood's most coveted sunless tan could be yours."},
+{n:1,s:"2025-07-21",e:"2025-08-18",f:"VIDEO",p:"brand",b:"Used by A-list celebrities, this luxurious self-tan soufflé gives you a flawless glow in just one application! Say goodbye to streaks and hello to sun-kissed skin."},
+{n:1,s:"2026-07-16",e:"2026-07-24",f:"VIDEO",p:"Ferne McCann",b:"Your perfect tan routine, in 3 easy steps ✨ Apply Malibu Body Soufflé with the mitt, blend the details with the body brush, then finish with Face Mist for a seamless face-to-body glow."}
+];
+
+document.getElementById('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('section.panel').forEach(s=>s.classList.toggle('on',s.id===b.dataset.p));
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+// month table
+(function(){
+  const f=n=>'£'+Math.round(n).toLocaleString();
+  document.getElementById('tbodyMonths').innerHTML=MONTHS.map(m=>{
+    const share=(m[4]/m[3]*100).toFixed(0);
+    const hot = m[1]>=6 ? ' style="background:#FCF3F2"' : (m[1]<1 ? ' style="background:#F2F8F4"' : '');
+    return `<tr${hot}>
+      <td><b>${m[0]}</b></td>
+      <td class="num mono">${m[1].toFixed(1)}</td>
+      <td class="num mono">${m[2]||'—'}</td>
+      <td class="num mono"><b>${f(m[3])}</b></td>
+      <td class="num mono">${f(m[4])}</td>
+      <td class="num mono">${share}%</td>
+      <td class="num mono">${m[5].toLocaleString()}</td>
+      <td class="num mono">£${m[6].toFixed(2)}</td>
+      <td class="num mono">${f(m[7])}</td>
+      <td class="num mono">${m[8].toFixed(2)}%</td>
+    </tr>`;
+  }).join('');
+})();
+
+// dual bar chart
+(function(){
+  const rows=MONTHS.slice(0,13);
+  const maxA=Math.max(...rows.map(r=>r[1])), maxR=Math.max(...rows.map(r=>r[3]));
+  document.getElementById('dualChart').innerHTML=rows.map(r=>`
+    <div class="row">
+      <div class="mlab">${r[0].replace(' 20',"' ")}</div>
+      <div class="bars">
+        <div class="b ads" style="width:${Math.max(2,r[1]/maxA*100)}%"><span>${r[1].toFixed(1)}</span></div>
+        <div class="b rev" style="width:${Math.max(2,r[3]/maxR*100)}%"><span>£${Math.round(r[3]/1000)}k</span></div>
+      </div>
+    </div>`).join('');
+})();
+
+// creative table
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function render(){
+  const ft=fType.value, fy=fYear.value, q=fSearch.value.toLowerCase().trim();
+  const rows=CREATIVES.filter(c=>{
+    if(fy && !c.s.startsWith(fy)) return false;
+    if(ft==='dco' && !(c.f==='DCO'||c.f==='DPA')) return false;
+    if(ft==='video' && c.f!=='VIDEO') return false;
+    if(ft==='creator' && c.p==='brand') return false;
+    if(ft==='brand' && c.p!=='brand') return false;
+    if(q && !c.b.toLowerCase().includes(q)) return false;
+    return true;
+  }).sort((a,b)=>b.n-a.n);
+  cCount.textContent=rows.length+' of '+CREATIVES.length+' creatives · '+rows.reduce((s,c)=>s+c.n,0)+' ad instances';
+  document.getElementById('tbodyCreative').innerHTML=rows.map(c=>{
+    const tags=[
+      c.p!=='brand'?`<span class="tag creator">${esc(c.p)}</span>`:'<span class="tag">Brand page</span>',
+      (c.f==='DCO'||c.f==='DPA')?'<span class="tag dco">Catalogue</span>':`<span class="tag">${c.f.charAt(0)+c.f.slice(1).toLowerCase()}</span>`,
+      !c.e?'<span class="tag live">Live</span>':''
+    ].join('');
+    return `<tr>
+      <td class="num mono"><b style="font-size:22px">${c.n}</b></td>
+      <td class="mono" style="font-size:16px;color:var(--sec)">${c.s} →<br>${c.e||'<b style="color:#1e5230">running</b>'}</td>
+      <td>${tags}</td>
+      <td class="copy">${esc(c.b)}</td>
+    </tr>`;
+  }).join('');
+}
+['fType','fYear','fSearch'].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener(id==='fSearch'?'input':'change',render);
+});
+render();
+</script>
+</body>
+</html>

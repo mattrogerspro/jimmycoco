@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Form, Link, useActionData, useNavigation } from "react-router";
 import type { ApplicationActionResult } from "../../lib/application-action.server";
 import { track } from "../../lib/analytics";
@@ -10,6 +10,59 @@ function DropIcon() {
   return <svg viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3c3.5 4.8 6.5 8.2 6.5 12a6.5 6.5 0 0 1-13 0C5.5 11.2 8.5 7.8 12 3z" /></svg>;
 }
 
+/**
+ * Layered bottle stack in the hero, with a scroll parallax.
+ *
+ * Each layer declares its own depth; the effect only writes a CSS custom
+ * property, so the paint stays on the compositor (transform only, no layout).
+ * It disables itself for reduced-motion users, below 900px where the stack is
+ * hidden anyway, and whenever the hero is scrolled out of view.
+ */
+function HeroBottleStack() {
+  const ref = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const stack = ref.current;
+    if (!stack) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(max-width: 900px)").matches) return;
+
+    const layers = Array.from(stack.querySelectorAll<HTMLElement>("[data-depth]"));
+    let frame = 0;
+    let visible = true;
+
+    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { rootMargin: "120px" });
+    observer.observe(stack);
+
+    const onScroll = () => {
+      if (frame || !visible) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const y = window.scrollY;
+        for (const layer of layers) {
+          layer.style.setProperty("--py", `${(y * Number(layer.dataset.depth)).toFixed(1)}px`);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return (
+    <figure className="hero-stack" ref={ref as any}>
+      <img className="hs-layer hs-back" data-depth="-0.16" src={`${A}pro-bottle.webp`} alt="" width={620} height={1708} loading="lazy" decoding="async" />
+      <img className="hs-layer hs-mid" data-depth="-0.09" src={`${A}pro-bottle.webp`} alt="" width={620} height={1708} loading="lazy" decoding="async" />
+      <img className="hs-layer hs-front" data-depth="0.05" src={`${A}pro-bottle.webp`} alt="Malibu 1 litre professional spray tan solution bottle" width={620} height={1708} fetchPriority="high" decoding="async" />
+    </figure>
+  );
+}
+
 export function Hero() {
   return (
     <div className="fold">
@@ -19,7 +72,8 @@ export function Hero() {
           <h1>The tan your<br />clients ask for.<br /><em>Now in your booth.</em></h1>
           <div className="hero-stats"><div>Hollywood's professional spray tan system.</div><div>Approx. 28 full-body tans per bottle.</div><div>Designed to create clients who come back.</div></div>
           <div className="hero-ctas"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order Malibu 1L — £60</Link><a className="btn btn-ghost" href="#trial">Request a free trial</a><a className="hero-profit-link" href="#calculator">Calculate your salon profits →</a></div>
-        </div></div>
+        </div>
+        <HeroBottleStack /></div>
         <div className="hero-img"><img src="/img/hero-1100.webp" srcSet="/img/hero-560.webp 560w, /img/hero-760.webp 760w, /img/hero-1100.webp 1100w" sizes="(max-width: 900px) 100vw, 50vw" alt="Professional model holding the Sunless by Jimmy Coco spray tan" width="1100" height="1213" fetchPriority="high" /></div>
       </section>
       <div className="metrics"><div className="metrics-inner">
@@ -98,17 +152,11 @@ export function Retail() {
 }
 
 export function GlowDuo() {
-  return <section className="glow-duo"><div className="wrap"><div className="gd-grid">
-    <figure className="gd-shot">
-      <img src={`${A}glow-duo-bikini.webp`} alt="Sun-kissed tan finish with a Sunless by Jimmy Coco branded towel" width={1080} height={1620} loading="lazy" decoding="async" sizes="(max-width: 820px) 100vw, 34vw" />
-    </figure>
-    <figure className="gd-shot gd-product">
-      <img src={`${A}malibu-bottle.webp`} alt="Malibu professional spray tan solution in the 1 litre salon bottle" width={700} height={1954} loading="lazy" decoding="async" sizes="(max-width: 820px) 60vw, 18vw" />
-    </figure>
-    <figure className="gd-shot">
-      <img src={`${A}glow-duo-quote.webp`} alt="Press quote from Hello Magazine calling Jimmy Coco the magician behind Kylie Jenner's signature bronzed glow" width={1080} height={1674} loading="lazy" decoding="async" sizes="(max-width: 820px) 100vw, 48vw" />
-    </figure>
-  </div></div></section>;
+  const shots = [
+    ["glow-duo-bikini.webp", "Sun-kissed tan finish with a Sunless by Jimmy Coco branded towel", 1080, 1620],
+    ["glow-duo-quote.webp", "Press quote from Hello Magazine calling Jimmy Coco the magician behind Kylie Jenner's signature bronzed glow", 1080, 1674],
+  ];
+  return <section className="glow-duo"><div className="wrap"><div className="gd-grid">{shots.map(([src, alt, w, h]) => <figure className="gd-shot" key={src as string}><img src={`${A}${src}`} alt={alt as string} width={w as number} height={h as number} loading="lazy" decoding="async" sizes="(max-width: 820px) 100vw, 60vw" /></figure>)}</div></div></section>;
 }
 
 export function Certification() {

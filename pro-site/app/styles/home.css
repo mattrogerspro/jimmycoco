@@ -47,6 +47,21 @@
   .hero-ctas{display:flex;gap:14px 16px;flex-wrap:wrap;align-items:center}
   .hero-ctas .btn{flex:0 0 auto}
   .hero-profit-link{color:var(--bronze2);font-weight:600;font-size:15px;letter-spacing:.04em;text-underline-offset:5px;white-space:nowrap}
+  /* Product shot sits in the second hero column, in front of the model image.
+     Contained, never cropped — it is a 700x1954 bottle, not a photograph. */
+  /* Layered bottle stack. Each layer composes its own resting offset with a
+     --py written by the parallax effect, so JS never touches layout. */
+  .hero-stack{margin:0;position:relative;z-index:2;align-self:center;justify-self:start;
+              height:min(64%,560px);aspect-ratio:620/1708;pointer-events:none}
+  .hero-stack .hs-layer{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+                        transform:translate3d(var(--x,0),var(--py,0px),0) scale(var(--s,1));
+                        will-change:transform;backface-visibility:hidden}
+  .hero-stack .hs-back{--x:-62%;--s:.70;opacity:.34;filter:blur(2px) saturate(.9)}
+  .hero-stack .hs-mid{--x:44%;--s:.82;opacity:.52;filter:blur(.8px)}
+  .hero-stack .hs-front{filter:drop-shadow(0 30px 54px rgba(25,21,18,.34))}
+  @media (prefers-reduced-motion: reduce){
+    .hero-stack .hs-layer{transform:translate3d(var(--x,0),0,0) scale(var(--s,1));transition:none}
+  }
   .hero-img{position:absolute;top:0;bottom:0;right:0;aspect-ratio:1355/1494;z-index:1}
   .hero-img img{width:100%;height:100%;object-fit:cover;object-position:center top}
   /* metrics strip */
@@ -306,19 +321,14 @@
   /* editorial duo */
   .glow-duo{background:var(--paper);padding:0}
   .glow-duo .wrap{max-width:none;width:100%;padding:0}
-  .gd-grid{display:grid;grid-template-columns:34% 18% 48%;gap:0;align-items:stretch;height:calc(100vh - 74px)}
+  .gd-grid{display:grid;grid-template-columns:40% 60%;gap:0;align-items:stretch;height:calc(100vh - 74px)}
   .gd-shot{margin:0;overflow:hidden;background:#EFE7DE;line-height:0;position:relative}
   .gd-shot img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
   .gd-shot:first-child img{object-position:50% 42%}
   .gd-shot:last-child img{object-position:50% 40%}
-  /* The bottle is a 700x1954 product shot, not a photograph — it must be
-     contained and centred on the cream, never cropped like the two stills. */
-  .gd-shot.gd-product{background:var(--cream);display:flex;align-items:center;justify-content:center;padding:clamp(20px,2.6vw,52px)}
-  .gd-shot.gd-product img{position:static;inset:auto;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain}
   @media (max-width:820px){
     .gd-grid{grid-template-columns:1fr;height:auto}
     .gd-shot{aspect-ratio:1080/1400}
-    .gd-shot.gd-product{aspect-ratio:3/4;padding:26px}
   }
   /* retail */
   .retail{background:var(--cream)}
@@ -404,6 +414,7 @@
     .fold{display:block;min-height:0}
     .hero-inner{grid-template-columns:1fr;min-height:0;height:auto}
     .hero-img{position:relative;left:auto;right:auto;aspect-ratio:1355/1494;max-height:640px;order:-1;margin:0 -24px}
+    .hero-stack{display:none}
     .hero-copy{padding:32px 0 48px}
     .hero-ctas{flex-wrap:wrap}
     .hero-ctas .btn{flex:1 1 auto}

@@ -50,7 +50,7 @@
   /* Product shot sits in the second hero column, in front of the model image.
      Contained, never cropped — it is a 700x1954 bottle, not a photograph. */
   /* One bottle in the cream strip between the copy and the photo. */
-  .hero-bottle{position:absolute;left:47%;right:38%;top:7%;bottom:7%;z-index:2;margin:0;
+  .hero-bottle{position:absolute;left:43.5%;right:38%;top:7%;bottom:7%;z-index:2;margin:0;
                display:flex;align-items:center;justify-content:center;pointer-events:none}
   .hero-bottle img{width:auto;height:100%;max-width:100%;max-height:100%;object-fit:contain;
                    filter:drop-shadow(0 30px 54px rgba(25,21,18,.34))}

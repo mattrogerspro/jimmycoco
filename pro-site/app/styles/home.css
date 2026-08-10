@@ -98,15 +98,24 @@
      reader. Sized in cqw so it tracks the photo's own box rather than the
      viewport — the photo is ~35vw at desktop but full-bleed under 900px. */
   .hero-img{container-type:size;container-name:heroimg}
-  .hero-overlay{position:absolute;inset:auto 0 0 0;z-index:2;text-align:center;
-                padding:0 6% clamp(16px,6cqh,52px);color:#FFFDF9;pointer-events:none;
-                background:linear-gradient(to top,rgba(20,16,13,.60) 0%,rgba(20,16,13,.40) 42%,rgba(20,16,13,.10) 74%,transparent 100%)}
-  /* 10.5cqw keeps "a Kardashian" on one line at every width — measured against
-     the real Walbaum metrics, which top out at 11.4cqw before it breaks. */
-  .ho-head{font-family:'Walbaum',Georgia,serif;font-weight:400;text-transform:uppercase;
-           font-size:clamp(22px,10.5cqw,96px);line-height:1.06;letter-spacing:.005em;
-           margin:0 0 clamp(9px,2cqw,20px);
-           text-shadow:0 2px 18px rgba(20,16,13,.42)}
+  .hero-overlay{position:absolute;inset:0;z-index:2;text-align:center;
+                display:flex;flex-direction:column;justify-content:center;align-items:center;
+                padding:0 6%;color:#FFFDF9;pointer-events:none;
+                /* A radial pool behind the type rather than a full-frame wash —
+                   the photo sits at mid-luminance everywhere (100–160 of 255),
+                   so the text needs help, but a flat scrim dulls her face and
+                   the top of the frame along with it. */
+                background:radial-gradient(125% 58% at 50% 47%,rgba(20,16,13,.54) 0%,rgba(20,16,13,.40) 46%,rgba(20,16,13,.16) 78%,rgba(20,16,13,0) 100%)}
+  /* Two faces on two lines, exactly as the burnt-in artwork had it: the display
+     serif over the sans. Both are set from the same cqw base so the pair scales
+     together — 10.5cqw is the ceiling for "a Kardashian" on one line, measured
+     against real metrics rather than guessed. */
+  .ho-head{font-size:clamp(22px,10.5cqw,96px);line-height:1.06;margin:0 0 clamp(9px,2cqw,20px);
+           text-transform:uppercase;text-shadow:0 2px 18px rgba(20,16,13,.42)}
+  .ho-head span{display:block}
+  .ho-serif{font-family:'Walbaum',Georgia,serif;font-weight:400;letter-spacing:.005em}
+  .ho-sans{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:300;
+           font-size:.78em;letter-spacing:.03em;margin-top:.1em}
   .ho-sub{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:400;
           text-transform:uppercase;font-size:clamp(10px,3.15cqw,23px);line-height:1.5;
           letter-spacing:.1em;margin:0;color:#F4EDE4;

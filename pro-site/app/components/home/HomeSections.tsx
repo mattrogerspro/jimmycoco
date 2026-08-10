@@ -35,7 +35,7 @@ export function Hero() {
         <div className="hero-img">
           <img src="/img/hero-kk-996.webp" srcSet="/img/hero-kk-560.webp 560w, /img/hero-kk-760.webp 760w, /img/hero-kk-996.webp 996w" sizes="(max-width: 900px) 100vw, 34vw" alt="Professional model with a Sunless by Jimmy Coco spray tan" width="996" height="1270" fetchPriority="high" />
           <div className="hero-overlay">
-            <p className="ho-head">Glow like<br />a Kardashian</p>
+            <p className="ho-head"><span className="ho-serif">Glow like</span><span className="ho-sans">a Kardashian</span></p>
             <p className="ho-sub">Hollywood&rsquo;s sunless tan experts<br />Professional tan formula</p>
           </div>
         </div>

@@ -3,10 +3,7 @@ import { fileURLToPath } from 'node:url';
 import QRCode from 'qrcode';
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
-const trackedUrl = new URL('https://jimmycoco.pro');
-trackedUrl.search = new URLSearchParams({
-  utm_source: 'pro_bottle',
-}).toString();
+const trackedUrl = new URL('/q/bottle', 'https://jimmycoco.pro');
 
 const outputBase = path.join(
   scriptDirectory,
@@ -17,7 +14,7 @@ const outputBase = path.join(
 );
 
 const commonOptions = {
-  errorCorrectionLevel: 'M',
+  errorCorrectionLevel: 'Q',
   margin: 4,
   color: {
     dark: '#000000',

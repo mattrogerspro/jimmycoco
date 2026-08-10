@@ -64,6 +64,7 @@ const NAV_GROUPS = [
       { to: "/admin/articles", label: "Articles", glyph: "✎" },
       { to: "/admin/article-stats", label: "Article stats", glyph: "▤" },
       { to: "/admin/media", label: "Media", glyph: "❖" },
+      { to: "/admin/qr-codes", label: "QR codes", glyph: "▦" },
     ],
   },
   {

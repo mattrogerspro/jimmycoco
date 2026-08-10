@@ -101,6 +101,22 @@ export const IconPlus = ({ size = 20, className }: Props) => (
   </svg>
 );
 
+export const IconQrCode = ({ size = 20, className }: Props) => (
+  <svg {...base(size)} className={className}>
+    <rect x="3" y="3" width="6" height="6" rx="1" />
+    <rect x="15" y="3" width="6" height="6" rx="1" />
+    <rect x="3" y="15" width="6" height="6" rx="1" />
+    <path d="M13 13h3v3h-3zM18 13h3M21 13v3M13 18v3M16 18h2M18 21h3v-3" />
+  </svg>
+);
+
+export const IconDownload = ({ size = 20, className }: Props) => (
+  <svg {...base(size)} className={className}>
+    <path d="M12 3v12M7 10l5 5 5-5" />
+    <path d="M4 19h16" />
+  </svg>
+);
+
 export const IconChart = ({ size = 20, className }: Props) => (
   <svg {...base(size)} className={className}>
     <path d="M3 3v18h18" />

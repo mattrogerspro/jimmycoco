@@ -712,3 +712,48 @@ button,input,select,textarea{font:inherit}
   .stat-page{--stat-gap:14px}
   .stat-grid > *{grid-column:span 12}
 }
+
+/* ======================================================================== */
+/* Dynamic QR manager                                                       */
+/* ======================================================================== */
+.qr-create .admin-panel-head p{margin:4px 0 0;color:var(--admin-muted);font-size:14.5px}
+.qr-create-form{display:grid;grid-template-columns:minmax(180px,.8fr) minmax(300px,1.7fr) auto;gap:16px;align-items:end;padding:22px 24px}
+.qr-create-form .admin-field{margin:0;min-width:0}
+.qr-create-form .admin-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;white-space:nowrap}
+
+.qr-grid{display:grid;gap:20px}
+.qr-card{display:grid;grid-template-columns:250px minmax(0,1fr);border:1px solid var(--admin-line);border-left:5px solid #4C8A46;border-radius:13px;background:var(--admin-paper);overflow:hidden;box-shadow:0 8px 22px rgba(45,31,20,.05)}
+.qr-card.is-inactive{border-left-color:#B4A99C;opacity:.82}
+.qr-card-preview{position:relative;display:grid;place-items:center;padding:26px;background:var(--admin-cream);border-right:1px solid var(--admin-line)}
+.qr-card-preview img{display:block;width:100%;max-width:198px;aspect-ratio:1;background:#fff;border-radius:8px}
+.qr-card-preview .admin-status{position:absolute;top:14px;left:14px;box-shadow:0 2px 8px rgba(45,31,20,.12)}
+.qr-card-body{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:0 18px;padding:22px 24px;min-width:0}
+.qr-card-body .admin-field{min-width:0}
+.qr-card-body .admin-field input{width:100%;min-width:0}
+.qr-short-url{grid-column:1/-1;margin-bottom:18px;padding:12px 14px;border:1px solid var(--admin-line);border-radius:8px;background:var(--admin-cream);min-width:0}
+.qr-short-url span{display:block;margin-bottom:5px;color:var(--admin-muted);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+.qr-short-url code{display:block;color:var(--admin-ink2);font-size:14px;word-break:break-all}
+.qr-card-stats{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.qr-card-stats div{padding:12px 14px;border:1px solid var(--admin-line);border-radius:8px;background:var(--admin-paper)}
+.qr-card-stats span{display:block;color:var(--admin-muted);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:600}
+.qr-card-stats b{display:block;margin-top:5px;font-size:17px;font-weight:600}
+.qr-card-body .admin-switch{grid-column:1/-1}
+.qr-card-actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.qr-card-actions .admin-primary,.qr-card-actions .admin-secondary-link{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.qr-downloads{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:18px;padding:14px 24px;border-top:1px solid var(--admin-line);background:var(--admin-cream)}
+.qr-downloads a{display:inline-flex;align-items:center;gap:7px;color:var(--admin-bronze-dark);font-size:14px;font-weight:600;text-decoration:none}
+.qr-downloads a:hover{text-decoration:underline}
+
+@media (max-width:1000px){
+  .qr-create-form{grid-template-columns:1fr}
+  .qr-create-form .admin-primary{justify-self:start}
+  .qr-card{grid-template-columns:210px minmax(0,1fr)}
+  .qr-card-body{grid-template-columns:1fr}
+  .qr-card-body>*{grid-column:1}
+}
+@media (max-width:700px){
+  .qr-card{grid-template-columns:1fr}
+  .qr-card-preview{border-right:0;border-bottom:1px solid var(--admin-line)}
+  .qr-card-preview img{max-width:220px}
+  .qr-card-stats{grid-template-columns:1fr}
+}

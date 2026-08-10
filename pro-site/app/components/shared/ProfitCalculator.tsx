@@ -243,7 +243,6 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
                   <a className="btn btn-outline-light" href="#trial">
                     Start with a free trial
                   </a>
-                  <p>Full figures or a free trial—the next step is yours.</p>
                 </>
               )}
             </div>

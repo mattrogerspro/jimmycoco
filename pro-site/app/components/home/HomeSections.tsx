@@ -33,8 +33,8 @@ export function Hero() {
       </section>
       <div className="metrics"><div className="metrics-inner">
         <div className="metric"><DropIcon /><div><b>35<small>ml</small></b><span>Ideal application</span></div></div>
-        <div className="metric"><svg viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="M12 7.5v5l3.5 2" /></svg><div><b>6–8<small>hrs</small></b><span>Classic development</span></div></div>
-        <div className="metric"><svg viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6z" /></svg><div><b>3–4<small>hrs</small></b><span>Express development</span></div></div>
+        <div className="metric metric-empty" aria-hidden="true" />
+        <div className="metric"><svg viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="M12 7.5v5l3.5 2" /></svg><div><b>6–8<small>hrs</small></b><span>Development</span></div></div>
       </div></div>
       <div className="benefits"><div className="wrap"><span>Professional only</span><span>Hollywood formula</span><span>Fast dry down</span><span>Zero transfer</span><span>Soft focus finish</span></div></div>
     </div>

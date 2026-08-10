@@ -233,15 +233,22 @@ export default function ArticlePage() {
               {related.map((item: any) => (
                 <article className="article-card" key={item.id}>
                   <Link to={`/articles/${item.slug}`} className="article-card-image">
-                    {item.cover_url ? <img src={item.cover_url} srcSet={responsiveSrcSet(item.cover_url)} sizes={SIZES.card} alt={item.cover?.alt_text || ""} loading="lazy" decoding="async" /> : <span />}
+                    {item.cover_url ? <img src={item.cover_url} srcSet={responsiveSrcSet(item.cover_url)} sizes={SIZES.card} alt={item.cover?.alt_text || ""} loading="lazy" decoding="async" /> : <span className="article-card-fallback" />}
+                    <span className="article-card-scrim" aria-hidden="true" />
+                    {item.category?.name ? <span className="article-card-chip">{item.category.name}</span> : null}
                   </Link>
-                  <div>
-                    <p className="article-card-meta">
-                      {item.category?.name || "Professional advice"} · {item.reading_time_minutes || 5} min read
-                    </p>
-                    <h3><Link to={`/articles/${item.slug}`}>{item.title}</Link></h3>
-                    <p>{item.excerpt}</p>
-                    <Link className="article-read" to={`/articles/${item.slug}`}>Read article →</Link>
+                  <div className="article-card-body">
+                    <h2><Link to={`/articles/${item.slug}`}>{item.title}</Link></h2>
+                    <span className="article-card-rule" aria-hidden="true" />
+                    <p className="article-card-excerpt">{item.excerpt}</p>
+                    <div className="article-card-foot">
+                      <span className="article-card-meta">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+                        {item.reading_time_minutes || 5} min read
+                        {item.published_at ? <><i aria-hidden="true">·</i>{formatDate(item.published_at)}</> : null}
+                      </span>
+                      <span className="article-read">Read article <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" /></svg></span>
+                    </div>
                   </div>
                 </article>
               ))}

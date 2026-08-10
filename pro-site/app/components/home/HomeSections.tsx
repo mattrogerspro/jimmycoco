@@ -56,9 +56,9 @@ function HeroBottleStack() {
 
   return (
     <figure className="hero-stack" ref={ref as any}>
-      <img className="hs-layer hs-back" data-depth="-0.16" src={`${A}pro-bottle.webp`} alt="" width={620} height={1708} loading="lazy" decoding="async" />
-      <img className="hs-layer hs-mid" data-depth="-0.09" src={`${A}pro-bottle.webp`} alt="" width={620} height={1708} loading="lazy" decoding="async" />
+      <img className="hs-layer hs-side" data-depth="-0.10" src={`${A}pro-bottle.webp`} alt="" width={620} height={1708} loading="lazy" decoding="async" />
       <img className="hs-layer hs-front" data-depth="0.05" src={`${A}pro-bottle.webp`} alt="Malibu 1 litre professional spray tan solution bottle" width={620} height={1708} fetchPriority="high" decoding="async" />
+      <img className="hs-layer hs-side" data-depth="-0.15" src={`${A}pro-bottle.webp`} alt="" width={620} height={1708} loading="lazy" decoding="async" />
     </figure>
   );
 }

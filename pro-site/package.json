@@ -14,7 +14,8 @@
     "seed:articles": "node --env-file-if-exists=../.env --env-file-if-exists=../.env.local --env-file-if-exists=.env.local scripts/seed-articles.mjs",
     "images:generate": "node scripts/generate-article-images.mjs",
     "images:publish": "node scripts/publish-article-images.mjs",
-    "llms:generate": "node scripts/generate-llms-txt.mjs"
+    "llms:generate": "node scripts/generate-llms-txt.mjs",
+    "qr:bottle-label": "node scripts/generate-bottle-label-qr.mjs"
   },
   "dependencies": {
     "@react-router/node": "^7.16.0",
@@ -34,6 +35,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@types/sanitize-html": "^2.16.1",
+    "qrcode": "1.5.4",
     "sharp": "^0.35.3",
     "typescript": "^5.9.0",
     "vite": "^8.1.0"

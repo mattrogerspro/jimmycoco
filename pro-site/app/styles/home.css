@@ -34,10 +34,23 @@
   .btn-ghost{border:1.5px solid var(--ink);color:var(--ink);padding:14.5px 28px;background:transparent}
   .btn-sm{padding:13px 24px;font-size:13.5px}
   /* hero V2 — the whole fold (hero + metrics + benefits) is locked to one viewport */
-  .fold{display:flex;flex-direction:column;height:calc(100svh - 120px);min-height:560px}
+  /* Shared geometry for the fold. The metrics strip is thirds of the WRAP, so
+     anchoring the hero photo to a percentage of the VIEWPORT put the two
+     vertical boundaries ~35px apart. Both now read the same tokens. */
+  .fold{display:flex;flex-direction:column;height:calc(100svh - 120px);min-height:560px;
+        --wrap:min(90vw,1900px);--pad:24px;
+        --edge:calc((100vw - var(--wrap))/2 + var(--pad));
+        --col:calc((var(--wrap) - var(--pad)*2)/3)}
   .hero{background:var(--cream);position:relative;overflow:hidden;padding:0;flex:1 1 auto;min-height:0}
-  .hero-inner{max-width:min(90vw,1900px);margin:0 auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;min-height:100%;height:100%}
-  .hero-copy{padding:60px 56px 60px 0;position:relative;z-index:2}
+  /* One explicit row, sized to the hero's own box. Without it the row is
+     auto-sized to its tallest item, so a percentage height on .hero-bottle has
+     nothing definite to resolve against and the bottle falls back to its
+     intrinsic aspect ratio (a 1146px-tall bottle in a 558px hero). */
+  .hero-inner{max-width:var(--wrap);margin:0 auto;padding:0 var(--pad);display:grid;
+              grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:minmax(0,1fr);
+              align-items:center;min-height:100%;height:100%}
+  /* Column 1 of the shared 3-up grid. */
+  .hero-copy{grid-column:1;padding:0 24px 0 0;position:relative;z-index:2;min-width:0}
   h1{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(46px,5vw,94px);line-height:1.02;color:var(--ink);letter-spacing:-.02em;margin-bottom:34px}
   h1 em{font-style:italic;color:var(--bronze2)}
   h2 em{font-style:italic;color:var(--bronze2)}
@@ -47,18 +60,41 @@
   .hero-ctas{display:flex;gap:14px 16px;flex-wrap:wrap;align-items:center}
   .hero-ctas .btn{flex:0 0 auto}
   .hero-profit-link{color:var(--bronze2);font-weight:600;font-size:15px;letter-spacing:.04em;text-underline-offset:5px;white-space:nowrap}
-  /* Product shot sits in the second hero column, in front of the model image.
-     Contained, never cropped — it is a 700x1954 bottle, not a photograph. */
-  /* One bottle in the cream strip between the copy and the photo. */
-  .hero-bottle{position:absolute;left:43.5%;right:38%;top:7%;bottom:7%;z-index:2;margin:0;
+  /* Hero copy is sized against its COLUMN (≈28.8vw), not the viewport — a 5vw
+     headline needs half the fold's width and will not fit a third of it. These
+     selectors are two levels deep, so they would outrank the single-class
+     mobile rules below; the query keeps them off the stacked layout entirely. */
+  @media (min-width:901px){
+    .hero-copy .eyebrow{font-size:clamp(11px,.86vw,15px);letter-spacing:.2em;margin-bottom:14px;line-height:1.5}
+    /* 3.3vw ≈ 11.5% of the column — the largest size that still keeps
+       "clients ask for." on one line at every width from 1200 to 2560. */
+    .hero-copy h1{font-size:clamp(33px,3.3vw,70px);margin-bottom:22px}
+    .hero-copy .hero-stats{margin-bottom:24px;max-width:none}
+    .hero-copy .hero-stats div{padding:0 12px;font-size:clamp(12px,.86vw,15px);line-height:1.45}
+    .hero-copy .hero-ctas{gap:10px 12px}
+    .hero-copy .hero-ctas .btn{padding:12px 20px;font-size:12.5px;letter-spacing:.08em}
+    .hero-copy .hero-ctas .btn-ghost{padding:10.5px 20px}
+    .hero-copy .hero-profit-link{font-size:13px}
+  }
+  /* Between 901 and 1180 column one is only ~260–330px, so three side-by-side
+     stats break to five and six lines each. Stack them instead. */
+  @media (min-width:901px) and (max-width:1180px){
+    .hero-copy .hero-stats{flex-direction:column;gap:9px;margin-bottom:20px}
+    .hero-copy .hero-stats div{padding:9px 0 0;border-left:0;border-top:1px solid rgba(58,51,44,.2)}
+    .hero-copy .hero-stats div:first-child{border-top:0;padding-top:0}
+  }
+  /* Column 2 of the shared 3-up grid. Contained, never cropped — it is a
+     620x1708 bottle, not a photograph. */
+  .hero-bottle{grid-column:2;position:relative;margin:0;min-width:0;height:86%;
                display:flex;align-items:center;justify-content:center;pointer-events:none}
   .hero-bottle img{width:auto;height:100%;max-width:100%;max-height:100%;object-fit:contain;
                    filter:drop-shadow(0 30px 54px rgba(25,21,18,.34))}
-  .hero-img{position:absolute;top:0;bottom:0;right:0;width:38%;z-index:1}
+  /* Starts exactly on the column-3 boundary, still bleeds to the viewport edge. */
+  .hero-img{position:absolute;top:0;bottom:0;right:0;left:calc(var(--edge) + var(--col)*2);width:auto;z-index:1}
   .hero-img img{width:100%;height:100%;object-fit:cover;object-position:center top}
   /* metrics strip */
   .metrics{background:#E9DDCB;border-top:1px solid rgba(176,118,74,.22);flex:none}
-  .metrics-inner{max-width:min(90vw,1900px);margin:0 auto;padding:0 24px;display:grid;grid-template-columns:repeat(3,1fr)}
+  .metrics-inner{max-width:var(--wrap);margin:0 auto;padding:0 var(--pad);display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
   .metric{display:flex;align-items:center;justify-content:center;gap:26px;padding:40px 20px;border-left:1px solid rgba(176,118,74,.3)}
   .metric:first-child{border-left:0}
   .metric svg{width:66px;height:66px;flex:none;stroke:var(--bronze);fill:none;stroke-width:1.25}
@@ -238,6 +274,24 @@
     .field{margin-bottom:11px}
     .ocard{padding:13px 18px}
     .ocard.hero-num b{font-size:48px}
+    /* A laptop at 1280x720 leaves 358px of hero between the nav and the metrics
+       strip. Take the height back from the strip and the headline rather than
+       letting the copy run under the strip. */
+    .hero-copy h1{font-size:clamp(30px,min(3.3vw,4.4vh),70px);margin-bottom:16px}
+    .hero-copy .hero-stats{margin-bottom:16px}
+    .metric{padding:24px 18px;gap:18px}
+    .metric svg{width:46px;height:46px}
+    .metric b{font-size:clamp(34px,2.6vw,50px)}
+    .metric span{font-size:12px;margin-top:5px}
+    .benefits{padding:13px 0}
+  }
+  /* Under ~740px tall the fold cannot hold hero + metrics + benefits at any
+     readable size, so stop pinning it and let the page scroll normally. */
+  @media (min-width:901px) and (max-height:739px){
+    .fold{height:auto;min-height:0}
+    /* Still a definite height — the bottle sizes off it, and "auto" would send
+       it back to its 1146px intrinsic height. */
+    .hero-inner{height:max(470px,calc(100svh - 240px));min-height:0}
   }
   /* live product card (rebuilt from the composite artwork) */
   .litre-grid .prodcard{background:#F6EFE9;border:1px solid rgba(158,118,78,.24);border-radius:8px;box-shadow:var(--shadow);padding:clamp(6px,.8vw,14px) clamp(18px,2.2vw,38px) 0;display:flex;flex-direction:column;overflow:hidden}
@@ -404,8 +458,8 @@
     .litre-offer{min-height:0;display:block;padding:clamp(48px,7vw,88px) 0}
     .perks{grid-template-columns:1fr}
     .fold{display:block;height:auto;min-height:0}
-    .hero-inner{grid-template-columns:1fr;min-height:0;height:auto}
-    .hero-img{position:relative;left:auto;right:auto;aspect-ratio:1355/1494;max-height:640px;order:-1;margin:0 -24px}
+    .hero-inner{grid-template-columns:1fr;grid-template-rows:none;min-height:0;height:auto}
+    .hero-img{position:relative;left:auto;right:auto;width:auto;aspect-ratio:1355/1494;max-height:640px;order:-1;margin:0 -24px}
     .hero-bottle{display:none}
     .hero-copy{padding:32px 0 48px}
     .hero-ctas{flex-wrap:wrap}
@@ -433,7 +487,7 @@
 
   /* Below ~560px the header ran out of room: logo + "Professional" tag + the
      order button exceeded the viewport and made every page scroll sideways.
-     The nav-links are already hidden at 980px; this shrinks what is left. */
+     The nav-links are already hidden at 900px; this shrinks what is left. */
   @media (max-width:560px){
     .nav{gap:12px;height:64px}
     .logo{font-size:20px;letter-spacing:.1em}
@@ -452,6 +506,14 @@
     .nav{gap:14px}
     .nav-links{gap:11px;font-size:14px}
     .nav .btn-sm{padding:12px 16px;font-size:12px}
+  }
+  /* The links only disappear at 900px, so 901–979px still had to fit all six
+     plus the order button — 982px of content in a 901px viewport. One more
+     step of tightening keeps the nav visible instead of scrolling sideways. */
+  @media (max-width:1000px){
+    .nav{gap:10px}
+    .nav-links{gap:8px;font-size:12.5px}
+    .nav .btn-sm{padding:10px 11px;font-size:10.5px}
   }
 
   /* Grid children default to min-width:auto, so an image's intrinsic width and a

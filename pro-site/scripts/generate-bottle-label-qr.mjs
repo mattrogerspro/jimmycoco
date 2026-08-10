@@ -5,7 +5,7 @@ import QRCode from 'qrcode';
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const trackedUrl = new URL('https://jimmycoco.pro');
 trackedUrl.search = new URLSearchParams({
-  utm_source: 'bottle',
+  utm_source: 'pro_bottle',
 }).toString();
 
 const outputBase = path.join(

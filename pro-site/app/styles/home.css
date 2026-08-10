@@ -34,7 +34,7 @@
   .btn-ghost{border:1.5px solid var(--ink);color:var(--ink);padding:14.5px 28px;background:transparent}
   .btn-sm{padding:13px 24px;font-size:13.5px}
   /* hero V2 — the whole fold (hero + metrics + benefits) is locked to one viewport */
-  .fold{display:flex;flex-direction:column;min-height:calc(100vh - 120px)}
+  .fold{display:flex;flex-direction:column;height:calc(100svh - 120px);min-height:560px}
   .hero{background:var(--cream);position:relative;overflow:hidden;padding:0;flex:1 1 auto;min-height:0}
   .hero-inner{max-width:min(90vw,1900px);margin:0 auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;min-height:100%;height:100%}
   .hero-copy{padding:60px 56px 60px 0;position:relative;z-index:2}
@@ -49,26 +49,23 @@
   .hero-profit-link{color:var(--bronze2);font-weight:600;font-size:15px;letter-spacing:.04em;text-underline-offset:5px;white-space:nowrap}
   /* Product shot sits in the second hero column, in front of the model image.
      Contained, never cropped — it is a 700x1954 bottle, not a photograph. */
-  /* Three bottles on one baseline: a larger one centred, two tucked behind.
-     The stack's height derives from its column width and is then capped by the
-     viewport, so it scales with the space available instead of dominating
-     narrow laptops. Sizing it by width alone made it enormous (the bottle is
-     2.75x taller than wide); by height alone it ignored the column. */
-  .hero-stack{margin:0;position:relative;z-index:2;align-self:center;justify-self:center;
-              width:100%;aspect-ratio:1/1;max-height:min(74vh,660px);
+  /* The bottles live in the cream strip BETWEEN the copy and the photo, and
+     must not cross onto it. left:50% is the copy edge (the wrap is 90vw
+     centred); right:34% is exactly the photo's left edge. */
+  .hero-stack{position:absolute;left:50%;right:34%;bottom:0;height:88%;z-index:2;margin:0;
               display:flex;align-items:flex-end;justify-content:center;pointer-events:none}
-  .hero-stack .hs-layer{height:78%;width:auto;aspect-ratio:620/1708;object-fit:contain;
+  .hero-stack .hs-layer{height:76%;width:auto;max-width:31%;aspect-ratio:620/1708;object-fit:contain;
                         transform:translate3d(0,var(--py,0px),0);
                         will-change:transform;backface-visibility:hidden}
   .hero-stack .hs-side{z-index:1;filter:drop-shadow(0 16px 30px rgba(25,21,18,.22))}
-  .hero-stack .hs-side:first-child{margin-right:-7%}
-  .hero-stack .hs-side:last-child{margin-left:-7%}
-  .hero-stack .hs-front{height:100%;z-index:2;
-                        filter:drop-shadow(0 32px 58px rgba(25,21,18,.36))}
+  .hero-stack .hs-side:first-child{margin-right:-5%}
+  .hero-stack .hs-side:last-child{margin-left:-5%}
+  .hero-stack .hs-front{height:100%;max-width:42%;z-index:2;
+                        filter:drop-shadow(0 30px 54px rgba(25,21,18,.34))}
   @media (prefers-reduced-motion: reduce){
     .hero-stack .hs-layer{transform:none}
   }
-  .hero-img{position:absolute;top:0;bottom:0;right:0;aspect-ratio:1355/1494;z-index:1}
+  .hero-img{position:absolute;top:0;bottom:0;right:0;width:34%;z-index:1}
   .hero-img img{width:100%;height:100%;object-fit:cover;object-position:center top}
   /* metrics strip */
   .metrics{background:#E9DDCB;border-top:1px solid rgba(176,118,74,.22);flex:none}

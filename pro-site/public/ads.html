@@ -107,6 +107,10 @@ ul.clean li b{font-weight:700}
 .play .do{font-size:18px;background:var(--cream);border-radius:10px;padding:18px 20px;margin-top:14px;line-height:1.6}
 .play .do b{color:var(--ink);font-weight:700}
 
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+.calc label{display:block;font-size:17px;font-weight:700;color:var(--ink)}
+.calc output{float:right;font-variant-numeric:tabular-nums;color:var(--bronze);font-weight:700}
+.calc input[type=range]{width:100%;margin-top:12px;accent-color:var(--charcoal);height:26px}
 .src{font-size:15px;color:var(--taupe);margin-top:12px;line-height:1.5}
 footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-size:16px;color:var(--sec)}
 </style>
@@ -131,6 +135,7 @@ footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-si
 <nav class="tabs" id="tabs">
   <button class="on" data-p="p1">Snapshot</button>
   <button data-p="p2">Effectiveness</button>
+  <button data-p="pF">Is Ferne worth it?</button>
   <button data-p="p3">Ad profile</button>
   <button data-p="p4">Creative library</button>
   <button data-p="p5">Revenue &amp; products</button>
@@ -154,7 +159,7 @@ footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-si
     <div class="card"><div class="k">95%</div><div class="l">Traffic to your own site</div><div class="n">St. Moriz: 0%</div></div>
     <div class="card"><div class="k">£371k</div><div class="l">Shopify revenue, 13 months</div><div class="n">13,596 orders</div></div>
     <div class="card"><div class="k">28.2%</div><div class="l">Revenue attributed to Meta</div><div class="n">£104,590 from FB + IG</div></div>
-    <div class="card hot"><div class="k">71</div><div class="l">Days with zero live ads</div><div class="n">17% of the period, incl. 27 days in April</div></div>
+    <div class="card hot"><div class="k">173</div><div class="l">Days Ferne McCann ads were live</div><div class="n">Her 22 "instances" chain into 5.7 months</div></div>
   </div>
 
   <div class="grid2" style="margin-top:30px">
@@ -164,7 +169,7 @@ footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-si
         <li><b>Your ad volume and your revenue move in opposite directions.</b> Correlation between average live ads and monthly revenue is <b class="down">−0.50</b>. Your four heaviest advertising months averaged £22,374. Your five lightest averaged £34,381 — 54% more. Ad instances are not spend, so read this as "no evidence that more ads produced more revenue", not as proof that ads hurt.</li>
         <li><b>Discounting is what actually moves your numbers.</b> Discount spend correlates with orders at <b class="up">+0.86</b>. That is the strongest relationship in the entire dataset, and it is not a flattering one.</li>
         <li><b>You are buying volume with margin.</b> Orders up 4.8× from Jul 2025 to May 2026, but AOV fell from £29.49 to £19.95 — down 32%.</li>
-        <li><b>Ferne McCann is your single most valuable measurable asset.</b> 971 orders and £27,798 through her codes — 7.2% of all revenue — off only 22 paid ad instances.</li>
+        <li><b>Ferne McCann is your single most valuable measurable asset.</b> 971 orders and £27,798 through her codes — 7.2% of all revenue. Her ads redeem at <b>5.3 code orders per day live</b> versus <b>0.18 per day when she is off</b>: a 30× difference.</li>
         <li><b>Ten ads on your page have nothing to do with your brand.</b> Six for Admiral Business insurance, three for Ascot, one for a podcast. Worth knowing who has access.</li>
       </ul>
     </div>
@@ -219,14 +224,16 @@ footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-si
     <b>Flight length is per-ad, not per-ad-set.</b> A 7-day ad flight tells you nothing certain about how long the underlying ad set or budget ran. The learning-phase argument later in this report rests on an assumption the Ad Library cannot confirm.
   </div>
 
-  <h3>The April 2026 anomaly</h3>
+  <h3>The April 2026 result — and a correction</h3>
+  <div class="callout warn">
+    <span class="h">An earlier version of this report called April a "zero ads" month. That was wrong.</span>
+    Three of your ads carry no destination URL in the Ad Library, and the first version of this analysis silently dropped them when counting daily coverage. One of them was a <b>Ferne McCann flight running 2 April – 17 May</b>. Corrected, April had <b>1.2 average live ads and zero dark days</b>, with Ferne live on 29 of 30 days. Total dark days across the whole period fall from 71 to <b>33</b>. May and June were also wrongly shown as having dark days; they had none.
+  </div>
   <div class="callout good">
-    <span class="h">27 of 30 days with zero live ads — and your fourth-best month of the year</span>
-    April 2026: <b>0.2</b> average live ads, <b>£36,772</b> revenue, <b>1,371</b> orders, <b>20,963</b> social sessions — the highest social traffic of any month in the dataset. And <b>398 Ferne McCann code orders worth £10,202</b>, more than double any other month. 10 April alone did 119 orders and £3,491 — your single biggest revenue day in 13 months.
+    <span class="h">What April actually shows: one creator beat twenty times the ad volume</span>
+    April 2026: <b>1.2</b> average live ads — one of your lightest months — yet <b>£36,772</b> revenue, <b>1,371</b> orders and <b>20,963</b> social sessions, the highest social traffic in the dataset. <b>398 Ferne code orders worth £10,202</b>, more than double any other month. 10 April alone did 119 orders and £3,491, your biggest single revenue day.
     <br><br>
-    <b>What was actually running:</b> one Ferne McCann video ad (4 instances, 2 Apr – 19 Jun) carrying the FERNE15 code — and essentially nothing else. Meta-attributed revenue that month was £7,981, about 22% of the total. So this is not proof that organic creator activity works without paid support; a small paid creator flight was live throughout, carrying the exact code that spiked.
-    <br><br>
-    What it <i>does</i> show is that <b>one creator ad outperformed months running twenty times the ad volume</b>. September and October 2025 averaged 19.5 and 20.5 live ads and produced £11,687 and £12,936. April ran essentially one creator flight and produced £36,772. Whether the lift came from the paid flight, Ferne's own organic posting alongside it, or both, cannot be separated from this data — and separating it is worth doing, because whichever it is, it is the most efficient thing in the dataset.
+    Compare that with September and October 2025, which averaged <b>19.5</b> and <b>20.5</b> live ads — sixteen times April's volume — and produced £11,687 and £12,936. Volume of ads is not what is working. One well-cast creator running continuously is.
   </div>
 
   <h3>Ferne McCann, quantified</h3>
@@ -240,7 +247,27 @@ footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-si
           <tr style="background:var(--cream)"><td><b>Total</b></td><td class="num mono"><b>971</b></td><td class="num mono"><b>£27,798</b></td><td class="num mono"><b>−£4,786</b></td><td class="num mono"><b>£22,762</b></td></tr>
         </tbody>
       </table>
-      <p class="src">7.2% of all revenue in the window, from a creator who appears in only 22 of your 255 ad instances. Code figures cover Sep 2025 – Aug 2026 inclusive.</p>
+      <p class="src">7.2% of all revenue in the window. Code figures cover Sep 2025 – Aug 2026 inclusive.</p>
+
+      <h3>"22 ad instances" is misleading — here is what it really means</h3>
+      <p class="lede" style="font-size:17px">Those 22 instances are not 22 short bursts. They chain end-to-end into <b>173 days of near-continuous presence</b> — 44% of the whole period. Meta counts each creative-and-placement combination separately, so a single always-on creator campaign shows up as many "instances".</p>
+      <table>
+        <thead><tr><th>Month</th><th class="num">Days Ferne live</th><th class="num">Ferne code orders</th></tr></thead>
+        <tbody>
+          <tr><td>Jul – Aug 2025</td><td class="num mono">0 / 62</td><td class="num mono">0</td></tr>
+          <tr><td>Sep 2025</td><td class="num mono">16 / 30</td><td class="num mono">79</td></tr>
+          <tr><td>Oct 2025</td><td class="num mono">31 / 31</td><td class="num mono">87</td></tr>
+          <tr><td>Nov 2025</td><td class="num mono">30 / 30</td><td class="num mono">186</td></tr>
+          <tr><td>Dec 2025</td><td class="num mono">16 / 31</td><td class="num mono">13</td></tr>
+          <tr><td>Jan 2026</td><td class="num mono">1 / 31</td><td class="num mono">5</td></tr>
+          <tr style="background:#FCF3F2"><td>Feb – Mar 2026</td><td class="num mono">0 / 59</td><td class="num mono">7</td></tr>
+          <tr style="background:#F2F8F4"><td>Apr 2026</td><td class="num mono">29 / 30</td><td class="num mono">398</td></tr>
+          <tr style="background:#F2F8F4"><td>May 2026</td><td class="num mono">31 / 31</td><td class="num mono">69</td></tr>
+          <tr><td>Jun 2026</td><td class="num mono">19 / 30</td><td class="num mono">82</td></tr>
+          <tr style="background:#FCF3F2"><td>Jul – Aug 2026</td><td class="num mono">0 / 41</td><td class="num mono">45</td></tr>
+        </tbody>
+      </table>
+      <p class="src">Correlation between Ferne live-days and Ferne code orders: <b>+0.67</b>. Every month she is live produces redemptions; every month she is off collapses to near zero. The 45 orders in Jul–Aug 2026 are the code still circulating after the ads stopped.</p>
     </div>
     <div class="box">
       <h3 style="margin-top:0">Ferne code orders by month</h3>
@@ -258,6 +285,22 @@ footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-si
         </tbody>
       </table>
       <p class="src">The four-month gap Dec–Mar ran at roughly 6 orders a month against a surrounding run rate of 75–100. On that counterfactual it cost somewhere around 70–95 orders a month — an estimate, not a measurement.</p>
+
+      <h3>Where the code orders came from</h3>
+      <table>
+        <thead><tr><th>Referrer</th><th class="num">Orders</th><th class="num">Revenue</th></tr></thead>
+        <tbody>
+          <tr><td>Facebook</td><td class="num mono">299</td><td class="num mono">£8,452</td></tr>
+          <tr><td>Instagram (social)</td><td class="num mono">178</td><td class="num mono">£5,208</td></tr>
+          <tr><td>Google search</td><td class="num mono">157</td><td class="num mono">£4,369</td></tr>
+          <tr><td>Direct / unattributed</td><td class="num mono">154</td><td class="num mono">£4,168</td></tr>
+          <tr><td>jimmycoco (own referral)</td><td class="num mono">122</td><td class="num mono">£3,253</td></tr>
+          <tr><td>Instagram (other, e.g. link in bio)</td><td class="num mono">47</td><td class="num mono">£1,376</td></tr>
+          <tr><td>Bing / Yahoo / Norton</td><td class="num mono">10</td><td class="num mono">£276</td></tr>
+          <tr><td>Coupon aggregators (HotDeals, PromoPro, TenereTeam)</td><td class="num mono">4</td><td class="num mono">£93</td></tr>
+        </tbody>
+      </table>
+      <p class="src">49% arrive via paid social — that is the ads working. The other 50% arrive via search, direct and link-in-bio: people who saw or heard about her and went looking. Only 4 orders came through coupon-scraper sites, so the codes have barely leaked.</p>
     </div>
   </div>
 
@@ -272,6 +315,73 @@ footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-si
     Order count grew 4.8× between Jul 2025 and May 2026. Revenue grew 3.0×. AOV fell 32% and discount spend rose from £538 a month to £9,545. You are acquiring more customers who spend less, and the returning-customer rate has not kept pace. That is a viable strategy if the second purchase eventually arrives.
     <br><br>
     Two honest qualifications. The 46% returning rate in July 2025 sat on only 439 orders, so it is a small-base figure and a poor baseline. And the rate had already started falling in September 2025, before heavy discounting began in February 2026 — so discounting is a plausible contributor, not a demonstrated cause. The recovery to 26% in Jun–Jul 2026 is the most encouraging number in this section and worth protecting either way.
+  </div>
+</section>
+
+<!-- FERNE ROI -->
+<section class="panel" id="pF">
+  <h2>Is Ferne worth it, or would a discount alone do the job?</h2>
+  <p class="lede">Two different questions hide inside that one. First: does the fee pay back? Second: could a plain discount replace her? The data answers the second cleanly and the first only once you supply the fee and your margin.</p>
+
+  <h3>The measurable side</h3>
+  <div class="box">
+    <table>
+      <thead><tr><th>Mechanic</th><th class="num">Orders</th><th class="num">Gross</th><th class="num">Discount given</th><th class="num">Net</th><th class="num">AOV</th><th class="num">Discount as % of gross</th><th class="num">Creator fee</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ferne codes</b> (ferne15 + ferne20)</td><td class="num mono">971</td><td class="num mono">£27,798</td><td class="num mono">−£4,786</td><td class="num mono">£22,762</td><td class="num mono">£28.63</td><td class="num mono">17.2%</td><td class="num mono">Yes</td></tr>
+        <tr style="background:#F2F8F4"><td><b>Welcome codes</b> (WELCOME10 + 20)</td><td class="num mono">1,776</td><td class="num mono">£51,151</td><td class="num mono">−£7,070</td><td class="num mono">£43,618</td><td class="num mono">£28.80</td><td class="num mono">13.8%</td><td class="num mono">£0</td></tr>
+        <tr><td>SUNKISSED20</td><td class="num mono">77</td><td class="num mono">£2,390</td><td class="num mono">−£478</td><td class="num mono">£1,912</td><td class="num mono">£31.04</td><td class="num mono">20.0%</td><td class="num mono">£0</td></tr>
+      </tbody>
+    </table>
+    <p class="src">Blended store AOV over the same window is £27.26. Ferne's orders are worth £28.63 — 5% above blended, and essentially identical to what your own welcome popup delivers at £28.80. <b>She is not bringing higher-value customers.</b></p>
+  </div>
+
+  <h3>The calculator</h3>
+  <p class="lede">Only two numbers are missing, and both are yours: what you actually pay, and what your gross margin is. Move the sliders.</p>
+
+  <div class="box">
+    <div class="calc" id="calcInputs">
+      <label>Fee per content piece <output id="oFee">£5,000</output>
+        <input type="range" id="iFee" min="0" max="12000" step="250" value="5000"></label>
+      <label>Number of pieces paid for <output id="oPieces">6</output>
+        <input type="range" id="iPieces" min="1" max="12" step="1" value="6"></label>
+      <label>Your gross margin <output id="oMargin">58%</output>
+        <input type="range" id="iMargin" min="30" max="85" step="1" value="58"></label>
+      <label>Share of her sales that use the code <output id="oHalo">60%</output>
+        <input type="range" id="iHalo" min="30" max="100" step="5" value="60"></label>
+    </div>
+    <p class="src" style="margin-bottom:22px">Margin defaults to 58%, the only figure derivable from your Shopify cost data — but that covers a tiny slice of orders, so replace it with your real number. "Share using the code" is the honest unknown: industry experience suggests 40–70% of creator-driven sales never touch the code, which is why it matters so much.</p>
+
+    <div class="cards" id="calcOut"></div>
+    <div id="calcVerdict"></div>
+  </div>
+
+  <h3>What the data can say without any assumptions</h3>
+  <div class="grid2">
+    <div class="box">
+      <h3 style="margin-top:0">On code-attributed revenue alone, she loses money at £5,000</h3>
+      <p class="lede">Six pieces at £5,000 is £30,000. Her codes generated £22,762 net of her own discount. Even at a <b>100% gross margin</b> — impossible — the fee exceeds the revenue. At a realistic 58–70% margin, code-attributed gross profit is £13,000–£16,000 against a £30,000 fee.</p>
+      <p class="lede" style="margin-bottom:0">For her to break even at £5,000 a piece, roughly <b>half of everything she sells must never touch the code</b>, and your margin needs to be near 70%. That is possible. It is not comfortable.</p>
+    </div>
+    <div class="box">
+      <h3 style="margin-top:0">But a discount cannot replace her, because they do different jobs</h3>
+      <p class="lede">WELCOME10 and WELCOME20 look far more efficient — 1,776 orders for £7,070 of margin and no fee. But they only convert people who are <b>already on your site</b>. They generate no traffic.</p>
+      <p class="lede" style="margin-bottom:0">Ferne generates traffic. April 2026 — her heaviest month — produced <b>20,963 social sessions</b>, the highest of any month in the dataset, on almost no other advertising. Swap her for a bigger discount and you are discounting a shrinking pool of visitors. The volume drops with it.</p>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <span class="h">The question worth asking instead</span>
+    Not "Ferne or a discount" — they are not substitutes. The better question is <b>"is £5,000 a piece the right price for this much traffic, and is a burst the right shape?"</b> Her best months are the ones where she ran <i>every single day</i>: October (31/31 days, 87 orders), November (30/30, 186), April (29/30, 398). Her worst are the gaps. Six one-off pieces at £5,000 buys you six bursts. The same £30,000 spent on a continuous twelve-month retainer, or split across three creators at £10,000 each with codes on all of them, would almost certainly buy more — and would finally let you compare creators against each other instead of guessing.
+  </div>
+
+  <div class="callout">
+    <span class="h">Three things to do before you decide</span>
+    <ul class="clean" style="margin-top:4px">
+      <li><b>Confirm the real fee and piece count.</b> Six is my count of distinct Ferne creatives visible in the Ad Library; some are catalogue ads running under her page rather than bespoke shoots, so your contracted number may be lower — which changes the answer materially in her favour.</li>
+      <li><b>Fill in product costs in Shopify.</b> Only a handful of your products have cost data, so gross profit is uncomputable for almost every order. That one admin job turns every future version of this analysis from an estimate into a fact.</li>
+      <li><b>Run a clean two-week holdout.</b> Ferne live with code, no sitewide discount. Then a fortnight of sitewide discount, no creator. Compare sessions, orders and margin. That single test settles this properly and costs you one month.</li>
+    </ul>
   </div>
 </section>
 
@@ -516,8 +626,9 @@ footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-si
   <div class="play">
     <div class="n">Fix 03 · Highest expected value</div>
     <h4>Give every creator a code, and build the bench to eight</h4>
-    <p>Ferne delivered 971 orders and £27,798 — 7.2% of revenue — from 22 ad instances, and April showed one creator flight outperforming months with twenty times the ad volume. Chloe Sims, Faye Winter and Phoebe Torrance have no codes, so their contribution is literally unmeasurable.</p>
-    <div class="do"><b>Do:</b> Unique discount code plus a unique UTM landing page per creator, non-negotiable, before any content goes live. Then double the roster — Bondi Sands and Coco &amp; Eve run 15 creators each; you run four. Track cost per acquired customer per creator and cut the bottom half after 60 days.</div>
+    <p>Ferne delivered 971 orders and £27,798 — 7.2% of revenue — across 173 live days, redeeming at 5.3 orders per live day against 0.18 when she is off. That is the clearest cause-and-effect relationship anywhere in this data. Chloe Sims, Faye Winter and Phoebe Torrance have no codes, so their contribution is literally unmeasurable.</p>
+    <div class="do"><b>Do:</b> Unique discount code plus a unique UTM landing page per creator, non-negotiable, before any content goes live. Then double the roster — Bondi Sands and Coco &amp; Eve run 15 creators each; you run four. Track cost per acquired customer per creator and cut the bottom half after 60 days.
+    <br><br><b>And stop switching Ferne off.</b> She has been dark since 19 June 2026. The Dec–Mar gap dropped her from ~85 code orders a month to about 6. Continuous beats bursty: her best months are the ones where she ran every single day.</div>
   </div>
 
   <div class="play">
@@ -580,6 +691,7 @@ footer{margin-top:70px;padding-top:28px;border-top:2px solid var(--hair);font-si
       <li><b>Shopify attribution understates paid social.</b> Last-click referrer misses view-through conversions and anything landing via direct after seeing an ad. The true Meta contribution is higher than 28.2% — though the 44% unattributed bucket cuts both ways, since Google, email and creator traffic sit in there too.</li>
       <li><b>Ads with no impressions are omitted</b> by Meta, so brief tests may be invisible.</li>
       <li><b>Organic creator posts are not in the Ad Library.</b> April 2026 had both a live paid Ferne flight and, very likely, organic posting. Nothing in this data can apportion the £36,772 between them. Ferne's posting calendar plus Meta spend for that flight would settle it.</li>
+      <li><b>Corrected in this version.</b> Three ads carry no destination URL and were initially excluded from the daily coverage calculation, one of them a long Ferne flight. Dark days fall from 71 to 33; April moves from 0.2 to 1.2 average live ads with no dark days; May from 1.5 to 2.1; June from 1.2 to 1.6. The ads-vs-revenue correlation is essentially unchanged at −0.49.</li>
       <li><b>Google, TikTok and email are outside this analysis</b>, and Google alone is 17% of your revenue.</li>
       <li><b>Two different date bases are in play.</b> Revenue totals, orders, AOV, discounts and every correlation use the 13 complete months to 31 Jul 2026 (£370,633). Product sales, referrer attribution, discount-code totals and the creator roster use the full window including partial August 2026 (£388,130). Each table states its basis; the difference is why "£104,590 from Meta" and "£57,291 + £52,588" do not match.</li>
       <li><b>Creative-group labels are approximations.</b> Meta collates ad instances that share copy, so a group's stated format and page reflect the dominant value, not every instance. Grouped counts in the Creative library will not always reconcile exactly with the instance-level tables in the Ad profile tab.</li>
@@ -610,9 +722,9 @@ const MONTHS=[
 ["Jan 2026",4.3,0,15274.42,6171.22,613,21.57,976.22,4.35],
 ["Feb 2026",2.9,2,23995.10,2991.73,1054,20.41,6902.79,2.01],
 ["Mar 2026",1.4,14,29587.37,1164.29,1330,20.01,5619.14,2.92],
-["Apr 2026",0.2,27,36772.18,7980.76,1371,22.99,4255.15,3.25],
-["May 2026",1.5,6,48169.94,7632.17,2101,19.95,9545.05,5.20],
-["Jun 2026",1.2,5,41069.21,7830.14,1500,22.26,4668.81,3.82],
+["Apr 2026",1.2,0,36772.18,7980.76,1371,22.99,4255.15,3.25],
+["May 2026",2.1,0,48169.94,7632.17,2101,19.95,9545.05,5.20],
+["Jun 2026",1.6,0,41069.21,7830.14,1500,22.26,4668.81,3.82],
 ["Jul 2026",6.9,0,54338.07,14212.57,1905,24.80,8123.05,4.28],
 ["Aug 2026*",14.4,0,17496.91,5289.40,605,24.37,430.14,3.82]
 ];
@@ -689,6 +801,45 @@ document.getElementById('tabs').addEventListener('click',e=>{
         <div class="b rev" style="width:${Math.max(2,r[3]/maxR*100)}%"><span>£${Math.round(r[3]/1000)}k</span></div>
       </div>
     </div>`).join('');
+})();
+
+// Ferne ROI calculator
+(function(){
+  const FERNE_GROSS=27798, FERNE_NET=22762, FERNE_ORDERS=971;
+  const el=id=>document.getElementById(id);
+  const money=n=>(n<0?'−£':'£')+Math.abs(Math.round(n)).toLocaleString();
+  function run(){
+    const fee=+el('iFee').value, pieces=+el('iPieces').value;
+    const margin=+el('iMargin').value/100, halo=+el('iHalo').value/100;
+    const totalFee=fee*pieces;
+    const trueNet=FERNE_NET/halo;
+    const grossProfit=trueNet*margin;
+    const net=grossProfit-totalFee;
+    const beFee=pieces?grossProfit/pieces:0;
+    const roas=totalFee?trueNet/totalFee:0;
+    el('oFee').textContent='£'+fee.toLocaleString();
+    el('oPieces').textContent=pieces;
+    el('oMargin').textContent=(margin*100).toFixed(0)+'%';
+    el('oHalo').textContent=(halo*100).toFixed(0)+'%';
+    const good=net>=0;
+    el('calcOut').innerHTML=`
+      <div class="card"><div class="k">${money(totalFee)}</div><div class="l">Total fee paid</div><div class="n">${pieces} × ${money(fee)}</div></div>
+      <div class="card"><div class="k">${money(trueNet)}</div><div class="l">Estimated true revenue she drove</div><div class="n">£22,762 coded ÷ ${(halo*100).toFixed(0)}%</div></div>
+      <div class="card"><div class="k">${money(grossProfit)}</div><div class="l">Gross profit on that revenue</div><div class="n">at ${(margin*100).toFixed(0)}% margin</div></div>
+      <div class="card ${good?'good':'hot'}"><div class="k">${money(net)}</div><div class="l">${good?'Profit after her fee':'Loss after her fee'}</div><div class="n">${roas.toFixed(2)}× revenue on fee</div></div>`;
+    el('calcVerdict').innerHTML=`<div class="callout ${good?'good':'warn'}" style="margin-bottom:0">
+      <span class="h">${good
+        ? 'On these assumptions she pays back'
+        : 'On these assumptions she does not pay back'}</span>
+      Break-even fee at this margin and code share is <b>${money(beFee)} per piece</b>.
+      You are ${good?'paying below':'paying above'} that at ${money(fee)}.
+      ${good
+        ? 'The margin is thin enough that the code-share assumption is doing most of the work — treat it as a reason to test, not a reason to relax.'
+        : 'To make £'+fee.toLocaleString()+' per piece work you would need either a higher margin, fewer pieces, or a much larger share of her sales arriving without the code.'}
+    </div>`;
+  }
+  ['iFee','iPieces','iMargin','iHalo'].forEach(id=>el(id).addEventListener('input',run));
+  run();
 })();
 
 // creative table

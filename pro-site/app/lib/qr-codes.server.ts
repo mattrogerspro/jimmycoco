@@ -2,8 +2,6 @@ import { createHash, randomBytes } from "node:crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createPublicSupabaseClient } from "./supabase.server";
 
-export const QR_REDIRECT_ORIGIN = "https://jimmycoco.pro";
-
 const CODE_ALPHABET = "abcdefghjkmnpqrstuvwxyz23456789";
 const CODE_LENGTH = 8;
 const BOT = /bot|crawl|spider|slurp|bingpreview|headless|lighthouse|pingdom|curl|wget|python-requests|axios|node-fetch/i;
@@ -29,10 +27,6 @@ const QR_SELECT = `
 function generatedCode() {
   const bytes = randomBytes(CODE_LENGTH);
   return Array.from(bytes, (byte) => CODE_ALPHABET[byte % CODE_ALPHABET.length]).join("");
-}
-
-export function qrRedirectUrl(code: string) {
-  return new URL(`/q/${code}`, QR_REDIRECT_ORIGIN).toString();
 }
 
 export function normaliseQrName(value: FormDataEntryValue | null) {

@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs } from "react-router";
 import QRCode from "qrcode";
 import { requireArticleStaff } from "../lib/article-auth.server";
-import { qrRedirectUrl } from "../lib/qr-codes.server";
+import { qrRedirectUrl } from "../lib/qr-codes";
 
 const options = {
   errorCorrectionLevel: "Q" as const,

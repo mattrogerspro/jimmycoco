@@ -12,9 +12,9 @@ import {
   listQrCodes,
   normaliseDestinationUrl,
   normaliseQrName,
-  qrRedirectUrl,
   updateQrCode,
 } from "../lib/qr-codes.server";
+import { qrRedirectUrl } from "../lib/qr-codes";
 import { isSameOriginPost } from "../lib/supabase.server";
 import {
   IconDownload,

@@ -20,3 +20,266 @@
 /* Article cards: restore the compact editorial card treatment used by the index. */
 .articles-grid{width:min(calc(100% - 48px),1800px);gap:clamp(24px,2.4vw,36px);align-items:stretch}.article-card{display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid rgba(102,94,84,.2);border-radius:18px;background:#fff;box-shadow:0 2px 10px rgba(25,21,18,.06)}.article-card-image{position:relative;display:block;aspect-ratio:16/10;overflow:hidden;background:#e7ddd2;text-decoration:none}.article-card-image img,.article-card-fallback{width:100%;height:100%;max-width:none;object-fit:cover;transition:transform .25s ease}.article-card:hover .article-card-image img{transform:scale(1.025)}.article-card-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.22),transparent 42%);pointer-events:none}.article-card-chip{position:absolute;top:20px;left:20px;max-width:calc(100% - 40px);padding:6px 13px;border-radius:7px;background:#0b8277;color:#fff;font-size:15px;font-weight:800;line-height:1.2;letter-spacing:0;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.18)}.article-card-body,.article-card>div.article-card-body{display:flex;flex:1;flex-direction:column;padding:clamp(26px,2.1vw,36px);min-height:320px}.article-card h2{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:clamp(26px,1.8vw,34px);font-weight:800;line-height:1.18;letter-spacing:-.025em;color:#101a2c}.article-card h2 a{text-decoration:none;color:inherit}.article-card-rule{display:block;width:56px;height:4px;margin:18px 0 22px;border-radius:999px;background:#0b8277}.article-card-excerpt,.article-card p.article-card-excerpt{color:#566171;font-size:clamp(18px,1.25vw,23px);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.article-card-foot{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:auto;padding-top:30px;color:#566171}.article-card-meta{display:inline-flex;align-items:center;gap:8px;color:#566171!important;font-size:clamp(14px,.95vw,17px)!important;font-weight:500;letter-spacing:0;text-transform:none;white-space:nowrap}.article-card-meta svg{flex:0 0 auto}.article-card-meta i{font-style:normal;color:#9aa2ad}.article-read{display:inline-flex;align-items:center;gap:9px;color:#0b8277;text-decoration:none;font-size:clamp(15px,1vw,18px);font-weight:800;white-space:nowrap}.article-read svg{flex:0 0 auto}.article-related .article-card-body,.article-related .article-card>div{min-height:0}@media(max-width:1100px){.articles-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.articles-grid{width:min(calc(100% - 32px),1240px);grid-template-columns:1fr;padding:48px 0 76px}.article-card-body,.article-card>div.article-card-body{min-height:0}.article-card-foot{align-items:flex-start;flex-direction:column;gap:12px}.article-card-meta{white-space:normal}.article-card-chip{top:14px;left:14px}}
 
+/* Restored single article page styles from pre-LiveTextUpdate. Homepage/live-text hero is untouched. */
+/* ======================================================================== */
+/* Article page — editorial scale.                                          */
+/*                                                                          */
+/* Body type is 23px on desktop and 19px on mobile, matching the reference   */
+/* build. The previous 18px/17px was too small to read comfortably and made  */
+/* well-researched work look unfinished. Do not reduce these.                */
+/* ======================================================================== */
+
+.article-page{
+  --measure: 900px;
+  /* Prose only. */
+  --reading: 'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
+  /* NUMBERS AND DATA ARE NEVER SET IN A SERIF. Tables, figures, stats and any
+     numeric display use the sans with tabular figures, so columns align and
+     digits stay unambiguous. This is a hard rule — see the typography chapter
+     in the playbooks. */
+  --data: 'Manrope', 'Inter', system-ui, sans-serif;
+
+  /* READING COLOUR. Every word a reader is meant to read — body, standfirst,
+     FAQ answers, sources, table cells, captions — is set at --ink-read: almost
+     black, never grey. Grey body copy is a design affectation that costs
+     legibility, and on a long article it is the difference between reading it
+     and skimming it. 17.2:1 against the paper, comfortably past AAA.
+     --ink-meta is for micro-labels only (dates, reading time, credits) and is
+     still dark; it is never used for a sentence. */
+  --ink-read: #1C1714;
+  --ink-meta: #3F3830;
+}
+
+/* ---- top navigation ---------------------------------------------------- */
+.article-nav{
+  display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:20px;
+  width:min(calc(100% - 40px),1240px);margin:34px auto 0;padding-bottom:28px;
+  border-bottom:1px solid #e5d9cd;
+}
+.article-nav a{text-decoration:none;color:inherit}
+.article-nav > div > a{display:block;min-width:0}
+.article-nav span{display:block;color:#8b542e;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.article-nav b{display:block;margin-top:5px;font-family:var(--reading);font-weight:700;font-size:19px;line-height:1.3;color:#17130f;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.article-nav > div > a:hover b{color:#8b542e}
+.article-nav-next{text-align:right}
+.article-nav-all{
+  justify-self:center;padding:12px 22px;border:1px solid #e5d9cd;border-radius:999px;background:#fff;
+  font-size:14px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;
+}
+.article-nav-all:hover{border-color:#b97949;color:#8b542e}
+
+/* ---- hero -------------------------------------------------------------- */
+.article-page .article-cover{width:min(calc(100% - 40px),1240px);margin:34px auto 0}
+.article-page .article-cover img{width:100%;max-height:600px;object-fit:cover;border-radius:14px}
+
+.article-page .article-hero{
+  max-width:var(--measure);margin:0 auto;padding:56px 24px 34px;text-align:left;
+}
+.article-page .article-kicker{display:flex;flex-wrap:wrap;align-items:center;gap:12px;color:var(--ink-meta);font-size:16px}
+.article-page .article-tag{padding:5px 13px;border-radius:999px;background:#efe4d7;color:#8b542e;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.article-page .article-hero h1{
+  margin:20px 0 0;font-family:var(--reading);font-weight:800;
+  font-size:clamp(38px,5vw,58px);line-height:1.06;letter-spacing:-.03em;color:#17130f;
+}
+.article-page .article-standfirst{
+  margin:22px 0 0;font-family:var(--reading);
+  font-size:clamp(22px,2.3vw,27px);line-height:1.5;color:var(--ink-read);font-weight:400;
+}
+.article-page .article-byline{display:flex;align-items:center;gap:14px;margin-top:30px;padding-top:26px;border-top:1px solid #e5d9cd}
+.article-page .article-byline-mark{
+  flex:0 0 auto;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(140deg,#c99567,#8a5730);color:#fffdf9;font-size:18px;font-weight:600;letter-spacing:.04em;
+}
+.article-page .article-byline b{display:block;font-size:18px;font-weight:600;color:#17130f}
+.article-page .article-byline small{display:block;margin-top:3px;font-size:15.5px;line-height:1.5;color:var(--ink-meta)}
+
+/* ---- body -------------------------------------------------------------- */
+.article-page .article-body{
+  width:min(calc(100% - 40px),var(--measure));margin:0 auto;
+  font-family:var(--reading);
+  font-size:25px;line-height:1.72;color:var(--ink-read);font-weight:400;
+  /* Manrope, matching the Oxford blog. Do not reduce this size. */
+}
+.article-page .article-body > *:first-child{margin-top:0}
+.article-page .article-body p{margin:0 0 1.15em;font-size:inherit}
+.article-page .article-body h2{margin:1.9em 0 .5em;font-family:var(--reading);font-weight:800;letter-spacing:-.02em;font-size:clamp(34px,3.8vw,44px);line-height:1.14;color:#17130f;scroll-margin-top:96px}
+.article-page .article-body h3{margin:1.6em 0 .45em;font-family:var(--reading);font-weight:800;letter-spacing:-.015em;font-size:clamp(27px,2.9vw,33px);line-height:1.22;color:#17130f}
+.article-page .article-body ul,.article-page .article-body ol{margin:0 0 1.25em;padding-left:1.4em}
+.article-page .article-body li{margin-bottom:.55em}
+.article-page .article-body strong{font-weight:700;color:#17130f}
+.article-page .article-body a{color:#8b542e;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.article-page .article-body a:hover{color:#6f4021}
+
+/* The answer box: first blockquote in the body carries the headline number. */
+.article-page .article-body blockquote{
+  margin:0 0 1.6em;padding:26px 30px;border:0;border-left:4px solid #b97949;border-radius:0 12px 12px 0;
+  background:#f6ede2;font-size:clamp(22px,2.3vw,26px);line-height:1.58;color:var(--ink-read);
+}
+.article-page .article-body blockquote p:last-child{margin-bottom:0}
+
+.article-page .article-body table{
+  width:100%;border-collapse:collapse;margin:0 0 1.6em;
+  font-family:var(--data);font-size:19px;font-variant-numeric:tabular-nums lining-nums;
+}
+.article-page .article-body th,.article-page .article-body td{padding:14px 16px;border-bottom:1px solid #e5d9cd;text-align:left;vertical-align:top}
+.article-page .article-body thead th{background:#f4ece3;font-family:var(--data);font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-meta);font-weight:600}
+.article-page .article-body tbody tr:last-child td{border-bottom:0}
+
+.article-page .article-body code{padding:3px 8px;border-radius:6px;background:#f1e8dd;font-size:.84em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+.article-page .article-body pre{margin:0 0 1.4em;padding:18px 20px;border-radius:10px;background:#f1e8dd;overflow-x:auto}
+.article-page .article-body hr{margin:2.2em 0;border:0;border-top:1px solid #e5d9cd}
+.article-page .article-body figure{margin:0 0 1.6em}
+.article-page .article-body figcaption{margin-top:10px;font-size:17px;font-style:italic;color:var(--ink-meta)}
+.article-page .article-body img{border-radius:12px}
+
+/* ---- FAQ --------------------------------------------------------------- */
+.article-faq{width:min(calc(100% - 40px),var(--measure));margin:64px auto 0}
+.article-faq h2{margin:0 0 20px;font-family:var(--reading);font-weight:800;letter-spacing:-.02em;font-size:clamp(30px,3.4vw,38px);color:#17130f}
+.article-faq details{border-bottom:1px solid #e5d9cd;background:transparent}
+.article-page .article-faq summary{
+  list-style:none;cursor:pointer;padding:22px 44px 22px 0;position:relative;
+  font-family:var(--reading);font-size:22px;font-weight:600;line-height:1.38;color:#17130f;
+}
+.article-faq summary::-webkit-details-marker{display:none}
+.article-faq summary::after{
+  content:"+";position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  font-size:26px;font-weight:300;color:#8b542e;line-height:1;
+}
+.article-faq details[open] summary::after{content:"–"}
+.article-faq summary:hover{color:#8b542e}
+.article-page .article-faq details p{margin:0;padding:0 44px 24px 0;font-family:var(--reading);font-size:21px;line-height:1.68;color:var(--ink-read)}
+
+/* ---- sources ----------------------------------------------------------- */
+.article-page .article-sources{
+  width:min(calc(100% - 40px),var(--measure));margin:64px auto 0;padding:32px 34px;
+  border:1px solid #e5d9cd;border-left:4px solid #b97949;border-radius:0 12px 12px 0;background:#faf5ef;
+}
+.article-page .article-sources h2{margin:0;font-family:var(--reading);font-weight:800;font-size:28px;color:#17130f}
+.article-page .article-sources-note{margin:6px 0 18px;color:var(--ink-meta);font-size:17px}
+.article-page .article-sources ol{margin:0;padding-left:1.3em}
+.article-page .article-sources li{margin-bottom:11px;font-family:var(--reading);font-size:19px;line-height:1.55;color:var(--ink-read)}
+.article-page .article-sources a{color:#8b542e}
+
+/* ---- related ----------------------------------------------------------- */
+.article-related{width:min(calc(100% - 40px),1240px);margin:96px auto 0}
+.article-related h2{margin:0 0 28px;font-family:var(--reading);font-weight:800;letter-spacing:-.02em;font-size:clamp(32px,3.6vw,42px);color:#17130f}
+.article-related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.article-related .article-card h3{margin:0;font-family:var(--reading);font-weight:800;font-size:21px;line-height:1.25;letter-spacing:-.015em}
+.article-related .article-card h3 a{color:inherit;text-decoration:none}
+.article-related .article-card h3 a:hover{color:#8b542e}
+.article-page .article-related .article-card p{font-size:17px;line-height:1.55;color:var(--ink-read)}
+.article-related .article-card > div{display:grid;gap:6px}
+
+/* ---- closing CTA ------------------------------------------------------- */
+.article-cta{margin:96px 0 0;padding:clamp(56px,7vw,86px) 24px;background:#17130f;color:#ede4d7;text-align:center}
+.article-cta > div{max-width:720px;margin:0 auto}
+.article-page .article-cta .article-kicker{justify-content:center;color:#c99567}
+.article-cta h2{margin:18px 0 16px;font-family:var(--reading);font-weight:800;letter-spacing:-.02em;font-size:clamp(34px,4.4vw,50px);line-height:1.1;color:#fffdf9}
+.article-cta p{margin:0;font-size:20px;line-height:1.65;color:#E4D9C9}
+.article-cta-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:32px}
+.btn-ghost-light{border:1.5px solid rgba(237,228,215,.4);color:#ede4d7}
+.btn-ghost-light:hover{border-color:#c99567;color:#c99567}
+
+@media (max-width:900px){
+  .article-related-grid{grid-template-columns:1fr}
+  .article-nav{grid-template-columns:1fr;gap:14px;text-align:left}
+  .article-nav-next{text-align:left}
+  .article-nav-all{justify-self:start}
+  .article-nav-empty{display:none}
+}
+@media (max-width:620px){
+  .article-page .article-body{font-size:21px;line-height:1.68}
+  .article-page .article-body blockquote{padding:20px 22px;font-size:21px}
+  /* Three-column tables cannot shrink below their content on a phone, so let
+     them scroll inside their own box rather than pushing the whole page wide. */
+  .article-page .article-body table{display:block;width:100%;overflow-x:auto;font-size:16.5px}
+  .article-page .article-body th,.article-page .article-body td{padding:10px 11px;white-space:nowrap}
+  .article-page .article-body td:first-child,.article-page .article-body th:first-child{white-space:normal;min-width:8.5em}
+  .article-page .article-hero{padding:38px 20px 26px}
+  .article-page .article-faq summary{font-size:20px}
+  .article-page .article-faq details p{font-size:19.5px}
+  .article-page .article-sources{padding:24px 22px}
+}
+
+/* ======================================================================== */
+/* Full-bleed article lead.                                                  */
+/*                                                                           */
+/* The cover runs the full viewport width with the navigation and the title  */
+/* over it. Two scrims rather than one: a short dark wash at the top so the  */
+/* prev/next links read against a bright sky, and a taller one from the      */
+/* bottom for the headline. A single flat overlay would have to be heavy     */
+/* enough for the worst case and would grey out the whole photograph.        */
+/* ======================================================================== */
+
+.article-lead{
+  position:relative;isolation:isolate;
+  width:100vw;margin-left:calc(50% - 50vw);
+  min-height:clamp(440px,62vh,700px);
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:0;overflow:hidden;background:#17130f;
+}
+.article-lead-img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;
+  /* The lead frame is wider than 16:9, so cover crops vertically. Centred, it
+     took equal bites off the top and bottom and cut the subject in half — the
+     bottle in the car boot sits low right and simply vanished. These photographs
+     put their subject on the lower third, so anchor the crop to the bottom and
+     lose the ceiling or the sky instead. */
+  object-position: 50% 100%;
+}
+.article-lead.is-plain{
+  background:linear-gradient(135deg,#2c221a 0%,#6b4527 55%,#c99567 100%);
+  min-height:clamp(300px,40vh,420px);
+}
+.article-lead-scrim{
+  position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(15,11,8,.62) 0%,rgba(15,11,8,.22) 22%,rgba(15,11,8,0) 40%),
+    linear-gradient(0deg,rgba(15,11,8,.88) 0%,rgba(15,11,8,.55) 26%,rgba(15,11,8,0) 62%);
+}
+
+/* ---- navigation, sitting on the image ---------------------------------- */
+.article-page .article-lead .article-nav{
+  width:min(calc(100% - 48px),1240px);margin:26px auto 0;padding:0;border-bottom:0;
+}
+.article-page .article-lead .article-nav a{color:#FFFDF9}
+.article-page .article-lead .article-nav span{color:#EBCB9C;text-shadow:0 1px 12px rgba(15,11,8,.5)}
+.article-page .article-lead .article-nav b{
+  color:#FFFDF9;font-family:var(--reading);font-weight:600;font-size:15.5px;line-height:1.35;
+  text-shadow:0 1px 14px rgba(15,11,8,.6);-webkit-line-clamp:1;
+}
+.article-page .article-lead .article-nav > div > a:hover b{color:#EBCB9C}
+.article-lead .article-nav-all{
+  border-color:rgba(255,253,249,.42);background:rgba(15,11,8,.34);color:#FFFDF9;
+  backdrop-filter:blur(6px);font-size:13px;padding:10px 20px;
+}
+.article-lead .article-nav-all:hover{border-color:#EBCB9C;background:rgba(15,11,8,.55);color:#EBCB9C}
+
+/* ---- title block, sitting on the gradient ------------------------------ */
+.article-lead-copy{
+  width:min(calc(100% - 48px),1240px);margin:0 auto;
+  padding:0 0 clamp(34px,4.5vw,56px);max-width:min(calc(100% - 48px),980px);
+  margin-inline:auto;
+}
+.article-lead-copy .article-kicker{color:#E4D9C9;font-size:15px;text-shadow:0 1px 14px rgba(15,11,8,.6)}
+.article-lead-copy .article-tag{background:rgba(255,253,249,.15);color:#FFFDF9;backdrop-filter:blur(6px)}
+.article-lead-copy h1{
+  margin:16px 0 0;font-family:var(--reading);font-weight:800;
+  font-size:clamp(34px,4.6vw,58px);line-height:1.05;letter-spacing:-.03em;
+  color:#FFFDF9;text-shadow:0 2px 30px rgba(15,11,8,.55);
+  max-width:16ch;
+}
+
+/* The standfirst and byline drop back onto the page below the image. */
+.article-page .article-hero{max-width:var(--measure);margin:0 auto;padding:40px 24px 30px;text-align:left}
+
+@media (max-width:760px){
+  .article-lead{min-height:clamp(360px,52vh,520px)}
+  .article-page .article-lead .article-nav{grid-template-columns:auto 1fr;gap:10px;margin-top:18px}
+  .article-page .article-lead .article-nav > div{display:none}
+  .article-lead .article-nav-all{justify-self:start;grid-column:1}
+  .article-lead-copy h1{max-width:none}
+  .article-page .article-hero{padding:28px 20px 22px}
+}
+

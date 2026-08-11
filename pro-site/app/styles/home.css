@@ -350,7 +350,7 @@
   .pc-list li{display:flex;align-items:center;gap:clamp(12px,1.5vw,24px);padding:clamp(7px,min(1.35vw,1.5vh),20px) 0;border-top:1px solid rgba(158,118,78,.28)}
   .pc-list li:first-child{border-top:0}
   .pc-list > li > i{--pc-icon-size:clamp(96px,6.35vw,130px);flex:0 0 var(--pc-icon-size);display:grid;place-items:center;width:var(--pc-icon-size);height:var(--pc-icon-size);overflow:hidden;border-radius:50%}
-  .pc-list > li > i img{display:block;width:100%;height:100%;max-width:none;border-radius:50%;object-fit:cover;object-position:50% 50%;box-shadow:none}
+  .pc-list > li > i img{display:block;width:100%;height:100%;max-width:none;border-radius:0;object-fit:cover;object-position:50% 50%;box-shadow:none;transform:translateY(4px) scale(1.4)}
   .pc-list b{display:block;margin-bottom:3px;font-size:clamp(12.5px,min(1.06vw,1.55vh),18.5px);letter-spacing:.1em;text-transform:uppercase;line-height:1.25;color:#2B211A}
   .pc-list span{display:block;font-size:clamp(12.5px,min(1.04vw,1.5vh),18px);line-height:1.45;color:#645749}
   .pc-foot{margin:0 calc(-1 * clamp(18px,2.2vw,38px));padding:clamp(9px,min(1.2vw,1.4vh),18px) clamp(18px,2.2vw,38px);background:#EAE0D4;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;text-align:center}
@@ -369,7 +369,8 @@
   .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,3vw,56px);justify-items:center}
   .fact{width:100%;max-width:560px}
   .fact{display:flex;gap:22px;align-items:center}
-  .fact img{display:block;width:130px;height:130px;max-width:none;border-radius:50%;flex:0 0 130px;object-fit:cover;object-position:50% 50%;box-shadow:0 6px 20px rgba(0,0,0,.38)}
+  .fact-icon{display:grid;place-items:center;width:130px;height:130px;flex:0 0 130px;border-radius:50%;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.38)}
+  .fact-icon img{display:block;width:100%;height:100%;max-width:none;border-radius:0;object-fit:cover;object-position:50% 50%;box-shadow:none;transform:translateY(4px) scale(1.4)}
   .fact b{display:block;font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:#FFFDF9;margin-bottom:6px;line-height:1.3}
   .fact span{font-size:17.5px;color:#B7AB9B;line-height:1.5;display:block}
   .facts-tag{text-align:center;font-size:18px;color:#B7AB9B;margin-top:32px}

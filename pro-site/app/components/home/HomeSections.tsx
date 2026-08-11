@@ -75,10 +75,13 @@ function StoryPortrait() {
         : Math.max(0, Math.min(1, (viewportHeight * .72 - sceneRect.top) / (sceneRect.height * .65)));
       const reveal = Math.max(0, Math.min(1, (progress - .18) / .64));
       const scrollDepth = progress * 2 - 1;
+      const sectionScroll = Math.max(0, 74 - (sectionRect?.top ?? sceneRect.top));
+      const copyPin = isDesktop ? Math.min(sectionScroll, scrollRange * .82) : 0;
       scene.style.setProperty("--story-x", pointerX.toFixed(3));
       scene.style.setProperty("--story-y", pointerY.toFixed(3));
       scene.style.setProperty("--story-scroll", scrollDepth.toFixed(3));
       scene.style.setProperty("--story-reveal", reveal.toFixed(3));
+      section?.style.setProperty("--story-copy-pin", `${copyPin.toFixed(2)}px`);
     };
     const schedule = () => {
       if (!frame) frame = window.requestAnimationFrame(render);
@@ -106,6 +109,7 @@ function StoryPortrait() {
       window.removeEventListener("blur", onPointerLeave);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
+      scene.closest<HTMLElement>("#story")?.style.removeProperty("--story-copy-pin");
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);

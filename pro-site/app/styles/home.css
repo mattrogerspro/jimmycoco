@@ -141,6 +141,7 @@
   #story{height:auto;min-height:calc(190svh - 74px);padding:0;overflow:visible}
   #story .story-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:0;align-items:start;width:100%;max-width:none;min-height:inherit;margin:0;padding:0}
   .story-grid img{border-radius:6px;box-shadow:var(--shadow)}
+  .story-visual-track{align-self:stretch;min-width:0;min-height:inherit}
   .story-copy-track{align-self:start;min-width:0;height:calc(173.8svh - 74px)}
   .story-copy-pin{position:sticky;top:74px;height:calc(100svh - 74px)}
   .story-copy{display:flex;flex-direction:column;justify-content:center;min-width:0;height:auto;min-height:calc(100svh - 74px);padding:clamp(32px,3.5vw,72px) clamp(34px,5vw,104px)}
@@ -156,6 +157,7 @@
   .story-proof strong{margin-top:4px;font-size:clamp(28px,3.5vw,54px);font-weight:600;letter-spacing:.035em;line-height:1.08}
   @media (prefers-reduced-motion:reduce){
     #story{min-height:calc(100svh - 74px)}
+    .story-visual-track{height:auto;min-height:calc(100svh - 74px)}
     .story-copy-track{height:auto}
     .story-copy-pin{position:relative;top:auto;height:auto}
     .story-copy{height:auto;min-height:calc(100svh - 74px)}
@@ -530,7 +532,8 @@
     section{padding:60px 0}
     #story{height:auto;min-height:0;overflow:visible}
     #story .story-grid{grid-template-columns:1fr;min-height:0}
-    .story-portrait{position:relative;top:auto;height:min(78svh,820px);min-height:520px}
+    .story-visual-track{align-self:start;height:calc(min(78svh,820px) + 65svh);min-height:0}
+    .story-portrait{position:sticky;top:74px;height:min(78svh,820px);min-height:min(520px,calc(100svh - 74px))}
     .story-copy-track{height:auto}
     .story-copy-pin{position:relative;top:auto;height:auto}
     .story-copy{height:auto;min-height:0;padding:48px clamp(24px,5vw,48px) 60px}
@@ -580,9 +583,15 @@
      The nav-links are already hidden at 900px; this shrinks what is left. */
   @media (max-width:560px){
     .nav{gap:12px;height:64px}
+    .story-portrait{top:64px}
     .logo{font-size:20px;letter-spacing:.1em}
     .protag{display:none}
     .nav .btn-sm{padding:11px 14px;font-size:12px;white-space:nowrap}
+  }
+
+  @media (max-width:900px) and (prefers-reduced-motion:reduce){
+    .story-visual-track{height:auto;min-height:0}
+    .story-portrait{position:relative;top:auto}
   }
 
   /* Header nav needed ~1300px inside a 90vw wrap, so every viewport between the

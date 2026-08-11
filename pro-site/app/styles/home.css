@@ -452,6 +452,18 @@
     .cert-badge{width:min(46%,240px)}
     .cert-jimmy{height:auto;width:124%;right:-8%;bottom:0}
   }
+  @media (max-width:767px){
+    .cert-copy{padding:52px 24px 64px}
+    .cert-copy .eyebrow{font-size:14px;line-height:1.45;margin-bottom:18px}
+    .cert-copy h2{font-size:clamp(38px,10vw,46px);line-height:1.04;margin-bottom:26px}
+    .cert-lead{max-width:none;font-size:clamp(21px,5.6vw,24px);line-height:1.4;margin-bottom:26px}
+    .cert-body{max-width:none;font-size:clamp(17.5px,4.6vw,19px);line-height:1.65;margin-bottom:22px}
+    .cert-lists{gap:38px;margin-top:36px}
+    .cert-lists h3{font-size:15.5px;line-height:1.4;letter-spacing:.15em;margin-bottom:18px}
+    .cert-list{gap:13px}
+    .cert-list li{gap:14px;font-size:clamp(17.5px,4.6vw,19px);line-height:1.5}
+    .cert-list i{font-size:21px;line-height:1.25}
+  }
   /* editorial duo */
   .glow-duo{background:var(--paper);padding:0}
   .glow-duo .wrap{max-width:none;width:100%;padding:0}

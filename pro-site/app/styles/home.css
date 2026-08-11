@@ -724,3 +724,37 @@
     .hero-ctas{gap:10px}
     .hero-ctas .btn{width:100%;padding:15px 12px;font-size:13px}
   }
+
+  /* Phone layouts should use the screen, not stack the desktop wrapper inset
+     on top of desktop card padding. Keep one deliberate 16px page gutter. */
+  @media (max-width:767px){
+    .wrap{max-width:100%;padding-right:16px;padding-left:16px}
+    section{padding:52px 0}
+
+    .shop-grid{max-width:none;gap:20px;margin-top:32px}
+    .pcard .pimg{padding:20px}
+    .pcard .pbody{padding:24px 22px 28px}
+
+    .close-grid{gap:28px}
+    .trialform{padding:26px 20px 28px}
+
+    /* Accreditation is information-dense, so its readable copy takes priority
+       over keeping the section artificially short on a phone. */
+    .cert-copy{padding:44px 20px 54px}
+    .cert-copy .eyebrow{font-size:15px;margin-bottom:18px}
+    .cert-copy h2{font-size:clamp(41px,10.8vw,50px);margin-bottom:26px}
+    .cert-lead{font-size:clamp(25px,6.6vw,28px);line-height:1.38;margin-bottom:28px}
+    .cert-body{font-size:clamp(21.5px,5.75vw,24px);line-height:1.58;margin-bottom:25px}
+    .cert-lists{gap:40px;margin-top:38px}
+    .cert-lists h3{font-size:18px;line-height:1.4;margin-bottom:20px}
+    .cert-list{gap:15px}
+    .cert-list li{gap:14px;font-size:clamp(21.5px,5.75vw,24px);line-height:1.48}
+    .cert-list i{font-size:24px}
+  }
+
+  /* The hero photo is a direct child of the full-width hero, not of the padded
+     copy wrapper. Negative gutters shifted a capped-width image left and left
+     a matching blank strip on the right. */
+  @media (max-width:900px){
+    .hero-img{width:100%;max-width:none;margin-right:0;margin-left:0}
+  }

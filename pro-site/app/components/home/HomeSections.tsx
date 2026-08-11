@@ -63,10 +63,9 @@ function StoryPortrait() {
 
     const render = () => {
       frame = 0;
-      const rect = scene.getBoundingClientRect();
-      const viewportCentre = window.innerHeight / 2;
-      const sceneCentre = rect.top + rect.height / 2;
-      const scrollDepth = Math.max(-1, Math.min(1, (viewportCentre - sceneCentre) / window.innerHeight));
+      const section = scene.closest<HTMLElement>("#story");
+      const sectionTop = section?.getBoundingClientRect().top ?? scene.getBoundingClientRect().top;
+      const scrollDepth = Math.max(-1, Math.min(1, (74 - sectionTop) / window.innerHeight));
       scene.style.setProperty("--story-x", pointerX.toFixed(3));
       scene.style.setProperty("--story-y", pointerY.toFixed(3));
       scene.style.setProperty("--story-scroll", scrollDepth.toFixed(3));

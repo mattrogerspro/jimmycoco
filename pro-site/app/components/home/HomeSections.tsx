@@ -75,13 +75,10 @@ function StoryPortrait() {
         : Math.max(0, Math.min(1, (viewportHeight * .72 - sceneRect.top) / (sceneRect.height * .65)));
       const reveal = Math.max(0, Math.min(1, (progress - .18) / .64));
       const scrollDepth = progress * 2 - 1;
-      const sectionScroll = Math.max(0, 74 - (sectionRect?.top ?? sceneRect.top));
-      const copyPin = isDesktop ? Math.min(sectionScroll, scrollRange * .82) : 0;
       scene.style.setProperty("--story-x", pointerX.toFixed(3));
       scene.style.setProperty("--story-y", pointerY.toFixed(3));
       scene.style.setProperty("--story-scroll", scrollDepth.toFixed(3));
       scene.style.setProperty("--story-reveal", reveal.toFixed(3));
-      section?.style.setProperty("--story-copy-pin", `${copyPin.toFixed(2)}px`);
     };
     const schedule = () => {
       if (!frame) frame = window.requestAnimationFrame(render);
@@ -109,7 +106,6 @@ function StoryPortrait() {
       window.removeEventListener("blur", onPointerLeave);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
-      scene.closest<HTMLElement>("#story")?.style.removeProperty("--story-copy-pin");
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);
@@ -126,7 +122,7 @@ function StoryPortrait() {
 export function Story() {
   return <section id="story"><div className="wrap story-grid">
     <StoryPortrait />
-    <div className="story-copy"><p className="eyebrow">Why leading salons choose Jimmy Coco</p><blockquote className="big">“I wanted to bring my <em>Hollywood Glow</em> to the world's best salons.”</blockquote><ul className="creds"><li><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="m8.3 12.3 2.6 2.6 4.8-5.4" /></svg></i><span>Preferred tan artist to the Kardashians for over 15 years.</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="9" r="5.4" /><path d="M8.7 13.6 7.4 21l4.6-2.4L16.6 21l-1.3-7.4" /></svg></i><span>Red Carpet &amp; Editorial Expert</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3.4 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.9l6.1-.9z" /></svg></i><span>Hollywood&rsquo;s Leading Tan Guru</span></li></ul><p>For more than 15 years, Jimmy Coco has been the trusted tanning expert behind Hollywood's biggest stars, iconic red-carpet moments, and world-renowned beauty campaigns.</p><p style={{ marginTop: 12 }}>The iconic red-carpet radiance Jimmy Coco is known for has been meticulously bottled — offering your most selective clients exclusive access to Hollywood's signature glow.</p><p style={{ marginTop: 12 }}>A premium name your clients already recognise means a service you can price and present as premium — never a race to the bottom.</p><div className="sig">Jimmy Coco<small>Hollywood Tan Guru</small></div></div>
+    <div className="story-copy-track"><div className="story-copy-pin"><div className="story-copy"><p className="eyebrow">Why leading salons choose Jimmy Coco</p><blockquote className="big">“I wanted to bring my <em>Hollywood Glow</em> to the world's best salons.”</blockquote><ul className="creds"><li><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="m8.3 12.3 2.6 2.6 4.8-5.4" /></svg></i><span>Preferred tan artist to the Kardashians for over 15 years.</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="9" r="5.4" /><path d="M8.7 13.6 7.4 21l4.6-2.4L16.6 21l-1.3-7.4" /></svg></i><span>Red Carpet &amp; Editorial Expert</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3.4 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.9l6.1-.9z" /></svg></i><span>Hollywood&rsquo;s Leading Tan Guru</span></li></ul><p>For more than 15 years, Jimmy Coco has been the trusted tanning expert behind Hollywood's biggest stars, iconic red-carpet moments, and world-renowned beauty campaigns.</p><p style={{ marginTop: 12 }}>The iconic red-carpet radiance Jimmy Coco is known for has been meticulously bottled — offering your most selective clients exclusive access to Hollywood's signature glow.</p><p style={{ marginTop: 12 }}>A premium name your clients already recognise means a service you can price and present as premium — never a race to the bottom.</p><div className="sig">Jimmy Coco<small>Hollywood Tan Guru</small></div></div></div></div>
   </div></section>;
 }
 

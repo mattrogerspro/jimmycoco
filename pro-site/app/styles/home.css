@@ -237,14 +237,16 @@
   /* shades */
   .shades-showcase{position:relative;overflow:hidden;height:calc(90svh - 74px);scroll-margin-top:74px;margin-top:clamp(22px,3vh,34px);background:#EFE4D6;padding:clamp(22px,3.2vh,38px) 0}
   .shades-showcase::before{content:"";position:absolute;left:50%;transform:translateX(-50%);top:0;bottom:0;width:min(40%,600px);z-index:0;background:url('/img/backgrounds/pro-bundle.webp') center bottom/auto 100% no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%),linear-gradient(180deg,rgba(0,0,0,.5) 0,#000 24%);mask-image:linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%),linear-gradient(180deg,rgba(0,0,0,.5) 0,#000 24%);-webkit-mask-composite:source-in;mask-composite:intersect}
-  .shades-showcase .wrap{position:relative;z-index:1;height:100%;min-height:0;display:grid;grid-template-columns:minmax(300px,.9fr) minmax(0,1.4fr);grid-template-rows:auto auto auto 1fr;column-gap:clamp(24px,2.6vw,46px);align-items:start}
-  .shades-showcase .eyebrow{grid-column:1;grid-row:1;font-size:clamp(13px,.9vw,17px);margin:12px 0 15px;color:#8B5B31}
-  .shades-showcase h2{grid-column:1;grid-row:2;font-size:clamp(43px,4vw,70px);line-height:1.01;margin:0;max-width:500px}
+  .shades-showcase .wrap{position:relative;z-index:1;height:100%;min-height:0;display:grid;grid-template-columns:minmax(300px,.9fr) minmax(0,1.4fr);grid-template-rows:1fr;column-gap:clamp(24px,2.6vw,46px);align-items:start}
+  .shade-text{grid-column:1;grid-row:1;min-width:0}
+  .shades-showcase .eyebrow{font-size:clamp(13px,.9vw,17px);margin:12px 0 15px;color:#8B5B31}
+  .shades-showcase h2{font-size:clamp(43px,4vw,70px);line-height:1.01;margin:0;max-width:500px}
   .shades-showcase h2 em{display:inline-block;color:#8B613A}
-  .shade-intro{grid-column:1;grid-row:3;max-width:320px;margin-top:24px}
+  .shade-intro{max-width:320px;margin-top:24px}
   .shade-rule{display:block;width:54px;height:2px;background:#966131;margin-bottom:19px}
   .shade-intro p{font-size:clamp(15px,1.05vw,19px);line-height:1.55;color:#211B17;font-weight:500}
-  .shade-grid{grid-column:2;grid-row:1/5;display:grid;grid-template-columns:minmax(0,1fr);gap:4px;width:min(100%,352px);justify-self:end;height:100%;margin:0;align-self:stretch}
+  .shade-grid{grid-column:2;grid-row:1;display:grid;grid-template-columns:minmax(0,1fr);gap:4px;width:min(100%,352px);justify-self:end;height:100%;margin:0;align-self:stretch}
+  .shade-product-shoot{display:none}
   .shade{position:relative;display:flex;flex-direction:column;min-width:0;height:100%;background:#C7A27B;border:0;border-radius:6px;overflow:hidden;box-shadow:0 10px 24px rgba(54,35,19,.1)}
   .shade::before{display:block;flex:none;padding:17px 19px 16px;font-size:clamp(17px,1.3vw,23px);line-height:1;letter-spacing:.05em;color:#fff;font-weight:600}
   .shade:nth-child(1)::before{content:"MEDIUM / DARK  ✦";background:#73502F}
@@ -272,22 +274,26 @@
   .shade:nth-child(1)::after{content:"☼  Medium to Super Dark - Golden\A    Radiant - Healthy";white-space:pre;background:rgba(91,57,29,.22)}
   .shade:nth-child(2)::after{content:"☼  Warm · Golden\A    Radiant · Healthy";white-space:pre;background:rgba(91,57,29,.22)}
   .shade:nth-child(3)::after{content:"☼  Rich · Intense\A    Deep · Luxurious";white-space:pre;color:#FFF8EC;background:rgba(42,25,13,.34)}
-  @media (max-width:900px){
-    .shades-showcase{height:auto}
-    .shades-showcase::before{width:min(64%,560px);background-position:left top;background-size:auto 700px}
-    .shades-showcase .wrap{display:block;min-height:0}
+  @media (max-width:1100px){
+    .shades-showcase{height:auto;padding:clamp(50px,7vw,72px) 0}
+    .shades-showcase::before{display:none}
+    .shades-showcase .wrap{height:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,352px);grid-template-rows:auto auto;column-gap:clamp(28px,5vw,58px);row-gap:clamp(42px,6vw,70px);align-items:start}
+    .shade-text{grid-column:1;grid-row:1;align-self:start}
     .shades-showcase .eyebrow{margin-top:0}
-    .shades-showcase h2{max-width:650px}
+    .shades-showcase h2{max-width:560px}
     .shade-intro{max-width:430px;margin-top:32px}
-    #shades .shade-grid{grid-template-columns:1fr;width:min(100%,352px);margin:370px 0 0;padding-bottom:8px}
-    #shades .shade{scroll-snap-align:start}
-    #shades .shade-universal{height:auto;margin-top:52px}
+    #shades .shade-grid{grid-column:2;grid-row:1;grid-template-columns:1fr;width:min(100%,352px);height:auto;margin:46px 0 0;padding:0;align-self:start;justify-self:end}
+    #shades .shade{height:auto;scroll-snap-align:start}
+    #shades .shade-universal{height:auto;margin-top:42px}
+    .shade-product-shoot{display:block;grid-column:1/-1;grid-row:2;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:center 50%;border-radius:6px;box-shadow:var(--shadow)}
   }
   @media (max-width:700px){
     .shades-showcase{padding:56px 0}
-    .shades-showcase::before{width:min(82%,480px);background-position:left 200px;background-size:auto 560px}
+    .shades-showcase .wrap{grid-template-columns:1fr;grid-template-rows:auto auto auto;row-gap:0}
+    .shade-text{grid-column:1;grid-row:1}
     .shades-showcase h2{font-size:clamp(48px,14vw,68px)}
-    #shades .shade-grid{grid-template-columns:1fr;margin-top:330px;overflow:visible}
+    #shades .shade-grid{grid-column:1;grid-row:2;width:min(100%,352px);justify-self:center;margin-top:52px;overflow:visible}
+    .shade-product-shoot{grid-column:1;grid-row:3;margin-top:44px;aspect-ratio:4/3}
     .shade::before{padding:18px 20px}
     .shade-identity{min-height:280px;padding-top:68px}
   }

@@ -221,18 +221,21 @@
     .fx-feat:first-child{padding-top:28px}
     .fx-feat:nth-last-child(2){border-bottom:0}
   }
-  @media (max-width:760px){
+  @media (max-width:767px){
+    .formula{padding-bottom:72px}
     .fx-grid{grid-template-columns:1fr}
     .fx-stat{min-height:360px}
     .fx-badge{width:clamp(280px,78vw,320px);padding:38px}
-    .fx-note{font-size:11.5px;padding:7px 12px}
-    .fx-feats{grid-column:auto;grid-template-columns:1fr;padding:0 clamp(12px,4vw,24px)}
-    .fx-feat{display:grid;grid-template-columns:52px minmax(0,1fr);grid-template-rows:auto auto;column-gap:14px;align-items:center;padding:24px 12px;text-align:center}
-    .fx-feat:first-child{padding-top:24px}
+    .fx-badge span{font-size:16px;line-height:1.5}
+    .fx-note{width:min(440px,calc(100vw - 40px));white-space:normal;font-size:14px;line-height:1.45;padding:9px 16px}
+    .fx-feats{grid-column:auto;grid-template-columns:1fr;padding:8px clamp(12px,4vw,24px) 0}
+    .fx-feat{display:grid;grid-template-columns:52px minmax(0,1fr);grid-template-rows:auto auto;column-gap:16px;align-items:center;padding:28px 12px;text-align:center}
+    .fx-feat:first-child{padding-top:28px}
     .fx-feat i{grid-column:1;grid-row:1/3;align-self:center;justify-self:center;margin:0}
-    .fx-feat h3{grid-column:2;grid-row:1;margin:0 0 7px}
-    .fx-feat p{grid-column:2;grid-row:2;width:100%;max-width:34ch;margin:0 auto}
+    .fx-feat h3{grid-column:2;grid-row:1;margin:0 0 9px;font-size:clamp(15px,4vw,18px);line-height:1.35}
+    .fx-feat p{grid-column:2;grid-row:2;width:100%;max-width:34ch;margin:0 auto;font-size:clamp(17px,4.4vw,19px);line-height:1.55}
     .fx-feat:nth-last-child(2){border-bottom:1px solid rgba(58,51,44,.18)}
+    .fx-feat:last-child{padding-bottom:32px}
   }
   /* shades */
   .shades-showcase{position:relative;overflow:hidden;height:calc(90svh - 74px);scroll-margin-top:74px;margin-top:clamp(22px,3vh,34px);background:#EFE4D6;padding:clamp(22px,3.2vh,38px) 0}
@@ -588,6 +591,13 @@
     body{padding-bottom:70px}
   }
 
+  /* Phone only: keep the sticky actions on tablet, but remove them completely
+     below the conventional 768px tablet breakpoint. */
+  @media (max-width:767px){
+    .sticky-cta{display:none}
+    body{padding-bottom:0}
+  }
+
   /* Below ~560px the header ran out of room: logo + "Professional" tag + the
      order button exceeded the viewport and made every page scroll sideways.
      The nav-links are already hidden at 900px; this shrinks what is left. */
@@ -597,8 +607,6 @@
     .logo{font-size:20px;letter-spacing:.1em}
     .protag{display:none}
     .nav .btn-sm{padding:11px 14px;font-size:12px;white-space:nowrap}
-    .sticky-cta{display:none}
-    body{padding-bottom:0}
   }
 
   @media (max-width:900px) and (prefers-reduced-motion:reduce){

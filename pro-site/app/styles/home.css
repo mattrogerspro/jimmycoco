@@ -140,6 +140,15 @@
   /* story */
   .story-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:center}
   .story-grid img{border-radius:6px;box-shadow:var(--shadow)}
+  .story-portrait{--story-x:0;--story-y:0;--story-scroll:0;position:relative;isolation:isolate;overflow:hidden;width:100%;aspect-ratio:1080/1325;margin:0;border-radius:6px;background:#C7AAA0;box-shadow:var(--shadow);perspective:900px;transform-style:preserve-3d}
+  .story-portrait .story-layer{position:absolute;display:block;max-width:none;border-radius:0;box-shadow:none;pointer-events:none;will-change:transform;transition:transform 140ms cubic-bezier(.2,.7,.2,1)}
+  .story-portrait .story-background{inset:-2.5%;width:105%;height:105%;object-fit:cover;transform:translate3d(calc(var(--story-x) * -3px),calc((var(--story-y) * -2px) + (var(--story-scroll) * -8px)),-18px) scale(1.035)}
+  .story-portrait .story-foreground{inset:0;width:100%;height:100%;object-fit:contain;transform-origin:50% 65%;transform:translate3d(calc(var(--story-x) * 8px),calc((var(--story-y) * 6px) + (var(--story-scroll) * 14px)),24px) scale(1.012)}
+  @media (prefers-reduced-motion:reduce){
+    .story-portrait .story-layer{transition:none;will-change:auto}
+    .story-portrait .story-background{transform:scale(1.035)}
+    .story-portrait .story-foreground{transform:none}
+  }
   blockquote.big{font-family:'Walbaum',Georgia,serif;font-size:clamp(31px,4vw,47px);line-height:1.18;color:var(--ink);margin-bottom:22px}
   blockquote.big em{color:var(--bronze2);font-style:italic}
   .sig{font-family:'Walbaum',Georgia,serif;font-style:italic;font-size:34px;color:var(--bronze2);margin-top:26px}

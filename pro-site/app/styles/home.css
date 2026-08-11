@@ -235,18 +235,22 @@
   .shade:nth-child(1)::before{content:"MEDIUM / DARK  ✦";background:#73502F}
   .shade:nth-child(2)::before{content:"MEDIUM  ✦";background:#73502F}
   .shade:nth-child(3)::before{content:"DARK  ✦";background:#4A2D16}
-  .shade-swatch{position:relative;display:block;flex:none}
-  .shade img{display:block;width:100%;height:clamp(145px,22svh,220px);aspect-ratio:auto;object-fit:cover}
-  .shade-swatch b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 14px;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:clamp(27px,2.3vw,40px);letter-spacing:.04em;color:#FDF6EA;text-shadow:0 2px 14px rgba(58,34,14,.42)}
-  .shade div{flex:1;min-height:0;padding:clamp(15px,1.45vw,24px) clamp(15px,1.35vw,22px);background:#D5B58F}
+  .shade-universal{height:calc(100% - clamp(42px,4vw,60px));margin-top:clamp(42px,4vw,60px);overflow:visible}
+  .shade-universal::before{display:none}
+  .shade img.shade-badge{position:absolute;z-index:2;top:0;left:50%;display:block;width:clamp(190px,14vw,230px);height:clamp(68px,5vw,82px);transform:translate(-50%,-50%);object-fit:cover;border:1px solid rgba(255,253,249,.9);box-shadow:0 8px 22px rgba(54,35,19,.16)}
+  .shade-identity{display:flex;flex:none;min-height:clamp(240px,27svh,292px);padding:clamp(58px,6.2vh,70px) 22px 24px;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;color:#FFF8EE;background:#866337;border-radius:6px 6px 0 0}
+  .shade-identity span{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:clamp(24px,2vw,34px);font-weight:300;line-height:1.04;letter-spacing:-.025em}
+  .shade-identity strong{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:clamp(29px,2.35vw,40px);font-weight:700;line-height:1.04;letter-spacing:-.035em;margin:8px 0}
+  .shade-identity small{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:clamp(18px,1.35vw,23px);font-weight:400;line-height:1;margin-top:clamp(22px,2.5vh,32px);letter-spacing:.015em}
+  .shade-copy{flex:1;min-height:0;padding:clamp(15px,1.45vw,24px) clamp(15px,1.35vw,22px);background:#D5B58F}
   .shade p{font-family:'Walbaum',Georgia,serif;font-weight:500;font-size:clamp(18px,1.3vw,24px);line-height:1.2;color:#1D1712}
   .shade p b{color:inherit;font-weight:500}
   .shade p::after{display:block;margin-top:15px;padding-top:14px;border-top:1px solid rgba(118,76,39,.62);font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:clamp(13px,.9vw,16px);font-weight:500;line-height:1.45;color:#292019}
   .shade:nth-child(1) p::after{content:"One universal formula — flattering on fair, medium and deeper skin tones alike."}
   .shade:nth-child(2) p::after{content:"Ideal for medium skin tones or clients wanting a healthy, golden bronze."}
   .shade:nth-child(3) p::after{content:"Designed for deeper skin tones or clients wanting a richer, more intense bronze."}
-  .shade:nth-child(1) div,.shade:nth-child(2) div{background:#B78C60}
-  .shade:nth-child(3) div{background:#68492C}
+  .shade:nth-child(1) .shade-copy,.shade:nth-child(2) .shade-copy{background:#B78C60}
+  .shade:nth-child(3) .shade-copy{background:#68492C}
   .shade:nth-child(3) p,.shade:nth-child(3) p::after{color:#FFF8EC}
   .shade:nth-child(3) p::after{border-top-color:rgba(255,248,236,.72)}
   .shade::after{display:block;flex:none;padding:13px 17px;font-size:clamp(10px,.7vw,12px);line-height:1.55;letter-spacing:.13em;text-transform:uppercase;font-weight:600;color:#261B13;background:rgba(117,77,42,.16)}
@@ -262,14 +266,15 @@
     .shade-intro{max-width:430px;margin-top:32px}
     #shades .shade-grid{grid-template-columns:1fr;width:min(100%,352px);margin:370px 0 0;padding-bottom:8px}
     #shades .shade{scroll-snap-align:start}
+    #shades .shade-universal{height:auto;margin-top:52px}
   }
   @media (max-width:700px){
     .shades-showcase{padding:56px 0}
     .shades-showcase::before{width:min(82%,480px);background-position:left 200px;background-size:auto 560px}
     .shades-showcase h2{font-size:clamp(48px,14vw,68px)}
     #shades .shade-grid{grid-template-columns:1fr;margin-top:330px;overflow:visible}
-    .shade img{height:230px}
     .shade::before{padding:18px 20px}
+    .shade-identity{min-height:280px;padding-top:68px}
   }
   .litre-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center;margin-top:56px}
   .litre-grid img{border-radius:6px;box-shadow:var(--shadow)}

@@ -47,10 +47,10 @@
      nothing definite to resolve against and the bottle falls back to its
      intrinsic aspect ratio (a 1146px-tall bottle in a 558px hero). */
   .hero-inner{max-width:var(--wrap);margin:0 auto;padding:0 var(--pad);display:grid;
-              grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:minmax(0,1fr);
+              grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr);
               align-items:center;min-height:100%;height:100%}
   /* Column 1 of the shared 3-up grid. */
-  .hero-copy{grid-column:1;padding:0 24px 0 0;position:relative;z-index:2;min-width:0}
+  .hero-copy{grid-column:1;padding:0 clamp(24px,2.5vw,44px) 0 0;position:relative;z-index:2;min-width:0}
   h1{font-family:'Walbaum',Georgia,serif;font-weight:400;font-size:clamp(46px,5vw,94px);line-height:1.02;color:var(--ink);letter-spacing:-.02em;margin-bottom:34px}
   h1 em{font-style:italic;color:var(--bronze2)}
   h2 em{font-style:italic;color:var(--bronze2)}
@@ -69,13 +69,13 @@
     /* 2.95vw ≈ 10.3% of the column — the largest size that still keeps
        "clients ask for." on one line at every width from 1200 to 2560. Walbaum
        sets about 12% wider than Fraunces did, so this dropped from 3.3vw. */
-    .hero-copy h1{font-size:clamp(30px,2.95vw,64px);margin-bottom:22px}
+    .hero-copy h1{font-size:clamp(36px,3.4vw,70px);margin-bottom:24px}
     .hero-copy .hero-stats{margin-bottom:24px;max-width:none}
-    .hero-copy .hero-stats div{padding:0 12px;font-size:clamp(12px,.86vw,15px);line-height:1.45}
+    .hero-copy .hero-stats div{padding:0 14px;font-size:clamp(14px,.95vw,17px);line-height:1.45}
     .hero-copy .hero-ctas{gap:10px 12px}
-    .hero-copy .hero-ctas .btn{padding:12px 20px;font-size:12.5px;letter-spacing:.08em}
-    .hero-copy .hero-ctas .btn-ghost{padding:10.5px 20px}
-    .hero-copy .hero-profit-link{font-size:13px}
+    .hero-copy .hero-ctas .btn{padding:14px 22px;font-size:13.5px;letter-spacing:.08em}
+    .hero-copy .hero-ctas .btn-ghost{padding:12.5px 22px}
+    .hero-copy .hero-profit-link{font-size:14px}
   }
   /* Between 901 and 1180 column one is only ~260–330px, so three side-by-side
      stats break to five and six lines each. Stack them instead. */
@@ -86,9 +86,9 @@
   }
   /* Column 2 of the shared 3-up grid. Contained, never cropped — it is a
      620x1708 bottle, not a photograph. */
-  .hero-bottle{grid-column:2;position:relative;margin:0;min-width:0;height:86%;
+  .hero-bottle{grid-column:2;position:relative;justify-self:center;margin:0;min-width:0;width:min(100%,clamp(190px,18vw,300px));height:min(72%,720px);
                display:flex;align-items:center;justify-content:center;pointer-events:none}
-  .hero-bottle img{width:auto;height:100%;max-width:100%;max-height:100%;object-fit:contain;
+  .hero-bottle img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;
                    filter:drop-shadow(0 30px 54px rgba(25,21,18,.34))}
   /* Starts exactly on the column-3 boundary, still bleeds to the viewport edge. */
   .hero-img{position:absolute;top:0;bottom:0;right:0;left:calc(var(--edge) + var(--col)*2);width:auto;z-index:1}
@@ -358,7 +358,7 @@
     /* A laptop at 1280x720 leaves 358px of hero between the nav and the metrics
        strip. Take the height back from the strip and the headline rather than
        letting the copy run under the strip. */
-    .hero-copy h1{font-size:clamp(28px,min(2.95vw,4vh),64px);margin-bottom:16px}
+    .hero-copy h1{font-size:clamp(34px,min(3.4vw,5vh),58px);margin-bottom:18px}
     .hero-copy .hero-stats{margin-bottom:16px}
     .metric{padding:24px 18px;gap:18px}
     .metric svg{width:46px;height:46px}

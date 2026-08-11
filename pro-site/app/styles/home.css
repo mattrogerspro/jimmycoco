@@ -378,7 +378,7 @@
   /* certification */
   .certify{background:var(--cream);padding:0;overflow:hidden;border-top:1px solid var(--line)}
   .cert-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);align-items:stretch;min-height:calc(100vh - 74px)}
-  .cert-copy{align-self:start;padding:clamp(36px,4vw,68px) clamp(32px,4vw,88px) clamp(24px,3vw,48px) clamp(24px,3.5vw,72px)}
+  .cert-copy{position:relative;z-index:1;align-self:start;padding:clamp(36px,4vw,68px) clamp(32px,4vw,88px) clamp(24px,3vw,48px) clamp(24px,3.5vw,72px)}
   .cert-copy h2{max-width:15ch;font-size:clamp(30px,2.9vw,48px);margin-bottom:14px}
   .cert-lead{color:var(--bronze2);font-weight:600;font-size:clamp(18px,1.4vw,24px);line-height:1.35;max-width:30ch;margin-bottom:18px}
   .cert-body{font-size:clamp(14.5px,1.02vw,17.5px);line-height:1.55;color:var(--muted);max-width:62ch;margin-bottom:11px}
@@ -388,18 +388,18 @@
   .cert-list li{display:flex;gap:11px;align-items:flex-start;font-size:clamp(14px,1.02vw,17.5px);line-height:1.38;color:var(--ink2)}
   .cert-list i{flex:0 0 auto;font-style:normal;line-height:1.35;color:var(--bronze)}
   .cert-star i{color:var(--gold)}
-  .cert-art{position:relative;background:linear-gradient(165deg,#8E7F74,#7A6C62)}
-  .cert-badge{position:absolute;top:clamp(20px,2.4vw,48px);left:50%;transform:translateX(-50%);width:min(64%,340px);height:auto;z-index:2;filter:drop-shadow(0 18px 40px rgba(20,16,13,.28))}
-  .cert-jimmy{position:absolute;right:0;bottom:0;height:47%;width:auto;max-width:none;z-index:3;pointer-events:none}
+  .cert-art{position:relative;z-index:2;overflow:visible;background:linear-gradient(165deg,#8E7F74,#7A6C62)}
+  .cert-badge{position:absolute;top:clamp(20px,2.4vw,48px);left:50%;transform:translateX(-50%);width:min(46%,270px);height:auto;z-index:2;filter:drop-shadow(0 18px 40px rgba(20,16,13,.28))}
+  .cert-jimmy{position:absolute;right:-14%;bottom:0;height:64%;width:auto;max-width:none;z-index:3;pointer-events:none}
   @media (max-width:1100px){
-    .cert-jimmy{height:42%}
+    .cert-jimmy{height:55%}
   }
   @media (max-width:900px){
     .cert-grid{grid-template-columns:1fr;min-height:0}
     .cert-copy{align-self:stretch}
     .cert-copy{padding:clamp(48px,7vw,72px) clamp(24px,5vw,48px)}
     .cert-lists{grid-template-columns:1fr;gap:32px}
-    .cert-art{min-height:clamp(420px,86vw,620px)}
+    .cert-art{min-height:clamp(420px,86vw,620px);overflow:hidden}
     .cert-badge{width:min(46%,240px)}
     .cert-jimmy{height:auto;width:124%;right:-8%;bottom:0}
   }
@@ -577,7 +577,8 @@
   /* Buttons keep their min-content width; these let them shrink or stack. */
   .litre-actions,.section-actions{max-width:100%}
   .litre-actions .btn,.section-actions .btn{max-width:100%;white-space:normal}
-  .cert-art{overflow:hidden}
+  .cert-art{overflow:visible}
+  @media (max-width:900px){.cert-art{overflow:hidden}}
   .calc-cta{flex-wrap:wrap;max-width:100%;min-width:0}
   .calc-cta p{min-width:0}
   .calc-cta .btn{max-width:100%;white-space:normal}

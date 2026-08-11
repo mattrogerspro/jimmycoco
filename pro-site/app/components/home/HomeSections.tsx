@@ -64,11 +64,21 @@ function StoryPortrait() {
     const render = () => {
       frame = 0;
       const section = scene.closest<HTMLElement>("#story");
-      const sectionTop = section?.getBoundingClientRect().top ?? scene.getBoundingClientRect().top;
-      const scrollDepth = Math.max(-1, Math.min(1, (74 - sectionTop) / window.innerHeight));
+      const sectionRect = section?.getBoundingClientRect();
+      const sceneRect = scene.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const isDesktop = window.matchMedia("(min-width: 901px)").matches;
+      const stickyHeight = Math.max(viewportHeight - 74, 1);
+      const scrollRange = Math.max((section?.offsetHeight ?? stickyHeight) - stickyHeight, 1);
+      const progress = isDesktop
+        ? Math.max(0, Math.min(1, (74 - (sectionRect?.top ?? sceneRect.top)) / scrollRange))
+        : Math.max(0, Math.min(1, (viewportHeight * .72 - sceneRect.top) / (sceneRect.height * .65)));
+      const reveal = Math.max(0, Math.min(1, (progress - .18) / .64));
+      const scrollDepth = progress * 2 - 1;
       scene.style.setProperty("--story-x", pointerX.toFixed(3));
       scene.style.setProperty("--story-y", pointerY.toFixed(3));
       scene.style.setProperty("--story-scroll", scrollDepth.toFixed(3));
+      scene.style.setProperty("--story-reveal", reveal.toFixed(3));
     };
     const schedule = () => {
       if (!frame) frame = window.requestAnimationFrame(render);
@@ -103,6 +113,9 @@ function StoryPortrait() {
   return <figure className="story-portrait" ref={sceneRef}>
     <img className="story-layer story-background" src={`${A}jimmy-coco-story-background.png`} alt="" width="1080" height="1325" loading="lazy" decoding="async" aria-hidden="true" />
     <img className="story-layer story-foreground" src={`${A}jimmy-coco-story-cutout.png`} alt="Jimmy Coco — the Hollywood tan artist behind the Sunless professional range" width="1080" height="1325" loading="lazy" decoding="async" />
+    <img className="story-layer story-heidi" src={`${A}heidi.png`} alt="Campaign photograph featuring Kim and Heidi" width="1650" height="1984" loading="lazy" decoding="async" />
+    <span className="story-heidi-shade" aria-hidden="true" />
+    <p className="story-proof"><span>Tanning Kim and Heidi</span><strong>for over 15 years</strong></p>
   </figure>;
 }
 

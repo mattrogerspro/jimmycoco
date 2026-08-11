@@ -138,15 +138,24 @@
   .benefits span{color:#C9BCAB;font-size:clamp(10px,.95vw,14px);letter-spacing:clamp(.12em,.16vw,.22em);text-transform:uppercase;padding:2px clamp(8px,1.6vw,34px);border-left:1px solid rgba(201,149,103,.3);line-height:1.5}
   .benefits span:first-child{border-left:0}
   /* story */
-  #story{height:auto;min-height:calc(100svh - 74px);padding:0;overflow:visible}
+  #story{height:auto;min-height:calc(190svh - 74px);padding:0;overflow:visible}
   #story .story-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:0;align-items:start;width:100%;max-width:none;min-height:inherit;margin:0;padding:0}
   .story-grid img{border-radius:6px;box-shadow:var(--shadow)}
-  .story-copy{align-self:stretch;display:flex;flex-direction:column;justify-content:center;min-width:0;min-height:calc(100svh - 74px);padding:clamp(32px,3.5vw,72px) clamp(34px,5vw,104px)}
-  .story-portrait{--story-x:0;--story-y:0;--story-scroll:0;position:sticky;top:74px;isolation:isolate;overflow:hidden;width:100%;height:calc(100svh - 74px);margin:0;border-radius:0;background:#C7AAA0;box-shadow:none;perspective:900px;transform-style:preserve-3d}
+  .story-copy{align-self:start;display:flex;flex-direction:column;justify-content:center;min-width:0;height:auto;min-height:calc(100svh - 74px);padding:clamp(32px,3.5vw,72px) clamp(34px,5vw,104px)}
+  .story-portrait{--story-x:0;--story-y:0;--story-scroll:-1;--story-reveal:0;position:sticky;top:74px;isolation:isolate;overflow:hidden;width:100%;height:calc(100svh - 74px);margin:0;border-radius:0;background:#C7AAA0;box-shadow:none;perspective:900px;transform-style:preserve-3d}
   .story-portrait .story-layer{position:absolute;display:block;max-width:none;border-radius:0;box-shadow:none;pointer-events:none;will-change:transform;transition:transform 140ms cubic-bezier(.2,.7,.2,1)}
   .story-portrait .story-background{inset:-5% auto -5% 0;width:110%;height:110%;object-fit:cover;object-position:left center;transform-origin:left center;transform:translate3d(0,calc((var(--story-y) * -3px) + (var(--story-scroll) * -38px)),-18px) scale(1.035)}
   .story-portrait .story-foreground{inset:0;width:100%;height:100%;object-fit:contain;object-position:left bottom;transform-origin:left bottom;transform:translate3d(calc(var(--story-x) * 9px),0,24px) scale(1.012)}
+  .story-portrait .story-heidi{z-index:3;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;opacity:var(--story-reveal);transform:scale(1.015);transition:opacity 80ms linear,transform 140ms cubic-bezier(.2,.7,.2,1)}
+  .story-heidi-shade{position:absolute;z-index:4;inset:0;pointer-events:none;opacity:var(--story-reveal);background:linear-gradient(180deg,rgba(22,13,8,0) 48%,rgba(22,13,8,.68) 100%)}
+  .story-proof{position:absolute;z-index:5;left:clamp(24px,4vw,64px);right:clamp(24px,4vw,64px);bottom:clamp(28px,5vh,68px);margin:0;padding-top:clamp(14px,1.7vw,24px);border-top:1px solid rgba(255,255,255,.72);color:#fff;font-family:'Montserrat',sans-serif;text-transform:uppercase;text-shadow:0 2px 18px rgba(0,0,0,.34);opacity:var(--story-reveal);pointer-events:none}
+  .story-proof span,.story-proof strong{display:block}
+  .story-proof span{font-size:clamp(17px,1.8vw,28px);font-weight:500;letter-spacing:.14em;line-height:1.35}
+  .story-proof strong{margin-top:4px;font-size:clamp(28px,3.5vw,54px);font-weight:600;letter-spacing:.035em;line-height:1.08}
   @media (prefers-reduced-motion:reduce){
+    #story{min-height:calc(100svh - 74px)}
+    .story-copy{height:auto;min-height:calc(100svh - 74px)}
+    .story-portrait{--story-reveal:1}
     .story-portrait .story-layer{transition:none;will-change:auto}
     .story-portrait .story-background{transform:scale(1.035)}
     .story-portrait .story-foreground{transform:none}
@@ -518,7 +527,10 @@
     #story{height:auto;min-height:0;overflow:visible}
     #story .story-grid{grid-template-columns:1fr;min-height:0}
     .story-portrait{position:relative;top:auto;height:min(78svh,820px);min-height:520px}
-    .story-copy{min-height:0;padding:48px clamp(24px,5vw,48px) 60px}
+    .story-copy{height:auto;min-height:0;padding:48px clamp(24px,5vw,48px) 60px}
+    .story-proof{left:clamp(22px,6vw,44px);right:clamp(22px,6vw,44px);bottom:clamp(24px,5vw,42px)}
+    .story-proof span{font-size:clamp(15px,3.8vw,21px)}
+    .story-proof strong{font-size:clamp(27px,7vw,42px)}
     .calc{height:auto;min-height:0;display:block}
     .calc-head,.calc-in{grid-template-columns:1fr}
     .calc-cta{flex-direction:column;text-align:center}

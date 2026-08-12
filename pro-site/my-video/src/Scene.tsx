@@ -18,13 +18,13 @@ export const myCompSchema = z.object({
 
 type MyCompSchemaType = z.infer<typeof myCompSchema>;
 
-export const Scene: React.FC<
-  {
-    readonly baseScale: number;
-    mediaMetadata: MediabunnyMetadata | null;
-    videoSrc: string | null;
-  } & MyCompSchemaType
-> = ({ baseScale, phoneColor, mediaMetadata, videoSrc }) => {
+export type SceneProps = {
+  readonly baseScale: number;
+  mediaMetadata: MediabunnyMetadata | null;
+  videoSrc: string | null;
+} & MyCompSchemaType;
+
+export const Scene: React.FC<SceneProps> = ({ baseScale, phoneColor, mediaMetadata, videoSrc }) => {
   const { width, height } = useVideoConfig();
 
   if (!mediaMetadata) {

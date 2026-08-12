@@ -1,6 +1,24 @@
-import { Composition, staticFile } from "remotion";
-import { Scene, myCompSchema } from "./Scene";
+import {CalculateMetadataFunction, Composition, staticFile} from "remotion";
+import {Scene, SceneProps, myCompSchema} from "./Scene";
 import { getMediaMetadata } from "./helpers/get-media-metadata";
+import {StoryPilot} from "./StoryPilot";
+
+const calculateSceneMetadata: CalculateMetadataFunction<SceneProps> = async ({props}) => {
+  const videoSrc =
+    props.deviceType === "phone"
+      ? staticFile("phone.mp4")
+      : staticFile("tablet.mp4");
+
+  const mediaMetadata = await getMediaMetadata(videoSrc);
+
+  return {
+    props: {
+      ...props,
+      mediaMetadata,
+      videoSrc,
+    },
+  };
+};
 
 // Welcome to the Remotion Three Starter Kit!
 // Two compositions have been created, showing how to use
@@ -21,6 +39,14 @@ export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Composition
+        id="Story-Pilot"
+        component={StoryPilot}
+        fps={30}
+        durationInFrames={390}
+        width={1080}
+        height={1920}
+      />
+      <Composition
         id="Scene"
         component={Scene}
         fps={30}
@@ -35,22 +61,7 @@ export const RemotionRoot: React.FC = () => {
           mediaMetadata: null,
           videoSrc: null,
         }}
-        calculateMetadata={async ({ props }) => {
-          const videoSrc =
-            props.deviceType === "phone"
-              ? staticFile("phone.mp4")
-              : staticFile("tablet.mp4");
-
-          const mediaMetadata = await getMediaMetadata(videoSrc);
-
-          return {
-            props: {
-              ...props,
-              mediaMetadata,
-              videoSrc,
-            },
-          };
-        }}
+        calculateMetadata={calculateSceneMetadata}
       />
     </>
   );

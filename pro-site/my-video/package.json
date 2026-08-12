@@ -8,6 +8,7 @@
   "dependencies": {
     "@react-three/fiber": "9.2.0",
     "@remotion/cli": "4.0.508",
+    "@remotion/fonts": "4.0.508",
     "@remotion/media": "4.0.508",
     "@remotion/three": "4.0.508",
     "@remotion/zod-types": "4.0.508",
@@ -31,6 +32,8 @@
     "dev": "remotion studio",
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
-    "lint": "eslint src && tsc"
+    "lint": "eslint src && tsc",
+    "render:story": "remotion render Story-Pilot out/jimmy-heidi-story-pilot.mp4 --codec=h264 --crf=18",
+    "still:story": "remotion still Story-Pilot out/jimmy-heidi-story-pilot.jpg --frame=210"
   }
 }

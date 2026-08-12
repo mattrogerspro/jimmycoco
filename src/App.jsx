@@ -54,6 +54,7 @@ const navItems = [
   { id: 'playbooks', label: 'Playbooks', icon: 'book' },
   { id: 'sequences', label: 'Sequences', icon: 'sequence' },
   { id: 'emails', label: 'Live emails', icon: 'mail' },
+  { id: 'klaviyo', label: 'Klaviyo previews', icon: 'monitor' },
   { id: 'guides', label: 'Help & guides', icon: 'help' },
 ]
 
@@ -795,6 +796,60 @@ function Guides({ query, slug, routeTo }) {
   )
 }
 
+const klaviyoPreviews = [
+  {
+    id: 'golden-hour-retail',
+    title: 'Glow Like It’s Golden Hour',
+    description: 'Malibu-inspired retail newsletter with responsive desktop and mobile imagery.',
+    status: 'Draft preview',
+    previewUrl: '/email-assets/retail-website/index.html',
+    explicitUrl: '/email-assets/retail-website/index.html',
+    source: 'existing-campaigns/new-website-images/email.html',
+    image: '/email-assets/retail-website/hero-mobile.webp',
+  },
+]
+
+function KlaviyoPreviews() {
+  return (
+    <div className="page klaviyo-page">
+      <div className="page-intro-row">
+        <div>
+          <p className="eyebrow">External campaign previews</p>
+          <h1>Klaviyo campaigns</h1>
+          <p>Standalone campaign HTML hosted under <code>/email-assets/</code>. These previews are separate from the Resend campaign registry and sending engine.</p>
+        </div>
+      </div>
+
+      <div className="klaviyo-preview-grid">
+        {klaviyoPreviews.map((campaign) => (
+          <article className="panel klaviyo-preview-card" key={campaign.id}>
+            <div className="klaviyo-preview-summary">
+              <img src={campaign.image} alt="" />
+              <div>
+                <p className="eyebrow">{campaign.status}</p>
+                <h2>{campaign.title}</h2>
+                <p>{campaign.description}</p>
+                <dl>
+                  <div><dt>Public preview</dt><dd>{campaign.explicitUrl}</dd></div>
+                  <div><dt>Source</dt><dd>{campaign.source}</dd></div>
+                </dl>
+                <div className="klaviyo-preview-actions">
+                  <a className="primary-button" href={campaign.previewUrl} target="_blank" rel="noreferrer"><Icon name="external" size={16} /> Open preview</a>
+                  <a className="secondary-button" href={campaign.explicitUrl} target="_blank" rel="noreferrer"><Icon name="link" size={16} /> Direct HTML</a>
+                </div>
+              </div>
+            </div>
+            <div className="klaviyo-frame-shell">
+              <div className="browser-chrome"><span /><span /><span /><b>{campaign.explicitUrl}</b></div>
+              <iframe title={`Preview of ${campaign.title}`} src={campaign.previewUrl} />
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 const parseRoute = () => {
   const segments = window.location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map((part) => {
     try { return decodeURIComponent(part) } catch { return part }
@@ -871,6 +926,7 @@ export default function App() {
         {currentView === 'playbooks' && <Playbooks query={query} category={route.params[0]} doc={route.params[1]} routeTo={routeTo} />}
         {currentView === 'sequences' && <Sequences params={route.params} routeTo={routeTo} onOpenEmail={openEmail} />}
         {currentView === 'emails' && <EmailStudio campaignId={route.params[0]} emailNumber={Number(route.params[1]) || null} routeTo={routeTo} />}
+        {currentView === 'klaviyo' && <KlaviyoPreviews />}
         {currentView === 'guides' && <Guides query={query} slug={route.params[0]} routeTo={routeTo} />}
       </div>
     </div>

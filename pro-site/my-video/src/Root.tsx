@@ -2,6 +2,7 @@ import {CalculateMetadataFunction, Composition, staticFile} from "remotion";
 import {Scene, SceneProps, myCompSchema} from "./Scene";
 import { getMediaMetadata } from "./helpers/get-media-metadata";
 import {StoryPilot} from "./StoryPilot";
+import {ProHeroTikTok} from "./ProHeroTikTok";
 
 const calculateSceneMetadata: CalculateMetadataFunction<SceneProps> = async ({props}) => {
   const videoSrc =
@@ -38,6 +39,14 @@ const calculateSceneMetadata: CalculateMetadataFunction<SceneProps> = async ({pr
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="Pro-Hero-TikTok"
+        component={ProHeroTikTok}
+        fps={30}
+        durationInFrames={900}
+        width={1080}
+        height={1920}
+      />
       <Composition
         id="Story-Pilot"
         component={StoryPilot}

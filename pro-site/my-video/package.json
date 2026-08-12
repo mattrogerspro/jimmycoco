@@ -34,6 +34,8 @@
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
     "render:story": "remotion render Story-Pilot out/jimmy-heidi-story-pilot.mp4 --codec=h264 --crf=18",
-    "still:story": "remotion still Story-Pilot out/jimmy-heidi-story-pilot.jpg --frame=252"
+    "still:story": "remotion still Story-Pilot out/jimmy-heidi-story-pilot.jpg --frame=252",
+    "render:pro-hero": "remotion render Pro-Hero-TikTok out/pro-hero-tiktok.mp4 --codec=h264 --crf=18",
+    "still:pro-hero": "remotion still Pro-Hero-TikTok out/pro-hero-tiktok-calculator.jpg --frame=680"
   }
 }

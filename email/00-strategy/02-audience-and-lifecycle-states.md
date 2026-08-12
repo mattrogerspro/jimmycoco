@@ -28,7 +28,7 @@ Needs order confidence, application preparation, timing guidance and a successfu
 
 ### Active customer
 
-Has purchased recently and may be learning the routine, replenishing or expanding into complementary products.
+Has purchased recently and may be learning the routine, replenishing or expanding into complimentary products.
 
 ### Repeat customer
 

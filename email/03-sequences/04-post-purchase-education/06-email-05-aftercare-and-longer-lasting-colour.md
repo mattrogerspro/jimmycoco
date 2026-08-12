@@ -56,7 +56,7 @@ All advice must come from approved product documentation. Do not create dermatol
 
 Primary CTA: `View the aftercare guide`.
 
-An optional replenishment or complementary-product link may appear only when it is genuinely relevant, current and subordinate to education.
+An optional replenishment or complimentary-product link may appear only when it is genuinely relevant, current and subordinate to education.
 
 ## Cross-sell restraint
 

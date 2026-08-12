@@ -42,7 +42,7 @@ export const RemotionRoot: React.FC = () => {
         id="Story-Pilot"
         component={StoryPilot}
         fps={30}
-        durationInFrames={390}
+        durationInFrames={300}
         width={1080}
         height={1920}
       />

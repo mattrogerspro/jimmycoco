@@ -76,7 +76,7 @@ A subordinate next step may include:
 
 - saving the routine;
 - learning when to replenish;
-- viewing a genuinely complementary product;
+- viewing a genuinely complimentary product;
 - updating email preferences;
 - joining an approved loyalty or VIP programme.
 

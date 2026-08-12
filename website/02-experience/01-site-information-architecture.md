@@ -52,7 +52,7 @@ Recommended routes:
 
 ### Product Detail Page
 
-Role: convert product interest into confident purchase by explaining suitability, result, application, proof and complementary routine.
+Role: convert product interest into confident purchase by explaining suitability, result, application, proof and complimentary routine.
 
 ### Find Your Shade
 

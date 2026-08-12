@@ -16,7 +16,7 @@ Show the smallest useful preparation and application routine that supports the r
 
 **BUILD MY ROUTINE**
 
-Destination: a recommendation-aware routine page or cart builder with the matched product and approved complementary items preselected but not automatically added.
+Destination: a recommendation-aware routine page or cart builder with the matched product and approved complimentary items preselected but not automatically added.
 
 ## Content structure
 
@@ -44,7 +44,7 @@ A concise routine centred on the product selected for you.
 ## Merchandising rules
 
 - The recommendation must remain the dominant product.
-- Complementary products must be compatible and in stock.
+- complimentary products must be compatible and in stock.
 - Do not add unrelated best sellers.
 - Do not create artificial bundles solely to increase order value.
 - Never imply an accessory is mandatory when it is optional.
@@ -59,7 +59,7 @@ Product imagery must use approved source assets without generative alteration.
 ## Dynamic data
 
 - matched product and selected variant;
-- approved complementary product IDs;
+- approved complimentary product IDs;
 - stage labels and benefit copy;
 - current stock, price and currency;
 - routine-builder URL;

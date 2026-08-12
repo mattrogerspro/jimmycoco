@@ -20,7 +20,7 @@ Requirements:
 
 - One primary `h1` per page
 - Heading levels must not be skipped for visual reasons
-- Navigation, main content, complementary content and footer must use appropriate landmarks
+- Navigation, main content, complimentary content and footer must use appropriate landmarks
 - Lists, tables, forms and buttons must use native semantic elements wherever possible
 - Clickable elements must not be built from non-interactive containers
 - Visual order and DOM order must remain aligned

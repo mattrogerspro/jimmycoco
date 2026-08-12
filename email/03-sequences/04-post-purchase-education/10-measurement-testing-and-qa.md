@@ -35,7 +35,7 @@ Evaluate whether the sequence improves successful product use and customer confi
 ### Commercial impact
 
 - later replenishment conversion;
-- complementary-product purchase when genuinely relevant;
+- complimentary-product purchase when genuinely relevant;
 - repeat-order rate;
 - customer lifetime value;
 - margin-aware incremental revenue.

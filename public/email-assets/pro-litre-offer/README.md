@@ -12,7 +12,7 @@ Built from the original photography in `../pro-litre-original-assets/` and the c
 | `email.txt` | Plain-text multipart alternative |
 | `images/` | 9 photographic derivatives + 17 recreated icons — **708 KB total** |
 
-**Subject:** Limited Time: Buy 2 Pro Litres, Get 4 Complimentary Soufflés
+**Subject:** Limited Time: Buy 2 Pro Litres, Get 4 complimentary Soufflés
 **Preview text:** Discover the professional solution designed to create beautifully bespoke results for every client.
 
 ## Hosting

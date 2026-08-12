@@ -7,9 +7,9 @@ type HeaderProps = { page?: "home" | "product" | "content" };
 
 export function Announcement({ page = "home" }: HeaderProps) {
   return page === "product" ? (
-    <div className="announce">★ Free UK delivery over £40 · <b>14-day returns</b> · Complimentary trial for new salons</div>
+    <div className="announce">★ Free UK delivery over £40 · <b>14-day returns</b> · complimentary trial for new salons</div>
   ) : (
-    <div className="announce">★ Complimentary professional trial for salons — <b>no cost, no commitment</b></div>
+    <div className="announce">★ complimentary professional trial for salons — <b>no cost, no commitment</b></div>
   );
 }
 

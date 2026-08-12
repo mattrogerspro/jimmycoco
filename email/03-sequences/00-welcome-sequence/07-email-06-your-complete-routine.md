@@ -52,7 +52,7 @@ Cover blending, face precision or finishing only where relevant to the selected 
 
 ## Merchandising rule
 
-The email may recommend complementary products only when they solve a real application need. Limit the routine to the minimum credible set. Do not bundle unrelated products simply to increase order value.
+The email may recommend complimentary products only when they solve a real application need. Limit the routine to the minimum credible set. Do not bundle unrelated products simply to increase order value.
 
 ## Personalisation
 

@@ -2,7 +2,7 @@
 
 ## Role in the experience
 
-This scene increases average order value only after the visitor has gained confidence in the core product. It reframes accessories and complementary products as a simple professional ritual rather than another catalogue row.
+This scene increases average order value only after the visitor has gained confidence in the core product. It reframes accessories and complimentary products as a simple professional ritual rather than another catalogue row.
 
 It follows the warm, human testimonial scene and must return the experience to a lighter, calmer and more ordered visual environment.
 

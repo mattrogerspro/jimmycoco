@@ -56,6 +56,12 @@ const appear = (frame: number, start: number, end: number, outStart: number, out
   return inValue * outValue;
 };
 
+const hold = (frame: number, start: number, end: number) =>
+  interpolate(frame, [start, end], [0, 1], {
+    ...clamp,
+    easing: Easing.out(Easing.cubic),
+  });
+
 const cut = (frame: number, start: number, end: number) => (frame >= start && frame < end ? 1 : 0);
 
 const BrandMark: React.FC<{dark?: boolean; scale?: number}> = ({dark = false, scale = 1}) => (
@@ -337,7 +343,7 @@ export const StoryPilot: React.FC = () => {
     easing: Easing.out(Easing.exp),
   });
   const splitProof = appear(frame, 170, 176, 214, 222);
-  const endOpacity = appear(frame, 222, 232, 300, 300);
+  const endOpacity = hold(frame, 222, 232);
   const redFlash = cut(frame, 0, 5) + cut(frame, 80, 84) + cut(frame, 166, 170);
 
   return (
@@ -384,7 +390,7 @@ export const StoryPilot: React.FC = () => {
       </Tag>
       <PunchText opacity={appear(frame, 3, 10, 37, 43)} size={104} top={300}>
         Your salon<br />is selling<br />
-        <span style={{fontFamily: "Walbaum, serif", fontSize: 132, fontWeight: 400}}>
+        <span style={{fontFamily: "Walbaum, serif", fontSize: 122, fontWeight: 400}}>
           confidence.
         </span>
       </PunchText>
@@ -392,21 +398,21 @@ export const StoryPilot: React.FC = () => {
         Not just<br />a spray tan.
       </PunchText>
 
-      <Tag opacity={appear(frame, 82, 88, 112, 118)} top={176} tone="light">
+      <Tag opacity={appear(frame, 82, 88, 112, 118)} top={96} tone="light">
         Instant authority cue
       </Tag>
       <PunchText opacity={appear(frame, 88, 94, 123, 132)} size={90} bottom={350}>
         Kim. Heidi.<br />
         <span style={{color: COLORS.cream}}>That glow.</span>
       </PunchText>
-      <Tag opacity={appear(frame, 126, 132, 158, 166)} top={180} tone="dark">
+      <Tag opacity={appear(frame, 126, 132, 158, 166)} top={96} tone="dark">
         15+ years behind it
       </Tag>
       <PunchText opacity={appear(frame, 132, 138, 160, 170)} size={76} bottom={345}>
         Your clients<br />already want<br />the result.
       </PunchText>
 
-      <PunchText opacity={appear(frame, 174, 180, 196, 204)} size={82} top={390} color={COLORS.white}>
+      <PunchText opacity={appear(frame, 174, 180, 196, 204)} size={64} top={390} color={COLORS.white} maxWidth={430}>
         Borrow the<br />Hollywood proof.
       </PunchText>
       <PunchText opacity={appear(frame, 196, 202, 218, 224)} size={72} bottom={340} color={COLORS.cream}>
@@ -442,7 +448,7 @@ export const StoryPilot: React.FC = () => {
               margin: 0,
             }}
           >
-            Complimentary salon trial
+            complimentary salon trial
           </p>
           <h2
             style={{

@@ -34,6 +34,6 @@
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
     "render:story": "remotion render Story-Pilot out/jimmy-heidi-story-pilot.mp4 --codec=h264 --crf=18",
-    "still:story": "remotion still Story-Pilot out/jimmy-heidi-story-pilot.jpg --frame=210"
+    "still:story": "remotion still Story-Pilot out/jimmy-heidi-story-pilot.jpg --frame=252"
   }
 }

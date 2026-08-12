@@ -37,8 +37,10 @@
     @media only screen and (max-width:620px){
       .wrap{width:100%!important;max-width:100%!important;}
       .fluid{width:100%!important;max-width:100%!important;height:auto!important;}
-      .stack{display:block!important;width:100%!important;max-width:100%!important;}
-      .story-copy{padding:30px 24px!important;text-align:center!important;}
+      .stack{display:block!important;box-sizing:border-box!important;width:100%!important;max-width:100%!important;}
+      .story-copy{box-sizing:border-box!important;padding:30px 24px!important;text-align:center!important;}
+      .story-copy h2,.story-copy p{max-width:100%!important;overflow-wrap:break-word!important;}
+      .story-copy .button,.story-copy .button a{box-sizing:border-box!important;max-width:100%!important;}
       .hero-one{height:500px!important;background-image:url('https://jimmycoco.email/email-assets/retail-website/hero-0001-mobile.jpg')!important;background-position:center center!important;background-size:cover!important;}
       .hero-one-table{height:500px!important;}
       .hero-one-copy{padding:30px 22px 24px!important;}

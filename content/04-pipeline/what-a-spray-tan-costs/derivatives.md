@@ -51,7 +51,7 @@ agree or the article undermines itself.
 2. No chair-time or labour input. The article's central argument is that chair
    time is the big cost.
 3. No overhead apportionment input.
-4. Retail price slider maxes at £79 — a stale RRP. Real range is £12.50–£59.
+4. Retail price slider maxes at £79 — a stale RRP. Real range is £15–£59.
 5. It lives inside the home page rather than on its own route, so it cannot be
    linked to, cited, or found.
 

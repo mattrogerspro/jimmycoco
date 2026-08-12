@@ -55,7 +55,7 @@ largest line in the stack.
 
 The retail slider tops out at £79, which was the incorrect A-List Glow Kit
 price. Per [decision 5](../00-strategy/decisions.md#5-retail-pricing-the-lower-prices-are-correct)
-the real range is £12.50–£59.
+the real range is £15–£59.
 
 ### 5. It isn't a page
 

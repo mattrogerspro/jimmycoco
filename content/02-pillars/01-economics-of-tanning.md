@@ -94,7 +94,7 @@ margin in the reader's business and it needs no extra chair time.
 
 Bridges into pillar 4.
 
-**Pattern:** A · **CTA:** the range · **Uses:** £18 soufflé, £12.50 mitt
+**Pattern:** A · **CTA:** the range · **Uses:** £18 soufflé, £15 mitt
 
 ### 5. Is mobile spray tanning actually profitable? — `mobile-spray-tan-profit`
 
@@ -127,7 +127,7 @@ required
   every competitor page in this category.
 - **Every model carries its Assumptions block** with ranges, so a reader can
   substitute her own figures.
-- Retail figures are £59 / £18 / £12.50 — see
+- Retail figures are £59 / £18 / £15 — see
   [decision 5](../00-strategy/decisions.md#5-retail-pricing-the-lower-prices-are-correct).
 - Solution cost is the £60 litre, named as ours.
 - Every model article ends with the financial-model standing note.

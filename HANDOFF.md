@@ -280,7 +280,7 @@ have not yet bought — which the programme currently lacks.
 4. **Who is the author?** Articles attributed to Jimmy resolve to the entity
    graph. Business/compliance content may sit better under a brand byline.
 5. **Stale retail RRPs.** The pro site quotes A-List Glow Kit at £79 (actually
-   £59), Soufflé "from £28" (actually £18), mitt £15 (sells at £12.50). Decide
+   £59), Soufflé "from £28" (actually £18), mitt £15 (sells at £15). Decide
    whether those are permanent or promotional, then fix
    `HomeSections.tsx` and `ProductSections.tsx`.
 

@@ -56,7 +56,7 @@ At 10% DHA the professional solution sits at the EU limit for leave-on self-tan 
 |---|---|
 | A-List Glow Kit | **£59** |
 | Tinted Tan Soufflé | **£18** |
-| Application mitt | **£12.50** |
+| Application mitt | **£15** |
 
 Corrected 8 August 2026; the professional website previously showed £79, "from £28" and £15. Typical UK professional retail margin at RRP is 40–60%. **Our own trade terms are not published** in copy, articles or tools — they are confirmed on the setup call.
 
@@ -75,6 +75,6 @@ Three product questions are unsettled. Until each is closed, copy should use the
 - Every product figure in the copy traces to this chapter.
 - No yield range is stated.
 - No figure from the "open" section is asserted.
-- Retail prices are £59 / £18 / £12.50.
+- Retail prices are £59 / £18 / £15.
 - Trade terms are not quoted.
 - Derived figures are recalculated from the approved figures, not copied from an older asset.

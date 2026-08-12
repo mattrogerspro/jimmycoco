@@ -73,7 +73,7 @@ answer to a question it isn't the answer to.
 | Sunset 1 Ltr Professional Spray | £60 |
 | A-List Glow Kit | £59 |
 | Tinted Tan Soufflé | £18 |
-| Application mitt | £12.50 |
+| Application mitt | £15 |
 
 Trade margin at RRP: 40–60% is the typical UK professional band; **our specific
 trade terms are not published in content** — they're confirmed on the setup

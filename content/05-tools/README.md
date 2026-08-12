@@ -67,7 +67,7 @@ If tools stay bespoke, each needs, at minimum:
 5. **Analytics.** `app/lib/analytics.ts` already has the pattern:
    `trackOnce` on first interaction, debounced `track` on adjustment, debounced
    `track` on settled result. Reuse it.
-6. **Real prices.** £60 litre · £59 kit · £18 soufflé · £12.50 mitt, per
+6. **Real prices.** £60 litre · £59 kit · £18 soufflé · £15 mitt, per
    [decision 5](../00-strategy/decisions.md#5-retail-pricing-the-lower-prices-are-correct).
 7. **No trade terms.** Our specific margins are confirmed on the setup call, not
    published in a tool.

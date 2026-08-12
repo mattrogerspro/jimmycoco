@@ -88,12 +88,12 @@ Tracked in [`01-editorial-system/structure-patterns.md`](../01-editorial-system/
 
 ### 5. Retail pricing: the lower prices are correct
 
-**Decided:** £59 A-List Glow Kit, £18 Soufflé, £12.50 mitt are the real prices.
+**Decided:** £59 A-List Glow Kit, £18 Soufflé, £15 mitt are the real prices.
 The pro site's £79 / "from £28" / £15 figures are wrong and get corrected in
 `app/components/home/HomeSections.tsx` and
 `app/components/product/ProductSections.tsx`.
 
-Consequence for content: **£12.50 and £18 are the retail figures used in every
+Consequence for content: **£15 and £18 are the retail figures used in every
 worked example**, and the retail-attach maths in the calculator and the
 economics pillar uses them. Using the site's old numbers would have overstated
 therapist retail earnings by 20–56%, in a programme whose entire premise is that

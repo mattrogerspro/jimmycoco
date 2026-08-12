@@ -33,7 +33,7 @@ export function ShadeComparison({ onChoose }: { onChoose: (shade: string) => voi
 
 export function CrossSell() {
   const items: Array<[string, string, string, string, number, number]> = [
-    ["buff-mitt-pro.webp", "Buff & Glow Mitt", "The 30-second checkout add-on", "RRP £12.50", 1600, 1600],
+    ["buff-mitt-pro.webp", "Buff & Glow Mitt", "The 30-second checkout add-on", "RRP £15", 1600, 1600],
     ["product-09-d075d24d746f.jpg", "The Self Tan Soufflé", "The top-up seller between visits · L / M / D", "From RRP £18", 950, 950],
     ["product-10-64a58fd5e4a1.jpg", "The A-List Glow Kit", "The gift purchase · six pieces", "RRP £59", 900, 888],
   ];

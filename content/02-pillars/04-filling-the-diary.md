@@ -101,7 +101,7 @@ which is both true and the only version this audience will act on.
 Pairs with `retail-attach-maths` in pillar 1: that one is the money, this one is
 the method.
 
-**Pattern:** A · **CTA:** the range · **Uses:** £18 soufflé, £12.50 mitt
+**Pattern:** A · **CTA:** the range · **Uses:** £18 soufflé, £15 mitt
 
 ### 5. Bridal and event tanning: pricing and process — `bridal-tanning`
 
@@ -125,7 +125,7 @@ pack is the artefact that serves both.
   numbers, with its source and sample size.
 - No "engagement" or "loyalty" abstractions. Everything reduces to something the
   reader does in the room on Monday.
-- Retail content uses the real prices — £59 / £18 / £12.50.
+- Retail content uses the real prices — £59 / £18 / £15.
 - Take the reader's objection seriously before answering it. She has heard "just
   take deposits" before and has a reason she hasn't.
 

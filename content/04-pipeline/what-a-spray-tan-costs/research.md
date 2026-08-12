@@ -17,7 +17,7 @@
 | Retail is 4% of UK salon revenue against a 15–25% benchmark | SalonIQ | 2026 | — | — |
 | 70% of clients who don't buy retail say they would like to | Phorest | 2025 | n=716 | — |
 | Sunset 1 Ltr Professional Spray, £60 | Our own price list | 2026 | — | https://www.jimmycoco.pro/products/malibu-professional-spray-1l |
-| Tinted Tan Soufflé £18; mitt £12.50 | Our own price list, confirmed 8 Aug 2026 | 2026 | — | — |
+| Tinted Tan Soufflé £18; mitt £15 | Our own price list, confirmed 8 Aug 2026 | 2026 | — | — |
 
 ⚠ Several rows have no URL. Before publish, each needs either a public link or a
 fully-specified offline citation (publication, title, date). A citation a reader

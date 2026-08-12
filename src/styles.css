@@ -161,7 +161,11 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .klaviyo-preview-summary dd { min-width: 0; margin: 0; color: #5f5750; font-size: 14px; overflow-wrap: anywhere; }
 .klaviyo-preview-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .klaviyo-preview-actions a { text-decoration: none; }
-.klaviyo-frame-shell { margin-top: 28px; overflow: hidden; border: 1px solid #d2cbc4; border-radius: 8px; background: #fff; box-shadow: 0 14px 40px rgba(48,40,34,.08); }
+.klaviyo-preview-toolbar { margin-top: 28px; display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
+.klaviyo-preview-toolbar > span { color: #8e867e; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.klaviyo-frame-shell { margin: 12px auto 0; overflow: hidden; border: 1px solid #d2cbc4; border-radius: 8px; background: #fff; box-shadow: 0 14px 40px rgba(48,40,34,.08); transition: width .25s ease; }
+.klaviyo-frame-shell.desktop { width: 100%; }
+.klaviyo-frame-shell.mobile { width: 390px; max-width: 100%; }
 .klaviyo-frame-shell iframe { display: block; width: 100%; height: 820px; border: 0; background: #eae2d8; }
 
 .category-tabs { display: flex; gap: 4px; padding-bottom: 14px; overflow-x: auto; scrollbar-width: none; }

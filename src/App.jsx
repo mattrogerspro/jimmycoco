@@ -805,11 +805,13 @@ const klaviyoPreviews = [
     previewUrl: '/email-assets/retail-website/index.html',
     explicitUrl: '/email-assets/retail-website/index.html',
     source: 'existing-campaigns/new-website-images/email.html',
-    image: '/email-assets/retail-website/hero-mobile.webp',
+    image: '/email-assets/retail-website/hero-0001-mobile.jpg',
   },
 ]
 
 function KlaviyoPreviews() {
+  const [viewport, setViewport] = useState('desktop')
+
   return (
     <div className="page klaviyo-page">
       <div className="page-intro-row">
@@ -839,8 +841,15 @@ function KlaviyoPreviews() {
                 </div>
               </div>
             </div>
-            <div className="klaviyo-frame-shell">
-              <div className="browser-chrome"><span /><span /><span /><b>{campaign.explicitUrl}</b></div>
+            <div className="klaviyo-preview-toolbar">
+              <span>Preview size</span>
+              <div className="viewport-switch" role="group" aria-label="Klaviyo preview size">
+                <button className={viewport === 'desktop' ? 'active' : ''} onClick={() => setViewport('desktop')} aria-label="Desktop preview" title="Desktop preview"><Icon name="monitor" /></button>
+                <button className={viewport === 'mobile' ? 'active' : ''} onClick={() => setViewport('mobile')} aria-label="Mobile preview" title="Mobile preview"><Icon name="mobile" /></button>
+              </div>
+            </div>
+            <div className={`klaviyo-frame-shell ${viewport}`}>
+              <div className="browser-chrome"><span /><span /><span /><b>{viewport === 'desktop' ? 'Desktop · 600px email' : 'Mobile · 390px'} · {campaign.explicitUrl}</b></div>
               <iframe title={`Preview of ${campaign.title}`} src={campaign.previewUrl} />
             </div>
           </article>

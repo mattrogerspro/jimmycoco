@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { gbp } from "../../lib/site";
+import { MALIBU_UNIVERSAL_SHADE, SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../../lib/product-features";
 
 export type PurchaseState = { shade: string; qty: number };
 
@@ -55,8 +56,9 @@ export function ProductPurchase({ state, setState, ctaRef }: {
       </div>
 
       <div className="purchase-control">
-        <p className="sel-label">Choose your shade <output>{state.shade}</output></p>
-        <div className="shades">{SHADE_OPTIONS.map((shade) => <button type="button" aria-pressed={state.shade === shade.name} className={`shade-opt ${shade.className}${state.shade === shade.name ? " active" : ""}`} onClick={() => setState((current) => ({ ...current, shade: shade.name }))} key={shade.name}><i />{shade.label}</button>)}</div>
+        <p className="sel-label">{SHOW_LEGACY_MALIBU_SHADE_RANGE ? "Choose your shade" : "Shade"} <output>{state.shade}</output></p>
+        <div className="shades" hidden={!SHOW_LEGACY_MALIBU_SHADE_RANGE}>{SHADE_OPTIONS.map((shade) => <button type="button" aria-pressed={state.shade === shade.name} className={`shade-opt ${shade.className}${state.shade === shade.name ? " active" : ""}`} onClick={() => setState((current) => ({ ...current, shade: shade.name }))} key={shade.name}><i />{shade.label}</button>)}</div>
+        <div className="shades shades-universal" hidden={SHOW_LEGACY_MALIBU_SHADE_RANGE}><button type="button" aria-pressed="true" className="shade-opt universal active" onClick={() => setState((current) => ({ ...current, shade: MALIBU_UNIVERSAL_SHADE }))}><i />UNIVERSAL</button></div>
       </div>
 
       <div className="purchase-control quantity-control">
@@ -100,7 +102,7 @@ export function StickyOrder({ state, target }: { state: PurchaseState; target: R
 }
 
 export function usePurchaseState() {
-  const [state, setState] = useState<PurchaseState>({ shade: "Medium / Dark · 10% DHA", qty: 1 });
+  const [state, setState] = useState<PurchaseState>({ shade: SHOW_LEGACY_MALIBU_SHADE_RANGE ? SHADE_OPTIONS[2].name : MALIBU_UNIVERSAL_SHADE, qty: 1 });
   const ctaRef = useRef<HTMLDivElement>(null);
   return { state, setState, ctaRef };
 }

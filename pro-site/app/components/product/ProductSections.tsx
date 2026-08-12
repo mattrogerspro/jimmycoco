@@ -7,6 +7,7 @@ import { track } from "../../lib/analytics";
 import { gbp } from "../../lib/site";
 import { SALON_FAQ } from "../../lib/faq";
 import { PRODUCT_SPECS, workedExamples } from "../../lib/specs";
+import { SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../../lib/product-features";
 
 const asset = (name: string) => `/assets/site/${name}`;
 
@@ -66,12 +67,15 @@ export function OrderSection({ state }: { state: PurchaseState }) {
 }
 
 export function SalonFaq() {
+  const visibleFaq = SHOW_LEGACY_MALIBU_SHADE_RANGE
+    ? SALON_FAQ
+    : SALON_FAQ.filter((item) => item.question !== "Which shade depths should a salon stock?");
   return <section className="faq-band" id="faq"><div className="wrap">
     <p className="eyebrow">Straight answers</p>
     <h2>Everything a salon owner asks <i>before the first litre.</i></h2>
     <p className="sub">The questions that come up on every trade call, answered in full.</p>
     <div className="faq-list">
-      {SALON_FAQ.map((item, index) => (
+      {visibleFaq.map((item, index) => (
         <details className="acc faq-item" key={item.question} open={index === 0}>
           <summary>{item.question}</summary>
           <div className="acc-body">{item.answer}</div>
@@ -83,12 +87,15 @@ export function SalonFaq() {
 
 export function Specification() {
   const money = (value: number) => `\u00a3${value.toFixed(2)}`;
+  const visibleSpecs = SHOW_LEGACY_MALIBU_SHADE_RANGE
+    ? PRODUCT_SPECS
+    : PRODUCT_SPECS.filter((spec) => spec.name !== "Shade depths available");
   return <section className="spec-band" id="specification"><div className="wrap">
     <p className="eyebrow">Specification</p>
     <h2>The numbers, <i>in full.</i></h2>
     <table className="spec-table">
       <tbody>
-        {PRODUCT_SPECS.map((spec) => (
+        {visibleSpecs.map((spec) => (
           <tr key={spec.name}><th scope="row">{spec.name}</th><td>{spec.value}</td></tr>
         ))}
       </tbody>

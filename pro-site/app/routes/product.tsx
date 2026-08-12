@@ -12,6 +12,7 @@ import { faqPageSchema } from "../lib/faq";
 import { priceValidUntil, specSchemaProperties } from "../lib/specs";
 import { CONTENT_UPDATED, PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 import { handleApplicationSubmit } from "../lib/application-action.server";
+import { SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../lib/product-features";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: productStyles }, { rel: "stylesheet", href: ritualStyles }, { rel: "stylesheet", href: chromeStyles }];
 
@@ -19,12 +20,12 @@ const canonical = absoluteUrl(PRODUCT_PATH);
 
 export const meta: MetaFunction = () => [
   { title: "Malibu Professional Spray Tan Solution 1L | Jimmy Coco" },
-  { name: "description", content: "Order Malibu professional spray tan solution in a salon-size 1 litre bottle. Four shade depths, approximately 28 full-body tans per bottle." },
+  { name: "description", content: "Order Malibu universal bronze glow professional spray tan solution in a salon-size 1 litre bottle, providing approximately 28 full-body tans." },
   { name: "robots", content: "index, follow, max-image-preview:large" },
   { property: "og:type", content: "product" },
   { property: "og:site_name", content: "Sunless by Jimmy Coco Professional" },
   { property: "og:title", content: "Malibu Professional Spray Tan Solution 1L" },
-  { property: "og:description", content: "Salon-size professional spray tan solution with four shade depths and approximately 28 full-body tans per bottle." },
+  { property: "og:description", content: "Salon-size professional spray tan solution in one universal bronze glow shade, with approximately 28 full-body tans per bottle." },
   { property: "og:url", content: canonical },
   { property: "og:image", content: absoluteUrl("/assets/site/product-01-0003c7706e6e.jpg") },
   { property: "product:price:amount", content: "60.00" },
@@ -88,7 +89,7 @@ export default function ProductPage() {
       </section>
       <ProductProofStrip />
       <JimmyStory />
-      <ShadeComparison onChoose={(shade) => setState((current) => ({ ...current, shade }))} />
+      {SHOW_LEGACY_MALIBU_SHADE_RANGE ? <ShadeComparison onChoose={(shade) => setState((current) => ({ ...current, shade }))} /> : null}
       <ApplicationRitual />
       <CrossSell />
       <Specification />

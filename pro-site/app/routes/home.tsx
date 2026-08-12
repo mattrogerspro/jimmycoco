@@ -23,6 +23,27 @@ export const links: LinksFunction = () => [
     imageSrcSet: "/img/hero-560.webp 560w, /img/hero-760.webp 760w, /img/hero-1100.webp 1100w",
     imageSizes: "(max-width: 900px) 100vw, 50vw",
   } as never,
+  {
+    rel: "preload",
+    as: "image",
+    href: "/assets/site/jimmy-coco-story-background-1080.webp",
+    imageSrcSet: "/assets/site/jimmy-coco-story-background-480.webp 480w, /assets/site/jimmy-coco-story-background-768.webp 768w, /assets/site/jimmy-coco-story-background-1080.webp 1080w",
+    imageSizes: "(max-width: 900px) 100vw, 45vw",
+  } as never,
+  {
+    rel: "preload",
+    as: "image",
+    href: "/assets/site/jimmy-coco-story-cutout-1080.webp",
+    imageSrcSet: "/assets/site/jimmy-coco-story-cutout-480.webp 480w, /assets/site/jimmy-coco-story-cutout-768.webp 768w, /assets/site/jimmy-coco-story-cutout-1080.webp 1080w",
+    imageSizes: "(max-width: 900px) 100vw, 45vw",
+  } as never,
+  {
+    rel: "preload",
+    as: "image",
+    href: "/assets/site/heidi-1650.webp",
+    imageSrcSet: "/assets/site/heidi-480.webp 480w, /assets/site/heidi-768.webp 768w, /assets/site/heidi-1080.webp 1080w, /assets/site/heidi-1650.webp 1650w",
+    imageSizes: "(max-width: 900px) 100vw, 45vw",
+  } as never,
 ];
 
 export const meta: MetaFunction = () => [

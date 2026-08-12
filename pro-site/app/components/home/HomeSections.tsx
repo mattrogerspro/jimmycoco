@@ -5,6 +5,16 @@ import { track } from "../../lib/analytics";
 import { PRODUCT_PATH, gbp } from "../../lib/site";
 
 const A = "/assets/site/";
+const STORY_IMAGE_SIZES = "(max-width: 900px) 100vw, 45vw";
+const JIMMY_BACKGROUND_SRCSET = [480, 768, 1080]
+  .map((width) => `${A}jimmy-coco-story-background-${width}.webp ${width}w`)
+  .join(", ");
+const JIMMY_CUTOUT_SRCSET = [480, 768, 1080]
+  .map((width) => `${A}jimmy-coco-story-cutout-${width}.webp ${width}w`)
+  .join(", ");
+const HEIDI_SRCSET = [480, 768, 1080, 1650]
+  .map((width) => `${A}heidi-${width}.webp ${width}w`)
+  .join(", ");
 const BUFF_MITT_SRCSET = [480, 700, 960, 1200]
   .map((width) => `${A}buff-mitt-pro-${width}.webp ${width}w`)
   .concat(`${A}buff-mitt-pro.webp 1600w`)
@@ -120,9 +130,9 @@ function StoryPortrait() {
   }, []);
 
   return <figure className="story-portrait" ref={sceneRef}>
-    <img className="story-layer story-background" src={`${A}jimmy-coco-story-background.png`} alt="" width="1080" height="1325" loading="lazy" decoding="async" aria-hidden="true" />
-    <img className="story-layer story-foreground" src={`${A}jimmy-coco-story-cutout.png`} alt="Jimmy Coco — the Hollywood tan artist behind the Sunless professional range" width="1080" height="1325" loading="lazy" decoding="async" />
-    <img className="story-layer story-heidi" src={`${A}heidi.png`} alt="Campaign photograph featuring Kim and Heidi" width="1650" height="1984" loading="lazy" decoding="async" />
+    <img className="story-layer story-background" src={`${A}jimmy-coco-story-background-1080.webp`} srcSet={JIMMY_BACKGROUND_SRCSET} sizes={STORY_IMAGE_SIZES} alt="" width="1080" height="1325" loading="lazy" decoding="async" aria-hidden="true" />
+    <img className="story-layer story-foreground" src={`${A}jimmy-coco-story-cutout-1080.webp`} srcSet={JIMMY_CUTOUT_SRCSET} sizes={STORY_IMAGE_SIZES} alt="Jimmy Coco — the Hollywood tan artist behind the Sunless professional range" width="1080" height="1325" loading="lazy" decoding="async" />
+    <img className="story-layer story-heidi" src={`${A}heidi-1650.webp`} srcSet={HEIDI_SRCSET} sizes={STORY_IMAGE_SIZES} alt="Campaign photograph featuring Kim and Heidi" width="1650" height="1984" loading="lazy" decoding="async" />
     <span className="story-heidi-shade" aria-hidden="true" />
     <p className="story-proof"><span>Tanning Kim and Heidi</span><strong>for over 15 years</strong></p>
   </figure>;

@@ -10,6 +10,11 @@ import { PRODUCT_SPECS, workedExamples } from "../../lib/specs";
 import { SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../../lib/product-features";
 
 const asset = (name: string) => `/assets/site/${name}`;
+const BUFF_MITT_SRCSET = [480, 700, 960, 1200]
+  .map((width) => `${asset(`buff-mitt-pro-${width}.webp`)} ${width}w`)
+  .concat(`${asset("buff-mitt-pro.webp")} 1600w`)
+  .join(", ");
+const BUFF_MITT_SIZES = "(max-width: 640px) 80vw, 320px";
 
 export function JimmyStory() {
   return <section className="jimmy-band"><div className="wrap jimmy-grid"><img src={asset("product-06-78d26bf05e35.jpg")} alt="Jimmy Coco, Hollywood celebrity tan artist" loading="lazy" decoding="async"  width={950} height={792} /><div><p className="eyebrow">Created by Jimmy Coco · Hollywood celebrity tan artist</p><h2>For decades I've created flawless skin for Hollywood's most photographed faces.</h2><ul className="creds"><li><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="m8.3 12.3 2.6 2.6 4.8-5.4" /></svg></i><span>Preferred tan artist to the Kardashians for over 15 years.</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="9" r="5.4" /><path d="M8.7 13.6 7.4 21l4.6-2.4L16.6 21l-1.3-7.4" /></svg></i><span>Red Carpet &amp; Editorial Expert</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3.4 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.9l6.1-.9z" /></svg></i><span>Hollywood&rsquo;s Leading Tan Guru</span></li></ul><p className="sub" style={{ maxWidth: "none" }}>This formula brings that same professional approach into your booth — the exact solution behind the red-carpet colour your clients photograph, bottled at salon scale.</p><div className="jtip"><b>Jimmy's tip for your therapists</b><p>Don't aim for maximum colour on the first pass. Apply one light layer, let it develop fully, then build depth on the next application. That's exactly how I create natural-looking skin for camera work.</p></div><div className="sig">Jimmy Coco<small>Hollywood Tan Guru</small></div></div></div></section>;
@@ -28,11 +33,11 @@ export function ShadeComparison({ onChoose }: { onChoose: (shade: string) => voi
 
 export function CrossSell() {
   const items: Array<[string, string, string, string, number, number]> = [
-    ["product-08-66f48742c941.jpg", "Buff & Glow Mitt", "The 30-second checkout add-on", "RRP £12.50", 700, 700],
+    ["buff-mitt-pro.webp", "Buff & Glow Mitt", "The 30-second checkout add-on", "RRP £12.50", 1600, 1600],
     ["product-09-d075d24d746f.jpg", "The Self Tan Soufflé", "The top-up seller between visits · L / M / D", "From RRP £18", 950, 950],
     ["product-10-64a58fd5e4a1.jpg", "The A-List Glow Kit", "The gift purchase · six pieces", "RRP £59", 900, 888],
   ];
-  return <section className="steps-band"><div className="wrap"><p className="eyebrow">Complete the order</p><h2>Stock the shelf while you're at it.</h2><p className="sub">The retail range turns every tanning visit into a second sale — same brand, real margin, no extra chair time.</p><div className="xs-grid">{items.map(([src, title, copy, price, width, height]) => <div className="xs-card" key={src}><div className="xi"><img src={asset(src)} alt={title} width={width} height={height} loading="lazy" decoding="async" /></div><div className="xb"><h3>{title}</h3><p>{copy}</p><b>{price}</b></div></div>)}</div><p style={{ marginTop: 22, fontSize: 16.5, color: "var(--muted)" }}>Add retail to your order in the notes below — trade pricing across the range on your setup call.</p></div></section>;
+  return <section className="steps-band"><div className="wrap"><p className="eyebrow">Complete the order</p><h2>Stock the shelf while you're at it.</h2><p className="sub">The retail range turns every tanning visit into a second sale — same brand, real margin, no extra chair time.</p><div className="xs-grid">{items.map(([src, title, copy, price, width, height]) => <div className="xs-card" key={src}><div className="xi"><img src={asset(src)} srcSet={src === "buff-mitt-pro.webp" ? BUFF_MITT_SRCSET : undefined} sizes={src === "buff-mitt-pro.webp" ? BUFF_MITT_SIZES : undefined} alt={title} width={width} height={height} loading="lazy" decoding="async" /></div><div className="xb"><h3>{title}</h3><p>{copy}</p><b>{price}</b></div></div>)}</div><p style={{ marginTop: 22, fontSize: 16.5, color: "var(--muted)" }}>Add retail to your order in the notes below — trade pricing across the range on your setup call.</p></div></section>;
 }
 
 export function ProductDetails() {

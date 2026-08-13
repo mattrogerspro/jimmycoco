@@ -46,6 +46,8 @@ export const links: LinksFunction = () => [
   } as never,
 ];
 
+const socialImage = absoluteUrl("/social/home-og-1200x630.jpg");
+
 export const meta: MetaFunction = () => [
   { title: "Professional Spray Tan Solutions | Sunless by Jimmy Coco" },
   { name: "description", content: "Premium professional spray tan solutions, salon training and retail support from Hollywood tan artist Jimmy Coco. Request a complimentary salon trial." },
@@ -55,11 +57,16 @@ export const meta: MetaFunction = () => [
   { property: "og:title", content: "Professional Spray Tan Solutions | Sunless by Jimmy Coco" },
   { property: "og:description", content: "Hollywood's professional spray tan system for salons, spas and mobile professionals." },
   { property: "og:url", content: SITE_URL },
-  { property: "og:image", content: absoluteUrl("/img/hero.webp") },
+  { property: "og:image", content: socialImage },
+  { property: "og:image:width", content: "1200" },
+  { property: "og:image:height", content: "630" },
+  { property: "og:image:type", content: "image/jpeg" },
+  { property: "og:image:alt", content: "Sunless by Jimmy Coco professional spray tan system" },
   { name: "twitter:card", content: "summary_large_image" },
   { name: "twitter:title", content: "Professional Spray Tan Solutions | Sunless by Jimmy Coco" },
   { name: "twitter:description", content: "Hollywood's professional spray tan system for salons, spas and mobile professionals." },
-  { name: "twitter:image", content: absoluteUrl("/img/hero.webp") },
+  { name: "twitter:image", content: socialImage },
+  { name: "twitter:image:alt", content: "Sunless by Jimmy Coco professional spray tan system" },
   { tagName: "link", rel: "canonical", href: SITE_URL },
   { tagName: "link", rel: "alternate", hrefLang: "en-GB", href: SITE_URL },
   { tagName: "link", rel: "alternate", hrefLang: "x-default", href: SITE_URL },

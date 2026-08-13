@@ -7,7 +7,9 @@ import { getPublishedArticle, getPublishedArticles } from "../lib/articles.serve
 import { ArticleViewBeacon } from "../components/shared/ArticleViewBeacon";
 import { ORG_ID, PERSON_ID, brandEntities } from "../lib/entity";
 import { SIZES, responsiveSrcSet } from "../lib/responsive-image";
-import { PRODUCT_PATH, SITE_URL } from "../lib/site";
+import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
+
+const fallbackSocialImage = absoluteUrl("/social/articles-og-1200x630.jpg");
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: articleStyles },
@@ -54,13 +56,18 @@ export const meta: MetaFunction<typeof loader> = ({ data: loaderData }) => {
   const canonical = `${SITE_URL}/articles/${article.slug}`;
   const title = article.seo_title || `${article.title} | Sunless by Jimmy Coco`;
   const description = article.meta_description || article.excerpt || "";
+  const socialImage = article.cover_url || fallbackSocialImage;
+  const socialImageAlt = article.cover?.alt_text || article.title;
   return [
     { title }, { name: "description", content: description },
     { name: "robots", content: article.noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large" },
     { property: "og:type", content: "article" }, { property: "og:title", content: article.og_title || title },
     { property: "og:description", content: article.og_description || description }, { property: "og:url", content: canonical },
-    ...(article.cover_url ? [{ property: "og:image", content: article.cover_url }] : []),
+    { property: "og:image", content: socialImage },
+    { property: "og:image:alt", content: socialImageAlt },
     { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:image", content: socialImage },
+    { name: "twitter:image:alt", content: socialImageAlt },
     { tagName: "link", rel: "canonical", href: canonical },
     { tagName: "link", rel: "alternate", hrefLang: "en-GB", href: canonical },
     { tagName: "link", rel: "alternate", hrefLang: "x-default", href: canonical },

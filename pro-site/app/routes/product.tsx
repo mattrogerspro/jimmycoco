@@ -19,6 +19,7 @@ import { SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../lib/product-features";
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: homeStyles }, { rel: "stylesheet", href: productStyles }, { rel: "stylesheet", href: ritualStyles }, { rel: "stylesheet", href: chromeStyles }];
 
 const canonical = absoluteUrl(PRODUCT_PATH);
+const socialImage = absoluteUrl("/social/product-og-1200x630.jpg");
 
 export const meta: MetaFunction = () => [
   { title: "Malibu Professional Spray Tan Solution 1L | Jimmy Coco" },
@@ -29,13 +30,18 @@ export const meta: MetaFunction = () => [
   { property: "og:title", content: "Malibu Professional Spray Tan Solution 1L" },
   { property: "og:description", content: "Salon-size professional spray tan solution in one universal bronze glow shade, with approximately 28 full-body tans per bottle." },
   { property: "og:url", content: canonical },
-  { property: "og:image", content: absoluteUrl("/assets/site/product-01-0003c7706e6e.jpg") },
+  { property: "og:image", content: socialImage },
+  { property: "og:image:width", content: "1200" },
+  { property: "og:image:height", content: "630" },
+  { property: "og:image:type", content: "image/jpeg" },
+  { property: "og:image:alt", content: "Malibu Professional Spray 1L by Sunless by Jimmy Coco" },
   { property: "product:price:amount", content: "60.00" },
   { property: "product:price:currency", content: "GBP" },
   { name: "twitter:card", content: "summary_large_image" },
   { name: "twitter:title", content: "Malibu Professional Spray Tan Solution 1L" },
   { name: "twitter:description", content: "Professional salon spray tan solution by Jimmy Coco." },
-  { name: "twitter:image", content: absoluteUrl("/assets/site/product-01-0003c7706e6e.jpg") },
+  { name: "twitter:image", content: socialImage },
+  { name: "twitter:image:alt", content: "Malibu Professional Spray 1L by Sunless by Jimmy Coco" },
   { tagName: "link", rel: "canonical", href: canonical },
   { tagName: "link", rel: "alternate", hrefLang: "en-GB", href: canonical },
   { tagName: "link", rel: "alternate", hrefLang: "x-default", href: canonical },

@@ -5,7 +5,9 @@ import chromeStyles from "../styles/chrome.css?url";
 import { Announcement, SiteFooter, SiteHeader } from "../components/shared/SiteChrome";
 import { getPublishedArticles } from "../lib/articles.server";
 import { SIZES, responsiveSrcSet } from "../lib/responsive-image";
-import { SITE_URL } from "../lib/site";
+import { SITE_URL, absoluteUrl } from "../lib/site";
+
+const socialImage = absoluteUrl("/social/articles-og-1200x630.jpg");
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: articleStyles },
@@ -18,6 +20,14 @@ export const meta: MetaFunction = () => [
   { property: "og:type", content: "website" },
   { property: "og:title", content: "Professional Spray Tan Articles | Sunless by Jimmy Coco" },
   { property: "og:url", content: `${SITE_URL}/articles` },
+  { property: "og:image", content: socialImage },
+  { property: "og:image:width", content: "1200" },
+  { property: "og:image:height", content: "630" },
+  { property: "og:image:type", content: "image/jpeg" },
+  { property: "og:image:alt", content: "The Sunless by Jimmy Coco Professional Journal" },
+  { name: "twitter:card", content: "summary_large_image" },
+  { name: "twitter:image", content: socialImage },
+  { name: "twitter:image:alt", content: "The Sunless by Jimmy Coco Professional Journal" },
   { tagName: "link", rel: "canonical", href: `${SITE_URL}/articles` },
   { tagName: "link", rel: "alternate", hrefLang: "en-GB", href: `${SITE_URL}/articles` },
   { tagName: "link", rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/articles` },

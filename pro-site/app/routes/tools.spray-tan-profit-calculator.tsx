@@ -18,6 +18,7 @@ export const links: LinksFunction = () => [
 ];
 
 const canonical = absoluteUrl(TOOL_PATH);
+const socialImage = absoluteUrl("/social/calculator-og-1200x630.jpg");
 const title = "Spray Tan Profit Calculator (UK, £) | Sunless by Jimmy Coco";
 const description =
   "Free UK spray tan profit calculator in pounds. Solution, consumables, chair time and premises — see your real cost per tan and what each change is worth per year.";
@@ -31,8 +32,14 @@ export const meta: MetaFunction = () => [
   { property: "og:title", content: "Spray Tan Profit Calculator — in pounds, for UK salons" },
   { property: "og:description", content: description },
   { property: "og:url", content: canonical },
-  { property: "og:image", content: absoluteUrl("/img/hero.webp") },
+  { property: "og:image", content: socialImage },
+  { property: "og:image:width", content: "1200" },
+  { property: "og:image:height", content: "630" },
+  { property: "og:image:type", content: "image/jpeg" },
+  { property: "og:image:alt", content: "Calculate your tanning profit with the Sunless by Jimmy Coco salon calculator" },
   { name: "twitter:card", content: "summary_large_image" },
+  { name: "twitter:image", content: socialImage },
+  { name: "twitter:image:alt", content: "Calculate your tanning profit with the Sunless by Jimmy Coco salon calculator" },
   { name: "twitter:title", content: "Spray Tan Profit Calculator (UK, £)" },
   { name: "twitter:description", content: description },
   { tagName: "link", rel: "canonical", href: canonical },

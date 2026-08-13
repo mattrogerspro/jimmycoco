@@ -39,7 +39,13 @@ const FONT_FACES = `@font-face{font-family:'Walbaum';font-style:normal;font-weig
 // JavaScript chunks. If that tab later requests an old chunk, refresh once so
 // it receives the current HTML and current asset names. The session guard
 // prevents a broken deployment from creating a reload loop.
-const ASSET_RECOVERY_BOOTSTRAP = `(()=>{const key='jc_asset_recovery';let failed=false;const recover=()=>{failed=true;try{const page=location.pathname+location.search;if(sessionStorage.getItem(key)===page)return;sessionStorage.setItem(key,page)}catch{}location.reload()};addEventListener('vite:preloadError',event=>{event.preventDefault();recover()});addEventListener('error',event=>{const node=event.target;const url=node&&(node.src||node.href);if(url&&/\\/assets\\/.*\\.(?:js|css)(?:\\?|$)/.test(url))recover()},true);addEventListener('load',()=>{if(!failed)try{sessionStorage.removeItem(key)}catch{}},{once:true})})();`;
+const ASSET_RECOVERY_BOOTSTRAP = `(()=>{const key='jc_asset_recovery';let failed=false;const recover=()=>{failed=true;try{const page=location.pathname+location.search;if(sessionStorage.getItem(key)===page)return;sessionStorage.setItem(key,page)}catch{}location.reload()};addEventListener('vite:preloadError',event=>{event.preventDefault();recover()});addEventListener('error',event=>{const node=event.target,tag=node&&node.tagName,url=node&&(node.src||node.href);if((tag==='SCRIPT'||tag==='LINK')&&url&&/\\/assets\\/.*\\.(?:js|css)(?:\\?|$)/.test(url))recover()},true);addEventListener('load',()=>{if(!failed)try{sessionStorage.removeItem(key)}catch{}},{once:true})})();`;
+
+// The Jimmy-to-Heidi reveal is a core part of the homepage. Initialise it
+// directly from the rendered document, before route hydration, so it remains
+// available even when an older open tab briefly requests a replaced route
+// chunk during deployment.
+const STORY_MOTION_BOOTSTRAP = `(()=>{const scene=document.querySelector('.story-portrait');if(!scene||scene.dataset.storyMotion||matchMedia('(prefers-reduced-motion: reduce)').matches)return;scene.dataset.storyMotion='bootstrap';let frame=0,x=0,y=0;const render=()=>{frame=0;const section=scene.closest('#story'),track=scene.closest('.story-visual-track'),sr=section&&section.getBoundingClientRect(),tr=track&&track.getBoundingClientRect(),cr=scene.getBoundingClientRect(),vh=innerHeight,desktop=matchMedia('(min-width: 901px)').matches,header=document.querySelector('header.site-header'),hh=(header&&header.offsetHeight)||74,sticky=Math.max(vh-hh,1),range=Math.max(((section&&section.offsetHeight)||sticky)-sticky,1),mobileRange=Math.max(((track&&track.offsetHeight)||cr.height)-cr.height,1),progress=desktop?Math.max(0,Math.min(1,(hh-((sr&&sr.top)||cr.top))/range)):Math.max(0,Math.min(1,(hh-((tr&&tr.top)||cr.top))/mobileRange)),reveal=desktop?Math.max(0,Math.min(1,(progress-.18)/.64)):progress;scene.style.setProperty('--story-x',x.toFixed(3));scene.style.setProperty('--story-y',y.toFixed(3));scene.style.setProperty('--story-scroll',(progress*2-1).toFixed(3));scene.style.setProperty('--story-reveal',reveal.toFixed(3))},schedule=()=>{if(!frame)frame=requestAnimationFrame(render)};addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule);addEventListener('pointermove',event=>{if(event.pointerType==='touch')return;x=Math.max(-1,Math.min(1,(event.clientX/innerWidth-.5)*2));y=Math.max(-1,Math.min(1,(event.clientY/innerHeight-.5)*2));schedule()},{passive:true});addEventListener('pageshow',schedule);render();requestAnimationFrame(schedule)})();`;
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -60,6 +66,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
+        <script dangerouslySetInnerHTML={{ __html: STORY_MOTION_BOOTSTRAP }} />
         <AnalyticsBridge />
         <CookieConsent />
         <ScrollRestoration />

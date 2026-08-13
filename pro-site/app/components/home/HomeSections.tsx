@@ -79,7 +79,8 @@ function StoryPortrait() {
 
   useEffect(() => {
     const scene = sceneRef.current;
-    if (!scene || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!scene || scene.dataset.storyMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    scene.dataset.storyMotion = "react";
 
     let frame = 0;
     let pointerX = 0;
@@ -135,6 +136,7 @@ function StoryPortrait() {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       if (frame) window.cancelAnimationFrame(frame);
+      delete scene.dataset.storyMotion;
     };
   }, []);
 

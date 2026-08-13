@@ -1,12 +1,12 @@
 import { useRef, type Dispatch, type SetStateAction } from "react";
 import {
   PROFESSIONAL_VOLUME_TIERS,
-  RETAIL_VOLUME_TIERS,
   professionalOrderPricing,
   professionalTierProfit,
   retailProductPotentialProfit,
   retailProductPricing,
-  retailTierFor,
+  retailProductTierFor,
+  retailProductVolumeTiers,
 } from "../../lib/order-pricing";
 import { gbp } from "../../lib/site";
 import { RETAIL_PRODUCTS, type RetailProductId } from "../shared/RetailProductCards";
@@ -46,12 +46,12 @@ export function OrderConfiguratorModal({
     : undefined;
   const retailPricing = product ? retailProductPricing(product.id, quantity) : undefined;
   const retailProfit = product ? retailProductPotentialProfit(product.id, quantity) : undefined;
-  const retailTier = product?.hasVolumeTiers ? retailTierFor(quantity) : undefined;
+  const retailTier = product?.hasVolumeTiers ? retailProductTierFor(product.id, quantity) : undefined;
   const currentLevel = professionalPricing?.tier.name ?? retailTier?.name;
   const nextTier = professional
     ? PROFESSIONAL_VOLUME_TIERS.find((tier) => tier.minQuantity > quantity)
     : product?.hasVolumeTiers
-      ? RETAIL_VOLUME_TIERS.find((tier) => tier.quantity > quantity)
+      ? retailProductVolumeTiers(product.id).find((tier) => tier.quantity > quantity)
       : undefined;
   const nextQuantity = nextTier && "minQuantity" in nextTier ? nextTier.minQuantity : nextTier?.quantity;
   const nextProfit = nextTier
@@ -91,8 +91,7 @@ export function OrderConfiguratorModal({
       <div className="order-config-shell">
         <form method="dialog"><button className="order-config-close" aria-label={`Close ${title} configurator`}>×</button></form>
         <header className="order-config-header">
-          <div><p className="eyebrow">Configure one item</p><h2>{title}</h2><p>Choose the quantity for this product only. The price, volume level and potential profit update immediately.</p></div>
-          <aside className="order-config-summary" aria-live="polite"><span>Selected quantity</span><strong>{quantity}</strong><dl><div><dt>Trade subtotal</dt><dd>{gbp(orderSubtotal)}</dd></div><div><dt>{hasVolumeTiers ? "Potential profit" : "Current level"}</dt><dd>{hasVolumeTiers ? gbp(currentPotentialProfit) : quantity ? "Selected" : "Not added"}</dd></div></dl></aside>
+          <div><p className="eyebrow">Configure one item</p><h2>{title}</h2><p>Choose this product’s quantity. Its price, volume level and potential profit update immediately.</p></div>
         </header>
 
         {hasVolumeTiers ? <div className="config-tier-key" aria-label="Volume level colours"><span className="starter"><i />Starter</span><span className="growth"><i />Growth</span><span className="premium"><i />Premium</span></div> : null}
@@ -100,12 +99,12 @@ export function OrderConfiguratorModal({
         <section className={`config-professional config-single-item ${hasVolumeTiers ? levelClass(currentLevel) : "config-level-fixed"}`}>
           <div className="config-product-intro"><img src={asset(image)} alt={title} width="900" height="900" /><div><span>{eyebrow}</span><h3>{title}</h3><p>{description}</p></div></div>
           <div className="config-slider-panel">
-            <div className="config-current-level"><span>{hasVolumeTiers ? (currentLevel ? `${currentLevel} level` : "Building to Starter") : "Choose quantity"}</span><strong>{professional ? `${quantity}L` : quantity}</strong><small>{unitPrice ? `${gbp(unitPrice, unitPrice % 1 ? 2 : 0)} per ${professional ? "litre" : "unit"}` : product?.price}</small></div>
+            <div className="config-current-level"><span>{hasVolumeTiers ? (currentLevel ? `${currentLevel} level` : "Building to Starter") : "Choose quantity"}</span><strong>{professional ? `${quantity}L` : quantity}</strong><small>{unitPrice ? `${gbp(unitPrice, unitPrice % 1 ? 2 : 0)} per ${professional ? "litre" : "unit"}` : hasVolumeTiers ? `Trade pricing begins at ${nextQuantity ?? 6} units · ${product?.price}` : product?.price}</small></div>
             <input className={`tier-slider ${professional ? "tier-slider-professional" : hasVolumeTiers ? "tier-slider-retail" : "tier-slider-fixed"}`} type="range" min={professional ? 1 : 0} max={maximum} step="1" value={quantity} onChange={(event) => setQuantity(Number(event.target.value))} aria-label={`${title} quantity`} />
-            {professional ? <div className="tier-slider-labels"><span>1L<br />Starter</span><span>5L<br />Growth</span><span>10L<br />Premium</span><span>48L</span></div> : hasVolumeTiers ? <div className="tier-slider-labels retail"><span>0</span><span>6<br />Starter</span><span>12<br />Growth</span><span>24<br />Premium</span><span>48</span></div> : <div className="tier-slider-labels fixed"><span>0</span><span>{maximum}</span></div>}
+            {professional ? <div className="tier-slider-labels"><span>1L<br />Starter</span><span>5L<br />Growth</span><span>10L<br />Premium</span><span>48L</span></div> : hasVolumeTiers ? <div className="tier-slider-labels retail-scale"><span>0</span><span>6<br />Starter</span><span>12<br />Growth</span><span>24<br />Premium</span><span>48</span></div> : <div className="tier-slider-labels fixed-scale"><span>0</span><span>{maximum}</span></div>}
             <div className="config-stepper"><button type="button" disabled={quantity === (professional ? 1 : 0)} onClick={() => setQuantity(quantity - 1)} aria-label={`Remove one ${title}`}>−</button><output>{quantity} {professional ? (quantity === 1 ? "litre" : "litres") : (quantity === 1 ? "unit" : "units")}</output><button type="button" disabled={quantity === maximum} onClick={() => setQuantity(quantity + 1)} aria-label={`Add one ${title}`}>+</button></div>
           </div>
-          {hasVolumeTiers ? <div className="config-profit-panel"><span>{professional ? "Potential booth profit" : "Potential retail profit"}</span><strong>{gbp(currentPotentialProfit)}</strong><small>{professionalProfit ? `${gbp(professionalProfit.revenue)} potential sales · ${gbp(professionalProfit.cost)} solution cost` : retailProfit ? `${gbp(retailProfit.revenue)} potential sales · ${gbp(retailProfit.cost)} product cost` : ""}</small>{nextTier && nextQuantity && nextProfit !== undefined ? <p><b>Add {nextQuantity - quantity}{professional ? "L" : ""} to reach {nextTier.name}</b><span>{gbp(nextProfit)} potential profit · <strong>+{gbp(nextProfit - currentPotentialProfit)}</strong></span></p> : <p className="is-max"><b>{currentLevel === "Premium" ? "Premium price unlocked" : "Move the slider to begin"}</b><span>{currentLevel === "Premium" ? "You are receiving the best available unit price." : "The first tier begins at six units."}</span></p>}</div> : <div className="config-profit-panel config-fixed-total"><span>Trade subtotal</span><strong>{gbp(orderSubtotal)}</strong><small>This product has one fixed trade price and no volume levels.</small></div>}
+          {hasVolumeTiers ? <div className="config-profit-panel"><span>{professional ? "Potential booth profit" : "Potential retail profit"}</span><strong>{gbp(currentPotentialProfit)}</strong><small>{professionalProfit ? `${gbp(professionalProfit.revenue)} potential sales · ${gbp(professionalProfit.cost)} solution cost` : retailProfit ? `${gbp(retailProfit.revenue)} potential sales · ${gbp(retailProfit.cost)} product cost` : ""}</small>{nextTier && nextQuantity && nextProfit !== undefined ? <p><b>Add {nextQuantity - quantity}{professional ? "L" : ""} to reach {nextTier.name}</b><span>{gbp(nextProfit)} potential profit · <strong>+{gbp(nextProfit - currentPotentialProfit)}</strong></span></p> : <p className="is-max"><b>{currentLevel === "Premium" ? "Premium price unlocked" : "Move the slider to begin"}</b><span>{currentLevel === "Premium" ? "You are receiving the best available unit price." : "The first tier begins at six units."}</span></p>}</div> : <div className="config-profit-panel config-fixed-result"><span>Trade subtotal</span><strong>{gbp(orderSubtotal)}</strong><small>{quantity ? `${quantity} × ${gbp(unitPrice ?? 0)} per unit` : "Move the slider to add this product."}</small><p><b>Fixed trade price</b><span>This item has no volume levels.</span></p></div>}
         </section>
 
         <footer className="order-config-footer"><p><b>Configuring {title}</b><span>No other product quantities are changed in this window.</span></p><form method="dialog"><button className="btn btn-bronze">{confirmLabel}</button></form></footer>

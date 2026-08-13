@@ -18,6 +18,24 @@ export const RETAIL_VOLUME_TIERS = [
   { name: "Premium", quantity: 24, unitPrice: 11 },
 ] as const;
 
+export const RETAIL_MITT_VOLUME_TIERS = [
+  { name: "Starter", quantity: 6, unitPrice: 11.5 },
+  { name: "Growth", quantity: 12, unitPrice: 9.5 },
+  { name: "Premium", quantity: 24, unitPrice: 7.5 },
+] as const;
+
+export const RETAIL_KIT_VOLUME_TIERS = [
+  { name: "Starter", quantity: 6, unitPrice: 49 },
+  { name: "Growth", quantity: 12, unitPrice: 42.5 },
+  { name: "Premium", quantity: 24, unitPrice: 37.5 },
+] as const;
+
+export function retailProductVolumeTiers(productId: string) {
+  if (productId === "mitt") return RETAIL_MITT_VOLUME_TIERS;
+  if (productId === "kit") return RETAIL_KIT_VOLUME_TIERS;
+  return RETAIL_VOLUME_TIERS;
+}
+
 export function professionalTierFor(quantity: number) {
   if (quantity >= 10) return PROFESSIONAL_VOLUME_TIERS[2];
   if (quantity >= 5) return PROFESSIONAL_VOLUME_TIERS[1];
@@ -53,6 +71,14 @@ export function retailTierFor(quantity: number) {
   return undefined;
 }
 
+export function retailProductTierFor(productId: string, quantity: number) {
+  const tiers = retailProductVolumeTiers(productId);
+  if (quantity >= tiers[2].quantity) return tiers[2];
+  if (quantity >= tiers[1].quantity) return tiers[1];
+  if (quantity >= tiers[0].quantity) return tiers[0];
+  return undefined;
+}
+
 export function retailVolumeIncentive(quantity: number) {
   const currentTier = retailTierFor(quantity);
   const nextTier = RETAIL_VOLUME_TIERS.find((tier) => tier.quantity > quantity);
@@ -83,38 +109,39 @@ export function retailVolumeIncentive(quantity: number) {
   };
 }
 
+export function retailProductVolumeIncentive(productId: string, quantity: number) {
+  const tiers = retailProductVolumeTiers(productId);
+  const currentTier = retailProductTierFor(productId, quantity);
+  const nextTier = tiers.find((tier) => tier.quantity > quantity);
+  const current = retailProductPotentialProfit(productId, quantity);
+
+  if (!nextTier) {
+    return { currentTier, nextTier: undefined, unitsNeeded: 0, currentProfit: current.profit, targetProfit: current.profit, additionalProfit: 0 };
+  }
+
+  const target = retailProductPotentialProfit(productId, nextTier.quantity);
+  return {
+    currentTier,
+    nextTier,
+    unitsNeeded: nextTier.quantity - quantity,
+    currentProfit: current.profit,
+    targetProfit: target.profit,
+    additionalProfit: target.profit - current.profit,
+  };
+}
+
 export function retailProductPotentialProfit(productId: string, quantity: number) {
   if (quantity <= 0) return { revenue: 0, cost: 0, profit: 0 };
-  if (productId === "souffleMedium" || productId === "souffleDark") {
-    const tier = retailTierFor(quantity) ?? RETAIL_VOLUME_TIERS[0];
-    const revenue = quantity * RETAIL_SOUFFLE_RRP;
-    const cost = quantity * tier.unitPrice;
-    return { revenue, cost, profit: revenue - cost };
-  }
-  if (productId === "mitt") {
-    const revenue = quantity * RETAIL_MITT_RRP;
-    const cost = quantity * RETAIL_MITT_UNIT_PRICE;
-    return { revenue, cost, profit: revenue - cost };
-  }
-  if (productId === "kit") {
-    const revenue = quantity * RETAIL_KIT_RRP;
-    const cost = quantity * RETAIL_KIT_UNIT_PRICE;
-    return { revenue, cost, profit: revenue - cost };
-  }
-  return { revenue: 0, cost: 0, profit: 0 };
+  const rrp = productId === "mitt" ? RETAIL_MITT_RRP : productId === "kit" ? RETAIL_KIT_RRP : RETAIL_SOUFFLE_RRP;
+  const tier = retailProductTierFor(productId, quantity);
+  if (!tier) return { revenue: quantity * rrp, cost: 0, profit: 0 };
+  const revenue = quantity * rrp;
+  const cost = quantity * tier.unitPrice;
+  return { revenue, cost, profit: revenue - cost };
 }
 
 export function retailProductPricing(productId: string, quantity: number) {
-  if (productId === "souffleMedium" || productId === "souffleDark") {
-    return retailTierFor(quantity);
-  }
-  if (productId === "mitt" && quantity >= 1 && quantity <= 4) {
-    return { name: "Standard", quantity, unitPrice: RETAIL_MITT_UNIT_PRICE } as const;
-  }
-  if (productId === "kit" && quantity >= 1 && quantity <= 4) {
-    return { name: "Standard", quantity, unitPrice: RETAIL_KIT_UNIT_PRICE } as const;
-  }
-  return undefined;
+  return retailProductTierFor(productId, quantity);
 }
 
 export function retailTierProfit(quantity: number, unitPrice: number) {

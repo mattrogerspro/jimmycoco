@@ -3,8 +3,8 @@ import { gbp } from "../../lib/site";
 import {
   DEFAULT_TREATMENT_PRICE,
   PROFESSIONAL_VOLUME_TIERS,
-  RETAIL_KIT_UNIT_PRICE,
-  RETAIL_MITT_UNIT_PRICE,
+  RETAIL_KIT_VOLUME_TIERS,
+  RETAIL_MITT_VOLUME_TIERS,
   RETAIL_SOUFFLE_RRP,
   RETAIL_VOLUME_TIERS,
   professionalTierProfit,
@@ -41,7 +41,7 @@ export function VolumeProfitModal({ triggerLabel = "See volume discounts & profi
               return <article className={`profit-tier profit-tier-${tier.name.toLowerCase()}`} key={tier.name}><div className="profit-tier-label"><span>{String(index + 1).padStart(2, "0")} · {tier.name}</span><small>{levelNote}</small></div><h4>{tier.quantity} units</h4><p className="profit-trade-price"><span>Trade price</span><b>{gbp(tier.unitPrice, tier.unitPrice % 1 ? 2 : 0)}</b><small>per unit</small></p><dl><div><dt>Order cost</dt><dd>{gbp(result.cost)}</dd></div><div><dt>Potential sales at RRP</dt><dd>{gbp(result.revenue)}</dd></div><div className="profit-primary"><dt>Potential retail profit</dt><dd>{gbp(result.profit)}</dd></div><div className="profit-volume-gain"><dt>Extra profit from volume price</dt><dd>{result.additionalMargin ? `+${gbp(result.additionalMargin)}` : "Standard price"}</dd></div></dl></article>;
             })}
           </div>
-          <div className="profit-fixed-prices"><span>Also in the order builder</span><p><b>Buff &amp; Glow Mitt</b> · 1–4 units at {gbp(RETAIL_MITT_UNIT_PRICE)} each</p><p><b>A-List Glow Kit</b> · 1–4 units at {gbp(RETAIL_KIT_UNIT_PRICE)} each</p></div>
+          <div className="profit-fixed-prices"><span>More retail volume levels</span><p><b>Buff &amp; Glow Mitt</b> · {RETAIL_MITT_VOLUME_TIERS.map((tier) => `${tier.quantity} at ${gbp(tier.unitPrice, tier.unitPrice % 1 ? 2 : 0)}`).join(" · ")}</p><p><b>A-List Glow Kit</b> · {RETAIL_KIT_VOLUME_TIERS.map((tier) => `${tier.quantity} at ${gbp(tier.unitPrice, tier.unitPrice % 1 ? 2 : 0)}`).join(" · ")}</p></div>
         </section>
 
         <footer><p>Illustrative potential profit only. Professional figures assume 28 full-body tans per litre at £25 each. Retail figures assume every unit sells at RRP. Labour, premises, card fees, tax and other operating costs are not deducted.</p><form method="dialog"><button className="btn btn-dark">Close comparison</button></form></footer>

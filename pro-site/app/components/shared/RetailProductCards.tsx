@@ -1,4 +1,4 @@
-import { retailVolumeIncentive } from "../../lib/order-pricing";
+import { retailProductVolumeIncentive } from "../../lib/order-pricing";
 import { gbp } from "../../lib/site";
 import type { ReactNode } from "react";
 
@@ -31,7 +31,8 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
   {
     id: "mitt",
     src: "buff-mitt-pro.webp",
-    maxOrderQuantity: 4,
+    maxOrderQuantity: 48,
+    hasVolumeTiers: true,
     alt: "Buff & Glow Mitt in navy",
     badge: "The easy add-on",
     title: "Buff & Glow Mitt",
@@ -68,7 +69,8 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
   {
     id: "kit",
     src: "retail-kit.webp",
-    maxOrderQuantity: 4,
+    maxOrderQuantity: 48,
+    hasVolumeTiers: true,
     alt: "The A-List Glow Kit complete routine",
     badge: "The gift purchase",
     title: "The A-List Glow Kit",
@@ -115,7 +117,7 @@ export function RetailProductCards({
         const { id, src, responsiveBase, maxOrderQuantity, hasVolumeTiers, alt, badge, title, description, price, suffix } = product;
         const quantity = quantities?.[id] ?? 0;
         const maximumSelected = Boolean(maxOrderQuantity && quantity >= maxOrderQuantity);
-        const incentive = hasVolumeTiers ? retailVolumeIncentive(quantity) : undefined;
+        const incentive = hasVolumeTiers ? retailProductVolumeIncentive(id, quantity) : undefined;
         const responsiveSrcSet = responsiveBase
           ? [480, 700, 960, 1200, 1600].map((width) => `${asset(`${responsiveBase}-${width}.webp`)} ${width}w`).join(", ")
           : undefined;

@@ -137,7 +137,7 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
           <p className="sub">
             {full
               ? "Your prices, your volume, your premises. In pounds, with every assumption showing — change any of them."
-              : "Your prices, your volume — see what the booth and the shelf earn together. Adjust everything to match your salon."}
+              : "Set your treatment price, weekly bookings and likely retail add-ons. We’ll do the rest using standard salon assumptions."}
           </p>
         </div>
 
@@ -147,7 +147,7 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
               <h3>In the booth</h3>
               <Slider label="Your price per spray tan" value={input.pricePerTan} min={15} max={60} display={gbp(input.pricePerTan)} onChange={set("pricePerTan", "price_per_tan")} />
               <Slider label="Spray tans per week" value={input.tansPerWeek} min={1} max={60} display={`${input.tansPerWeek}`} onChange={set("tansPerWeek", "tans_per_week")} />
-              <Slider label="Tans per litre" value={input.tansPerLitre} min={24} max={32} display={`${input.tansPerLitre}`} hint={full ? "Measure your own — mark the bottle, count the tans, divide." : undefined} onChange={set("tansPerLitre", "tans_per_bottle")} />
+              {full && <Slider label="Tans per litre" value={input.tansPerLitre} min={24} max={32} display={`${input.tansPerLitre}`} hint="Measure your own — mark the bottle, count the tans, divide." onChange={set("tansPerLitre", "tans_per_bottle")} />}
               {full && <Slider label="Price per litre" value={input.litrePrice} min={40} max={90} display={gbp(input.litrePrice)} onChange={set("litrePrice", "litre_price")} />}
             </div>
 
@@ -177,15 +177,15 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
             <div className="calc-group">
               <h3>On the shelf</h3>
               <Slider label="Retail add-ons per week" value={input.retailUnitsPerWeek} min={0} max={20} display={`${input.retailUnitsPerWeek}`} onChange={set("retailUnitsPerWeek", "retail_units_per_week")} />
-              <Slider label="Avg retail price" value={input.retailPrice} min={10} max={59} display={gbp(input.retailPrice)} onChange={set("retailPrice", "retail_price")} />
-              <Slider label="Your retail margin" value={input.retailMarginPercent} min={40} max={60} step={5} display={`${input.retailMarginPercent}%`} onChange={set("retailMarginPercent", "retail_margin")} />
+              {full && <Slider label="Avg retail price" value={input.retailPrice} min={10} max={59} display={gbp(input.retailPrice)} onChange={set("retailPrice", "retail_price")} />}
+              {full && <Slider label="Your retail margin" value={input.retailMarginPercent} min={40} max={60} step={5} display={`${input.retailMarginPercent}%`} onChange={set("retailMarginPercent", "retail_margin")} />}
               {full && <Slider label="Card processing rate" value={input.cardRatePercent} min={0} max={3} step={0.1} display={`${input.cardRatePercent.toFixed(1)}%`} onChange={set("cardRatePercent", "card_rate")} />}
             </div>
 
             <p className="note">
               {full
                 ? "Retail margin is illustrative — your exact trade terms are confirmed on your setup call. Every assumption is listed below the calculator."
-                : "Solution cost uses the standard £60 litre. Retail margin is illustrative — your exact trade terms are confirmed on your setup call."}
+                : "Quick estimate: £60 per litre, 28 tans per litre, £18 average retail item and 50% illustrative retail margin. Open the full calculator to change every cost."}
             </p>
           </div>
 
@@ -202,44 +202,58 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
                   <b>{gbp(totals.grossMonth)}</b>
                   <small>what the booth and shelf contribute</small>
                 </div>
+                <div className="ocard">
+                  <span>Profit per tan</span>
+                  <b>{gbp(totals.netPerTan, 2)}</b>
+                  <small>
+                    consumables {gbp(totals.consumablesPerTan, 2)} · chair time {gbp(totals.labourPerTan, 2)} · premises {gbp(totals.overheadPerTan, 2)}
+                  </small>
+                </div>
+                <div className="ocard">
+                  <span>Weekly booth profit</span>
+                  <b>{gbp(totals.boothNetWeek)}</b>
+                  <small>on {gbp(input.pricePerTan * input.tansPerWeek)} weekly revenue</small>
+                </div>
+                <div className="ocard">
+                  <span>Weekly retail profit</span>
+                  <b>{gbp(totals.retailProfitWeek)}</b>
+                  <small>the highest-intent moment: in the chair</small>
+                </div>
+                <div className="ocard">
+                  <span>Litres you'll need</span>
+                  <b>{(Math.round(totals.litresPerMonth * 10) / 10).toLocaleString("en-GB")}</b>
+                  <small>per month, at your volume</small>
+                </div>
               </>
             ) : (
               <>
                 <div className="ocard hero-num">
-                  <span>Gross profit per month</span>
+                  <span>Estimated monthly contribution</span>
                   <b>{gbp(totals.grossMonth)}</b>
-                  <small>before labour and premises · {gbp(totals.grossYear)} per year</small>
+                  <small>from the booth and shelf · before labour and premises</small>
                 </div>
                 <div className="ocard">
-                  <span>After labour and premises</span>
-                  <b>{gbp(totals.netMonth)}</b>
-                  <small>once you count the chair and the room</small>
+                  <span>Contribution per tan</span>
+                  <b>{gbp(totals.grossPerTan, 2)}</b>
+                  <small>after solution, consumables and card fees</small>
+                </div>
+                <div className="ocard">
+                  <span>Weekly contribution</span>
+                  <b>{gbp(totals.boothGrossWeek + totals.retailProfitWeek)}</b>
+                  <small>booth and retail combined</small>
+                </div>
+                <div className="ocard">
+                  <span>Weekly retail contribution</span>
+                  <b>{gbp(totals.retailProfitWeek)}</b>
+                  <small>based on £18 items at 50% margin</small>
+                </div>
+                <div className="ocard">
+                  <span>Litres needed per month</span>
+                  <b>{(Math.round(totals.litresPerMonth * 10) / 10).toLocaleString("en-GB")}</b>
+                  <small>at 28 full-body tans per litre</small>
                 </div>
               </>
             )}
-
-            <div className="ocard">
-              <span>Profit per tan</span>
-              <b>{gbp(totals.netPerTan, 2)}</b>
-              <small>
-                consumables {gbp(totals.consumablesPerTan, 2)} · chair time {gbp(totals.labourPerTan, 2)} · premises {gbp(totals.overheadPerTan, 2)}
-              </small>
-            </div>
-            <div className="ocard">
-              <span>Weekly booth profit</span>
-              <b>{gbp(totals.boothNetWeek)}</b>
-              <small>on {gbp(input.pricePerTan * input.tansPerWeek)} weekly revenue</small>
-            </div>
-            <div className="ocard">
-              <span>Weekly retail profit</span>
-              <b>{gbp(totals.retailProfitWeek)}</b>
-              <small>the highest-intent moment: in the chair</small>
-            </div>
-            <div className="ocard">
-              <span>Litres you'll need</span>
-              <b>{(Math.round(totals.litresPerMonth * 10) / 10).toLocaleString("en-GB")}</b>
-              <small>per month, at your volume</small>
-            </div>
 
             <div className="calc-cta">
               {full ? (

@@ -3,6 +3,8 @@ import { Link } from "react-router";
 import { gbp } from "../../lib/site";
 import { MALIBU_UNIVERSAL_SHADE } from "../../lib/product-features";
 import type { RetailQuantities } from "../shared/RetailProductCards";
+import { professionalOrderPricing } from "../../lib/order-pricing";
+import { VolumeProfitModal } from "../shared/VolumeProfitModal";
 
 export type PurchaseState = { shade: string; qty: number; retail: RetailQuantities };
 
@@ -29,8 +31,9 @@ export function ProductPurchase({ state, setState, ctaRef }: {
   ctaRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const [selectedImage, setSelectedImage] = useState(0);
-  const total = 60 * state.qty;
-  const capacity = 28 * state.qty;
+  const pricing = professionalOrderPricing(state.qty);
+  const total = pricing.total;
+  const capacity = pricing.capacity;
   const litres = `${state.qty} ${state.qty === 1 ? "litre" : "litres"}`;
   const coverWeeks = capacity / 12;
   const formatDuration = (value: number) => value.toLocaleString("en-GB", { maximumFractionDigits: 1 });
@@ -52,8 +55,9 @@ export function ProductPurchase({ state, setState, ctaRef }: {
       </div>
 
       <div className="price-block">
-        <div className="price-row"><span className="price-big">£60 <small>per litre</small></span><span className="pertan">≈ £2.14 per tan</span></div>
-        <p>Free UK delivery · Trade terms confirmed before payment</p>
+        <div className="price-row"><span className="price-big">{gbp(pricing.unitPrice)} <small>per litre</small></span><span className="pertan">≈ {gbp(pricing.unitPrice / 28, 2)} per tan</span></div>
+        <p>{pricing.tier.name} volume rate · {pricing.saving ? `${gbp(pricing.saving)} additional margin on this order · ` : ""}Free UK delivery</p>
+        <VolumeProfitModal />
       </div>
 
       <div className="purchase-control">
@@ -66,7 +70,7 @@ export function ProductPurchase({ state, setState, ctaRef }: {
         <div className="qtyrow">
           <div className="stepper"><button type="button" onClick={() => setQty(state.qty - 1)} aria-label="Decrease quantity">−</button><output aria-live="polite">{state.qty}</output><button type="button" onClick={() => setQty(state.qty + 1)} aria-label="Increase quantity">+</button></div>
           <span className="shortcut-label">Quick select</span>
-          {[3, 6].map((qty) => <button type="button" aria-pressed={state.qty === qty} aria-label={`Select ${qty} litres${qty === 3 ? ", popular quantity" : ", best value quantity"}`} className={`qpick${state.qty === qty ? " active" : ""}`} onClick={() => setQty(qty)} key={qty}><span>{qty === 3 ? "Popular · 3L" : "Best value · 6L"}</span><i aria-hidden="true">{state.qty === qty ? "✓" : "+"}</i></button>)}
+          {[5, 10].map((qty) => <button type="button" aria-pressed={state.qty === qty} aria-label={`Select ${qty} litres for the ${qty === 5 ? "Growth" : "Premium"} volume rate`} className={`qpick${state.qty === qty ? " active" : ""}`} onClick={() => setQty(qty)} key={qty}><span>{qty === 5 ? "Growth · 5L" : "Premium · 10L"}</span><i aria-hidden="true">{state.qty === qty ? "✓" : "+"}</i></button>)}
         </div>
       </div>
 
@@ -99,11 +103,12 @@ export function StickyOrder({ state, target }: { state: PurchaseState; target: R
 
   const litres = `${state.qty} ${state.qty === 1 ? "litre" : "litres"}`;
   const retailCount = Object.values(state.retail).reduce((sum, quantity) => sum + quantity, 0);
-  return <div className={`sticky-order${visible ? " show" : ""}`}><div className="wrap"><div className="so-name">Malibu Professional Spray · 1L<small>{state.shade.split(" · ")[0]} · {litres}{retailCount ? ` · ${retailCount} retail add-on${retailCount === 1 ? "" : "s"}` : ""}</small></div><div className="so-price">{gbp(60 * state.qty)}</div><a className="btn btn-bronze" href="#complete-order">Compose order</a></div></div>;
+  const pricing = professionalOrderPricing(state.qty);
+  return <div className={`sticky-order${visible ? " show" : ""}`}><div className="wrap"><div className="so-name">Malibu Professional Spray · 1L<small>{state.shade.split(" · ")[0]} · {litres}{retailCount ? ` · ${retailCount} retail add-on${retailCount === 1 ? "" : "s"}` : ""}</small></div><div className="so-price">{gbp(pricing.total)}</div><a className="btn btn-bronze" href="#complete-order">Compose order</a></div></div>;
 }
 
 export function usePurchaseState() {
-  const [state, setState] = useState<PurchaseState>({ shade: MALIBU_UNIVERSAL_SHADE, qty: 1, retail: { mitt: 0, souffle: 0, kit: 0 } });
+  const [state, setState] = useState<PurchaseState>({ shade: MALIBU_UNIVERSAL_SHADE, qty: 1, retail: { mitt: 0, souffleMedium: 0, souffleDark: 0, kit: 0 } });
   const ctaRef = useRef<HTMLDivElement>(null);
   return { state, setState, ctaRef };
 }

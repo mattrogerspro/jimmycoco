@@ -542,7 +542,7 @@
   .retail .eyebrow{margin-bottom:clamp(7px,1.4svh,16px)}
   .retail h2{font-size:clamp(34px,min(4.8vw,6.3svh),56px);margin-bottom:clamp(8px,1.5svh,16px)}
   .retail .sub{font-size:clamp(16px,2.25svh,23px);line-height:1.5}
-  .shop-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:18px;flex:1 1 auto;min-height:0;width:min(100%,920px);margin:clamp(14px,2.8svh,30px) auto clamp(10px,1.8svh,18px) 0}
+  .shop-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;gap:18px;flex:1 1 auto;min-height:0;width:min(100%,1240px);margin:clamp(14px,2.8svh,30px) auto clamp(10px,1.8svh,18px) 0}
   .pcard{height:100%;min-height:0;background:rgba(253,251,248,.96);border:1px solid rgba(231,223,212,.9);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 34px rgba(25,21,18,.09);transition:transform .18s ease,box-shadow .18s ease}.pcard:hover{transform:translateY(-4px);box-shadow:0 20px 46px rgba(25,21,18,.14)}
   .pcard .pimg{position:relative;isolation:isolate;min-height:clamp(190px,27svh,300px);flex:1 1 auto;overflow:hidden;background:#F3EDE4;padding:0}
   .pcard .pimg::after{content:"";position:absolute;z-index:1;inset:28% 0 0;background:linear-gradient(180deg,rgba(10,28,40,0) 0%,rgba(10,28,40,.16) 42%,rgba(10,28,40,.9) 100%);pointer-events:none}
@@ -704,7 +704,7 @@
     .benefits span{font-size:11px;padding:2px 10px}
     .shade-grid{grid-template-columns:1fr;max-width:460px;margin:44px auto 0}
     .retail:after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:rgba(246,241,234,.84)}
-    .shop-grid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;flex:0 0 auto;max-width:760px;margin:clamp(14px,2.8svh,30px) 0 clamp(10px,1.8svh,18px)}
+    .shop-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(43vw,300px);align-items:stretch;flex:0 0 auto;max-width:none;width:100%;margin:clamp(14px,2.8svh,30px) 0 clamp(10px,1.8svh,18px);padding-bottom:5px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-inline:contain;scroll-snap-type:inline mandatory;scrollbar-width:thin;touch-action:pan-x;-webkit-overflow-scrolling:touch}
     .pcard{height:auto;min-height:0}
     .pcard .pimg{min-height:clamp(180px,27svh,260px);padding:0}
     .pimage-badge{top:14px;left:15px}

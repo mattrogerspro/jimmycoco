@@ -586,6 +586,24 @@
   .tf-steps li{position:relative;padding:9px 0 9px 44px;font-size:16.5px;color:var(--muted);counter-increment:s}
   .tf-steps li:before{content:counter(s);position:absolute;left:0;top:7px;width:29px;height:29px;border-radius:50%;background:var(--cream);color:var(--bronze2);font-weight:600;display:flex;align-items:center;justify-content:center;font-size:15px}
   .tf-steps b{color:var(--ink)}
+  .trial-success{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(38px,5vw,88px);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:clamp(38px,5vw,76px);box-shadow:0 34px 90px rgba(0,0,0,.55)}
+  .ts-intro{align-self:center}
+  .ts-check{display:flex;align-items:center;justify-content:center;width:58px;height:58px;margin-bottom:25px;border-radius:50%;background:var(--bronze);color:#fff;font-size:28px;font-weight:600}
+  .trial-success .eyebrow{color:var(--bronze);margin-bottom:14px}
+  .trial-success h2{color:var(--ink);font-size:clamp(42px,4.8vw,68px);margin-bottom:22px;outline-offset:8px}
+  .trial-success h2 em{color:var(--bronze2)}
+  .ts-intro > p:last-child{max-width:530px;color:var(--muted);font-size:clamp(18px,1.45vw,22px);line-height:1.55}
+  .ts-next{padding-left:clamp(28px,4vw,62px);border-left:1px solid var(--line)}
+  .ts-next h3{font-family:'Walbaum',Georgia,serif;font-size:clamp(28px,2.4vw,38px);font-weight:500;color:var(--ink);margin-bottom:19px}
+  .ts-next ol{list-style:none;padding:0;counter-reset:next-step}
+  .ts-next li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:15px;padding:17px 0;border-bottom:1px solid var(--line);counter-increment:next-step}
+  .ts-next li:last-child{border-bottom:0}
+  .ts-next li:before{content:counter(next-step);display:flex;align-items:center;justify-content:center;width:38px;height:38px;margin-top:2px;border-radius:50%;background:var(--cream);color:var(--bronze2);font-size:16px;font-weight:700}
+  .ts-next li div{display:flex;flex-direction:column;gap:3px}
+  .ts-next li b{color:var(--ink);font-size:18px;line-height:1.4}
+  .ts-next li span{color:var(--muted);font-size:16px;line-height:1.55}
+  .ts-reassurance{grid-column:1/-1;border-top:1px solid var(--line);padding-top:25px;text-align:center;color:var(--muted);font-size:16px}
+  .ts-reassurance b{color:var(--ink)}
   footer{background:var(--dark);color:#AFA396;padding:54px 0 40px;font-size:15.5px}
   footer .wrap{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:center}
   footer .foot-email{color:#C9BCAB}
@@ -665,6 +683,11 @@
     .sticky-cta{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;background:var(--paper);border-top:1px solid var(--line);padding:12px 16px;gap:10px}
     .sticky-cta .btn{flex:1;padding:15px 10px;font-size:13.5px}
     .trial-order{align-items:flex-start;flex-direction:column}
+    .trial-success{grid-template-columns:1fr;gap:34px}
+    .ts-intro{text-align:center}
+    .ts-check{margin-right:auto;margin-left:auto}
+    .ts-intro > p:last-child{margin-right:auto;margin-left:auto}
+    .ts-next{padding-left:0;border-left:0;border-top:1px solid var(--line);padding-top:31px}
     body{padding-bottom:70px}
   }
 
@@ -838,6 +861,17 @@
 
     .close-grid{gap:28px}
     .trialform{padding:26px 20px 28px}
+    .trial-success{padding:30px 22px;border-radius:7px}
+    .ts-check{width:50px;height:50px;margin-bottom:20px;font-size:24px}
+    .trial-success .eyebrow{font-size:12px;letter-spacing:.18em}
+    .trial-success h2{font-size:clamp(37px,10.5vw,48px)}
+    .ts-intro > p:last-child{font-size:17px}
+    .ts-next h3{font-size:29px}
+    .ts-next li{grid-template-columns:38px minmax(0,1fr);gap:12px;padding:15px 0}
+    .ts-next li:before{width:34px;height:34px;font-size:14px}
+    .ts-next li b{font-size:16.5px}
+    .ts-next li span{font-size:14.5px}
+    .ts-reassurance{padding-top:21px;font-size:14.5px;line-height:1.55}
 
     /* Accreditation is information-dense, so its readable copy takes priority
        over keeping the section artificially short on a phone. */

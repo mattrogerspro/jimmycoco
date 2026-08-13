@@ -248,6 +248,7 @@ export function Trial({ monthlyProfit }: { monthlyProfit: number }) {
   const result = useActionData() as ApplicationActionResult | undefined;
   const navigation = useNavigation();
   const submitting = navigation.state === "submitting";
+  const successHeadingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     if (!result) return;
@@ -256,7 +257,31 @@ export function Trial({ monthlyProfit }: { monthlyProfit: number }) {
       value: result.ok ? 1 : 0,
       error_message: result.ok ? undefined : result.message,
     });
+    if (result.ok) successHeadingRef.current?.focus();
   }, [result]);
+
+  if (result?.ok) {
+    return <section className="partner-close trial-complete" id="trial"><div className="wrap">
+      <div className="trial-success" role="status" aria-live="polite">
+        <div className="ts-intro">
+          <span className="ts-check" aria-hidden="true">✓</span>
+          <p className="eyebrow">Trial request received</p>
+          <h2 ref={successHeadingRef} tabIndex={-1}>Thank you.<br /><em>Your request is in.</em></h2>
+          <p>We have your details. There is nothing else you need to do right now.</p>
+        </div>
+        <div className="ts-next">
+          <h3>What happens next</h3>
+          <ol>
+            <li><div><b>We review your details</b><span>Our team checks your trial request and delivery information.</span></div></li>
+            <li><div><b>Your trial box is posted this week</b><span>We send your complimentary 100ml solution and Jimmy&rsquo;s shade guide.</span></div></li>
+            <li><div><b>You tan one real client</b><span>See the colour, finish and fade for yourself before making any decision.</span></div></li>
+            <li><div><b>We talk trade terms only if you love it</b><span>A straightforward 15-minute conversation — no pressure and no commitment.</span></div></li>
+          </ol>
+        </div>
+        <p className="ts-reassurance"><b>No card. No commitment.</b> We will be in touch this week.</p>
+      </div>
+    </div></section>;
+  }
 
   return <section className="partner-close" id="trial"><div className="wrap"><p className="eyebrow">The partnership · complimentary trial</p><h2>Try it on a real client. <em>Free.</em></h2><p className="sub">Party season books out before it starts. Salons that trial now are stocked, trained and ready before the rush — and the trial costs you nothing but one appointment.</p><div className="close-grid"><div>
     <div className="trialbox"><span className="tb-tag">Become a Jimmy Coco Certified Salon.</span><ul><li><b>The Sunset professional solution</b><span>Enough to tan a real client — judge the colour on skin, not on a screen.</span></li><li><b>Jimmy's shade guide</b><span>The method behind 20+ years of red-carpet colour. Yours to keep, either way.</span></li></ul><p>Posted this week · no cost · no commitment</p></div>
@@ -264,6 +289,5 @@ export function Trial({ monthlyProfit }: { monthlyProfit: number }) {
     <p className="close-note">No lock-in and no pressure at any step. Trial it, judge it, then we talk terms — or we don't, and the shade guide is still yours.</p><div className="trial-order"><b>Ready to place an order?</b><Link to={PRODUCT_PATH}>Order Malibu 1L — £60 →</Link></div>
   </div><Form method="post" className="trialform" data-form-id="trade_trial" replace><div className="tf-head"><h3>Get the trial box</h3><span className="tf-badge">Free</span></div><p>Thirty seconds now. Posted this week.</p><p className="tf-echo">You calculated <b>{gbp(monthlyProfit)}</b> a month. The trial is how you check the colour deserves it.</p><input type="text" name="salon" autoComplete="organization" aria-label="Salon or business name" placeholder="Salon or business name" required /><input type="text" name="name" autoComplete="name" aria-label="Your name" placeholder="Your name" required /><input type="email" name="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required /><input type="tel" name="phone" autoComplete="tel" aria-label="Phone number (optional)" placeholder="Phone (optional)" /><select name="type" aria-label="Business type" defaultValue="Salon"><option>Salon</option><option>Spa</option><option>Mobile professional</option><option>Multi-site group</option></select><input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />
     {result && !result.ok ? <p className="form-error" role="alert">{result.message}</p> : null}
-    {result?.ok ? <p className="form-ok" role="status">Thank you — your application is in. We will be in touch this week.</p> : null}
     <button className="btn btn-bronze" type="submit" disabled={submitting}>{submitting ? "Sending…" : "Email for a free sample 100ml"}</button><ol className="tf-steps"><li><b>This week:</b> your trial box is posted</li><li><b>You tan</b> one real client and judge the result</li><li><b>15 minutes</b> on trade terms — only if you love it</li></ol><small>No card. No commitment. One email stops everything.</small></Form></div></div></section>;
 }

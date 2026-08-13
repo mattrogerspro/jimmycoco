@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import homeStyles from "../styles/home.css?url";
 import ritualStyles from "../styles/ritual.css?url";
 import chromeStyles from "../styles/chrome.css?url";
+import commerceStyles from "../styles/commerce.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { ApplicationRitual } from "../components/shared/ApplicationRitual";
 import { Certification, Formula, GlowDuo, Hero, Retail, Shades, Story, Trial } from "../components/home/HomeSections";
@@ -16,6 +17,7 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: homeStyles },
   { rel: "stylesheet", href: ritualStyles },
   { rel: "stylesheet", href: chromeStyles },
+  { rel: "stylesheet", href: commerceStyles },
   {
     rel: "preload",
     as: "image",

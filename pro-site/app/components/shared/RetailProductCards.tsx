@@ -1,3 +1,6 @@
+import { retailVolumeIncentive } from "../../lib/order-pricing";
+import { gbp } from "../../lib/site";
+
 const asset = (name: string) => `/assets/site/${name}`;
 
 const BUFF_MITT_SRCSET = [480, 700, 960, 1200]
@@ -13,7 +16,8 @@ type RetailProduct = {
   id: RetailProductId;
   src: string;
   responsiveBase?: string;
-  orderSteps?: readonly number[];
+  maxOrderQuantity?: number;
+  hasVolumeTiers?: boolean;
   alt: string;
   badge: string;
   title: string;
@@ -26,7 +30,7 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
   {
     id: "mitt",
     src: "buff-mitt-pro.webp",
-    orderSteps: [1, 2, 3, 4],
+    maxOrderQuantity: 4,
     alt: "Buff & Glow Mitt in navy",
     badge: "The easy add-on",
     title: "Buff & Glow Mitt",
@@ -38,7 +42,8 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
     id: "souffleMedium",
     src: "self-tan-souffle-medium-1600.webp",
     responsiveBase: "self-tan-souffle-medium",
-    orderSteps: [6, 12, 24],
+    maxOrderQuantity: 48,
+    hasVolumeTiers: true,
     alt: "Malibu Medium Self Tan Soufflé",
     badge: "The top-up seller · Medium",
     title: "Self Tan Soufflé · Medium",
@@ -50,7 +55,8 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
     id: "souffleDark",
     src: "self-tan-souffle-dark-1600.webp",
     responsiveBase: "self-tan-souffle-dark",
-    orderSteps: [6, 12, 24],
+    maxOrderQuantity: 48,
+    hasVolumeTiers: true,
     alt: "Malibu Dark Self Tan Soufflé",
     badge: "The top-up seller · Dark",
     title: "Self Tan Soufflé · Dark",
@@ -61,6 +67,7 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
   {
     id: "kit",
     src: "retail-kit.webp",
+    maxOrderQuantity: 4,
     alt: "The A-List Glow Kit complete routine",
     badge: "The gift purchase",
     title: "The A-List Glow Kit",
@@ -70,6 +77,25 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
   },
 ] as const;
 export type RetailQuantities = Record<RetailProductId, number>;
+
+export const EMPTY_RETAIL_QUANTITIES: RetailQuantities = { mitt: 0, souffleMedium: 0, souffleDark: 0, kit: 0 };
+
+export function retailQuantitiesToSearchParams(quantities: RetailQuantities) {
+  const params = new URLSearchParams();
+  RETAIL_PRODUCTS.forEach(({ id }) => {
+    if (quantities[id] > 0) params.set(id, String(quantities[id]));
+  });
+  return params;
+}
+
+export function retailQuantitiesFromSearchParams(params: URLSearchParams): RetailQuantities {
+  const quantities = { ...EMPTY_RETAIL_QUANTITIES };
+  RETAIL_PRODUCTS.forEach(({ id, maxOrderQuantity }) => {
+    const quantity = Number.parseInt(params.get(id) ?? "0", 10);
+    if (maxOrderQuantity && quantity >= 1 && quantity <= maxOrderQuantity) quantities[id] = quantity;
+  });
+  return quantities;
+}
 
 export function RetailProductCards({
   orderMode = false,
@@ -83,12 +109,10 @@ export function RetailProductCards({
   return (
     <div className="shop-grid">
       {RETAIL_PRODUCTS.map((product) => {
-        const { id, src, responsiveBase, orderSteps, alt, badge, title, description, price, suffix } = product;
+        const { id, src, responsiveBase, maxOrderQuantity, hasVolumeTiers, alt, badge, title, description, price, suffix } = product;
         const quantity = quantities?.[id] ?? 0;
-        const nextQuantity = orderSteps ? orderSteps.find((step) => step > quantity) ?? quantity : quantity + 1;
-        const previousQuantity = orderSteps ? [...orderSteps].reverse().find((step) => step < quantity) ?? 0 : Math.max(0, quantity - 1);
-        const maximumTierSelected = Boolean(orderSteps && quantity === orderSteps[orderSteps.length - 1]);
-        const hasVolumeTiers = orderSteps?.[0] === 6;
+        const maximumSelected = Boolean(maxOrderQuantity && quantity >= maxOrderQuantity);
+        const incentive = hasVolumeTiers ? retailVolumeIncentive(quantity) : undefined;
         const responsiveSrcSet = responsiveBase
           ? [480, 700, 960, 1200, 1600].map((width) => `${asset(`${responsiveBase}-${width}.webp`)} ${width}w`).join(", ")
           : undefined;
@@ -110,11 +134,14 @@ export function RetailProductCards({
           <div className="pbody">
             <p className="pdesc">{description}</p>
             <span className="price">{price}<span>{suffix}</span></span>
+            {orderMode && incentive ? <div className={`retail-tier-nudge${incentive.nextTier ? "" : " is-unlocked"}`}>
+              {incentive.nextTier ? <><span>{quantity ? `${incentive.unitsNeeded} more` : `Add ${incentive.unitsNeeded}`} to unlock {incentive.nextTier.name}</span><b>+{gbp(incentive.additionalProfit)} potential profit</b><small>{gbp(incentive.targetProfit)} total profit at {incentive.nextTier.quantity} sold · {gbp(incentive.nextTier.unitPrice, incentive.nextTier.unitPrice % 1 ? 2 : 0)} each</small></> : <><span>Premium rate unlocked</span><b>{gbp(incentive.currentProfit)} potential profit</b><small>{gbp(incentive.currentTier?.unitPrice ?? 0)} each · at current quantity sold at RRP</small></>}
+            </div> : null}
             {orderMode ? (
               <div className="retail-order-controls">
-                <button type="button" className="retail-remove" disabled={quantity === 0} onClick={() => onQuantityChange?.(id, previousQuantity)} aria-label={`Reduce ${title} quantity`}>−</button>
+                <button type="button" className="retail-remove" disabled={quantity === 0} onClick={() => onQuantityChange?.(id, Math.max(0, quantity - 1))} aria-label={`Remove one ${title}`}>−</button>
                 <output aria-live="polite">{quantity === 0 ? "Not added" : `${quantity} added`}</output>
-                <button type="button" className="retail-add" disabled={maximumTierSelected} onClick={() => onQuantityChange?.(id, nextQuantity)}>{quantity === 0 ? (hasVolumeTiers ? "Add starter 6" : "Add to order") : maximumTierSelected ? (hasVolumeTiers ? "Premium selected" : "Maximum selected") : hasVolumeTiers ? `Move to ${nextQuantity}` : "Add another"}<i aria-hidden="true">{maximumTierSelected ? "✓" : "+"}</i></button>
+                <button type="button" className="retail-add" disabled={maximumSelected} onClick={() => onQuantityChange?.(id, quantity + 1)}>{quantity === 0 ? "Add to order" : maximumSelected ? "Maximum selected" : "Add another"}<i aria-hidden="true">{maximumSelected ? "✓" : "+"}</i></button>
               </div>
             ) : null}
           </div>

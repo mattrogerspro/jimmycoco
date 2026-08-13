@@ -126,7 +126,7 @@
   .cross-sell .pcard{border-radius:12px}
   .cross-sell .pcard.is-added{border-color:var(--ocean);box-shadow:0 0 0 2px rgba(40,95,120,.16),0 22px 52px rgba(25,21,18,.13)}
   .cross-sell .pcard .pimg{min-height:clamp(340px,31vw,500px)}
-  .cross-sell .pcard .pbody{min-height:268px;padding:26px 28px 28px;gap:15px}
+  .cross-sell .pcard .pbody{min-height:385px;padding:26px 28px 28px;gap:15px}
   .cross-sell .pcard h3{font-size:clamp(34px,2.7vw,44px)}
   .cross-sell .badge{font-size:13px;padding:8px 12px}
   .cross-sell .pcard .pdesc{font-size:clamp(17px,1.12vw,20px);line-height:1.52;-webkit-line-clamp:4}
@@ -355,7 +355,7 @@
     .profit-dialog footer{align-items:stretch;flex-direction:column;padding:21px 20px}
     .profit-dialog footer .btn{width:100%}
     .cross-sell .pcard .pimg{min-height:330px}
-    .cross-sell .pcard .pbody{min-height:270px;padding:20px}
+    .cross-sell .pcard .pbody{min-height:375px;padding:20px}
     .cross-sell-next{align-items:stretch;flex-direction:column;padding:18px}
     .cross-sell-next .btn{width:100%}
     .order-band{padding:58px 0}

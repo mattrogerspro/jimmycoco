@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { gbp } from "../../lib/site";
 import { MALIBU_UNIVERSAL_SHADE } from "../../lib/product-features";
-import type { RetailQuantities } from "../shared/RetailProductCards";
+import { retailQuantitiesFromSearchParams, type RetailQuantities } from "../shared/RetailProductCards";
 import { professionalOrderPricing } from "../../lib/order-pricing";
 import { VolumeProfitModal } from "../shared/VolumeProfitModal";
 
@@ -108,7 +108,8 @@ export function StickyOrder({ state, target }: { state: PurchaseState; target: R
 }
 
 export function usePurchaseState() {
-  const [state, setState] = useState<PurchaseState>({ shade: MALIBU_UNIVERSAL_SHADE, qty: 1, retail: { mitt: 0, souffleMedium: 0, souffleDark: 0, kit: 0 } });
+  const [searchParams] = useSearchParams();
+  const [state, setState] = useState<PurchaseState>(() => ({ shade: MALIBU_UNIVERSAL_SHADE, qty: 1, retail: retailQuantitiesFromSearchParams(searchParams) }));
   const ctaRef = useRef<HTMLDivElement>(null);
   return { state, setState, ctaRef };
 }

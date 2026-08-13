@@ -1,5 +1,6 @@
 import { retailVolumeIncentive } from "../../lib/order-pricing";
 import { gbp } from "../../lib/site";
+import type { ReactNode } from "react";
 
 const asset = (name: string) => `/assets/site/${name}`;
 
@@ -101,10 +102,12 @@ export function RetailProductCards({
   orderMode = false,
   quantities,
   onQuantityChange,
+  renderConfigurator,
 }: {
   orderMode?: boolean;
   quantities?: RetailQuantities;
   onQuantityChange?: (id: RetailProductId, quantity: number) => void;
+  renderConfigurator?: (id: RetailProductId, quantity: number) => ReactNode;
 }) {
   return (
     <div className="shop-grid">
@@ -138,11 +141,11 @@ export function RetailProductCards({
               {incentive.nextTier ? <><span>{quantity ? `${incentive.unitsNeeded} more` : `Add ${incentive.unitsNeeded}`} to unlock {incentive.nextTier.name}</span><b>{gbp(incentive.currentProfit)} current potential profit</b><small>{gbp(incentive.targetProfit)} at {incentive.nextTier.quantity} sold · +{gbp(incentive.additionalProfit)} by reaching {incentive.nextTier.name}</small></> : <><span>Premium rate unlocked</span><b>{gbp(incentive.currentProfit)} current potential profit</b><small>{gbp(incentive.currentTier?.unitPrice ?? 0)} each · at current quantity sold at RRP</small></>}
             </div> : null}
             {orderMode ? (
-              <div className="retail-order-controls">
-                <button type="button" className="retail-remove" disabled={quantity === 0} onClick={() => onQuantityChange?.(id, Math.max(0, quantity - 1))} aria-label={`Remove one ${title}`}>−</button>
-                <output aria-live="polite">{quantity === 0 ? "Not added" : `${quantity} added`}</output>
-                <button type="button" className="retail-add" disabled={maximumSelected} onClick={() => onQuantityChange?.(id, quantity + 1)}>{quantity === 0 ? "Add to order" : maximumSelected ? "Maximum selected" : "Add another"}<i aria-hidden="true">{maximumSelected ? "✓" : "+"}</i></button>
-              </div>
+              renderConfigurator ? <div className="retail-order-controls retail-configure-control"><output aria-live="polite">{quantity === 0 ? "Not added" : `${quantity} added`}</output>{renderConfigurator(id, quantity)}</div> : <div className="retail-order-controls">
+                  <button type="button" className="retail-remove" disabled={quantity === 0} onClick={() => onQuantityChange?.(id, Math.max(0, quantity - 1))} aria-label={`Remove one ${title}`}>−</button>
+                  <output aria-live="polite">{quantity === 0 ? "Not added" : `${quantity} added`}</output>
+                  <button type="button" className="retail-add" disabled={maximumSelected} onClick={() => onQuantityChange?.(id, quantity + 1)}>{quantity === 0 ? "Add to order" : maximumSelected ? "Maximum selected" : "Add another"}<i aria-hidden="true">{maximumSelected ? "✓" : "+"}</i></button>
+                </div>
             ) : null}
           </div>
         </div>

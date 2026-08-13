@@ -7,6 +7,10 @@
 .retail-add{border:0;background:var(--ocean);color:#fff;padding:0 14px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:14px;letter-spacing:.025em}
 .retail-add i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.18);font-size:18px;font-style:normal;font-weight:500}
 .retail-add:disabled{background:#627781;cursor:default;transform:none}
+.retail-configure-control{grid-template-columns:minmax(90px,.65fr) minmax(190px,1.35fr)}
+.retail-configure-control output{text-align:left;font-size:18px;font-weight:700;color:var(--ink)}
+.retail-configure-button{width:100%;height:52px}
+.retail-configure-button i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.18);font-size:17px;font-style:normal}
 .retail-tier-nudge{width:100%;display:grid;gap:8px;margin-top:6px;padding:20px 22px;border:2px solid var(--sky);border-radius:9px;background:linear-gradient(135deg,var(--mist),#fff)}
 .retail-tier-nudge>span{color:var(--ocean);font-size:15px;font-weight:800;letter-spacing:.1em;line-height:1.35;text-transform:uppercase}
 .retail-tier-nudge>b{color:var(--ink);font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:clamp(24px,1.75vw,30px);font-weight:750;line-height:1.18;font-variant-numeric:lining-nums tabular-nums}
@@ -92,6 +96,11 @@
 .config-retail-section{padding:12px 66px 46px}.config-section-heading{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:24px}.config-section-heading .eyebrow{margin-bottom:5px}.config-section-heading h3{font-family:'Walbaum',Georgia,serif;color:var(--ink);font-size:42px;font-weight:500}.config-section-heading>p{max-width:560px;color:#625D57;font-size:16px;line-height:1.5;text-align:right}
 .config-retail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.config-retail-product{--config-accent:#7B858A;--config-soft:#EEF0F1;display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.8fr);gap:18px;padding:22px;border:2px solid var(--config-accent);border-radius:12px;background:#fff}.config-retail-title{grid-column:1/-1;padding-bottom:18px;border-bottom:1px solid var(--line)}.config-retail-title img{width:88px;height:88px;object-fit:cover;border-radius:9px;background:var(--paper)}.config-retail-title h4{margin:3px 0;color:var(--ink);font-size:23px;font-weight:700}.config-retail-title small{color:#625D57;font-size:16px;font-weight:600}.config-retail-product>.config-current-level{grid-column:1/-1;margin-bottom:0}.config-retail-product>.tier-slider,.config-retail-product>.tier-slider-labels,.config-retail-product>.config-stepper{grid-column:1}.config-retail-profit,.config-fixed-total{grid-column:2;grid-row:3/7;padding:19px 20px;border-radius:9px;background:var(--config-accent);color:#fff}.config-retail-profit>strong,.config-fixed-total>strong{font-size:42px}.config-fixed-total>small{display:block;color:rgba(255,255,255,.78);font-size:14px;line-height:1.4}.config-retail-product .tier-slider-labels{align-self:start}.config-retail-product .config-stepper{align-self:end}
 .order-config-footer{position:sticky;z-index:4;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:30px;padding:22px 66px;background:#102E3D;box-shadow:0 -10px 30px rgba(8,25,34,.16)}.order-config-footer p b,.order-config-footer p span{display:block}.order-config-footer p b{color:#fff;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:21px}.order-config-footer p span{margin-top:3px;color:#C5D3D9;font-size:14px}.order-config-footer .btn{padding:17px 27px;font-size:15px}
+.order-config-dialog-single{width:min(94vw,1320px);max-width:1320px}
+.order-config-dialog-single .order-config-header{grid-template-columns:minmax(0,1.2fr) minmax(360px,.65fr)}
+.order-config-dialog-single .config-single-item{margin-top:44px;margin-bottom:44px}
+.order-config-dialog-single .order-config-footer form{margin:0}
+.order-config-dialog-single .order-config-footer .btn{min-width:290px}
 
 @media(max-width:980px){
   .profit-dialog{width:calc(100vw - 28px);max-height:94svh}
@@ -100,6 +109,7 @@
   .profit-tier-grid{grid-template-columns:1fr}
   .order-config-dialog{width:calc(100vw - 24px)}
   .order-config-header{grid-template-columns:1fr;padding:48px 34px 34px}.order-config-summary{max-width:none}
+  .order-config-dialog-single .order-config-header{grid-template-columns:1fr}
   .config-professional{grid-template-columns:1fr 1fr;margin:28px 34px}.config-profit-panel{grid-column:1/-1}
   .config-retail-section{padding-right:34px;padding-left:34px}.config-retail-grid{grid-template-columns:1fr}
   .order-config-footer{padding-right:34px;padding-left:34px}
@@ -128,6 +138,7 @@
   .profit-dialog footer{align-items:stretch;flex-direction:column;padding:21px 20px}
   .profit-dialog footer .btn{width:100%}
   .retail-tier-nudge{padding:18px}.retail-tier-nudge>span{font-size:14px}.retail-tier-nudge>b{font-size:24px}.retail-tier-nudge>small{font-size:17px}
+  .retail-configure-control{grid-template-columns:1fr}.retail-configure-control output{text-align:center}.retail-configure-button{height:52px}
   .order-config-dialog{width:calc(100vw - 12px);border-radius:10px}.order-config-shell{border-radius:10px}.order-config-close{top:12px;right:12px;width:44px;height:44px}
   .order-config-header{padding:38px 20px 27px}.order-config-header h2{padding-right:34px;font-size:39px}.order-config-header>div>p:last-child{font-size:17px}.order-config-summary{padding:20px}.order-config-summary>strong{font-size:27px}.order-config-summary dt{font-size:14px}.order-config-summary dd{font-size:19px}
   .config-tier-key{justify-content:flex-start;gap:18px;padding:15px 20px;overflow-x:auto}.config-tier-key span{font-size:13px;white-space:nowrap}

@@ -20,6 +20,9 @@ const BUFF_MITT_SRCSET = [480, 700, 960, 1200]
   .concat(`${A}buff-mitt-pro.webp 1600w`)
   .join(", ");
 const BUFF_MITT_SIZES = "(max-width: 620px) calc(100vw - 80px), (max-width: 900px) 420px, 320px";
+const REVENUE_BACKGROUND_SRCSET = [480, 768, 1080, 1440, 1920, 2560]
+  .map((width) => `${A}revenue-line-background-${width}.webp ${width}w`)
+  .join(", ");
 
 function DropIcon() {
   return <svg viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3c3.5 4.8 6.5 8.2 6.5 12a6.5 6.5 0 0 1-13 0C5.5 11.2 8.5 7.8 12 3z" /></svg>;
@@ -190,7 +193,12 @@ export function Retail() {
     ["retail-souffle.webp", "The Self Tan Soufflé with mitt and face mist bundle", "The top-up seller", "The Self Tan Soufflé", "Instant tint, Jimmy's iconic scent and a moisture-locking formula — the take-home that extends your work between appointments.", "Medium · Dark", ""],
     ["retail-kit.webp", "The A-List Glow Kit complete routine", "The gift purchase", "The A-List Glow Kit", "The complete six-piece routine — soufflé, world-first mitt, luxury brushes, face mist and lip balm. Your premium shelf anchor.", "RRP £59", " · 6 pieces"],
   ];
-  return <section className="retail" id="retail"><div className="wrap"><p className="eyebrow">The second revenue line</p><h2>The moment they step out of the booth<br /><em>is the moment they buy.</em></h2><p className="sub">A tight retail range at reception lets clients keep their colour looking fresh for a week longer — real margin, no extra chair time, and the same brand story from booth to shelf.</p><div className="shop-grid">{products.map(([src, alt, badge, title, description, price, suffix]) => <div className="pcard" key={src}><div className="pimg"><img src={`${A}${src}`} srcSet={src === "buff-mitt-pro.webp" ? BUFF_MITT_SRCSET : undefined} sizes={src === "buff-mitt-pro.webp" ? BUFF_MITT_SIZES : undefined} alt={alt} width="700" height="700" loading="lazy" decoding="async" /></div><div className="pbody"><span className="badge">{badge}</span><h3>{title}</h3><p className="pdesc">{description}</p><span className="price">{price}<span>{suffix}</span></span></div></div>)}</div><div className="section-actions"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order the professional litre — £60</Link><a className="btn btn-ghost" href="#trial">Request a free trial instead</a></div></div></section>;
+  return <section className="retail" id="retail">
+    <picture className="retail-background" aria-hidden="true">
+      <img src={`${A}revenue-line-background-2560.webp`} srcSet={REVENUE_BACKGROUND_SRCSET} sizes="100vw" alt="" width="2560" height="1118" loading="lazy" decoding="async" />
+    </picture>
+    <div className="wrap"><p className="eyebrow">The second revenue line</p><h2>The moment they step out of the booth<br /><em>is the moment they buy.</em></h2><p className="sub">A tight retail range at reception lets clients keep their colour looking fresh for a week longer — real margin, no extra chair time, and the same brand story from booth to shelf.</p><div className="shop-grid">{products.map(([src, alt, badge, title, description, price, suffix]) => <div className="pcard" key={src}><div className="pimg"><img src={`${A}${src}`} srcSet={src === "buff-mitt-pro.webp" ? BUFF_MITT_SRCSET : undefined} sizes={src === "buff-mitt-pro.webp" ? BUFF_MITT_SIZES : undefined} alt={alt} width="700" height="700" loading="lazy" decoding="async" /></div><div className="pbody"><span className="badge">{badge}</span><h3>{title}</h3><p className="pdesc">{description}</p><span className="price">{price}<span>{suffix}</span></span></div></div>)}</div><div className="section-actions"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order the professional litre — £60</Link><a className="btn btn-ghost" href="#trial">Request a free trial instead</a></div></div>
+  </section>;
 }
 
 export function GlowDuo() {

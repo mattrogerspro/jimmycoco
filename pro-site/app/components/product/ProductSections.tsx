@@ -10,7 +10,7 @@ import { PRODUCT_SPECS, workedExamples } from "../../lib/specs";
 import { SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../../lib/product-features";
 import { RETAIL_PRODUCTS, RetailProductCards, type RetailProductId } from "../shared/RetailProductCards";
 import { professionalOrderPricing, professionalTierProfit, retailProductPotentialProfit, retailProductPricing } from "../../lib/order-pricing";
-import { VolumeProfitModal } from "../shared/VolumeProfitModal";
+import { OrderConfiguratorModal } from "./OrderConfiguratorModal";
 
 export function ShadeComparison({ onChoose }: { onChoose: (shade: string) => void }) {
   const cards = [
@@ -28,7 +28,7 @@ export function CrossSell({ state, setState }: { state: PurchaseState; setState:
     setState((current) => ({ ...current, retail: { ...current.retail, [id]: Math.max(0, Math.min(24, quantity)) } }));
   };
 
-  return <section className="steps-band cross-sell" id="complete-order"><div className="wrap"><p className="eyebrow">Complete the order · Step 1</p><h2>Would you like to add any retail?</h2><p className="sub">Add products one at a time. Each Soufflé card shows how close you are to the next volume rate and the additional profit that level can create.</p><RetailProductCards orderMode quantities={state.retail} onQuantityChange={setRetailQuantity} /><div className="cross-sell-next"><p>Happy with the mix? Your litre and retail selections are ready below.</p><div className="cross-sell-next-actions"><VolumeProfitModal triggerLabel="See volume savings & profit" /><a className="btn btn-dark" href="#order">Continue to salon details</a></div></div></div></section>;
+  return <section className="steps-band cross-sell" id="complete-order"><div className="wrap"><p className="eyebrow">Complete the order · Step 1</p><h2>Would you like to add any retail?</h2><p className="sub">Add products one at a time, or open the full configurator to compare every quantity and volume level on one screen.</p><RetailProductCards orderMode quantities={state.retail} onQuantityChange={setRetailQuantity} /><div className="cross-sell-next"><p>Want more room to compare the levels and potential profit?</p><div className="cross-sell-next-actions"><OrderConfiguratorModal state={state} setState={setState} triggerLabel="Configure quantities & profit" triggerClassName="profit-modal-trigger" /><a className="btn btn-dark" href="#order">Continue to salon details</a></div></div></div></section>;
 }
 
 export function ProductDetails() {

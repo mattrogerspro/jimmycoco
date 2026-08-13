@@ -5,6 +5,7 @@ import { MALIBU_UNIVERSAL_SHADE } from "../../lib/product-features";
 import { retailQuantitiesFromSearchParams, type RetailQuantities } from "../shared/RetailProductCards";
 import { professionalOrderPricing } from "../../lib/order-pricing";
 import { VolumeProfitModal } from "../shared/VolumeProfitModal";
+import { OrderConfiguratorModal } from "./OrderConfiguratorModal";
 
 export type PurchaseState = { shade: string; qty: number; retail: RetailQuantities };
 
@@ -81,7 +82,7 @@ export function ProductPurchase({ state, setState, ctaRef }: {
         <div><span>Revenue potential</span><b>{gbp(capacity * 25)}+</b><small>at £25 per tan · <Link to="/#calculator">your margins</Link></small></div>
       </div>
 
-      <div className="cta-col" ref={ctaRef}><a className="btn btn-bronze" href="#complete-order">Compose your trade order</a><Link className="trial-link" to="/#trial">New to Jimmy Coco? Start with a free trial →</Link></div>
+      <div className="cta-col" ref={ctaRef}><OrderConfiguratorModal state={state} setState={setState} /><Link className="trial-link" to="/#trial">New to Jimmy Coco? Start with a free trial →</Link></div>
       <p className="trust-line"><span>Free UK delivery</span><span>14-day returns</span><span>Secure ordering</span></p>
     </div>
   </div>;

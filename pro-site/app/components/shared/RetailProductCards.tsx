@@ -7,8 +7,9 @@ const BUFF_MITT_SRCSET = [480, 700, 960, 1200]
 
 const BUFF_MITT_SIZES = "(max-width: 620px) calc(100vw - 80px), (max-width: 900px) 420px, 320px";
 
-const products = [
+export const RETAIL_PRODUCTS = [
   {
+    id: "mitt",
     src: "buff-mitt-pro.webp",
     alt: "Buff & Glow Mitt in navy",
     badge: "The easy add-on",
@@ -18,6 +19,7 @@ const products = [
     suffix: "",
   },
   {
+    id: "souffle",
     src: "retail-souffle.webp",
     alt: "The Self Tan Soufflé with mitt and face mist bundle",
     badge: "The top-up seller",
@@ -27,6 +29,7 @@ const products = [
     suffix: "",
   },
   {
+    id: "kit",
     src: "retail-kit.webp",
     alt: "The A-List Glow Kit complete routine",
     badge: "The gift purchase",
@@ -37,11 +40,23 @@ const products = [
   },
 ] as const;
 
-export function RetailProductCards() {
+export type RetailProductId = typeof RETAIL_PRODUCTS[number]["id"];
+export type RetailQuantities = Record<RetailProductId, number>;
+
+export function RetailProductCards({
+  orderMode = false,
+  quantities,
+  onQuantityChange,
+}: {
+  orderMode?: boolean;
+  quantities?: RetailQuantities;
+  onQuantityChange?: (id: RetailProductId, quantity: number) => void;
+}) {
   return (
     <div className="shop-grid">
-      {products.map(({ src, alt, badge, title, description, price, suffix }) => (
-        <div className="pcard" key={src}>
+      {RETAIL_PRODUCTS.map(({ id, src, alt, badge, title, description, price, suffix }) => {
+        const quantity = quantities?.[id] ?? 0;
+        return <div className={`pcard${quantity > 0 ? " is-added" : ""}`} key={src}>
           <div className="pimg">
             <img
               src={asset(src)}
@@ -59,9 +74,16 @@ export function RetailProductCards() {
           <div className="pbody">
             <p className="pdesc">{description}</p>
             <span className="price">{price}<span>{suffix}</span></span>
+            {orderMode ? (
+              <div className="retail-order-controls">
+                <button type="button" className="retail-remove" disabled={quantity === 0} onClick={() => onQuantityChange?.(id, Math.max(0, quantity - 1))} aria-label={`Remove one ${title}`}>−</button>
+                <output aria-live="polite">{quantity === 0 ? "Not added" : `${quantity} added`}</output>
+                <button type="button" className="retail-add" onClick={() => onQuantityChange?.(id, quantity + 1)}>{quantity === 0 ? "Add to order" : "Add another"}<i aria-hidden="true">+</i></button>
+              </div>
+            ) : null}
           </div>
         </div>
-      ))}
+      })}
     </div>
   );
 }

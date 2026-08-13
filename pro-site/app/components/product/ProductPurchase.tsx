@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { gbp } from "../../lib/site";
 import { MALIBU_UNIVERSAL_SHADE } from "../../lib/product-features";
+import type { RetailQuantities } from "../shared/RetailProductCards";
 
-export type PurchaseState = { shade: string; qty: number };
+export type PurchaseState = { shade: string; qty: number; retail: RetailQuantities };
 
 export const SHADE_OPTIONS = [
   { name: "Light · 6% DHA", label: "LIGHT", className: "s1" },
@@ -76,7 +77,7 @@ export function ProductPurchase({ state, setState, ctaRef }: {
         <div><span>Revenue potential</span><b>{gbp(capacity * 25)}+</b><small>at £25 per tan · <Link to="/#calculator">your margins</Link></small></div>
       </div>
 
-      <div className="cta-col" ref={ctaRef}><a className="btn btn-bronze" href="#order">Compose your trade order</a><Link className="trial-link" to="/#trial">New to Jimmy Coco? Start with a free trial →</Link></div>
+      <div className="cta-col" ref={ctaRef}><a className="btn btn-bronze" href="#complete-order">Compose your trade order</a><Link className="trial-link" to="/#trial">New to Jimmy Coco? Start with a free trial →</Link></div>
       <p className="trust-line"><span>Free UK delivery</span><span>14-day returns</span><span>Secure ordering</span></p>
     </div>
   </div>;
@@ -97,11 +98,12 @@ export function StickyOrder({ state, target }: { state: PurchaseState; target: R
   }, [target]);
 
   const litres = `${state.qty} ${state.qty === 1 ? "litre" : "litres"}`;
-  return <div className={`sticky-order${visible ? " show" : ""}`}><div className="wrap"><div className="so-name">Malibu Professional Spray · 1L<small>{state.shade.split(" · ")[0]} · {litres}</small></div><div className="so-price">{gbp(60 * state.qty)}</div><a className="btn btn-bronze" href="#order">Compose order</a></div></div>;
+  const retailCount = Object.values(state.retail).reduce((sum, quantity) => sum + quantity, 0);
+  return <div className={`sticky-order${visible ? " show" : ""}`}><div className="wrap"><div className="so-name">Malibu Professional Spray · 1L<small>{state.shade.split(" · ")[0]} · {litres}{retailCount ? ` · ${retailCount} retail add-on${retailCount === 1 ? "" : "s"}` : ""}</small></div><div className="so-price">{gbp(60 * state.qty)}</div><a className="btn btn-bronze" href="#complete-order">Compose order</a></div></div>;
 }
 
 export function usePurchaseState() {
-  const [state, setState] = useState<PurchaseState>({ shade: MALIBU_UNIVERSAL_SHADE, qty: 1 });
+  const [state, setState] = useState<PurchaseState>({ shade: MALIBU_UNIVERSAL_SHADE, qty: 1, retail: { mitt: 0, souffle: 0, kit: 0 } });
   const ctaRef = useRef<HTMLDivElement>(null);
   return { state, setState, ctaRef };
 }

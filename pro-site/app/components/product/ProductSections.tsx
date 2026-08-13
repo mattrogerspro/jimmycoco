@@ -1,6 +1,6 @@
 import type { PurchaseState } from "./ProductPurchase";
 import { SHADE_OPTIONS } from "./ProductPurchase";
-import { useEffect } from "react";
+import { useEffect, type Dispatch, type SetStateAction } from "react";
 import { Form, useActionData, useNavigation } from "react-router";
 import type { ApplicationActionResult } from "../../lib/application-action.server";
 import { track } from "../../lib/analytics";
@@ -8,7 +8,7 @@ import { gbp } from "../../lib/site";
 import { SALON_FAQ } from "../../lib/faq";
 import { PRODUCT_SPECS, workedExamples } from "../../lib/specs";
 import { SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../../lib/product-features";
-import { RetailProductCards } from "../shared/RetailProductCards";
+import { RETAIL_PRODUCTS, RetailProductCards, type RetailProductId } from "../shared/RetailProductCards";
 
 export function ShadeComparison({ onChoose }: { onChoose: (shade: string) => void }) {
   const cards = [
@@ -21,8 +21,12 @@ export function ShadeComparison({ onChoose }: { onChoose: (shade: string) => voi
   return <section className="steps-band"><div className="wrap"><p className="eyebrow">Which shades should your salon stock?</p><h2>Build your shade menu.</h2><p className="sub">Most salons stock two or three depths to cover their full client mix.</p><div className="cmp-grid">{cards.map(([className, title, bestFor, result, shade], index) => <div className={`cmp-card ${className}`} key={title}>{index === 2 && <span className="pop-tag">Most popular</span>}<i /><h3>{title}</h3><dl><dt>Best for</dt><dd>{bestFor}</dd><dt>Result</dt><dd>{result}</dd><dt>Development</dt><dd>6–8 hours</dd></dl><button type="button" className={`btn ${index === 2 ? "btn-dark" : "btn-ghost"} btn-sm pick-shade`} onClick={() => choose(shade)}>Choose {title}</button></div>)}</div></div></section>;
 }
 
-export function CrossSell() {
-  return <section className="steps-band cross-sell"><div className="wrap"><p className="eyebrow">Complete the order</p><h2>Stock the shelf while you're at it.</h2><p className="sub">The retail range turns every tanning visit into a second sale — same brand, real margin, no extra chair time.</p><RetailProductCards /><p style={{ marginTop: 22, fontSize: 16.5, color: "var(--muted)" }}>Add retail to your order in the notes below — trade pricing across the range on your setup call.</p></div></section>;
+export function CrossSell({ state, setState }: { state: PurchaseState; setState: Dispatch<SetStateAction<PurchaseState>> }) {
+  const setRetailQuantity = (id: RetailProductId, quantity: number) => {
+    setState((current) => ({ ...current, retail: { ...current.retail, [id]: Math.max(0, Math.min(24, quantity)) } }));
+  };
+
+  return <section className="steps-band cross-sell" id="complete-order"><div className="wrap"><p className="eyebrow">Complete the order · Step 1</p><h2>Would you like to add any retail?</h2><p className="sub">Choose any shelf products you would like included. Add one or build a small opening range—the composition below updates as you go.</p><RetailProductCards orderMode quantities={state.retail} onQuantityChange={setRetailQuantity} /><div className="cross-sell-next"><p>Happy with the mix? Your litre and retail selections are ready below.</p><a className="btn btn-dark" href="#order">Continue to salon details</a></div></div></section>;
 }
 
 export function ProductDetails() {
@@ -50,9 +54,41 @@ export function OrderSection({ state }: { state: PurchaseState }) {
   const total = state.qty * 60;
   const capacity = state.qty * 28;
   const litres = `${state.qty} ${state.qty === 1 ? "litre" : "litres"}`;
-  const order = `Malibu Professional Spray 1L\nShade: ${state.shade}\nQuantity: ${litres}\nList total: ${gbp(total)} (trade terms to be applied)`;
-  return <section className="order-band" id="order"><div className="wrap"><p className="eyebrow">Salon order</p><h2>Your order, <em>composed.</em></h2><p className="sub">Review the summary — it follows your selections above — add your details, and it's with the partnerships team same-day. Trade terms applied before anything is charged.</p><div className="order-grid"><div className="osummary"><h3>Order summary</h3><div className="oline"><span>Product</span><b>Malibu Professional Spray</b></div><div className="oline"><span>Shade</span><b>{state.shade}</b></div><div className="oline"><span>Quantity</span><b>{litres}</b></div><div className="oline"><span>Tan capacity</span><b>≈{capacity} tans</b></div><div className="oline total"><span>List total</span><b>{gbp(total)}</b></div><p className="onote">Standard list pricing shown. Your trade terms are applied on the setup call before payment — nothing is charged from this page.</p></div>
-    <Form method="post" className="orderform" data-form-id="product_order" replace><h3>Send the order</h3><p>Same-day response, Monday to Friday.</p><label htmlFor="f-salon">Salon or business name</label><input id="f-salon" type="text" name="salon" autoComplete="organization" required /><label htmlFor="f-name">Your name</label><input id="f-name" type="text" name="name" autoComplete="name" required /><label htmlFor="f-email">Email address</label><input id="f-email" type="email" name="email" autoComplete="email" required /><label htmlFor="f-phone">Phone</label><input id="f-phone" type="tel" name="phone" autoComplete="tel" /><label htmlFor="f-order">Your order (auto-filled)</label><textarea id="f-order" name="order" readOnly value={order} /><label htmlFor="f-notes">Notes — retail add-ons, equipment, questions (optional)</label><textarea id="f-notes" name="notes" style={{ minHeight: 70 }} /><input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />{orderResult && !orderResult.ok ? <p className="form-error" role="alert">{orderResult.message}</p> : null}{orderResult?.ok ? <p className="form-ok" role="status">Thank you — your order request is with us. We will confirm trade terms and invoice by email.</p> : null}<button className="btn btn-bronze" type="submit" disabled={sending}>{sending ? "Sending…" : "Send my salon order"}</button><small>No payment taken now · trade terms confirmed first · 14-day guarantee</small></Form>
+  const retailLines = RETAIL_PRODUCTS.filter(({ id }) => state.retail[id] > 0);
+  const retailCount = retailLines.reduce((sum, { id }) => sum + state.retail[id], 0);
+  const order = [
+    "Malibu Professional Spray 1L",
+    `Shade: ${state.shade}`,
+    `Quantity: ${litres}`,
+    `Solution list subtotal: ${gbp(total)}`,
+    "",
+    "Retail additions:",
+    ...(retailLines.length ? retailLines.map(({ id, title }) => `${title}: ${state.retail[id]}`) : ["None selected"]),
+    "",
+    "Trade terms and retail pricing to be confirmed before payment.",
+  ].join("\n");
+
+  return <section className="order-band" id="order"><div className="wrap"><p className="eyebrow">Salon order · Step 2</p><h2>Your order, <em>composed.</em></h2><p className="sub">Add your salon details and review the live composition beside the form. Nothing is charged until your trade terms are confirmed.</p><div className="order-grid">
+    <Form method="post" className="orderform" data-form-id="product_order" replace>
+      <div className="orderform-head"><span>Trade order request</span><h3>Where should we send the confirmation?</h3><p>Complete your details and the partnerships team will confirm pricing and availability.</p></div>
+      <label htmlFor="f-salon">Salon or business name</label><input id="f-salon" type="text" name="salon" autoComplete="organization" required />
+      <div className="orderform-fields"><div><label htmlFor="f-name">Your name</label><input id="f-name" type="text" name="name" autoComplete="name" required /></div><div><label htmlFor="f-phone">Phone</label><input id="f-phone" type="tel" name="phone" autoComplete="tel" /></div></div>
+      <label htmlFor="f-email">Email address</label><input id="f-email" type="email" name="email" autoComplete="email" required />
+      <label htmlFor="f-notes">Anything else we should know? <small>Optional</small></label><textarea id="f-notes" name="notes" placeholder="Delivery timing, equipment or any questions…" />
+      <input type="hidden" name="order" value={order} />
+      <input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />
+      {orderResult && !orderResult.ok ? <p className="form-error" role="alert">{orderResult.message}</p> : null}
+      {orderResult?.ok ? <p className="form-ok" role="status">Thank you — your order request is with us. We will confirm trade terms and invoice by email.</p> : null}
+      <button className="btn btn-bronze" type="submit" disabled={sending}>{sending ? "Sending…" : "Send my composed order"}</button><small className="order-reassurance">No payment taken now · trade terms confirmed first · 14-day guarantee</small>
+    </Form>
+
+    <aside className="ocomposition" aria-live="polite">
+      <div className="ocomposition-head"><div><span>Live order composition</span><h3>Your salon order</h3></div><b>{state.qty + retailCount} item{state.qty + retailCount === 1 ? "" : "s"}</b></div>
+      <div className="order-product order-product-main"><img src="/assets/site/product-01-0003c7706e6e.jpg" alt="" width="900" height="900" /><div><span>Professional solution</span><strong>Malibu Spray · 1L</strong><small>Universal bronze glow · ≈{capacity} tans</small></div><output>×{state.qty}</output></div>
+      <div className="order-retail-heading"><span>Retail additions</span><a href="#complete-order">Edit selection ↑</a></div>
+      {retailLines.length ? retailLines.map(({ id, src, title, badge }) => <div className="order-product" key={id}><img src={`/assets/site/${src}`} alt="" width="700" height="700" /><div><span>{badge}</span><strong>{title}</strong><small>Trade price confirmed before payment</small></div><output>×{state.retail[id]}</output></div>) : <div className="order-empty"><b>No retail added yet</b><span>Your professional litre is ready. Retail products are completely optional.</span><a href="#complete-order">Add retail products</a></div>}
+      <div className="order-totals"><div><span>Solution list subtotal</span><b>{gbp(total)}</b></div><div><span>Retail products</span><b>{retailCount ? `${retailCount} selected` : "None"}</b></div><p>Final trade pricing is confirmed with you before invoicing. No payment is taken from this page.</p></div>
+    </aside>
   </div></div></section>;
 }
 

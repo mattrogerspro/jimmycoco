@@ -99,10 +99,10 @@ export default function ProductPage() {
       <Story />
       {SHOW_LEGACY_MALIBU_SHADE_RANGE ? <ShadeComparison onChoose={(shade) => setState((current) => ({ ...current, shade }))} /> : null}
       <ApplicationRitual />
-      <CrossSell />
       <Specification />
       <ProductDetails />
       <SalonFaq />
+      <CrossSell state={state} setState={setState} />
       <OrderSection state={state} />
     </main>
     <SiteFooter page="product" />

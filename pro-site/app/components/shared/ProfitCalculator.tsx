@@ -233,9 +233,9 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
                   <small>from the booth and shelf · before labour and premises</small>
                 </div>
                 <div className="ocard">
-                  <span>Contribution per tan</span>
+                  <span>Profit per tan before labour &amp; premises</span>
                   <b>{gbp(totals.grossPerTan, 2)}</b>
-                  <small>after solution, consumables and card fees</small>
+                  <small>after solution, disposables and card fees</small>
                 </div>
                 <div className="ocard">
                   <span>Estimated weekly gross profit</span>

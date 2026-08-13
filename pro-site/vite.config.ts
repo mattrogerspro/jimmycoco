@@ -6,7 +6,7 @@ import { defineConfig } from "vite";
 // responses to be cached as immutable. Adding this banner changes every
 // JavaScript chunk hash without changing the public /assets directory, so
 // browsers cannot reuse those poisoned 404 entries.
-const ASSET_CACHE_RESET = "2026-08-13-reset-1";
+const ASSET_CACHE_RESET = "2026-08-13-reset-2";
 
 /**
  * Date the site's content last changed, resolved at BUILD time and baked into

@@ -89,7 +89,7 @@ export default function HomePage() {
       <StructuredData data={schema} />
       <Announcement />
       <SiteHeader />
-      <main>
+      <main data-asset-revision="2026-08-13-home-reset-2">
         <Hero />
         <Story />
         <Formula />

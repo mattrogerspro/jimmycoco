@@ -91,7 +91,7 @@ export default function ProductPage() {
     <StructuredData data={schema} />
     <Announcement page="product" />
     <SiteHeader page="product" />
-    <main>
+    <main data-asset-revision="2026-08-13-product-reset-2">
       <section className="pdp-shell">
         <div className="wrap crumbs"><Link to="/">Professional</Link> › <Link to="/#shades">Malibu Solution</Link> › <b>1 Litre · Salon Order</b></div>
         <ProductPurchase state={state} setState={setState} ctaRef={ctaRef} />

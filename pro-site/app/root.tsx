@@ -49,7 +49,7 @@ const STORY_MOTION_BOOTSTRAP = `(()=>{const scene=document.querySelector('.story
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-GB">
+    <html lang="en-GB" data-asset-revision="2026-08-13-reset-2">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

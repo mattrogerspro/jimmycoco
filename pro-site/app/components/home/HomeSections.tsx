@@ -44,7 +44,7 @@ function HeroBottle() {
 
 export function Hero() {
   return (
-    <div className="fold">
+    <div className="fold" data-asset-revision="2026-08-13-sections-reset-2">
       <section className="hero" id="top">
         <div className="hero-inner"><div className="hero-copy">
           <p className="eyebrow">For salons, spas &amp; mobile professionals</p>

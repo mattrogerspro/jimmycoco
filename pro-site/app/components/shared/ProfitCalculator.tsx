@@ -228,7 +228,7 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
             ) : (
               <>
                 <div className="ocard hero-num">
-                  <span>Estimated monthly contribution</span>
+                  <span>Estimated monthly gross profit</span>
                   <b>{gbp(totals.grossMonth)}</b>
                   <small>from the booth and shelf · before labour and premises</small>
                 </div>
@@ -238,12 +238,12 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
                   <small>after solution, consumables and card fees</small>
                 </div>
                 <div className="ocard">
-                  <span>Weekly contribution</span>
+                  <span>Estimated weekly gross profit</span>
                   <b>{gbp(totals.boothGrossWeek + totals.retailProfitWeek)}</b>
                   <small>booth and retail combined</small>
                 </div>
                 <div className="ocard">
-                  <span>Weekly retail contribution</span>
+                  <span>Retail profit per week</span>
                   <b>{gbp(totals.retailProfitWeek)}</b>
                   <small>based on £18 items at 50% margin</small>
                 </div>

@@ -20,22 +20,23 @@
 
 .calc-levers {
   margin-top: 46px;
-  padding: 34px clamp(20px, 3vw, 40px);
+  padding: 48px clamp(28px, 4vw, 64px);
   border: 1px solid rgba(237, 228, 215, .22);
   border-radius: 6px;
   background: rgba(255, 253, 249, .05);
 }
 
 .calc-levers-head h3 {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Walbaum', Georgia, serif;
   font-weight: 400;
-  font-size: clamp(26px, 2.6vw, 36px);
-  margin-bottom: 6px;
+  font-size: clamp(38px, 3.4vw, 54px);
+  line-height:1.08;
+  margin-bottom: 12px;
 }
 
-.calc-levers-head p { font-size: 18px; opacity: .74; margin-bottom: 24px; }
+.calc-levers-head p { font-size: 22px; line-height:1.5; opacity: .74; margin-bottom: 34px; }
 
-.levers-table { width: 100%; border-collapse: collapse; font-size: 18px; }
+.levers-table { width: 100%; border-collapse: collapse; font-size: 21px; }
 
 .levers-table th[scope="col"],
 .levers-table td:first-child {
@@ -43,12 +44,12 @@
 }
 
 .levers-table thead th {
-  font-size: 13px;
+  font-size: 16px;
   letter-spacing: .16em;
   text-transform: uppercase;
   font-weight: 600;
   opacity: .6;
-  padding-bottom: 12px;
+  padding-bottom: 16px;
   border-bottom: 1px solid rgba(237, 228, 215, .22);
 }
 
@@ -57,25 +58,31 @@
 
 .levers-table tbody th {
   text-align: left;
-  font-weight: 600;
-  padding: 16px 20px 16px 0;
+  font-size:22px;
+  font-weight: 650;
+  line-height:1.35;
+  padding: 22px 28px 22px 0;
   border-bottom: 1px solid rgba(237, 228, 215, .14);
 }
 
 .levers-table tbody th small {
   display: block;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 18px;
+  line-height:1.5;
   opacity: .62;
-  margin-top: 4px;
-  max-width: 46ch;
+  margin-top: 7px;
+  max-width: 58ch;
 }
 
 .levers-table tbody td {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(22px, 2.2vw, 30px);
+  font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(30px, 3vw, 44px);
+  font-weight:700;
+  line-height:1.1;
+  font-variant-numeric:lining-nums tabular-nums;
   white-space: nowrap;
-  padding: 16px 0;
+  padding: 22px 0;
   border-bottom: 1px solid rgba(237, 228, 215, .14);
   vertical-align: top;
 }
@@ -83,7 +90,7 @@
 .levers-table tbody tr:last-child th,
 .levers-table tbody tr:last-child td { opacity: .72; }
 
-.calc-levers .note { margin-top: 22px; }
+.calc-levers .note { max-width:none;margin-top:28px;font-size:21px;line-height:1.65; }
 
 .field-hint {
   display: block;
@@ -195,8 +202,11 @@
   .tool-hero { padding: 52px 0 46px; }
   .tool-prose { padding: 56px 0 68px; }
   .tool-prose p { font-size: 18px; }
-  .tool-table, .levers-table { font-size: 16px; }
-  .levers-table tbody td { font-size: 21px; }
+  .tool-table, .levers-table { font-size: 17px; }
+  .calc-levers{padding:30px 20px}.calc-levers-head h3{font-size:36px}.calc-levers-head p{font-size:19px}
+  .levers-table thead th{font-size:13px}.levers-table tbody th{font-size:19px;padding:19px 16px 19px 0}.levers-table tbody th small{font-size:16px}
+  .levers-table tbody td { font-size:26px;padding:19px 0; }
+  .calc-levers .note{font-size:18px}
   .tool-table th[scope="row"], .tool-table td { padding-top: 11px; padding-bottom: 11px; }
 }
 

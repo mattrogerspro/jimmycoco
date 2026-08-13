@@ -210,7 +210,7 @@ export function Retail() {
     : 0;
   const unqualifiedSouffleCount = buildingToStarter + darkBuildingToStarter;
   const selectionQuery = retailQuantitiesToSearchParams(quantities).toString();
-  const composePath = `${PRODUCT_PATH}${selectionQuery ? `?${selectionQuery}` : ""}#complete-order`;
+  const composePath = `${PRODUCT_PATH}${selectionQuery ? `?${selectionQuery}` : ""}`;
 
   return <section className="retail" id="retail">
     <picture className="retail-background" aria-hidden="true">

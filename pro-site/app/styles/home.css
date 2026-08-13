@@ -377,6 +377,32 @@
   .calc-compact .ocard.hero-num b{font-size:50px}
   .calc-compact .calc-cta{gap:12px}
   .calc-compact .calc-cta .btn{padding:14px 22px;font-size:13px}
+  /* Homepage calculator — light treatment. Keep the full calculator tool's
+     darker analytical workspace unchanged; this atmospheric treatment belongs
+     only to the compact homepage section. */
+  .calc-compact{background:#E7DED2}
+  .calc-compact .calc-background img{filter:saturate(.88) contrast(.96)}
+  .calc-compact .eyebrow{color:var(--bronze2)}
+  .calc-compact h2{color:var(--ink)}
+  .calc-compact .sub{color:#51483F}
+  .calc-compact .calc-in{background:rgba(253,251,248,.9);border-color:rgba(135,84,46,.22);box-shadow:0 18px 50px rgba(72,51,34,.12);backdrop-filter:blur(8px)}
+  .calc-compact .calc-group h3{color:var(--bronze2)}
+  .calc-compact .field label{color:var(--ink2)}
+  .calc-compact .field label output{color:var(--ink);font-weight:700}
+  .calc-compact .field input[type=range]::-webkit-slider-runnable-track{background:rgba(94,74,58,.24)}
+  .calc-compact .field input[type=range]::-webkit-slider-thumb{border-color:var(--paper);box-shadow:0 3px 10px rgba(72,51,34,.28)}
+  .calc-compact .field input[type=range]::-moz-range-track{background:rgba(94,74,58,.24)}
+  .calc-compact .field input[type=range]::-moz-range-thumb{border-color:var(--paper);box-shadow:0 3px 10px rgba(72,51,34,.28)}
+  .calc-compact .calc-in > .note{color:#655B51;border-top-color:rgba(135,84,46,.2)}
+  .calc-compact .ocard{background:rgba(253,251,248,.9);border-color:rgba(135,84,46,.2);box-shadow:0 12px 34px rgba(72,51,34,.1);backdrop-filter:blur(8px)}
+  .calc-compact .ocard span{color:#725D4C}
+  .calc-compact .ocard b{color:var(--ink)}
+  .calc-compact .ocard small{color:#655B51}
+  .calc-compact .ocard.hero-num{background:linear-gradient(120deg,rgba(243,228,211,.96),rgba(253,251,248,.9));border-color:rgba(152,96,58,.38)}
+  .calc-compact .ocard.hero-num span{color:var(--bronze2)}
+  .calc-compact .ocard.hero-num b{color:var(--ink)}
+  .calc-compact .btn-outline-light{border-color:rgba(25,21,18,.7);color:var(--ink);background:rgba(253,251,248,.5)}
+  .calc-compact .btn-outline-light:hover{border-color:var(--ink);background:rgba(253,251,248,.9)}
   @media (min-width:901px) and (max-height:800px){
     .calc{min-height:min(580px,calc(90svh - 74px));padding:22px 0}
     .calc-grid{margin-top:16px}
@@ -628,6 +654,7 @@
     .story-proof strong{font-size:clamp(27px,7vw,42px)}
     .calc{height:auto;min-height:0;display:block}
     .calc-compact{height:calc(100svh - var(--calc-nav-height));overflow-y:auto;overscroll-behavior-y:contain}
+    .calc-compact .calc-background{--calc-background-position:78% center}
     .calc-compact > .wrap{max-width:88vw;padding:0}
     .calc-head,.calc-in{grid-template-columns:1fr}
     .calc-cta{flex-direction:column;text-align:center}
@@ -822,6 +849,7 @@
     section{padding:52px 0}
     .calc-compact > .wrap{max-width:100%;padding-right:16px;padding-left:16px}
     .calc-compact{padding:18px 0}
+    .calc-compact .calc-background{--calc-background-position:82% center}
     .calc-compact .calc-head{grid-template-columns:1fr;gap:5px}
     .calc-compact .calc-head .eyebrow{font-size:10px;line-height:1.4;margin-bottom:2px}
     .calc-compact h2{font-size:30px;line-height:1;margin-bottom:0}

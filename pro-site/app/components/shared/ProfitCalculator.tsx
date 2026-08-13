@@ -5,8 +5,8 @@ import { debounceTrack, track, trackOnce } from "../../lib/analytics";
 import { DEFAULTS, type Inputs, calculate, levers } from "../../lib/calculator";
 
 export const CALCULATOR_PATH = "/tools/spray-tan-profit-calculator";
-const CALCULATOR_BACKGROUND_SRCSET = [480, 768, 1080, 1440, 1920, 2560]
-  .map((width) => `/assets/site/calculator-background-${width}.webp ${width}w`)
+const CALCULATOR_BACKGROUND_SRCSET = [480, 768, 1080, 1440, 1920, 2560, 3200, 4096]
+  .map((width) => `/assets/site/calculator-background-light-${width}.webp ${width}w`)
   .join(", ");
 
 type Mode = "compact" | "full";
@@ -117,12 +117,12 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
       {!full && (
         <picture className="calc-background" aria-hidden="true">
           <img
-            src="/assets/site/calculator-background-2560.webp"
+            src="/assets/site/calculator-background-light-4096.webp"
             srcSet={CALCULATOR_BACKGROUND_SRCSET}
-            sizes="100vw"
+            sizes="(max-width: 900px) 233vh, 100vw"
             alt=""
-            width="2560"
-            height="1100"
+            width="4096"
+            height="1760"
             loading="lazy"
             decoding="async"
           />

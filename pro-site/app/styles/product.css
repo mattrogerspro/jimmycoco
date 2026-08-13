@@ -28,6 +28,7 @@
   .btn-ghost{border:1.5px solid var(--ink);color:var(--ink);background:transparent;padding:16.5px 30px}
   .btn-sm{padding:13px 22px;font-size:13px}
   .pdp-shell{padding:0;background:var(--paper)}
+  .pdp,.order-band,.sticky-order{font-variant-numeric:lining-nums tabular-nums}
   .crumbs{height:44px;font-size:14.5px;color:var(--muted);padding:14px 24px 0}
   .crumbs a{text-decoration:none}
   .crumbs a:hover{color:var(--bronze)}
@@ -45,13 +46,14 @@
   .product-heading{display:grid;gap:5px}
   .bb-eyebrow{font-size:16px;letter-spacing:.24em;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:12px}
   h1{font-family:'Walbaum',Georgia,serif;font-weight:400;font-size:clamp(36px,3.2vw,52px);line-height:1.04;color:var(--ink);letter-spacing:-.01em;margin-bottom:4px}
+  h1 .title-number{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:600;letter-spacing:-.035em}
   .rating-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:15.5px;color:var(--muted)}
   .stars{color:var(--bronze);letter-spacing:2px;font-size:18px}
   .price-block{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(9px,1.1svh,15px) 0}
   .price-row{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
-  .price-big{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:44px;color:var(--ink);letter-spacing:-.03em}
+  .price-big{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:44px;color:var(--ink);letter-spacing:-.035em;font-variant-numeric:lining-nums tabular-nums}
   .price-big small{font-size:19px;color:var(--muted);font-family:'Montserrat',sans-serif}
-  .pertan{background:var(--cream);border:1px solid var(--line);color:var(--bronze2);border-radius:999px;padding:8px 18px;font-size:16px;font-weight:600}
+  .pertan{background:var(--cream);border:1px solid var(--line);color:var(--bronze2);border-radius:999px;padding:8px 18px;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:600;font-variant-numeric:lining-nums tabular-nums}
   .price-block>p{font-size:14px;color:var(--muted);margin-top:2px}
   .purchase-control{display:grid;gap:7px}
   .sel-label{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze2);font-weight:600}
@@ -66,7 +68,7 @@
   .qtyrow{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
   .stepper{display:flex;border:1.5px solid var(--line);border-radius:6px;overflow:hidden}
   .stepper button{width:44px;border:0;background:var(--cream);font-size:20px;cursor:pointer;color:var(--ink);font-family:inherit}
-  .stepper output{width:52px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:var(--ink)}
+  .stepper output{width:52px;display:flex;align-items:center;justify-content:center;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:18px;font-weight:600;color:var(--ink);font-variant-numeric:lining-nums tabular-nums}
   .shortcut-label{display:flex;align-items:center;color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-left:4px}
   .qpick{min-height:44px;border:1.5px solid var(--bronze);border-radius:999px;background:#FFF9F2;padding:0 8px 0 17px;display:inline-flex;align-items:center;gap:10px;font-family:inherit;font-size:13.5px;font-weight:650;color:var(--ink2);cursor:pointer;box-shadow:0 3px 0 rgba(143,91,51,.2);transition:transform .15s ease,box-shadow .15s ease,background .15s ease,color .15s ease}
   .qpick i{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:var(--bronze);color:#fff;font-size:17px;font-style:normal;line-height:1}
@@ -79,7 +81,7 @@
   .maths>div:first-child{padding-left:0;border-left:0}
   .maths>div:last-child{padding-right:0}
   .maths div span{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#C9BCAB;margin-bottom:1px}
-  .maths div b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:500;font-size:clamp(29px,2vw,35px);color:#FFFDF9;letter-spacing:-.035em;line-height:1.15}
+  .maths div b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:clamp(29px,2vw,35px);color:#FFFDF9;letter-spacing:-.035em;line-height:1.15;font-variant-numeric:lining-nums tabular-nums}
   .maths div:nth-child(3) b{font-size:clamp(26px,1.75vw,32px);white-space:nowrap}
   .maths div small{display:block;font-size:12px;color:#AFA397;margin-top:0}
   .maths a{color:var(--gold);font-weight:600;text-underline-offset:3px}
@@ -116,15 +118,8 @@
   .cmp-card dd{margin:2px 0 0;font-size:16.5px;color:var(--ink2)}
   .cmp-card .btn{width:100%}
   .steps-band{background:var(--cream)}
-  /* cross sell */
-  .xs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:44px}
-  .xs-card{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--paper);box-shadow:0 12px 34px rgba(25,21,18,.06)}
-  .xs-card .xi{background:#F3EDE4;padding:28px}
-  .xs-card .xi img{aspect-ratio:1/1;object-fit:contain;width:100%}
-  .xs-card div.xb{padding:24px 28px 28px}
-  .xs-card h3{font-family:'Walbaum',Georgia,serif;font-weight:500;font-size:25px;color:var(--ink);margin-bottom:6px}
-  .xs-card p{font-size:16.5px;color:var(--muted);margin-bottom:10px}
-  .xs-card b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:20px;color:var(--ink);font-weight:600}
+  /* cross sell uses the same shared retail cards as the homepage */
+  .cross-sell .shop-grid{margin-top:44px}
   /* accordions */
   details.acc{border-bottom:1px solid var(--line)}
   details.acc summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:22px 4px;font-size:20px;font-weight:600;color:var(--ink)}
@@ -160,7 +155,7 @@
   .osummary{background:rgba(253,251,248,.06);border:1px solid rgba(237,228,215,.16);border-radius:10px;padding:32px 34px}
   .osummary h3{font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;font-weight:600}
   .oline{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(237,228,215,.12);font-size:18px;color:#EDE4D7}
-  .oline b{color:#FFFDF9}
+  .oline b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:600;color:#FFFDF9;font-variant-numeric:lining-nums tabular-nums}
   .oline.total{border-bottom:0;font-size:22px;padding-top:18px}
   .oline.total b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:28px;font-weight:600}
   .onote{font-size:15.5px;color:#8F857A;margin-top:16px;line-height:1.55}
@@ -236,7 +231,7 @@
     .gallery{height:auto;display:block}
     .gmain img{height:auto;aspect-ratio:1/1}
     .buybox{height:auto;gap:22px}
-    .res-grid,.xs-grid{grid-template-columns:1fr;max-width:520px;margin-left:auto;margin-right:auto}
+    .res-grid{grid-template-columns:1fr;max-width:520px;margin-left:auto;margin-right:auto}
     .cmp-grid{grid-template-columns:1fr 1fr}
     .nav-links{display:none}
     .maths{grid-template-columns:1fr 1fr}

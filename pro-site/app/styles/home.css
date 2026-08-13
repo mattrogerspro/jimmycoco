@@ -547,7 +547,8 @@
   .pcard .pimg{position:relative;isolation:isolate;min-height:clamp(190px,27svh,300px);flex:1 1 auto;overflow:hidden;background:#F3EDE4;padding:0}
   .pcard .pimg::after{content:"";position:absolute;z-index:1;inset:28% 0 0;background:linear-gradient(180deg,rgba(10,28,40,0) 0%,rgba(10,28,40,.16) 42%,rgba(10,28,40,.9) 100%);pointer-events:none}
   .pcard .pimg img{position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center;border:0}
-  .pimage-copy{position:absolute;z-index:2;inset:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:9px;padding:16px 18px;pointer-events:none}
+  .pimage-badge{position:absolute;z-index:3;top:16px;left:18px;pointer-events:none}
+  .pimage-copy{position:absolute;z-index:2;inset:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:16px 18px;pointer-events:none}
   .pcard .pbody{min-height:clamp(108px,13svh,138px);overflow:hidden;padding:clamp(11px,1.7svh,17px) 20px clamp(12px,1.8svh,19px);display:flex;flex-direction:column;align-items:flex-start;gap:7px;flex:0 0 auto;text-align:left}
   .badge{align-self:flex-start;background:var(--ocean);color:#FFFDF9;border-radius:3px;font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;padding:6px 10px}
   .pcard h3{font-family:'Walbaum',Georgia,serif;font-weight:500;font-size:clamp(24px,2.15vw,31px);color:#FFFDF9;line-height:1.06;text-shadow:0 2px 16px rgba(10,28,40,.5)}
@@ -564,7 +565,8 @@
     .retail .sub{font-size:14.5px;line-height:1.4}
     .shop-grid{gap:12px;margin:8px auto 8px 0}
     .pcard .pimg{min-height:145px;padding:0}
-    .pimage-copy{gap:5px;padding:10px 13px}
+    .pimage-badge{top:10px;left:13px}
+    .pimage-copy{padding:10px 13px}
     .pcard .pbody{padding:8px 14px 10px;gap:4px}
     .pcard h3{font-size:20px}
     .pcard .pdesc{font-size:12px;line-height:1.35;-webkit-line-clamp:2}
@@ -705,6 +707,7 @@
     .shop-grid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;flex:0 0 auto;max-width:760px;margin:clamp(14px,2.8svh,30px) 0 clamp(10px,1.8svh,18px)}
     .pcard{height:auto;min-height:0}
     .pcard .pimg{min-height:clamp(180px,27svh,260px);padding:0}
+    .pimage-badge{top:14px;left:15px}
     .pimage-copy{padding:14px 15px}
     .pcard .pbody{min-height:108px;overflow:hidden;padding:12px 14px 14px;gap:6px}
     .pcard h3{font-size:24px}
@@ -889,7 +892,8 @@
     .shop-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(82vw,310px);align-items:stretch;max-width:none;width:100%;gap:12px;margin:clamp(10px,1.8svh,16px) 0 8px;padding-bottom:5px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-inline:contain;scroll-snap-type:inline mandatory;scrollbar-width:thin;touch-action:pan-x;-webkit-overflow-scrolling:touch}
     .pcard{scroll-snap-align:start}
     .pcard .pimg{min-height:clamp(220px,34svh,280px);padding:0}
-    .pimage-copy{gap:7px;padding:14px 16px}
+    .pimage-badge{top:14px;left:16px}
+    .pimage-copy{padding:14px 16px}
     .pcard .pbody{min-height:112px;padding:10px 14px 12px;gap:4px}
     .badge{font-size:9px;padding:5px 8px}
     .pcard h3{font-size:25px}

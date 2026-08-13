@@ -8,13 +8,7 @@ import { gbp } from "../../lib/site";
 import { SALON_FAQ } from "../../lib/faq";
 import { PRODUCT_SPECS, workedExamples } from "../../lib/specs";
 import { SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../../lib/product-features";
-
-const asset = (name: string) => `/assets/site/${name}`;
-const BUFF_MITT_SRCSET = [480, 700, 960, 1200]
-  .map((width) => `${asset(`buff-mitt-pro-${width}.webp`)} ${width}w`)
-  .concat(`${asset("buff-mitt-pro.webp")} 1600w`)
-  .join(", ");
-const BUFF_MITT_SIZES = "(max-width: 640px) 80vw, 320px";
+import { RetailProductCards } from "../shared/RetailProductCards";
 
 export function ShadeComparison({ onChoose }: { onChoose: (shade: string) => void }) {
   const cards = [
@@ -28,12 +22,7 @@ export function ShadeComparison({ onChoose }: { onChoose: (shade: string) => voi
 }
 
 export function CrossSell() {
-  const items: Array<[string, string, string, string, number, number]> = [
-    ["buff-mitt-pro.webp", "Buff & Glow Mitt", "The 30-second checkout add-on", "RRP £15", 1600, 1600],
-    ["product-09-d075d24d746f.jpg", "The Self Tan Soufflé", "The top-up seller between visits · L / M / D", "From RRP £18", 950, 950],
-    ["product-10-64a58fd5e4a1.jpg", "The A-List Glow Kit", "The gift purchase · six pieces", "RRP £59", 900, 888],
-  ];
-  return <section className="steps-band"><div className="wrap"><p className="eyebrow">Complete the order</p><h2>Stock the shelf while you're at it.</h2><p className="sub">The retail range turns every tanning visit into a second sale — same brand, real margin, no extra chair time.</p><div className="xs-grid">{items.map(([src, title, copy, price, width, height]) => <div className="xs-card" key={src}><div className="xi"><img src={asset(src)} srcSet={src === "buff-mitt-pro.webp" ? BUFF_MITT_SRCSET : undefined} sizes={src === "buff-mitt-pro.webp" ? BUFF_MITT_SIZES : undefined} alt={title} width={width} height={height} loading="lazy" decoding="async" /></div><div className="xb"><h3>{title}</h3><p>{copy}</p><b>{price}</b></div></div>)}</div><p style={{ marginTop: 22, fontSize: 16.5, color: "var(--muted)" }}>Add retail to your order in the notes below — trade pricing across the range on your setup call.</p></div></section>;
+  return <section className="steps-band cross-sell"><div className="wrap"><p className="eyebrow">Complete the order</p><h2>Stock the shelf while you're at it.</h2><p className="sub">The retail range turns every tanning visit into a second sale — same brand, real margin, no extra chair time.</p><RetailProductCards /><p style={{ marginTop: 22, fontSize: 16.5, color: "var(--muted)" }}>Add retail to your order in the notes below — trade pricing across the range on your setup call.</p></div></section>;
 }
 
 export function ProductDetails() {

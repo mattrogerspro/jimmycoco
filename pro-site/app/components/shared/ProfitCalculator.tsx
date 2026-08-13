@@ -185,7 +185,7 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
             <p className="note">
               {full
                 ? "Retail margin is illustrative — your exact trade terms are confirmed on your setup call. Every assumption is listed below the calculator."
-                : "Quick estimate: £60 per litre, 28 tans per litre, £18 average retail item and 50% illustrative retail margin. Open the full calculator to change every cost."}
+                : `Quick estimate: ${gbp(DEFAULTS.litrePrice)} per litre, ${DEFAULTS.tansPerLitre} tans per litre, £18 average retail item and 50% illustrative retail margin. Open the full calculator to change every cost.`}
             </p>
           </div>
 
@@ -259,7 +259,7 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
               {full ? (
                 <>
                   <Link className="btn btn-bronze" to={PRODUCT_PATH}>
-                    Order the litre — £60
+                    Order the litre — {gbp(DEFAULTS.litrePrice)}
                   </Link>
                   <Link className="btn btn-outline-light" to="/#trial">
                     Start with a free trial

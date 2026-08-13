@@ -1,45 +1,47 @@
-export const TANS_PER_LITRE = 28;
-export const DEFAULT_TREATMENT_PRICE = 25;
-export const RETAIL_SOUFFLE_RRP = 22;
-export const RETAIL_MITT_UNIT_PRICE = 15;
-export const RETAIL_KIT_UNIT_PRICE = 59;
-export const RETAIL_MITT_RRP = 15;
-export const RETAIL_KIT_RRP = 59;
+import pricing from "../../retail-pricing.json";
 
-export const PROFESSIONAL_VOLUME_TIERS = [
-  { name: "Starter", range: "1–4 litres", minQuantity: 1, exampleQuantity: 1, unitPrice: 60 },
-  { name: "Growth", range: "5–9 litres", minQuantity: 5, exampleQuantity: 5, unitPrice: 55 },
-  { name: "Premium", range: "10+ litres", minQuantity: 10, exampleQuantity: 10, unitPrice: 50 },
-] as const;
+export type RetailPricingProductId = keyof typeof pricing.retail;
+type RetailTier = { name: string; minQuantity: number; unitPrice: number };
 
-export const RETAIL_VOLUME_TIERS = [
-  { name: "Starter", quantity: 6, unitPrice: 14 },
-  { name: "Growth", quantity: 12, unitPrice: 12.5 },
-  { name: "Premium", quantity: 24, unitPrice: 11 },
-] as const;
+export const TANS_PER_LITRE = pricing.assumptions.tansPerLitre;
+export const DEFAULT_TREATMENT_PRICE = pricing.assumptions.treatmentPrice;
 
-export const RETAIL_MITT_VOLUME_TIERS = [
-  { name: "Starter", quantity: 6, unitPrice: 11.5 },
-  { name: "Growth", quantity: 12, unitPrice: 9.5 },
-  { name: "Premium", quantity: 24, unitPrice: 7.5 },
-] as const;
+export const PROFESSIONAL_VOLUME_TIERS = pricing.professional.malibu1L.tiers.map((tier) => ({
+  name: tier.name,
+  range: tier.maxQuantity === null ? `${tier.minQuantity}+ litres` : `${tier.minQuantity}–${tier.maxQuantity} litres`,
+  minQuantity: tier.minQuantity,
+  exampleQuantity: tier.exampleQuantity,
+  unitPrice: tier.unitPrice,
+}));
 
-export const RETAIL_KIT_VOLUME_TIERS = [
-  { name: "Starter", quantity: 6, unitPrice: 49 },
-  { name: "Growth", quantity: 12, unitPrice: 42.5 },
-  { name: "Premium", quantity: 24, unitPrice: 37.5 },
-] as const;
-
-export function retailProductVolumeTiers(productId: string) {
-  if (productId === "mitt") return RETAIL_MITT_VOLUME_TIERS;
-  if (productId === "kit") return RETAIL_KIT_VOLUME_TIERS;
-  return RETAIL_VOLUME_TIERS;
+export function retailProductConfig(productId: string) {
+  if (!(productId in pricing.retail)) return undefined;
+  return pricing.retail[productId as RetailPricingProductId];
 }
 
+export function retailProductRrp(productId: string) {
+  return retailProductConfig(productId)?.rrp ?? 0;
+}
+
+export function retailProductVolumeTiers(productId: string): RetailTier[] {
+  return (retailProductConfig(productId)?.volumeTiers ?? []).map((tier) => ({ ...tier }));
+}
+
+export const RETAIL_VOLUME_TIERS = retailProductVolumeTiers("souffleMedium").map((tier) => ({
+  name: tier.name,
+  quantity: tier.minQuantity,
+  unitPrice: tier.unitPrice,
+}));
+export const RETAIL_MITT_VOLUME_TIERS = retailProductVolumeTiers("mitt").map((tier) => ({ name: tier.name, quantity: tier.minQuantity, unitPrice: tier.unitPrice }));
+export const RETAIL_KIT_VOLUME_TIERS = retailProductVolumeTiers("kit").map((tier) => ({ name: tier.name, quantity: tier.minQuantity, unitPrice: tier.unitPrice }));
+export const RETAIL_SOUFFLE_RRP = retailProductRrp("souffleMedium");
+export const RETAIL_MITT_RRP = retailProductRrp("mitt");
+export const RETAIL_KIT_RRP = retailProductRrp("kit");
+export const RETAIL_MITT_UNIT_PRICE = retailProductConfig("mitt")?.singleUnitTradePrice ?? 0;
+export const RETAIL_KIT_UNIT_PRICE = retailProductConfig("kit")?.singleUnitTradePrice ?? 0;
+
 export function professionalTierFor(quantity: number) {
-  if (quantity >= 10) return PROFESSIONAL_VOLUME_TIERS[2];
-  if (quantity >= 5) return PROFESSIONAL_VOLUME_TIERS[1];
-  return PROFESSIONAL_VOLUME_TIERS[0];
+  return [...PROFESSIONAL_VOLUME_TIERS].reverse().find((tier) => quantity >= tier.minQuantity) ?? PROFESSIONAL_VOLUME_TIERS[0];
 }
 
 export function professionalOrderPricing(quantity: number) {
@@ -64,84 +66,55 @@ export function professionalTierProfit(quantity: number, unitPrice: number) {
   };
 }
 
-export function retailTierFor(quantity: number) {
-  if (quantity >= 24) return RETAIL_VOLUME_TIERS[2];
-  if (quantity >= 12) return RETAIL_VOLUME_TIERS[1];
-  if (quantity >= 6) return RETAIL_VOLUME_TIERS[0];
-  return undefined;
-}
-
 export function retailProductTierFor(productId: string, quantity: number) {
-  const tiers = retailProductVolumeTiers(productId);
-  if (quantity >= tiers[2].quantity) return tiers[2];
-  if (quantity >= tiers[1].quantity) return tiers[1];
-  if (quantity >= tiers[0].quantity) return tiers[0];
-  return undefined;
+  const config = retailProductConfig(productId);
+  if (!config || quantity <= 0) return undefined;
+  const volumeTier = [...retailProductVolumeTiers(productId)].reverse().find((tier) => quantity >= tier.minQuantity);
+  return volumeTier ?? { name: "Single", minQuantity: 1, unitPrice: config.singleUnitTradePrice };
 }
 
-export function retailVolumeIncentive(quantity: number) {
-  const currentTier = retailTierFor(quantity);
-  const nextTier = RETAIL_VOLUME_TIERS.find((tier) => tier.quantity > quantity);
-  const projectedTier = currentTier ?? nextTier;
-  const currentProfit = projectedTier ? quantity * (RETAIL_SOUFFLE_RRP - projectedTier.unitPrice) : 0;
-
-  if (!nextTier) {
-    return {
-      currentTier,
-      nextTier: undefined,
-      unitsNeeded: 0,
-      currentProfit,
-      targetProfit: currentProfit,
-      additionalProfit: 0,
-      additionalMarginFromRate: quantity * (RETAIL_VOLUME_TIERS[0].unitPrice - (currentTier?.unitPrice ?? RETAIL_VOLUME_TIERS[0].unitPrice)),
-    };
-  }
-
-  const targetProfit = nextTier.quantity * (RETAIL_SOUFFLE_RRP - nextTier.unitPrice);
-  return {
-    currentTier,
-    nextTier,
-    unitsNeeded: nextTier.quantity - quantity,
-    currentProfit,
-    targetProfit,
-    additionalProfit: targetProfit - currentProfit,
-    additionalMarginFromRate: nextTier.quantity * (RETAIL_VOLUME_TIERS[0].unitPrice - nextTier.unitPrice),
-  };
+export function retailTierFor(quantity: number) {
+  return retailProductTierFor("souffleMedium", quantity);
 }
 
 export function retailProductVolumeIncentive(productId: string, quantity: number) {
   const tiers = retailProductVolumeTiers(productId);
   const currentTier = retailProductTierFor(productId, quantity);
-  const nextTier = tiers.find((tier) => tier.quantity > quantity);
+  const nextTier = tiers.find((tier) => tier.minQuantity > quantity && tier.unitPrice < (currentTier?.unitPrice ?? Infinity));
   const current = retailProductPotentialProfit(productId, quantity);
 
   if (!nextTier) {
     return { currentTier, nextTier: undefined, unitsNeeded: 0, currentProfit: current.profit, targetProfit: current.profit, additionalProfit: 0 };
   }
 
-  const target = retailProductPotentialProfit(productId, nextTier.quantity);
+  const target = retailProductPotentialProfit(productId, nextTier.minQuantity);
   return {
     currentTier,
-    nextTier,
-    unitsNeeded: nextTier.quantity - quantity,
+    nextTier: { ...nextTier, quantity: nextTier.minQuantity },
+    unitsNeeded: nextTier.minQuantity - quantity,
     currentProfit: current.profit,
     targetProfit: target.profit,
     additionalProfit: target.profit - current.profit,
   };
 }
 
+export function retailVolumeIncentive(quantity: number) {
+  return retailProductVolumeIncentive("souffleMedium", quantity);
+}
+
 export function retailProductPotentialProfit(productId: string, quantity: number) {
-  if (quantity <= 0) return { revenue: 0, cost: 0, profit: 0 };
-  const rrp = productId === "mitt" ? RETAIL_MITT_RRP : productId === "kit" ? RETAIL_KIT_RRP : RETAIL_SOUFFLE_RRP;
+  const config = retailProductConfig(productId);
   const tier = retailProductTierFor(productId, quantity);
-  if (!tier) return { revenue: quantity * rrp, cost: 0, profit: 0 };
-  const revenue = quantity * rrp;
+  if (!config || !tier || quantity <= 0) return { revenue: 0, cost: 0, profit: 0 };
+  const revenue = quantity * config.rrp;
   const cost = quantity * tier.unitPrice;
   return { revenue, cost, profit: revenue - cost };
 }
 
 export function retailProductPricing(productId: string, quantity: number) {
-  return retailProductTierFor(productId, quantity);
+  const tier = retailProductTierFor(productId, quantity);
+  if (!tier) return undefined;
+  return { name: tier.name, quantity, unitPrice: tier.unitPrice };
 }
 
 export function retailTierProfit(quantity: number, unitPrice: number) {
@@ -151,6 +124,6 @@ export function retailTierProfit(quantity: number, unitPrice: number) {
     revenue,
     cost,
     profit: revenue - cost,
-    additionalMargin: quantity * (RETAIL_VOLUME_TIERS[0].unitPrice - unitPrice),
+    additionalMargin: quantity * ((retailProductConfig("souffleMedium")?.singleUnitTradePrice ?? unitPrice) - unitPrice),
   };
 }

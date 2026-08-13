@@ -2,12 +2,37 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { gbp } from "../../lib/site";
 import { MALIBU_UNIVERSAL_SHADE } from "../../lib/product-features";
-import { retailQuantitiesFromSearchParams, type RetailQuantities } from "../shared/RetailProductCards";
-import { professionalOrderPricing } from "../../lib/order-pricing";
+import { RETAIL_PRODUCTS, retailQuantitiesFromSearchParams, type RetailQuantities } from "../shared/RetailProductCards";
+import { DEFAULT_TREATMENT_PRICE, PROFESSIONAL_VOLUME_TIERS, TANS_PER_LITRE, professionalOrderPricing } from "../../lib/order-pricing";
 import { VolumeProfitModal } from "../shared/VolumeProfitModal";
 import { OrderConfiguratorModal } from "./OrderConfiguratorModal";
 
 export type PurchaseState = { shade: string; qty: number; retail: RetailQuantities };
+
+const PURCHASE_STORAGE_KEY = "jimmy-coco-salon-order:v1";
+const PURCHASE_STORAGE_VERSION = 1;
+
+type StoredPurchaseState = PurchaseState & { version: number; updatedAt: string };
+
+function normalisePurchaseState(value: unknown): PurchaseState | null {
+  if (!value || typeof value !== "object") return null;
+  const candidate = value as Partial<StoredPurchaseState>;
+  if (candidate.version !== PURCHASE_STORAGE_VERSION) return null;
+
+  const qty = typeof candidate.qty === "number" && Number.isFinite(candidate.qty)
+    ? Math.max(1, Math.min(48, Math.round(candidate.qty)))
+    : 1;
+  const retail = { mitt: 0, souffleMedium: 0, souffleDark: 0, kit: 0 } satisfies RetailQuantities;
+
+  RETAIL_PRODUCTS.forEach(({ id, maxOrderQuantity = 48 }) => {
+    const savedQuantity = candidate.retail?.[id];
+    if (typeof savedQuantity === "number" && Number.isFinite(savedQuantity)) {
+      retail[id] = Math.max(0, Math.min(maxOrderQuantity, Math.round(savedQuantity)));
+    }
+  });
+
+  return { shade: MALIBU_UNIVERSAL_SHADE, qty, retail };
+}
 
 export const SHADE_OPTIONS = [
   { name: "Light · 6% DHA", label: "LIGHT", className: "s1" },
@@ -56,7 +81,7 @@ export function ProductPurchase({ state, setState, ctaRef }: {
       </div>
 
       <div className="price-block">
-        <div className="price-row"><span className="price-big">{gbp(pricing.unitPrice)} <small>per litre</small></span><span className="pertan">≈ {gbp(pricing.unitPrice / 28, 2)} per tan</span></div>
+        <div className="price-row"><span className="price-big">{gbp(pricing.unitPrice)} <small>per litre</small></span><span className="pertan">≈ {gbp(pricing.unitPrice / TANS_PER_LITRE, 2)} per tan</span></div>
         <p>{pricing.tier.name} volume rate · {pricing.saving ? `${gbp(pricing.saving)} additional margin on this order · ` : ""}Free UK delivery</p>
         <VolumeProfitModal />
       </div>
@@ -71,7 +96,7 @@ export function ProductPurchase({ state, setState, ctaRef }: {
         <div className="qtyrow">
           <div className="stepper"><button type="button" onClick={() => setQty(state.qty - 1)} aria-label="Decrease quantity">−</button><output aria-live="polite">{state.qty}</output><button type="button" onClick={() => setQty(state.qty + 1)} aria-label="Increase quantity">+</button></div>
           <span className="shortcut-label">Quick select</span>
-          {[5, 10].map((qty) => <button type="button" aria-pressed={state.qty === qty} aria-label={`Select ${qty} litres for the ${qty === 5 ? "Growth" : "Premium"} volume rate`} className={`qpick${state.qty === qty ? " active" : ""}`} onClick={() => setQty(qty)} key={qty}><span>{qty === 5 ? "Growth · 5L" : "Premium · 10L"}</span><i aria-hidden="true">{state.qty === qty ? "✓" : "+"}</i></button>)}
+          {PROFESSIONAL_VOLUME_TIERS.slice(1).map((tier) => <button type="button" aria-pressed={state.qty === tier.minQuantity} aria-label={`Select ${tier.minQuantity} litres for the ${tier.name} volume rate`} className={`qpick${state.qty === tier.minQuantity ? " active" : ""}`} onClick={() => setQty(tier.minQuantity)} key={tier.name}><span>{tier.name} · {tier.minQuantity}L</span><i aria-hidden="true">{state.qty === tier.minQuantity ? "✓" : "+"}</i></button>)}
         </div>
       </div>
 
@@ -79,7 +104,7 @@ export function ProductPurchase({ state, setState, ctaRef }: {
         <div><span>Order total</span><b>{gbp(total)}</b><small>{litres}</small></div>
         <div><span>Tan capacity</span><b>≈{capacity}</b><small>full body tans</small></div>
         <div><span>Estimated stock cover</span><b>{stockCover}</b><small>at 12 tans per week</small></div>
-        <div><span>Revenue potential</span><b>{gbp(capacity * 25)}+</b><small>at £25 per tan · <Link to="/#calculator">your margins</Link></small></div>
+        <div><span>Revenue potential</span><b>{gbp(capacity * DEFAULT_TREATMENT_PRICE)}+</b><small>at {gbp(DEFAULT_TREATMENT_PRICE)} per tan · <Link to="/#calculator">your margins</Link></small></div>
       </div>
 
       <div className="cta-col" ref={ctaRef}><OrderConfiguratorModal state={state} setState={setState} /><Link className="trial-link" to="/#trial">New to Jimmy Coco? Start with a free trial →</Link></div>
@@ -111,6 +136,56 @@ export function StickyOrder({ state, target }: { state: PurchaseState; target: R
 export function usePurchaseState() {
   const [searchParams] = useSearchParams();
   const [state, setState] = useState<PurchaseState>(() => ({ shade: MALIBU_UNIVERSAL_SHADE, qty: 1, retail: retailQuantitiesFromSearchParams(searchParams) }));
+  const [storageReady, setStorageReady] = useState(false);
+  const incomingSearch = useRef(searchParams.toString());
   const ctaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(incomingSearch.current);
+    const incomingRetail = retailQuantitiesFromSearchParams(params);
+    let restored: PurchaseState = { shade: MALIBU_UNIVERSAL_SHADE, qty: 1, retail: incomingRetail };
+
+    try {
+      const savedValue = window.localStorage.getItem(PURCHASE_STORAGE_KEY);
+      const savedState = savedValue ? normalisePurchaseState(JSON.parse(savedValue)) : null;
+      if (savedState) restored = savedState;
+    } catch {
+      // A malformed or unavailable local store should never prevent ordering.
+    }
+
+    RETAIL_PRODUCTS.forEach(({ id }) => {
+      if (params.has(id)) {
+        restored.retail[id] = incomingRetail[id];
+        params.delete(id);
+      }
+    });
+
+    if (params.toString() !== incomingSearch.current) {
+      const remainingSearch = params.toString();
+      window.history.replaceState(
+        window.history.state,
+        "",
+        `${window.location.pathname}${remainingSearch ? `?${remainingSearch}` : ""}${window.location.hash}`,
+      );
+    }
+
+    setState(restored);
+    setStorageReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!storageReady) return;
+    const stored: StoredPurchaseState = {
+      ...state,
+      version: PURCHASE_STORAGE_VERSION,
+      updatedAt: new Date().toISOString(),
+    };
+    try {
+      window.localStorage.setItem(PURCHASE_STORAGE_KEY, JSON.stringify(stored));
+    } catch {
+      // Private browsing/storage restrictions should not interrupt the order flow.
+    }
+  }, [state, storageReady]);
+
   return { state, setState, ctaRef };
 }

@@ -1,4 +1,4 @@
-import { retailProductVolumeIncentive } from "../../lib/order-pricing";
+import { retailProductRrp, retailProductVolumeIncentive } from "../../lib/order-pricing";
 import { gbp } from "../../lib/site";
 import type { ReactNode } from "react";
 
@@ -37,7 +37,7 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
     badge: "The easy add-on",
     title: "Buff & Glow Mitt",
     description: "The world's first 3-in-1 tanning mitt — streak-free maintenance between visits. The natural “add this to your visit” at checkout.",
-    price: "RRP £15",
+    price: `RRP ${gbp(retailProductRrp("mitt"), 2)}`,
     suffix: "",
   },
   {
@@ -50,7 +50,7 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
     badge: "The top-up seller · Medium",
     title: "Self Tan Soufflé · Medium",
     description: "Instant tint, Jimmy's iconic scent and a moisture-locking formula — a believable medium glow clients can maintain between appointments.",
-    price: "RRP £22",
+    price: `RRP ${gbp(retailProductRrp("souffleMedium"))}`,
     suffix: "",
   },
   {
@@ -63,7 +63,7 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
     badge: "The top-up seller · Dark",
     title: "Self Tan Soufflé · Dark",
     description: "The same moisture-locking, instantly tinted formula in Dark — a deeper take-home colour for clients who want more intensity.",
-    price: "RRP £22",
+    price: `RRP ${gbp(retailProductRrp("souffleDark"))}`,
     suffix: "",
   },
   {
@@ -75,7 +75,7 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
     badge: "The gift purchase",
     title: "The A-List Glow Kit",
     description: "The complete six-piece routine — soufflé, world-first mitt, luxury brushes, face mist and lip balm. Your premium shelf anchor.",
-    price: "RRP £59",
+    price: `RRP ${gbp(retailProductRrp("kit"))}`,
     suffix: " · 6 pieces",
   },
 ] as const;

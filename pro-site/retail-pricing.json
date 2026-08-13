@@ -1,0 +1,59 @@
+{
+  "currency": "GBP",
+  "assumptions": {
+    "tansPerLitre": 28,
+    "treatmentPrice": 25
+  },
+  "professional": {
+    "malibu1L": {
+      "name": "Malibu Professional Spray 1 Litre",
+      "tiers": [
+        { "name": "Starter", "minQuantity": 1, "maxQuantity": 4, "exampleQuantity": 1, "unitPrice": 60 },
+        { "name": "Growth", "minQuantity": 5, "maxQuantity": 9, "exampleQuantity": 5, "unitPrice": 55 },
+        { "name": "Premium", "minQuantity": 10, "maxQuantity": null, "exampleQuantity": 10, "unitPrice": 50 }
+      ]
+    }
+  },
+  "retail": {
+    "souffleMedium": {
+      "name": "Self Tan Soufflé · Medium",
+      "rrp": 22,
+      "singleUnitTradePrice": 14,
+      "volumeTiers": [
+        { "name": "Starter", "minQuantity": 6, "unitPrice": 14 },
+        { "name": "Growth", "minQuantity": 12, "unitPrice": 12.5 },
+        { "name": "Premium", "minQuantity": 24, "unitPrice": 11 }
+      ]
+    },
+    "souffleDark": {
+      "name": "Self Tan Soufflé · Dark",
+      "rrp": 22,
+      "singleUnitTradePrice": 14,
+      "volumeTiers": [
+        { "name": "Starter", "minQuantity": 6, "unitPrice": 14 },
+        { "name": "Growth", "minQuantity": 12, "unitPrice": 12.5 },
+        { "name": "Premium", "minQuantity": 24, "unitPrice": 11 }
+      ]
+    },
+    "mitt": {
+      "name": "Buff & Glow Mitt",
+      "rrp": 15.5,
+      "singleUnitTradePrice": 12.5,
+      "volumeTiers": [
+        { "name": "Starter", "minQuantity": 6, "unitPrice": 12.5 },
+        { "name": "Growth", "minQuantity": 12, "unitPrice": 9.5 },
+        { "name": "Premium", "minQuantity": 24, "unitPrice": 7.5 }
+      ]
+    },
+    "kit": {
+      "name": "The A-List Glow Kit",
+      "rrp": 59,
+      "singleUnitTradePrice": 49,
+      "volumeTiers": [
+        { "name": "Starter", "minQuantity": 6, "unitPrice": 49 },
+        { "name": "Growth", "minQuantity": 12, "unitPrice": 42.5 },
+        { "name": "Premium", "minQuantity": 24, "unitPrice": 37.5 }
+      ]
+    }
+  }
+}

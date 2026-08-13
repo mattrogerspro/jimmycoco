@@ -1,6 +1,8 @@
 import { useRef, type Dispatch, type SetStateAction } from "react";
 import {
+  DEFAULT_TREATMENT_PRICE,
   PROFESSIONAL_VOLUME_TIERS,
+  TANS_PER_LITRE,
   professionalOrderPricing,
   professionalTierProfit,
   retailProductPotentialProfit,
@@ -45,15 +47,16 @@ export function OrderConfiguratorModal({
     ? professionalTierProfit(quantity, professionalPricing.unitPrice)
     : undefined;
   const retailPricing = product ? retailProductPricing(product.id, quantity) : undefined;
+  const retailTiers = product?.hasVolumeTiers ? retailProductVolumeTiers(product.id) : [];
   const retailProfit = product ? retailProductPotentialProfit(product.id, quantity) : undefined;
   const retailTier = product?.hasVolumeTiers ? retailProductTierFor(product.id, quantity) : undefined;
   const currentLevel = professionalPricing?.tier.name ?? retailTier?.name;
   const nextTier = professional
     ? PROFESSIONAL_VOLUME_TIERS.find((tier) => tier.minQuantity > quantity)
     : product?.hasVolumeTiers
-      ? retailProductVolumeTiers(product.id).find((tier) => tier.quantity > quantity)
+      ? retailTiers.find((tier) => tier.minQuantity > quantity)
       : undefined;
-  const nextQuantity = nextTier && "minQuantity" in nextTier ? nextTier.minQuantity : nextTier?.quantity;
+  const nextQuantity = nextTier?.minQuantity;
   const nextProfit = nextTier
     ? professional
       ? professionalTierProfit(nextQuantity ?? quantity, nextTier.unitPrice).contribution
@@ -65,7 +68,7 @@ export function OrderConfiguratorModal({
   const eyebrow = professional ? "Professional solution" : product?.badge ?? "Retail addition";
   const image = professional ? "product-01-0003c7706e6e.jpg" : product?.src ?? "";
   const description = professional
-    ? "Approximately 28 full-body tans per litre at an illustrative £25 treatment price."
+    ? `Approximately ${TANS_PER_LITRE} full-body tans per litre at an illustrative ${gbp(DEFAULT_TREATMENT_PRICE)} treatment price.`
     : product?.description ?? "";
   const unitPrice = professionalPricing?.unitPrice ?? retailPricing?.unitPrice;
 
@@ -101,7 +104,7 @@ export function OrderConfiguratorModal({
           <div className="config-slider-panel">
             <div className="config-current-level"><span>{hasVolumeTiers ? (currentLevel ? `${currentLevel} level` : "Building to Starter") : "Choose quantity"}</span><strong>{professional ? `${quantity}L` : quantity}</strong><small>{unitPrice ? `${gbp(unitPrice, unitPrice % 1 ? 2 : 0)} per ${professional ? "litre" : "unit"}` : hasVolumeTiers ? `Trade pricing begins at ${nextQuantity ?? 6} units · ${product?.price}` : product?.price}</small></div>
             <input className={`tier-slider ${professional ? "tier-slider-professional" : hasVolumeTiers ? "tier-slider-retail" : "tier-slider-fixed"}`} type="range" min={professional ? 1 : 0} max={maximum} step="1" value={quantity} onChange={(event) => setQuantity(Number(event.target.value))} aria-label={`${title} quantity`} />
-            {professional ? <div className="tier-slider-labels"><span>1L<br />Starter</span><span>5L<br />Growth</span><span>10L<br />Premium</span><span>48L</span></div> : hasVolumeTiers ? <div className="tier-slider-labels retail-scale"><span>0</span><span>6<br />Starter</span><span>12<br />Growth</span><span>24<br />Premium</span><span>48</span></div> : <div className="tier-slider-labels fixed-scale"><span>0</span><span>{maximum}</span></div>}
+            {professional ? <div className="tier-slider-labels">{PROFESSIONAL_VOLUME_TIERS.map((tier) => <span key={tier.name}>{tier.minQuantity}L<br />{tier.name}</span>)}<span>{maximum}L</span></div> : hasVolumeTiers ? <div className="tier-slider-labels retail-scale"><span>0</span>{retailTiers.map((tier) => <span key={tier.name}>{tier.minQuantity}<br />{tier.name}</span>)}<span>{maximum}</span></div> : <div className="tier-slider-labels fixed-scale"><span>0</span><span>{maximum}</span></div>}
             <div className="config-stepper"><button type="button" disabled={quantity === (professional ? 1 : 0)} onClick={() => setQuantity(quantity - 1)} aria-label={`Remove one ${title}`}>−</button><output>{quantity} {professional ? (quantity === 1 ? "litre" : "litres") : (quantity === 1 ? "unit" : "units")}</output><button type="button" disabled={quantity === maximum} onClick={() => setQuantity(quantity + 1)} aria-label={`Add one ${title}`}>+</button></div>
           </div>
           {hasVolumeTiers ? <div className="config-profit-panel"><span>{professional ? "Potential booth profit" : "Potential retail profit"}</span><strong>{gbp(currentPotentialProfit)}</strong><small>{professionalProfit ? `${gbp(professionalProfit.revenue)} potential sales · ${gbp(professionalProfit.cost)} solution cost` : retailProfit ? `${gbp(retailProfit.revenue)} potential sales · ${gbp(retailProfit.cost)} product cost` : ""}</small>{nextTier && nextQuantity && nextProfit !== undefined ? <p><b>Add {nextQuantity - quantity}{professional ? "L" : ""} to reach {nextTier.name}</b><span>{gbp(nextProfit)} potential profit · <strong>+{gbp(nextProfit - currentPotentialProfit)}</strong></span></p> : <p className="is-max"><b>{currentLevel === "Premium" ? "Premium price unlocked" : "Move the slider to begin"}</b><span>{currentLevel === "Premium" ? "You are receiving the best available unit price." : "The first tier begins at six units."}</span></p>}</div> : <div className="config-profit-panel config-fixed-result"><span>Trade subtotal</span><strong>{gbp(orderSubtotal)}</strong><small>{quantity ? `${quantity} × ${gbp(unitPrice ?? 0)} per unit` : "Move the slider to add this product."}</small><p><b>Fixed trade price</b><span>This item has no volume levels.</span></p></div>}

@@ -10,8 +10,10 @@
  * stated yield, so they update automatically if either changes.
  */
 
-export const LITRE_PRICE_GBP = 60;
-export const TANS_PER_LITRE = 28;
+import pricing from "../../retail-pricing.json";
+
+export const LITRE_PRICE_GBP = pricing.professional.malibu1L.tiers[0].unitPrice;
+export const TANS_PER_LITRE = pricing.assumptions.tansPerLitre;
 export const MAX_DOSE_ML = 35;
 
 /** Solution cost of a single full-body tan, in pounds. */
@@ -32,8 +34,8 @@ export const PRODUCT_SPECS: Spec[] = [
   { name: "Key actives", value: "Colloidal gold, hyaluronic acid, Pentavitin, blue daisy" },
   { name: "Fragrance", value: "Jimmy\u2019s signature scent with aromaguard technology" },
   { name: "Tone correction", value: "Anti-orange, skin-tone-sympathetic pigments" },
-  { name: "Solution cost per tan", value: "Approximately \u00a32.14 at \u00a360 per litre" },
-  { name: "Trade unit", value: "1 litre, \u00a360 standard list price" },
+  { name: "Solution cost per tan", value: `Approximately \u00a3${costPerTan().toFixed(2)} at \u00a3${LITRE_PRICE_GBP} per litre` },
+  { name: "Trade unit", value: `1 litre, \u00a3${LITRE_PRICE_GBP} standard list price` },
   { name: "Returns", value: "14 days, 100% money-back guarantee" },
 ];
 

@@ -12,7 +12,7 @@ import { Story } from "../components/home/HomeSections";
 import { CrossSell, OrderSection, ProductDetails, SalonFaq, ShadeComparison, Specification } from "../components/product/ProductSections";
 import { ORG_ID, brandEntities } from "../lib/entity";
 import { faqPageSchema } from "../lib/faq";
-import { priceValidUntil, specSchemaProperties } from "../lib/specs";
+import { LITRE_PRICE_GBP, priceValidUntil, specSchemaProperties } from "../lib/specs";
 import { CONTENT_UPDATED, PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 import { handleApplicationSubmit } from "../lib/application-action.server";
 import { SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../lib/product-features";
@@ -36,7 +36,7 @@ export const meta: MetaFunction = () => [
   { property: "og:image:height", content: "630" },
   { property: "og:image:type", content: "image/jpeg" },
   { property: "og:image:alt", content: "Malibu Professional Spray 1L by Sunless by Jimmy Coco" },
-  { property: "product:price:amount", content: "60.00" },
+  { property: "product:price:amount", content: LITRE_PRICE_GBP.toFixed(2) },
   { property: "product:price:currency", content: "GBP" },
   { name: "twitter:card", content: "summary_large_image" },
   { name: "twitter:title", content: "Malibu Professional Spray Tan Solution 1L" },
@@ -60,7 +60,7 @@ const schema = [
     brand: { "@id": ORG_ID },
     manufacturer: { "@id": ORG_ID },
     offers: {
-      "@type": "Offer", url: canonical, priceCurrency: "GBP", price: "60.00",
+      "@type": "Offer", url: canonical, priceCurrency: "GBP", price: LITRE_PRICE_GBP.toFixed(2),
       availability: "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",
       seller: { "@id": ORG_ID },

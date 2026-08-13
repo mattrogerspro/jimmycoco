@@ -7,7 +7,8 @@ import { getPublishedArticle, getPublishedArticles } from "../lib/articles.serve
 import { ArticleViewBeacon } from "../components/shared/ArticleViewBeacon";
 import { ORG_ID, PERSON_ID, brandEntities } from "../lib/entity";
 import { SIZES, responsiveSrcSet } from "../lib/responsive-image";
-import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
+import { PRODUCT_PATH, SITE_URL, absoluteUrl, gbp } from "../lib/site";
+import { LITRE_PRICE_GBP } from "../lib/specs";
 
 const fallbackSocialImage = absoluteUrl("/social/articles-og-1200x630.jpg");
 
@@ -273,7 +274,7 @@ export default function ArticlePage() {
             </p>
             <div className="article-cta-actions">
               <Link className="btn btn-bronze" to="/#trial">Request a free trial</Link>
-              <Link className="btn btn-ghost-light" to={PRODUCT_PATH}>Order the litre — £60</Link>
+              <Link className="btn btn-ghost-light" to={PRODUCT_PATH}>Order the litre — {gbp(LITRE_PRICE_GBP)}</Link>
             </div>
           </div>
         </section>

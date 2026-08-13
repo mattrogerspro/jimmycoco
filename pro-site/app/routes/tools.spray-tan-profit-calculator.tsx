@@ -285,7 +285,7 @@ export default function CalculatorPage() {
 
             <div className="tool-next">
               <Link className="btn btn-bronze" to={PRODUCT_PATH}>
-                Order the litre — £60
+                Order the litre — {gbp(DEFAULTS.litrePrice)}
               </Link>
               <Link className="btn btn-ghost" to="/#trial">
                 Request a free salon trial

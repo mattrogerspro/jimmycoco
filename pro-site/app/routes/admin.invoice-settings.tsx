@@ -3,6 +3,8 @@ import { Form, Link, data, useActionData, useLoaderData, useNavigation } from "r
 import { requireArticleStaff } from "../lib/article-auth.server";
 import { isSameOriginPost } from "../lib/supabase.server";
 import { getInvoiceSettings, updateInvoiceSettings } from "../lib/invoices.server";
+import { LITRE_PRICE_GBP } from "../lib/specs";
+import { gbp } from "../lib/site";
 
 export const meta: MetaFunction = () => [
   { title: "Invoice settings | Jimmy Coco admin" },
@@ -123,7 +125,7 @@ export default function InvoiceSettings() {
                   <input type="checkbox" name="pricesIncludeVat" defaultChecked={settings.prices_include_vat} />
                   <span>
                     <b>Trade prices already include VAT</b>
-                    On: the £60 litre is £60 inclusive and the VAT is backed out of it. Off: VAT is added on top.
+                    On: the {gbp(LITRE_PRICE_GBP)} litre is {gbp(LITRE_PRICE_GBP)} inclusive and the VAT is backed out of it. Off: VAT is added on top.
                   </span>
                 </label>
 

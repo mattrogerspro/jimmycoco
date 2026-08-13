@@ -1,11 +1,11 @@
 body{margin:0}
 header{transition:background .3s ease,border-color .3s ease,color .3s ease}
-header.scrolled{background:rgba(18,14,11,.97);border-bottom-color:rgba(201,149,103,.34)}
-header.scrolled .logo{background:linear-gradient(100deg,#EBCB9C,#C99567 55%,#EBCB9C);-webkit-background-clip:text;background-clip:text}
-header.scrolled .logo small{-webkit-text-fill-color:var(--gold);color:var(--gold)}
-header.scrolled .protag{color:var(--gold);border-color:rgba(201,149,103,.5)}
-header.scrolled .nav-links a{color:#EBCB9C}
+header.scrolled{background:rgba(10,28,40,.97);border-bottom-color:rgba(185,209,219,.32)}
+header.scrolled .logo{background:linear-gradient(100deg,#F1D4AD,#C99567 52%,#B9D1DB);-webkit-background-clip:text;background-clip:text}
+header.scrolled .logo small{-webkit-text-fill-color:#B9D1DB;color:#B9D1DB}
+header.scrolled .protag{color:#B9D1DB;border-color:rgba(185,209,219,.5)}
+header.scrolled .nav-links a{color:#D8E8EE}
 header.scrolled .nav-links a:hover{color:#fff}
 header.scrolled .btn-bronze{background:var(--gold);color:#20180f}
 
-a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #4E7C91;outline-offset:3px}

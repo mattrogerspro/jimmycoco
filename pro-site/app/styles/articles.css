@@ -292,3 +292,12 @@
 @media(max-width:1100px){.article-related-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.article-related{width:min(calc(100% - 32px),1240px)}.article-related-grid{grid-template-columns:1fr}}
 
+/* Coastal blue layer shared with the main professional site. */
+.content-shell{--dark:#102734;--line:#D8E1E4}
+.content-shell .nav-links a:hover{color:#285F78}
+.articles-hero{background:#EAF1F3}
+.articles-hero>p,.article-hero>a,.articles-hero em,.article-card-meta{color:#285F78!important}
+.article-card{border-color:#D8E1E4}
+.article-body blockquote{border-left-color:#4E7C91;background:#EAF1F3}
+.article-body a,.article-sources a{color:#285F78}
+.article-sources{border-top-color:#D8E1E4}

@@ -363,7 +363,7 @@
   .calc-compact .calc-group h3{font-size:16px;margin-bottom:10px}
   .calc-compact .field{margin-bottom:12px}
   .calc-compact .field label{font-size:18px;line-height:1.4}
-  .calc-compact .field label output{font-family:'Walbaum',Georgia,serif;font-size:23px;font-weight:600;font-variant-numeric:lining-nums tabular-nums}
+  .calc-compact .field label output{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:23px;font-weight:700;font-variant-numeric:lining-nums tabular-nums}
   .calc-compact .field input[type=range]::-webkit-slider-runnable-track{height:10px;border-radius:5px}
   .calc-compact .field input[type=range]::-webkit-slider-thumb{width:29px;height:29px;border-width:4px;margin-top:-10px}
   .calc-compact .field input[type=range]::-moz-range-track{height:10px;border-radius:5px}
@@ -397,7 +397,7 @@
   .calc-compact .calc-in > .note{color:#655B51;border-top-color:rgba(135,84,46,.2)}
   .calc-compact .ocard{background:rgba(253,251,248,.9);border-color:rgba(135,84,46,.2);box-shadow:0 12px 34px rgba(72,51,34,.1);backdrop-filter:blur(8px)}
   .calc-compact .ocard span{color:#5D493A}
-  .calc-compact .ocard b{font-family:'Walbaum',Georgia,serif;color:var(--ink);font-weight:500;font-variant-numeric:lining-nums tabular-nums;letter-spacing:-.02em}
+  .calc-compact .ocard b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;color:var(--ink);font-weight:600;font-variant-numeric:lining-nums tabular-nums;letter-spacing:-.035em}
   .calc-compact .ocard small{color:#655B51}
   .calc-compact .ocard.hero-num{background:linear-gradient(120deg,rgba(243,228,211,.96),rgba(253,251,248,.9));border-color:rgba(152,96,58,.38)}
   .calc-compact .ocard.hero-num span{color:var(--bronze2)}

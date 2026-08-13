@@ -35,6 +35,12 @@ const FONT_FACES = `@font-face{font-family:'Walbaum';font-style:normal;font-weig
 @font-face{font-family:'Fraunces';font-style:italic;font-weight:100 900;font-display:swap;src:url(/fonts/fraunces-var-italic.woff2) format('woff2-variations')}
 @font-face{font-family:'Jost';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/jost-var.woff2) format('woff2-variations')}`;
 
+// A visitor can leave the site open while a deployment replaces its hashed
+// JavaScript chunks. If that tab later requests an old chunk, refresh once so
+// it receives the current HTML and current asset names. The session guard
+// prevents a broken deployment from creating a reload loop.
+const ASSET_RECOVERY_BOOTSTRAP = `(()=>{const key='jc_asset_recovery';let failed=false;const recover=()=>{failed=true;try{const page=location.pathname+location.search;if(sessionStorage.getItem(key)===page)return;sessionStorage.setItem(key,page)}catch{}location.reload()};addEventListener('vite:preloadError',event=>{event.preventDefault();recover()});addEventListener('error',event=>{const node=event.target;const url=node&&(node.src||node.href);if(url&&/\\/assets\\/.*\\.(?:js|css)(?:\\?|$)/.test(url))recover()},true);addEventListener('load',()=>{if(!failed)try{sessionStorage.removeItem(key)}catch{}},{once:true})})();`;
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-GB">
@@ -45,6 +51,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <style dangerouslySetInnerHTML={{ __html: FONT_FACES }} />
         <script dangerouslySetInnerHTML={{ __html: CONSENT_BOOTSTRAP }} />
+        <script dangerouslySetInnerHTML={{ __html: ASSET_RECOVERY_BOOTSTRAP }} />
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}

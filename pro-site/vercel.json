@@ -6,6 +6,18 @@
   "trailingSlash": false,
   "headers": [
     {
+      "source": "/",
+      "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate, max-age=0" }]
+    },
+    {
+      "source": "/products/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate, max-age=0" }]
+    },
+    {
+      "source": "/tools/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate, max-age=0" }]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         { "key": "Strict-Transport-Security", "value": "max-age=63072000" },

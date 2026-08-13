@@ -1,12 +1,14 @@
 import type { ActionFunctionArgs, LinksFunction, MetaFunction } from "react-router";
 import { Link } from "react-router";
+import homeStyles from "../styles/home.css?url";
 import productStyles from "../styles/product.css?url";
 import ritualStyles from "../styles/ritual.css?url";
 import chromeStyles from "../styles/chrome.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { ApplicationRitual } from "../components/shared/ApplicationRitual";
 import { ProductProofStrip, ProductPurchase, StickyOrder, usePurchaseState } from "../components/product/ProductPurchase";
-import { CrossSell, JimmyStory, OrderSection, ProductDetails, SalonFaq, ShadeComparison, Specification } from "../components/product/ProductSections";
+import { Story } from "../components/home/HomeSections";
+import { CrossSell, OrderSection, ProductDetails, SalonFaq, ShadeComparison, Specification } from "../components/product/ProductSections";
 import { ORG_ID, brandEntities } from "../lib/entity";
 import { faqPageSchema } from "../lib/faq";
 import { priceValidUntil, specSchemaProperties } from "../lib/specs";
@@ -14,7 +16,7 @@ import { CONTENT_UPDATED, PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/sit
 import { handleApplicationSubmit } from "../lib/application-action.server";
 import { SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../lib/product-features";
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: productStyles }, { rel: "stylesheet", href: ritualStyles }, { rel: "stylesheet", href: chromeStyles }];
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: homeStyles }, { rel: "stylesheet", href: productStyles }, { rel: "stylesheet", href: ritualStyles }, { rel: "stylesheet", href: chromeStyles }];
 
 const canonical = absoluteUrl(PRODUCT_PATH);
 
@@ -88,7 +90,7 @@ export default function ProductPage() {
         <ProductPurchase state={state} setState={setState} ctaRef={ctaRef} />
       </section>
       <ProductProofStrip />
-      <JimmyStory />
+      <Story />
       {SHOW_LEGACY_MALIBU_SHADE_RANGE ? <ShadeComparison onChoose={(shade) => setState((current) => ({ ...current, shade }))} /> : null}
       <ApplicationRitual />
       <CrossSell />

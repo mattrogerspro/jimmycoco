@@ -2,6 +2,12 @@ import { execSync } from "node:child_process";
 import { reactRouter } from "@react-router/dev/vite";
 import { defineConfig } from "vite";
 
+// One-time cache reset after an earlier deployment allowed missing asset
+// responses to be cached as immutable. Adding this banner changes every
+// JavaScript chunk hash without changing the public /assets directory, so
+// browsers cannot reuse those poisoned 404 entries.
+const ASSET_CACHE_RESET = "2026-08-13-reset-1";
+
 /**
  * Date the site's content last changed, resolved at BUILD time and baked into
  * the bundle. Feeds sitemap <lastmod> and dateModified in structured data.
@@ -28,6 +34,13 @@ function resolveContentDate() {
 
 export default defineConfig({
   plugins: [reactRouter()],
+  build: {
+    rollupOptions: {
+      output: {
+        banner: `/* jimmy-coco-asset-reset:${ASSET_CACHE_RESET} */`,
+      },
+    },
+  },
   resolve: { tsconfigPaths: true },
   define: {
     __CONTENT_UPDATED__: JSON.stringify(resolveContentDate()),

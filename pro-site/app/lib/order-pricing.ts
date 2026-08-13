@@ -3,6 +3,8 @@ export const DEFAULT_TREATMENT_PRICE = 25;
 export const RETAIL_SOUFFLE_RRP = 22;
 export const RETAIL_MITT_UNIT_PRICE = 15;
 export const RETAIL_KIT_UNIT_PRICE = 59;
+export const RETAIL_MITT_RRP = 15;
+export const RETAIL_KIT_RRP = 59;
 
 export const PROFESSIONAL_VOLUME_TIERS = [
   { name: "Starter", range: "1–4 litres", minQuantity: 1, exampleQuantity: 1, unitPrice: 60 },
@@ -54,7 +56,8 @@ export function retailTierFor(quantity: number) {
 export function retailVolumeIncentive(quantity: number) {
   const currentTier = retailTierFor(quantity);
   const nextTier = RETAIL_VOLUME_TIERS.find((tier) => tier.quantity > quantity);
-  const currentProfit = currentTier ? quantity * (RETAIL_SOUFFLE_RRP - currentTier.unitPrice) : 0;
+  const projectedTier = currentTier ?? nextTier;
+  const currentProfit = projectedTier ? quantity * (RETAIL_SOUFFLE_RRP - projectedTier.unitPrice) : 0;
 
   if (!nextTier) {
     return {
@@ -78,6 +81,27 @@ export function retailVolumeIncentive(quantity: number) {
     additionalProfit: targetProfit - currentProfit,
     additionalMarginFromRate: nextTier.quantity * (RETAIL_VOLUME_TIERS[0].unitPrice - nextTier.unitPrice),
   };
+}
+
+export function retailProductPotentialProfit(productId: string, quantity: number) {
+  if (quantity <= 0) return { revenue: 0, cost: 0, profit: 0 };
+  if (productId === "souffleMedium" || productId === "souffleDark") {
+    const tier = retailTierFor(quantity) ?? RETAIL_VOLUME_TIERS[0];
+    const revenue = quantity * RETAIL_SOUFFLE_RRP;
+    const cost = quantity * tier.unitPrice;
+    return { revenue, cost, profit: revenue - cost };
+  }
+  if (productId === "mitt") {
+    const revenue = quantity * RETAIL_MITT_RRP;
+    const cost = quantity * RETAIL_MITT_UNIT_PRICE;
+    return { revenue, cost, profit: revenue - cost };
+  }
+  if (productId === "kit") {
+    const revenue = quantity * RETAIL_KIT_RRP;
+    const cost = quantity * RETAIL_KIT_UNIT_PRICE;
+    return { revenue, cost, profit: revenue - cost };
+  }
+  return { revenue: 0, cost: 0, profit: 0 };
 }
 
 export function retailProductPricing(productId: string, quantity: number) {

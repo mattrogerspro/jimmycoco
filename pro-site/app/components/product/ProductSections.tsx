@@ -9,7 +9,7 @@ import { SALON_FAQ } from "../../lib/faq";
 import { PRODUCT_SPECS, workedExamples } from "../../lib/specs";
 import { SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../../lib/product-features";
 import { RETAIL_PRODUCTS, RetailProductCards, type RetailProductId } from "../shared/RetailProductCards";
-import { professionalOrderPricing, retailProductPricing } from "../../lib/order-pricing";
+import { professionalOrderPricing, professionalTierProfit, retailProductPotentialProfit, retailProductPricing } from "../../lib/order-pricing";
 import { VolumeProfitModal } from "../shared/VolumeProfitModal";
 
 export function ShadeComparison({ onChoose }: { onChoose: (shade: string) => void }) {
@@ -62,6 +62,9 @@ export function OrderSection({ state }: { state: PurchaseState }) {
   const pricedRetailLines = retailLines.map((product) => ({ product, tier: retailProductPricing(product.id, state.retail[product.id]) })).filter((line) => line.tier);
   const retailTradeSubtotal = pricedRetailLines.reduce((sum, { product, tier }) => sum + state.retail[product.id] * (tier?.unitPrice ?? 0), 0);
   const unpricedRetailCount = retailLines.filter(({ id }) => !retailProductPricing(id, state.retail[id])).reduce((sum, { id }) => sum + state.retail[id], 0);
+  const boothPotentialProfit = professionalTierProfit(state.qty, professionalPricing.unitPrice).contribution;
+  const retailPotentialProfit = retailLines.reduce((sum, { id }) => sum + retailProductPotentialProfit(id, state.retail[id]).profit, 0);
+  const totalPotentialProfit = boothPotentialProfit + retailPotentialProfit;
   const retailPricingSummary = (id: RetailProductId) => {
     const quantity = state.retail[id];
     const tier = retailProductPricing(id, quantity);
@@ -74,9 +77,12 @@ export function OrderSection({ state }: { state: PurchaseState }) {
     `Shade: ${state.shade}`,
     `Quantity: ${litres}`,
     `Professional solution subtotal (${professionalPricing.tier.name}): ${gbp(total)}`,
+    `Estimated booth gross profit potential: ${gbp(boothPotentialProfit)}`,
     "",
     "Retail additions:",
     ...(retailLines.length ? retailLines.map(({ id, title }) => `${title}: ${state.retail[id]} · ${retailPricingSummary(id)}`) : ["None selected"]),
+    `Estimated retail profit potential: ${gbp(retailPotentialProfit)}`,
+    `Estimated combined gross profit potential: ${gbp(totalPotentialProfit)}`,
     "",
     "Trade terms and retail pricing to be confirmed before payment.",
   ].join("\n");
@@ -97,6 +103,7 @@ export function OrderSection({ state }: { state: PurchaseState }) {
 
     <aside className="ocomposition" aria-live="polite">
       <div className="ocomposition-head"><div><span>Live order composition</span><h3>Your salon order</h3></div><b>{state.qty + retailCount} item{state.qty + retailCount === 1 ? "" : "s"}</b></div>
+      <div className="order-profit-hero"><span>Estimated gross profit potential</span><strong>{gbp(totalPotentialProfit)}</strong><p><b>{gbp(boothPotentialProfit)}</b> from the booth <i>+</i> <b>{gbp(retailPotentialProfit)}</b> from the shelf</p><small>Assumes 28 tans per litre at £25 and retail sell-through at RRP.{unpricedRetailCount ? " Soufflé selections below six use the projected Starter unit cost." : ""} Before labour, premises, card fees and tax.</small></div>
       <div className="order-product order-product-main"><img src="/assets/site/product-01-0003c7706e6e.jpg" alt="" width="900" height="900" /><div><span>Professional solution · {professionalPricing.tier.name}</span><strong>Malibu Spray · 1L</strong><small>{gbp(professionalPricing.unitPrice)} per litre · Universal bronze glow · ≈{capacity} tans</small></div><output>×{state.qty}</output></div>
       <div className="order-retail-heading"><span>Retail additions</span><a href="#complete-order">Edit selection ↑</a></div>
       {retailLines.length ? retailLines.map(({ id, src, title, badge }) => <div className="order-product" key={id}><img src={`/assets/site/${src}`} alt="" width="700" height="700" /><div><span>{badge}</span><strong>{title}</strong><small>{retailPricingSummary(id)}</small></div><output>×{state.retail[id]}</output></div>) : <div className="order-empty"><b>No retail added yet</b><span>Your professional litre is ready. Retail products are completely optional.</span><a href="#complete-order">Add retail products</a></div>}

@@ -135,7 +135,7 @@ export function RetailProductCards({
             <p className="pdesc">{description}</p>
             <span className="price">{price}<span>{suffix}</span></span>
             {orderMode && incentive ? <div className={`retail-tier-nudge${incentive.nextTier ? "" : " is-unlocked"}`}>
-              {incentive.nextTier ? <><span>{quantity ? `${incentive.unitsNeeded} more` : `Add ${incentive.unitsNeeded}`} to unlock {incentive.nextTier.name}</span><b>+{gbp(incentive.additionalProfit)} potential profit</b><small>{gbp(incentive.targetProfit)} total profit at {incentive.nextTier.quantity} sold · {gbp(incentive.nextTier.unitPrice, incentive.nextTier.unitPrice % 1 ? 2 : 0)} each</small></> : <><span>Premium rate unlocked</span><b>{gbp(incentive.currentProfit)} potential profit</b><small>{gbp(incentive.currentTier?.unitPrice ?? 0)} each · at current quantity sold at RRP</small></>}
+              {incentive.nextTier ? <><span>{quantity ? `${incentive.unitsNeeded} more` : `Add ${incentive.unitsNeeded}`} to unlock {incentive.nextTier.name}</span><b>{gbp(incentive.currentProfit)} current potential profit</b><small>{gbp(incentive.targetProfit)} at {incentive.nextTier.quantity} sold · +{gbp(incentive.additionalProfit)} by reaching {incentive.nextTier.name}</small></> : <><span>Premium rate unlocked</span><b>{gbp(incentive.currentProfit)} current potential profit</b><small>{gbp(incentive.currentTier?.unitPrice ?? 0)} each · at current quantity sold at RRP</small></>}
             </div> : null}
             {orderMode ? (
               <div className="retail-order-controls">

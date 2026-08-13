@@ -228,6 +228,14 @@
   .ocomposition-head span,.order-retail-heading span{display:block;color:var(--sky);font-size:13px;font-weight:650;letter-spacing:.16em;text-transform:uppercase}
   .ocomposition-head h3{font-family:'Walbaum',Georgia,serif;color:#fff;font-size:clamp(35px,2.3vw,41px);font-weight:500;line-height:1.1;margin-top:5px}
   .ocomposition-head>b{flex:0 0 auto;border:1px solid rgba(185,209,219,.3);border-radius:999px;padding:8px 13px;color:#fff;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:600;font-variant-numeric:lining-nums tabular-nums}
+  .order-profit-hero{position:relative;overflow:hidden;padding:30px;border-bottom:1px solid rgba(255,255,255,.1);background:linear-gradient(125deg,rgba(201,149,103,.24),rgba(40,95,120,.2) 55%,rgba(255,255,255,.04))}
+  .order-profit-hero:after{content:"";position:absolute;width:210px;height:210px;right:-70px;top:-105px;border-radius:50%;background:rgba(201,149,103,.15);filter:blur(2px)}
+  .order-profit-hero>span{position:relative;z-index:1;display:block;color:#DDB58E;font-size:13px;font-weight:750;letter-spacing:.16em;text-transform:uppercase}
+  .order-profit-hero>strong{position:relative;z-index:1;display:block;margin:4px 0 8px;color:#fff;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:clamp(48px,4.8vw,74px);font-weight:650;line-height:1;font-variant-numeric:lining-nums tabular-nums}
+  .order-profit-hero>p{position:relative;z-index:1;color:#C6D6DD;font-size:17px;line-height:1.4}
+  .order-profit-hero>p b{color:#fff;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:650;font-variant-numeric:lining-nums tabular-nums}
+  .order-profit-hero>p i{padding:0 7px;color:var(--gold);font-style:normal}
+  .order-profit-hero>small{position:relative;z-index:1;display:block;max-width:620px;margin-top:10px;color:#9FB1B9;font-size:12px;line-height:1.5}
   .order-product{display:grid;grid-template-columns:76px minmax(0,1fr) auto;gap:18px;align-items:center;padding:21px 30px;border-bottom:1px solid rgba(255,255,255,.09)}
   .order-product img{width:76px;height:76px;object-fit:cover;border-radius:8px;background:var(--paper)}
   .order-product div{min-width:0}
@@ -364,6 +372,8 @@
     .orderform h3{font-size:29px}
     .orderform-fields{grid-template-columns:1fr;gap:0}
     .ocomposition-head,.order-product,.order-totals{padding-right:20px;padding-left:20px}
+    .order-profit-hero{padding:25px 20px}
+    .order-profit-hero>strong{font-size:52px}
     .order-retail-heading{padding-right:20px;padding-left:20px}
     .order-empty{margin-right:20px;margin-left:20px}
     .order-product{grid-template-columns:54px minmax(0,1fr) auto;gap:11px}

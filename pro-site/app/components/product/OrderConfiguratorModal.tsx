@@ -95,7 +95,7 @@ export function OrderConfiguratorModal({
     setState((current) => ({ ...current, retail: { ...current.retail, [item]: bounded } }));
   };
 
-  const resolvedTriggerLabel = triggerLabel ?? (professional ? "Configure professional solution" : quantity ? "Edit quantity" : "Configure this item");
+  const resolvedTriggerLabel = triggerLabel ?? (professional ? "Configure professional solution" : quantity ? "Edit item/s" : "Add item/s");
   const confirmLabel = professional
     ? `Use ${quantity} ${quantity === 1 ? "litre" : "litres"} in order`
     : quantity

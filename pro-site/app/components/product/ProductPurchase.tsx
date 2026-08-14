@@ -130,7 +130,7 @@ export function StickyOrder({ state, target }: { state: PurchaseState; target: R
   const litres = `${state.qty} ${state.qty === 1 ? "litre" : "litres"}`;
   const retailCount = Object.values(state.retail).reduce((sum, quantity) => sum + quantity, 0);
   const pricing = professionalOrderPricing(state.qty);
-  return <div className={`sticky-order${visible ? " show" : ""}`}><div className="wrap"><div className="so-name">Malibu Professional Spray · 1L<small>{state.shade.split(" · ")[0]} · {litres}{retailCount ? ` · ${retailCount} retail add-on${retailCount === 1 ? "" : "s"}` : ""}</small></div><div className="so-price">{gbp(pricing.total)}</div><a className="btn btn-bronze" href="#complete-order">Add retail products</a></div></div>;
+  return <div className={`sticky-order${visible ? " show" : ""}`}><div className="wrap"><div className="so-name">Malibu Professional Spray · 1L<small>{state.shade.split(" · ")[0]} · {litres}{retailCount ? ` · ${retailCount} retail add-on${retailCount === 1 ? "" : "s"}` : ""}</small></div><div className="so-price">{gbp(pricing.total)}</div><a className="btn btn-bronze" href="#retail-products">Add retail products</a></div></div>;
 }
 
 export function usePurchaseState() {

@@ -137,7 +137,7 @@
   .cross-sell{scroll-margin-top:var(--nav-height);padding:clamp(70px,7vw,112px) 0}
   .cross-sell .wrap{max-width:min(94vw,1600px)}
   .cross-sell .sub{max-width:850px}
-  .cross-sell-rail{position:relative;width:100%;min-width:0}
+  .cross-sell-rail{position:relative;width:100%;min-width:0;scroll-margin-top:calc(var(--nav-height) + 18px)}
   .cross-sell .shop-grid{width:100%;max-width:1600px;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin:44px auto 0}
   .cross-sell .pcard{border-radius:12px}
   .cross-sell .pcard.is-added{border-color:var(--ocean);box-shadow:0 0 0 2px rgba(40,95,120,.16),0 22px 52px rgba(25,21,18,.13)}

@@ -97,6 +97,21 @@
   .product-proof p b{font-family:Georgia,serif;letter-spacing:.17em;color:var(--ink2);font-weight:500}
   .product-proof ul{display:flex;gap:28px;list-style:none;padding:0;color:var(--ink2);font-size:14px}
   .product-proof li:before{content:"✦";color:var(--bronze);margin-right:9px}
+  .order-product-info{padding:26px 0 54px;background:var(--paper)}
+  .order-product-info .wrap{max-width:min(90vw,1180px)}
+  .order-info-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .order-info-disclosure{min-width:0}
+  .order-info-disclosure summary{display:flex;min-height:64px;align-items:center;justify-content:space-between;gap:20px;padding:17px 20px;border:1.5px solid var(--ocean);border-radius:6px;background:#fff;color:var(--ocean);cursor:pointer;list-style:none;font-size:16px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+  .order-info-disclosure summary::-webkit-details-marker{display:none}
+  .order-info-disclosure summary:after{content:"+";flex:0 0 auto;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:25px;font-weight:500;line-height:1}
+  .order-info-disclosure[open] summary{border-radius:6px 6px 0 0;background:var(--mist)}
+  .order-info-disclosure[open] summary:after{content:"−"}
+  .order-info-panel{padding:22px;border:1px solid var(--line);border-top:0;border-radius:0 0 6px 6px;background:#fff;color:var(--ink2);font-size:17px;line-height:1.65}
+  .order-info-panel dl{display:grid;gap:0}
+  .order-info-panel dl>div{display:grid;grid-template-columns:minmax(130px,.42fr) minmax(0,1fr);gap:18px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .order-info-panel dl>div:last-child{border-bottom:0}
+  .order-info-panel dt{color:var(--ink);font-weight:650}
+  .order-info-panel dd{margin:0;color:var(--muted)}
   /* results */
   .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:44px}
   .res-card{background:var(--cream);border-radius:10px;padding:32px 32px 28px;position:relative}
@@ -272,6 +287,7 @@
   footer .foot-consent{background:none;border:0;padding:0;margin-right:22px;color:#C9BCAB;font:inherit;font-size:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
   footer .foot-consent:hover{color:#EBCB9C}
   footer a{color:#C9BCAB;text-decoration:none;margin-right:20px}
+  footer .footer-links{display:flex;align-items:center;gap:10px 0;flex-wrap:wrap}
   footer .buildlog{flex-basis:100%;margin-top:8px;padding-top:15px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#A2968A}
   footer .buildlog span{margin-right:8px}
   footer .buildlog a{margin-right:0;border-bottom:1px solid rgba(201,188,171,.35)}
@@ -414,13 +430,18 @@
     .order-product output{font-size:23px}
     .retail-order-controls{grid-template-columns:40px minmax(66px,1fr) minmax(126px,auto)}
     .retail-add{font-size:14px;padding:0 10px}
+    .order-product-info{padding:18px 0 40px}
+    .order-info-actions{grid-template-columns:1fr;gap:10px}
+    .order-info-disclosure summary{min-height:58px;padding:15px 17px;font-size:14px}
+    .order-info-panel{padding:18px;font-size:16px}
+    .order-info-panel dl>div{grid-template-columns:1fr;gap:2px;padding:9px 0}
   }
 
   @media (max-width:767px){
     :root{--nav-height:68px}
     html,body{max-width:100%;overflow-x:clip}
     body{padding-bottom:0}
-    body>.announce,body>footer,.sticky-order{display:none!important}
+    body>.announce,.sticky-order{display:none!important}
     main{min-width:0;max-width:100%;overflow-x:clip}
     .wrap{width:100%;max-width:100%;padding-right:16px;padding-left:16px}
     .crumbs{padding:16px 16px 6px;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
@@ -432,6 +453,10 @@
     .cta-col .btn{padding:16px 12px;font-size:13px;letter-spacing:.09em}
     .trial-link{font-size:15px;line-height:1.45;overflow-wrap:anywhere}
     .story-portrait{top:68px}
+    body>footer{display:block;padding:34px 0 28px}
+    body>footer .wrap{align-items:flex-start;flex-direction:column;gap:18px}
+    body>footer .footer-links{align-items:flex-start;flex-direction:column;gap:11px}
+    body>footer a,body>footer .foot-consent{margin-right:0}
   }
 
   @media (max-width:430px){

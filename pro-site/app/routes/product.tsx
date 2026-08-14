@@ -1,23 +1,17 @@
 import type { ActionFunctionArgs, LinksFunction, MetaFunction } from "react-router";
 import { Link } from "react-router";
-import homeStyles from "../styles/home.css?url";
 import productStyles from "../styles/product.css?url";
-import ritualStyles from "../styles/ritual.css?url";
 import chromeStyles from "../styles/chrome.css?url";
 import commerceStyles from "../styles/commerce.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
-import { ApplicationRitual } from "../components/shared/ApplicationRitual";
-import { ProductProofStrip, ProductPurchase, StickyOrder, usePurchaseState } from "../components/product/ProductPurchase";
-import { Story } from "../components/home/HomeSections";
-import { CrossSell, OrderSection, ProductDetails, SalonFaq, ShadeComparison, Specification } from "../components/product/ProductSections";
+import { ProductPurchase, StickyOrder, usePurchaseState } from "../components/product/ProductPurchase";
+import { CrossSell, OrderSection, ProductDetails } from "../components/product/ProductSections";
 import { ORG_ID, brandEntities } from "../lib/entity";
-import { faqPageSchema } from "../lib/faq";
 import { LITRE_PRICE_GBP, priceValidUntil, specSchemaProperties } from "../lib/specs";
 import { CONTENT_UPDATED, PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 import { handleApplicationSubmit } from "../lib/application-action.server";
-import { SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../lib/product-features";
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: homeStyles }, { rel: "stylesheet", href: productStyles }, { rel: "stylesheet", href: ritualStyles }, { rel: "stylesheet", href: chromeStyles }, { rel: "stylesheet", href: commerceStyles }];
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: productStyles }, { rel: "stylesheet", href: chromeStyles }, { rel: "stylesheet", href: commerceStyles }];
 
 const canonical = absoluteUrl(PRODUCT_PATH);
 const socialImage = absoluteUrl("/social/product-og-1200x630.jpg");
@@ -50,7 +44,6 @@ export const meta: MetaFunction = () => [
 
 const schema = [
   ...brandEntities,
-  faqPageSchema,
   {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -91,20 +84,14 @@ export default function ProductPage() {
     <StructuredData data={schema} />
     <Announcement page="product" />
     <SiteHeader page="product" />
-    <main data-asset-revision="2026-08-13-product-reset-2">
+    <main data-asset-revision="2026-08-14-order-builder">
       <section className="pdp-shell" id="configure-solution">
         <div className="wrap crumbs"><Link to="/">Professional</Link> › <Link to="/#shades">Malibu Solution</Link> › <b>1 Litre · Salon Order</b></div>
         <ProductPurchase state={state} setState={setState} ctaRef={ctaRef} />
       </section>
-      <ProductProofStrip />
-      <Story />
-      {SHOW_LEGACY_MALIBU_SHADE_RANGE ? <ShadeComparison onChoose={(shade) => setState((current) => ({ ...current, shade }))} /> : null}
-      <ApplicationRitual />
-      <Specification />
       <ProductDetails />
       <CrossSell state={state} setState={setState} />
       <OrderSection state={state} />
-      <SalonFaq />
     </main>
     <SiteFooter page="product" />
     <StickyOrder state={state} target={ctaRef} />

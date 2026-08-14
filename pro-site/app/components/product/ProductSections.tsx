@@ -32,11 +32,28 @@ export function CrossSell({ state, setState }: { state: PurchaseState; setState:
 }
 
 export function ProductDetails() {
-  return <section style={{ paddingTop: 60, paddingBottom: 60 }}><div className="wrap" style={{ maxWidth: "min(90vw,1100px)" }}>
-    <details className="acc"><summary>What's in the formula</summary><div className="acc-body">Colloidal gold for a radiant soft-focus finish · hyaluronic acid attracting 1000× its weight in water · Jimmy's signature scent with fine-fragrance aromaguard technology · blue daisy to soothe sensitive skin · Pentavitin to lock moisture in place. Custom-blended, skin-tone–sympathetic pigments enhance every client's natural undertones.</div></details>
-    <details className="acc"><summary>Delivery</summary><div className="acc-body">UK &amp; NI: 1–3 working days (£5.50, free over £40 with FREESHIP40) · ROI: 1–3 working days (€6.50, free over €30) · US: 3–4 working days ($7, free over $50) · EU: 5–7 working days (£14.95, free over €100). Orders placed after 1pm dispatch the following working day.</div></details>
-    <details className="acc"><summary>Returns &amp; guarantee</summary><div className="acc-body">14-day return and refund policy with a 100% money-back guarantee on every order. New salons: start with the complimentary trial instead — judge the colour on a real client before your first litre.</div></details>
-    
+  const visibleDetails = PRODUCT_SPECS.filter(({ name }) => [
+    "Product type",
+    "Volume",
+    "Active tanning agent",
+    "Shade",
+    "Coverage",
+    "Recommended dose",
+    "Development time",
+    "Equipment",
+  ].includes(name));
+
+  return <section className="order-product-info" aria-label="Product information"><div className="wrap">
+    <div className="order-info-actions">
+      <details className="order-info-disclosure">
+        <summary>Product details</summary>
+        <div className="order-info-panel"><dl>{visibleDetails.map(({ name, value }) => <div key={name}><dt>{name}</dt><dd>{value}</dd></div>)}</dl></div>
+      </details>
+      <details className="order-info-disclosure">
+        <summary>What's in the formula</summary>
+        <div className="order-info-panel"><p>Colloidal gold for a radiant soft-focus finish · hyaluronic acid attracting 1000× its weight in water · Jimmy's signature scent with fine-fragrance aromaguard technology · blue daisy to soothe sensitive skin · Pentavitin to lock moisture in place. Custom-blended, skin-tone–sympathetic pigments enhance every client's natural undertones.</p></div>
+      </details>
+    </div>
   </div></section>;
 }
 

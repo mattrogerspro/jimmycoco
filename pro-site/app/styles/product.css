@@ -138,7 +138,6 @@
   .cross-sell .wrap{max-width:min(94vw,1600px)}
   .cross-sell .sub{max-width:850px}
   .cross-sell-rail{position:relative;width:100%;min-width:0}
-  .cross-sell-scroll-cue{display:none}
   .cross-sell .shop-grid{width:100%;max-width:1600px;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin:44px auto 0}
   .cross-sell .pcard{border-radius:12px}
   .cross-sell .pcard.is-added{border-color:var(--ocean);box-shadow:0 0 0 2px rgba(40,95,120,.16),0 22px 52px rgba(25,21,18,.13)}
@@ -362,13 +361,6 @@
     .product-proof ul{flex-wrap:wrap;gap:10px 22px}
     .so-name small{display:none}
   }
-  @media (max-width:900px){
-    .cross-sell-scroll-cue{position:absolute;z-index:4;top:50%;right:-8px;display:flex;width:72px;height:72px;align-items:center;justify-content:center;flex-direction:column;transform:translateY(-50%);border:2px solid rgba(255,255,255,.82);border-radius:50%;background:rgba(16,39,52,.94);color:#fff;box-shadow:0 10px 30px rgba(8,25,34,.36);pointer-events:none;animation:cross-sell-cue 1.8s ease-in-out infinite}
-    .cross-sell-scroll-cue small{font-size:10px;font-weight:750;line-height:1;letter-spacing:.12em;text-transform:uppercase}
-    .cross-sell-scroll-cue b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:30px;font-weight:500;line-height:.9}
-  }
-  @keyframes cross-sell-cue{0%,100%{transform:translate(-4px,-50%)}50%{transform:translate(4px,-50%)}}
-  @media (prefers-reduced-motion:reduce){.cross-sell-scroll-cue{animation:none}}
   @media (max-width:620px){
     .pdp>*,.gallery,.buybox,.price-block,.purchase-control,.qtyrow,.maths,.cta-col,.order-grid>*,.orderform,.ocomposition{min-width:0;max-width:100%}
     .gthumbs{grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}

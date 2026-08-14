@@ -92,7 +92,7 @@ export default function ProductPage() {
     <Announcement page="product" />
     <SiteHeader page="product" />
     <main data-asset-revision="2026-08-13-product-reset-2">
-      <section className="pdp-shell">
+      <section className="pdp-shell" id="configure-solution">
         <div className="wrap crumbs"><Link to="/">Professional</Link> › <Link to="/#shades">Malibu Solution</Link> › <b>1 Litre · Salon Order</b></div>
         <ProductPurchase state={state} setState={setState} ctaRef={ctaRef} />
       </section>
@@ -102,9 +102,9 @@ export default function ProductPage() {
       <ApplicationRitual />
       <Specification />
       <ProductDetails />
-      <SalonFaq />
       <CrossSell state={state} setState={setState} />
       <OrderSection state={state} />
+      <SalonFaq />
     </main>
     <SiteFooter page="product" />
     <StickyOrder state={state} target={ctaRef} />

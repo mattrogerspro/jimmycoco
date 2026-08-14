@@ -27,7 +27,7 @@
   .btn-bronze{background:var(--bronze);color:#FFFDF9}
   .btn-ghost{border:1.5px solid var(--ink);color:var(--ink);background:transparent;padding:16.5px 30px}
   .btn-sm{padding:13px 22px;font-size:13px}
-  .pdp-shell{padding:0;background:var(--paper)}
+  .pdp-shell{scroll-margin-top:var(--nav-height);padding:0;background:var(--paper)}
   .pdp,.order-band,.sticky-order{font-variant-numeric:lining-nums tabular-nums}
   .crumbs{height:44px;font-size:14.5px;color:var(--muted);padding:14px 24px 0}
   .crumbs a{text-decoration:none}

@@ -28,7 +28,7 @@ export function CrossSell({ state, setState }: { state: PurchaseState; setState:
     setState((current) => ({ ...current, retail: { ...current.retail, [id]: Math.max(0, Math.min(24, quantity)) } }));
   };
 
-  return <section className="steps-band cross-sell" id="complete-order"><div className="wrap"><p className="eyebrow">Complete the order · Step 1</p><h2>Would you like to add any retail?</h2><p className="sub">Open a product to choose its quantity and see its own volume levels, trade price and potential profit.</p><RetailProductCards orderMode quantities={state.retail} onQuantityChange={setRetailQuantity} renderConfigurator={(id, quantity) => <OrderConfiguratorModal item={id} state={state} setState={setState} triggerLabel={quantity ? "Edit this item" : "Configure this item"} triggerClassName="retail-add retail-configure-button" />} /><div className="cross-sell-next"><div className="cross-sell-next-copy"><p>Each product is configured separately. Happy with the mix?</p><small>*Maximum profit at full retail price.</small></div><div className="cross-sell-next-actions"><a className="btn btn-dark" href="#order">Continue to salon details</a></div></div></div></section>;
+  return <section className="steps-band cross-sell" id="complete-order"><div className="wrap"><p className="eyebrow">Add your retail products · Step 2</p><h2>Would you like to add any retail?</h2><p className="sub">Open a product to choose its quantity and see its own volume levels, trade price and potential profit.</p><RetailProductCards orderMode quantities={state.retail} onQuantityChange={setRetailQuantity} renderConfigurator={(id, quantity) => <OrderConfiguratorModal item={id} state={state} setState={setState} triggerLabel={quantity ? "Edit this item" : "Configure this item"} triggerClassName="retail-add retail-configure-button" />} /><div className="cross-sell-next"><div className="cross-sell-next-copy"><p>Each product is configured separately. Happy with the mix?</p><small>*Maximum profit at full retail price.</small></div><div className="cross-sell-next-actions"><a className="btn btn-dark" href="#order">Continue to final order</a></div></div></div></section>;
 }
 
 export function ProductDetails() {
@@ -87,7 +87,7 @@ export function OrderSection({ state }: { state: PurchaseState }) {
     "Trade terms and retail pricing to be confirmed before payment.",
   ].join("\n");
 
-  return <section className="order-band" id="order"><div className="wrap"><p className="eyebrow">Salon order · Step 2</p><h2>Your order, <em>composed.</em></h2><p className="sub">Add your salon details and review the live composition beside the form. Nothing is charged until your trade terms are confirmed.</p><div className="order-grid">
+  return <section className="order-band" id="order"><div className="wrap"><p className="eyebrow">Submit your final order · Step 3</p><h2>Review and submit <em>your order.</em></h2><p className="sub">Add your salon details and review the live composition beside the form. Nothing is charged until your trade terms are confirmed.</p><div className="order-grid">
     <Form method="post" className="orderform" data-form-id="product_order" replace>
       <div className="orderform-head"><span>Trade order request</span><h3>Where should we send the confirmation?</h3><p>Complete your details and the partnerships team will confirm pricing and availability.</p></div>
       <label htmlFor="f-salon">Salon or business name</label><input id="f-salon" type="text" name="salon" autoComplete="organization" required />
@@ -98,7 +98,7 @@ export function OrderSection({ state }: { state: PurchaseState }) {
       <input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />
       {orderResult && !orderResult.ok ? <p className="form-error" role="alert">{orderResult.message}</p> : null}
       {orderResult?.ok ? <p className="form-ok" role="status">Thank you — your order request is with us. We will confirm trade terms and invoice by email.</p> : null}
-      <button className="btn btn-bronze" type="submit" disabled={sending}>{sending ? "Sending…" : "Send my composed order"}</button><small className="order-reassurance">No payment taken now · trade terms confirmed first · 14-day guarantee</small>
+      <button className="btn btn-bronze" type="submit" disabled={sending}>{sending ? "Sending…" : "Submit my final order"}</button><small className="order-reassurance">No payment taken now · trade terms confirmed first · 14-day guarantee</small>
     </Form>
 
     <aside className="ocomposition" aria-live="polite">

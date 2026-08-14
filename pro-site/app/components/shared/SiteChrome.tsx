@@ -37,7 +37,7 @@ export function SiteHeader({ page = "home" }: HeaderProps) {
           <Link to="/articles">Articles</Link>
           <a href={`${prefix}#trial`}>Free Trial</a>
         </nav>
-        {page === "product" ? <a className="btn btn-bronze btn-sm" href="#complete-order">Compose order</a> : <Link className="btn btn-bronze btn-sm" to={PRODUCT_PATH}>Order Malibu 1L</Link>}
+        {page === "product" ? <a className="btn btn-bronze btn-sm" href="#configure-solution">Start order</a> : <Link className="btn btn-bronze btn-sm" to={PRODUCT_PATH}>Order Malibu 1L</Link>}
       </div>
     </header>
   );

@@ -102,11 +102,13 @@ export function retailQuantitiesFromSearchParams(params: URLSearchParams): Retai
 
 export function RetailProductCards({
   orderMode = false,
+  cardHref,
   quantities,
   onQuantityChange,
   renderConfigurator,
 }: {
   orderMode?: boolean;
+  cardHref?: string;
   quantities?: RetailQuantities;
   onQuantityChange?: (id: RetailProductId, quantity: number) => void;
   renderConfigurator?: (id: RetailProductId, quantity: number) => ReactNode;
@@ -121,7 +123,7 @@ export function RetailProductCards({
         const responsiveSrcSet = responsiveBase
           ? [480, 700, 960, 1200, 1600].map((width) => `${asset(`${responsiveBase}-${width}.webp`)} ${width}w`).join(", ")
           : undefined;
-        return <div className={`pcard${quantity > 0 ? " is-added" : ""}`} key={src}>
+        const cardContent = <>
           <div className="pimg">
             <img
               src={asset(src)}
@@ -149,8 +151,13 @@ export function RetailProductCards({
                   <button type="button" className="retail-add" disabled={maximumSelected} onClick={() => onQuantityChange?.(id, quantity + 1)}>{quantity === 0 ? "Add to order" : maximumSelected ? "Maximum selected" : "Add another"}<i aria-hidden="true">{maximumSelected ? "✓" : "+"}</i></button>
                 </div>
             ) : null}
+            {cardHref ? <span className="pcard-link-label">View in salon order <i aria-hidden="true">→</i></span> : null}
           </div>
-        </div>
+        </>;
+        const className = `pcard${quantity > 0 ? " is-added" : ""}${cardHref ? " pcard-link" : ""}`;
+        return cardHref
+          ? <a className={className} href={cardHref} aria-label={`View ${title} in the salon order`} key={src}>{cardContent}</a>
+          : <div className={className} key={src}>{cardContent}</div>;
       })}
     </div>
   );

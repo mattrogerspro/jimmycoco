@@ -3,16 +3,7 @@ import { Form, Link, useActionData, useNavigation } from "react-router";
 import type { ApplicationActionResult } from "../../lib/application-action.server";
 import { track } from "../../lib/analytics";
 import { PRODUCT_PATH, gbp } from "../../lib/site";
-import {
-  EMPTY_RETAIL_QUANTITIES,
-  RETAIL_PRODUCTS,
-  RetailProductCards,
-  retailQuantitiesToSearchParams,
-  type RetailProductId,
-  type RetailQuantities,
-} from "../shared/RetailProductCards";
-import { VolumeProfitModal } from "../shared/VolumeProfitModal";
-import { retailProductPricing } from "../../lib/order-pricing";
+import { RetailProductCards } from "../shared/RetailProductCards";
 import { LITRE_PRICE_GBP, TANS_PER_LITRE, costPerTan } from "../../lib/specs";
 
 const A = "/assets/site/";
@@ -196,33 +187,16 @@ export function Shades() {
 }
 
 export function Retail() {
-  const [quantities, setQuantities] = useState<RetailQuantities>({ ...EMPTY_RETAIL_QUANTITIES });
-  const setRetailQuantity = (id: RetailProductId, quantity: number) => {
-    setQuantities((current) => ({ ...current, [id]: Math.max(0, Math.min(24, quantity)) }));
-  };
-  const selectedCount = Object.values(quantities).reduce((sum, quantity) => sum + quantity, 0);
-  const retailSubtotal = RETAIL_PRODUCTS.reduce((sum, { id }) => {
-    const pricing = retailProductPricing(id, quantities[id]);
-    return sum + (pricing ? pricing.unitPrice * quantities[id] : 0);
-  }, 0);
-  const buildingToStarter = quantities.souffleMedium > 0 && quantities.souffleMedium < 6
-    ? quantities.souffleMedium
-    : 0;
-  const darkBuildingToStarter = quantities.souffleDark > 0 && quantities.souffleDark < 6
-    ? quantities.souffleDark
-    : 0;
-  const unqualifiedSouffleCount = buildingToStarter + darkBuildingToStarter;
-  const selectionQuery = retailQuantitiesToSearchParams(quantities).toString();
-  const composePath = `${PRODUCT_PATH}${selectionQuery ? `?${selectionQuery}` : ""}`;
+  const orderStart = `${PRODUCT_PATH}#configure-solution`;
 
   return <section className="retail" id="retail">
     <picture className="retail-background" aria-hidden="true">
       <img src={`${A}revenue-line-background-2560.webp`} srcSet={REVENUE_BACKGROUND_SRCSET} sizes="100vw" alt="" width="2560" height="1118" loading="lazy" decoding="async" />
     </picture>
     <div className="wrap">
-      <div className="retail-intro"><div><p className="eyebrow">The second revenue line</p><h2>The moment they step out of the booth<br /><em>is the moment they buy.</em></h2><p className="sub">Add products one at a time. We’ll show the next volume target and exactly how much more potential profit it creates as your shelf order grows.</p></div><VolumeProfitModal triggerLabel="Compare retail profit levels" /></div>
-      <RetailProductCards orderMode quantities={quantities} onQuantityChange={setRetailQuantity} />
-      <div className="retail-compose" aria-live="polite"><div><span>Your retail selection</span><strong>{selectedCount ? `${selectedCount} unit${selectedCount === 1 ? "" : "s"}` : "No retail selected yet"}</strong><small>{selectedCount ? `${gbp(retailSubtotal)} priced subtotal${unqualifiedSouffleCount ? ` · ${unqualifiedSouffleCount} Soufflé unit${unqualifiedSouffleCount === 1 ? "" : "s"} building toward Starter` : ""}` : "Add products above, or continue with the professional litre only."}</small></div><div className="section-actions"><Link className="btn btn-bronze" to={composePath}>{selectedCount ? "Continue with this selection" : "Build your salon order"}</Link><a className="btn btn-ghost" href="#trial">Request a free trial instead</a></div></div>
+      <div className="retail-intro"><div><p className="eyebrow">The second revenue line</p><h2>The moment they step out of the booth<br /><em>is the moment they buy.</em></h2><p className="sub">Explore the take-home range here, then start with your professional solution on the order page before choosing any retail quantities.</p></div></div>
+      <RetailProductCards cardHref={orderStart} />
+      <div className="retail-compose"><div><span>Build your salon order</span><strong>Start with the professional solution</strong><small>Retail quantities are selected in Step 2 of the order page.</small></div><div className="section-actions"><Link className="btn btn-bronze" to={orderStart}>Start at Step 1</Link></div></div>
     </div>
   </section>;
 }

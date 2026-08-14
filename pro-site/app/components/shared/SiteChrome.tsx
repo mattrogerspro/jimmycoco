@@ -16,7 +16,6 @@ export function Announcement({ page = "home" }: HeaderProps) {
 export function SiteHeader({ page = "home" }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const prefix = page === "home" ? "" : "/";
 
   useEffect(() => {
     const updateHeader = () => setScrolled(window.scrollY > 24);
@@ -43,35 +42,35 @@ export function SiteHeader({ page = "home" }: HeaderProps) {
         <span className="protag">Professional</span>
         <nav className="nav-links" aria-label="Primary navigation">
           {page === "product" ? <>
-            <a href="#configure-solution">1 · Pro solution</a>
-            <a href="#complete-order">2 · Retail products</a>
-            <a href="#order">3 · Submit order</a>
+            <a href={`${PRODUCT_PATH}#configure-solution`}>1 · Pro solution</a>
+            <a href={`${PRODUCT_PATH}#retail-products`}>2 · Retail products</a>
+            <a href={`${PRODUCT_PATH}#order`}>3 · Submit order</a>
           </> : <>
-            <a href={`${prefix}#story`}>Why Jimmy Coco</a>
-            {page === "home" && <a href="#formula">The Solution</a>}
+            <a href="/#story">Why Jimmy Coco</a>
+            {page === "home" && <a href="/#formula">The Solution</a>}
             <Link to="/tools/spray-tan-profit-calculator">Profit Calculator</Link>
-            <a href={`${prefix}#retail`}>Retail Range</a>
+            <a href="/#retail">Retail Range</a>
             <Link to="/articles">Articles</Link>
-            <a href={`${prefix}#trial`}>Free Trial</a>
+            <a href="/#trial">Free Trial</a>
           </>}
         </nav>
-        {page === "product" ? <a className="btn btn-bronze btn-sm" href="#configure-solution">Start order</a> : <Link className="btn btn-bronze btn-sm" to={PRODUCT_PATH}>Order Malibu 1L</Link>}
+        {page === "product" ? <a className="btn btn-bronze btn-sm" href={`${PRODUCT_PATH}#configure-solution`}>Start order</a> : <Link className="btn btn-bronze btn-sm" to={PRODUCT_PATH}>Order Malibu 1L</Link>}
         <button className="mobile-menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="mobile-primary-navigation" aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen((open) => !open)}><span /><span /><span /></button>
       </div>
       <nav id="mobile-primary-navigation" className={`mobile-nav${menuOpen ? " open" : ""}`} aria-label="Mobile navigation">
         {page === "product" ? <>
-          <a href="#configure-solution" onClick={closeMenu}>1 · Configure Pro solution</a>
-          <a href="#complete-order" onClick={closeMenu}>2 · Add retail products</a>
-          <a href="#order" onClick={closeMenu}>3 · Submit final order</a>
+          <a href={`${PRODUCT_PATH}#configure-solution`} onClick={closeMenu}>1 · Configure Pro solution</a>
+          <a href={`${PRODUCT_PATH}#retail-products`} onClick={closeMenu}>2 · Add retail products</a>
+          <a href={`${PRODUCT_PATH}#order`} onClick={closeMenu}>3 · Submit final order</a>
         </> : <>
-          <a href={`${prefix}#story`} onClick={closeMenu}>Why Jimmy Coco</a>
-          {page === "home" && <a href="#formula" onClick={closeMenu}>The Solution</a>}
+          <a href="/#story" onClick={closeMenu}>Why Jimmy Coco</a>
+          {page === "home" && <a href="/#formula" onClick={closeMenu}>The Solution</a>}
           <Link to="/tools/spray-tan-profit-calculator" onClick={closeMenu}>Profit Calculator</Link>
-          <a href={`${prefix}#retail`} onClick={closeMenu}>Retail Range</a>
+          <a href="/#retail" onClick={closeMenu}>Retail Range</a>
           <Link to="/articles" onClick={closeMenu}>Articles</Link>
-          <a href={`${prefix}#trial`} onClick={closeMenu}>Free Trial</a>
+          <a href="/#trial" onClick={closeMenu}>Free Trial</a>
         </>}
-        {page === "product" ? <a className="mobile-menu-order" href="#configure-solution" onClick={closeMenu}>Start order</a> : <Link className="mobile-menu-order" to={PRODUCT_PATH} onClick={closeMenu}>Order Malibu 1L</Link>}
+        {page === "product" ? <a className="mobile-menu-order" href={`${PRODUCT_PATH}#configure-solution`} onClick={closeMenu}>Start order</a> : <Link className="mobile-menu-order" to={PRODUCT_PATH} onClick={closeMenu}>Order Malibu 1L</Link>}
       </nav>
     </header>
   );

@@ -417,10 +417,10 @@
   }
 
   @media (max-width:767px){
-    :root{--nav-height:0px}
+    :root{--nav-height:68px}
     html,body{max-width:100%;overflow-x:clip}
     body{padding-bottom:0}
-    body>.announce,body>header.site-header,body>footer,.sticky-order{display:none!important}
+    body>.announce,body>footer,.sticky-order{display:none!important}
     main{min-width:0;max-width:100%;overflow-x:clip}
     .wrap{width:100%;max-width:100%;padding-right:16px;padding-left:16px}
     .crumbs{padding:16px 16px 6px;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
@@ -431,7 +431,7 @@
     .bb-eyebrow{font-size:13px;letter-spacing:.16em}
     .cta-col .btn{padding:16px 12px;font-size:13px;letter-spacing:.09em}
     .trial-link{font-size:15px;line-height:1.45;overflow-wrap:anywhere}
-    .story-portrait{top:0}
+    .story-portrait{top:68px}
   }
 
   @media (max-width:430px){

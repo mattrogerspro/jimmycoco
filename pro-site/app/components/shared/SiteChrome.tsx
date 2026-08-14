@@ -15,6 +15,7 @@ export function Announcement({ page = "home" }: HeaderProps) {
 
 export function SiteHeader({ page = "home" }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const prefix = page === "home" ? "" : "/";
 
   useEffect(() => {
@@ -24,10 +25,21 @@ export function SiteHeader({ page = "home" }: HeaderProps) {
     return () => window.removeEventListener("scroll", updateHeader);
   }, []);
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen]);
+
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <header className={scrolled ? "site-header scrolled" : "site-header"}>
+    <header className={`${scrolled ? "site-header scrolled" : "site-header"}${menuOpen ? " menu-open" : ""}`}>
       <div className="wrap nav">
-        <Link className="logo" to="/">SUNLESS<small>BY JIMMY COCO®</small></Link>
+        <Link className="logo" to="/" onClick={closeMenu}>SUNLESS<small>BY JIMMY COCO®</small></Link>
         <span className="protag">Professional</span>
         <nav className="nav-links" aria-label="Primary navigation">
           <a href={`${prefix}#story`}>Why Jimmy Coco</a>
@@ -38,7 +50,17 @@ export function SiteHeader({ page = "home" }: HeaderProps) {
           <a href={`${prefix}#trial`}>Free Trial</a>
         </nav>
         {page === "product" ? <a className="btn btn-bronze btn-sm" href="#configure-solution">Start order</a> : <Link className="btn btn-bronze btn-sm" to={PRODUCT_PATH}>Order Malibu 1L</Link>}
+        <button className="mobile-menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="mobile-primary-navigation" aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen((open) => !open)}><span /><span /><span /></button>
       </div>
+      <nav id="mobile-primary-navigation" className={`mobile-nav${menuOpen ? " open" : ""}`} aria-label="Mobile navigation">
+        <a href={`${prefix}#story`} onClick={closeMenu}>Why Jimmy Coco</a>
+        {page === "home" && <a href="#formula" onClick={closeMenu}>The Solution</a>}
+        <Link to="/tools/spray-tan-profit-calculator" onClick={closeMenu}>Profit Calculator</Link>
+        <a href={`${prefix}#retail`} onClick={closeMenu}>Retail Range</a>
+        <Link to="/articles" onClick={closeMenu}>Articles</Link>
+        <a href={`${prefix}#trial`} onClick={closeMenu}>Free Trial</a>
+        {page === "product" ? <a className="mobile-menu-order" href="#configure-solution" onClick={closeMenu}>Start order</a> : <Link className="mobile-menu-order" to={PRODUCT_PATH} onClick={closeMenu}>Order Malibu 1L</Link>}
+      </nav>
     </header>
   );
 }

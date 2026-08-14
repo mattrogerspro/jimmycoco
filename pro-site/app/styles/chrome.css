@@ -7,5 +7,24 @@ header.scrolled .protag{color:#B9D1DB;border-color:rgba(185,209,219,.5)}
 header.scrolled .nav-links a{color:#D8E8EE}
 header.scrolled .nav-links a:hover{color:#fff}
 header.scrolled .btn-bronze{background:var(--gold);color:#20180f}
+.mobile-menu-toggle,.mobile-nav{display:none}
+
+@media(max-width:767px){
+  header.site-header{display:block;top:0}
+  .site-header .nav{height:68px;gap:12px}
+  .site-header .nav-links,.site-header .protag,.site-header .nav>.btn{display:none}
+  .site-header .logo{font-size:21px;letter-spacing:.11em;white-space:nowrap}
+  .site-header .logo small{font-size:8px;letter-spacing:.18em;white-space:nowrap}
+  .mobile-menu-toggle{display:flex;width:48px;height:48px;margin-left:auto;padding:12px;align-items:stretch;justify-content:center;flex-direction:column;gap:6px;border:1px solid rgba(40,95,120,.35);border-radius:7px;background:var(--mist);color:var(--navy);cursor:pointer}
+  .mobile-menu-toggle span{display:block;width:100%;height:2px;border-radius:999px;background:currentColor;transition:transform .2s ease,opacity .2s ease}
+  .mobile-menu-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+  .mobile-menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .mobile-menu-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+  header.scrolled .mobile-menu-toggle{border-color:rgba(185,209,219,.42);background:rgba(255,255,255,.1);color:#fff}
+  .mobile-nav{position:absolute;z-index:70;top:100%;right:0;left:0;display:grid;max-height:0;overflow:hidden;padding:0 18px;visibility:hidden;opacity:0;transform:translateY(-8px);border-top:1px solid rgba(185,209,219,.2);background:#102734;box-shadow:0 24px 48px rgba(8,25,34,.3);transition:max-height .28s ease,opacity .2s ease,transform .2s ease,visibility .2s ease}
+  .mobile-nav.open{max-height:calc(100dvh - 68px);overflow-y:auto;padding-top:12px;padding-bottom:18px;visibility:visible;opacity:1;transform:none}
+  .mobile-nav a{padding:14px 4px;border-bottom:1px solid rgba(185,209,219,.16);color:#fff;text-decoration:none;font-size:17px;font-weight:600;line-height:1.35}
+  .mobile-nav .mobile-menu-order{margin-top:12px;padding:15px 18px;border:0;border-radius:4px;background:var(--gold);color:#20180f;text-align:center;font-size:14px;letter-spacing:.12em;text-transform:uppercase}
+}
 
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #4E7C91;outline-offset:3px}

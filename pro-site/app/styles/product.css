@@ -125,13 +125,15 @@
   .cross-sell .shop-grid{width:100%;max-width:1600px;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin:44px auto 0}
   .cross-sell .pcard{border-radius:12px}
   .cross-sell .pcard.is-added{border-color:var(--ocean);box-shadow:0 0 0 2px rgba(40,95,120,.16),0 22px 52px rgba(25,21,18,.13)}
-  .cross-sell .pcard .pimg{min-height:clamp(340px,31vw,500px)}
-  .cross-sell .pcard .pbody{min-height:385px;padding:26px 28px 28px;gap:15px}
+  .cross-sell .pcard .pimg{min-height:clamp(280px,22vw,380px)}
+  .cross-sell .pcard .pbody{min-height:350px;padding:24px 26px 26px;gap:13px}
   .cross-sell .pcard h3{font-size:clamp(34px,2.7vw,44px)}
   .cross-sell .badge{font-size:13px;padding:8px 12px}
   .cross-sell .pcard .pdesc{font-size:clamp(17px,1.12vw,20px);line-height:1.52;-webkit-line-clamp:4}
   .cross-sell .price{font-size:clamp(22px,1.45vw,26px)}
   .cross-sell .price span{font-size:17px}
+  .cross-sell .retail-tier-nudge{margin-top:2px;padding:13px 16px;border-width:1px}
+  .cross-sell .retail-tier-nudge>b{font-size:clamp(19px,1.3vw,23px);line-height:1.2}
   .retail-order-controls{width:100%;display:grid;grid-template-columns:48px minmax(90px,1fr) minmax(164px,auto);gap:10px;align-items:center;margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
   .retail-order-controls button{height:48px;border-radius:5px;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:650;cursor:pointer;transition:transform .15s ease,background .15s ease,border-color .15s ease}
   .retail-order-controls button:hover:not(:disabled){transform:translateY(-1px)}
@@ -174,6 +176,8 @@
   .profit-dialog footer p{max-width:800px;color:#B9C8CE;font-size:12px;line-height:1.5}.profit-dialog footer .btn{padding:13px 20px;border:1px solid rgba(255,255,255,.4);white-space:nowrap}
   .cross-sell-next{max-width:1480px;margin:26px auto 0;padding:20px 22px;background:var(--mist);border:1px solid var(--sky);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:24px}
   .cross-sell-next p{font-size:19px;color:var(--ink2)}
+  .cross-sell-next-copy{display:grid;gap:5px}
+  .cross-sell-next-copy small{color:var(--muted);font-size:14px;line-height:1.4}
   .cross-sell-next .btn{flex:0 0 auto;padding:16px 24px;font-size:14px}
   .cross-sell-next-actions{display:flex;align-items:stretch;gap:12px;flex:0 0 auto}
   .cross-sell-next-actions .profit-modal-trigger{background:#fff;padding:13px 18px}
@@ -366,8 +370,8 @@
     .profit-tier{padding:19px 18px 20px}
     .profit-dialog footer{align-items:stretch;flex-direction:column;padding:21px 20px}
     .profit-dialog footer .btn{width:100%}
-    .cross-sell .pcard .pimg{min-height:330px}
-    .cross-sell .pcard .pbody{min-height:375px;padding:20px}
+    .cross-sell .pcard .pimg{min-height:280px}
+    .cross-sell .pcard .pbody{min-height:350px;padding:20px}
     .cross-sell-next{align-items:stretch;flex-direction:column;padding:18px}
     .cross-sell-next-actions{flex-direction:column;width:100%}
     .cross-sell-next-actions .btn,.cross-sell-next-actions .profit-modal-trigger{width:100%}

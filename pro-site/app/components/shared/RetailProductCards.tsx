@@ -140,7 +140,7 @@ export function RetailProductCards({
             <p className="pdesc">{description}</p>
             <span className="price">{price}<span>{suffix}</span></span>
             {orderMode && incentive ? <div className="retail-tier-nudge">
-              <b>{gbp(incentive.currentProfit)} potential profit</b>
+              <b>{gbp(incentive.currentProfit)} Profit*</b>
             </div> : null}
             {orderMode ? (
               renderConfigurator ? <div className="retail-order-controls retail-configure-control"><output aria-live="polite">{quantity === 0 ? "Not added" : `${quantity} added`}</output>{renderConfigurator(id, quantity)}</div> : <div className="retail-order-controls">

@@ -202,11 +202,11 @@
   .faq-band{background:var(--cream);padding:80px 0}
   .faq-band .eyebrow{margin-bottom:10px}
   .faq-band h2{max-width:18ch}
-  .faq-band .sub{color:var(--muted);font-size:18px;margin:14px 0 34px;max-width:60ch}
+  .faq-band .sub{color:#1C1714;font-family:'Manrope','Inter',system-ui,-apple-system,sans-serif;font-size:21px;line-height:1.68;margin:14px 0 34px;max-width:60ch}
   .faq-list{max-width:900px;border-top:1px solid var(--line)}
-  .faq-band details.acc summary{font-size:19px;gap:24px;align-items:flex-start;padding:24px 4px}
+  .faq-band details.acc summary{font-family:'Manrope','Inter',system-ui,-apple-system,sans-serif;font-size:22px;font-weight:600;line-height:1.38;color:#17130F;gap:24px;align-items:flex-start;padding:22px 4px}
   .faq-band details.acc summary:after{flex:0 0 auto;line-height:1}
-  .faq-band details.acc .acc-body{font-size:17px;max-width:78ch}
+  .faq-band details.acc .acc-body{font-family:'Manrope','Inter',system-ui,-apple-system,sans-serif;font-size:21px;line-height:1.68;color:#1C1714;max-width:78ch}
   details.acc .acc-body{padding:0 4px 24px;font-size:17.5px;color:var(--muted);line-height:1.65;max-width:900px}
   /* order form */
   .order-band{background:var(--dark);scroll-margin-top:var(--nav-height);padding:clamp(72px,7vw,112px) 0}

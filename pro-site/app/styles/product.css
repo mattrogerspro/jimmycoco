@@ -122,6 +122,8 @@
   .cross-sell{scroll-margin-top:var(--nav-height);padding:clamp(70px,7vw,112px) 0}
   .cross-sell .wrap{max-width:min(94vw,1600px)}
   .cross-sell .sub{max-width:850px}
+  .cross-sell-rail{position:relative;width:100%;min-width:0}
+  .cross-sell-scroll-cue{display:none}
   .cross-sell .shop-grid{width:100%;max-width:1600px;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin:44px auto 0}
   .cross-sell .pcard{border-radius:12px}
   .cross-sell .pcard.is-added{border-color:var(--ocean);box-shadow:0 0 0 2px rgba(40,95,120,.16),0 22px 52px rgba(25,21,18,.13)}
@@ -344,12 +346,32 @@
     .product-proof ul{flex-wrap:wrap;gap:10px 22px}
     .so-name small{display:none}
   }
+  @media (max-width:900px){
+    .cross-sell-scroll-cue{position:absolute;z-index:4;top:50%;right:-8px;display:flex;width:72px;height:72px;align-items:center;justify-content:center;flex-direction:column;transform:translateY(-50%);border:2px solid rgba(255,255,255,.82);border-radius:50%;background:rgba(16,39,52,.94);color:#fff;box-shadow:0 10px 30px rgba(8,25,34,.36);pointer-events:none;animation:cross-sell-cue 1.8s ease-in-out infinite}
+    .cross-sell-scroll-cue small{font-size:10px;font-weight:750;line-height:1;letter-spacing:.12em;text-transform:uppercase}
+    .cross-sell-scroll-cue b{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:30px;font-weight:500;line-height:.9}
+  }
+  @keyframes cross-sell-cue{0%,100%{transform:translate(-4px,-50%)}50%{transform:translate(4px,-50%)}}
+  @media (prefers-reduced-motion:reduce){.cross-sell-scroll-cue{animation:none}}
   @media (max-width:620px){
+    .pdp>*,.gallery,.buybox,.price-block,.purchase-control,.qtyrow,.maths,.cta-col,.order-grid>*,.orderform,.ocomposition{min-width:0;max-width:100%}
+    .gthumbs{grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+    .gthumbs button{min-width:0}
+    .gthumbs img{width:100%;height:clamp(54px,16vw,76px)}
+    .price-row{align-items:flex-start;flex-direction:column;gap:10px;min-width:0}
+    .price-big{font-size:clamp(36px,11vw,44px);line-height:1.1}
+    .pertan{max-width:100%;white-space:normal}
     .shades{grid-template-columns:1fr 1fr}
     .shades.shades-universal{grid-template-columns:1fr}
     .shortcut-label{display:none}
-    .qpick{min-height:44px}
-    .maths{grid-template-columns:1fr 1fr}
+    .qtyrow{display:grid;grid-template-columns:1fr;align-items:stretch}
+    .stepper,.qpick{width:100%;max-width:100%}
+    .stepper button,.stepper output{flex:1 1 0;width:auto;min-height:52px}
+    .qpick{min-height:52px;justify-content:space-between;white-space:normal}
+    .maths{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+    .maths>div{min-width:0}
+    .maths div b{font-size:clamp(27px,8.5vw,38px);white-space:normal;overflow-wrap:anywhere}
+    .cta-col .btn,.profit-modal-trigger,.retail-add{min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;line-height:1.3}
     .trust-line{align-items:center;flex-direction:column;gap:4px}
     .trust-line span+span:before{display:none}
     .product-proof p{align-items:flex-start;flex-wrap:wrap}
@@ -392,6 +414,32 @@
     .order-product output{font-size:23px}
     .retail-order-controls{grid-template-columns:40px minmax(66px,1fr) minmax(126px,auto)}
     .retail-add{font-size:14px;padding:0 10px}
+  }
+
+  @media (max-width:767px){
+    :root{--nav-height:0px}
+    html,body{max-width:100%;overflow-x:clip}
+    body{padding-bottom:0}
+    body>.announce,body>header.site-header,body>footer,.sticky-order{display:none!important}
+    main{min-width:0;max-width:100%;overflow-x:clip}
+    .wrap{width:100%;max-width:100%;padding-right:16px;padding-left:16px}
+    .crumbs{padding:16px 16px 6px;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+    .pdp{width:100%;padding:14px 16px 48px;gap:28px}
+    .gmain{border-radius:8px}
+    .buybox{width:100%;gap:20px}
+    .product-heading h1{font-size:clamp(34px,10vw,43px);overflow-wrap:anywhere}
+    .bb-eyebrow{font-size:13px;letter-spacing:.16em}
+    .cta-col .btn{padding:16px 12px;font-size:13px;letter-spacing:.09em}
+    .trial-link{font-size:15px;line-height:1.45;overflow-wrap:anywhere}
+    .story-portrait{top:0}
+  }
+
+  @media (max-width:430px){
+    .maths{grid-template-columns:1fr;padding:14px 18px}
+    .maths>div,.maths>div:nth-child(odd),.maths>div:nth-child(n+3){padding:13px 0;border:0;border-top:1px solid rgba(201,149,103,.24)}
+    .maths>div:first-child{padding-top:0;border-top:0}
+    .maths>div:last-child{padding-bottom:0}
+    .maths div b{font-size:36px}
   }
 
   /* At narrow widths the two-up shade cards overflowed: the "Choose ..." button

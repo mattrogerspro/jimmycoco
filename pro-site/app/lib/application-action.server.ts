@@ -1,6 +1,7 @@
 import { isPlausibleEmail, normaliseBusinessType, submitApplication } from "./resellers.server";
 import {
   INTERNAL_NOTICE_ADDRESS,
+  type ResellerTrigger,
   emitResellerEventSafely,
 } from "./reseller-events.server";
 import { isSameOriginPost } from "./supabase.server";
@@ -8,6 +9,36 @@ import { isSameOriginPost } from "./supabase.server";
 export type ApplicationActionResult =
   | { ok: true; reference: string }
   | { ok: false; message: string };
+
+function submittedFieldSnapshot(form: FormData) {
+  const snapshot: Record<string, string | string[]> = {};
+  for (const [key, value] of form.entries()) {
+    if (key === "company_website") continue;
+    if (typeof value !== "string") continue;
+    const current = snapshot[key];
+    if (Array.isArray(current)) snapshot[key] = [...current, value];
+    else if (current !== undefined) snapshot[key] = [current, value];
+    else snapshot[key] = value;
+  }
+  return snapshot;
+}
+
+function messageFrom(orderSummary: string, notes: string) {
+  const parts = [];
+  if (orderSummary) parts.push(orderSummary);
+  if (notes) parts.push(`Customer notes:\n${notes}`);
+  return parts.join("\n\n") || null;
+}
+
+function receivedTriggerFor(source: string): ResellerTrigger {
+  return source === "pro-site-order"
+    ? "reseller_order_request_received"
+    : "reseller_trial_request_received";
+}
+
+function requestTypeFor(source: string) {
+  return source === "pro-site-order" ? "Trade order request" : "Free trial request";
+}
 
 /**
  * Shared handler for the trade application forms on the home and product pages.
@@ -33,7 +64,11 @@ export async function handleApplicationSubmit(
   const email = String(form.get("email") ?? "").trim();
   const phone = String(form.get("phone") ?? "").trim();
   const businessType = normaliseBusinessType(form.get("type"));
-  const message = String(form.get("order") ?? form.get("notes") ?? "").trim();
+  const orderSummary = String(form.get("order") ?? "").trim();
+  const notes = String(form.get("notes") ?? "").trim();
+  const message = messageFrom(orderSummary, notes);
+  const submittedFields = submittedFieldSnapshot(form);
+  const requestType = requestTypeFor(options.source);
 
   if (!businessName || !contactName || !email) {
     return { ok: false, message: "Please give us your salon name, your name and an email address." };
@@ -50,9 +85,13 @@ export async function handleApplicationSubmit(
       email,
       phone: phone || null,
       businessType,
-      message: message || null,
+      message,
       source: options.source,
-      metadata: { user_agent: request.headers.get("User-Agent") ?? null },
+      metadata: {
+        request_type: requestType,
+        submitted_fields: submittedFields,
+        user_agent: request.headers.get("User-Agent") ?? null,
+      },
     });
   } catch (error) {
     console.error("Trade application failed", (error as Error).message);
@@ -71,10 +110,15 @@ export async function handleApplicationSubmit(
 
   await Promise.all([
     emitResellerEventSafely({
-      trigger: "reseller_application_received",
+      trigger: receivedTriggerFor(options.source),
       eventId: `reseller-application-${applicationId}-received`,
       contact,
-      context: { SALON_NAME: businessName, CONTACT_NAME: contactName },
+      context: {
+        SALON_NAME: businessName,
+        CONTACT_NAME: contactName,
+        ORDER_SUMMARY: orderSummary || "No order summary submitted.",
+        CUSTOMER_NOTES: notes || "None supplied.",
+      },
     }),
     emitResellerEventSafely({
       trigger: "reseller_application_internal_notice",
@@ -85,7 +129,9 @@ export async function handleApplicationSubmit(
         CONTACT_NAME: contactName,
         CONTACT_EMAIL: email,
         BUSINESS_TYPE: businessType,
-        ADMIN_LINK: `${options.adminBaseUrl ?? ""}/admin/resellers`,
+        REQUEST_TYPE: requestType,
+        SUBMISSION_SUMMARY: message ?? "No notes or order summary submitted.",
+        ADMIN_LINK: `${options.adminBaseUrl ?? ""}/admin/applications/${applicationId}`,
       },
     }),
   ]);

@@ -2,7 +2,8 @@ import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react
 import { Form, data, useActionData, useLoaderData, useNavigation } from "react-router";
 import { requireReseller } from "../lib/reseller-auth.server";
 import { createOrder, loadCatalogue } from "../lib/resellers.server";
-import { gbpFromPence } from "../lib/site";
+import { INTERNAL_NOTICE_ADDRESS, emitResellerEventSafely } from "../lib/reseller-events.server";
+import { SITE_URL, gbpFromPence } from "../lib/site";
 import { isSameOriginPost } from "../lib/supabase.server";
 
 type OrderActionData = { error?: string; reference?: string };
@@ -58,7 +59,50 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   try {
-    const order = await createOrder(supabase, reseller, lines, String(form.get("note") ?? ""));
+    const note = String(form.get("note") ?? "").trim();
+    const order = await createOrder(supabase, reseller, lines, note);
+    const orderSummary = order.items
+      .map((item) => `${item.title}: ${item.quantity} x ${gbpFromPence(item.unit_price_pence)} = ${gbpFromPence(item.line_total_pence)}`)
+      .join("\n");
+    const contact = {
+      email: reseller.email,
+      first_name: reseller.contact_name.split(" ")[0] ?? null,
+      business_name: reseller.business_name,
+      market: reseller.market,
+    };
+    await Promise.all([
+      emitResellerEventSafely({
+        trigger: "reseller_order_submitted",
+        eventId: `reseller-order-${order.id}-submitted`,
+        contact,
+        context: {
+          SALON_NAME: reseller.business_name,
+          CONTACT_NAME: reseller.contact_name,
+          ACCOUNT_CODE: reseller.account_code,
+          ORDER_REFERENCE: order.reference,
+          ORDER_SUMMARY: orderSummary,
+          ORDER_TOTAL: gbpFromPence(order.subtotalPence),
+          CUSTOMER_NOTES: note || "None supplied.",
+          ORDER_LINK: `${SITE_URL}/portal`,
+        },
+      }),
+      emitResellerEventSafely({
+        trigger: "reseller_order_internal_notice",
+        eventId: `reseller-order-${order.id}-internal`,
+        contact: { email: INTERNAL_NOTICE_ADDRESS, business_name: "Sunless by Jimmy Coco", market: "UK" },
+        context: {
+          SALON_NAME: reseller.business_name,
+          CONTACT_NAME: reseller.contact_name,
+          CONTACT_EMAIL: reseller.email,
+          ACCOUNT_CODE: reseller.account_code,
+          ORDER_REFERENCE: order.reference,
+          ORDER_SUMMARY: orderSummary,
+          ORDER_TOTAL: gbpFromPence(order.subtotalPence),
+          CUSTOMER_NOTES: note || "None supplied.",
+          ADMIN_LINK: `${SITE_URL}/admin/orders/${order.id}`,
+        },
+      }),
+    ]);
     return data<OrderActionData>({ reference: order.reference }, { headers: responseHeaders });
   } catch (error) {
     console.error("Reseller order failed", (error as Error).message);

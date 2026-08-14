@@ -123,7 +123,7 @@ export const campaignRegistry = [
   },
   {
     id: 'uk-reseller-lifecycle',
-    version: '2026-08-07.1',
+    version: '2026-08-14.1',
     name: 'UK Reseller Lifecycle',
     market: 'UK',
     mode: 'event',
@@ -132,10 +132,13 @@ export const campaignRegistry = [
     timezone: 'Europe/London',
     localSendHour: 9,
     steps: [
-      { key: 'application-received', trigger: 'reseller_application_received', delayDays: 0, number: 1, templateAlias: 'uk-reseller-1-application-received', templateId: null, classification: 'service', subject: 'We have your trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'PREFERENCES_LINK'] },
-      { key: 'internal-notice', trigger: 'reseller_application_internal_notice', delayDays: 0, number: 2, templateAlias: 'uk-reseller-2-internal-notice', templateId: null, classification: 'transactional', subject: 'New trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'CONTACT_EMAIL', 'BUSINESS_TYPE', 'ADMIN_LINK'] },
-      { key: 'approved-welcome', trigger: 'reseller_approved', delayDays: 0, number: 3, templateAlias: 'uk-reseller-3-approved-welcome', templateId: null, classification: 'service', subject: 'You are approved — welcome to Jimmy Coco', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ACCOUNT_CODE', 'PORTAL_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'PREFERENCES_LINK'] },
-      { key: 'declined', trigger: 'reseller_declined', delayDays: 0, number: 4, templateAlias: 'uk-reseller-4-declined', templateId: null, classification: 'service', subject: 'About your trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'PREFERENCES_LINK'] },
+      { key: 'trial-request-received', trigger: 'reseller_trial_request_received', delayDays: 0, number: 1, templateAlias: 'uk-reseller-1-free-trial-request-received', templateId: null, classification: 'service', subject: 'We have your free trial request', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'PREFERENCES_LINK'] },
+      { key: 'order-request-received', trigger: 'reseller_order_request_received', delayDays: 0, number: 2, templateAlias: 'uk-reseller-2-order-request-received', templateId: null, classification: 'service', subject: 'We have your trade order request', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ORDER_SUMMARY', 'CUSTOMER_NOTES', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'PREFERENCES_LINK'] },
+      { key: 'internal-notice', trigger: 'reseller_application_internal_notice', delayDays: 0, number: 3, templateAlias: 'uk-reseller-3-internal-notice', templateId: null, classification: 'transactional', subject: 'New pro-site request — {{SALON_NAME}}', requiredVariables: ['REQUEST_TYPE', 'SALON_NAME', 'CONTACT_NAME', 'CONTACT_EMAIL', 'BUSINESS_TYPE', 'SUBMISSION_SUMMARY', 'ADMIN_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'PREFERENCES_LINK'] },
+      { key: 'approved-welcome', trigger: 'reseller_approved', delayDays: 0, number: 4, templateAlias: 'uk-reseller-4-approved-welcome', templateId: null, classification: 'service', subject: 'You are approved — welcome to Jimmy Coco', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ACCOUNT_CODE', 'PORTAL_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'PREFERENCES_LINK'] },
+      { key: 'portal-order-received', trigger: 'reseller_order_submitted', delayDays: 0, number: 5, templateAlias: 'uk-reseller-5-portal-order-received', templateId: null, classification: 'service', subject: 'Thank you for your order', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ORDER_REFERENCE', 'ORDER_SUMMARY', 'ORDER_TOTAL', 'CUSTOMER_NOTES', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'PREFERENCES_LINK'] },
+      { key: 'order-internal-notice', trigger: 'reseller_order_internal_notice', delayDays: 0, number: 6, templateAlias: 'uk-reseller-6-order-internal-notice', templateId: null, classification: 'transactional', subject: 'New trade portal order — {{ORDER_REFERENCE}}', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'CONTACT_EMAIL', 'ACCOUNT_CODE', 'ORDER_REFERENCE', 'ORDER_SUMMARY', 'ORDER_TOTAL', 'CUSTOMER_NOTES', 'ADMIN_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'PREFERENCES_LINK'] },
+      { key: 'declined', trigger: 'reseller_declined', delayDays: 0, number: 7, templateAlias: 'uk-reseller-7-declined', templateId: null, classification: 'service', subject: 'About your trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'BUSINESS_ADDRESS', 'PREFERENCES_LINK'] },
     ],
   },
 ]

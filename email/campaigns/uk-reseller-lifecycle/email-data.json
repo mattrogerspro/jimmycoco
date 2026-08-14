@@ -14,7 +14,7 @@
     "buttonText": "#FFFDF9",
     "businessName": "Sunless by Jimmy Coco",
     "businessAddress": "{{BUSINESS_ADDRESS}}",
-    "unsubscribeText": "This is a service message about the trade application you submitted at www.jimmycoco.pro.",
+    "unsubscribeText": "This is a service message about a trade request or account you started at www.jimmycoco.pro.",
     "unsubscribeLabel": "Ask us to remove your details",
     "unsubscribeUrl": "{{PREFERENCES_LINK}}",
     "senderName": "{{SENDER_NAME}}",
@@ -23,157 +23,139 @@
   },
   "messages": [
     {
-      "output": "emails/1-application-received.html",
-      "title": "We have your trade application",
-      "preview": "It is with us — here is what happens next, and when you will hear back.",
-      "eyebrow": "Trade application · received",
-      "headline": "Thank you — we have your application.",
+      "output": "emails/1-free-trial-request-received.html",
+      "title": "We have your free trial request",
+      "preview": "Your complimentary trial request is with us.",
+      "eyebrow": "Free trial request · received",
+      "headline": "Thank you — your free trial request is in.",
       "blocks": [
-        {
-          "type": "paragraph",
-          "html": "Hi {{CONTACT_NAME}},"
-        },
-        {
-          "type": "paragraph",
-          "html": "Your trade application for <b>{{SALON_NAME}}</b> has reached us. Nothing else is needed from you at this stage."
-        },
-        {
-          "type": "subheading",
-          "html": "What happens next"
-        },
+        { "type": "paragraph", "html": "Hi {{CONTACT_NAME}}," },
+        { "type": "paragraph", "html": "Your complimentary trial request for <b>{{SALON_NAME}}</b> has reached us. There is nothing else you need to do right now." },
+        { "type": "subheading", "html": "What happens next" },
         {
           "type": "bullets",
           "items": [
-            "We read every application ourselves — there is no automated decision.",
-            "We look at where you are, the treatments you already offer, and whether the professional line genuinely suits your room.",
-            "You will hear back from us either way. If the answer is yes, your account and trade pricing come with it."
+            "We review your salon details and check the best next step.",
+            "If everything is suitable, the team will arrange your trial box and shade guidance.",
+            "You can reply to this email at any point if your details need changing."
           ]
         },
-        {
-          "type": "offer",
-          "html": "If anything has changed since you applied, or you would rather talk it through first, reply to this email — it comes straight to us."
-        },
-        {
-          "type": "note",
-          "html": "Applied by mistake, or changed your mind? Reply and we will remove your details."
-        }
+        { "type": "note", "html": "Changed your mind? Reply and we will remove the request." }
       ]
     },
     {
-      "output": "emails/2-internal-notice.html",
-      "title": "New trade application — {{SALON_NAME}}",
-      "preview": "A salon has applied for a trade account. Review it in the admin.",
-      "eyebrow": "Internal · new application",
-      "headline": "New trade application.",
+      "output": "emails/2-order-request-received.html",
+      "title": "We have your trade order request",
+      "preview": "Your order request is with us — no payment has been taken.",
+      "eyebrow": "Trade order request · received",
+      "headline": "Thank you — we have your order request.",
       "blocks": [
-        {
-          "type": "paragraph",
-          "html": "A new trade application has come in through www.jimmycoco.pro."
-        },
+        { "type": "paragraph", "html": "Hi {{CONTACT_NAME}}," },
+        { "type": "paragraph", "html": "Your order request for <b>{{SALON_NAME}}</b> has reached us. No payment has been taken online." },
+        { "type": "subheading", "html": "Order requested" },
+        { "type": "offer", "html": "{{ORDER_SUMMARY}}" },
+        { "type": "paragraph", "html": "The partnerships team will review the request, confirm trade pricing and availability, then come back to you by email." },
+        { "type": "note", "html": "Notes supplied with the request: {{CUSTOMER_NOTES}}" }
+      ]
+    },
+    {
+      "output": "emails/3-internal-notice.html",
+      "title": "New pro-site request — {{SALON_NAME}}",
+      "preview": "A pro-site form has been submitted. Review it in the admin.",
+      "eyebrow": "Internal · new pro-site request",
+      "headline": "New {{REQUEST_TYPE}}.",
+      "blocks": [
+        { "type": "paragraph", "html": "A new pro-site request has come in through www.jimmycoco.pro." },
         {
           "type": "bullets",
           "items": [
+            "Request type: <b>{{REQUEST_TYPE}}</b>",
             "Business: <b>{{SALON_NAME}}</b>",
             "Contact: {{CONTACT_NAME}}",
             "Email: {{CONTACT_EMAIL}}",
             "Type: {{BUSINESS_TYPE}}"
           ]
         },
-        {
-          "type": "paragraph",
-          "html": "Approving it creates the trade account and sends the welcome pack. Declining sends a courteous close. Putting it on hold sends nothing."
-        },
-        {
-          "type": "cta",
-          "label": "Review in the admin",
-          "url": "{{ADMIN_LINK}}"
-        },
-        {
-          "type": "small",
-          "html": "Internal notification. Not sent to the applicant."
-        }
+        { "type": "offer", "html": "{{SUBMISSION_SUMMARY}}" },
+        { "type": "cta", "label": "Review in the admin", "url": "{{ADMIN_LINK}}" },
+        { "type": "small", "html": "Internal notification. Not sent to the applicant." }
       ]
     },
     {
-      "output": "emails/3-approved-welcome.html",
+      "output": "emails/4-approved-welcome.html",
       "title": "You are approved — welcome to Jimmy Coco",
       "preview": "Your trade account is open. Set a password and your pricing is waiting.",
       "eyebrow": "Trade account · approved",
       "headline": "You are approved.",
       "blocks": [
-        {
-          "type": "paragraph",
-          "html": "Hi {{CONTACT_NAME}},"
-        },
-        {
-          "type": "paragraph",
-          "html": "<b>{{SALON_NAME}}</b> is now a Jimmy Coco trade account. Your account reference is <b>{{ACCOUNT_CODE}}</b>."
-        },
-        {
-          "type": "subheading",
-          "html": "Set your password to open the portal"
-        },
-        {
-          "type": "paragraph",
-          "html": "Use the email address this message was sent to. Once you are in, you will find your trade pricing, your order history, and a form to place an order whenever you need stock."
-        },
-        {
-          "type": "cta",
-          "label": "Set your password",
-          "url": "{{PORTAL_LINK}}"
-        },
-        {
-          "type": "divider"
-        },
-        {
-          "type": "subheading",
-          "html": "What is waiting for you"
-        },
+        { "type": "paragraph", "html": "Hi {{CONTACT_NAME}}," },
+        { "type": "paragraph", "html": "<b>{{SALON_NAME}}</b> is now a Jimmy Coco trade account. Your account reference is <b>{{ACCOUNT_CODE}}</b>." },
+        { "type": "subheading", "html": "Set your password to open the portal" },
+        { "type": "paragraph", "html": "Use the email address this message was sent to. Once you are in, you will find your trade pricing, account details and the portal order form." },
+        { "type": "cta", "label": "Set your password", "url": "{{PORTAL_LINK}}" },
+        { "type": "divider" },
+        { "type": "subheading", "html": "What is waiting for you" },
         {
           "type": "bullets",
           "items": [
-            "Your trade pricing on the professional litre and the retail range.",
-            "Order requests straight from the portal — we confirm stock and invoice you, nothing is charged online.",
-            "Jimmy's shade method training and the shade guide, so your team is confident from the first client."
+            "Trade pricing on the professional litre and retail range.",
+            "Order requests straight from the portal — we confirm stock and invoice you; nothing is charged online.",
+            "A direct reply path if you need help setting up the account."
           ]
-        },
-        {
-          "type": "offer",
-          "html": "Trade terms, minimum order and lead times: {{approved_trade_terms}}"
-        },
-        {
-          "type": "paragraph",
-          "html": "If anything is unclear, reply to this email and a person will answer."
         }
       ]
     },
     {
-      "output": "emails/4-declined.html",
+      "output": "emails/5-portal-order-received.html",
+      "title": "Thank you for your order",
+      "preview": "Your trade portal order has been received.",
+      "eyebrow": "Trade order · received",
+      "headline": "Thank you — your order is with us.",
+      "blocks": [
+        { "type": "paragraph", "html": "Hi {{CONTACT_NAME}}," },
+        { "type": "paragraph", "html": "We have received order <b>{{ORDER_REFERENCE}}</b> for <b>{{SALON_NAME}}</b>. No payment has been taken in the portal." },
+        { "type": "subheading", "html": "Order received" },
+        { "type": "offer", "html": "{{ORDER_SUMMARY}}<br><br><b>Total:</b> {{ORDER_TOTAL}}" },
+        { "type": "paragraph", "html": "The team will confirm stock and the invoice by email." },
+        { "type": "note", "html": "Notes supplied with the order: {{CUSTOMER_NOTES}}" }
+      ]
+    },
+    {
+      "output": "emails/6-order-internal-notice.html",
+      "title": "New trade portal order — {{ORDER_REFERENCE}}",
+      "preview": "An approved reseller has submitted a portal order.",
+      "eyebrow": "Internal · new trade order",
+      "headline": "New trade portal order.",
+      "blocks": [
+        { "type": "paragraph", "html": "An approved reseller has submitted an order through the trade portal." },
+        {
+          "type": "bullets",
+          "items": [
+            "Reference: <b>{{ORDER_REFERENCE}}</b>",
+            "Business: <b>{{SALON_NAME}}</b>",
+            "Account: {{ACCOUNT_CODE}}",
+            "Contact: {{CONTACT_NAME}}",
+            "Email: {{CONTACT_EMAIL}}",
+            "Total: {{ORDER_TOTAL}}"
+          ]
+        },
+        { "type": "offer", "html": "{{ORDER_SUMMARY}}<br><br>Notes: {{CUSTOMER_NOTES}}" },
+        { "type": "cta", "label": "Open order in admin", "url": "{{ADMIN_LINK}}" },
+        { "type": "small", "html": "Internal notification. The customer receives the order confirmation separately." }
+      ]
+    },
+    {
+      "output": "emails/7-declined.html",
       "title": "About your trade application",
-      "preview": "We are not able to open an account right now — and what that does and does not mean.",
+      "preview": "We are not able to open an account right now.",
       "eyebrow": "Trade application · outcome",
       "headline": "Not this time — but thank you.",
       "blocks": [
-        {
-          "type": "paragraph",
-          "html": "Hi {{CONTACT_NAME}},"
-        },
-        {
-          "type": "paragraph",
-          "html": "Thank you for applying for a trade account for <b>{{SALON_NAME}}</b>. We are not able to open one at the moment."
-        },
-        {
-          "type": "paragraph",
-          "html": "That is a decision about fit and timing, not about the quality of your business. We keep the professional line deliberately tight in each area, and we would rather say so plainly than leave you waiting."
-        },
-        {
-          "type": "offer",
-          "html": "If your circumstances change — a new site, a change of treatment mix, or simply a later date — you are welcome to apply again. Replying to this email reaches us directly if you would like to talk it through."
-        },
-        {
-          "type": "note",
-          "html": "We will keep your details only as long as we need them for this decision. Reply at any time and we will remove them."
-        }
+        { "type": "paragraph", "html": "Hi {{CONTACT_NAME}}," },
+        { "type": "paragraph", "html": "Thank you for applying for a trade account for <b>{{SALON_NAME}}</b>. We are not able to open one at the moment." },
+        { "type": "paragraph", "html": "That is a decision about fit and timing, not about the quality of your business. We keep the professional line deliberately tight in each area, and we would rather say so plainly than leave you waiting." },
+        { "type": "offer", "html": "If your circumstances change — a new site, a change of treatment mix, or simply a later date — you are welcome to apply again. Replying to this email reaches us directly if you would like to talk it through." },
+        { "type": "note", "html": "We will keep your details only as long as we need them for this decision. Reply at any time and we will remove them." }
       ]
     }
   ]

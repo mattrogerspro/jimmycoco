@@ -8,9 +8,12 @@
  */
 
 export type ResellerTrigger =
-  | "reseller_application_received"
+  | "reseller_trial_request_received"
+  | "reseller_order_request_received"
   | "reseller_application_internal_notice"
   | "reseller_approved"
+  | "reseller_order_submitted"
+  | "reseller_order_internal_notice"
   | "reseller_declined";
 
 const CAMPAIGN_ID = "uk-reseller-lifecycle";

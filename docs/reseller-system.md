@@ -33,8 +33,10 @@ by the RLS policies.
 `reseller-events.server.ts`, `application-action.server.ts`.
 
 **Campaign registry** — `uk-reseller-lifecycle` in `shared/campaign-registry.js`
-with four triggered steps. It ships `enabled: false` with `templateId: null`, so
-nothing can send until templates are built and the campaign is explicitly released.
+with seven triggered steps for free-trial requests, product-page order requests,
+internal notices, approvals, portal orders and declines. It ships `enabled: false`
+with `templateId: null`, so nothing can send until templates are built and the
+campaign is explicitly released.
 
 ## Environment variables
 
@@ -49,6 +51,8 @@ New, for the lifecycle emails (optional — without them events are logged and s
   automation project at `https://jimmycoco.email` (not the public site)
 - `AUTOMATION_API_KEY` — must match the automation project's `AUTOMATION_API_KEY`
 - `RESELLER_NOTICE_EMAIL` — internal notification address, defaults to `pro@jimmycoco.co.uk`
+- `EMAIL_AUDIT_COPY` — BCC copy recipient for all Resend sends, defaults to
+  `matthew@jimmycoco.pro`
 
 ## Sending domain
 
@@ -89,7 +93,8 @@ confirm-then-sign-in path.
 
 1. A salon submits the trade form on the home or product page. It lands in
    `reseller_applications` with status `pending`.
-2. Two lifecycle events fire: `reseller_application_received` (to the applicant) and
+2. Two lifecycle events fire: `reseller_trial_request_received` or
+   `reseller_order_request_received` (to the applicant), plus
    `reseller_application_internal_notice` (to `RESELLER_NOTICE_EMAIL`).
 3. Staff review at `/admin/resellers`. **Approve** creates the `resellers` row with a
    generated account code and fires `reseller_approved`. **Decline** fires
@@ -97,13 +102,15 @@ confirm-then-sign-in path.
 4. The approved contact sets a password at `/portal/register` using the email address
    on the account, which binds their auth user to the account.
 5. In the portal they see their trade pricing and can submit order requests. Orders
-   appear in the admin order queue. Nothing is charged — you confirm and invoice.
+   appear in the admin order queue, then `reseller_order_submitted` and
+   `reseller_order_internal_notice` are emitted. Nothing is charged — you confirm
+   and invoice.
 
 ## Before the emails can actually send
 
 The plumbing is complete but deliberately inert. To go live you need to, in order:
 
-1. Build the four Resend templates and record their ids in the registry steps.
+1. Build the seven Resend templates and record their ids in the registry steps.
 2. Set `enabled: true` on `uk-reseller-lifecycle` in `shared/campaign-registry.js`.
 3. Enable the matching row in `email_campaigns`.
 4. Set `EMAIL_LIVE_MODE`.

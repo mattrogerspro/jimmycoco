@@ -1,66 +1,57 @@
-# UK Reseller Lifecycle — application to open account
+# UK Reseller Lifecycle — pro-site forms to account and orders
 
-**Goal:** carry a UK salon from "trade application submitted" → "reviewed" → "account open and signed in", without a lead ever sitting in silence.
-**Audience:** UK salons, spas, mobile professionals and multi-site groups who submitted the trade form on www.jimmycoco.pro.
-**Market:** 🇬🇧 UK
+**Goal:** acknowledge every pro-site trade request, keep the admin team notified, and confirm approved-reseller portal orders.
+**Audience:** UK salons, spas, mobile professionals and multi-site groups using www.jimmycoco.pro.
+**Market:** UK
 **Channel:** Email. ESP: Resend. Sent by the outreach worker via `shared/campaign-registry.js`.
 **Status:** Draft — not approved for send
 **Owner:** Partnerships
-**Entry:** the applicant submitted the form themselves. This is a service response to their own request, not cold outreach.
+**Entry:** the recipient submitted a pro-site request, was approved by admin, or placed a portal order.
 
-## Cadence (event-triggered — no scheduled steps)
+## Cadence
 
 | # | Trigger | Touch | Classification | File |
-|---|---------|-------|----------------|------|
-| 1 | `reseller_application_received` | Confirmation to the applicant | service | `emails/1-application-received.html` |
-| 2 | `reseller_application_internal_notice` | Internal alert to the team | transactional | `emails/2-internal-notice.html` |
-| 3 | `reseller_approved` | Welcome pack, account code, portal link | service | `emails/3-approved-welcome.html` |
-| 4 | `reseller_declined` | Courteous close | service | `emails/4-declined.html` |
+|---|---|---|---|---|
+| 1 | `reseller_trial_request_received` | Free-trial thank-you to applicant | service | `emails/1-free-trial-request-received.html` |
+| 2 | `reseller_order_request_received` | Product-page order-request thank-you | service | `emails/2-order-request-received.html` |
+| 3 | `reseller_application_internal_notice` | Internal notice for trial/order request | transactional | `emails/3-internal-notice.html` |
+| 4 | `reseller_approved` | Approved account and signup link | service | `emails/4-approved-welcome.html` |
+| 5 | `reseller_order_submitted` | Portal order thank-you | service | `emails/5-portal-order-received.html` |
+| 6 | `reseller_order_internal_notice` | Internal portal-order notice | transactional | `emails/6-order-internal-notice.html` |
+| 7 | `reseller_declined` | Courteous close | service | `emails/7-declined.html` |
 
-Emails 1 and 2 fire together the moment the form is submitted. Email 3 fires on approval in
-`/admin/resellers`; email 4 fires on decline. "On hold" deliberately sends nothing.
+All messages are immediate event responses. There are no scheduled follow-ups in this campaign.
 
-## Where the triggers come from
+## Runtime sources
 
-- `pro-site/app/lib/application-action.server.ts` — emits 1 and 2 on form submission.
-- `pro-site/app/routes/admin.resellers.tsx` — emits 3 on approve, 4 on decline.
-- `pro-site/app/lib/reseller-events.server.ts` — posts to `/api/lifecycle/trigger` on the
-  automation deployment (`https://jimmycoco.email`), bearer-authenticated.
+- `pro-site/app/lib/application-action.server.ts` saves home/product submissions to `reseller_applications` and emits the trial/order request events.
+- `pro-site/app/routes/admin.application-detail.tsx` emits approval and decline events.
+- `pro-site/app/routes/portal.order.tsx` saves approved-reseller orders to `reseller_orders` and `reseller_order_items`, then emits customer and internal order events.
+- `pro-site/app/lib/reseller-events.server.ts` posts to `/api/lifecycle/trigger` on the automation deployment.
+- `api/_lib/resend.js` sends through Resend and BCCs audit copies to `EMAIL_AUDIT_COPY`, defaulting to `matthew@jimmycoco.pro`.
 
-Every event carries a stable `event_id` (`reseller-application-<uuid>-received` and so on), so a
-retry cannot double-send.
+## Data recording audit
 
-## Files
+- Free trial form fields are stored in `reseller_applications`; the complete non-sensitive submitted field snapshot is also stored in `metadata.submitted_fields`.
+- Product-page order requests are stored in `reseller_applications`; the generated order summary and customer notes are stored in `message` and in `metadata.submitted_fields`.
+- Approved portal orders are stored in `reseller_orders` and `reseller_order_items`; totals are recalculated by the database trigger.
+- Passwords are not copied into application tables. Portal signup remains owned by Supabase Auth.
 
-- `sequence.md` — subjects, preview text and complete plain-text bodies
-- `email-data.json` — renderer input for all four branded emails
-- `studio.json` — Studio metadata and event timeline
-- `emails/` — generated HTML; **do not hand-edit**
+## Exclusions
 
-## Exclusions and stop conditions
+- No payment is taken by these flows.
+- No cold outreach or promotional follow-up belongs in this lifecycle.
+- Suppression, bounce, complaint and idempotency handling is inherited from the engine.
+- The campaign remains disabled until Resend template publication, registry enablement, database enablement and `EMAIL_LIVE_MODE=true` are explicitly approved.
 
-- Suppression, bounce, complaint and unsubscribe handling is inherited from the engine.
-- Email 2 goes to an internal address and must never be sent to an applicant.
-- No cold or promotional follow-up belongs in this campaign. A salon that is declined receives
-  email 4 and nothing further.
-- No lifecycle collision: `email/03-sequences/` is the consumer DTC estate (welcome, shade match,
-  cart, replenishment, win-back). This campaign is B2B trade and shares no audience with it.
-
-## Unresolved approval tokens
+## Approval tokens
 
 | Token | Needed for | Status |
 |---|---|---|
-| `{{approved_trade_terms}}` | Email 3 — margin, minimum order, lead time | **Not supplied.** Rendered as a literal token; must be replaced with approved wording or the block removed before publish. |
-| `{{PREFERENCES_LINK}}` | Footer opt-out on all applicant-facing emails | **No destination exists yet.** No preferences route is built on the pro site. |
-| `{{BUSINESS_ADDRESS}}` | Footer, all emails | Supplied from `EMAIL_BUSINESS_ADDRESS`; the worker throws `missing_template_variables` if unset. |
-| `{{SENDER_NAME}}` / `{{SENDER_TITLE}}` | Signature | Supplied from `EMAIL_SENDER_NAME` / `EMAIL_SENDER_TITLE`. |
+| `{{BUSINESS_ADDRESS}}` | Footer, all emails | Supplied from `EMAIL_BUSINESS_ADDRESS`; must be configured before live send. |
+| `{{PREFERENCES_LINK}}` | Removal/preferences link | Supplied from `EMAIL_PREFERENCES_LINK`, falling back to a monitored mailto removal request. |
+| Resend template IDs | All seven messages | Not published yet; `templateId` values remain `null` until approved release. |
 
-## Compliance notes (UK)
+## Compliance notes
 
-- All four are service or transactional messages triggered by the recipient's own submission, so
-  PECR direct-marketing consent does not apply. They must not carry promotional content — keep
-  them to the application, the account and the next step.
-- Sender identity and a monitored reply path are required. Replies to
-  `partnerships@email.jimmycoco.pro` are received by Resend inbound and exit the enrollment.
-- Business address must appear in the footer.
-- Legal review: required before enabling, particularly the decline wording.
+These messages are service or transactional responses to actions taken by the recipient or internal notices to staff. They must stay factual and must not carry promotional follow-up content. Legal and sender-identity review are still required before enabling the campaign.

@@ -1,159 +1,168 @@
 # UK Reseller Lifecycle — copy
 
-Event-triggered service sequence. Tokens use the engine's **uppercase** Resend variable names, which
-are the names `buildTemplateVariables` actually sends (`api/_lib/resend.js`). Do not switch these to
-lowercase — the variable would arrive unresolved.
+Event-triggered service and transactional emails for pro-site forms, reseller approval and portal orders. Tokens use the engine's uppercase Resend variable names from `api/_lib/resend.js`.
 
 ---
 
-## 1 · Application received
+## 1 · Free trial request received
 
-- **Trigger:** `reseller_application_received` (immediate)
+- **Trigger:** `reseller_trial_request_received`
 - **Classification:** service
-- **Source HTML:** `emails/1-application-received.html`
-- **Subject A:** We have your trade application
-- **Subject B:** Your Jimmy Coco trade application
-- **Preview:** It is with us — here is what happens next, and when you will hear back.
+- **Source HTML:** `emails/1-free-trial-request-received.html`
+- **Subject:** We have your free trial request
+- **Preview:** Your complimentary trial request is with us.
 - **Tokens:** `{{CONTACT_NAME}}`, `{{SALON_NAME}}`, `{{SENDER_NAME}}`, `{{SENDER_TITLE}}`, `{{BUSINESS_ADDRESS}}`, `{{PREFERENCES_LINK}}`
-- **Primary CTA:** none — this message asks for nothing
-- **Secondary path:** reply to the email
-- **Exit effect:** none
+- **Primary CTA:** none
 
 ```text
 Hi {{CONTACT_NAME}},
 
-Your trade application for {{SALON_NAME}} has reached us. Nothing else is needed from you at this
-stage.
+Your complimentary trial request for {{SALON_NAME}} has reached us. There is nothing else you need to do right now.
 
 What happens next
 
-- We read every application ourselves — there is no automated decision.
-- We look at where you are, the treatments you already offer, and whether the professional line
-  genuinely suits your room.
-- You will hear back from us either way. If the answer is yes, your account and trade pricing come
-  with it.
+- We review your salon details and check the best next step.
+- If everything is suitable, the team will arrange your trial box and shade guidance.
+- You can reply to this email at any point if your details need changing.
 
-If anything has changed since you applied, or you would rather talk it through first, reply to this
-email — it comes straight to us.
-
-Applied by mistake, or changed your mind? Reply and we will remove your details.
-
-{{SENDER_NAME}}
-{{SENDER_TITLE}}
+Changed your mind? Reply and we will remove the request.
 ```
 
-**Deliberately absent:** any promise of a response time. No service-level target has been approved,
-and a missed one on the very first message costs more than it gains.
+## 2 · Product-page order request received
 
----
-
-## 2 · Internal new-application notice
-
-- **Trigger:** `reseller_application_internal_notice` (immediate, alongside 1)
-- **Classification:** transactional · **internal recipient only**
-- **Source HTML:** `emails/2-internal-notice.html`
-- **Subject A:** New trade application — {{SALON_NAME}}
-- **Preview:** A salon has applied for a trade account. Review it in the admin.
-- **Tokens:** `{{SALON_NAME}}`, `{{CONTACT_NAME}}`, `{{CONTACT_EMAIL}}`, `{{BUSINESS_TYPE}}`, `{{ADMIN_LINK}}`
-- **Primary CTA:** Review in the admin → `{{ADMIN_LINK}}`
-- **Exit effect:** none
+- **Trigger:** `reseller_order_request_received`
+- **Classification:** service
+- **Source HTML:** `emails/2-order-request-received.html`
+- **Subject:** We have your trade order request
+- **Preview:** Your order request is with us — no payment has been taken.
+- **Tokens:** `{{CONTACT_NAME}}`, `{{SALON_NAME}}`, `{{ORDER_SUMMARY}}`, `{{CUSTOMER_NOTES}}`, `{{SENDER_NAME}}`, `{{SENDER_TITLE}}`, `{{BUSINESS_ADDRESS}}`, `{{PREFERENCES_LINK}}`
+- **Primary CTA:** none
 
 ```text
-A new trade application has come in through www.jimmycoco.pro.
+Hi {{CONTACT_NAME}},
 
+Your order request for {{SALON_NAME}} has reached us. No payment has been taken online.
+
+Order requested
+
+{{ORDER_SUMMARY}}
+
+The partnerships team will review the request, confirm trade pricing and availability, then come back to you by email.
+
+Notes supplied with the request: {{CUSTOMER_NOTES}}
+```
+
+## 3 · Internal pro-site request notice
+
+- **Trigger:** `reseller_application_internal_notice`
+- **Classification:** transactional
+- **Source HTML:** `emails/3-internal-notice.html`
+- **Subject:** New pro-site request — {{SALON_NAME}}
+- **Preview:** A pro-site form has been submitted. Review it in the admin.
+- **Tokens:** `{{REQUEST_TYPE}}`, `{{SALON_NAME}}`, `{{CONTACT_NAME}}`, `{{CONTACT_EMAIL}}`, `{{BUSINESS_TYPE}}`, `{{SUBMISSION_SUMMARY}}`, `{{ADMIN_LINK}}`, `{{SENDER_NAME}}`, `{{SENDER_TITLE}}`, `{{BUSINESS_ADDRESS}}`, `{{PREFERENCES_LINK}}`
+- **Primary CTA:** Review in the admin
+
+```text
+A new pro-site request has come in through www.jimmycoco.pro.
+
+- Request type: {{REQUEST_TYPE}}
 - Business: {{SALON_NAME}}
 - Contact: {{CONTACT_NAME}}
 - Email: {{CONTACT_EMAIL}}
 - Type: {{BUSINESS_TYPE}}
 
-Approving it creates the trade account and sends the welcome pack. Declining sends a courteous
-close. Putting it on hold sends nothing.
+{{SUBMISSION_SUMMARY}}
 
 Review in the admin: {{ADMIN_LINK}}
-
-Internal notification. Not sent to the applicant.
 ```
 
----
+## 4 · Approved welcome / signup
 
-## 3 · Approved — welcome pack
-
-- **Trigger:** `reseller_approved` (on approval in `/admin/resellers`)
+- **Trigger:** `reseller_approved`
 - **Classification:** service
-- **Source HTML:** `emails/3-approved-welcome.html`
-- **Subject A:** You are approved — welcome to Jimmy Coco
-- **Subject B:** Your Jimmy Coco trade account is open
+- **Source HTML:** `emails/4-approved-welcome.html`
+- **Subject:** You are approved — welcome to Jimmy Coco
 - **Preview:** Your trade account is open. Set a password and your pricing is waiting.
-- **Tokens:** `{{CONTACT_NAME}}`, `{{SALON_NAME}}`, `{{ACCOUNT_CODE}}`, `{{PORTAL_LINK}}`, `{{SENDER_NAME}}`, `{{SENDER_TITLE}}`, `{{BUSINESS_ADDRESS}}`, `{{PREFERENCES_LINK}}`, `{{approved_trade_terms}}`
-- **Primary CTA:** Set your password → `{{PORTAL_LINK}}`
-- **Exit effect:** converts the contact; no further application-stage messages
+- **Tokens:** `{{CONTACT_NAME}}`, `{{SALON_NAME}}`, `{{ACCOUNT_CODE}}`, `{{PORTAL_LINK}}`, `{{SENDER_NAME}}`, `{{SENDER_TITLE}}`, `{{BUSINESS_ADDRESS}}`, `{{PREFERENCES_LINK}}`
+- **Primary CTA:** Set your password
 
 ```text
 Hi {{CONTACT_NAME}},
 
 {{SALON_NAME}} is now a Jimmy Coco trade account. Your account reference is {{ACCOUNT_CODE}}.
 
-Set your password to open the portal
+Set your password to open the portal: {{PORTAL_LINK}}
 
-Use the email address this message was sent to. Once you are in, you will find your trade pricing,
-your order history, and a form to place an order whenever you need stock.
-
-Set your password: {{PORTAL_LINK}}
-
-What is waiting for you
-
-- Your trade pricing on the professional litre and the retail range.
-- Order requests straight from the portal — we confirm stock and invoice you, nothing is charged
-  online.
-- Jimmy's shade method training and the shade guide, so your team is confident from the first
-  client.
-
-Trade terms, minimum order and lead times: {{approved_trade_terms}}
-
-If anything is unclear, reply to this email and a person will answer.
-
-{{SENDER_NAME}}
-{{SENDER_TITLE}}
+Once you are in, you will find your trade pricing, account details and the portal order form.
 ```
 
-**Blocked fact:** `{{approved_trade_terms}}` has no approved wording. It must be supplied or that
-line removed before this template is published.
+## 5 · Portal order received
 
----
-
-## 4 · Declined
-
-- **Trigger:** `reseller_declined` (on decline in `/admin/resellers`)
+- **Trigger:** `reseller_order_submitted`
 - **Classification:** service
-- **Source HTML:** `emails/4-declined.html`
-- **Subject A:** About your trade application
-- **Subject B:** Your Jimmy Coco trade application
-- **Preview:** We are not able to open an account right now — and what that does and does not mean.
-- **Tokens:** `{{CONTACT_NAME}}`, `{{SALON_NAME}}`, `{{SENDER_NAME}}`, `{{SENDER_TITLE}}`, `{{BUSINESS_ADDRESS}}`, `{{PREFERENCES_LINK}}`
+- **Source HTML:** `emails/5-portal-order-received.html`
+- **Subject:** Thank you for your order
+- **Preview:** Your trade portal order has been received.
+- **Tokens:** `{{CONTACT_NAME}}`, `{{SALON_NAME}}`, `{{ORDER_REFERENCE}}`, `{{ORDER_SUMMARY}}`, `{{ORDER_TOTAL}}`, `{{CUSTOMER_NOTES}}`, `{{SENDER_NAME}}`, `{{SENDER_TITLE}}`, `{{BUSINESS_ADDRESS}}`, `{{PREFERENCES_LINK}}`
 - **Primary CTA:** none
-- **Secondary path:** reply to the email
-- **Exit effect:** closes the application; no further messages
 
 ```text
 Hi {{CONTACT_NAME}},
 
-Thank you for applying for a trade account for {{SALON_NAME}}. We are not able to open one at the
-moment.
+We have received order {{ORDER_REFERENCE}} for {{SALON_NAME}}. No payment has been taken in the portal.
 
-That is a decision about fit and timing, not about the quality of your business. We keep the
-professional line deliberately tight in each area, and we would rather say so plainly than leave you
-waiting.
+{{ORDER_SUMMARY}}
 
-If your circumstances change — a new site, a change of treatment mix, or simply a later date — you
-are welcome to apply again. Replying to this email reaches us directly if you would like to talk it
-through.
+Total: {{ORDER_TOTAL}}
 
-We will keep your details only as long as we need them for this decision. Reply at any time and we
-will remove them.
+The team will confirm stock and the invoice by email.
 
-{{SENDER_NAME}}
-{{SENDER_TITLE}}
+Notes supplied with the order: {{CUSTOMER_NOTES}}
 ```
 
-**Deliberately absent:** a stated reason. Giving a specific one invites a rebuttal, and no approved
-decline criteria exist to quote. The wording keeps the door open without implying a future yes.
+## 6 · Internal portal order notice
+
+- **Trigger:** `reseller_order_internal_notice`
+- **Classification:** transactional
+- **Source HTML:** `emails/6-order-internal-notice.html`
+- **Subject:** New trade portal order — {{ORDER_REFERENCE}}
+- **Preview:** An approved reseller has submitted a portal order.
+- **Tokens:** `{{SALON_NAME}}`, `{{CONTACT_NAME}}`, `{{CONTACT_EMAIL}}`, `{{ACCOUNT_CODE}}`, `{{ORDER_REFERENCE}}`, `{{ORDER_SUMMARY}}`, `{{ORDER_TOTAL}}`, `{{CUSTOMER_NOTES}}`, `{{ADMIN_LINK}}`, `{{SENDER_NAME}}`, `{{SENDER_TITLE}}`, `{{BUSINESS_ADDRESS}}`, `{{PREFERENCES_LINK}}`
+- **Primary CTA:** Open order in admin
+
+```text
+An approved reseller has submitted an order through the trade portal.
+
+- Reference: {{ORDER_REFERENCE}}
+- Business: {{SALON_NAME}}
+- Account: {{ACCOUNT_CODE}}
+- Contact: {{CONTACT_NAME}}
+- Email: {{CONTACT_EMAIL}}
+- Total: {{ORDER_TOTAL}}
+
+{{ORDER_SUMMARY}}
+
+Notes: {{CUSTOMER_NOTES}}
+
+Open order in admin: {{ADMIN_LINK}}
+```
+
+## 7 · Declined
+
+- **Trigger:** `reseller_declined`
+- **Classification:** service
+- **Source HTML:** `emails/7-declined.html`
+- **Subject:** About your trade application
+- **Preview:** We are not able to open an account right now.
+- **Tokens:** `{{CONTACT_NAME}}`, `{{SALON_NAME}}`, `{{SENDER_NAME}}`, `{{SENDER_TITLE}}`, `{{BUSINESS_ADDRESS}}`, `{{PREFERENCES_LINK}}`
+- **Primary CTA:** none
+
+```text
+Hi {{CONTACT_NAME}},
+
+Thank you for applying for a trade account for {{SALON_NAME}}. We are not able to open one at the moment.
+
+That is a decision about fit and timing, not about the quality of your business.
+
+If your circumstances change, you are welcome to apply again. Replying to this email reaches us directly.
+```

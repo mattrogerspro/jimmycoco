@@ -299,7 +299,11 @@ export async function createOrder(
 
   if (itemsError) throw new Error(`Could not save the order lines: ${itemsError.message}`);
 
-  return order;
+  return {
+    ...order,
+    items,
+    subtotalPence: items.reduce((sum, item) => sum + item.line_total_pence, 0),
+  };
 }
 
 /* ---------------------------------------------------------------------------

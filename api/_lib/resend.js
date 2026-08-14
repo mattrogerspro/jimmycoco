@@ -13,11 +13,13 @@ export function isLiveMode() {
 }
 
 function variableDefaults() {
+  const supportEmail = process.env.EMAIL_SUPPORT_EMAIL || process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro'
   return {
     SENDER_NAME: process.env.EMAIL_SENDER_NAME || 'Matt',
     SENDER_TITLE: process.env.EMAIL_SENDER_TITLE || 'Partnerships, Sunless by Jimmy Coco',
     SENDER_EMAIL: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
-    SUPPORT_EMAIL: process.env.EMAIL_SUPPORT_EMAIL || process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
+    SUPPORT_EMAIL: supportEmail,
+    PREFERENCES_LINK: process.env.EMAIL_PREFERENCES_LINK || `mailto:${supportEmail}?subject=Remove%20my%20trade%20details`,
     BUSINESS_ADDRESS: process.env.EMAIL_BUSINESS_ADDRESS,
     CALENDAR_LINK: process.env.EMAIL_CALENDAR_LINK,
     TRIAL_LINK: process.env.EMAIL_TRIAL_LINK,
@@ -27,6 +29,23 @@ function variableDefaults() {
     UAE_DELIVERY_STATEMENT: process.env.EMAIL_UAE_DELIVERY_STATEMENT,
     UAE_PARTNER_TERMS: process.env.EMAIL_UAE_PARTNER_TERMS,
   }
+}
+
+function auditCopyRecipients(primaryEmail) {
+  const raw = process.env.EMAIL_AUDIT_COPY || 'matthew@jimmycoco.pro'
+  return raw
+    .split(',')
+    .map((email) => email.trim().toLowerCase())
+    .filter((email, index, all) => email && email !== primaryEmail.toLowerCase() && all.indexOf(email) === index)
+}
+
+function escapeTemplateValue(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
 }
 
 export function buildTemplateVariables(step, contact, context = {}) {
@@ -39,7 +58,7 @@ export function buildTemplateVariables(step, contact, context = {}) {
   }
   const missing = step.requiredVariables.filter((key) => candidates[key] === undefined || candidates[key] === null || candidates[key] === '')
   if (missing.length) throw new Error(`missing_template_variables:${missing.join(',')}`)
-  return Object.fromEntries(step.requiredVariables.map((key) => [key, candidates[key]]))
+  return Object.fromEntries(step.requiredVariables.map((key) => [key, escapeTemplateValue(candidates[key])]))
 }
 
 export async function sendTemplateEmail({ campaign, step, contact, context, idempotencyKey, tags = [] }) {
@@ -49,6 +68,7 @@ export async function sendTemplateEmail({ campaign, step, contact, context, idem
   const payload = {
     from: process.env.RESEND_FROM || 'Sunless Partnerships <partnerships@email.jimmycoco.pro>',
     to: [contact.email],
+    bcc: auditCopyRecipients(contact.email),
     replyTo: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
     template: { id: step.templateAlias, variables },
     tags: [

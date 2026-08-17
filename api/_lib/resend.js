@@ -31,12 +31,14 @@ function variableDefaults() {
   }
 }
 
+const REQUIRED_PRO_AUDIT_RECIPIENT = 'matthew@jimmycoco.pro'
+const BLOCKED_LEGACY_DOMAIN = '@jimmycoco.co.uk'
+
 function auditCopyRecipients(primaryEmail) {
-  const raw = process.env.EMAIL_AUDIT_COPY || 'matthew@jimmycoco.pro'
-  return raw
-    .split(',')
+  const raw = process.env.EMAIL_AUDIT_COPY || ''
+  return [REQUIRED_PRO_AUDIT_RECIPIENT, ...raw.split(',')]
     .map((email) => email.trim().toLowerCase())
-    .filter((email, index, all) => email && email !== primaryEmail.toLowerCase() && all.indexOf(email) === index)
+    .filter((email, index, all) => email && email !== primaryEmail.toLowerCase() && !email.endsWith(BLOCKED_LEGACY_DOMAIN) && all.indexOf(email) === index)
 }
 
 function escapeTemplateValue(value) {
@@ -70,7 +72,7 @@ export async function sendTemplateEmail({ campaign, step, contact, context, idem
     to: [contact.email],
     bcc: auditCopyRecipients(contact.email),
     replyTo: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
-    template: { id: step.templateAlias, variables },
+    template: { id: step.templateId || step.templateAlias, variables },
     tags: [
       { name: 'campaign_id', value: campaign.id },
       { name: 'sequence_step', value: step.key },

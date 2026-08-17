@@ -1,0 +1,143 @@
+diff --git a/api/_lib/resend.js b/api/_lib/resend.js
+index 327d2ee..a3a5b62 100644
+--- a/api/_lib/resend.js
++++ b/api/_lib/resend.js
+@@ -31,12 +31,14 @@ function variableDefaults() {
+   }
+ }
+ 
++const REQUIRED_PRO_AUDIT_RECIPIENT = 'matthew@jimmycoco.pro'
++const BLOCKED_LEGACY_DOMAIN = '@jimmycoco.co.uk'
++
+ function auditCopyRecipients(primaryEmail) {
+-  const raw = process.env.EMAIL_AUDIT_COPY || 'matthew@jimmycoco.pro'
+-  return raw
+-    .split(',')
++  const raw = process.env.EMAIL_AUDIT_COPY || ''
++  return [REQUIRED_PRO_AUDIT_RECIPIENT, ...raw.split(',')]
+     .map((email) => email.trim().toLowerCase())
+-    .filter((email, index, all) => email && email !== primaryEmail.toLowerCase() && all.indexOf(email) === index)
++    .filter((email, index, all) => email && email !== primaryEmail.toLowerCase() && !email.endsWith(BLOCKED_LEGACY_DOMAIN) && all.indexOf(email) === index)
+ }
+ 
+ function escapeTemplateValue(value) {
+@@ -70,7 +72,7 @@ export async function sendTemplateEmail({ campaign, step, contact, context, idem
+     to: [contact.email],
+     bcc: auditCopyRecipients(contact.email),
+     replyTo: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
+-    template: { id: step.templateAlias, variables },
++    template: { id: step.templateId || step.templateAlias, variables },
+     tags: [
+       { name: 'campaign_id', value: campaign.id },
+       { name: 'sequence_step', value: step.key },
+diff --git a/pro-site/app/lib/application-action.server.ts b/pro-site/app/lib/application-action.server.ts
+index 070e527..506d167 100644
+--- a/pro-site/app/lib/application-action.server.ts
++++ b/pro-site/app/lib/application-action.server.ts
+@@ -37,7 +37,7 @@ function receivedTriggerFor(source: string): ResellerTrigger {
+ }
+ 
+ function requestTypeFor(source: string) {
+-  return source === "pro-site-order" ? "Trade order request" : "Free trial request";
++  return source === "pro-site-order" ? "Trade order request" : "Free sample request";
+ }
+ 
+ /**
+@@ -69,6 +69,7 @@ export async function handleApplicationSubmit(
+   const message = messageFrom(orderSummary, notes);
+   const submittedFields = submittedFieldSnapshot(form);
+   const requestType = requestTypeFor(options.source);
++  const isTradeOrderEnquiry = options.source === "pro-site-order";
+ 
+   if (!businessName || !contactName || !email) {
+     return { ok: false, message: "Please give us your salon name, your name and an email address." };
+@@ -86,9 +87,11 @@ export async function handleApplicationSubmit(
+       phone: phone || null,
+       businessType,
+       message,
++      wantsTrial: !isTradeOrderEnquiry,
+       source: options.source,
+       metadata: {
+         request_type: requestType,
++        intake_type: isTradeOrderEnquiry ? "trade_order_enquiry" : "free_sample_request",
+         submitted_fields: submittedFields,
+         user_agent: request.headers.get("User-Agent") ?? null,
+       },
+@@ -114,6 +117,8 @@ export async function handleApplicationSubmit(
+       eventId: `reseller-application-${applicationId}-received`,
+       contact,
+       context: {
++        APPLICANT_NAME: contactName,
++        BUSINESS_NAME: businessName,
+         SALON_NAME: businessName,
+         CONTACT_NAME: contactName,
+         ORDER_SUMMARY: orderSummary || "No order summary submitted.",
+@@ -125,6 +130,9 @@ export async function handleApplicationSubmit(
+       eventId: `reseller-application-${applicationId}-internal`,
+       contact: { email: INTERNAL_NOTICE_ADDRESS, business_name: "Sunless by Jimmy Coco", market: "UK" },
+       context: {
++        APPLICANT_NAME: contactName,
++        APPLICANT_EMAIL: email,
++        BUSINESS_NAME: businessName,
+         SALON_NAME: businessName,
+         CONTACT_NAME: contactName,
+         CONTACT_EMAIL: email,
+diff --git a/pro-site/app/lib/reseller-events.server.ts b/pro-site/app/lib/reseller-events.server.ts
+index fc3ccb0..419238d 100644
+--- a/pro-site/app/lib/reseller-events.server.ts
++++ b/pro-site/app/lib/reseller-events.server.ts
+@@ -80,5 +80,9 @@ export function emitResellerEventSafely(options: EmitOptions) {
+   return emitResellerEvent(options).catch(() => ({ dispatched: false as const }));
+ }
+ 
+-export const INTERNAL_NOTICE_ADDRESS =
+-  process.env.RESELLER_NOTICE_EMAIL ?? "pro@jimmycoco.co.uk";
++/**
++ * Professional-system internal operational notices have one controlled recipient.
++ * Never source this from a deployment environment variable: a stale value could
++ * silently redirect trade, sample or order notifications to the legacy domain.
++ */
++export const INTERNAL_NOTICE_ADDRESS = "matthew@jimmycoco.pro";
+diff --git a/shared/campaign-registry.js b/shared/campaign-registry.js
+index 79130ce..c6e6d99 100644
+--- a/shared/campaign-registry.js
++++ b/shared/campaign-registry.js
+@@ -149,22 +149,22 @@ export const campaignRegistry = [
+   },
+   {
+     id: 'uk-reseller-lifecycle',
+-    version: '2026-08-14.1',
++    version: '2026-08-17.2',
+     name: 'UK Reseller Lifecycle',
+     market: 'UK',
+     mode: 'event',
+     classification: 'service',
+-    enabled: false,
++    enabled: true,
+     timezone: 'Europe/London',
+     localSendHour: 9,
+     steps: [
+-      { key: 'trial-request-received', trigger: 'reseller_trial_request_received', delayDays: 0, number: 1, templateAlias: 'uk-reseller-1-free-trial-request-received', templateId: null, classification: 'service', subject: 'We have your free trial request', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
+-      { key: 'order-request-received', trigger: 'reseller_order_request_received', delayDays: 0, number: 2, templateAlias: 'uk-reseller-2-order-request-received', templateId: null, classification: 'service', subject: 'We have your trade order request', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ORDER_SUMMARY', 'CUSTOMER_NOTES', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
+-      { key: 'internal-notice', trigger: 'reseller_application_internal_notice', delayDays: 0, number: 3, templateAlias: 'uk-reseller-3-internal-notice', templateId: null, classification: 'transactional', subject: 'New pro-site request — {{SALON_NAME}}', requiredVariables: ['REQUEST_TYPE', 'SALON_NAME', 'CONTACT_NAME', 'CONTACT_EMAIL', 'BUSINESS_TYPE', 'SUBMISSION_SUMMARY', 'ADMIN_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
+-      { key: 'approved-welcome', trigger: 'reseller_approved', delayDays: 0, number: 4, templateAlias: 'uk-reseller-4-approved-welcome', templateId: null, classification: 'service', subject: 'You are approved — welcome to Jimmy Coco', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ACCOUNT_CODE', 'PORTAL_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
+-      { key: 'portal-order-received', trigger: 'reseller_order_submitted', delayDays: 0, number: 5, templateAlias: 'uk-reseller-5-portal-order-received', templateId: null, classification: 'service', subject: 'Thank you for your order', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ORDER_REFERENCE', 'ORDER_SUMMARY', 'ORDER_TOTAL', 'CUSTOMER_NOTES', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
+-      { key: 'order-internal-notice', trigger: 'reseller_order_internal_notice', delayDays: 0, number: 6, templateAlias: 'uk-reseller-6-order-internal-notice', templateId: null, classification: 'transactional', subject: 'New trade portal order — {{ORDER_REFERENCE}}', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'CONTACT_EMAIL', 'ACCOUNT_CODE', 'ORDER_REFERENCE', 'ORDER_SUMMARY', 'ORDER_TOTAL', 'CUSTOMER_NOTES', 'ADMIN_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
+-      { key: 'declined', trigger: 'reseller_declined', delayDays: 0, number: 7, templateAlias: 'uk-reseller-7-declined', templateId: null, classification: 'service', subject: 'About your trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
++      { key: 'trial-request-received', trigger: 'reseller_trial_request_received', delayDays: 0, number: 1, enabled: true, templateAlias: 'jc-transactional-free-sample-request-received-v2', templateId: '5dfc9c2c-5c07-4f32-9520-708ff743ae0a', classification: 'service', subject: 'We have your free sample request', requiredVariables: ['APPLICANT_NAME', 'BUSINESS_NAME', 'SENDER_NAME'] },
++      { key: 'order-request-received', trigger: 'reseller_order_request_received', delayDays: 0, number: 2, enabled: false, templateAlias: 'uk-reseller-2-order-request-received', templateId: null, classification: 'service', subject: 'We have your trade order request', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ORDER_SUMMARY', 'CUSTOMER_NOTES', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
++      { key: 'internal-notice', trigger: 'reseller_application_internal_notice', delayDays: 0, number: 3, enabled: true, templateAlias: 'jc-transactional-free-sample-internal-notice-v2', templateId: 'c5199b11-c9a1-4c52-8bae-923a6ba92658', classification: 'transactional', subject: 'New free sample request — {{BUSINESS_NAME}}', requiredVariables: ['BUSINESS_NAME', 'APPLICANT_NAME', 'APPLICANT_EMAIL', 'BUSINESS_TYPE', 'SUBMISSION_SUMMARY', 'ADMIN_LINK'] },
++      { key: 'approved-welcome', trigger: 'reseller_approved', delayDays: 0, number: 4, enabled: false, templateAlias: 'uk-reseller-4-approved-welcome', templateId: null, classification: 'service', subject: 'You are approved — welcome to Jimmy Coco', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ACCOUNT_CODE', 'PORTAL_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
++      { key: 'portal-order-received', trigger: 'reseller_order_submitted', delayDays: 0, number: 5, enabled: false, templateAlias: 'uk-reseller-5-portal-order-received', templateId: null, classification: 'service', subject: 'Thank you for your order', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ORDER_REFERENCE', 'ORDER_SUMMARY', 'ORDER_TOTAL', 'CUSTOMER_NOTES', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
++      { key: 'order-internal-notice', trigger: 'reseller_order_internal_notice', delayDays: 0, number: 6, enabled: false, templateAlias: 'uk-reseller-6-order-internal-notice', templateId: null, classification: 'transactional', subject: 'New trade portal order — {{ORDER_REFERENCE}}', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'CONTACT_EMAIL', 'ACCOUNT_CODE', 'ORDER_REFERENCE', 'ORDER_SUMMARY', 'ORDER_TOTAL', 'CUSTOMER_NOTES', 'ADMIN_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
++      { key: 'declined', trigger: 'reseller_declined', delayDays: 0, number: 7, enabled: false, templateAlias: 'uk-reseller-7-declined', templateId: null, classification: 'service', subject: 'About your trade application', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
+     ],
+   },
+ ]
+@@ -185,5 +185,5 @@ export function findStepByTemplateId(templateId) {
+ }
+ 
+ export function findTriggeredStep(campaign, trigger) {
+-  return [...campaign.steps, ...(campaign.triggeredSteps || [])].find((step) => step.trigger === trigger) || null
++  return [...campaign.steps, ...(campaign.triggeredSteps || [])].find((step) => step.trigger === trigger && step.enabled !== false) || null
+ }

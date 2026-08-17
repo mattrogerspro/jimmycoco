@@ -37,7 +37,7 @@ function receivedTriggerFor(source: string): ResellerTrigger {
 }
 
 function requestTypeFor(source: string) {
-  return source === "pro-site-order" ? "Trade order request" : "Free trial request";
+  return source === "pro-site-order" ? "Trade order request" : "Free sample request";
 }
 
 /**
@@ -69,6 +69,7 @@ export async function handleApplicationSubmit(
   const message = messageFrom(orderSummary, notes);
   const submittedFields = submittedFieldSnapshot(form);
   const requestType = requestTypeFor(options.source);
+  const isTradeOrderEnquiry = options.source === "pro-site-order";
 
   if (!businessName || !contactName || !email) {
     return { ok: false, message: "Please give us your salon name, your name and an email address." };
@@ -86,9 +87,11 @@ export async function handleApplicationSubmit(
       phone: phone || null,
       businessType,
       message,
+      wantsTrial: !isTradeOrderEnquiry,
       source: options.source,
       metadata: {
         request_type: requestType,
+        intake_type: isTradeOrderEnquiry ? "trade_order_enquiry" : "free_sample_request",
         submitted_fields: submittedFields,
         user_agent: request.headers.get("User-Agent") ?? null,
       },
@@ -114,6 +117,8 @@ export async function handleApplicationSubmit(
       eventId: `reseller-application-${applicationId}-received`,
       contact,
       context: {
+        APPLICANT_NAME: contactName,
+        BUSINESS_NAME: businessName,
         SALON_NAME: businessName,
         CONTACT_NAME: contactName,
         ORDER_SUMMARY: orderSummary || "No order summary submitted.",
@@ -125,6 +130,9 @@ export async function handleApplicationSubmit(
       eventId: `reseller-application-${applicationId}-internal`,
       contact: { email: INTERNAL_NOTICE_ADDRESS, business_name: "Sunless by Jimmy Coco", market: "UK" },
       context: {
+        APPLICANT_NAME: contactName,
+        APPLICANT_EMAIL: email,
+        BUSINESS_NAME: businessName,
         SALON_NAME: businessName,
         CONTACT_NAME: contactName,
         CONTACT_EMAIL: email,

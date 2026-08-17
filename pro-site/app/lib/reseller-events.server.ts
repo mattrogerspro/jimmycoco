@@ -80,5 +80,9 @@ export function emitResellerEventSafely(options: EmitOptions) {
   return emitResellerEvent(options).catch(() => ({ dispatched: false as const }));
 }
 
-export const INTERNAL_NOTICE_ADDRESS =
-  process.env.RESELLER_NOTICE_EMAIL ?? "pro@jimmycoco.co.uk";
+/**
+ * Professional-system internal operational notices have one controlled recipient.
+ * Never source this from a deployment environment variable: a stale value could
+ * silently redirect trade, sample or order notifications to the legacy domain.
+ */
+export const INTERNAL_NOTICE_ADDRESS = "matthew@jimmycoco.pro";

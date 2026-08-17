@@ -113,7 +113,7 @@ const STAGES = [
 /** The one thing to do next, given where the order is now. */
 const NEXT_ACTION: Record<string, { status: string; label: string; blurb: string } | null> = {
   submitted: { status: "confirmed", label: "Confirm order", blurb: "Check stock and price, then confirm." },
-  confirmed: { status: "invoiced", label: "Mark invoiced", blurb: "Raise the invoice, then record it here." },
+  confirmed: null,
   invoiced: { status: "shipped", label: "Mark shipped", blurb: "Mark it shipped once it leaves." },
   shipped: null,
   cancelled: null,
@@ -165,6 +165,8 @@ export default function OrderDetail() {
   const units = items.reduce((total, item) => total + item.quantity, 0);
   const cancelled = order.status === "cancelled";
   const next = cancelled ? null : NEXT_ACTION[order.status];
+  const canRaiseInvoice = order.status === "confirmed" && !invoice;
+  const canOpenInvoice = order.status === "confirmed" && Boolean(invoice);
   const open = order.status === "submitted" || order.status === "confirmed";
   const warning = account && account.status !== "active" ? ACCOUNT_WARNING[account.status] : null;
 
@@ -288,6 +290,17 @@ export default function OrderDetail() {
                 Reopen order
               </button>
             </Form>
+          ) : canRaiseInvoice ? (
+            <Form method="post" replace>
+              <input type="hidden" name="intent" value="create-invoice" />
+              <button className="admin-primary" type="submit" disabled={busy}>
+                Raise invoice
+              </button>
+            </Form>
+          ) : canOpenInvoice && invoice ? (
+            <Link className="admin-primary" to={`/admin/invoices/${invoice.id}`}>
+              Open draft invoice
+            </Link>
           ) : next ? (
             <>
               <Form method="post" replace>

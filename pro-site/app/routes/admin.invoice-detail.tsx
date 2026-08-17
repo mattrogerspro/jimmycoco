@@ -21,6 +21,7 @@ import {
   type PaymentMethod,
 } from "../lib/invoice-constants";
 import { gbpFromPence } from "../lib/site";
+import { updateOrder } from "../lib/resellers.server";
 
 export const meta: MetaFunction = () => [
   { title: "Invoice | Jimmy Coco admin" },
@@ -49,6 +50,11 @@ export async function action({ request, params }: ActionFunctionArgs) {
     switch (intent) {
       case "issue": {
         const number = await issueInvoice(supabase, invoiceId);
+        const issued = await getInvoice(supabase, invoiceId);
+        const linkedOrder = issued?.order;
+        if (linkedOrder?.status === "confirmed") {
+          await updateOrder(supabase, linkedOrder.id, { status: "invoiced" });
+        }
         return data({ notice: `Issued as ${number}.` }, { headers: responseHeaders });
       }
       case "void": {

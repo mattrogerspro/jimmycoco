@@ -5,7 +5,7 @@ import { isSameOriginPost } from "../lib/supabase.server";
 import { getOrder, updateOrder } from "../lib/resellers.server";
 import { createInvoiceFromOrder, invoiceForOrder } from "../lib/invoices.server";
 import { INVOICE_STATUS_LABELS, isOverdue } from "../lib/invoice-constants";
-import { ORDER_STATUSES } from "../lib/reseller-constants";
+import { ORDER_SOURCE_LABELS, ORDER_SOURCES, ORDER_STATUSES } from "../lib/reseller-constants";
 import { gbpFromPence } from "../lib/site";
 
 export const meta: MetaFunction = () => [
@@ -42,14 +42,16 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   const status = String(form.get("status") ?? "");
   const note = form.get("internalNote");
+  const source = String(form.get("source") ?? "");
 
   // Each form on this page posts only its own field, so building the patch from
   // what was actually submitted stops one form wiping the other's value.
-  const patch: { status?: (typeof ORDER_STATUSES)[number]; internal_note?: string | null } = {};
+  const patch: { status?: (typeof ORDER_STATUSES)[number]; internal_note?: string | null; source?: string } = {};
   if ((ORDER_STATUSES as readonly string[]).includes(status)) {
     patch.status = status as (typeof ORDER_STATUSES)[number];
   }
   if (note !== null) patch.internal_note = String(note).trim() || null;
+  if ((ORDER_SOURCES as readonly string[]).includes(source)) patch.source = source;
 
   if (!Object.keys(patch).length) {
     return data({ error: "Nothing to update." }, { status: 400, headers: responseHeaders });
@@ -57,7 +59,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   try {
     await updateOrder(supabase, params.orderId as string, patch);
-    return data({ notice: patch.status ? `Order marked ${patch.status}.` : "Note saved." }, { headers: responseHeaders });
+    return data({ notice: patch.status ? `Order marked ${patch.status === "submitted" ? "Received" : patch.status}.` : patch.source ? "Order source updated." : "Note saved." }, { headers: responseHeaders });
   } catch (error) {
     return data({ error: (error as Error).message }, { status: 500, headers: responseHeaders });
   }
@@ -92,6 +94,7 @@ type Order = {
   id: string;
   reference: string;
   status: string;
+  source: string;
   currency: string;
   subtotal_pence: number;
   customer_note: string | null;
@@ -104,7 +107,7 @@ type Order = {
 
 /** The order's journey. Cancelled is an exit, not a stage, so it sits outside. */
 const STAGES = [
-  { key: "submitted", label: "Submitted" },
+  { key: "submitted", label: "Received" },
   { key: "confirmed", label: "Confirmed" },
   { key: "invoiced", label: "Invoiced" },
   { key: "shipped", label: "Shipped" },
@@ -167,6 +170,13 @@ export default function OrderDetail() {
   const next = cancelled ? null : NEXT_ACTION[order.status];
   const canRaiseInvoice = order.status === "confirmed" && !invoice;
   const canOpenInvoice = order.status === "confirmed" && Boolean(invoice);
+  const actionBlurb = cancelled
+    ? "Reopening puts it back in the received queue."
+    : canRaiseInvoice
+      ? "Create the invoice draft from these agreed order lines."
+      : canOpenInvoice
+        ? "The invoice draft is ready to review and issue."
+        : (next?.blurb ?? "Nothing left to do — this order is complete.");
   const open = order.status === "submitted" || order.status === "confirmed";
   const warning = account && account.status !== "active" ? ACCOUNT_WARNING[account.status] : null;
 
@@ -209,25 +219,20 @@ export default function OrderDetail() {
         ) : null}
       </p>
 
-      <header className="admin-order-head">
-        <div>
-          <p className="admin-eyebrow">Order request</p>
-          <h1>{order.reference}</h1>
-          <p className="admin-order-sub">
-            {account ? (
-              <>
-                <Link to={`/admin/accounts/${account.id}`}>{account.business_name}</Link> ·{" "}
-              </>
-            ) : null}
-            placed {stamp(order.submitted_at)}
-            {open ? <> · waiting {waitingFor(order.submitted_at)}</> : null}
+      <header className="admin-order-hero">
+        <div className="admin-order-hero-main">
+          <p className="admin-order-kicker">Trade order <span>{order.reference}</span></p>
+          <h1>{account?.business_name ?? "Trade order"}</h1>
+          <p className="admin-order-meta">
+            <span className={`admin-status admin-status-${order.status}`}>{order.status === "submitted" ? "Received" : order.status}</span>
+            <span>{ORDER_SOURCE_LABELS[order.source as keyof typeof ORDER_SOURCE_LABELS] ?? "Pro website"}</span>
+            <span>{account?.account_code ?? "Trade account"}</span>
+            <span>Received {stamp(order.submitted_at, false)}</span>
           </p>
         </div>
-        <div className="admin-order-head-right">
-          <b className="admin-order-total">{gbpFromPence(order.subtotal_pence)}</b>
-          <span className="admin-order-total-note">
-            {units} unit{units === 1 ? "" : "s"} · {items.length} line{items.length === 1 ? "" : "s"} · {order.currency}
-          </span>
+        <div className="admin-order-hero-value">
+          <b>{gbpFromPence(order.subtotal_pence)}</b>
+          <span>{units} unit{units === 1 ? "" : "s"} · {items.length} line{items.length === 1 ? "" : "s"} · {order.currency}</span>
         </div>
       </header>
 
@@ -255,89 +260,63 @@ export default function OrderDetail() {
           <span>Nothing is due to be picked, invoiced or shipped.</span>
         </div>
       ) : (
-        <ol className="admin-steps" aria-label="Order progress">
-          {STAGES.map((stage, index) => (
-            <li
-              key={stage.key}
-              className={index < stageIndex ? "is-done" : index === stageIndex ? "is-current" : "is-todo"}
-              aria-current={index === stageIndex ? "step" : undefined}
-            >
-              <span className="admin-steps-dot" aria-hidden="true" />
-              <b>{stage.label}</b>
-              <span>{stamp(stageTime[stage.key]) ?? (index < stageIndex ? "done" : "")}</span>
-            </li>
-          ))}
-        </ol>
+        <>
+          <section className="admin-next-task" aria-label="Next order task">
+            <div className="admin-next-task-copy">
+              <span className="admin-next-task-icon" aria-hidden="true">↳</span>
+              <div>
+                <p className="admin-next-task-kicker">Next task <span>{order.status === "submitted" ? "Received" : order.status}</span></p>
+                <h2>{canRaiseInvoice ? "Raise the draft invoice" : canOpenInvoice ? "Review the invoice draft" : next?.label ?? "Order complete"}</h2>
+                <p>{actionBlurb}</p>
+              </div>
+            </div>
+            <div className="admin-next-task-actions">
+              {canRaiseInvoice ? (
+                <Form method="post" replace><input type="hidden" name="intent" value="create-invoice" /><button className="admin-primary" type="submit" disabled={busy}>Raise invoice</button></Form>
+              ) : canOpenInvoice && invoice ? (
+                <Link className="admin-primary" to={`/admin/invoices/${invoice.id}`}>Open draft invoice</Link>
+              ) : next ? (
+                <>
+                  <Form method="post" replace><input type="hidden" name="status" value={next.status} /><button className="admin-primary" type="submit" disabled={busy}>{next.label}</button></Form>
+                  <Form method="post" replace><input type="hidden" name="status" value="cancelled" /><button className="admin-ghost-danger" type="submit" disabled={busy}>Cancel</button></Form>
+                </>
+              ) : null}
+            </div>
+            <div className="admin-next-task-utilities">
+              <Form method="post" replace className="admin-source-form">
+                <label htmlFor="source">Order source</label>
+                <select id="source" name="source" defaultValue={order.source}>
+                  {ORDER_SOURCES.map((value) => <option key={value} value={value}>{ORDER_SOURCE_LABELS[value]}</option>)}
+                </select>
+                <button type="submit" disabled={busy}>Save</button>
+              </Form>
+              <details className="admin-override">
+                <summary>Set status</summary>
+                <Form method="post" replace className="admin-override-form">
+                  <label htmlFor="status">Move this order to</label>
+                  <select id="status" name="status" defaultValue={order.status}>
+                    {ORDER_STATUSES.map((status) => <option key={status} value={status}>{status === "submitted" ? "received" : status}</option>)}
+                  </select>
+                  <button type="submit" disabled={busy}>Apply</button>
+                  <p>Use this only to correct a mistake — the action above follows the normal flow.</p>
+                </Form>
+              </details>
+            </div>
+          </section>
+          <section className="admin-flow-panel" aria-label="Order progress">
+            <div className="admin-flow-label"><b>Order flow</b><span>Follow the next step</span></div>
+            <ol className="admin-steps">
+              {STAGES.map((stage, index) => (
+                <li key={stage.key} className={index < stageIndex ? "is-done" : index === stageIndex ? "is-current" : "is-todo"} aria-current={index === stageIndex ? "step" : undefined}>
+                  <span className="admin-steps-dot" aria-hidden="true">{index < stageIndex ? "✓" : ""}</span>
+                  <b>{stage.label}</b>
+                  <span>{stamp(stageTime[stage.key], false) ?? (index < stageIndex ? "done" : "")}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        </>
       )}
-
-      {/* One action bar, pinned. It follows you down a long order rather than
-          scrolling away, and it is the only place the status can be changed. */}
-      <div className="admin-actionbar">
-        <div className="admin-actionbar-lead">
-          <span className={`admin-status admin-status-${order.status}`}>{order.status}</span>
-          <p>
-            {cancelled
-              ? "Reopening puts it back in the submitted queue."
-              : (next?.blurb ?? "Nothing left to do — this order is complete.")}
-          </p>
-        </div>
-
-        <div className="admin-actionbar-actions">
-          {cancelled ? (
-            <Form method="post" replace>
-              <input type="hidden" name="status" value="submitted" />
-              <button className="admin-primary" type="submit" disabled={busy}>
-                Reopen order
-              </button>
-            </Form>
-          ) : canRaiseInvoice ? (
-            <Form method="post" replace>
-              <input type="hidden" name="intent" value="create-invoice" />
-              <button className="admin-primary" type="submit" disabled={busy}>
-                Raise invoice
-              </button>
-            </Form>
-          ) : canOpenInvoice && invoice ? (
-            <Link className="admin-primary" to={`/admin/invoices/${invoice.id}`}>
-              Open draft invoice
-            </Link>
-          ) : next ? (
-            <>
-              <Form method="post" replace>
-                <input type="hidden" name="status" value={next.status} />
-                <button className="admin-primary" type="submit" disabled={busy}>
-                  {next.label}
-                </button>
-              </Form>
-              <Form method="post" replace>
-                <input type="hidden" name="status" value="cancelled" />
-                <button className="admin-ghost-danger" type="submit" disabled={busy}>
-                  Cancel
-                </button>
-              </Form>
-            </>
-          ) : null}
-
-          <details className="admin-override">
-            <summary>Set status</summary>
-            <Form method="post" replace className="admin-override-form">
-              <label htmlFor="status">Move this order to</label>
-              <select id="status" name="status" defaultValue={order.status}>
-                {ORDER_STATUSES.map((status) => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </select>
-              <button type="submit" disabled={busy}>
-                Apply
-              </button>
-              <p>Use this only to correct a mistake — the buttons above follow the normal order of things.</p>
-            </Form>
-          </details>
-        </div>
-      </div>
-
       <div className="admin-split">
         <div>
           <section className="admin-panel is-primary">
@@ -508,17 +487,7 @@ export default function OrderDetail() {
               ) : (
                 <>
                   <p className="admin-muted">No invoice raised for this order yet.</p>
-                  <Form method="post" replace>
-                    <input type="hidden" name="intent" value="create-invoice" />
-                    <div className="admin-actions">
-                      <button className="admin-primary" type="submit" disabled={busy}>
-                        Raise invoice
-                      </button>
-                    </div>
-                  </Form>
-                  <p className="admin-hint">
-                    Copies these lines at the prices agreed, as a draft you can check before issuing.
-                  </p>
+                  <p className="admin-hint">Raise the draft from the single order action above; this panel will then show its status and link.</p>
                 </>
               )}
             </div>

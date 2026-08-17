@@ -60,7 +60,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   try {
     const note = String(form.get("note") ?? "").trim();
-    const order = await createOrder(supabase, reseller, lines, note);
+    const order = await createOrder(supabase, reseller, lines, note, "pro_website");
     const orderSummary = order.items
       .map((item) => `${item.title}: ${item.quantity} x ${gbpFromPence(item.unit_price_pence)} = ${gbpFromPence(item.line_total_pence)}`)
       .join("\n");

@@ -113,10 +113,12 @@ function step(message) {
   process.stdout.write(`  ${message}\n`);
 }
 
-async function insertAll(db, table, rows, { returning = "minimal" } = {}) {
+async function insertAll(db, table, rows, { returning = "minimal", onConflict } = {}) {
   const collected = [];
   for (const batch of chunk(rows)) {
-    const query = db.from(table).insert(batch.map(clean));
+    const query = onConflict
+      ? db.from(table).upsert(batch.map(clean), { onConflict })
+      : db.from(table).insert(batch.map(clean));
     const { data, error } = returning === "minimal" ? await query : await query.select(returning);
     if (error) throw new Error(`insert into ${table} failed: ${error.message}${error.details ? ` (${error.details})` : ""}`);
     if (data) collected.push(...data);
@@ -204,16 +206,9 @@ async function purge(db, { withAuth }) {
   await wipe("email_campaign_steps", (q) => q.like("campaign_id", `${DEMO_CAMPAIGN_PREFIX}%`));
   await wipe("email_campaigns", (q) => q.like("id", `${DEMO_CAMPAIGN_PREFIX}%`));
 
-  // Items and orders cascade from resellers, but delete explicitly so the
-  // counts we report are honest.
-  const { data: demoOrders } = await db.from("reseller_orders").select("id").like("reference", `${DEMO_REFERENCE_PREFIX}%`);
-  const orderIds = (demoOrders ?? []).map((row) => row.id);
-  for (const batch of chunk(orderIds)) {
-    await wipe("reseller_order_items", (q) => q.in("order_id", batch));
-  }
-  await wipe("reseller_orders", (q) => q.like("reference", `${DEMO_REFERENCE_PREFIX}%`));
-  // Demo invoices remain drafts so the admin journey can issue and pay them;
-  // issued commercial records are deliberately immutable and never deleted here.
+  // Clear draft invoices before their order links are removed. The invoice-line
+  // safeguard then evaluates the still-present parent as a draft. Issued
+  // invoices remain immutable and are deliberately excluded.
   const { data: demoDraftInvoices } = await db
     .from("invoices")
     .select("id")
@@ -221,9 +216,39 @@ async function purge(db, { withAuth }) {
     .eq("status", "draft");
   const draftInvoiceIds = (demoDraftInvoices ?? []).map((row) => row.id);
   for (const batch of chunk(draftInvoiceIds)) {
+    await wipe("invoice_payments", (q) => q.in("invoice_id", batch));
+    await wipe("invoice_lines", (q) => q.in("invoice_id", batch));
     await wipe("invoices", (q) => q.in("id", batch).eq("status", "draft"));
   }
-  await wipe("resellers", (q) => q.ilike("email", like));
+
+  // Remove completed demo orders, then retain only reseller accounts that carry
+  // immutable issued demo invoices. Their refreshed seed row is upserted below.
+  const { data: demoOrders } = await db
+    .from("reseller_orders")
+    .select("id")
+    .like("reference", `${DEMO_REFERENCE_PREFIX}%`);
+  const orderIds = (demoOrders ?? []).map((row) => row.id);
+  for (const batch of chunk(orderIds)) {
+    await wipe("reseller_order_items", (q) => q.in("order_id", batch));
+  }
+  await wipe("reseller_orders", (q) => q.like("reference", `${DEMO_REFERENCE_PREFIX}%`));
+
+  const { data: demoResellers, error: demoResellersError } = await db
+    .from("resellers")
+    .select("id")
+    .ilike("email", like);
+  if (demoResellersError) throw new Error(`reading demo reseller accounts failed: ${demoResellersError.message}`);
+  const demoResellerIds = (demoResellers ?? []).map((row) => row.id);
+  const { data: immutableDemoInvoices, error: immutableDemoInvoicesError } = demoResellerIds.length
+    ? await db.from("invoices").select("reseller_id").in("reseller_id", demoResellerIds).neq("status", "draft")
+    : { data: [], error: null };
+  if (immutableDemoInvoicesError) throw new Error(`reading issued demo invoices failed: ${immutableDemoInvoicesError.message}`);
+  const retainedResellerIds = new Set((immutableDemoInvoices ?? []).map((row) => row.reseller_id));
+  const removableResellerIds = demoResellerIds.filter((id) => !retainedResellerIds.has(id));
+  for (const batch of chunk(removableResellerIds)) {
+    await wipe("resellers", (q) => q.in("id", batch));
+  }
+  if (retainedResellerIds.size) step(`retaining ${retainedResellerIds.size} demo account(s) with issued invoices`);
   await wipe("reseller_applications", (q) => q.ilike("email", like));
 
   if (withAuth) {
@@ -263,7 +288,10 @@ async function apply(db, dataset, { withAuth, password }) {
     ...clean(reseller),
     application_id: applicationByEmail.get(reseller._applicationEmail.toLowerCase()) ?? null,
   }));
-  const resellers = await insertAll(db, "resellers", resellerRows, { returning: "id, account_code, email" });
+  const resellers = await insertAll(db, "resellers", resellerRows, {
+    returning: "id, account_code, email",
+    onConflict: "account_code",
+  });
   const resellerByCode = new Map(resellers.map((row) => [row.account_code, row.id]));
 
   step("orders…");

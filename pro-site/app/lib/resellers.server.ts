@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createPublicSupabaseClient } from "./supabase.server";
-export { ORDER_STATUSES } from "./reseller-constants";
+export { ORDER_STATUSES, ORDER_SOURCES } from "./reseller-constants";
 import type { OrderQuery } from "./orders-query";
 import type { AccountQuery } from "./accounts-query";
 
@@ -56,6 +56,7 @@ export type ResellerOrder = {
   id: string;
   reference: string;
   status: OrderStatus;
+  source: string;
   currency: string;
   subtotal_pence: number;
   customer_note: string | null;
@@ -232,7 +233,7 @@ export async function loadCatalogue(supabase: SupabaseClient) {
 export async function listOrders(supabase: SupabaseClient, resellerId?: string) {
   let query = supabase
     .from("reseller_orders")
-    .select("id, reference, status, currency, subtotal_pence, customer_note, submitted_at")
+    .select("id, reference, status, source, currency, subtotal_pence, customer_note, submitted_at")
     .order("submitted_at", { ascending: false })
     .limit(100);
 
@@ -259,6 +260,7 @@ export async function createOrder(
   reseller: Pick<Reseller, "id" | "discount_percent">,
   lines: OrderLineInput[],
   customerNote?: string,
+  source = "pro_website",
 ) {
   const wanted = lines.filter((line) => line.quantity > 0);
   if (wanted.length === 0) throw new Error("Add at least one product before submitting an order.");
@@ -287,6 +289,7 @@ export async function createOrder(
       reseller_id: reseller.id,
       reference: orderReference(),
       customer_note: customerNote?.trim() || null,
+      source,
     })
     .select("id, reference")
     .single();
@@ -376,7 +379,7 @@ export async function listOrdersDetailed(supabase: SupabaseClient, resellerId?: 
   let query = supabase
     .from("reseller_orders")
     .select(
-      "id, reference, status, currency, subtotal_pence, customer_note, internal_note, submitted_at, confirmed_at, reseller_id, resellers(account_code, business_name, contact_name, email)",
+      "id, reference, status, source, currency, subtotal_pence, customer_note, internal_note, submitted_at, confirmed_at, reseller_id, resellers(account_code, business_name, contact_name, email)",
     )
     .order("submitted_at", { ascending: false })
     .limit(200);
@@ -399,7 +402,7 @@ export async function getOrder(supabase: SupabaseClient, id: string) {
   const { data: order, error } = await supabase
     .from("reseller_orders")
     .select(
-      "id, reference, status, currency, subtotal_pence, customer_note, internal_note, delivery_note, submitted_at, confirmed_at, created_at, updated_at, reseller_id, resellers(id, account_code, business_name, contact_name, email, phone, market, address, pricing_tier, discount_percent, status)",
+      "id, reference, status, source, currency, subtotal_pence, customer_note, internal_note, delivery_note, submitted_at, confirmed_at, created_at, updated_at, reseller_id, resellers(id, account_code, business_name, contact_name, email, phone, market, address, pricing_tier, discount_percent, status)",
     )
     .eq("id", id)
     .maybeSingle();
@@ -467,7 +470,7 @@ export async function getOrder(supabase: SupabaseClient, id: string) {
 export async function updateOrder(
   supabase: SupabaseClient,
   id: string,
-  patch: { status?: OrderStatus; internal_note?: string | null },
+  patch: { status?: OrderStatus; internal_note?: string | null; source?: string },
 ) {
   const next: Record<string, unknown> = { ...patch };
   if (patch.status === "confirmed") next.confirmed_at = new Date().toISOString();
@@ -510,7 +513,7 @@ export type OrderListRow = ResellerOrder & {
 };
 
 const ORDER_COLUMNS =
-  "id, reference, status, currency, subtotal_pence, customer_note, internal_note, submitted_at, confirmed_at, reseller_id, resellers(account_code, business_name, contact_name, email)";
+  "id, reference, status, source, currency, subtotal_pence, customer_note, internal_note, submitted_at, confirmed_at, reseller_id, resellers(account_code, business_name, contact_name, email)";
 
 /**
  * The subset of the PostgREST builder the filters touch. Typing it structurally

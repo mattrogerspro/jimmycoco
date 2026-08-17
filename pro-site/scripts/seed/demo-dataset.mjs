@@ -787,6 +787,11 @@ export function buildDemoDataset({ seed = 20260807, now = Date.now(), scale = "f
     orders.push({
       reference: `${DEMO_REFERENCE_PREFIX}${new Date(submittedAt).getUTCFullYear().toString().slice(2)}${(new Date(submittedAt).getUTCMonth() + 1).toString().padStart(2, "0")}-${(reference++).toString().padStart(4, "0")}`,
       status,
+      source: weightedPick(rng, [
+        { value: "pro_website", weight: 7 },
+        { value: "retail_website", weight: 1 },
+        { value: "manual", weight: 2 },
+      ]).value,
       currency:
         target.market === "UAE" ? "USD" : target.market === "IE" ? "EUR" : target.market === "AU" ? "AUD" : "GBP",
       subtotal_pence: lines.reduce((total, line) => total + line.line_total_pence, 0),

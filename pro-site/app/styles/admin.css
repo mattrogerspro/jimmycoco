@@ -806,3 +806,47 @@ button,input,select,textarea{font:inherit}
   .qr-list-fields{grid-column:2}
   .qr-list-url,.qr-list-scan,.qr-list-status,.qr-list-actions{grid-column:1/-1;grid-row:auto}
 }
+
+/* Order flow redesign ------------------------------------------------ */
+.admin-order-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;margin-bottom:0;padding:30px 32px 26px;border:1px solid #183247;border-radius:14px 14px 0 0;background:linear-gradient(112deg,#0D2031 0%,#132E43 72%,#25455A 100%);color:#F9F7F1;box-shadow:0 12px 30px rgba(30,42,49,.12)}
+.admin-order-kicker{display:flex;align-items:center;gap:10px;margin:0;color:#B7C8D7;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.admin-order-kicker span{color:#F3D2A5;letter-spacing:.1em}
+.admin-order-hero h1{margin:10px 0 12px;font-family:Fraunces,Georgia,serif;font-size:clamp(34px,4.1vw,56px);font-weight:400;line-height:1.03;letter-spacing:-.025em}
+.admin-order-meta{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0;color:#C6D2DA;font-size:15px}
+.admin-order-meta>span:not(.admin-status){position:relative}
+.admin-order-meta>span:not(.admin-status)+span:not(.admin-status)::before{content:"";position:absolute;left:-8px;top:50%;width:3px;height:3px;border-radius:50%;background:#87A1B3}
+.admin-order-meta .admin-status{background:#E7F0E5;color:#335A3D}
+.admin-order-hero-value{display:flex;flex-direction:column;align-items:flex-end;gap:5px;text-align:right;white-space:nowrap}
+.admin-order-hero-value b{font-size:clamp(30px,3.5vw,48px);font-variant-numeric:tabular-nums;letter-spacing:-.035em}
+.admin-order-hero-value span{color:#B7C8D7;font-size:14px}
+.admin-next-task{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(250px,auto);align-items:stretch;margin:0 0 14px;border:1px solid var(--admin-line);border-top:0;border-radius:0 0 14px 14px;background:var(--admin-paper);box-shadow:0 10px 28px rgba(45,31,20,.07);overflow:visible}
+.admin-next-task-copy{display:flex;align-items:center;gap:16px;padding:20px 28px;min-width:0}
+.admin-next-task-icon{display:grid;place-items:center;flex:0 0 48px;width:48px;height:48px;border-radius:11px;background:#EDF4F8;color:#1F638E;font-size:28px;font-weight:700}
+.admin-next-task-kicker{margin:0 0 3px;color:#24618A;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.admin-next-task-kicker span{margin-left:8px;padding:4px 8px;border-radius:999px;background:#EEF3F6;color:#526D7F;letter-spacing:.06em}
+.admin-next-task h2{margin:0;color:var(--admin-ink);font-size:21px;line-height:1.18}
+.admin-next-task-copy>div>p:last-child{margin:5px 0 0;color:var(--admin-muted);font-size:14px}
+.admin-next-task-actions{display:flex;align-items:center;gap:10px;padding:20px 24px;border-left:1px solid var(--admin-line)}
+.admin-next-task-actions form{margin:0}
+.admin-next-task-actions .admin-primary{min-height:46px}
+.admin-next-task-utilities{display:flex;align-items:center;gap:12px;padding:14px 18px;border-left:1px solid var(--admin-line);background:#F7FAFC}
+.admin-source-form{display:flex;align-items:center;gap:7px;margin:0}
+.admin-source-form label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.admin-source-form select{min-height:42px;max-width:142px;padding:0 27px 0 10px;border:1px solid #C9D3DB;border-radius:8px;background:#FFF;color:var(--admin-ink);font-size:13px}
+.admin-source-form button{min-height:42px;padding:0 10px;border:1px solid #C9D3DB;border-radius:8px;background:#FFF;color:#496270;font-size:13px;font-weight:600;cursor:pointer}
+.admin-flow-panel{display:grid;grid-template-columns:160px minmax(0,1fr);align-items:center;margin:0 0 24px;padding:17px 22px;border:1px solid var(--admin-line);border-radius:12px;background:var(--admin-paper)}
+.admin-flow-label{display:flex;flex-direction:column;gap:4px}
+.admin-flow-label b{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#516575}
+.admin-flow-label span{color:var(--admin-muted);font-size:13px}
+.admin-flow-panel .admin-steps{position:relative;display:grid;grid-template-columns:repeat(4,1fr);margin:0;padding:4px 0 0;border:0;border-radius:0;background:transparent;overflow:visible}
+.admin-flow-panel .admin-steps::before{content:"";position:absolute;left:12.5%;right:12.5%;top:16px;height:2px;background:#D8E0E5}
+.admin-flow-panel .admin-steps li{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;padding:0 6px;border:0;background:transparent;text-align:center;z-index:1}
+.admin-flow-panel .admin-steps-dot{display:grid;place-items:center;width:27px;height:27px;border:2px solid #AAB7C0;border-radius:50%;background:var(--admin-paper);color:#FFF;font-size:14px;font-weight:700}
+.admin-flow-panel .admin-steps b{color:#687784;font-size:13px;white-space:normal}
+.admin-flow-panel .admin-steps span:not(.admin-steps-dot){margin:0;color:#8A98A2;font-size:11px}
+.admin-flow-panel .admin-steps .is-done .admin-steps-dot{border-color:#19806A;background:#19806A}
+.admin-flow-panel .admin-steps .is-done b{color:#1C5D53}
+.admin-flow-panel .admin-steps .is-current .admin-steps-dot{border:7px solid #D6922A;background:#FFF;box-shadow:0 0 0 3px rgba(214,146,42,.15)}
+.admin-flow-panel .admin-steps .is-current b{color:#9A641B}
+@media (max-width:1000px){.admin-next-task{grid-template-columns:1fr auto}.admin-next-task-utilities{grid-column:1/-1;border-top:1px solid var(--admin-line);border-left:0;justify-content:flex-end}.admin-flow-panel{grid-template-columns:1fr;gap:14px}}
+@media (max-width:720px){.admin-order-hero{padding:24px;align-items:flex-start;flex-direction:column}.admin-order-hero-value{align-items:flex-start;text-align:left}.admin-next-task{display:block}.admin-next-task-actions,.admin-next-task-utilities{border-top:1px solid var(--admin-line);border-left:0}.admin-next-task-utilities{justify-content:space-between}.admin-flow-panel .admin-steps{overflow-x:auto;min-width:520px}.admin-flow-panel{overflow-x:auto}.admin-flow-label{padding-left:4px}}

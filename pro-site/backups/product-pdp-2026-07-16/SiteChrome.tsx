@@ -35,7 +35,7 @@ export function SiteFooter({ page = "home" }: HeaderProps) {
   return (
     <footer>
       <div className="wrap">
-        <div>© Jimmy Coco, 2026 · Professional partnerships · <a href="mailto:pro@jimmycoco.co.uk">pro@jimmycoco.co.uk</a></div>
+        <div>© Jimmy Coco, 2026 · Professional partnerships · <a href="mailto:matthew@jimmycoco.pro">matthew@jimmycoco.pro</a></div>
         <div>
           {page === "product" && <Link to="/">Professional home</Link>}
           <a href="https://jimmycoco.co.uk">Consumer site</a>

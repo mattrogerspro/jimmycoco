@@ -31,4 +31,4 @@ Hero: glow. Trade pricing · shade & method training · shade guide · marketing
 
 ## 7 — Ready to bring it to your Irish salon?  ·  `ie-onboarding-7-become-a-stockist`
 **Preview:** Start with a professional sample kit.
-Hero: Kendall. Become a stockist; start with a sample kit. Join selected Irish salons. Stockist package (trade pricing · training · marketing · support). Trust strip (fast delivery to Ireland · professional grade · trusted by 1000+ pros · made for results). pro@jimmycoco.co.uk.
+Hero: Kendall. Become a stockist; start with a sample kit. Join selected Irish salons. Stockist package (trade pricing · training · marketing · support). Trust strip (fast delivery to Ireland · professional grade · trusted by 1000+ pros · made for results). matthew@jimmycoco.pro.

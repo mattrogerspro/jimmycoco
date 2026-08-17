@@ -11,7 +11,7 @@ import os
 ASSET_BASE = "https://jimmycoco.email/email-assets/uk-stockist/"   # shared imagery with the UK sequence (identical celeb/product shots)
 LOGO_URL   = "https://jimmycoco.email/email-assets/logo.webp"
 PRO_URL   = "https://jimmycoco.co.uk/pages/why-choose-pro-professional"
-PRO_EMAIL = "pro@jimmycoco.co.uk"
+PRO_EMAIL = "matthew@jimmycoco.pro"
 
 # palette
 BG="#e7dccd"; CARD="#f4ebe0"; PANEL="#efe6d9"; DARK="#1c1612"

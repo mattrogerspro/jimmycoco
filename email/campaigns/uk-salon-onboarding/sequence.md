@@ -31,4 +31,4 @@ Hero: glow. Trade pricing · shade & method training · shade guide · marketing
 
 ## 7 — Ready to bring it to your salon?  ·  `uk-onboarding-7-become-a-stockist`
 **Preview:** Start with a professional sample kit.
-Hero: Kendall. Become a stockist; start with a sample kit. Stockist package (trade pricing · training · marketing · support). Trust strip. pro@jimmycoco.co.uk.
+Hero: Kendall. Become a stockist; start with a sample kit. Stockist package (trade pricing · training · marketing · support). Trust strip. matthew@jimmycoco.pro.

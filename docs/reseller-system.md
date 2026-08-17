@@ -50,7 +50,7 @@ New, for the lifecycle emails (optional — without them events are logged and s
 - `AUTOMATION_API_BASE_URL` — origin serving `/api/lifecycle/trigger`, i.e. the
   automation project at `https://jimmycoco.email` (not the public site)
 - `AUTOMATION_API_KEY` — must match the automation project's `AUTOMATION_API_KEY`
-- `RESELLER_NOTICE_EMAIL` — internal notification address, defaults to `pro@jimmycoco.co.uk`
+- `RESELLER_NOTICE_EMAIL` — internal notification address, defaults to `matthew@jimmycoco.pro`
 - `EMAIL_AUDIT_COPY` — BCC copy recipient for all Resend sends, defaults to
   `matthew@jimmycoco.pro`
 

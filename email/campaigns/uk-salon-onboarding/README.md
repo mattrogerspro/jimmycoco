@@ -4,7 +4,7 @@
 **Audience:** UK salons / spray-tan professionals.
 **Market:** 🇬🇧 UK
 **Primary product (hero):** Sunset professional solution — 1 litre, approximately 28 tans, Dark/Extra Dark 10% DHA. £60 / 1 litre. Product figures come from Copy system › Professional Product Facts (`email/04-copy-system/14-professional-product-facts.md`) — the single source. Do not restate them from another asset.
-**Primary CTA (every email):** *Request your sample kit* → https://jimmycoco.co.uk/pages/why-choose-pro-professional · trade enquiries pro@jimmycoco.co.uk
+**Primary CTA (every email):** *Request your sample kit* → https://jimmycoco.co.uk/pages/why-choose-pro-professional · trade enquiries matthew@jimmycoco.pro
 **Secondary (never the headline):** the take-home retail range (Self Tan Soufflé, Face Brush, glow balm) as an optional second revenue line, surfaced only in emails 5 & 6 via a side panel + secondary link.
 **Style:** the rich UK-stockist template — 600px, Playfair Display / Arial, warm #e7dccd palette, hero imagery, matte-bronze CTAs. Self-contained (no MailerLite).
 **ESP:** Resend (templates `uk-onboarding-1..7`). Only reserved var used: `{{{RESEND_UNSUBSCRIBE_URL}}}`.

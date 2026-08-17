@@ -61,7 +61,7 @@ Ten audit items, all done and committed.
 |---|---|---|
 | 1 | Removed 3 confidential commercial reports from `public/` — they were live and crawlable, containing real revenue figures. Moved to `public/_to_delete/leaked-reports/` | `public/` |
 | 2 | Deleted fabricated review data: an `aggregateRating` claiming 4.9 from 1,842 reviews, a visible "4.9 out of 5 · 1,842 verified reviews" row, three invented testimonials labelled "Verified customer reviews", and two mitt star ratings | `product.tsx`, `ProductPurchase.tsx`, `ProductSections.tsx`, `HomeSections.tsx` |
-| 3 | Removed `pro@jimmycoco.co.uk` from the Organization JSON-LD and the footer | `home.tsx`, `SiteChrome.tsx` |
+| 3 | Removed `matthew@jimmycoco.pro` from the Organization JSON-LD and the footer | `home.tsx`, `SiteChrome.tsx` |
 | 4 | AI crawler policy in `robots.txt` — three groups, retrieval agents and training crawlers both allowed deliberately, all six disallows repeated per group | `public/robots.txt` |
 | 5 | Entity graph: `app/lib/entity.ts` with stable `@id`s for Jimmy (Person) and the brand (Organization), 4 brand profiles in `sameAs`, 12 press citations in `subjectOf` | `entity.ts` + 3 routes |
 | 6 | FAQ: 12 questions with `FAQPage` markup, single-source array | `app/lib/faq.ts` |

@@ -6,7 +6,7 @@
 **Localised from:** `uk-salon-onboarding` (same style, imagery and structure).
 **Primary product (hero):** Sunset professional solution — 1 litre, approximately 28 tans, Dark/Extra Dark 10% DHA. See Copy system › Professional Product Facts (`email/04-copy-system/14-professional-product-facts.md`) — the single source for product figures. **£60 / 1 litre (GBP — kept in pounds per owner decision).**
 **Delivery line:** "fast delivery to Ireland" (per owner instruction, 2026-07-21).
-**Primary CTA (every email):** *Request your sample kit* → https://jimmycoco.co.uk/pages/why-choose-pro-professional · trade enquiries pro@jimmycoco.co.uk
+**Primary CTA (every email):** *Request your sample kit* → https://jimmycoco.co.uk/pages/why-choose-pro-professional · trade enquiries matthew@jimmycoco.pro
 **Secondary (never the headline):** the take-home retail range (Self Tan Soufflé, Face Brush, glow balm) as an optional second revenue line, surfaced only in emails 5 & 6 via a side panel + secondary link.
 **Style:** the rich UK-stockist template — 600px, Playfair Display / Arial, warm #e7dccd palette, hero imagery, matte-bronze CTAs. Self-contained (no MailerLite).
 **ESP:** Resend (templates `ie-onboarding-1..7`). Only reserved var used: `{{{RESEND_UNSUBSCRIBE_URL}}}`.
@@ -33,7 +33,7 @@
 - Aliases `uk-onboarding-*` → `ie-onboarding-*`; template names `IE Onboarding N — …`.
 - Imagery **reused** from the UK sequence (`ASSET_BASE = …/email-assets/uk-stockist/`) — identical celebrity/product shots, no new asset deploy required.
 - Brand header uses the shared approved `assets/email/logo.webp`, delivered from `https://jimmycoco.email/email-assets/logo.webp`; the legacy live-text wordmark must not be restored.
-- Trade email and pro URL unchanged (`pro@jimmycoco.co.uk`, `/pages/why-choose-pro-professional`).
+- Trade email and pro URL unchanged (`matthew@jimmycoco.pro`, `/pages/why-choose-pro-professional`).
 
 ## Build
 - `python3 build_ie.py` regenerates all 7 emails into `emails/`.

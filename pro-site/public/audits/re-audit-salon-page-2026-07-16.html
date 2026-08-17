@@ -182,7 +182,7 @@
     <h2>Remaining findings, ranked</h2>
 
     <div class="issue"><h4><span class="sev h">High</span>1 · The forms still submit via mailto:</h4>
-      <p><b>Problem:</b> unchanged since both prior audits, and now true of <i>both</i> the trial form and the product order form — each is wired to <code>action="mailto:pro@jimmycoco.co.uk"</code>. That opens the visitor's desktop email client — jarring on desktop, frequently broken on mobile, invisible to analytics, and every abandoned half-written email is a lead you'll never know existed. On the page whose entire job is to capture salon trials, nothing is actually captured.</p>
+      <p><b>Problem:</b> unchanged since both prior audits, and now true of <i>both</i> the trial form and the product order form — each is wired to <code>action="mailto:matthew@jimmycoco.pro"</code>. That opens the visitor's desktop email client — jarring on desktop, frequently broken on mobile, invisible to analytics, and every abandoned half-written email is a lead you'll never know existed. On the page whose entire job is to capture salon trials, nothing is actually captured.</p>
       <p><b>Fix:</b> wire both forms to a real endpoint. The natural home already exists: the repo's <code>/api/campaigns/enroll</code> → Supabase pipeline, which would drop every trial and order request straight into the outreach system and its onboarding sequences. A hosted form service is the quick interim. <b>This remains the one change standing between the page and its purpose.</b></p></div>
 
     <div class="issue"><h4><span class="sev h">High</span>2 · Still no salon voices anywhere</h4>

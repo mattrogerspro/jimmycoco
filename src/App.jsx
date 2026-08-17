@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
+  activeCampaigns,
   applyMergeData,
   campaigns,
   contentStats,
@@ -156,7 +157,7 @@ function CopyLink({ parts }) {
 }
 
 function Overview({ routeTo }) {
-  const liveCampaign = campaigns.find((campaign) => campaign.status === 'Live') || campaigns[0]
+  const liveCampaign = activeCampaigns.find((campaign) => campaign.status === 'Live') || activeCampaigns[0] || campaigns[0]
   const recentDocs = [playbookCategories[0]?.documents[0], playbookCategories[3]?.documents[1], playbookCategories[2]?.documents[0]].filter(Boolean)
   const categorySlugOf = (doc) => doc.id.split('/email/')[1]?.split('/')[0]
 
@@ -217,7 +218,7 @@ function Overview({ routeTo }) {
         <div className="section-heading"><div><p className="eyebrow">Campaign registry</p><h2>All markets</h2></div><button className="secondary-button" onClick={() => routeTo(['sequences'])}>View sequences</button></div>
         <div className="campaign-table">
           <div className="campaign-table-head"><span>Campaign</span><span>Channel</span><span>Cadence</span><span>Status</span><span /></div>
-          {campaigns.map((campaign) => (
+          {activeCampaigns.map((campaign) => (
             <button className="campaign-table-row" key={campaign.id} onClick={() => routeTo(['sequences', campaign.id])}>
               <span className="campaign-name"><i>{campaign.flag}</i><span><strong>{campaign.name}</strong><small>{campaign.hook}</small></span></span>
               <span>{campaign.channel}</span><span>{campaign.cadence}</span><span><Status value={campaign.status} /></span><span><Icon name="arrow" size={16} /></span>
@@ -349,18 +350,23 @@ function SequenceTimeline({ campaign, analytics, onOpenEmail }) {
 function Sequences({ params, routeTo, onOpenEmail }) {
   const isLifecycle = params[0] === 'lifecycle'
   const [marketFilter, setMarketFilter] = useState('all')
+  const [showArchived, setShowArchived] = useState(false)
+  const visibleCampaigns = useMemo(
+    () => showArchived ? campaigns : activeCampaigns,
+    [showArchived],
+  )
   const marketOptions = useMemo(() => {
     const options = new Map()
-    campaigns.forEach((item) => {
+    visibleCampaigns.forEach((item) => {
       if (!options.has(item.market)) options.set(item.market, { market: item.market, flag: item.flag })
     })
     return [...options.values()]
-  }, [])
+  }, [visibleCampaigns])
   const filteredCampaigns = useMemo(
-    () => marketFilter === 'all' ? campaigns : campaigns.filter((item) => item.market === marketFilter),
-    [marketFilter],
+    () => marketFilter === 'all' ? visibleCampaigns : visibleCampaigns.filter((item) => item.market === marketFilter),
+    [marketFilter, visibleCampaigns],
   )
-  const campaign = campaigns.find((item) => item.id === params[0]) || filteredCampaigns[0] || campaigns[0]
+  const campaign = campaigns.find((item) => item.id === params[0]) || filteredCampaigns[0] || visibleCampaigns[0] || campaigns[0]
   const lifecycle = lifecycleSequences.find((item) => item.id === params[1]) || lifecycleSequences[0]
   const [analytics, setAnalytics] = useState({ loading: true, configured: null, campaign: null, steps: [], tracking: null })
 
@@ -396,6 +402,7 @@ function Sequences({ params, routeTo, onOpenEmail }) {
               <Icon name="chevron" size={15} />
             </label>
           )}
+          {!isLifecycle && <button className="secondary-button" onClick={() => setShowArchived((current) => !current)}>{showArchived ? 'Hide archived' : `View archived (${contentStats.archivedCampaigns})`}</button>}
           <div className="segmented"><button className={!isLifecycle ? 'active' : ''} onClick={() => routeTo(['sequences', campaign.id])}>Campaigns</button><button className={isLifecycle ? 'active' : ''} onClick={() => routeTo(['sequences', 'lifecycle', lifecycle.id])}>Lifecycle blueprints</button></div>
         </div>
       </div>

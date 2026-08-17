@@ -19,6 +19,13 @@ const aliases = {
   resend_unsubscribe_url: 'RESEND_UNSUBSCRIBE_URL',
 }
 
+// Legacy source remains in the repository for research only. Publishing is restricted
+// to the two current Jimmy Coco Pro V2 recruitment campaigns.
+const publishableCampaignIds = new Set([
+  'uk-salon-stockist',
+  'us-west-coast-salon-stockist',
+])
+
 function toResendVariables(value) {
   return value.replace(/\{\{\{?\s*([\w.]+)\s*\}\}\}?/g, (_match, key) => {
     const variable = aliases[key.toLowerCase()] || key.replaceAll('.', '_').toUpperCase()
@@ -51,6 +58,7 @@ async function localTemplates() {
     }
 
     if (data.esp && data.esp.toLowerCase() !== 'resend') continue
+    if (!publishableCampaignIds.has(campaignId)) continue
 
     const campaign = campaignsById[campaignId]
     const registeredSteps = campaign ? [...campaign.steps, ...(campaign.triggeredSteps || [])] : []

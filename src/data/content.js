@@ -82,6 +82,13 @@ export const playbookCategories = Object.entries(categoryMap).map(([slug, [name,
 
 const marketFlags = { AU: '🇦🇺', UK: '🇬🇧', UAE: '🇦🇪' }
 
+// The V2 UK and US West Coast journeys are the only current recruitment sequences.
+// All other campaign folders remain available as archived research and reference material.
+const currentCampaignIds = new Set([
+  'uk-salon-stockist',
+  'us-west-coast-salon-stockist',
+])
+
 const campaignDefinitions = Object.entries(campaignDataFiles)
   .map(([dataPath, data]) => {
     const id = dataPath.split('/').at(-2)
@@ -97,7 +104,7 @@ const campaignDefinitions = Object.entries(campaignDataFiles)
       shortName: studio.shortName || studio.name || registry?.name || toTitle(id),
       market,
       flag: studio.flag || marketFlags[market] || '✉️',
-      status: studio.status || 'Draft',
+      status: (Boolean(studio.archived) || !currentCampaignIds.has(id)) ? 'Archived' : (studio.status || 'Draft'),
       hook: studio.hook || 'Email campaign',
       channel: studio.channel || 'Email',
       cadence: studio.cadence || `${lastDay} days`,
@@ -106,6 +113,7 @@ const campaignDefinitions = Object.entries(campaignDataFiles)
       days,
       supplementalOutputs: studio.supplementalOutputs || [],
       order: studio.order ?? 999,
+      archived: Boolean(studio.archived) || !currentCampaignIds.has(id),
       data,
     }
   })
@@ -160,7 +168,7 @@ export const campaigns = campaignDefinitions.map((campaign) => ({
       htmlPath,
       isTriggered,
       isSupplemental,
-      status: campaign.status === 'Live' && index === 0 ? 'Live' : 'Ready',
+      status: campaign.archived ? 'Archived' : (campaign.status === 'Live' && index === 0 ? 'Live' : 'Ready'),
     }
   }),
 }))
@@ -193,11 +201,15 @@ export const lifecycleSequences = lifecycleFolders.map(([readmePath, content]) =
   }
 }).sort((a, b) => a.id.localeCompare(b.id))
 
+export const activeCampaigns = campaigns.filter((campaign) => !campaign.archived)
+export const archivedCampaigns = campaigns.filter((campaign) => campaign.archived)
+
 export const contentStats = {
   playbooks: playbookCategories.reduce((total, category) => total + category.documents.length, 0),
   lifecycleSequences: lifecycleSequences.length,
-  campaigns: campaigns.length,
-  renderedEmails: campaigns.reduce((total, campaign) => total + campaign.messages.filter((message) => message.html).length, 0),
+  campaigns: activeCampaigns.length,
+  archivedCampaigns: archivedCampaigns.length,
+  renderedEmails: activeCampaigns.reduce((total, campaign) => total + campaign.messages.filter((message) => message.html).length, 0),
 }
 
 export const sampleMergeData = {

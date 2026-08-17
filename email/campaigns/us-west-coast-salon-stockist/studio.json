@@ -1,21 +1,14 @@
 {
   "order": 50,
-  "name": "US West Coast Stockist Recruitment",
-  "shortName": "US West Coast",
+  "name": "US West Coast Jimmy Coco Pro Recruitment — V2",
+  "shortName": "US West Pro V2",
   "market": "US-West-Coast",
   "flag": "🇺🇸",
-  "status": "Draft",
-  "hook": "Trial-first professional partnership",
+  "status": "Draft — Resend V2 created",
+  "hook": "Trial-first natural-looking colour, with useful aftercare retail",
   "channel": "Email",
   "cadence": "19 days",
-  "owner": "Unassigned — approval required",
+  "owner": "Sunless Partnerships",
   "mode": "sequence",
-  "days": [0, 4, 9, 14, 19, 0, 0, 0, 0, 0],
-  "supplementalOutputs": [
-    "emails/onboarding-1-interest-confirmed.html",
-    "emails/onboarding-2-trial-dispatched.html",
-    "emails/onboarding-3-post-trial-check-in.html",
-    "emails/onboarding-4-trade-summary.html",
-    "emails/onboarding-5-first-order-confirmation.html"
-  ]
+  "days": [0, 4, 8, 13, 19]
 }

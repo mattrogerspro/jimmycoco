@@ -13,7 +13,7 @@
     "buttonBackground": "#26231F",
     "buttonText": "#FFFDF9",
     "businessName": "Sunless by Jimmy Coco",
-    "businessAddress": "{{BUSINESS_ADDRESS}}",
+    "businessAddress": "JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP",
     "unsubscribeText": "This is a service message about a trade request or account you started at www.jimmycoco.pro.",
     "unsubscribeLabel": "Ask us to remove your details",
     "unsubscribeUrl": "{{PREFERENCES_LINK}}",
@@ -36,7 +36,8 @@
           "type": "bullets",
           "items": [
             "We review your salon details and check the best next step.",
-            "If everything is suitable, the team will arrange your trial box and shade guidance.",
+            "If everything is suitable, the team will arrange a complimentary 100 ml trial sample and shade guidance.",
+            "We aim to approve requests within the same working day; please allow up to 2–3 working days.",
             "You can reply to this email at any point if your details need changing."
           ]
         },
@@ -91,7 +92,7 @@
         { "type": "paragraph", "html": "Hi {{CONTACT_NAME}}," },
         { "type": "paragraph", "html": "<b>{{SALON_NAME}}</b> is now a Jimmy Coco trade account. Your account reference is <b>{{ACCOUNT_CODE}}</b>." },
         { "type": "subheading", "html": "Set your password to open the portal" },
-        { "type": "paragraph", "html": "Use the email address this message was sent to. Once you are in, you will find your trade pricing, account details and the portal order form." },
+        { "type": "paragraph", "html": "Use the email address this message was sent to. Once you are in, you will find your trade pricing, account details and the professional ordering route." },
         { "type": "cta", "label": "Set your password", "url": "{{PORTAL_LINK}}" },
         { "type": "divider" },
         { "type": "subheading", "html": "What is waiting for you" },
@@ -99,10 +100,12 @@
           "type": "bullets",
           "items": [
             "Trade pricing on the professional litre and retail range.",
-            "Order requests straight from the portal — we confirm stock and invoice you; nothing is charged online.",
+            "All salons can order upfront through the professional website, with standard trade volume discounts applied.",
+            "Jimmy’s shade method training and shade guide, so your team is confident from the first client.",
             "A direct reply path if you need help setting up the account."
           ]
-        }
+        },
+        { "type": "paragraph", "html": "Trade terms are negotiated on a per-salon basis. The minimum opening order is <b>one 1 litre professional solution bottle</b>." }
       ]
     },
     {

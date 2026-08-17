@@ -1,0 +1,12 @@
+{
+  "campaign": "uk-salon-stockist",
+  "publish": false,
+  "status": "DRAFT — NOT APPROVED FOR SEND",
+  "templates": [
+    {"file":"emails/1-trial-introduction-v2.html","alias":"jc-uk-prospect-01-trial-v2","id":"eba8d19c-55ec-4ee0-b7e4-2f145a02ec0b","name":"JC-UK-PROSPECT-01-TRIAL-V2","subject":"The tan your clients ask for — now in your treatment room"},
+    {"file":"emails/2-result-v2.html","alias":"jc-uk-prospect-02-result-v2","id":"ffdc157c-a2ee-4f85-b286-bf20af24d8a5","name":"JC-UK-PROSPECT-02-RESULT-V2","subject":"The details clients notice after their tan"},
+    {"file":"emails/3-economics-v2.html","alias":"jc-uk-prospect-03-economics-v2","id":"708c8ac6-ef80-4d98-803f-09cc1de9ddda","name":"JC-UK-PROSPECT-03-ECONOMICS-V2","subject":"The salon maths behind a premium tan"},
+    {"file":"emails/4-retail-v2.html","alias":"jc-uk-prospect-04-retail-v2","id":"603bcb34-1e75-44cc-83bd-eca9aea8518c","name":"JC-UK-PROSPECT-04-RETAIL-V2","subject":"The easiest retail conversation happens after the tan"},
+    {"file":"emails/5-close-v2.html","alias":"jc-uk-prospect-05-close-v2","id":"ff9a1c83-db9a-4d46-b544-fb9c542388c2","name":"JC-UK-PROSPECT-05-CLOSE-V2","subject":"Shall I close this for now?"}
+  ]
+}

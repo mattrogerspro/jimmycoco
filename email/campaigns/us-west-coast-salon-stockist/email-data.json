@@ -1,12 +1,13 @@
 {
   "campaign": "us-west-coast-salon-stockist",
   "market": "US-West-Coast",
+  "purpose": "professional-outreach",
   "esp": "resend",
-  "status": "DRAFT — NOT APPROVED FOR SEND",
+  "status": "DRAFT — RESEND V2 CREATED, NOT APPROVED FOR SEND",
   "defaults": {
     "brand": "SUNLESS",
     "brandLine": "by Jimmy Coco",
-    "lang": "en",
+    "lang": "en-US",
     "background": "#EAE2D8",
     "cardBackground": "#FBF8F3",
     "accent": "#A77952",
@@ -15,179 +16,87 @@
     "buttonBackground": "#26231F",
     "buttonText": "#FFFDF9",
     "businessName": "Sunless by Jimmy Coco",
-    "businessAddress": "{{business_address}}",
-    "unsubscribeText": "You’re receiving this because we believed this professional-partnership message may be relevant to your business.",
-    "unsubscribeUrl": "{{unsubscribe_link}}",
+    "businessAddress": "Jimmy Coco LA Spray-Tan Studio · Suite 313, 9301 Wilshire Blvd, Beverly Hills, CA 90210",
+    "unsubscribeText": "Advertisement from Jimmy Coco LA Spray-Tan Studio.",
+    "unsubscribeUrl": "{{RESEND_UNSUBSCRIBE_URL}}",
     "unsubscribeLabel": "Unsubscribe",
-    "senderName": "{{sender_name}}",
-    "senderTitle": "{{sender_title}}"
+    "senderName": "{{SENDER_NAME}}",
+    "senderTitle": "{{SENDER_TITLE}}"
   },
   "messages": [
     {
-      "output": "emails/1-professional-introduction.html",
-      "alias": "us-west-coast-stockist-1-professional-introduction",
-      "title": "A professional tanning partnership for {{business_name}}",
-      "preview": "A short note about a professional trial for West Coast salons — reply or request information.",
+      "output": "emails/1-trial-introduction-v2.html",
+      "alias": "jc-us-wc-prospect-01-trial-v2",
+      "title": "A premium spray-tan partnership for {{BUSINESS_NAME}}",
+      "preview": "A trial-first introduction for eligible West Coast professional partners.",
       "eyebrow": "West Coast professional partnerships",
-      "headline": "Natural-looking color, made for West Coast light.",
+      "headline": "A premium spray-tan partnership for your business.",
       "blocks": [
-        {"type": "paragraph", "html": "Hi {{first_name}},"},
-        {"type": "paragraph", "html": "I’m reaching out because {{business_name}} looks like the kind of {{business_type}} we’d like to partner with on the West Coast — premium service, strong presentation, and clients who care about how their color looks well beyond the treatment room."},
-        {"type": "paragraph", "html": "<strong>Sunless by Jimmy Coco</strong> is the professional tanning line created by celebrity tanning artist Jimmy Coco. His method is built around believable, undertone-aware color — the kind that reads natural in daylight, photography, and evening light rather than turning flat or orange."},
-        {"type": "offer", "html": "We’re starting conversations with a small number of California, Oregon, and Washington salons about the professional solution and a carefully edited take-home range."},
-        {"type": "paragraph", "html": "Would a professional trial or a short introduction call be useful for {{business_name}} in {{city}}?"},
-        {"type": "cta", "label": "Request professional trial information", "url": "{{trial_link}}"},
-        {"type": "note", "html": "Or simply reply to this email and I’ll keep it straightforward."}
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"I’m reaching out because <strong>{{BUSINESS_NAME}}</strong> looks like the kind of <strong>{{BUSINESS_TYPE}}</strong> we would like to speak with: premium service, thoughtful presentation and clients who care how their colour looks beyond the treatment room."},
+        {"type":"paragraph","html":"Sunless by Jimmy Coco is the professional tanning line created by Jimmy Coco, known for Hollywood and red-carpet tanning. The method is centred on believable, undertone-aware colour and a polished client experience."},
+        {"type":"offer","html":"Eligible U.S. professional partners can request a <strong>complimentary 100 ml professional trial sample</strong>. We confirm current sample availability for your business before shipping."},
+        {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"},
+        {"type":"note","html":"Or reply <strong>INFO</strong> and I will keep it straightforward."}
       ]
     },
     {
-      "output": "emails/2-west-coast-light.html",
-      "alias": "us-west-coast-stockist-2-west-coast-light",
-      "title": "Color that still looks right in West Coast light",
-      "preview": "Undertone-aware color, built to stay believable in daylight, photos, and evening light.",
+      "output": "emails/2-result-v2.html",
+      "alias": "jc-us-wc-prospect-02-result-v2",
+      "title": "Color clients trust in daylight",
+      "preview": "A considered approach to depth, undertone and a natural-looking finish.",
       "eyebrow": "The result beyond the treatment room",
-      "headline": "Color your clients trust in daylight.",
+      "headline": "Color clients trust in daylight.",
       "blocks": [
-        {"type": "paragraph", "html": "Hi {{first_name}},"},
-        {"type": "paragraph", "html": "The real test of a professional tan isn’t how it looks under treatment-room lighting. It’s how it reads afterward — in strong {{state}} daylight, in photographs, at weddings and events, and while traveling."},
-        {"type": "paragraph", "html": "That’s the thinking behind Jimmy Coco’s shade method. The goal isn’t simply “darker.” It’s controlled depth, undertone awareness, and a finish that looks considered rather than obvious."},
-        {"type": "bullets", "items": ["A more confident consultation with each client", "A result clients can wear to high-visibility occasions", "A premium service story that doesn’t depend on discounting", "A recognizable, expert-led name behind the treatment"]},
-        {"type": "paragraph", "html": "If it’s helpful, I can share the professional shade guide so you can see how the method approaches undertone and depth."},
-        {"type": "cta", "label": "Request the professional shade guide", "url": "{{shade_guide_link}}"},
-        {"type": "note", "html": "Prefer product details first? Reply and I’ll send professional information for {{state}}."}
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"The real test of a professional tan is not how it looks in the treatment room. It is how it reads later — in daylight, photographs, evening light and the events the client booked it for."},
+        {"type":"paragraph","html":"The Malibu professional formula is designed as a universal bronze, 10% DHA solution with a stated 6–8-hour development window. The professional site positions the finish as natural-looking, soft-focus and anti-orange, with hydration-led formula features."},
+        {"type":"paragraph","html":"That gives your team a stronger consultation conversation: considered depth and a finish designed to look believable, rather than simply darker."},
+        {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"}
       ]
     },
     {
-      "output": "emails/3-treatment-and-retail.html",
-      "alias": "us-west-coast-stockist-3-treatment-and-retail",
-      "title": "One client relationship, two revenue lines",
-      "preview": "A premium service plus a focused take-home range — without leaning on discounting.",
+      "output": "emails/3-retail-v2.html",
+      "alias": "jc-us-wc-prospect-03-retail-v2",
+      "title": "One client relationship, two useful revenue moments",
+      "preview": "Make aftercare a natural part of the client’s glow plan.",
       "eyebrow": "Treatment and retail",
-      "headline": "One client relationship, two revenue lines.",
+      "headline": "One client relationship, two useful revenue moments.",
       "blocks": [
-        {"type": "paragraph", "html": "Hi {{first_name}},"},
-        {"type": "paragraph", "html": "The strongest salon partnerships do more than place a product in the treatment room. They create one coherent client journey — with two natural commercial moments."},
-        {"type": "offer", "html": "In the booth, the professional solution supports a premium service built on shade selection, controlled depth, and believable color. After the appointment, a focused take-home edit lets clients maintain or extend the result."},
-        {"type": "paragraph", "html": "That’s treatment revenue and relevant retail from the same client relationship — without relying on discounting, and without turning your front desk into an overstocked retail wall."},
-        {"type": "paragraph", "html": "The exact West Coast range, terms, and availability are confirmed through the approved trade route. I won’t quote anything I can’t stand behind."},
-        {"type": "cta", "label": "Book a short partnership call", "url": "{{calendar_link}}"},
-        {"type": "note", "html": "Or reply and tell me how retail fits into your service today."}
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"The strongest partner relationship does more than place a solution in the treatment room. It creates a coherent client journey."},
+        {"type":"offer","html":"In the appointment, the professional solution supports a premium named service. After the appointment, a focused retail edit gives clients a way to maintain or extend the result: a maintenance mitt, a tinted top-up in the right depth, or a premium routine and gift."},
+        {"type":"paragraph","html":"That is treatment revenue and relevant aftercare from the same client relationship — without discounting and without turning the front desk into an overstocked retail wall."},
+        {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"}
       ]
     },
     {
-      "output": "emails/4-partner-pathway.html",
-      "alias": "us-west-coast-stockist-4-partner-pathway",
-      "title": "A trial-first way to begin with Sunless",
-      "preview": "Professional guidance, team education, and West Coast trade details shared once approved.",
-      "eyebrow": "Partner support",
+      "output": "emails/4-partner-path-v2.html",
+      "alias": "jc-us-wc-prospect-04-partner-path-v2",
+      "title": "A trial-first way to begin",
+      "preview": "Trial, guidance and a reviewed partner path for your business.",
+      "eyebrow": "Partner pathway",
       "headline": "A trial-first way to begin.",
       "blocks": [
-        {"type": "paragraph", "html": "Hi {{first_name}},"},
-        {"type": "paragraph", "html": "A premium product only works when the team knows how to present it, recommend it, and deliver the result consistently. So the starting point is a trial and a conversation — not a large commitment."},
-        {"type": "bullets", "items": ["A professional trial before any wider decision", "Professional shade and consultation guidance", "Team education on method and application", "Approved launch and marketing materials", "A direct commercial contact for your account", "West Coast fulfillment and trade details, shared once approved"]},
-        {"type": "paragraph", "html": "Here’s the current position on fulfillment and trade for your area:"},
-        {"type": "offer", "html": "<strong>{{us_fulfilment_statement}}</strong>"},
-        {"type": "cta", "label": "Discuss the partner pathway", "url": "{{calendar_link}}"},
-        {"type": "note", "html": "Trade information for {{state}} is available on request: {{trade_link}}"}
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"A premium product only works when the team can present it, recommend it and deliver the result with confidence. That is why the first step is a trial and a conversation — not a large commitment."},
+        {"type":"bullets","items":["A real-client trial before a wider decision.","Shade and consultation guidance.","Team education and launch-material discussion.","The right trade route for the individual business."]},
+        {"type":"paragraph","html":"Apply through the professional site and we will confirm current trial availability for your business before shipping."},
+        {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"}
       ]
     },
     {
-      "output": "emails/5-close-the-loop.html",
-      "alias": "us-west-coast-stockist-5-close-the-loop",
+      "output": "emails/5-close-v2.html",
+      "alias": "jc-us-wc-prospect-05-close-v2",
       "title": "Shall I close this for now?",
-      "preview": "I’ll stop here — reply anytime to reopen the conversation. Nothing expires.",
+      "preview": "A final note from Sunless Partnerships.",
       "eyebrow": "A final note",
       "headline": "I’ll leave the timing with you.",
       "blocks": [
-        {"type": "paragraph", "html": "Hi {{first_name}},"},
-        {"type": "paragraph", "html": "I’ve sent a couple of notes about a possible Sunless by Jimmy Coco partnership for {{business_name}}, and I don’t want to keep filling your inbox."},
-        {"type": "paragraph", "html": "I’ll close the conversation here. There’s no deadline and nothing expires — this isn’t that kind of outreach."},
-        {"type": "paragraph", "html": "If the timing changes, reply anytime and I can pick it up with the current West Coast range, trial route, and trade information."},
-        {"type": "cta", "label": "Keep the professional shade guide", "url": "{{shade_guide_link}}"},
-        {"type": "note", "html": "Thanks for reading — I appreciate your time."}
-      ]
-    },
-    {
-      "output": "emails/onboarding-1-interest-confirmed.html",
-      "alias": "us-west-coast-onboard-1-interest-confirmed",
-      "title": "Thanks — let’s set up your trial",
-      "preview": "You’re out of the introduction sequence. A couple of details and we’ll begin.",
-      "eyebrow": "Next steps",
-      "headline": "Thanks — let’s set up your trial.",
-      "blocks": [
-        {"type": "paragraph", "html": "Hi {{first_name}},"},
-        {"type": "paragraph", "html": "Thanks for getting back to me. I’ve taken {{business_name}} out of the introduction sequence — you won’t receive any more of those notes."},
-        {"type": "paragraph", "html": "To set up a professional trial or a consultation, could you confirm a few basics: your business address, your best contact and timing, and who’ll be assessing the result?"},
-        {"type": "bullets", "items": ["What you’d like to evaluate — service, retail, or both", "Your preferred timing for a trial or call", "Any current tanning products you’re comparing against"]},
-        {"type": "paragraph", "html": "Once I have that, I’ll walk you through the trial or book a short consultation — whichever you prefer. I won’t confirm stock, delivery, or terms until they’re approved for your area."},
-        {"type": "cta", "label": "Book your consultation", "url": "{{calendar_link}}"},
-        {"type": "note", "html": "Or just reply here and we’ll sort it out by email."}
-      ]
-    },
-    {
-      "output": "emails/onboarding-2-trial-dispatched.html",
-      "alias": "us-west-coast-onboard-2-trial-dispatched",
-      "title": "Your professional trial is on its way",
-      "preview": "Dispatch confirmation and what to assess during your professional trial.",
-      "eyebrow": "Your professional trial",
-      "headline": "Your trial is on its way.",
-      "blocks": [
-        {"type": "paragraph", "html": "Hi {{first_name}},"},
-        {"type": "paragraph", "html": "Good news — your professional trial for {{business_name}} has been dispatched."},
-        {"type": "bullets", "items": ["Tracking: {{tracking_link}}", "Estimated delivery: {{lead_time}}", "What’s included: {{approved_product_range}}"]},
-        {"type": "paragraph", "html": "When it arrives, try it on a real client and assess the result the way your clients will — in daylight and in photos, not only under treatment-room lighting."},
-        {"type": "bullets", "items": ["How the color develops over the first several hours", "Undertone and depth against your client’s skin", "How evenly it wears and fades"]},
-        {"type": "paragraph", "html": "The professional shade guide walks through shade selection and expected development:"},
-        {"type": "cta", "label": "Open the professional shade guide", "url": "{{shade_guide_link}}"},
-        {"type": "note", "html": "Questions during the trial? Reach me directly at {{support_email}}."}
-      ]
-    },
-    {
-      "output": "emails/onboarding-3-post-trial-check-in.html",
-      "alias": "us-west-coast-onboard-3-post-trial-check-in",
-      "title": "How did the color develop?",
-      "preview": "A quick, honest read on the trial — then a short consultation if it’s a fit.",
-      "eyebrow": "How did it perform?",
-      "headline": "How did the color develop?",
-      "blocks": [
-        {"type": "paragraph", "html": "Hi {{first_name}},"},
-        {"type": "paragraph", "html": "Now that you’ve had a chance to use the trial, I’d value your honest read on it."},
-        {"type": "bullets", "items": ["How the color developed, and how believable it looked in daylight", "How the application felt for your team", "How evenly it wore and faded over the following days"]},
-        {"type": "paragraph", "html": "Whatever you found — positive or not — is useful. If it’s a fit, I’m happy to set up a short consultation to talk through range, terms, and a first professional order for your area."},
-        {"type": "cta", "label": "Book a follow-up consultation", "url": "{{calendar_link}}"},
-        {"type": "note", "html": "No pressure at all — even a one-line reply helps."}
-      ]
-    },
-    {
-      "output": "emails/onboarding-4-trade-summary.html",
-      "alias": "us-west-coast-stockist-onboarding-4-trade-summary",
-      "title": "Your partnership terms, in writing",
-      "preview": "A written summary of the terms approved for your account — nothing estimated.",
-      "eyebrow": "Your trade summary",
-      "headline": "Your partnership terms, in writing.",
-      "blocks": [
-        {"type": "paragraph", "html": "Hi {{first_name}},"},
-        {"type": "paragraph", "html": "As discussed, here’s a written summary of the terms we agreed for {{business_name}}. Everything below reflects what’s been approved for your account — nothing is estimated."},
-        {"type": "bullets", "items": ["Trade price: {{us_trade_price}}", "Opening order: {{opening_order}}", "Reorder minimum: {{reorder_minimum}}", "Shipping: {{shipping_terms}}", "Lead time: {{lead_time}}", "Approved range: {{approved_product_range}}", "Training &amp; support: {{training_support}}"]},
-        {"type": "paragraph", "html": "If everything matches our conversation, you can place your opening order here:"},
-        {"type": "cta", "label": "Place your opening order", "url": "{{order_link}}"},
-        {"type": "note", "html": "If anything doesn’t match what we discussed, reply and I’ll correct it before you order."}
-      ]
-    },
-    {
-      "output": "emails/onboarding-5-first-order-confirmation.html",
-      "alias": "us-west-coast-onboard-5-first-order-confirmed",
-      "title": "Your first order is confirmed",
-      "preview": "Order confirmation and where your team can get started.",
-      "eyebrow": "Order confirmed",
-      "headline": "Your first order is confirmed.",
-      "blocks": [
-        {"type": "paragraph", "html": "Hi {{first_name}},"},
-        {"type": "paragraph", "html": "Thank you — your first professional order for {{business_name}} is confirmed. Here are the details:"},
-        {"type": "bullets", "items": ["Order number: {{order_number}}", "Summary: {{order_summary}}", "Total: {{order_total}}", "Dispatch date: {{dispatch_date}}", "Tracking: {{tracking_link}}"]},
-        {"type": "paragraph", "html": "When the order arrives, your team can start here — shade selection, application, and getting the most from the professional solution:"},
-        {"type": "cta", "label": "Open your training resources", "url": "{{training_link}}"},
-        {"type": "note", "html": "Anything you need, reach us at {{support_email}}. When you’re ready to reorder: {{reorder_link}}."}
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"I have sent a few short notes about a possible Sunless by Jimmy Coco partnership for <strong>{{BUSINESS_NAME}}</strong>, and I do not want to keep filling your inbox."},
+        {"type":"paragraph","html":"I will close the conversation here. If the timing changes, you can reply or request professional trial information whenever you are ready."},
+        {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"}
       ]
     }
   ]

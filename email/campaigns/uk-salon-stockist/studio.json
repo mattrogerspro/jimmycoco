@@ -1,14 +1,14 @@
 {
   "order": 30,
-  "name": "UK Stockist Recruitment",
-  "shortName": "UK Stockists",
+  "name": "UK Jimmy Coco Pro Recruitment — V2",
+  "shortName": "UK Pro V2",
   "market": "UK",
   "flag": "🇬🇧",
-  "status": "Live",
-  "hook": "Your clients know this name",
+  "status": "Draft — Resend V2 created",
+  "hook": "Trial-first premium service, with client-care retail",
   "channel": "Email",
-  "cadence": "21 days",
-  "owner": "UK Sales",
-  "mode": "broadcast",
-  "days": [0]
+  "cadence": "18 days",
+  "owner": "Sunless Partnerships",
+  "mode": "sequence",
+  "days": [0, 3, 7, 12, 18]
 }

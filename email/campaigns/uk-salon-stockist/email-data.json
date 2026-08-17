@@ -1,8 +1,13 @@
 {
-  "esp": "mailerlite",
+  "campaign": "uk-salon-stockist",
+  "market": "UK",
+  "purpose": "professional-outreach",
+  "esp": "resend",
+  "status": "DRAFT — RESEND V2 CREATED, NOT APPROVED FOR SEND",
   "defaults": {
     "brand": "SUNLESS",
     "brandLine": "by Jimmy Coco",
+    "lang": "en-GB",
     "background": "#EAE2D8",
     "cardBackground": "#FBF8F3",
     "accent": "#A77952",
@@ -11,26 +16,87 @@
     "buttonBackground": "#26231F",
     "buttonText": "#FFFDF9",
     "businessName": "Sunless by Jimmy Coco",
-    "businessAddress": "{{business_address}}",
-    "unsubscribeText": "You are receiving this professional-stockist communication from Sunless by Jimmy Coco.",
-    "unsubscribeUrl": "{$unsubscribe}",
-    "senderName": "Sunless by Jimmy Coco",
-    "senderTitle": "Professional Partnerships"
+    "businessAddress": "JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP",
+    "unsubscribeText": "You are receiving this because this Jimmy Coco Pro message may be relevant to your professional business.",
+    "unsubscribeUrl": "{{RESEND_UNSUBSCRIBE_URL}}",
+    "unsubscribeLabel": "Unsubscribe",
+    "senderName": "{{SENDER_NAME}}",
+    "senderTitle": "{{SENDER_TITLE}}"
   },
   "messages": [
     {
-      "output": "emails/1-your-clients-know-this-name.html",
-      "title": "Your clients already know this name",
-      "preview": "Bring Hollywood's favourite tan to your salon.",
-      "eyebrow": "Professional stockist invitation",
-      "headline": "Your clients already know this name.",
+      "output": "emails/1-trial-introduction-v2.html",
+      "alias": "jc-uk-prospect-01-trial-v2",
+      "title": "The tan your clients ask for — now in your treatment room",
+      "preview": "Trial the professional formula on a real client before you decide.",
+      "eyebrow": "Professional partnerships",
+      "headline": "The tan your clients ask for. Now in your treatment room.",
       "blocks": [
-        {"type":"paragraph","html":"The celebrity tanning expertise behind some of Hollywood's most recognisable red-carpet colour is now available for professional salons."},
-        {"type":"offer","html":"<strong>Jimmy Coco Malibu professional solution</strong> — {{professional_price}} for {{professional_size}}, with trade support, training and launch assets."},
-        {"type":"bullets","items":["<strong>Celebrity credibility:</strong> a premium name clients can recognise.","<strong>Premium client experience:</strong> a professional formula and service story built for luxury positioning.","<strong>Higher perceived value:</strong> a stronger reason to price and present tanning as a premium treatment.","<strong>Professional support:</strong> trade pricing, training, marketing assets and dedicated stockist help."]},
-        {"type":"quote","html":"I have spent over 20 years perfecting the art of the tan. Malibu is my professional formula, created for artists and salons that care about believable colour and a polished result.","by":"Jimmy Coco"},
-        {"type":"cta","label":"Explore professional stockist options","url":"https://jimmycoco.co.uk/pages/why-choose-pro-professional"},
-        {"type":"note","html":"Trade enquiries: <a href=\"mailto:pro@jimmycoco.co.uk\">pro@jimmycoco.co.uk</a> · <a href=\"{$forward}\">Forward this email</a>"}
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"I’m reaching out because <strong>{{BUSINESS_NAME}}</strong> looks like the kind of <strong>{{BUSINESS_TYPE}}</strong> that puts the finished result first."},
+        {"type":"paragraph","html":"Sunless by Jimmy Coco brings a Hollywood-led, professional spray-tan system into the booth: natural-looking bronze colour, a polished client experience and a named service you can present as premium rather than generic."},
+        {"type":"offer","html":"Eligible UK professional partners can request a <strong>complimentary 100 ml professional trial sample, shipped free</strong>, before making any decision."},
+        {"type":"cta","label":"Request your complimentary professional trial","url":"{{TRIAL_LINK}}"},
+        {"type":"note","html":"Or reply <strong>TRIAL</strong> and we will keep it straightforward."}
+      ]
+    },
+    {
+      "output": "emails/2-result-v2.html",
+      "alias": "jc-uk-prospect-02-result-v2",
+      "title": "The details clients notice after their tan",
+      "preview": "A universal bronze formula and a repeatable professional method.",
+      "eyebrow": "The result beyond the treatment room",
+      "headline": "The details clients notice after their tan.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"The first test of a professional tan is not the booth lighting. It is how the client feels wearing it afterward — in daylight, photos and the moments they booked it for."},
+        {"type":"paragraph","html":"Malibu Professional Spray is a 10% DHA, universal bronze formula with a stated 6–8-hour development window. The professional product page recommends under 35 ml for a full-body session and says the formula works with standard HVLP systems."},
+        {"type":"paragraph","html":"For the client, the value is natural-looking, soft-focus colour with a moisture-led formula and fast dry-down. For your team, it is a method they can learn and repeat with confidence."},
+        {"type":"cta","label":"Request your complimentary professional trial","url":"{{TRIAL_LINK}}"}
+      ]
+    },
+    {
+      "output": "emails/3-economics-v2.html",
+      "alias": "jc-uk-prospect-03-economics-v2",
+      "title": "The salon maths behind a premium tan",
+      "preview": "A clear starting point for your own service-price and stock plan.",
+      "eyebrow": "Professional opportunity",
+      "headline": "The salon maths behind a premium tan.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"Premium positioning works best when the operational maths is clear."},
+        {"type":"offer","html":"The current UK Malibu professional litre is listed at <strong>£60</strong> and designed for approximately <strong>28 full-body tans</strong> — around <strong>£2.14 in solution cost per tan</strong> before disposables, card fees, labour, premises and tax."},
+        {"type":"paragraph","html":"That does not set your treatment price. It gives you a clearer base from which to price a distinctive, premium named service for your own market and clients."},
+        {"type":"cta","label":"Request your complimentary professional trial","url":"{{TRIAL_LINK}}"}
+      ]
+    },
+    {
+      "output": "emails/4-retail-v2.html",
+      "alias": "jc-uk-prospect-04-retail-v2",
+      "title": "The easiest retail conversation happens after the tan",
+      "preview": "A simple maintenance, top-up and gift recommendation for the moment clients care most.",
+      "eyebrow": "Treatment and retail",
+      "headline": "Help clients keep the glow between appointments.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"The most natural retail moment is just after a client sees a result they love and asks how to keep it looking that way."},
+        {"type":"bullets","items":["<strong>Buff &amp; Glow Mitt:</strong> the maintenance recommendation.","<strong>Self Tan Soufflé:</strong> the between-appointment top-up in the right depth.","<strong>A-List Glow Kit:</strong> the premium routine or gifting option."]},
+        {"type":"paragraph","html":"That makes retail part of the client’s care plan, not a hard sell at reception. For a mobile professional, the same approach works with a small carry kit and a follow-up order link."},
+        {"type":"cta","label":"Request your complimentary professional trial","url":"{{TRIAL_LINK}}"}
+      ]
+    },
+    {
+      "output": "emails/5-close-v2.html",
+      "alias": "jc-uk-prospect-05-close-v2",
+      "title": "Shall I close this for now?",
+      "preview": "If the timing is not right, we will step back.",
+      "eyebrow": "A final note",
+      "headline": "I’ll leave the timing with you.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"If <strong>{{BUSINESS_NAME}}</strong> is exploring a premium spray-tan service, Jimmy Coco Pro offers a professional formula to trial on a real client, a clear treatment story, team support to discuss, and useful retail aftercare for clients between visits."},
+        {"type":"paragraph","html":"If the timing is right, request your complimentary professional trial. If not, no problem — we will not continue this sequence."},
+        {"type":"cta","label":"Request your complimentary professional trial","url":"{{TRIAL_LINK}}"}
       ]
     }
   ]

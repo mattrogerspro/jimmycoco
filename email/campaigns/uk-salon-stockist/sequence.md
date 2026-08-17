@@ -1,52 +1,43 @@
-# UK Salon Stockist Recruitment — Sequence
+# UK Jimmy Coco Pro Recruitment — V2 Sequence
 
-The written content for the UK stockist campaign. Email 1 pairs with `templates/01-your-clients-know-this-name.html`.
+**Status:** Draft in Resend. Not approved for sending.
+**Audience:** Eligible UK corporate salons and spas, plus mobile professionals only where soft opt-in or consent is documented.
+**Goal:** Secure an eligible professional trial/application, then hand the prospect to the trade lifecycle.
+**Primary CTA:** `{{TRIAL_LINK}}` — Request your complimentary professional trial.
 
-**ESP:** Resend · **Template alias:** `uk-stockist-1-your-clients-know-this-name`
+> **Exit rule:** Stop immediately on reply, trial request/application, unsubscribe, complaint, hard bounce, existing-customer match, ineligibility or manual suppression. Positive intent passes to the trade lifecycle; it does not continue through cold outreach.
 
----
+| Day | Resend alias | Subject | Job |
+|---:|---|---|---|
+| 0 | `jc-uk-prospect-01-trial-v2` | The tan your clients ask for — now in your treatment room | Introduce the premium named service and complimentary 100 ml trial. |
+| 3 | `jc-uk-prospect-02-result-v2` | The details clients notice after their tan | Explain result quality and repeatable professional method. |
+| 7 | `jc-uk-prospect-03-economics-v2` | The salon maths behind a premium tan | Frame the £60 litre, approximate 28 treatments and £2.14 solution-cost context without promising margin. |
+| 12 | `jc-uk-prospect-04-retail-v2` | The easiest retail conversation happens after the tan | Make retail a useful client-care recommendation, including for mobile professionals. |
+| 18 | `jc-uk-prospect-05-close-v2` | Shall I close this for now? | Close respectfully and stop the sequence. |
 
-## Email 1 — "Your clients already know this name"  ·  Controlled pilot broadcast  ·  `emails/1-your-clients-know-this-name.html`
+## Required send-time fields
 
-**Subject:** Your clients already know this name
-**Preview:** Your clients already know this name — bring Hollywood's favourite tan to your salon.
+| Field | Required use |
+|---|---|
+| `FIRST_NAME` | Greeting. |
+| `BUSINESS_NAME` | Personal relevance. |
+| `BUSINESS_TYPE` | Salon, spa, mobile professional or group wording. |
+| `TRIAL_LINK` | Current approved Jimmy Coco Pro trial endpoint. |
+| `SENDER_NAME` / `SENDER_TITLE` | Identified human Partnerships reply path. |
+| `RESEND_UNSUBSCRIBE_URL` | Resend unsubscribe insertion. |
 
-**Hero**
-SUNLESS by Jimmy Coco®
-YOUR CLIENTS ALREADY KNOW THIS NAME.
-The celebrity tan behind Hollywood's most iconic moments. **Now available for your salon.**
+## Approved commercial constants
 
-**Feature strip**
-20+ years experience · Celebrity tanning expert · Premium professional formula · Luxury service increases salon revenue
+> **Professional trial:** Eligible UK professional partners can request a complimentary 100 ml professional trial sample, shipped free.
 
-**The tan behind Hollywood's most iconic moments**
-Oscars · Met Gala · Red carpet.
-From Hollywood's biggest events to your salon's every day — give your clients the same celebrity-quality glow.
+> **Current product economics:** A £60 UK professional litre is designed for approximately 28 full-body tans, or roughly £2.14 solution cost per tan before labour, disposables, card fees, premises and tax. This does not set a salon’s retail price or profit.
 
-**Early CTA**
-Order Now → £60 for 1 litre · Professional sample kit · Fast UK delivery
+> **UK footer:** JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP.
 
-**Why salons choose Jimmy Coco Malibu**
-- Celebrity Credibility — a trusted name your clients already love.
-- Premium Client Experience — deliver luxury results that keep clients coming back.
-- Higher Perceived Value — position your salon as the go-to for celebrity-quality tans.
-- Increased Revenue — premium results allow premium pricing.
-- Loyal Clients. More Bookings. — happy clients recommend and rebook.
+## Retail attachment playbook
 
-**Jimmy Coco quote**
-"I've spent over 20 years perfecting the art of the tan. Malibu is my professional formula, trusted by celebrities, and now available to the world's most discerning salons."
-✓ Skincare-led — professional formula · ✓ Flawless fade — natural colour · ✓ Hydrating — skin-loving ingredients
+The email sequence introduces retail as practical aftercare, not a hard sell. The partner-facing recommendation is simple: use the Buff & Glow Mitt for maintenance, Self Tan Soufflé for between-appointment top-ups, and the A-List Glow Kit as a premium routine or gifting option. Ask one client-care question, offer one relevant product, and offer a second only when the client’s need clearly supports it.
 
-**Final CTA — Bring Hollywood's favourite tan to your salon**
-Join selected salons offering the celebrity tan your clients already know and love. Apply to become a stockist today.
-✓ Exclusive trade pricing · ✓ Marketing support · ✓ Professional training · ✓ Dedicated stockist support
-Order Now → https://jimmycoco.co.uk/pages/why-choose-pro-professional · pro@jimmycoco.co.uk
-Trust: Fast UK delivery · Professional grade · Trusted by 1000+ professionals · Made for results
+## Resend implementation
 
-**Footer strip:** Jimmy Coco. The Celebrity Expert. The Professional Choice.
-
----
-
-## Email 2+ — TBD
-
-Follow-up touches for non-openers / non-responders to be written. Suggested arc: a proof/results follow-up, an objection-handling / margin email, and a last-call — mirroring the AU seeding structure in `../au-salon-seeding/`.
+The direct Resend templates are V2 drafts only. Before publishing or enabling an automation, use the controlled audience properties `market`, `outreach_eligible`, `permission_status`, `data_source`, `trial_status` and `trade_status`. Do not load UK mobile/sole-trader records without documented soft opt-in or consent.

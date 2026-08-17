@@ -1,3 +1,4 @@
+// update
 import type { LinksFunction } from "react-router";
 import consentStyles from "./styles/consent.css?url";
 import { CONSENT_BOOTSTRAP, GA_MEASUREMENT_ID } from "./lib/consent";

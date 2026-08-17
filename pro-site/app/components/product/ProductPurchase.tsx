@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router";
-import { gbp } from "../../lib/site";
 import { MALIBU_UNIVERSAL_SHADE } from "../../lib/product-features";
 import { RETAIL_PRODUCTS, retailQuantitiesFromSearchParams, type RetailQuantities } from "../shared/RetailProductCards";
 import { DEFAULT_TREATMENT_PRICE, PROFESSIONAL_VOLUME_TIERS, TANS_PER_LITRE, professionalOrderPricing } from "../../lib/order-pricing";
 import { VolumeProfitModal } from "../shared/VolumeProfitModal";
 import { OrderConfiguratorModal } from "./OrderConfiguratorModal";
+import { CurrencyDisclosure, useCurrency } from "../shared/CurrencyContext";
 
 export type PurchaseState = { shade: string; qty: number; retail: RetailQuantities };
 
@@ -56,6 +56,7 @@ export function ProductPurchase({ state, setState, ctaRef }: {
   setState: React.Dispatch<React.SetStateAction<PurchaseState>>;
   ctaRef: React.RefObject<HTMLDivElement | null>;
 }) {
+  const { money, baseReference, currency } = useCurrency();
   const [selectedImage, setSelectedImage] = useState(0);
   const pricing = professionalOrderPricing(state.qty);
   const total = pricing.total;
@@ -81,8 +82,10 @@ export function ProductPurchase({ state, setState, ctaRef }: {
       </div>
 
       <div className="price-block">
-        <div className="price-row"><span className="price-big">{gbp(pricing.unitPrice)} <small>per litre</small></span><span className="pertan">≈ {gbp(pricing.unitPrice / TANS_PER_LITRE, 2)} per tan</span></div>
-        <p>{pricing.tier.name} volume rate · {pricing.saving ? `${gbp(pricing.saving)} additional margin on this order · ` : ""}Free UK delivery</p>
+        <div className="price-row"><span className="price-big">{money(pricing.unitPrice)} <small>per litre</small></span><span className="pertan">≈ {money(pricing.unitPrice / TANS_PER_LITRE, 2)} per tan</span></div>
+        {baseReference(pricing.unitPrice) && <p className="currency-base-reference">{baseReference(pricing.unitPrice)}</p>}
+        <p>{pricing.tier.name} volume rate · {pricing.saving ? `${money(pricing.saving)} additional margin on this order · ` : ""}{currency === "USD" ? "US terms confirmed before invoicing" : "Free UK delivery"}</p>
+        <CurrencyDisclosure />
         <VolumeProfitModal />
       </div>
 
@@ -101,14 +104,14 @@ export function ProductPurchase({ state, setState, ctaRef }: {
       </div>
 
       <div className="maths">
-        <div><span>Order total</span><b>{gbp(total)}</b><small>{litres}</small></div>
+        <div><span>Order total</span><b>{money(total)}</b><small>{litres}</small></div>
         <div><span>Tan capacity</span><b>≈{capacity}</b><small>full body tans</small></div>
         <div><span>Estimated stock cover</span><b>{stockCover}</b><small>at 12 tans per week</small></div>
-        <div><span>Revenue potential</span><b>{gbp(capacity * DEFAULT_TREATMENT_PRICE)}+</b><small>at {gbp(DEFAULT_TREATMENT_PRICE)} per tan · <Link to="/#calculator">your margins</Link></small></div>
+        <div><span>Revenue potential</span><b>{money(capacity * DEFAULT_TREATMENT_PRICE)}+</b><small>at {money(DEFAULT_TREATMENT_PRICE)} per tan · <Link to="/#calculator">your margins</Link></small></div>
       </div>
 
       <div className="cta-col" ref={ctaRef}><OrderConfiguratorModal state={state} setState={setState} /><Link className="trial-link" to="/#trial">New to Jimmy Coco? Start with a free trial →</Link></div>
-      <p className="trust-line"><span>Free UK delivery</span><span>14-day returns</span><span>Secure ordering</span></p>
+      <p className="trust-line"><span>{currency === "USD" ? "US terms confirmed before invoicing" : "Free UK delivery"}</span><span>14-day returns</span><span>Secure ordering</span></p>
     </div>
   </div>;
 }
@@ -118,6 +121,7 @@ export function ProductProofStrip() {
 }
 
 export function StickyOrder({ state, target }: { state: PurchaseState; target: React.RefObject<HTMLDivElement | null> }) {
+  const { money } = useCurrency();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -130,7 +134,7 @@ export function StickyOrder({ state, target }: { state: PurchaseState; target: R
   const litres = `${state.qty} ${state.qty === 1 ? "litre" : "litres"}`;
   const retailCount = Object.values(state.retail).reduce((sum, quantity) => sum + quantity, 0);
   const pricing = professionalOrderPricing(state.qty);
-  return <div className={`sticky-order${visible ? " show" : ""}`}><div className="wrap"><div className="so-name">Malibu Professional Spray · 1L<small>{state.shade.split(" · ")[0]} · {litres}{retailCount ? ` · ${retailCount} retail add-on${retailCount === 1 ? "" : "s"}` : ""}</small></div><div className="so-price">{gbp(pricing.total)}</div><a className="btn btn-bronze" href="#retail-products">Add retail products</a></div></div>;
+  return <div className={`sticky-order${visible ? " show" : ""}`}><div className="wrap"><div className="so-name">Malibu Professional Spray · 1L<small>{state.shade.split(" · ")[0]} · {litres}{retailCount ? ` · ${retailCount} retail add-on${retailCount === 1 ? "" : "s"}` : ""}</small></div><div className="so-price">{money(pricing.total)}</div><a className="btn btn-bronze" href="#retail-products">Add retail products</a></div></div>;
 }
 
 export function usePurchaseState() {

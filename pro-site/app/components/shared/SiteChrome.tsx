@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { openConsentPreferences } from "../../lib/consent";
 import { PRODUCT_PATH } from "../../lib/site";
+import { CurrencySelector, useCurrency } from "./CurrencyContext";
 
 type HeaderProps = { page?: "home" | "product" | "content" };
 
 export function Announcement({ page = "home" }: HeaderProps) {
+  const { currency } = useCurrency();
   return page === "product" ? (
-    <div className="announce">★ Free UK delivery over £40 · <b>14-day returns</b> · complimentary trial for new salons</div>
+    <div className="announce">★ {currency === "USD" ? "US availability and shipping confirmed before invoicing" : "Free UK delivery over £40"} · <b>14-day returns</b> · complimentary trial for new salons</div>
   ) : (
     <div className="announce">★ complimentary professional trial for salons — <b>no cost, no commitment</b></div>
   );
@@ -54,6 +56,7 @@ export function SiteHeader({ page = "home" }: HeaderProps) {
             <a href="/#trial">Free Trial</a>
           </>}
         </nav>
+        <CurrencySelector compact />
         {page === "product" ? <a className="btn btn-bronze btn-sm" href={`${PRODUCT_PATH}#configure-solution`}>Start order</a> : <Link className="btn btn-bronze btn-sm" to={PRODUCT_PATH}>Order Malibu 1L</Link>}
         <button className="mobile-menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="mobile-primary-navigation" aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen((open) => !open)}><span /><span /><span /></button>
       </div>
@@ -71,6 +74,7 @@ export function SiteHeader({ page = "home" }: HeaderProps) {
           <a href="/#trial" onClick={closeMenu}>Free Trial</a>
         </>}
         {page === "product" ? <a className="mobile-menu-order" href={`${PRODUCT_PATH}#configure-solution`} onClick={closeMenu}>Start order</a> : <Link className="mobile-menu-order" to={PRODUCT_PATH} onClick={closeMenu}>Order Malibu 1L</Link>}
+        <CurrencySelector />
       </nav>
     </header>
   );

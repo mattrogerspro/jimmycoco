@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import { gbp } from "../../lib/site";
 import {
   DEFAULT_TREATMENT_PRICE,
   PROFESSIONAL_VOLUME_TIERS,
@@ -10,8 +9,11 @@ import {
   professionalTierProfit,
   retailTierProfit,
 } from "../../lib/order-pricing";
+import { CurrencyDisclosure, useCurrency } from "./CurrencyContext";
 
 export function VolumeProfitModal({ triggerLabel = "See volume discounts & profit" }: { triggerLabel?: string }) {
+  const { money } = useCurrency();
+  const gbp = money;
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   return <>
@@ -22,7 +24,7 @@ export function VolumeProfitModal({ triggerLabel = "See volume discounts & profi
         <header><p className="eyebrow">Volume pricing &amp; profit</p><h2>Compare every order level.</h2><p>See what you pay, what you could sell, and the potential profit at each level before salon operating costs.</p></header>
 
         <section className="profit-modal-section">
-          <div className="profit-modal-heading"><div><span>Professional solution · 1 litre</span><h3>Profit from the booth</h3></div><p>Uses {DEFAULT_TREATMENT_PRICE === 25 ? "£25" : gbp(DEFAULT_TREATMENT_PRICE)} per tan and approximately 28 tans per litre.</p></div>
+          <div className="profit-modal-heading"><div><span>Professional solution · 1 litre</span><h3>Profit from the booth</h3></div><p>Uses {gbp(DEFAULT_TREATMENT_PRICE)} per tan and approximately 28 tans per litre.</p></div>
           <div className="profit-tier-grid">
             {PROFESSIONAL_VOLUME_TIERS.map((tier, index) => {
               const result = professionalTierProfit(tier.exampleQuantity, tier.unitPrice);
@@ -44,7 +46,7 @@ export function VolumeProfitModal({ triggerLabel = "See volume discounts & profi
           <div className="profit-fixed-prices"><span>More retail volume levels</span><p><b>Buff &amp; Glow Mitt</b> · {RETAIL_MITT_VOLUME_TIERS.map((tier) => `${tier.quantity} at ${gbp(tier.unitPrice, tier.unitPrice % 1 ? 2 : 0)}`).join(" · ")}</p><p><b>A-List Glow Kit</b> · {RETAIL_KIT_VOLUME_TIERS.map((tier) => `${tier.quantity} at ${gbp(tier.unitPrice, tier.unitPrice % 1 ? 2 : 0)}`).join(" · ")}</p></div>
         </section>
 
-        <footer><p>Illustrative potential profit only. Professional figures assume 28 full-body tans per litre at £25 each. Retail figures assume every unit sells at RRP. Labour, premises, card fees, tax and other operating costs are not deducted.</p><form method="dialog"><button className="btn btn-dark">Close comparison</button></form></footer>
+        <footer><p>Illustrative potential profit only. Professional figures assume 28 full-body tans per litre at {gbp(DEFAULT_TREATMENT_PRICE)} each. Retail figures assume every unit sells at RRP. Labour, premises, card fees, tax and other operating costs are not deducted.</p><CurrencyDisclosure /><form method="dialog"><button className="btn btn-dark">Close comparison</button></form></footer>
       </div>
     </dialog>
   </>;

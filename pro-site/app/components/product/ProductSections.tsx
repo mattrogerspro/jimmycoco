@@ -4,13 +4,13 @@ import { useEffect, type Dispatch, type SetStateAction } from "react";
 import { Form, useActionData, useNavigation } from "react-router";
 import type { ApplicationActionResult } from "../../lib/application-action.server";
 import { track } from "../../lib/analytics";
-import { gbp } from "../../lib/site";
 import { SALON_FAQ } from "../../lib/faq";
 import { PRODUCT_SPECS, workedExamples } from "../../lib/specs";
 import { SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../../lib/product-features";
 import { RETAIL_PRODUCTS, RetailProductCards, type RetailProductId } from "../shared/RetailProductCards";
 import { professionalOrderPricing, professionalTierProfit, retailProductPotentialProfit, retailProductPricing } from "../../lib/order-pricing";
 import { OrderConfiguratorModal } from "./OrderConfiguratorModal";
+import { CurrencyDisclosure, useCurrency } from "../shared/CurrencyContext";
 
 export function ShadeComparison({ onChoose }: { onChoose: (shade: string) => void }) {
   const cards = [
@@ -58,6 +58,8 @@ export function ProductDetails() {
 }
 
 export function OrderSection({ state }: { state: PurchaseState }) {
+  const { money, currency } = useCurrency();
+  const gbp = money;
   const orderResult = useActionData() as ApplicationActionResult | undefined;
   const navigation = useNavigation();
   const sending = navigation.state === "submitting";
@@ -104,9 +106,9 @@ export function OrderSection({ state }: { state: PurchaseState }) {
     "Trade terms and retail pricing to be confirmed before payment.",
   ].join("\n");
 
-  return <section className="order-band" id="order"><div className="wrap"><p className="eyebrow">Submit your final order · Step 3</p><h2>Review and submit <em>your order.</em></h2><p className="sub">Add your salon details and review the live composition beside the form. Nothing is charged until your trade terms are confirmed.</p><div className="order-grid">
+  return <section className="order-band" id="order"><div className="wrap"><p className="eyebrow">Submit your final order · Step 3</p><h2>Review and submit <em>your order.</em></h2><p className="sub">Add your salon details and review the live composition beside the form. Nothing is charged until your trade terms are confirmed.</p><CurrencyDisclosure /><div className="order-grid">
     <Form method="post" className="orderform" data-form-id="product_order" replace>
-      <div className="orderform-head"><span>Trade order request</span><h3>Where should we send the confirmation?</h3><p>Complete your details and the partnerships team will confirm pricing and availability.</p></div>
+      <div className="orderform-head"><span>Trade order request</span><h3>Where should we send the confirmation?</h3><p>Complete your details and the partnerships team will confirm pricing, availability{currency === "USD" ? ", US shipping and tax treatment" : ""}.</p></div>
       <label htmlFor="f-salon">Salon or business name</label><input id="f-salon" type="text" name="salon" autoComplete="organization" required />
       <div className="orderform-fields"><div><label htmlFor="f-name">Your name</label><input id="f-name" type="text" name="name" autoComplete="name" required /></div><div><label htmlFor="f-phone">Phone</label><input id="f-phone" type="tel" name="phone" autoComplete="tel" /></div></div>
       <label htmlFor="f-email">Email address</label><input id="f-email" type="email" name="email" autoComplete="email" required />
@@ -120,7 +122,7 @@ export function OrderSection({ state }: { state: PurchaseState }) {
 
     <aside className="ocomposition" aria-live="polite">
       <div className="ocomposition-head"><div><span>Live order composition</span><h3>Your salon order</h3></div><b>{state.qty + retailCount} item{state.qty + retailCount === 1 ? "" : "s"}</b></div>
-      <div className="order-profit-hero"><span>Estimated gross profit potential</span><strong>{gbp(totalPotentialProfit)}</strong><p><b>{gbp(boothPotentialProfit)}</b> from the booth <i>+</i> <b>{gbp(retailPotentialProfit)}</b> from the shelf</p><small>Assumes 28 tans per litre at £25 and retail sell-through at RRP.{unpricedRetailCount ? " Soufflé selections below six use the projected Starter unit cost." : ""} Before labour, premises, card fees and tax.</small></div>
+      <div className="order-profit-hero"><span>Estimated gross profit potential</span><strong>{gbp(totalPotentialProfit)}</strong><p><b>{gbp(boothPotentialProfit)}</b> from the booth <i>+</i> <b>{gbp(retailPotentialProfit)}</b> from the shelf</p><small>Assumes 28 tans per litre at {gbp(25)} and retail sell-through at RRP.{unpricedRetailCount ? " Soufflé selections below six use the projected Starter unit cost." : ""} Before labour, premises, card fees and tax.</small></div>
       <div className="order-product order-product-main"><img src="/assets/site/product-01-0003c7706e6e.jpg" alt="" width="900" height="900" /><div><span>Professional solution · {professionalPricing.tier.name}</span><strong>Malibu Spray · 1L</strong><small>{gbp(professionalPricing.unitPrice)} per litre · Universal bronze glow · ≈{capacity} tans</small></div><output>×{state.qty}</output></div>
       <div className="order-retail-heading"><span>Retail additions</span><a href="#retail-products">Edit selection ↑</a></div>
       {retailLines.length ? retailLines.map(({ id, src, title, badge }) => <div className="order-product" key={id}><img src={`/assets/site/${src}`} alt="" width="700" height="700" /><div><span>{badge}</span><strong>{title}</strong><small>{retailPricingSummary(id)}</small></div><output>×{state.retail[id]}</output></div>) : <div className="order-empty"><b>No retail added yet</b><span>Your professional litre is ready. Retail products are completely optional.</span><a href="#retail-products">Add retail products</a></div>}
@@ -149,7 +151,7 @@ export function SalonFaq() {
 }
 
 export function Specification() {
-  const money = (value: number) => `\u00a3${value.toFixed(2)}`;
+  const { money } = useCurrency();
   const visibleSpecs = SHOW_LEGACY_MALIBU_SHADE_RANGE
     ? PRODUCT_SPECS
     : PRODUCT_SPECS.filter((spec) => spec.name !== "Shade depths available");

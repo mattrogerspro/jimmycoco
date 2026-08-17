@@ -1,6 +1,7 @@
 import { retailProductRrp, retailProductVolumeIncentive } from "../../lib/order-pricing";
 import { gbp } from "../../lib/site";
 import type { ReactNode } from "react";
+import { useCurrency } from "./CurrencyContext";
 
 const asset = (name: string) => `/assets/site/${name}`;
 
@@ -23,7 +24,7 @@ type RetailProduct = {
   badge: string;
   title: string;
   description: string;
-  price: string;
+  rrp: number;
   suffix: string;
 };
 
@@ -37,7 +38,7 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
     badge: "The easy add-on",
     title: "Buff & Glow Mitt",
     description: "The world's first 3-in-1 tanning mitt — streak-free maintenance between visits. The natural “add this to your visit” at checkout.",
-    price: `RRP ${gbp(retailProductRrp("mitt"), 2)}`,
+    rrp: retailProductRrp("mitt"),
     suffix: "",
   },
   {
@@ -50,7 +51,7 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
     badge: "The top-up seller · Medium",
     title: "Self Tan Soufflé · Medium",
     description: "Instant tint, Jimmy's iconic scent and a moisture-locking formula — a believable medium glow clients can maintain between appointments.",
-    price: `RRP ${gbp(retailProductRrp("souffleMedium"))}`,
+    rrp: retailProductRrp("souffleMedium"),
     suffix: "",
   },
   {
@@ -63,7 +64,7 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
     badge: "The top-up seller · Dark",
     title: "Self Tan Soufflé · Dark",
     description: "The same moisture-locking, instantly tinted formula in Dark — a deeper take-home colour for clients who want more intensity.",
-    price: `RRP ${gbp(retailProductRrp("souffleDark"))}`,
+    rrp: retailProductRrp("souffleDark"),
     suffix: "",
   },
   {
@@ -75,7 +76,7 @@ export const RETAIL_PRODUCTS: readonly RetailProduct[] = [
     badge: "The gift purchase",
     title: "The A-List Glow Kit",
     description: "The complete six-piece routine — soufflé, world-first mitt, luxury brushes, face mist and lip balm. Your premium shelf anchor.",
-    price: `RRP ${gbp(retailProductRrp("kit"))}`,
+    rrp: retailProductRrp("kit"),
     suffix: " · 6 pieces",
   },
 ] as const;
@@ -113,10 +114,11 @@ export function RetailProductCards({
   onQuantityChange?: (id: RetailProductId, quantity: number) => void;
   renderConfigurator?: (id: RetailProductId, quantity: number) => ReactNode;
 }) {
+  const { money, isUsd, baseReference } = useCurrency();
   return (
     <div className="shop-grid">
       {RETAIL_PRODUCTS.map((product) => {
-        const { id, src, responsiveBase, maxOrderQuantity, hasVolumeTiers, alt, badge, title, description, price, suffix } = product;
+        const { id, src, responsiveBase, maxOrderQuantity, hasVolumeTiers, alt, badge, title, description, rrp, suffix } = product;
         const quantity = quantities?.[id] ?? 0;
         const maximumSelected = Boolean(maxOrderQuantity && quantity >= maxOrderQuantity);
         const incentive = hasVolumeTiers ? retailProductVolumeIncentive(id, quantity) : undefined;
@@ -140,9 +142,10 @@ export function RetailProductCards({
           </div>
           <div className="pbody">
             <p className="pdesc">{description}</p>
-            <span className="price">{price}<span>{suffix}</span></span>
+            <span className="price">{isUsd ? `Indicative equivalent ${money(rrp, rrp % 1 ? 2 : 0)}` : `RRP ${money(rrp, rrp % 1 ? 2 : 0)}`}<span>{suffix}</span></span>
+            {baseReference(rrp, rrp % 1 ? 2 : 0) && <small className="currency-base-reference">{baseReference(rrp, rrp % 1 ? 2 : 0)}</small>}
             {orderMode && incentive ? <div className="retail-tier-nudge">
-              <b>{gbp(incentive.currentProfit)} Profit*</b>
+              <b>{money(incentive.currentProfit)} Profit*</b>
             </div> : null}
             {orderMode ? (
               renderConfigurator ? <div className="retail-order-controls retail-configure-control"><output aria-live="polite">{quantity === 0 ? "Not added" : `${quantity} added`}</output>{renderConfigurator(id, quantity)}</div> : <div className="retail-order-controls">

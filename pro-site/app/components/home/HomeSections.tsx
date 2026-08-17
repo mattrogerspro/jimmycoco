@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { Form, Link, useActionData, useNavigation } from "react-router";
 import type { ApplicationActionResult } from "../../lib/application-action.server";
 import { track } from "../../lib/analytics";
-import { PRODUCT_PATH, gbp } from "../../lib/site";
+import { PRODUCT_PATH } from "../../lib/site";
 import { RetailProductCards } from "../shared/RetailProductCards";
 import { LITRE_PRICE_GBP, TANS_PER_LITRE, costPerTan } from "../../lib/specs";
+import { useCurrency } from "../shared/CurrencyContext";
 
 const A = "/assets/site/";
 const STORY_IMAGE_SIZES = "(max-width: 900px) 100vw, 45vw";
@@ -34,6 +35,7 @@ function HeroBottle() {
 }
 
 export function Hero() {
+  const { money } = useCurrency();
   return (
     <div className="fold" data-asset-revision="2026-08-13-sections-reset-2">
       <section className="hero" id="top">
@@ -41,7 +43,7 @@ export function Hero() {
           <p className="eyebrow">For salons, spas &amp; mobile professionals</p>
           <h1>The tan your<br />clients ask for.<br /><em>Now in your booth.</em></h1>
           <div className="hero-stats"><div>Hollywood's professional spray tan system.</div><div>Approx. {TANS_PER_LITRE} full-body tans per bottle.</div><div>Designed to create clients who come back.</div></div>
-          <div className="hero-ctas"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order Malibu 1L — {gbp(LITRE_PRICE_GBP)}</Link><a className="btn btn-ghost" href="#trial">Request a free trial</a><a className="hero-profit-link" href="#calculator">Calculate your salon profits →</a></div>
+          <div className="hero-ctas"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order Malibu 1L — {money(LITRE_PRICE_GBP)}</Link><a className="btn btn-ghost" href="#trial">Request a free trial</a><a className="hero-profit-link" href="#calculator">Calculate your salon profits →</a></div>
         </div>
         <HeroBottle /></div>
         {/* The headline over this photo used to be burnt into the raster, which
@@ -163,6 +165,8 @@ export function Formula() {
 }
 
 export function Shades() {
+  const { money } = useCurrency();
+  const gbp = money;
   const shadeCopy = <>Our signature shade is custom blended by Jimmy to deliver a <b>universal bronze glow</b> you would expect from <b>a weekend in the sun</b> after just one application.</>;
   const specs = [
     ["home-06-bbf76ab992a8.jpg", "Professional spray tan icon", "Professional spray tan", "Designed for a flawless full body tan"],
@@ -245,6 +249,8 @@ export function Certification() {
 }
 
 export function Trial({ monthlyProfit }: { monthlyProfit: number }) {
+  const { money } = useCurrency();
+  const gbp = money;
   const result = useActionData() as ApplicationActionResult | undefined;
   const navigation = useNavigation();
   const submitting = navigation.state === "submitting";

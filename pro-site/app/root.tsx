@@ -3,6 +3,7 @@ import consentStyles from "./styles/consent.css?url";
 import { CONSENT_BOOTSTRAP, GA_MEASUREMENT_ID } from "./lib/consent";
 import { CookieConsent } from "./components/shared/CookieConsent";
 import { AnalyticsBridge } from "./components/shared/AnalyticsBridge";
+import { CurrencyProvider } from "./components/shared/CurrencyContext";
 import {
   Links,
   Meta,
@@ -77,7 +78,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return <CurrencyProvider><Outlet /></CurrencyProvider>;
 }
 
 export function ErrorBoundary() {

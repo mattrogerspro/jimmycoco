@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
-import { PRODUCT_PATH, gbp } from "../../lib/site";
+import { PRODUCT_PATH } from "../../lib/site";
 import { debounceTrack, track, trackOnce } from "../../lib/analytics";
 import { DEFAULTS, type Inputs, calculate, levers } from "../../lib/calculator";
+import { CurrencyDisclosure, useCurrency } from "./CurrencyContext";
 
 export const CALCULATOR_PATH = "/tools/spray-tan-profit-calculator";
 const CALCULATOR_BACKGROUND_SRCSET = [480, 768, 1080, 1440, 1920, 2560, 3200, 4096]
@@ -51,6 +52,8 @@ type Props = {
 };
 
 export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
+  const { money, isUsd } = useCurrency();
+  const gbp = money;
   const full = mode === "full";
   const [input, setInput] = useState<Inputs>(DEFAULTS);
 
@@ -136,9 +139,11 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
           </div>
           <p className="sub">
             {full
-              ? "Your prices, your volume, your premises. In pounds, with every assumption showing — change any of them."
+              ? isUsd ? "Your GBP-base assumptions shown as indicative USD equivalents. Change any of them."
+                : "Your prices, your volume, your premises. In pounds, with every assumption showing — change any of them."
               : "Set your treatment price, weekly bookings and likely retail add-ons. We’ll do the rest using standard salon assumptions."}
           </p>
+          <CurrencyDisclosure className="calc-currency-disclosure" />
         </div>
 
         <div className="calc-grid">
@@ -163,7 +168,7 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
               <div className="calc-group">
                 <h3>Chair time</h3>
                 <Slider label="Minutes per tan, door to door" value={input.minutesPerTan} min={15} max={45} display={`${input.minutesPerTan} min`} hint="Consultation, prep, treatment, clean-down and reset." onChange={set("minutesPerTan", "minutes_per_tan")} />
-                <Slider label="Therapist hourly rate" value={input.hourlyRate} min={0} max={25} step={0.01} display={gbp(input.hourlyRate, 2)} hint="Set to £0 if you do the tans yourself. Employer costs are added on top." onChange={set("hourlyRate", "hourly_rate")} />
+                <Slider label="Therapist hourly rate" value={input.hourlyRate} min={0} max={25} step={0.01} display={gbp(input.hourlyRate, 2)} hint={`Set to ${gbp(0)} if you do the tans yourself. Employer costs are added on top.`} onChange={set("hourlyRate", "hourly_rate")} />
               </div>
             )}
 
@@ -185,7 +190,7 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
             <p className="note">
               {full
                 ? "Retail margin is illustrative — your exact trade terms are confirmed on your setup call. Every assumption is listed below the calculator."
-                : `Quick estimate: ${gbp(DEFAULTS.litrePrice)} per litre, ${DEFAULTS.tansPerLitre} tans per litre, £18 average retail item and 50% illustrative retail margin. Open the full calculator to change every cost.`}
+                : `Quick estimate: ${gbp(DEFAULTS.litrePrice)} per litre, ${DEFAULTS.tansPerLitre} tans per litre, ${gbp(18)} average retail item and 50% illustrative retail margin. Open the full calculator to change every cost.`}
             </p>
           </div>
 
@@ -245,7 +250,7 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
                 <div className="ocard">
                   <span>Retail profit per week</span>
                   <b>{gbp(totals.retailProfitWeek)}</b>
-                  <small>based on £18 items at 50% margin</small>
+                  <small>based on {gbp(18)} items at 50% margin</small>
                 </div>
                 <div className="ocard">
                   <span>Litres needed per month</span>

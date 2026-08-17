@@ -8,9 +8,9 @@ import {
   retailProductTierFor,
   retailProductVolumeTiers,
 } from "../../lib/order-pricing";
-import { gbp } from "../../lib/site";
 import { RETAIL_PRODUCTS, type RetailProductId } from "../shared/RetailProductCards";
 import type { PurchaseState } from "./ProductPurchase";
+import { useCurrency } from "../shared/CurrencyContext";
 
 type ConfigurableItem = "professional" | RetailProductId;
 const asset = (name: string) => `/assets/site/${name}`;
@@ -36,6 +36,8 @@ export function OrderConfiguratorModal({
   triggerLabel?: string;
   triggerClassName?: string;
 }) {
+  const { money } = useCurrency();
+  const gbp = money;
   const dialogRef = useRef<HTMLDialogElement>(null);
   const professional = item === "professional";
   const product = professional ? undefined : RETAIL_PRODUCTS.find(({ id }) => id === item);
@@ -69,6 +71,7 @@ export function OrderConfiguratorModal({
   const title = professional ? "Malibu Spray · 1 Litre" : product?.title ?? "Retail product";
   const image = professional ? "product-01-0003c7706e6e.jpg" : product?.src ?? "";
   const unitPrice = professionalPricing?.unitPrice ?? retailPricing?.unitPrice;
+  const productRrp = product ? `Indicative equivalent ${gbp(product.rrp, product.rrp % 1 ? 2 : 0)}` : "";
   const currentLevelLabel = currentLevel === "Single"
     ? "Single-unit price"
     : currentLevel
@@ -116,7 +119,7 @@ export function OrderConfiguratorModal({
         <section className={`config-professional config-single-item ${hasVolumeTiers ? levelClass(currentLevel) : "config-level-fixed"}`}>
           <div className="config-product-intro config-product-image"><img src={asset(image)} alt={title} width="900" height="900" /></div>
           <div className="config-slider-panel">
-            <div className="config-current-level"><span>{hasVolumeTiers ? currentLevelLabel : "Choose quantity"}</span><strong>{professional ? `${quantity}L` : quantity}</strong><small>{unitPrice ? `${gbp(unitPrice, unitPrice % 1 ? 2 : 0)} per ${professional ? "litre" : "unit"}` : hasVolumeTiers ? `Trade pricing begins at ${nextQuantity ?? 6} units · ${product?.price}` : product?.price}</small></div>
+            <div className="config-current-level"><span>{hasVolumeTiers ? currentLevelLabel : "Choose quantity"}</span><strong>{professional ? `${quantity}L` : quantity}</strong><small>{unitPrice ? `${gbp(unitPrice, unitPrice % 1 ? 2 : 0)} per ${professional ? "litre" : "unit"}` : hasVolumeTiers ? `Trade pricing begins at ${nextQuantity ?? 6} units · ${productRrp}` : productRrp}</small></div>
             <input className={`tier-slider ${professional ? "tier-slider-professional" : hasVolumeTiers ? "tier-slider-retail" : "tier-slider-fixed"}`} type="range" min={sliderMinimum} max={maximum} step="1" value={quantity} onChange={(event) => setQuantity(Number(event.target.value))} aria-label={`${title} quantity`} />
             {hasVolumeTiers ? <div className={`tier-slider-labels ${professional ? "professional-scale" : "retail-scale"}`}>{sliderLabels.map(({ value, label, suffix }, index) => <span className={index === 0 ? "scale-start" : index === sliderLabels.length - 1 ? "scale-end" : undefined} style={{ left: sliderPosition(value, sliderMinimum, maximum) }} key={`${value}-${label}`}>{value}{suffix}<br />{label}</span>)}</div> : <div className="tier-slider-labels fixed-scale"><span className="scale-start" style={{ left: "0%" }}>0<br />Not added</span><span className="scale-end" style={{ left: "100%" }}>{maximum}<br />Maximum</span></div>}
           </div>

@@ -5,9 +5,10 @@ import chromeStyles from "../styles/chrome.css?url";
 import toolStyles from "../styles/tools.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { ProfitCalculator } from "../components/shared/ProfitCalculator";
+import { useCurrency } from "../components/shared/CurrencyContext";
 import { ORG_ID, brandEntities } from "../lib/entity";
 import { ASSUMPTIONS, DEFAULTS, calculate, calculatorFaq, levers } from "../lib/calculator";
-import { CONTENT_UPDATED, PRODUCT_PATH, SITE_URL, absoluteUrl, gbp } from "../lib/site";
+import { CONTENT_UPDATED, PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 
 export const TOOL_PATH = "/tools/spray-tan-profit-calculator";
 
@@ -102,6 +103,8 @@ const schema = [
  * and the FAQ are all rendered from the same model the calculator uses.
  */
 export default function CalculatorPage() {
+  const { isUsd, money } = useCurrency();
+  const gbp = money;
   const totals = calculate(DEFAULTS);
   const leverRows = levers(DEFAULTS);
   const fullCost = DEFAULTS.pricePerTan - totals.netPerTan;
@@ -118,11 +121,12 @@ export default function CalculatorPage() {
             <h1>
               Spray tan profit calculator,
               <br />
-              <em>in pounds.</em>
+              <em>{isUsd ? "in USD." : "in pounds."}</em>
             </h1>
             <p className="sub">
-              Put your own figures in — solution, consumables, chair time, premises and the shelf
-              — and see what a tan actually leaves you.
+              {isUsd
+                ? "Indicative USD equivalents for the UK base assumptions — adjust the inputs to explore your own salon model."
+                : "Put your own figures in — solution, consumables, chair time, premises and the shelf — and see what a tan actually leaves you."}
             </p>
           </div>
         </header>
@@ -131,9 +135,10 @@ export default function CalculatorPage() {
 
         <section className="tool-prose">
           <div className="wrap">
+            {isUsd && <p className="tool-note">The methodology and assumptions below remain GBP-base reference material. Displayed figures are indicative USD equivalents, not US pricing commitments or an earnings forecast.</p>}
             <h2>What a spray tan costs to deliver</h2>
             <p>
-              At £{DEFAULTS.litrePrice} a litre and {DEFAULTS.tansPerLitre} tans to the litre, the
+              At {gbp(DEFAULTS.litrePrice)} a litre and {DEFAULTS.tansPerLitre} tans to the litre, the
               solution in the bottle costs {gbp(totals.solutionPerTan, 2)} a tan. That is the number
               most people mean when they talk about what a tan costs — and it is the smallest part of
               it.
@@ -150,7 +155,7 @@ export default function CalculatorPage() {
             <p>
               One salon, one treatment room, an employed therapist. {DEFAULTS.tansPerWeek} tans a
               week at {gbp(DEFAULTS.pricePerTan)} each — {Math.round(totals.tansPerYear)} a year.
-              Spray tans run £20–£40 across the UK, so these are middling numbers on purpose.
+              Spray tans run {gbp(20)}–{gbp(40)} across the UK, so these are middling numbers on purpose.
             </p>
             <table className="tool-table">
               <caption>Cost of one spray tan at {gbp(DEFAULTS.pricePerTan)}</caption>

@@ -212,6 +212,17 @@ async function purge(db, { withAuth }) {
     await wipe("reseller_order_items", (q) => q.in("order_id", batch));
   }
   await wipe("reseller_orders", (q) => q.like("reference", `${DEMO_REFERENCE_PREFIX}%`));
+  // Demo invoices remain drafts so the admin journey can issue and pay them;
+  // issued commercial records are deliberately immutable and never deleted here.
+  const { data: demoDraftInvoices } = await db
+    .from("invoices")
+    .select("id")
+    .like("internal_note", "DEMO seed invoice:%")
+    .eq("status", "draft");
+  const draftInvoiceIds = (demoDraftInvoices ?? []).map((row) => row.id);
+  for (const batch of chunk(draftInvoiceIds)) {
+    await wipe("invoices", (q) => q.in("id", batch).eq("status", "draft"));
+  }
   await wipe("resellers", (q) => q.ilike("email", like));
   await wipe("reseller_applications", (q) => q.ilike("email", like));
 
@@ -268,6 +279,39 @@ async function apply(db, dataset, { withAuth, password }) {
     order._lines.map((line) => ({ ...line, order_id: orderByReference.get(order.reference) })),
   );
   await insertAll(db, "reseller_order_items", lineRows);
+  // Give the admin a bounded set of real draft invoices to exercise the
+  // order → invoice → issue → payment journey. Drafts remain safely reseedable.
+  step("draft invoices…");
+  const invoiceOrders = dataset.orders
+    .filter((order) => order.status !== "cancelled")
+    .slice(0, Math.min(24, dataset.orders.length));
+  const invoiceRows = invoiceOrders.map((order) => ({
+    reseller_id: resellerByCode.get(order._accountCode),
+    order_id: orderByReference.get(order.reference),
+    currency: order.currency || "GBP",
+    customer_note: order.customer_note ?? null,
+    internal_note: `DEMO seed invoice: ${order.reference}`,
+  }));
+  const invoices = await insertAll(db, "invoices", invoiceRows, { returning: "id, order_id" });
+  const invoiceByOrderId = new Map(invoices.map((invoice) => [invoice.order_id, invoice.id]));
+  const invoiceLineRows = invoiceOrders.flatMap((order) => {
+    const orderId = orderByReference.get(order.reference);
+    const invoiceId = invoiceByOrderId.get(orderId);
+    if (!invoiceId) return [];
+    return order._lines.map((line, index) => ({
+      invoice_id: invoiceId,
+      sku: line.sku,
+      title: line.title,
+      quantity: line.quantity,
+      unit_price_pence: line.unit_price_pence,
+      vat_rate_bps: 0,
+      net_pence: line.line_total_pence,
+      vat_pence: 0,
+      gross_pence: line.line_total_pence,
+      sort_order: index + 1,
+    }));
+  });
+  await insertAll(db, "invoice_lines", invoiceLineRows);
 
   step("campaigns…");
   await insertAll(db, "email_campaigns", dataset.campaigns);

@@ -1,9 +1,9 @@
 {
   "campaign": "us-west-coast-salon-stockist",
-  "market": "US-West-Coast",
+  "market": "US",
   "purpose": "professional-outreach",
   "esp": "resend",
-  "status": "DRAFT — RESEND V2 CREATED, NOT APPROVED FOR SEND",
+  "status": "READY FOR PUBLISH — USER APPROVED",
   "defaults": {
     "brand": "SUNLESS",
     "brandLine": "by Jimmy Coco",
@@ -27,76 +27,80 @@
     {
       "output": "emails/1-trial-introduction-v2.html",
       "alias": "jc-us-wc-prospect-01-trial-v2",
-      "title": "A premium spray-tan partnership for {{BUSINESS_NAME}}",
-      "preview": "A trial-first introduction for eligible West Coast professional partners.",
+      "title": "A premium spray-tan service — with a second client-care moment after the appointment",
+      "preview": "A trial-first way to explore treatment value and relevant aftercare for your clients.",
       "eyebrow": "West Coast professional partnerships",
-      "headline": "A premium spray-tan partnership for your business.",
+      "headline": "A premium tan is one appointment. The client relationship can continue after it.",
       "blocks": [
         {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
-        {"type":"paragraph","html":"I’m reaching out because <strong>{{BUSINESS_NAME}}</strong> looks like the kind of <strong>{{BUSINESS_TYPE}}</strong> we would like to speak with: premium service, thoughtful presentation and clients who care how their colour looks beyond the treatment room."},
-        {"type":"paragraph","html":"Sunless by Jimmy Coco is the professional tanning line created by Jimmy Coco, known for Hollywood and red-carpet tanning. The method is centred on believable, undertone-aware colour and a polished client experience."},
-        {"type":"offer","html":"Eligible U.S. professional partners can request a <strong>complimentary 100 ml professional trial sample</strong>. We confirm current sample availability for your business before shipping."},
+        {"type":"paragraph","html":"I’m reaching out because <strong>{{BUSINESS_NAME}}</strong> looks like the kind of <strong>{{BUSINESS_TYPE}}</strong> we would like to speak with: thoughtful presentation, premium service and clients who care how their color looks beyond the treatment room."},
+        {"type":"paragraph","html":"Sunless by Jimmy Coco brings believable, natural-looking color, a named service you can present as premium, and a focused aftercare edit for clients who want to maintain the result between visits."},
+        {"type":"bullets","items":["A distinctive professional treatment.","A relevant aftercare recommendation once the client sees a result they love."]},
+        {"type":"offer","html":"Eligible U.S. professional partners can request a <strong>complimentary 100 ml professional trial sample</strong>. We review current availability for your business before shipping."},
         {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"},
-        {"type":"note","html":"Or reply <strong>INFO</strong> and I will keep it straightforward."}
+        {"type":"note","html":"Or reply <strong>INFO</strong> and we will keep it straightforward."}
       ]
     },
     {
       "output": "emails/2-result-v2.html",
       "alias": "jc-us-wc-prospect-02-result-v2",
-      "title": "Color clients trust in daylight",
-      "preview": "A considered approach to depth, undertone and a natural-looking finish.",
+      "title": "The result is what gives a premium tan its value",
+      "preview": "A natural-looking, considered finish that supports a stronger consultation and service story.",
       "eyebrow": "The result beyond the treatment room",
-      "headline": "Color clients trust in daylight.",
+      "headline": "A premium service has to look worth coming back for.",
       "blocks": [
         {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
-        {"type":"paragraph","html":"The real test of a professional tan is not how it looks in the treatment room. It is how it reads later — in daylight, photographs, evening light and the events the client booked it for."},
-        {"type":"paragraph","html":"The Malibu professional formula is designed as a universal bronze, 10% DHA solution with a stated 6–8-hour development window. The professional site positions the finish as natural-looking, soft-focus and anti-orange, with hydration-led formula features."},
-        {"type":"paragraph","html":"That gives your team a stronger consultation conversation: considered depth and a finish designed to look believable, rather than simply darker."},
+        {"type":"paragraph","html":"The test of a professional tan is how it reads later—in daylight, in photographs, in evening light and at the event the client booked it for."},
+        {"type":"paragraph","html":"Malibu Professional Spray is presented as a universal bronze, 10% DHA formula with a stated 6–8-hour development window. Professional guidance recommends under 35 ml for a full-body application and confirms compatibility with standard HVLP systems."},
+        {"type":"paragraph","html":"That supports a believable, polished finish and a more valuable consultation: considered depth and a finish designed to look natural, rather than simply darker."},
         {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"}
       ]
     },
     {
       "output": "emails/3-retail-v2.html",
       "alias": "jc-us-wc-prospect-03-retail-v2",
-      "title": "One client relationship, two useful revenue moments",
-      "preview": "Make aftercare a natural part of the client’s glow plan.",
-      "eyebrow": "Treatment and retail",
-      "headline": "One client relationship, two useful revenue moments.",
+      "title": "The commercial question is not “what does it cost?” It is “what can the service support?”",
+      "preview": "Review the treatment, operating and aftercare opportunity using your own service model.",
+      "eyebrow": "Professional opportunity",
+      "headline": "Build the numbers around your business—not a generic margin claim.",
       "blocks": [
         {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
-        {"type":"paragraph","html":"The strongest partner relationship does more than place a solution in the treatment room. It creates a coherent client journey."},
-        {"type":"offer","html":"In the appointment, the professional solution supports a premium named service. After the appointment, a focused retail edit gives clients a way to maintain or extend the result: a maintenance mitt, a tinted top-up in the right depth, or a premium routine and gift."},
-        {"type":"paragraph","html":"That is treatment revenue and relevant aftercare from the same client relationship — without discounting and without turning the front desk into an overstocked retail wall."},
-        {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"}
+        {"type":"paragraph","html":"A premium product becomes a commercial opportunity only when it fits the way your business actually operates."},
+        {"type":"bullets","items":["The premium service price that fits your market.","Your own solution use, labor, disposables and payment costs.","The client result and consultation experience you want to deliver.","The aftercare product that naturally answers the client’s next question."]},
+        {"type":"paragraph","html":"The formula trial lets you test the result first. A short Partnership review can then help you assess whether the treatment and aftercare route fit your business before you make a wider decision."},
+        {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"},
+        {"type":"note","html":"Or reply <strong>NUMBERS</strong> for a human conversation about your current treatment setup."}
       ]
     },
     {
       "output": "emails/4-partner-path-v2.html",
       "alias": "jc-us-wc-prospect-04-partner-path-v2",
-      "title": "A trial-first way to begin",
-      "preview": "Trial, guidance and a reviewed partner path for your business.",
-      "eyebrow": "Partner pathway",
-      "headline": "A trial-first way to begin.",
+      "title": "One client relationship. Two useful revenue moments.",
+      "preview": "A simple treatment-plus-aftercare routine for a salon, studio or mobile professional.",
+      "eyebrow": "Treatment and retail",
+      "headline": "Retail should feel like client care—not a hard sell.",
       "blocks": [
         {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
-        {"type":"paragraph","html":"A premium product only works when the team can present it, recommend it and deliver the result with confidence. That is why the first step is a trial and a conversation — not a large commitment."},
-        {"type":"bullets","items":["A real-client trial before a wider decision.","Shade and consultation guidance.","Team education and launch-material discussion.","The right trade route for the individual business."]},
-        {"type":"paragraph","html":"Apply through the professional site and we will confirm current trial availability for your business before shipping."},
-        {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"}
+        {"type":"paragraph","html":"The best retail moment is often just after a client sees a result they love and asks how to keep it looking good until the next appointment."},
+        {"type":"bullets","items":["<strong>Buff &amp; Glow Mitt:</strong> a more even-looking maintenance routine.","<strong>Self Tan Soufflé:</strong> a controlled at-home top-up.","<strong>A-List Glow Kit:</strong> a complete routine or elevated gift option."]},
+        {"type":"paragraph","html":"For a fixed salon, this can begin as a three-product checkout edit. For a mobile professional, it can begin as a small carry kit. Current availability, order route and partner terms are reviewed with the individual business before any retail plan is set."},
+        {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"},
+        {"type":"note","html":"Or reply <strong>RETAIL</strong> for the checkout or mobile-kit conversation."}
       ]
     },
     {
       "output": "emails/5-close-v2.html",
       "alias": "jc-us-wc-prospect-05-close-v2",
-      "title": "Shall I close this for now?",
+      "title": "Should I close this out for now?",
       "preview": "A final note from Sunless Partnerships.",
       "eyebrow": "A final note",
       "headline": "I’ll leave the timing with you.",
       "blocks": [
         {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
-        {"type":"paragraph","html":"I have sent a few short notes about a possible Sunless by Jimmy Coco partnership for <strong>{{BUSINESS_NAME}}</strong>, and I do not want to keep filling your inbox."},
-        {"type":"paragraph","html":"I will close the conversation here. If the timing changes, you can reply or request professional trial information whenever you are ready."},
-        {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"}
+        {"type":"paragraph","html":"Sunless by Jimmy Coco may be relevant to {{BUSINESS_NAME}} if you are considering a more distinctive spray-tan offer: a premium client result, a service model you can assess using your own operating numbers, and a small aftercare edit for clients who want to maintain the result."},
+        {"type":"bullets","items":["<strong>Trial:</strong> assess the professional formula on a real client.","<strong>NUMBERS:</strong> discuss your current service model before considering a wider route.","<strong>RETAIL:</strong> discuss a small aftercare edit for a fixed salon, studio or mobile kit."]},
+        {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"},
+        {"type":"note","html":"If the timing is not right, no problem. We will close this sequence here."}
       ]
     }
   ]

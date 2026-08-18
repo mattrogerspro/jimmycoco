@@ -77,14 +77,16 @@ export type Invoice = {
   external_reference: string | null;
   issued_at: string | null;
   paid_at: string | null;
+  customer_emailed_at: string | null;
+  customer_emailed_to: string | null;
+  customer_email_resend_id: string | null;
+  customer_emailed_by: string | null;
   voided_at: string | null;
   void_reason: string | null;
   created_at: string;
 };
-
 const INVOICE_COLUMNS =
-  "id, invoice_number, reseller_id, order_id, status, currency, issue_date, due_date, payment_terms_days, vat_registered, vat_number, vat_rate_bps, prices_include_vat, net_pence, vat_pence, gross_pence, paid_pence, balance_pence, issuer, bill_to, customer_note, internal_note, terms_text, external_reference, issued_at, paid_at, voided_at, void_reason, created_at";
-
+  "id, invoice_number, reseller_id, order_id, status, currency, issue_date, due_date, payment_terms_days, vat_registered, vat_number, vat_rate_bps, prices_include_vat, net_pence, vat_pence, gross_pence, paid_pence, balance_pence, issuer, bill_to, customer_note, internal_note, terms_text, external_reference, issued_at, paid_at, voided_at, void_reason, customer_emailed_at, customer_emailed_to, customer_email_resend_id, customer_emailed_by, created_at";
 const LIST_COLUMNS = `${INVOICE_COLUMNS}, resellers(id, account_code, business_name, contact_name, email)`;
 
 /* ------------------------------------------------------------------ *
@@ -357,7 +359,7 @@ export async function getInvoice(supabase: SupabaseClient, invoiceId: string) {
 export async function invoiceForOrder(supabase: SupabaseClient, orderId: string) {
   const { data, error } = await supabase
     .from("invoices")
-    .select("id, invoice_number, status, gross_pence, paid_pence, balance_pence, due_date, issue_date, currency")
+    .select("id, invoice_number, status, gross_pence, paid_pence, balance_pence, due_date, issue_date, currency, paid_at, customer_emailed_at, customer_emailed_to")
     .eq("order_id", orderId)
     .order("created_at", { ascending: false })
     .limit(1)
@@ -373,6 +375,9 @@ export async function invoiceForOrder(supabase: SupabaseClient, orderId: string)
     due_date: string | null;
     issue_date: string | null;
     currency: string;
+    paid_at: string | null;
+    customer_emailed_at: string | null;
+    customer_emailed_to: string | null;
   }) ?? null;
 }
 

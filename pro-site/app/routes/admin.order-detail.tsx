@@ -1,12 +1,14 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react-router";
-import { Form, Link, data, redirect, useActionData, useLoaderData, useNavigation } from "react-router";
+import { Form, Link, data, useActionData, useLoaderData, useNavigation } from "react-router";
 import { requireArticleStaff } from "../lib/article-auth.server";
 import { isSameOriginPost } from "../lib/supabase.server";
 import { getOrder, updateOrder } from "../lib/resellers.server";
-import { createInvoiceFromOrder, invoiceForOrder } from "../lib/invoices.server";
-import { INVOICE_STATUS_LABELS, isOverdue } from "../lib/invoice-constants";
+import { createInvoiceFromOrder, invoiceForOrder, issueInvoice, recordPayment } from "../lib/invoices.server";
+import { INVOICE_STATUS_LABELS, isOverdue, type PaymentMethod } from "../lib/invoice-constants";
 import { ORDER_SOURCE_LABELS, ORDER_SOURCES, ORDER_STATUSES } from "../lib/reseller-constants";
 import { gbpFromPence } from "../lib/site";
+import { emailIssuedInvoice } from "../lib/invoice-email.server";
+import { OrderInvoiceFlow } from "../components/admin/OrderInvoiceFlow";
 
 export const meta: MetaFunction = () => [
   { title: "Order | Jimmy Coco admin" },
@@ -20,7 +22,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const invoice = await invoiceForOrder(supabase, params.orderId as string);
   return data({ ...result, invoice } as never, { headers: responseHeaders });
 }
-
 export async function action({ request, params }: ActionFunctionArgs) {
   const { supabase, responseHeaders, staff } = await requireArticleStaff(request);
   if (!isSameOriginPost(request)) {
@@ -28,40 +29,57 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   const form = await request.formData();
-
-  // Raising an invoice is a different job from moving the order along, so it
-  // gets its own intent rather than being inferred from the fields present.
-  if (form.get("intent") === "create-invoice") {
-    try {
-      const { id } = await createInvoiceFromOrder(supabase, params.orderId as string, staff?.userId);
-      return redirect(`/admin/invoices/${id}`, { headers: responseHeaders });
-    } catch (error) {
-      return data({ error: (error as Error).message }, { status: 400, headers: responseHeaders });
-    }
-  }
-
-  const status = String(form.get("status") ?? "");
-  const note = form.get("internalNote");
-  const source = String(form.get("source") ?? "");
-
-  // Each form on this page posts only its own field, so building the patch from
-  // what was actually submitted stops one form wiping the other's value.
-  const patch: { status?: (typeof ORDER_STATUSES)[number]; internal_note?: string | null; source?: string } = {};
-  if ((ORDER_STATUSES as readonly string[]).includes(status)) {
-    patch.status = status as (typeof ORDER_STATUSES)[number];
-  }
-  if (note !== null) patch.internal_note = String(note).trim() || null;
-  if ((ORDER_SOURCES as readonly string[]).includes(source)) patch.source = source;
-
-  if (!Object.keys(patch).length) {
-    return data({ error: "Nothing to update." }, { status: 400, headers: responseHeaders });
-  }
+  const orderId = params.orderId as string;
+  const intent = String(form.get("intent") ?? "");
+  const money = (value: FormDataEntryValue | null) => Math.round(Number.parseFloat(String(value ?? "0")) * 100);
 
   try {
-    await updateOrder(supabase, params.orderId as string, patch);
+    switch (intent) {
+      case "create-invoice": {
+        await createInvoiceFromOrder(supabase, orderId, staff?.userId);
+        return data({ notice: "Invoice draft created. Review and issue it below." }, { headers: responseHeaders });
+      }
+      case "issue-invoice": {
+        const invoice = await invoiceForOrder(supabase, orderId);
+        if (!invoice || invoice.status !== "draft") throw new Error("This order does not have a draft invoice to issue.");
+        const number = await issueInvoice(supabase, invoice.id);
+        const order = await getOrder(supabase, orderId);
+        if (order?.order.status === "confirmed") await updateOrder(supabase, orderId, { status: "invoiced" });
+        return data({ notice: `Invoice ${number} issued. You can now email it to the customer.` }, { headers: responseHeaders });
+      }
+      case "email-invoice": {
+        const invoice = await invoiceForOrder(supabase, orderId);
+        if (!invoice) throw new Error("Raise and issue an invoice before emailing it.");
+        const result = await emailIssuedInvoice(supabase, invoice.id, staff?.userId);
+        return data({ notice: `Invoice emailed to ${result.recipient}.` }, { headers: responseHeaders });
+      }
+      case "record-payment": {
+        const invoice = await invoiceForOrder(supabase, orderId);
+        if (!invoice) throw new Error("Raise and issue an invoice before recording payment.");
+        await recordPayment(supabase, invoice.id, {
+          amountPence: money(form.get("amount")),
+          paidOn: String(form.get("paidOn") ?? new Date().toISOString().slice(0, 10)),
+          method: String(form.get("method") ?? "bank_transfer") as PaymentMethod,
+          reference: String(form.get("reference") ?? "").trim() || null,
+          note: String(form.get("note") ?? "").trim() || null,
+        }, staff?.userId);
+        return data({ notice: "Payment recorded against this invoice." }, { headers: responseHeaders });
+      }
+    }
+
+    const status = String(form.get("status") ?? "");
+    const note = form.get("internalNote");
+    const source = String(form.get("source") ?? "");
+    const patch: { status?: (typeof ORDER_STATUSES)[number]; internal_note?: string | null; source?: string } = {};
+    if ((ORDER_STATUSES as readonly string[]).includes(status)) patch.status = status as (typeof ORDER_STATUSES)[number];
+    if (note !== null) patch.internal_note = String(note).trim() || null;
+    if ((ORDER_SOURCES as readonly string[]).includes(source)) patch.source = source;
+    if (!Object.keys(patch).length) return data({ error: "Nothing to update." }, { status: 400, headers: responseHeaders });
+
+    await updateOrder(supabase, orderId, patch);
     return data({ notice: patch.status ? `Order marked ${patch.status === "submitted" ? "Received" : patch.status}.` : patch.source ? "Order source updated." : "Note saved." }, { headers: responseHeaders });
   } catch (error) {
-    return data({ error: (error as Error).message }, { status: 500, headers: responseHeaders });
+    return data({ error: (error as Error).message }, { status: 400, headers: responseHeaders });
   }
 }
 
@@ -106,21 +124,14 @@ type Order = {
 };
 
 /** The order's journey. Cancelled is an exit, not a stage, so it sits outside. */
+/** The operational journey stays visible even though payment lives on the invoice ledger. */
 const STAGES = [
   { key: "submitted", label: "Received" },
   { key: "confirmed", label: "Confirmed" },
   { key: "invoiced", label: "Invoiced" },
+  { key: "paid", label: "Payment received" },
   { key: "shipped", label: "Shipped" },
 ] as const;
-
-/** The one thing to do next, given where the order is now. */
-const NEXT_ACTION: Record<string, { status: string; label: string; blurb: string } | null> = {
-  submitted: { status: "confirmed", label: "Confirm order", blurb: "Check stock and price, then confirm." },
-  confirmed: null,
-  invoiced: { status: "shipped", label: "Mark shipped", blurb: "Mark it shipped once it leaves." },
-  shipped: null,
-  cancelled: null,
-};
 
 const ACCOUNT_WARNING: Record<string, string> = {
   suspended: "This account is suspended. Check why before you confirm or ship anything.",
@@ -155,47 +166,46 @@ export default function OrderDetail() {
       invoice_number: string | null;
       status: string;
       gross_pence: number;
+      paid_pence: number;
       balance_pence: number;
       due_date: string | null;
+      issue_date: string | null;
+      currency: string;
+      paid_at: string | null;
+      customer_emailed_at: string | null;
+      customer_emailed_to: string | null;
     } | null;
   };
 
   const result = useActionData<typeof action>() as { error?: string; notice?: string } | undefined;
   const navigation = useNavigation();
   const busy = navigation.state === "submitting";
-
   const account = order.resellers;
   const units = items.reduce((total, item) => total + item.quantity, 0);
   const cancelled = order.status === "cancelled";
-  const next = cancelled ? null : NEXT_ACTION[order.status];
-  const canRaiseInvoice = order.status === "confirmed" && !invoice;
-  const canOpenInvoice = order.status === "confirmed" && Boolean(invoice);
-  const actionBlurb = cancelled
-    ? "Reopening puts it back in the received queue."
-    : canRaiseInvoice
-      ? "Create the invoice draft from these agreed order lines."
-      : canOpenInvoice
-        ? "The invoice draft is ready to review and issue."
-        : (next?.blurb ?? "Nothing left to do — this order is complete.");
-  const open = order.status === "submitted" || order.status === "confirmed";
   const warning = account && account.status !== "active" ? ACCOUNT_WARNING[account.status] : null;
-
-  // Value at the current catalogue price, so the trade discount is visible
-  // rather than baked silently into the unit price.
   const listTotal = items.reduce(
     (total, item) => total + (catalogue[item.sku]?.trade_price_pence ?? item.unit_price_pence) * item.quantity,
     0,
   );
   const saved = Math.max(0, listTotal - order.subtotal_pence);
-
-  const stageIndex = STAGES.findIndex((stage) => stage.key === order.status);
+  const paymentReceived = invoice?.status === "paid" || (invoice?.balance_pence ?? 1) <= 0;
+  const stageIndex = order.status === "shipped"
+    ? 4
+    : paymentReceived
+      ? 3
+      : order.status === "invoiced"
+        ? 2
+        : order.status === "confirmed"
+          ? 1
+          : 0;
   const stageTime: Record<string, string | null> = {
     submitted: order.submitted_at,
     confirmed: order.confirmed_at,
-    invoiced: null,
+    invoiced: invoice?.issue_date ?? null,
+    paid: invoice?.paid_at ?? null,
     shipped: null,
   };
-
   const addressLines = account?.address
     ? [
         account.address.line1,
@@ -261,47 +271,32 @@ export default function OrderDetail() {
         </div>
       ) : (
         <>
-          <section className="admin-next-task" aria-label="Next order task">
-            <div className="admin-next-task-copy">
-              <span className="admin-next-task-icon" aria-hidden="true">↳</span>
-              <div>
-                <p className="admin-next-task-kicker">Next task <span>{order.status === "submitted" ? "Received" : order.status}</span></p>
-                <h2>{canRaiseInvoice ? "Raise the draft invoice" : canOpenInvoice ? "Review the invoice draft" : next?.label ?? "Order complete"}</h2>
-                <p>{actionBlurb}</p>
-              </div>
-            </div>
-            <div className="admin-next-task-actions">
-              {canRaiseInvoice ? (
-                <Form method="post" replace><input type="hidden" name="intent" value="create-invoice" /><button className="admin-primary" type="submit" disabled={busy}>Raise invoice</button></Form>
-              ) : canOpenInvoice && invoice ? (
-                <Link className="admin-primary" to={`/admin/invoices/${invoice.id}`}>Open draft invoice</Link>
-              ) : next ? (
-                <>
-                  <Form method="post" replace><input type="hidden" name="status" value={next.status} /><button className="admin-primary" type="submit" disabled={busy}>{next.label}</button></Form>
-                  <Form method="post" replace><input type="hidden" name="status" value="cancelled" /><button className="admin-ghost-danger" type="submit" disabled={busy}>Cancel</button></Form>
-                </>
-              ) : null}
-            </div>
-            <div className="admin-next-task-utilities">
-              <Form method="post" replace className="admin-source-form">
-                <label htmlFor="source">Order source</label>
-                <select id="source" name="source" defaultValue={order.source}>
-                  {ORDER_SOURCES.map((value) => <option key={value} value={value}>{ORDER_SOURCE_LABELS[value]}</option>)}
+          <OrderInvoiceFlow
+            order={{ status: order.status, currency: order.currency, subtotal_pence: order.subtotal_pence, reference: order.reference }}
+            account={account ? { business_name: account.business_name, contact_name: account.contact_name, email: account.email } : null}
+            invoice={invoice}
+            busy={busy}
+            result={result}
+          />
+          <section className="admin-order-utilities" aria-label="Order administration">
+            <Form method="post" replace className="admin-source-form">
+              <label htmlFor="source">Order source</label>
+              <select id="source" name="source" defaultValue={order.source}>
+                {ORDER_SOURCES.map((value) => <option key={value} value={value}>{ORDER_SOURCE_LABELS[value]}</option>)}
+              </select>
+              <button type="submit" disabled={busy}>Save</button>
+            </Form>
+            <details className="admin-override">
+              <summary>Set status</summary>
+              <Form method="post" replace className="admin-override-form">
+                <label htmlFor="status">Move this order to</label>
+                <select id="status" name="status" defaultValue={order.status}>
+                  {ORDER_STATUSES.map((status) => <option key={status} value={status}>{status === "submitted" ? "received" : status}</option>)}
                 </select>
-                <button type="submit" disabled={busy}>Save</button>
+                <button type="submit" disabled={busy}>Apply</button>
+                <p>Use this only to correct a mistake — the normal billing flow is above.</p>
               </Form>
-              <details className="admin-override">
-                <summary>Set status</summary>
-                <Form method="post" replace className="admin-override-form">
-                  <label htmlFor="status">Move this order to</label>
-                  <select id="status" name="status" defaultValue={order.status}>
-                    {ORDER_STATUSES.map((status) => <option key={status} value={status}>{status === "submitted" ? "received" : status}</option>)}
-                  </select>
-                  <button type="submit" disabled={busy}>Apply</button>
-                  <p>Use this only to correct a mistake — the action above follows the normal flow.</p>
-                </Form>
-              </details>
-            </div>
+            </details>
           </section>
           <section className="admin-flow-panel" aria-label="Order progress">
             <div className="admin-flow-label"><b>Order flow</b><span>Follow the next step</span></div>
@@ -456,18 +451,13 @@ export default function OrderDetail() {
           <section className="admin-panel is-secondary">
             <div className="admin-panel-head">
               <h2>Invoice</h2>
-              {invoice ? (
-                <Link className="admin-panel-link" to={`/admin/invoices/${invoice.id}`}>
-                  Open
-                </Link>
-              ) : null}
             </div>
             <div className="admin-panel-body">
               {invoice ? (
                 <>
                   <p className="admin-kv">
                     <span>Number</span>
-                    <Link to={`/admin/invoices/${invoice.id}`}>{invoice.invoice_number ?? "Draft"}</Link>
+                    <span>{invoice.invoice_number ?? "Draft"}</span>
                   </p>
                   <p className="admin-kv">
                     <span>Status</span>
@@ -487,7 +477,7 @@ export default function OrderDetail() {
               ) : (
                 <>
                   <p className="admin-muted">No invoice raised for this order yet.</p>
-                  <p className="admin-hint">Raise the draft from the single order action above; this panel will then show its status and link.</p>
+                  <p className="admin-hint">Create, issue, email and reconcile the invoice from the order flow above.</p>
                 </>
               )}
             </div>

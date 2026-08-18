@@ -1,0 +1,5 @@
+- [x] Audit the existing order confirmation, invoice drafting, invoice sending and payment-recording code paths.
+- [x] Design the complete normal order lifecycle so it stays on the order-detail page.
+- [x] Implement an in-page Raise Invoice modal and eliminate the invoice-detail navigation requirement.
+- [x] Add clear customer invoice-email delivery and payment-recording actions to the order flow.
+- [x] Validate the revised flow using the demo data and a production build.

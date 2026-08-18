@@ -850,3 +850,30 @@ button,input,select,textarea{font:inherit}
 .admin-flow-panel .admin-steps .is-current b{color:#9A641B}
 @media (max-width:1000px){.admin-next-task{grid-template-columns:1fr auto}.admin-next-task-utilities{grid-column:1/-1;border-top:1px solid var(--admin-line);border-left:0;justify-content:flex-end}.admin-flow-panel{grid-template-columns:1fr;gap:14px}}
 @media (max-width:720px){.admin-order-hero{padding:24px;align-items:flex-start;flex-direction:column}.admin-order-hero-value{align-items:flex-start;text-align:left}.admin-next-task{display:block}.admin-next-task-actions,.admin-next-task-utilities{border-top:1px solid var(--admin-line);border-left:0}.admin-next-task-utilities{justify-content:space-between}.admin-flow-panel .admin-steps{overflow-x:auto;min-width:520px}.admin-flow-panel{overflow-x:auto}.admin-flow-label{padding-left:4px}}
+
+/* Order-detail billing flow: the full commercial lifecycle remains in context. */
+.admin-invoice-flow{grid-template-columns:minmax(0,1fr) minmax(260px,auto) minmax(180px,auto)}
+.admin-invoice-flow-actions{flex-wrap:wrap}
+.admin-invoice-flow-meta{display:flex;flex-direction:column;justify-content:center;gap:4px;padding:16px 20px;border-left:1px solid var(--admin-line);background:#F7FAFC;color:#526D7F;font-size:13px}
+.admin-invoice-flow-meta b{color:var(--admin-ink);font-size:15px}
+.admin-order-utilities{display:flex;align-items:center;justify-content:flex-end;gap:14px;margin:-4px 0 18px;padding:12px 16px;border:1px solid var(--admin-line);border-radius:10px;background:#F7FAFC}
+.admin-workflow-modal{position:fixed;z-index:100;top:50%;left:50%;width:min(620px,calc(100vw - 32px));max-height:calc(100vh - 32px);margin:0;padding:0;overflow:auto;transform:translate(-50%,-50%);border:1px solid #C9BBB0;border-radius:14px;background:var(--admin-paper);color:var(--admin-ink);box-shadow:0 0 0 100vmax rgba(24,20,17,.5),0 24px 70px rgba(30,22,15,.34)}
+.admin-workflow-modal::backdrop{background:rgba(24,20,17,.5)}
+.admin-workflow-modal>p{margin:0;padding:22px 28px 0;color:var(--admin-muted);font-size:15px;line-height:1.55}
+.admin-workflow-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding:24px 28px 0}
+.admin-workflow-modal-head p{margin:0 0 4px;color:#24618A;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+.admin-workflow-modal-head h2{margin:0;font-family:'Fraunces',Georgia,serif;font-size:28px;font-weight:400;line-height:1.08}
+.admin-modal-close{display:grid;place-items:center;width:34px;height:34px;padding:0;border:1px solid var(--admin-line);border-radius:50%;background:#FFF;color:var(--admin-muted);font-size:24px;line-height:1;cursor:pointer}
+.admin-modal-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin:22px 28px;border-top:1px solid var(--admin-line);border-left:1px solid var(--admin-line)}
+.admin-modal-summary>div{min-height:66px;padding:12px;border-right:1px solid var(--admin-line);border-bottom:1px solid var(--admin-line)}
+.admin-modal-summary dt{margin:0 0 4px;color:var(--admin-muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.admin-modal-summary dd{margin:0;color:var(--admin-ink);font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.admin-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin:24px 28px 28px}
+.admin-modal-actions form{margin:0}
+.admin-payment-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:22px 28px 0}
+.admin-payment-form .admin-modal-actions{grid-column:1/-1;margin:10px 0 28px}
+.admin-payment-form .admin-field{margin:0}
+.admin-flow-panel .admin-steps{grid-template-columns:repeat(5,1fr)}
+.admin-flow-panel .admin-steps::before{left:10%;right:10%}
+@media (max-width:1100px){.admin-invoice-flow{grid-template-columns:1fr auto}.admin-invoice-flow-meta{grid-column:1/-1;border-top:1px solid var(--admin-line);border-left:0;flex-direction:row;align-items:center;justify-content:flex-start}.admin-order-utilities{justify-content:space-between}}
+@media (max-width:720px){.admin-invoice-flow-actions{padding:16px 20px}.admin-invoice-flow-meta{padding:13px 20px;align-items:flex-start;flex-direction:column}.admin-order-utilities{align-items:flex-start;flex-direction:column}.admin-workflow-modal-head{padding:22px 20px 0}.admin-workflow-modal>p{padding:20px 20px 0}.admin-modal-summary{margin:20px}.admin-modal-actions{margin:20px}.admin-payment-form{grid-template-columns:1fr;padding:20px 20px 0}.admin-flow-panel .admin-steps{min-width:650px}}

@@ -958,3 +958,11 @@ button,input,select,textarea{font:inherit}
 .admin-order-hero-flow .admin-steps::before{display:block!important;content:""!important;position:absolute!important;top:12px!important;left:10%!important;right:10%!important;height:1px!important;background:rgba(215,230,237,.3)!important}
 .admin-order-hero-flow .admin-steps .is-current{background:transparent!important;box-shadow:none!important}
 .admin-order-hero-flow .admin-steps .is-current .admin-stage-trigger{border-bottom:0!important;box-shadow:none!important;text-decoration:none!important}
+/* Plain tracker hover: make each click target discoverable without adding a stage card or active decoration. */
+@media (hover:hover) and (pointer:fine){
+  .admin-order-hero-flow .admin-stage-trigger{transition:color 160ms cubic-bezier(.23,1,.32,1)}
+  .admin-order-hero-flow .admin-steps-dot{transition:transform 160ms cubic-bezier(.23,1,.32,1),border-color 160ms cubic-bezier(.23,1,.32,1),background-color 160ms cubic-bezier(.23,1,.32,1)}
+  .admin-order-hero-flow .admin-stage-trigger:hover b{color:#FFF}
+  .admin-order-hero-flow .admin-stage-trigger:hover .admin-steps-dot{transform:scale(1.1);border-color:#F5D99F;background:#21455B}
+  .admin-order-hero-flow .admin-steps .is-done .admin-stage-trigger:hover .admin-steps-dot{border-color:#B9E8D5;background:#2D9275}
+}

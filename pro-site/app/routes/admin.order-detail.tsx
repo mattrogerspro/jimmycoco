@@ -226,13 +226,6 @@ export default function OrderDetail() {
         : order.status === "confirmed"
           ? 1
           : 0;
-  const stageTime: Record<string, string | null> = {
-    submitted: order.submitted_at,
-    confirmed: order.confirmed_at,
-    invoiced: invoice?.issue_date ?? null,
-    paid: invoice?.paid_at ?? null,
-    shipped: shipment?.delivered_at ?? shipment?.dispatched_at ?? null,
-  };
   const addressLines = account?.address
     ? [
         account.address.line1,
@@ -279,7 +272,6 @@ export default function OrderDetail() {
                   <button type="button" className="admin-stage-trigger" onClick={() => setActiveStage(stage.key)} aria-current={index === stageIndex ? "step" : undefined}>
                     <span className="admin-steps-dot" aria-hidden="true">{index < stageIndex ? "✓" : ""}</span>
                     <b>{stage.label}</b>
-                    <span>{stamp(stageTime[stage.key], false) ?? (index < stageIndex ? "done" : "")}</span>
                   </button>
                 </li>
               ))}

@@ -15,3 +15,9 @@
 - [x] Remove duplicate invoice summary information from the order page.
 - [x] Render the complete invoice with in-place issue, email and download controls from the Invoice stage.
 - [x] Validate the revised stage navigator and invoice workspace with a production build.
+- [x] Restore the immediately prior five-step stage layout and its click behaviour exactly.
+- [x] Remove only the current-stage underline/highlight and apply stage background colours.
+- [x] Validate the restored step system without changing any other order workflow behaviour.
+- [x] Add existing product imagery to order-line rows.
+- [x] Add compact existing product imagery to rendered invoice lines.
+- [x] Validate images in the restored order and invoice workflow.

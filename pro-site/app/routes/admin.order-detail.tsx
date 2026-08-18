@@ -8,11 +8,11 @@ import { createInvoiceFromOrder, invoiceForOrder, issueInvoice, recordPayment } 
 import { type PaymentMethod } from "../lib/invoice-constants";
 import { ORDER_SOURCE_LABELS, ORDER_STATUSES } from "../lib/reseller-constants";
 import { gbpFromPence } from "../lib/site";
+import { productImageForSku } from "../lib/product-images";
 import { emailIssuedInvoice } from "../lib/invoice-email.server";
 import { latestOrderShipment, saveOrderShipment, SHIPMENT_STATUSES, type ShipmentStatus } from "../lib/order-shipments.server";
 import { OrderStageDetails } from "../components/admin/OrderStageDetails";
 import { OrderInvoiceFlow } from "../components/admin/OrderInvoiceFlow";
-import { IconCard, IconCheck, IconFile, IconReceipt, IconTruck } from "../components/admin/AdminIcons";
 
 export const meta: MetaFunction = () => [
   { title: "Order | Jimmy Coco admin" },
@@ -152,13 +152,12 @@ type Order = {
 
 /** The order's journey. Cancelled is an exit, not a stage, so it sits outside. */
 const STAGES = [
-  { key: "submitted", label: "Received", icon: IconFile },
-  { key: "confirmed", label: "Confirmed", icon: IconCheck },
-  { key: "invoiced", label: "Invoice", icon: IconReceipt },
-  { key: "paid", label: "Payment", icon: IconCard },
-  { key: "shipped", label: "Shipping", icon: IconTruck },
+  { key: "submitted", label: "Received" },
+  { key: "confirmed", label: "Confirmed" },
+  { key: "invoiced", label: "Invoiced" },
+  { key: "paid", label: "Payment received" },
+  { key: "shipped", label: "Shipped" },
 ] as const;
-
 const ACCOUNT_WARNING: Record<string, string> = {
   suspended: "This account is suspended. Check why before you confirm or ship anything.",
   closed: "This account is closed. It should not be receiving stock.",
@@ -273,21 +272,20 @@ export default function OrderDetail() {
           <span>{units} unit{units === 1 ? "" : "s"} · {items.length} line{items.length === 1 ? "" : "s"} · {order.currency}</span>
         </div>
         {!cancelled ? (
-          <nav className="admin-order-hero-flow" aria-label="Order stages">
-            <ol className="admin-steps admin-stage-nav">
-              {STAGES.map((stage, index) => {
-                const StageIcon = stage.icon;
-                return (
-                  <li key={stage.key} className={index < stageIndex ? "is-done" : index === stageIndex ? "is-current" : "is-todo"}>
-                    <button type="button" className="admin-stage-trigger" onClick={() => setActiveStage(stage.key)} aria-current={index === stageIndex ? "step" : undefined} aria-label={`${stage.label}: ${index < stageIndex ? "complete" : index === stageIndex ? "current stage" : "not yet complete"}`}>
-                      <span className="admin-stage-icon" aria-hidden="true"><StageIcon size={27} /></span>
-                      <b>{stage.label}</b>
-                    </button>
-                  </li>
-                );
-              })}
+          <div className="admin-order-hero-flow" aria-label="Order progress">
+            <div className="admin-order-hero-flow-label"><b>Order flow</b><span>Current progress</span></div>
+            <ol className="admin-steps">
+              {STAGES.map((stage, index) => (
+                <li key={stage.key} className={index < stageIndex ? "is-done" : index === stageIndex ? "is-current" : "is-todo"}>
+                  <button type="button" className="admin-stage-trigger" onClick={() => setActiveStage(stage.key)} aria-current={index === stageIndex ? "step" : undefined}>
+                    <span className="admin-steps-dot" aria-hidden="true">{index < stageIndex ? "✓" : ""}</span>
+                    <b>{stage.label}</b>
+                    <span>{stamp(stageTime[stage.key], false) ?? (index < stageIndex ? "done" : "")}</span>
+                  </button>
+                </li>
+              ))}
             </ol>
-          </nav>
+          </div>
         ) : null}
       </header>
       <OrderStageDetails
@@ -369,11 +367,14 @@ export default function OrderDetail() {
                   {items.map((item) => {
                     const list = catalogue[item.sku]?.trade_price_pence ?? null;
                     const discounted = list !== null && list > item.unit_price_pence;
+                    const image = productImageForSku(item.sku);
                     return (
                       <tr key={item.id}>
                         <td>
-                          <strong>{item.title}</strong>
-                          <span>{item.sku}</span>
+                          <div className="admin-order-product">
+                            {image ? <img src={image} alt="" /> : null}
+                            <div><strong>{item.title}</strong><span>{item.sku}</span></div>
+                          </div>
                         </td>
                         <td className="admin-nowrap admin-qty">
                           <b>{item.quantity}</b>

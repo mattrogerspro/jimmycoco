@@ -2,6 +2,7 @@ import type { getInvoice } from "./invoices.server";
 import { INVOICE_STATUS_LABELS } from "./invoice-constants";
 
 type Loaded = NonNullable<Awaited<ReturnType<typeof getInvoice>>>;
+import { productImageForSku } from "./product-images";
 
 const escape = (value: unknown) =>
   String(value ?? "")
@@ -51,19 +52,17 @@ export function renderInvoiceDocument({ invoice, lines, payments, order }: Loade
   const vat = invoice.vat_registered;
   const draft = invoice.status === "draft";
   const currency = invoice.currency;
-
   const lineRows = lines
-    .map(
-      (line) => `<tr>
-      <td class="desc"><b>${escape(line.title)}</b>${line.sku ? `<span>${escape(line.sku)}</span>` : ""}${
-        line.description ? `<span>${escape(line.description)}</span>` : ""
-      }</td>
+    .map((line) => {
+      const image = productImageForSku(line.sku);
+      return `<tr>
+      <td class="desc">${image ? `<img class="product-photo" src="${escape(image)}" alt="">` : ""}<div class="product-copy"><b>${escape(line.title)}</b>${line.sku ? `<span>${escape(line.sku)}</span>` : ""}${line.description ? `<span>${escape(line.description)}</span>` : ""}</div></td>
       <td class="num">${line.quantity}</td>
       <td class="num">${money(line.unit_price_pence, currency)}</td>
       ${vat ? `<td class="num">${(line.vat_rate_bps / 100).toFixed(line.vat_rate_bps % 100 ? 1 : 0)}%</td>` : ""}
       <td class="num strong">${money(vat ? line.net_pence : line.gross_pence, currency)}</td>
-    </tr>`,
-    )
+    </tr>`;
+    })
     .join("");
 
   const paymentRows = payments.length
@@ -133,6 +132,9 @@ export function renderInvoiceDocument({ invoice, lines, payments, order }: Loade
   table.items th { text-align:left; padding:8px 10px; border-bottom:1px solid #1A1512;
                    font-size:8.5pt; letter-spacing:.12em; text-transform:uppercase; }
   table.items td { padding:10px; border-bottom:1px solid #E4DACE; vertical-align:top; }
+  table.items .desc { display:flex; align-items:flex-start; gap:9px; }
+  table.items .desc .product-copy { min-width:0; }
+  .product-photo { width:34px; height:34px; object-fit:contain; border:1px solid #E4DACE; border-radius:3px; background:#F8F5F0; flex:0 0 auto; }
   table.items .num, table.items th.num { text-align:right; white-space:nowrap; }
   table.items .desc span { display:block; font-size:9pt; color:#7A726A; }
   .strong { font-weight:600; }

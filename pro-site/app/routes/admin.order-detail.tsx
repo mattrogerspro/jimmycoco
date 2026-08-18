@@ -273,7 +273,6 @@ export default function OrderDetail() {
         </div>
         {!cancelled ? (
           <div className="admin-order-hero-flow" aria-label="Order progress">
-            <div className="admin-order-hero-flow-label"><b>Order flow</b><span>Current progress</span></div>
             <ol className="admin-steps">
               {STAGES.map((stage, index) => (
                 <li key={stage.key} className={index < stageIndex ? "is-done" : index === stageIndex ? "is-current" : "is-todo"}>

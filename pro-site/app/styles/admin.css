@@ -913,3 +913,32 @@ button,input,select,textarea{font:inherit}
 .admin-next-task-actions .admin-primary{min-height:40px}
 .admin-invoice-flow-meta{padding:12px 14px}
 @media (max-width:720px){.admin-order-hero{display:flex;gap:12px;padding:18px 18px 0}.admin-order-hero-value{padding-bottom:0}.admin-order-hero-flow{display:block;width:calc(100% + 36px);margin:2px -18px 0;padding:11px 18px 12px}.admin-order-hero-flow-label{margin-bottom:10px}.admin-order-hero-flow .admin-steps{min-width:590px}.admin-order-hero-flow{overflow-x:auto}.admin-next-task-copy{padding:13px 16px}.admin-next-task-actions{padding:12px 16px}}
+
+/* Calm, direct stage interactions and invoice-style shipping sequence. */
+.admin-order-hero-flow .admin-steps li{padding:0}
+.admin-stage-trigger{display:flex;align-items:center;flex-direction:column;gap:3px;width:100%;min-height:58px;padding:0 5px;border:0;border-bottom:0!important;background:transparent;color:inherit;font:inherit;line-height:1.15;cursor:pointer;text-decoration:none;box-shadow:none!important}
+.admin-stage-trigger:hover b{color:#FFF}
+.admin-stage-trigger:focus-visible{outline:2px solid #F5D99F;outline-offset:4px;border-radius:6px}
+.admin-order-hero-flow .admin-steps .is-current .admin-stage-trigger::after,.admin-order-hero-flow .admin-steps li::after{content:none!important;display:none!important}
+.admin-stage-modal .admin-modal-close{position:absolute;top:18px;right:20px;z-index:2}
+.admin-stage-modal .admin-workflow-modal-head{padding-right:66px}
+.admin-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;padding:0 28px}
+.admin-shipment-form{padding-top:20px}
+.admin-shipment-statuses{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:0 28px 18px}
+.admin-shipment-statuses label{position:relative;display:block;cursor:pointer}
+.admin-shipment-statuses input{position:absolute;opacity:0;pointer-events:none}
+.admin-shipment-statuses span{display:block;min-height:46px;padding:8px;border:1px solid var(--admin-line);border-radius:8px;background:#FFF;color:var(--admin-muted);font-size:12px;font-weight:600;line-height:1.2;text-align:center}
+.admin-shipment-statuses input:checked+span{border-color:#267567;background:#EAF5F0;color:#185C50;box-shadow:inset 0 0 0 1px #267567}
+.admin-shipment-summary{margin-top:20px}
+.admin-shipto-card{margin:0 0 14px}
+.admin-shipto-card .admin-panel-head{display:flex;align-items:center;justify-content:space-between}
+.admin-shipto-card .admin-panel-head span{color:var(--admin-muted);font-size:12px}
+.admin-shipto-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,.55fr);gap:16px}
+.admin-shipto-contact{display:flex;flex-direction:column;gap:3px;padding-left:16px;border-left:1px solid var(--admin-line);font-size:14px}
+.admin-shipto-contact a{color:var(--admin-bronze-dark);overflow-wrap:anywhere}
+.admin-shipto-layout .admin-address-note{grid-column:1/-1;margin:0}
+@media (max-width:720px){.admin-form-grid{grid-template-columns:1fr;padding:0 20px}.admin-shipment-statuses{grid-template-columns:repeat(2,minmax(0,1fr));margin:0 20px 16px}.admin-shipto-layout{grid-template-columns:1fr}.admin-shipto-contact{padding:12px 0 0;border-top:1px solid var(--admin-line);border-left:0}.admin-stage-trigger{min-height:54px}}
+/* Tracker remains a single calm line: no vertical dividers or active underlines. */
+.admin-order-hero-flow .admin-steps li,.admin-order-hero-flow .admin-steps li+li{border-inline:0!important}
+.admin-order-hero-flow .admin-steps li::before,.admin-order-hero-flow .admin-steps li::after,.admin-order-hero-flow .admin-steps .is-current::before,.admin-order-hero-flow .admin-steps .is-current::after{display:none!important;content:none!important}
+.admin-order-hero-flow .admin-steps .is-current .admin-stage-trigger{border-bottom:0!important;text-decoration:none!important}

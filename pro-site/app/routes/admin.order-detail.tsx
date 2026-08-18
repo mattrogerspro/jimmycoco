@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react-router";
 import { Form, Link, data, useActionData, useLoaderData, useNavigation } from "react-router";
 import { requireArticleStaff } from "../lib/article-auth.server";
@@ -8,19 +9,23 @@ import { INVOICE_STATUS_LABELS, isOverdue, type PaymentMethod } from "../lib/inv
 import { ORDER_SOURCE_LABELS, ORDER_STATUSES } from "../lib/reseller-constants";
 import { gbpFromPence } from "../lib/site";
 import { emailIssuedInvoice } from "../lib/invoice-email.server";
+import { latestOrderShipment, saveOrderShipment, SHIPMENT_STATUSES, type ShipmentStatus } from "../lib/order-shipments.server";
+import { OrderStageDetails } from "../components/admin/OrderStageDetails";
 import { OrderInvoiceFlow } from "../components/admin/OrderInvoiceFlow";
 
 export const meta: MetaFunction = () => [
   { title: "Order | Jimmy Coco admin" },
   { name: "robots", content: "noindex, nofollow, noarchive" },
 ];
-
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const { supabase, responseHeaders } = await requireArticleStaff(request);
   const result = await getOrder(supabase, params.orderId as string);
   if (!result) throw new Response("Order not found", { status: 404, headers: responseHeaders });
-  const invoice = await invoiceForOrder(supabase, params.orderId as string);
-  return data({ ...result, invoice } as never, { headers: responseHeaders });
+  const [invoice, shipment] = await Promise.all([
+    invoiceForOrder(supabase, params.orderId as string),
+    latestOrderShipment(supabase, params.orderId as string),
+  ]);
+  return data({ ...result, invoice, shipment } as never, { headers: responseHeaders });
 }
 export async function action({ request, params }: ActionFunctionArgs) {
   const { supabase, responseHeaders, staff } = await requireArticleStaff(request);
@@ -64,6 +69,29 @@ export async function action({ request, params }: ActionFunctionArgs) {
           note: String(form.get("note") ?? "").trim() || null,
         }, staff?.userId);
         return data({ notice: "Payment recorded against this invoice." }, { headers: responseHeaders });
+      }
+      case "save-shipment": {
+        const shipmentStatus = String(form.get("shipmentStatus") ?? "") as ShipmentStatus;
+        if (!(SHIPMENT_STATUSES as readonly string[]).includes(shipmentStatus)) throw new Error("Choose a valid shipment status.");
+        const order = await getOrder(supabase, orderId);
+        if (!order) throw new Error("Order not found.");
+        if (!["invoiced", "shipped"].includes(order.order.status)) throw new Error("Issue the invoice before recording shipping details.");
+        const text = (name: string) => String(form.get(name) ?? "").trim() || null;
+        const trackingUrl = text("trackingUrl");
+        if (trackingUrl && !/^https?:\/\//i.test(trackingUrl)) throw new Error("Tracking links must start with http:// or https://.");
+        const shipment = await saveOrderShipment(supabase, orderId, {
+          status: shipmentStatus,
+          carrier: text("carrier"),
+          service_level: text("serviceLevel"),
+          tracking_number: text("trackingNumber"),
+          tracking_url: trackingUrl,
+          estimated_delivery_date: text("estimatedDeliveryDate"),
+          internal_note: text("shipmentNote"),
+        }, staff?.userId);
+        if (["dispatched", "in_transit", "delivered"].includes(shipment.status) && order.order.status !== "shipped") {
+          await updateOrder(supabase, orderId, { status: "shipped" });
+        }
+        return data({ notice: `Shipment updated: ${shipment.status.replace(/_/g, " ")}.` }, { headers: responseHeaders });
       }
     }
 
@@ -154,7 +182,7 @@ function waitingFor(value: string) {
 }
 
 export default function OrderDetail() {
-  const { order, items, catalogue, siblings, invoice } = useLoaderData<typeof loader>() as unknown as {
+  const { order, items, catalogue, siblings, invoice, shipment } = useLoaderData<typeof loader>() as unknown as {
     order: Order;
     items: Line[];
     catalogue: Record<string, { trade_price_pence: number; retail_price_pence: number | null; unit_label: string }>;
@@ -173,11 +201,13 @@ export default function OrderDetail() {
       customer_emailed_at: string | null;
       customer_emailed_to: string | null;
     } | null;
+    shipment: Awaited<ReturnType<typeof latestOrderShipment>>;
   };
 
   const result = useActionData<typeof action>() as { error?: string; notice?: string } | undefined;
   const navigation = useNavigation();
   const busy = navigation.state === "submitting";
+  const [activeStage, setActiveStage] = useState<(typeof STAGES)[number]["key"] | null>(null);
   const account = order.resellers;
   const units = items.reduce((total, item) => total + item.quantity, 0);
   const cancelled = order.status === "cancelled";
@@ -202,7 +232,7 @@ export default function OrderDetail() {
     confirmed: order.confirmed_at,
     invoiced: invoice?.issue_date ?? null,
     paid: invoice?.paid_at ?? null,
-    shipped: null,
+    shipped: shipment?.delivered_at ?? shipment?.dispatched_at ?? null,
   };
   const addressLines = account?.address
     ? [
@@ -247,16 +277,27 @@ export default function OrderDetail() {
             <div className="admin-order-hero-flow-label"><b>Order flow</b><span>Current progress</span></div>
             <ol className="admin-steps">
               {STAGES.map((stage, index) => (
-                <li key={stage.key} className={index < stageIndex ? "is-done" : index === stageIndex ? "is-current" : "is-todo"} aria-current={index === stageIndex ? "step" : undefined}>
-                  <span className="admin-steps-dot" aria-hidden="true">{index < stageIndex ? "✓" : ""}</span>
-                  <b>{stage.label}</b>
-                  <span>{stamp(stageTime[stage.key], false) ?? (index < stageIndex ? "done" : "")}</span>
+                <li key={stage.key} className={index < stageIndex ? "is-done" : index === stageIndex ? "is-current" : "is-todo"}>
+                  <button type="button" className="admin-stage-trigger" onClick={() => setActiveStage(stage.key)} aria-current={index === stageIndex ? "step" : undefined}>
+                    <span className="admin-steps-dot" aria-hidden="true">{index < stageIndex ? "✓" : ""}</span>
+                    <b>{stage.label}</b>
+                    <span>{stamp(stageTime[stage.key], false) ?? (index < stageIndex ? "done" : "")}</span>
+                  </button>
                 </li>
               ))}
             </ol>
           </div>
         ) : null}
       </header>
+      <OrderStageDetails
+        stage={activeStage}
+        onClose={() => setActiveStage(null)}
+        order={{ reference: order.reference, status: order.status, submitted_at: order.submitted_at, confirmed_at: order.confirmed_at, delivery_note: order.delivery_note }}
+        account={account ? { business_name: account.business_name, contact_name: account.contact_name, email: account.email, phone: account.phone } : null}
+        invoice={invoice}
+        shipment={shipment}
+        busy={busy}
+      />
 
       {result?.error ? (
         <p className="admin-alert" role="alert">
@@ -288,10 +329,23 @@ export default function OrderDetail() {
           invoice={invoice}
           busy={busy}
           result={result}
+          onOpenShipping={() => setActiveStage("shipped")}
         />
       )}
       <div className="admin-split">
         <div>
+          <section className="admin-panel is-secondary admin-shipto-card">
+            <div className="admin-panel-head"><h2>Ship to</h2><span>Delivery address</span></div>
+            <div className="admin-panel-body">
+              {account ? (
+                <div className="admin-shipto-layout">
+                  <div><p className="admin-shipto-name">{account.business_name}</p>{addressLines.length ? <address className="admin-address">{addressLines.map((line) => <span key={line}>{line}</span>)}</address> : <p className="admin-muted">No address on the account record.</p>}</div>
+                  <div className="admin-shipto-contact"><b>{account.contact_name}</b><a href={`mailto:${account.email}`}>{account.email}</a>{account.phone ? <a href={`tel:${account.phone.replace(/\s+/g, "")}`}>{account.phone}</a> : null}</div>
+                  {order.delivery_note ? <p className="admin-address-note"><b>Delivery instructions</b>{order.delivery_note}</p> : null}
+                </div>
+              ) : <p className="admin-muted">This order is not attached to an account.</p>}
+            </div>
+          </section>
           <section className="admin-panel is-primary">
             <div className="admin-panel-head">
               <h2>Order lines</h2>
@@ -389,42 +443,6 @@ export default function OrderDetail() {
         </div>
 
         <aside>
-          <section className="admin-panel is-secondary">
-            <div className="admin-panel-head">
-              <h2>Ship to</h2>
-            </div>
-            <div className="admin-panel-body">
-              {account ? (
-                <>
-                  <p className="admin-shipto-name">{account.business_name}</p>
-                  {addressLines.length ? (
-                    <address className="admin-address">
-                      {addressLines.map((line) => (
-                        <span key={line}>{line}</span>
-                      ))}
-                    </address>
-                  ) : (
-                    <p className="admin-muted">No address on the account record.</p>
-                  )}
-                  {order.delivery_note ? (
-                    <p className="admin-address-note">
-                      <b>Delivery instructions</b>
-                      {order.delivery_note}
-                    </p>
-                  ) : null}
-                  <ul className="admin-contactlist">
-                    <li>
-                      {account.contact_name}
-                      <a href={`mailto:${account.email}`}>{account.email}</a>
-                      {account.phone ? <a href={`tel:${account.phone.replace(/\s+/g, "")}`}>{account.phone}</a> : null}
-                    </li>
-                  </ul>
-                </>
-              ) : (
-                <p className="admin-muted">This order is not attached to an account.</p>
-              )}
-            </div>
-          </section>
 
           <section className="admin-panel is-secondary">
             <div className="admin-panel-head">

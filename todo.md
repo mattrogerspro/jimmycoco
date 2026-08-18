@@ -7,3 +7,7 @@
 - [x] Remove editable order-origin controls and retain the origin as read-only metadata.
 - [x] Tighten header, next-task and alert spacing while preserving clear operational hierarchy.
 - [x] Validate the compact order-detail layout and production build.
+- [x] Simplify the header tracker and make each stage directly interactive.
+- [x] Reorder the detail page so Ship to appears above the order lines.
+- [x] Add persisted shipment dispatch, tracking, in-transit and delivery workflow data.
+- [x] Validate the interactive stages and fulfilment flow with production build checks.

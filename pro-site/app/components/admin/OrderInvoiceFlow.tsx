@@ -27,6 +27,7 @@ type OrderInvoiceFlowProps = {
   invoice: InvoiceSummary | null;
   busy: boolean;
   result?: { error?: string; notice?: string };
+  onOpenShipping: () => void;
 };
 
 type Modal = "raise" | "issue" | "email" | "payment" | null;
@@ -39,11 +40,9 @@ function date(value: string | null) {
   if (!value) return "Not set";
   return new Date(`${value}T00:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 }
-
-export function OrderInvoiceFlow({ order, account, invoice, busy, result }: OrderInvoiceFlowProps) {
+export function OrderInvoiceFlow({ order, account, invoice, busy, result, onOpenShipping }: OrderInvoiceFlowProps) {
   const [modal, setModal] = useState<Modal>(null);
   const isDraft = invoice?.status === "draft";
-  const hasIssuedInvoice = Boolean(invoice && ["issued", "part_paid", "paid"].includes(invoice.status));
   const paid = invoice?.status === "paid" || (invoice?.balance_pence ?? 1) <= 0;
   const canShip = order.status === "invoiced";
   const today = new Date().toISOString().slice(0, 10);
@@ -61,7 +60,7 @@ export function OrderInvoiceFlow({ order, account, invoice, busy, result }: Orde
         : !paid
           ? { title: "Email the invoice and record payment", text: "Send the issued invoice to the customer, then record any amount received." }
           : canShip
-            ? { title: "Arrange fulfilment", text: "Payment is recorded. Mark the order shipped when it leaves." }
+            ? { title: "Arrange fulfilment", text: "The invoice is issued. Open the shipping process to add dispatch and tracking details." }
             : { title: "Order complete", text: "The order is paid and its administration is up to date." };
 
   return (
@@ -91,12 +90,7 @@ export function OrderInvoiceFlow({ order, account, invoice, busy, result }: Orde
                 {invoice.customer_emailed_at ? "Resend invoice" : "Email invoice"}
               </button>
               {!paid ? <button className="admin-secondary" type="button" onClick={() => setModal("payment")} disabled={busy}>Receive payment</button> : null}
-              {canShip ? (
-                <Form method="post" replace>
-                  <input type="hidden" name="status" value="shipped" />
-                  <button className="admin-ghost" type="submit" disabled={busy}>Mark shipped</button>
-                </Form>
-              ) : null}
+              {canShip ? <button className="admin-ghost" type="button" onClick={onOpenShipping} disabled={busy}>Open shipping</button> : null}
             </>
           )}
         </div>

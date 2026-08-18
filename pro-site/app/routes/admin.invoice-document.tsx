@@ -17,7 +17,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   if (!result) throw new Response("Invoice not found", { status: 404, headers: responseHeaders });
 
   const url = new URL(request.url);
-  const html = renderInvoiceDocument(result, { autoPrint: url.searchParams.get("print") !== "0" });
+  const html = renderInvoiceDocument(result, { autoPrint: url.searchParams.get("print") !== "0", embedded: url.searchParams.get("embed") === "1" });
 
   const headers = new Headers(responseHeaders);
   headers.set("Content-Type", "text/html; charset=utf-8");

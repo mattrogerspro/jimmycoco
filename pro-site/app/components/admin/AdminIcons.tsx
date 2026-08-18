@@ -171,3 +171,16 @@ export const IconWarning = ({ size = 20, className }: Props) => (
     <path d="M12 10v4M12 17h.01" />
   </svg>
 );
+
+export const IconCheck = ({ size = 20, className }: Props) => (
+  <svg {...base(size)} className={className}><circle cx="12" cy="12" r="9" /><path d="m8 12 2.6 2.6L16.5 8.8" /></svg>
+);
+export const IconReceipt = ({ size = 20, className }: Props) => (
+  <svg {...base(size)} className={className}><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z" /><path d="M9 8h6M9 12h6M9 16h3" /></svg>
+);
+export const IconCard = ({ size = 20, className }: Props) => (
+  <svg {...base(size)} className={className}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 10h18M7 15h3" /></svg>
+);
+export const IconTruck = ({ size = 20, className }: Props) => (
+  <svg {...base(size)} className={className}><path d="M3 6h11v10H3Z" /><path d="M14 10h4l3 3v3h-7Z" /><circle cx="7" cy="18" r="1.7" /><circle cx="17" cy="18" r="1.7" /></svg>
+);

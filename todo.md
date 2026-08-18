@@ -11,3 +11,7 @@
 - [x] Reorder the detail page so Ship to appears above the order lines.
 - [x] Add persisted shipment dispatch, tracking, in-transit and delivery workflow data.
 - [x] Validate the interactive stages and fulfilment flow with production build checks.
+- [x] Replace the labelled tracker with five larger colour-coded stage icons and no current-stage decoration.
+- [x] Remove duplicate invoice summary information from the order page.
+- [x] Render the complete invoice with in-place issue, email and download controls from the Invoice stage.
+- [x] Validate the revised stage navigator and invoice workspace with a production build.

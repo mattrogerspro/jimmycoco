@@ -942,3 +942,34 @@ button,input,select,textarea{font:inherit}
 .admin-order-hero-flow .admin-steps li,.admin-order-hero-flow .admin-steps li+li{border-inline:0!important}
 .admin-order-hero-flow .admin-steps li::before,.admin-order-hero-flow .admin-steps li::after,.admin-order-hero-flow .admin-steps .is-current::before,.admin-order-hero-flow .admin-steps .is-current::after{display:none!important;content:none!important}
 .admin-order-hero-flow .admin-steps .is-current .admin-stage-trigger{border-bottom:0!important;text-decoration:none!important}
+
+/* Five-stage icon navigator: no flow label, no active underline or highlight. */
+.admin-order-hero-flow{display:block!important;margin:3px -26px 0!important;padding:10px 26px 12px!important;background:rgba(5,20,31,.18)!important}
+.admin-order-hero-flow::before,.admin-order-hero-flow .admin-steps::before{display:none!important;content:none!important}
+.admin-order-hero-flow .admin-stage-nav{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:8px!important;min-width:0!important}
+.admin-order-hero-flow .admin-stage-nav li{border:0!important;background:transparent!important}
+.admin-order-hero-flow .admin-stage-nav .admin-stage-trigger{min-height:72px!important;padding:8px 6px!important;border:0!important;border-radius:9px!important;gap:5px!important;color:#173347!important;transition:transform 160ms cubic-bezier(.23,1,.32,1),filter 160ms cubic-bezier(.23,1,.32,1)!important}
+.admin-order-hero-flow .admin-stage-nav .admin-stage-trigger:hover{filter:brightness(.96);transform:translateY(-1px)}
+.admin-order-hero-flow .admin-stage-nav .admin-stage-trigger:active{transform:scale(.98)}
+.admin-order-hero-flow .admin-stage-nav .admin-stage-trigger b{color:inherit!important;font-size:11px!important;line-height:1.1!important}
+.admin-stage-icon{display:grid;place-items:center;width:37px;height:37px;border-radius:50%;background:rgba(255,255,255,.64)!important;color:inherit!important}
+.admin-order-hero-flow .admin-stage-nav li:nth-child(1) .admin-stage-trigger{background:#DCECF5!important}
+.admin-order-hero-flow .admin-stage-nav li:nth-child(2) .admin-stage-trigger{background:#C3DDEB!important}
+.admin-order-hero-flow .admin-stage-nav li:nth-child(3) .admin-stage-trigger{background:#9DC4D8!important}
+.admin-order-hero-flow .admin-stage-nav li:nth-child(4) .admin-stage-trigger{background:#6D9EBA!important;color:#0E3046!important}
+.admin-order-hero-flow .admin-stage-nav li:nth-child(5) .admin-stage-trigger{background:#315F7D!important;color:#F7FAFC!important}
+.admin-order-hero-flow .admin-stage-nav .is-current .admin-stage-trigger,.admin-order-hero-flow .admin-stage-nav .is-done .admin-stage-trigger{box-shadow:none!important;text-decoration:none!important}
+.admin-order-hero-flow .admin-stage-nav .is-current .admin-stage-icon{border:0!important;box-shadow:none!important;background:rgba(255,255,255,.64)!important}
+
+/* Invoice stage is a rendered document workspace, not a duplicate status card. */
+.admin-workflow-modal.is-invoice-workspace{width:min(1180px,calc(100vw - 36px));max-width:1180px;padding-bottom:20px}
+.admin-invoice-workspace-meta{display:flex;gap:8px;flex-wrap:wrap;padding:0 28px 16px;color:var(--admin-muted);font-size:12px;text-transform:capitalize}
+.admin-invoice-workspace-meta span{padding:5px 8px;border:1px solid var(--admin-line);border-radius:999px;background:#FAF8F4}
+.admin-invoice-workspace-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:0 28px 16px}
+.admin-invoice-workspace-actions form{margin:0}
+.admin-secondary-link,.admin-ghost-link{display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 13px;border-radius:7px;font-size:13px;font-weight:650;text-decoration:none}
+.admin-secondary-link{border:1px solid #A85F32;background:#FFF;color:#8D4F27}
+.admin-ghost-link{border:1px solid var(--admin-line);background:#FFF;color:var(--admin-ink)}
+.admin-invoice-document-frame{margin:0 28px;border:1px solid var(--admin-line);border-radius:8px;overflow:hidden;background:#F4F0EA}
+.admin-invoice-document-frame iframe{display:block;width:100%;height:min(68vh,760px);border:0;background:#FFF}
+@media (max-width:720px){.admin-order-hero-flow{margin:2px -18px 0!important;padding:8px 18px 10px!important}.admin-order-hero-flow .admin-stage-nav{gap:5px!important;min-width:520px!important}.admin-order-hero-flow .admin-stage-nav .admin-stage-trigger{min-height:65px!important;padding:7px 4px!important}.admin-stage-icon{width:33px;height:33px}.admin-invoice-workspace-meta,.admin-invoice-workspace-actions{padding-inline:20px}.admin-invoice-document-frame{margin:0 20px}.admin-invoice-document-frame iframe{height:62vh}}

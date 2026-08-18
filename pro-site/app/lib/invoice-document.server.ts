@@ -36,7 +36,7 @@ function addressBlock(address: Record<string, string> | null | undefined) {
  * The printable invoice. Deliberately plain: black on white, one accent rule,
  * no background fills that would drink a customer's toner.
  */
-export function renderInvoiceDocument({ invoice, lines, payments, order }: Loaded, { autoPrint = true } = {}) {
+export function renderInvoiceDocument({ invoice, lines, payments, order }: Loaded, { autoPrint = true, embedded = false }: { autoPrint?: boolean; embedded?: boolean } = {}) {
   const issuer = (invoice.issuer ?? {}) as Record<string, never>;
   const billTo = (invoice.bill_to ?? {}) as Record<string, never>;
   const account = invoice.resellers;
@@ -157,9 +157,10 @@ export function renderInvoiceDocument({ invoice, lines, payments, order }: Loade
     .sheet { box-shadow:none; padding:0; max-width:none; }
     .noprint { display:none; }
   }
+.embedded .noprint { display:none; }
 </style>
 </head>
-<body>
+<body${embedded ? ' class="embedded"' : ""}>
 <div class="noprint">
   <button type="button" onclick="window.print()">Save as PDF</button>
   <a href="/admin/invoices/${escape(invoice.id)}">Back to the invoice</a>

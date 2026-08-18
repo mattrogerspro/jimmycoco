@@ -5,13 +5,14 @@ import { requireArticleStaff } from "../lib/article-auth.server";
 import { isSameOriginPost } from "../lib/supabase.server";
 import { getOrder, updateOrder } from "../lib/resellers.server";
 import { createInvoiceFromOrder, invoiceForOrder, issueInvoice, recordPayment } from "../lib/invoices.server";
-import { INVOICE_STATUS_LABELS, isOverdue, type PaymentMethod } from "../lib/invoice-constants";
+import { type PaymentMethod } from "../lib/invoice-constants";
 import { ORDER_SOURCE_LABELS, ORDER_STATUSES } from "../lib/reseller-constants";
 import { gbpFromPence } from "../lib/site";
 import { emailIssuedInvoice } from "../lib/invoice-email.server";
 import { latestOrderShipment, saveOrderShipment, SHIPMENT_STATUSES, type ShipmentStatus } from "../lib/order-shipments.server";
 import { OrderStageDetails } from "../components/admin/OrderStageDetails";
 import { OrderInvoiceFlow } from "../components/admin/OrderInvoiceFlow";
+import { IconCard, IconCheck, IconFile, IconReceipt, IconTruck } from "../components/admin/AdminIcons";
 
 export const meta: MetaFunction = () => [
   { title: "Order | Jimmy Coco admin" },
@@ -150,13 +151,12 @@ type Order = {
 };
 
 /** The order's journey. Cancelled is an exit, not a stage, so it sits outside. */
-/** The operational journey stays visible even though payment lives on the invoice ledger. */
 const STAGES = [
-  { key: "submitted", label: "Received" },
-  { key: "confirmed", label: "Confirmed" },
-  { key: "invoiced", label: "Invoiced" },
-  { key: "paid", label: "Payment received" },
-  { key: "shipped", label: "Shipped" },
+  { key: "submitted", label: "Received", icon: IconFile },
+  { key: "confirmed", label: "Confirmed", icon: IconCheck },
+  { key: "invoiced", label: "Invoice", icon: IconReceipt },
+  { key: "paid", label: "Payment", icon: IconCard },
+  { key: "shipped", label: "Shipping", icon: IconTruck },
 ] as const;
 
 const ACCOUNT_WARNING: Record<string, string> = {
@@ -273,20 +273,21 @@ export default function OrderDetail() {
           <span>{units} unit{units === 1 ? "" : "s"} · {items.length} line{items.length === 1 ? "" : "s"} · {order.currency}</span>
         </div>
         {!cancelled ? (
-          <div className="admin-order-hero-flow" aria-label="Order progress">
-            <div className="admin-order-hero-flow-label"><b>Order flow</b><span>Current progress</span></div>
-            <ol className="admin-steps">
-              {STAGES.map((stage, index) => (
-                <li key={stage.key} className={index < stageIndex ? "is-done" : index === stageIndex ? "is-current" : "is-todo"}>
-                  <button type="button" className="admin-stage-trigger" onClick={() => setActiveStage(stage.key)} aria-current={index === stageIndex ? "step" : undefined}>
-                    <span className="admin-steps-dot" aria-hidden="true">{index < stageIndex ? "✓" : ""}</span>
-                    <b>{stage.label}</b>
-                    <span>{stamp(stageTime[stage.key], false) ?? (index < stageIndex ? "done" : "")}</span>
-                  </button>
-                </li>
-              ))}
+          <nav className="admin-order-hero-flow" aria-label="Order stages">
+            <ol className="admin-steps admin-stage-nav">
+              {STAGES.map((stage, index) => {
+                const StageIcon = stage.icon;
+                return (
+                  <li key={stage.key} className={index < stageIndex ? "is-done" : index === stageIndex ? "is-current" : "is-todo"}>
+                    <button type="button" className="admin-stage-trigger" onClick={() => setActiveStage(stage.key)} aria-current={index === stageIndex ? "step" : undefined} aria-label={`${stage.label}: ${index < stageIndex ? "complete" : index === stageIndex ? "current stage" : "not yet complete"}`}>
+                      <span className="admin-stage-icon" aria-hidden="true"><StageIcon size={27} /></span>
+                      <b>{stage.label}</b>
+                    </button>
+                  </li>
+                );
+              })}
             </ol>
-          </div>
+          </nav>
         ) : null}
       </header>
       <OrderStageDetails
@@ -330,6 +331,7 @@ export default function OrderDetail() {
           busy={busy}
           result={result}
           onOpenShipping={() => setActiveStage("shipped")}
+          onOpenInvoice={() => setActiveStage("invoiced")}
         />
       )}
       <div className="admin-split">
@@ -444,40 +446,6 @@ export default function OrderDetail() {
 
         <aside>
 
-          <section className="admin-panel is-secondary">
-            <div className="admin-panel-head">
-              <h2>Invoice</h2>
-            </div>
-            <div className="admin-panel-body">
-              {invoice ? (
-                <>
-                  <p className="admin-kv">
-                    <span>Number</span>
-                    <span>{invoice.invoice_number ?? "Draft"}</span>
-                  </p>
-                  <p className="admin-kv">
-                    <span>Status</span>
-                    <span className={`admin-status admin-status-inv-${invoice.status}`}>
-                      {INVOICE_STATUS_LABELS[invoice.status as keyof typeof INVOICE_STATUS_LABELS] ?? invoice.status}
-                    </span>
-                  </p>
-                  <p className="admin-kv">
-                    <span>Outstanding</span>
-                    <span className={isOverdue(invoice.status, invoice.due_date) ? "admin-negative" : undefined}>
-                      {invoice.balance_pence > 0 ? gbpFromPence(invoice.balance_pence) : "Settled"}
-                    </span>
-                  </p>
-                </>
-              ) : cancelled ? (
-                <p className="admin-muted">Cancelled orders are not invoiced.</p>
-              ) : (
-                <>
-                  <p className="admin-muted">No invoice raised for this order yet.</p>
-                  <p className="admin-hint">Create, issue, email and reconcile the invoice from the order flow above.</p>
-                </>
-              )}
-            </div>
-          </section>
 
           {account ? (
             <section className="admin-panel is-secondary">

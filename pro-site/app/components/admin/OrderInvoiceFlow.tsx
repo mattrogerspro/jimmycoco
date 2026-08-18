@@ -4,7 +4,7 @@
  */
 import { useEffect, useState } from "react";
 import { Form } from "react-router";
-import { INVOICE_STATUS_LABELS, PAYMENT_METHODS, PAYMENT_METHOD_LABELS } from "../../lib/invoice-constants";
+import { PAYMENT_METHODS, PAYMENT_METHOD_LABELS } from "../../lib/invoice-constants";
 
 type InvoiceSummary = {
   id: string;
@@ -28,6 +28,7 @@ type OrderInvoiceFlowProps = {
   busy: boolean;
   result?: { error?: string; notice?: string };
   onOpenShipping: () => void;
+  onOpenInvoice: () => void;
 };
 
 type Modal = "raise" | "issue" | "email" | "payment" | null;
@@ -40,7 +41,7 @@ function date(value: string | null) {
   if (!value) return "Not set";
   return new Date(`${value}T00:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 }
-export function OrderInvoiceFlow({ order, account, invoice, busy, result, onOpenShipping }: OrderInvoiceFlowProps) {
+export function OrderInvoiceFlow({ order, account, invoice, busy, result, onOpenShipping, onOpenInvoice }: OrderInvoiceFlowProps) {
   const [modal, setModal] = useState<Modal>(null);
   const isDraft = invoice?.status === "draft";
   const paid = invoice?.status === "paid" || (invoice?.balance_pence ?? 1) <= 0;
@@ -58,7 +59,7 @@ export function OrderInvoiceFlow({ order, account, invoice, busy, result, onOpen
       : isDraft
         ? { title: "Issue the invoice", text: "Check the frozen total and due date, then allocate the official invoice number." }
         : !paid
-          ? { title: "Email the invoice and record payment", text: "Send the issued invoice to the customer, then record any amount received." }
+          ? { title: "Review the invoice and record payment", text: "Open the invoice workspace to email or download the document, then record any payment received." }
           : canShip
             ? { title: "Arrange fulfilment", text: "The invoice is issued. Open the shipping process to add dispatch and tracking details." }
             : { title: "Order complete", text: "The order is paid and its administration is up to date." };
@@ -86,22 +87,11 @@ export function OrderInvoiceFlow({ order, account, invoice, busy, result, onOpen
             <button className="admin-primary" type="button" onClick={() => setModal("issue")} disabled={busy}>Issue invoice</button>
           ) : (
             <>
-              <button className="admin-primary" type="button" onClick={() => setModal("email")} disabled={busy}>
-                {invoice.customer_emailed_at ? "Resend invoice" : "Email invoice"}
-              </button>
+              <button className="admin-primary" type="button" onClick={onOpenInvoice} disabled={busy}>Open invoice</button>
               {!paid ? <button className="admin-secondary" type="button" onClick={() => setModal("payment")} disabled={busy}>Receive payment</button> : null}
               {canShip ? <button className="admin-ghost" type="button" onClick={onOpenShipping} disabled={busy}>Open shipping</button> : null}
             </>
           )}
-        </div>
-        <div className="admin-invoice-flow-meta">
-          {invoice ? (
-            <>
-              <span>{invoice.invoice_number ?? "Draft invoice"}</span>
-              <span>{INVOICE_STATUS_LABELS[invoice.status as keyof typeof INVOICE_STATUS_LABELS] ?? invoice.status}</span>
-              <b>{paid ? "Paid" : `${money(invoice.balance_pence, invoice.currency)} due`}</b>
-            </>
-          ) : <span>No invoice raised</span>}
         </div>
       </section>
 

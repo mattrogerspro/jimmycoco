@@ -3,3 +3,7 @@
 - [x] Implement an in-page Raise Invoice modal and eliminate the invoice-detail navigation requirement.
 - [x] Add clear customer invoice-email delivery and payment-recording actions to the order flow.
 - [x] Validate the revised flow using the demo data and a production build.
+- [x] Consolidate the order header, status summary and stage tracker into one compact top section.
+- [x] Remove editable order-origin controls and retain the origin as read-only metadata.
+- [x] Tighten header, next-task and alert spacing while preserving clear operational hierarchy.
+- [x] Validate the compact order-detail layout and production build.

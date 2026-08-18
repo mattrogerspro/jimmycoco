@@ -877,3 +877,39 @@ button,input,select,textarea{font:inherit}
 .admin-flow-panel .admin-steps::before{left:10%;right:10%}
 @media (max-width:1100px){.admin-invoice-flow{grid-template-columns:1fr auto}.admin-invoice-flow-meta{grid-column:1/-1;border-top:1px solid var(--admin-line);border-left:0;flex-direction:row;align-items:center;justify-content:flex-start}.admin-order-utilities{justify-content:space-between}}
 @media (max-width:720px){.admin-invoice-flow-actions{padding:16px 20px}.admin-invoice-flow-meta{padding:13px 20px;align-items:flex-start;flex-direction:column}.admin-order-utilities{align-items:flex-start;flex-direction:column}.admin-workflow-modal-head{padding:22px 20px 0}.admin-workflow-modal>p{padding:20px 20px 0}.admin-modal-summary{margin:20px}.admin-modal-actions{margin:20px}.admin-payment-form{grid-template-columns:1fr;padding:20px 20px 0}.admin-flow-panel .admin-steps{min-width:650px}}
+
+/* Compact order-header composition: summary above, workflow embedded below. */
+.admin-order-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:12px 24px;padding:20px 26px 0;border-radius:12px 12px 0 0}
+.admin-order-hero h1{margin:5px 0 7px;font-size:clamp(32px,3.3vw,46px)}
+.admin-order-kicker{margin:0;font-size:11px}
+.admin-order-meta{gap:7px;font-size:13px}
+.admin-order-hero-value{gap:3px;padding-bottom:7px}
+.admin-order-hero-value b{font-size:clamp(30px,3vw,42px)}
+.admin-order-hero-value span{font-size:12px}
+.admin-order-hero-flow{display:grid;grid-column:1/-1;grid-template-columns:126px minmax(0,1fr);align-items:center;gap:18px;margin:3px -26px 0;padding:12px 26px 13px;border-top:1px solid rgba(207,224,233,.18);background:rgba(5,20,31,.18)}
+.admin-order-hero-flow-label{display:flex;flex-direction:column;gap:3px}
+.admin-order-hero-flow-label b{color:#F2E5CF;font-size:10px;letter-spacing:.15em;text-transform:uppercase}
+.admin-order-hero-flow-label span{color:#AFC3D0;font-size:12px}
+.admin-order-hero-flow .admin-steps{position:relative;display:grid;grid-template-columns:repeat(5,1fr);margin:0;padding:0;border:0;background:transparent;overflow:visible}
+.admin-order-hero-flow .admin-steps::before{content:"";position:absolute;top:12px;left:10%;right:10%;height:1px;background:rgba(215,230,237,.3)}
+.admin-order-hero-flow .admin-steps li{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0 5px;text-align:center}
+.admin-order-hero-flow .admin-steps-dot{display:grid;place-items:center;width:23px;height:23px;border:1px solid #91A8B7;border-radius:50%;background:#173347;color:#FFF;font-size:12px;font-weight:700}
+.admin-order-hero-flow .admin-steps b{color:#AFC3D0;font-size:12px;white-space:normal}
+.admin-order-hero-flow .admin-steps span:not(.admin-steps-dot){color:#7995A7;font-size:10px}
+.admin-order-hero-flow .admin-steps .is-done .admin-steps-dot{border-color:#5FC19C;background:#2D9275}
+.admin-order-hero-flow .admin-steps .is-done b{color:#D7F1E5}
+.admin-order-hero-flow .admin-steps .is-current .admin-steps-dot{border:5px solid #E1A637;background:#F9F7F1;box-shadow:0 0 0 2px rgba(225,166,55,.18)}
+.admin-order-hero-flow .admin-steps .is-current b{color:#F5D99F}
+.admin-alert{margin:8px 0;padding:10px 14px;font-size:14px}
+.admin-warn{margin:8px 0;padding:10px 14px;font-size:14px}
+.admin-warn b{font-size:10px}
+.admin-order-cancelled{margin:8px 0;padding:12px 14px}
+.admin-next-task{margin:0 0 10px;box-shadow:0 6px 18px rgba(45,31,20,.06)}
+.admin-next-task-copy{gap:12px;padding:14px 18px}
+.admin-next-task-icon{flex-basis:40px;width:40px;height:40px;border-radius:9px;font-size:23px}
+.admin-next-task h2{font-size:19px}
+.admin-next-task-copy>div>p:last-child{margin-top:3px;font-size:13px}
+.admin-next-task-actions{gap:8px;padding:14px 16px}
+.admin-next-task-actions .admin-primary{min-height:40px}
+.admin-invoice-flow-meta{padding:12px 14px}
+@media (max-width:720px){.admin-order-hero{display:flex;gap:12px;padding:18px 18px 0}.admin-order-hero-value{padding-bottom:0}.admin-order-hero-flow{display:block;width:calc(100% + 36px);margin:2px -18px 0;padding:11px 18px 12px}.admin-order-hero-flow-label{margin-bottom:10px}.admin-order-hero-flow .admin-steps{min-width:590px}.admin-order-hero-flow{overflow-x:auto}.admin-next-task-copy{padding:13px 16px}.admin-next-task-actions{padding:12px 16px}}

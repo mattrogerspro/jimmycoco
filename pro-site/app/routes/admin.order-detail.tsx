@@ -5,7 +5,7 @@ import { isSameOriginPost } from "../lib/supabase.server";
 import { getOrder, updateOrder } from "../lib/resellers.server";
 import { createInvoiceFromOrder, invoiceForOrder, issueInvoice, recordPayment } from "../lib/invoices.server";
 import { INVOICE_STATUS_LABELS, isOverdue, type PaymentMethod } from "../lib/invoice-constants";
-import { ORDER_SOURCE_LABELS, ORDER_SOURCES, ORDER_STATUSES } from "../lib/reseller-constants";
+import { ORDER_SOURCE_LABELS, ORDER_STATUSES } from "../lib/reseller-constants";
 import { gbpFromPence } from "../lib/site";
 import { emailIssuedInvoice } from "../lib/invoice-email.server";
 import { OrderInvoiceFlow } from "../components/admin/OrderInvoiceFlow";
@@ -69,15 +69,13 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
     const status = String(form.get("status") ?? "");
     const note = form.get("internalNote");
-    const source = String(form.get("source") ?? "");
-    const patch: { status?: (typeof ORDER_STATUSES)[number]; internal_note?: string | null; source?: string } = {};
+    const patch: { status?: (typeof ORDER_STATUSES)[number]; internal_note?: string | null } = {};
     if ((ORDER_STATUSES as readonly string[]).includes(status)) patch.status = status as (typeof ORDER_STATUSES)[number];
     if (note !== null) patch.internal_note = String(note).trim() || null;
-    if ((ORDER_SOURCES as readonly string[]).includes(source)) patch.source = source;
     if (!Object.keys(patch).length) return data({ error: "Nothing to update." }, { status: 400, headers: responseHeaders });
 
     await updateOrder(supabase, orderId, patch);
-    return data({ notice: patch.status ? `Order marked ${patch.status === "submitted" ? "Received" : patch.status}.` : patch.source ? "Order source updated." : "Note saved." }, { headers: responseHeaders });
+    return data({ notice: patch.status ? `Order marked ${patch.status === "submitted" ? "Received" : patch.status}.` : "Note saved." }, { headers: responseHeaders });
   } catch (error) {
     return data({ error: (error as Error).message }, { status: 400, headers: responseHeaders });
   }
@@ -244,6 +242,20 @@ export default function OrderDetail() {
           <b>{gbpFromPence(order.subtotal_pence)}</b>
           <span>{units} unit{units === 1 ? "" : "s"} · {items.length} line{items.length === 1 ? "" : "s"} · {order.currency}</span>
         </div>
+        {!cancelled ? (
+          <div className="admin-order-hero-flow" aria-label="Order progress">
+            <div className="admin-order-hero-flow-label"><b>Order flow</b><span>Current progress</span></div>
+            <ol className="admin-steps">
+              {STAGES.map((stage, index) => (
+                <li key={stage.key} className={index < stageIndex ? "is-done" : index === stageIndex ? "is-current" : "is-todo"} aria-current={index === stageIndex ? "step" : undefined}>
+                  <span className="admin-steps-dot" aria-hidden="true">{index < stageIndex ? "✓" : ""}</span>
+                  <b>{stage.label}</b>
+                  <span>{stamp(stageTime[stage.key], false) ?? (index < stageIndex ? "done" : "")}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ) : null}
       </header>
 
       {result?.error ? (
@@ -270,47 +282,13 @@ export default function OrderDetail() {
           <span>Nothing is due to be picked, invoiced or shipped.</span>
         </div>
       ) : (
-        <>
-          <OrderInvoiceFlow
-            order={{ status: order.status, currency: order.currency, subtotal_pence: order.subtotal_pence, reference: order.reference }}
-            account={account ? { business_name: account.business_name, contact_name: account.contact_name, email: account.email } : null}
-            invoice={invoice}
-            busy={busy}
-            result={result}
-          />
-          <section className="admin-order-utilities" aria-label="Order administration">
-            <Form method="post" replace className="admin-source-form">
-              <label htmlFor="source">Order source</label>
-              <select id="source" name="source" defaultValue={order.source}>
-                {ORDER_SOURCES.map((value) => <option key={value} value={value}>{ORDER_SOURCE_LABELS[value]}</option>)}
-              </select>
-              <button type="submit" disabled={busy}>Save</button>
-            </Form>
-            <details className="admin-override">
-              <summary>Set status</summary>
-              <Form method="post" replace className="admin-override-form">
-                <label htmlFor="status">Move this order to</label>
-                <select id="status" name="status" defaultValue={order.status}>
-                  {ORDER_STATUSES.map((status) => <option key={status} value={status}>{status === "submitted" ? "received" : status}</option>)}
-                </select>
-                <button type="submit" disabled={busy}>Apply</button>
-                <p>Use this only to correct a mistake — the normal billing flow is above.</p>
-              </Form>
-            </details>
-          </section>
-          <section className="admin-flow-panel" aria-label="Order progress">
-            <div className="admin-flow-label"><b>Order flow</b><span>Follow the next step</span></div>
-            <ol className="admin-steps">
-              {STAGES.map((stage, index) => (
-                <li key={stage.key} className={index < stageIndex ? "is-done" : index === stageIndex ? "is-current" : "is-todo"} aria-current={index === stageIndex ? "step" : undefined}>
-                  <span className="admin-steps-dot" aria-hidden="true">{index < stageIndex ? "✓" : ""}</span>
-                  <b>{stage.label}</b>
-                  <span>{stamp(stageTime[stage.key], false) ?? (index < stageIndex ? "done" : "")}</span>
-                </li>
-              ))}
-            </ol>
-          </section>
-        </>
+        <OrderInvoiceFlow
+          order={{ status: order.status, currency: order.currency, subtotal_pence: order.subtotal_pence, reference: order.reference }}
+          account={account ? { business_name: account.business_name, contact_name: account.contact_name, email: account.email } : null}
+          invoice={invoice}
+          busy={busy}
+          result={result}
+        />
       )}
       <div className="admin-split">
         <div>

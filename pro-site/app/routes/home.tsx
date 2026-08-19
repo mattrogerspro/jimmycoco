@@ -7,7 +7,7 @@ import chromeStyles from "../styles/chrome.css?url";
 import commerceStyles from "../styles/commerce.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { ApplicationRitual } from "../components/shared/ApplicationRitual";
-import { Certification, Formula, GlowDuo, Hero, Retail, Shades, Story, Trial } from "../components/home/HomeSections";
+import { Certification, Formula, GlowDuo, Hero, InstagramShowcase, Retail, Shades, Story, Trial } from "../components/home/HomeSections";
 import { ProfitCalculator } from "../components/shared/ProfitCalculator";
 import { siteEntityGraph } from "../lib/entity";
 import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
@@ -92,6 +92,7 @@ export default function HomePage() {
       <main data-asset-revision="2026-08-13-home-reset-2">
         <Hero />
         <Story />
+        <InstagramShowcase />
         <Formula />
         <Shades />
         <ProfitCalculator mode="compact" onMonthlyChange={updateMonthlyProfit} />

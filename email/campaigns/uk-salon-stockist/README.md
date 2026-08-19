@@ -1,32 +1,34 @@
-# UK Jimmy Coco Pro Recruitment — V2
+# UK Jimmy Coco Pro Recruitment — 28-Day Sequence
 
-**Goal:** Convert eligible UK professional salons and spas into qualified Jimmy Coco Pro trial applicants, then hand them to the trade lifecycle.
-**Audience:** UK corporate salons/spas; mobile professionals only where soft opt-in or consent is documented.
-**Market:** 🇬🇧 UK
-**Channel:** Email — Resend.
-**Status:** V2 templates created in Resend as drafts. Not approved for sending.
-**Hook:** Trial-first premium spray-tan service with useful client-care retail.
+**Goal:** Convert eligible UK professional tanning salons, aesthetics clinics and mobile spray artists into a qualified Jimmy Coco Pro trial request or a professional 1-litre order enquiry.
+**Audience:** UK corporate salons and spas; mobile professionals only where soft opt-in or consent is documented.
+**Market:** 🇬🇧 UK  
+**Channel:** Promotional email through Resend.  
+**Status:** Revised source awaiting template release. Automation remains disabled.  
+**Owner:** Matthew at Jimmy Coco Pro.
 
-## Current offer and first conversion
+## Hook and conversion route
 
-Eligible UK professional partners can request a **complimentary 100 ml professional trial sample, shipped free**. The primary CTA in every V2 email is `{{TRIAL_LINK}}`; reply is the secondary path. Do not substitute a legacy `.co.uk` landing page or “Order Now” CTA into the cold sequence.
+The sequence leads with a complimentary 100 ml professional trial sample, shipped free for eligible UK professionals. It then moves through formula, service economics, client-care aftercare, a trial checklist, practical onboarding and a final decision. The primary CTA is `{{TRIAL_LINK}}`; the verified professional trade-order route is `https://www.jimmycoco.pro/products/malibu-professional-spray-1l#complete-order`.
 
 ## Cadence
 
-| Day | Resend alias | File | Purpose |
-|---:|---|---|---|
-| 0 | `jc-uk-prospect-01-trial-v2` | `emails/1-trial-introduction-v2.html` | Premium named-service introduction and trial. |
-| 3 | `jc-uk-prospect-02-result-v2` | `emails/2-result-v2.html` | Natural-looking result and professional method. |
-| 7 | `jc-uk-prospect-03-economics-v2` | `emails/3-economics-v2.html` | £60 litre / approximately 28-treatment context. |
-| 12 | `jc-uk-prospect-04-retail-v2` | `emails/4-retail-v2.html` | Client-care retail attachment. |
-| 18 | `jc-uk-prospect-05-close-v2` | `emails/5-close-v2.html` | Respectful final note and stop. |
+| Day | File | Role |
+|---:|---|---|
+| 0 | `emails/1-trial-introduction-v2.html` | Hook and complimentary trial |
+| 3 | `emails/2-result-v2.html` | Formula and workflow |
+| 6 | `emails/3-economics-v2.html` | Salon maths and trade-order option |
+| 10 | `emails/4-retail-v2.html` | Retail and client aftercare |
+| 15 | `emails/5-trial-guide-v2.html` | Real-client trial guide and low one-litre minimum |
+| 21 | `emails/6-onboarding-v2.html` | Professional order route and rollout conversation |
+| 28 | `emails/7-close-v2.html` | Respectful close and three clear options |
 
 ## Operating controls
 
-The source of truth is `email-data.json`; run `node email/campaigns/_shared/build-all.js uk-salon-stockist` after any source change. `resend.json` stores the actual Resend V2 template aliases and IDs. `studio.json`, `sequence.md` and `shared/campaign-registry.js` expose the draft sequence to the local marketing/playbook system.
+The source of truth is `email-data.json`; regenerate HTML with `node email/campaigns/_shared/build-all.js uk-salon-stockist` after any source change. `resend.json` records the actual Resend template IDs. `studio.json`, `sequence.md` and `shared/campaign-registry.js` expose the sequence to the local marketing system.
 
-The global exit conditions are reply, trial request/application, unsubscribe, complaint, hard bounce, existing-customer match, ineligibility and manual suppression. Do not make the sequence live until the eligible contact segment, source/permission fields and seed-test review are complete.
+Exit a prospect on any reply, trial request/application, unsubscribe, complaint, hard bounce, existing-customer match or manual suppression. Until the order system emits a verified outreach-exit event, manually suppress any known trade-order contact immediately. Do not make the sequence live until the eligible contact segment, permission fields, reply handling and form/order suppression path are tested.
 
-## Footer and sender
+## Sender and compliance
 
-The V2 sender is `Sunless Partnerships <partnerships@email.jimmycoco.pro>`. The UK footer is **JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP**. Resend’s unsubscribe variable must remain enabled in every published promotional message.
+Use `Matthew at Jimmy Coco Pro <partnerships@email.jimmycoco.pro>` with reply-to `matthew@jimmycoco.pro`. The footer must retain **JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP** and Resend’s unsubscribe variable.

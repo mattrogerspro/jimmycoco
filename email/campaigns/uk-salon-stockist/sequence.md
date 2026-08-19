@@ -1,28 +1,32 @@
-# UK Jimmy Coco Pro Recruitment — V2
+# UK Jimmy Coco Pro Recruitment — 28-Day Sequence
 
-**Status:** Seven templates are published in Resend; the automation remains disabled pending contact import and explicit launch approval.
-**Audience:** Eligible UK corporate salons and spas; mobile professionals only where soft opt-in or consent is documented.
-**Primary outcome:** A complimentary 100 ml professional trial request.
-**Reply owner:** Matthew / Sunless Partnerships. `TRIAL`, `NUMBERS` and `RETAIL` are human-handled reply signals.
+**Status:** Source updated for human review and template release. The Resend automation remains disabled.
+**Audience:** Eligible UK corporate salons, aesthetics clinics and mobile spray-tan professionals where soft opt-in or consent is documented.
+**Primary outcome:** A qualified complimentary 100 ml professional trial request. A professional order enquiry is a secondary path for businesses already ready to review the 1-litre route.
+**Reply owner:** Matthew at Jimmy Coco Pro. `TRIAL`, `SAMPLE`, `NUMBERS`, `RETAIL` and `ORDER` are human-handled reply signals.
 
-> **Stop rule:** Stop future cold outreach immediately on a reply, trial request/application, unsubscribe, complaint, hard bounce, existing-customer match, ineligibility or manual suppression.
+> **Stop rule:** Stop future cold outreach immediately on a reply, trial request/application, unsubscribe, complaint, hard bounce, existing-customer match or manual suppression. Until a verified order-exit event is connected to the outreach runtime, a known trade-order contact must be manually suppressed immediately.
 
-| Day | Template | Subject | Purpose | CTA |
-|---:|---|---|---|---|
-| 0 | `jc-uk-prospect-01-trial-v2` | A premium tan service — and a second revenue moment after the appointment | Premium treatment plus useful aftercare; invite a real-client trial. | Request complimentary trial |
-| 3 | `jc-uk-prospect-02-result-v2` | The result is what gives a premium tan its value | Result-led premium positioning and repeatable professional method. | Request complimentary trial |
-| 7 | `jc-uk-prospect-03-economics-v2` | £2.14 in solution cost is only the start of the salon maths | Use qualified UK solution-cost context; never promise profit. | Trial or human `NUMBERS` reply |
-| 13 | `jc-uk-prospect-04-retail-v2` | The retail moment is when the client sees the result | One need, one relevant aftercare recommendation. | Trial or human `RETAIL` reply |
-| 21 | `jc-uk-prospect-06-process-v2` | What happens after you request the trial? | Clarify the professional review, complimentary 100 ml trial and one-litre minimum first order. | Request trial or human `TRIAL` reply |
-| 32 | `jc-uk-prospect-07-choice-v2` | Would numbers or retail be more useful? | Invite a direct, human-routed commercial or retail conversation. | Human `NUMBERS` or `RETAIL` reply |
-| 45 | `jc-uk-prospect-05-close-v2` | Shall I close this for now? | Give the prospect a final choice, then stop. | Trial or human reply |
+| Day | Template | Subject | Purpose | Primary CTA | Secondary route |
+|---:|---|---|---|---|---|
+| 0 | `jc-uk-prospect-01-trial-v2` | Complimentary Jimmy Coco professional trial for `{{BUSINESS_NAME}}` | Outcome-led introduction and real-client trial. | Request free 100 ml trial | `TRIAL` |
+| 3 | `jc-uk-prospect-02-result-v2` | The formula details clients notice after their tan | Formula, 10% DHA, application and professional workflow. | Request free 100 ml trial | `SAMPLE` |
+| 6 | `jc-uk-prospect-03-economics-v2` | The salon maths behind a premium tan (£2.14 per treatment) | Qualified solution-cost context plus trade-order route. | Request free 100 ml trial | `NUMBERS` / professional order page |
+| 10 | `jc-uk-prospect-04-retail-v2` | The second revenue moment after the treatment | Client-care aftercare edit. | Request free 100 ml trial | `RETAIL` |
+| 15 | `jc-uk-prospect-06-process-v2` | What to look for when you test Jimmy Coco Pro | Real-client trial guide and one-litre minimum. | Request free 100 ml trial | `TRIAL` |
+| 21 | `jc-uk-prospect-07-choice-v2` | How to introduce Jimmy Coco Pro to your treatment menu | Professional order route and individual next-step conversation. | View professional ordering options | Request trial / `TRIAL` |
+| 28 | `jc-uk-prospect-05-close-v2` | Shall I close your file for now, `{{FIRST_NAME}}`? | Respectful final choice then stop. | Request free 100 ml trial | `TRIAL`, `NUMBERS` or `ORDER` |
 
-## Approved commercial boundaries
+## Commercial boundaries
 
-The current UK Malibu Professional Spray litre is listed at **£60** and is designed for approximately **28 full-body tans**, giving an approximate **£2.14 solution cost per tan**. This is solution only, before labour, disposables, card fees, premises and tax. It is not a profit promise and does not prescribe a treatment price.
+The current UK Malibu Professional Spray 1-litre bottle is listed at **£60** and is designed for approximately **28 full-body tans**, giving an approximate **£2.14 solution cost per tan**. This is solution only, before labour, disposables, card fees, premises and VAT. It is not a profit promise and does not prescribe a treatment price.
 
-Eligible UK professionals may request a complimentary 100 ml professional trial sample, shipped free. Retail is client care, not a hard sell: Buff & Glow Mitt for maintenance, Self Tan Soufflé for a controlled top-up, and A-List Glow Kit for a complete routine or giftable option. Trade pricing and potential retail profit are confirmed only for the individual order quantity and partnership route.
+Eligible UK professionals may request a complimentary 100 ml professional trial sample, shipped free. If the formula is right for the business, the ongoing trade minimum is one 1-litre Malibu Professional Spray bottle. Retail is client care: Buff & Glow Mitt for maintenance, Self Tan Soufflé for a controlled top-up, and A-List Glow Kit for a complete routine or giftable option. Trade pricing, retail contribution, service-support materials and any wider partnership route are confirmed with the individual business.
 
-## Send controls
+## Sender, footer and routing
 
-Use sender `Sunless Partnerships <partnerships@email.jimmycoco.pro>`, reply-to `matthew@jimmycoco.pro`, a working Resend unsubscribe link and the UK legal footer. Do not load mobile or sole-trader contacts without documented soft opt-in or consent. `NUMBERS` and `RETAIL` must remain human-handled; do not automate a commercial promise.
+Use sender `Matthew at Jimmy Coco Pro <partnerships@email.jimmycoco.pro>` and reply-to `matthew@jimmycoco.pro`. The promotional footer is **JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP**, with the live Resend unsubscribe link. Each event payload must include `FIRST_NAME`, `BUSINESS_NAME` and, for Email 1, `BUSINESS_TYPE`; use `there`, `your studio` and `professional tanning business` where source data is incomplete.
+
+## Technical hand-off
+
+The professional trial CTA must resolve to `https://www.jimmycoco.pro/#trial`. The verified professional order route is `https://www.jimmycoco.pro/products/malibu-professional-spray-1l#complete-order`; no `/#starter-pack` anchor is used. The campaign must be exited through the outreach runtime on a reply or trial request/application. Until a verified order-exit event is connected to the outreach runtime, a known trade-order contact must be manually suppressed immediately. Replies containing `TRIAL`, `SAMPLE`, `NUMBERS`, `RETAIL` or `ORDER` require same-day human follow-up by Matthew.

@@ -149,6 +149,44 @@ export function Story() {
   </div></section>;
 }
 
+const INSTAGRAM_POSTS = [
+  { shortcode: "DcMLuOxjBHv", label: "A-List Face Mist glow" },
+  { shortcode: "DcJhBotjJS4", label: "Signature Malibu glow" },
+  { shortcode: "DcG6Gj9DKHS", label: "Bridal Party Glow guide" },
+  { shortcode: "DcDpfZyDBOh", label: "Camera-ready Malibu glow" },
+];
+
+export function InstagramShowcase() {
+  return <section className="instagram-showcase" aria-labelledby="instagram-heading">
+    <div className="wrap">
+      <div className="instagram-heading">
+        <div>
+          <p className="eyebrow">From the studio</p>
+          <h2 id="instagram-heading">The latest <em>Jimmy Coco glow.</em></h2>
+        </div>
+        <a href="https://www.instagram.com/jimmyjimmycoco/" target="_blank" rel="noreferrer">Follow @jimmyjimmycoco <span aria-hidden="true">↗</span></a>
+      </div>
+      <div className="instagram-grid">
+        {INSTAGRAM_POSTS.map(({ shortcode, label }) => {
+          const postUrl = `https://www.instagram.com/p/${shortcode}/`;
+          return <article className="instagram-post" key={shortcode}>
+            <iframe
+              title={`Instagram post: ${label}`}
+              src={`${postUrl}embed/captioned/`}
+              loading="lazy"
+              allow="clipboard-write; encrypted-media; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+            <a className="instagram-post-link" href={postUrl} target="_blank" rel="noreferrer">
+              <span>{label}</span><span aria-hidden="true">View post ↗</span>
+            </a>
+          </article>;
+        })}
+      </div>
+    </div>
+  </section>;
+}
+
 export function Formula() {
   const features = [
     ["Tailored to every client", "Custom-blended pigments enhance undertones for a flawless, natural finish."],

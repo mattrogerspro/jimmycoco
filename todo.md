@@ -41,3 +41,14 @@
 - [x] Verify both seven-email Resend automations are disabled and no prospect email has been sent.
 - [x] Create two clearly labelled, disabled, internal-only accelerated test workflows for the seven-email UK and U.S. sequences.
 - [x] Enroll only matthew@jimmycoco.pro in the UK and U.S. test workflows, verify all seven steps, and preserve both production automations as disabled.
+- [x] Review Resend delivery and open-event data for the 14 internal UK and U.S. seven-email simulation sends to matthew@jimmycoco.pro.
+- [x] Conduct a fresh end-to-end UK and U.S. Pro outreach audit focused on increasing qualified salon trial and trade-application sign-ups, without changing or enabling campaigns.
+- [x] Revise the UK and U.S. salon-signup audit to exclude internal test delivery/open metrics and focus only on email content, sequence flow and the conversion journey.
+- [x] Draft a review-only UK and U.S. conversion copy pack for Emails 6 and 7, the UK Email 2 wording correction, and market-specific trial-page alignment.
+- [x] Draft review-only UK and U.S. rewrites for Emails 3–5 to maintain consistent commercial tone and momentum across both seven-email sequences.
+- [x] Review the complete UK and U.S. seven-email sequences for end-to-end pacing and tone consistency, then produce a readable HTML review pack for the proposed updated emails.
+- [x] Reconcile and implement the approved UK 28-day seven-email hand-off brief in local campaign source, preserving verified claims and Matthew-only reply routing.
+- [x] Validate the revised UK campaign, update the seven published Resend templates and change the disabled UK automation to the approved 0/3/6/10/15/21/28-day cadence.
+- [x] Verify the revised UK Resend workflow remains disabled and no prospect contact is emailed.
+- [x] Add the four latest @jimmyjimmycoco Instagram posts immediately after the “Why leading salons choose Jimmy Coco” section on the Pro website.
+- [x] Validate the responsive Pro-site Instagram showcase, media links and production build without committing or pushing code.

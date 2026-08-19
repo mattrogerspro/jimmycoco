@@ -1,14 +1,14 @@
 {
   "order": 30,
-  "name": "UK Jimmy Coco Pro Recruitment — V2",
-  "shortName": "UK Pro V2",
+  "name": "UK Jimmy Coco Pro Recruitment — 28-Day Seven Email",
+  "shortName": "UK Pro 28-Day",
   "market": "UK",
   "flag": "🇬🇧",
-  "status": "Published in Resend — automation disabled",
-  "hook": "Trial-first premium service, with client-care retail",
+  "status": "Source revised — Resend automation disabled",
+  "hook": "Trial-first premium service, practical salon maths and client-care aftercare",
   "channel": "Email",
-  "cadence": "45 days",
-  "owner": "Sunless Partnerships",
+  "cadence": "28 days",
+  "owner": "Matthew at Jimmy Coco Pro",
   "mode": "sequence",
-  "days": [0, 3, 7, 13, 21, 32, 45]
+  "days": [0, 3, 6, 10, 15, 21, 28]
 }

@@ -596,15 +596,15 @@
   }
   /* Current studio posts — Instagram owns the embedded media so the section
      always opens the original post rather than relying on fragile CDN URLs. */
-  .instagram-showcase{background:var(--cream);border-top:1px solid rgba(152,96,58,.18);border-bottom:1px solid rgba(152,96,58,.18)}
+  .instagram-showcase{background:var(--cream);border-top:1px solid rgba(152,96,58,.18);border-bottom:1px solid rgba(152,96,58,.18);padding:64px 0}
   .instagram-heading{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:44px}
   .instagram-heading h2{margin-bottom:0}
   .instagram-heading a{color:var(--ocean);font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap}
   .instagram-heading a:hover{text-decoration:underline;text-underline-offset:5px}
   .instagram-heading a span{font-size:18px;margin-left:4px}
-  .instagram-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;max-width:1040px;margin:0 auto}
+  .instagram-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:100%;margin:0 auto}
   .instagram-post{min-width:0;background:var(--paper);border:1px solid rgba(58,51,44,.14);box-shadow:0 18px 48px rgba(25,21,18,.08)}
-  .instagram-post iframe{display:block;width:100%;height:760px;border:0;background:#fff}
+  .instagram-post iframe{display:block;width:100%;height:480px;border:0;background:#fff}
   .instagram-post-link{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;color:var(--ink);font-size:13px;font-weight:650;letter-spacing:.07em;text-decoration:none;text-transform:uppercase}
   .instagram-post-link span:last-child{color:var(--ocean);font-size:11px;white-space:nowrap}
   .instagram-post-link:hover{background:var(--paper);color:var(--bronze2)}
@@ -764,8 +764,8 @@
     .retail-background{height:100%;bottom:0}
     .retail-background img{object-position:62% center}
     .instagram-heading{align-items:flex-start;flex-direction:column;margin-bottom:30px}
-    .instagram-grid{gap:18px}
-    .instagram-post iframe{height:700px}
+    .instagram-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .instagram-post iframe{height:520px}
     .nav-links{display:none}
     .calc-out,.fieldrow,.lstat{grid-template-columns:1fr}
     .facts{grid-template-columns:1fr;gap:26px}
@@ -960,8 +960,8 @@
     .instagram-heading{gap:10px;margin-bottom:24px}
     .instagram-heading h2{font-size:clamp(34px,9vw,44px)}
     .instagram-heading a{font-size:11px}
-    .instagram-grid{grid-template-columns:1fr;gap:16px;max-width:430px}
-    .instagram-post iframe{height:700px}
+    .instagram-grid{grid-template-columns:1fr;gap:14px;max-width:430px}
+    .instagram-post iframe{height:560px}
     .instagram-post-link{padding:13px 15px;font-size:11.5px}
 
     .close-grid{gap:28px}

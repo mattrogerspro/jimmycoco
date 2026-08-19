@@ -52,3 +52,4 @@
 - [x] Verify the revised UK Resend workflow remains disabled and no prospect contact is emailed.
 - [x] Add the four latest @jimmyjimmycoco Instagram posts immediately after the “Why leading salons choose Jimmy Coco” section on the Pro website.
 - [x] Validate the responsive Pro-site Instagram showcase, media links and production build without committing or pushing code.
+- [x] Resize the Pro-site Instagram showcase to a compact four-card row on desktop while preserving responsive tablet and mobile layouts.

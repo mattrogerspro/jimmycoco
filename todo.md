@@ -76,3 +76,5 @@
 - [x] Review the required Pro-site campaign-service environment configuration without exposing or changing secret values.
 - [x] Draft a safe staging checklist for manual campaign enrollment and stop-flow testing before production enablement.
 - [x] Implement and validate the Pro-admin manual campaign enrollment control in the correct application and order-detail UI locations while preserving disabled no-send gates.
+- [x] Add and run a non-sending end-to-end integration test covering manual UK Trial and Order Follow-Up enrollment, history and stop flows.
+- [x] Review the live Supabase RLS policies and database triggers that govern campaign, enrollment, message and audit-state updates without altering security configuration.

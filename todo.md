@@ -78,3 +78,7 @@
 - [x] Implement and validate the Pro-admin manual campaign enrollment control in the correct application and order-detail UI locations while preserving disabled no-send gates.
 - [x] Add and run a non-sending end-to-end integration test covering manual UK Trial and Order Follow-Up enrollment, history and stop flows.
 - [x] Review the live Supabase RLS policies and database triggers that govern campaign, enrollment, message and audit-state updates without altering security configuration.
+
+- [x] Create a concise support-staff quick reference guide for the Pro-admin Trial and Order Follow-Up controls.
+- [x] Review production monitoring, delivery event ingestion, retry handling and failure-rate visibility for campaign emails.
+- [x] Create a production deployment checklist for the Pro-site, campaign service, Supabase campaign configuration and Resend controls.

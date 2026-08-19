@@ -1,16 +1,123 @@
 import type { PurchaseState } from "./ProductPurchase";
 import { SHADE_OPTIONS } from "./ProductPurchase";
-import { useEffect, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { Form, useActionData, useNavigation } from "react-router";
 import type { ApplicationActionResult } from "../../lib/application-action.server";
 import { track } from "../../lib/analytics";
 import { SALON_FAQ } from "../../lib/faq";
 import { PRODUCT_SPECS, workedExamples } from "../../lib/specs";
 import { SHOW_LEGACY_MALIBU_SHADE_RANGE } from "../../lib/product-features";
-import { RETAIL_PRODUCTS, RetailProductCards, type RetailProductId } from "../shared/RetailProductCards";
+import { RETAIL_PRODUCTS, RetailProductCards, type RetailProductId, type RetailQuantities } from "../shared/RetailProductCards";
 import { professionalOrderPricing, professionalTierProfit, retailProductPotentialProfit, retailProductPricing } from "../../lib/order-pricing";
 import { OrderConfiguratorModal } from "./OrderConfiguratorModal";
 import { CurrencyDisclosure, useCurrency } from "../shared/CurrencyContext";
+
+type PresetBundle = {
+  id: string;
+  name: string;
+  tradePrice: number;
+  potentialRevenue: number;
+  potentialProfit: number;
+  qty: number;
+  retail: RetailQuantities;
+  items: readonly string[];
+  popular?: boolean;
+};
+
+const PRESET_BUNDLES: readonly PresetBundle[] = [
+  {
+    id: "mobile-solo-pro",
+    name: "Mobile / Solo Pro",
+    tradePrice: 135,
+    potentialRevenue: 793,
+    potentialProfit: 658,
+    qty: 1,
+    retail: { mitt: 6, souffleMedium: 0, souffleDark: 0, kit: 0 },
+    items: ["1L Malibu Solution", "6× Buff & Glow Mitts"],
+  },
+  {
+    id: "salon-launch-pack",
+    name: "Salon Launch Pack",
+    tradePrice: 303,
+    potentialRevenue: 1057,
+    potentialProfit: 754,
+    qty: 1,
+    retail: { mitt: 6, souffleMedium: 6, souffleDark: 6, kit: 0 },
+    items: ["1L Malibu Solution", "6× Buff & Glow Mitts", "6× Soufflé · Medium", "6× Soufflé · Dark"],
+    popular: true,
+  },
+  {
+    id: "high-volume-boutique",
+    name: "High-Volume Boutique",
+    tradePrice: 983,
+    potentialRevenue: 4568,
+    potentialProfit: 3585,
+    qty: 5,
+    retail: { mitt: 12, souffleMedium: 12, souffleDark: 12, kit: 6 },
+    items: ["5L Malibu Solution", "12× Buff & Glow Mitts", "12× Soufflé · Medium", "12× Soufflé · Dark", "6× A-List Glow Kits"],
+  },
+];
+
+function bundleMatchesState(bundle: PresetBundle, state: PurchaseState) {
+  return state.qty === bundle.qty && (Object.keys(bundle.retail) as RetailProductId[]).every((id) => state.retail[id] === bundle.retail[id]);
+}
+
+export function BundlePresets({ state, setState }: { state: PurchaseState; setState: Dispatch<SetStateAction<PurchaseState>> }) {
+  const { money } = useCurrency();
+  const [openBundleId, setOpenBundleId] = useState<string | null>(null);
+  const selectedBundle = PRESET_BUNDLES.find((bundle) => bundleMatchesState(bundle, state));
+
+  const selectBundle = (bundle: PresetBundle) => {
+    setState((current) => ({ ...current, qty: bundle.qty, retail: { ...bundle.retail } }));
+    setOpenBundleId(null);
+  };
+
+  return <div className="preset-bundles" aria-labelledby="preset-bundles-heading">
+    <div className="preset-bundles-intro">
+      <p className="preset-bundles-kicker" id="preset-bundles-heading">Start with a preset</p>
+      <p>Choose a salon-ready bundle, then fine-tune any product quantities below.</p>
+    </div>
+    <div className="preset-bundle-grid">
+      {PRESET_BUNDLES.map((bundle) => {
+        const isOpen = openBundleId === bundle.id;
+        const isSelected = bundleMatchesState(bundle, state);
+        const previewId = `${bundle.id}-preview`;
+        return <div
+          className="preset-bundle-card"
+          key={bundle.id}
+          onMouseEnter={() => setOpenBundleId(bundle.id)}
+          onMouseLeave={() => setOpenBundleId((current) => current === bundle.id ? null : current)}
+          onFocusCapture={() => setOpenBundleId(bundle.id)}
+          onBlurCapture={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setOpenBundleId((current) => current === bundle.id ? null : current);
+          }}
+        >
+          <button
+            type="button"
+            className={`preset-bundle-trigger${isSelected ? " is-selected" : ""}`}
+            aria-expanded={isOpen}
+            aria-controls={previewId}
+            onClick={() => setOpenBundleId((current) => current === bundle.id ? null : bundle.id)}
+          >
+            <span>{bundle.name}{bundle.popular ? <b>Popular</b> : null}</span>
+            <strong>Trade: {money(bundle.tradePrice)}</strong>
+            <small>{isSelected ? "Selected" : "View composition"}</small>
+          </button>
+          <div className="preset-bundle-preview" id={previewId} role="dialog" aria-label={`${bundle.name} composition`} hidden={!isOpen}>
+            <p className="preset-bundle-preview-title">{bundle.name}</p>
+            <ul>{bundle.items.map((item) => <li key={item}>{item}</li>)}</ul>
+            <dl>
+              <div><dt>Potential revenue</dt><dd>{money(bundle.potentialRevenue)}</dd></div>
+              <div><dt>Potential profit</dt><dd>{money(bundle.potentialProfit)}</dd></div>
+            </dl>
+            <button type="button" className="btn btn-dark btn-sm preset-bundle-select" onClick={() => selectBundle(bundle)}>Select this pack</button>
+          </div>
+        </div>;
+      })}
+    </div>
+    <p className="preset-bundle-status" role="status">{selectedBundle ? `${selectedBundle.name} selected. You can edit its quantities below.` : "Select a bundle to add its products to your order."}</p>
+  </div>;
+}
 
 export function ShadeComparison({ onChoose }: { onChoose: (shade: string) => void }) {
   const cards = [
@@ -28,7 +135,7 @@ export function CrossSell({ state, setState }: { state: PurchaseState; setState:
     setState((current) => ({ ...current, retail: { ...current.retail, [id]: Math.max(0, Math.min(24, quantity)) } }));
   };
 
-  return <section className="steps-band cross-sell" id="complete-order"><div className="wrap"><p className="eyebrow">Add your retail products · Step 2</p><h2>Would you like to add any retail?</h2><p className="sub">Open a product to choose its quantity and see its own volume levels, trade price and potential profit.</p><div className="cross-sell-rail" id="retail-products"><RetailProductCards orderMode quantities={state.retail} onQuantityChange={setRetailQuantity} renderConfigurator={(id, quantity) => <OrderConfiguratorModal item={id} state={state} setState={setState} triggerLabel={quantity ? "Edit item/s" : "Add item/s"} triggerClassName="retail-add retail-configure-button" />} /></div><div className="cross-sell-next"><div className="cross-sell-next-copy"><p>Each product is configured separately. Happy with the mix?</p><small>*Maximum profit at full retail price.</small></div><div className="cross-sell-next-actions"><a className="btn btn-dark" href="#order">Continue to final order</a></div></div></div></section>;
+  return <section className="steps-band cross-sell" id="complete-order"><div className="wrap"><BundlePresets state={state} setState={setState} /><p className="eyebrow">Add your retail products · Step 2</p><h2>Would you like to add any retail?</h2><p className="sub">Open a product to choose its quantity and see its own volume levels, trade price and potential profit.</p><div className="cross-sell-rail" id="retail-products"><RetailProductCards orderMode quantities={state.retail} onQuantityChange={setRetailQuantity} renderConfigurator={(id, quantity) => <OrderConfiguratorModal item={id} state={state} setState={setState} triggerLabel={quantity ? "Edit item/s" : "Add item/s"} triggerClassName="retail-add retail-configure-button" />} /></div><div className="cross-sell-next"><div className="cross-sell-next-copy"><p>Each product is configured separately. Happy with the mix?</p><small>*Maximum profit at full retail price.</small></div><div className="cross-sell-next-actions"><a className="btn btn-dark" href="#order">Continue to final order</a></div></div></div></section>;
 }
 
 export function ProductDetails() {

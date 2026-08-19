@@ -1,0 +1,11 @@
+{
+  "order": 41,
+  "name": "UK Pro Trial Follow-Up",
+  "market": "🇬🇧 UK",
+  "hook": "Manual post-trial nurture: result, service maths and opening-order conversation.",
+  "owner": "Matthew at Jimmy Coco Pro",
+  "mode": "Manual-start sequence",
+  "cadence": "Days 0, 5, 12 and 21",
+  "status": "Draft — disabled",
+  "days": [0, 5, 12, 21]
+}

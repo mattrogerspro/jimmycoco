@@ -19,6 +19,8 @@ Home for every **outreach & marketing campaign** — cold acquisition, stockist 
 | Sydney salon stockist recruitment | [`au-sydney-salon-stockist/`](au-sydney-salon-stockist/) | Email + WhatsApp | 🇦🇺 AU (Sydney) | Draft — not approved for send | A Sydney glow, without the Sydney sun |
 | Gold Coast salon stockist recruitment | [`au-gold-coast-salon-stockist/`](au-gold-coast-salon-stockist/) | Email (Resend) | 🇦🇺 AU (Gold Coast) | Draft — not approved for send | A more considered professional colour partnership |
 | UK reseller lifecycle (forms → account → order) | [`uk-reseller-lifecycle/`](uk-reseller-lifecycle/) | Email (Resend) | 🇬🇧 UK | Draft — not approved for send | Free trial, order request, signup and portal-order service emails |
+| UK Pro trial follow-up | [`uk-pro-trial-follow-up/`](uk-pro-trial-follow-up/) | Email (Resend) | 🇬🇧 UK | Draft — disabled | Manual post-trial result, service-maths and order conversation |
+| UK Pro order follow-up | [`uk-pro-order-follow-up/`](uk-pro-order-follow-up/) | Email (Resend) | 🇬🇧 UK | Draft — disabled | Manual post-order first-service, retail and next-order conversation |
 
 _Keep this table current — it is the single campaign register._
 

@@ -1,0 +1,11 @@
+{
+  "campaign": "uk-pro-order-follow-up",
+  "publish": false,
+  "status": "PUBLISHED IN RESEND — CAMPAIGN DISABLED",
+  "templates": [
+    {"file":"emails/1-first-service.html","alias":"jc-uk-order-follow-up-01-first-service","id":"64e430bd-f71e-4233-9c7b-df5de97ab017","name":"JC UK Pro Order Follow-Up 01 — First Service","subject":"A considered first professional service"},
+    {"file":"emails/2-client-experience.html","alias":"jc-uk-order-follow-up-02-client-experience","id":"b74a04bf-3489-4e6f-90a0-0219b8d5025d","name":"JC UK Pro Order Follow-Up 02 — Client Experience","subject":"Preparing the client experience"},
+    {"file":"emails/3-retail.html","alias":"jc-uk-order-follow-up-03-retail","id":"546d5af1-1b34-4428-afcf-2c073119be7c","name":"JC UK Pro Order Follow-Up 03 — Retail","subject":"The conversation after the mirror"},
+    {"file":"emails/4-next-step.html","alias":"jc-uk-order-follow-up-04-next-step","id":"3b2cf7c1-8cee-4c85-a1af-a19c65534d41","name":"JC UK Pro Order Follow-Up 04 — Next Step","subject":"Your next professional step"}
+  ]
+}

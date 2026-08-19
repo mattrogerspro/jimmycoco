@@ -28,6 +28,24 @@ test('canonical AU and Dubai cadence is preserved', () => {
   assert.deepEqual(dubai.steps.map((step) => step.day), [0, 4, 8, 13, 18])
 })
 
+test('manual UK trial and order follow-ups remain separately scoped and disabled', () => {
+  const trial = campaignRegistry.find((campaign) => campaign.id === 'uk-pro-trial-follow-up')
+  const order = campaignRegistry.find((campaign) => campaign.id === 'uk-pro-order-follow-up')
+
+  assert.ok(trial)
+  assert.ok(order)
+  assert.equal(trial.enabled, false)
+  assert.equal(order.enabled, false)
+  assert.equal(trial.manualStart, true)
+  assert.equal(order.manualStart, true)
+  assert.deepEqual(trial.supersedesCampaigns, ['uk-salon-stockist'])
+  assert.deepEqual(order.supersedesCampaigns, ['uk-salon-stockist'])
+  assert.deepEqual(trial.steps.map((step) => step.day), [0, 5, 12, 21])
+  assert.deepEqual(order.steps.map((step) => step.day), [0, 4, 11, 21])
+  assert.equal(trial.steps.every((step) => typeof step.templateId === 'string' && step.templateId.length > 0), true)
+  assert.equal(order.steps.every((step) => typeof step.templateId === 'string' && step.templateId.length > 0), true)
+})
+
 test('template webhook lookup returns its campaign and step', () => {
   const match = findStepByTemplateId('c3d0ff13-85cb-4670-b7cc-e303babec1c4')
   assert.equal(match.campaign.id, 'uae-dubai-salon-stockist')

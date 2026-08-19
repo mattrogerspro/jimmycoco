@@ -35,6 +35,34 @@ export default async function handler(request, response) {
       await supabase.from('email_enrollments').update({ status: 'needs_attention', exit_reason: 'resend_contact_sync_failed' }).eq('id', enrollment.id)
       throw error
     }
+    const externalEventId = body.event_id || `manual-enrollment-${campaign.id}-${enrollment.id}`
+    await supabase.from('email_business_events').upsert({
+      external_event_id: externalEventId,
+      contact_id: contact.id,
+      campaign_id: campaign.id,
+      enrollment_id: enrollment.id,
+      event_type: campaign.manualStart ? 'manual_follow_up_started' : 'campaign_enrolled',
+      data: { owner: body.owner || null, context: body.context || {}, source_type: body.source_type || null, source_id: body.source_id || null },
+    }, { onConflict: 'external_event_id', ignoreDuplicates: true })
+    if (campaign.supersedesCampaigns?.length) {
+      const exited = assertSupabase(await supabase
+        .from('email_enrollments')
+        .update({ status: 'exited', exited_at: new Date().toISOString(), exit_reason: 'converted_to_manual_follow_up', next_send_at: null, locked_at: null, locked_by: null })
+        .eq('contact_id', contact.id)
+        .in('campaign_id', campaign.supersedesCampaigns)
+        .eq('status', 'active')
+        .select('id,campaign_id'), 'exit superseded campaigns') || []
+      if (exited.length) {
+        await supabase.from('email_business_events').upsert(exited.map((previous) => ({
+          external_event_id: `${externalEventId}/supersede/${previous.id}`,
+          contact_id: contact.id,
+          campaign_id: previous.campaign_id,
+          enrollment_id: previous.id,
+          event_type: 'converted_to_manual_follow_up',
+          data: { replacement_campaign_id: campaign.id, replacement_enrollment_id: enrollment.id },
+        })), { onConflict: 'external_event_id', ignoreDuplicates: true })
+      }
+    }
     return json(response, 201, { enrollment_id: enrollment.id, campaign_id: campaign.id, status: enrollment.status, next_send_at: enrollment.next_send_at })
   } catch (error) {
     const result = publicError(error)

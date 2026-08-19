@@ -8,7 +8,9 @@ import {
   setApplicationStatus,
 } from "../lib/resellers.server";
 import { emitResellerEventSafely } from "../lib/reseller-events.server";
+import { loadFollowUpHistory, startManualFollowUp, stopManualFollowUp, type FollowUpCampaignId } from "../lib/manual-follow-ups.server";
 import { SITE_URL } from "../lib/site";
+import { ManualFollowUpPanel } from "../components/admin/ManualFollowUpPanel";
 
 export const meta: MetaFunction = () => [
   { title: "Application | Jimmy Coco admin" },
@@ -19,7 +21,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const { supabase, responseHeaders, staff } = await requireArticleStaff(request);
   const application = await getApplication(supabase, params.applicationId as string);
   if (!application) throw new Response("Application not found", { status: 404, headers: responseHeaders });
-  return data({ staff, application }, { headers: responseHeaders });
+  const followUpHistory = await loadFollowUpHistory(application.email);
+  return data({ staff, application, followUpHistory }, { headers: responseHeaders });
 }
 
 export async function action({ request, params }: ActionFunctionArgs) {
@@ -34,6 +37,42 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const applicationId = params.applicationId as string;
 
   try {
+    if (intent === "start-follow-up") {
+      const campaignId = String(form.get("campaignId") ?? "") as FollowUpCampaignId;
+      if (campaignId !== "uk-pro-trial-follow-up" && campaignId !== "uk-pro-order-follow-up") throw new Error("Choose a valid manual follow-up campaign.");
+      const application = await getApplication(supabase, applicationId);
+      if (!application) throw new Error("Application not found.");
+      if (application.market !== "UK") throw new Error("Manual follow-up campaigns are currently available for UK applications only.");
+      if (application.status === "declined") throw new Error("A declined application cannot enter a promotional follow-up.");
+      if (campaignId === "uk-pro-trial-follow-up" && !application.wants_trial) throw new Error("This application did not request a free trial.");
+      if (campaignId === "uk-pro-order-follow-up" && application.source !== "pro-site-order") throw new Error("Start the order follow-up from a website order enquiry or a confirmed order.");
+      await startManualFollowUp({
+        campaignId,
+        sourceType: "application",
+        sourceId: application.id,
+        owner: staff.userId,
+        contact: { email: application.email, firstName: application.contact_name.split(" ")[0] ?? "there", businessName: application.business_name, market: "UK" },
+        context: { APPLICATION_ID: application.id, APPLICATION_SOURCE: application.source, BUSINESS_TYPE: application.business_type },
+      });
+      return data({ notice: "Manual follow-up enrolled. The campaign remains subject to its release gates." }, { headers: responseHeaders });
+    }
+
+    if (intent === "stop-follow-up") {
+      const campaignId = String(form.get("campaignId") ?? "") as FollowUpCampaignId;
+      if (campaignId !== "uk-pro-trial-follow-up" && campaignId !== "uk-pro-order-follow-up") throw new Error("Choose a valid manual follow-up campaign.");
+      const application = await getApplication(supabase, applicationId);
+      if (!application) throw new Error("Application not found.");
+      await stopManualFollowUp({
+        campaignId,
+        sourceType: "application",
+        sourceId: application.id,
+        owner: staff.userId,
+        email: application.email,
+        reason: String(form.get("reason") ?? "manual_suppression"),
+      });
+      return data({ notice: "Manual follow-up stopped. No future promotional steps will be sent from that enrollment." }, { headers: responseHeaders });
+    }
+
     if (intent === "approve") {
       const tier = String(form.get("pricingTier") ?? "standard") as "standard" | "silver" | "gold";
       const discount = Number.parseFloat(String(form.get("discountPercent") ?? "0")) || 0;
@@ -90,7 +129,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 }
 
 export default function ApplicationDetail() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application, followUpHistory } = useLoaderData<typeof loader>();
   const result = useActionData<typeof action>() as { error?: string; notice?: string } | undefined;
   const navigation = useNavigation();
   const busy = navigation.state === "submitting";
@@ -191,6 +230,26 @@ export default function ApplicationDetail() {
               </p>
             </div>
           </section>
+          <ManualFollowUpPanel
+            campaignId="uk-pro-trial-follow-up"
+            label="Trial follow-up"
+            sourceLabel="trial application"
+            eligible={application.market === "UK" && application.wants_trial && application.status !== "declined"}
+            ineligibleReason={application.status === "declined" ? "Declined applications cannot enter a follow-up." : application.market !== "UK" ? "This follow-up is currently available for UK applications only." : "This application did not request a free trial."}
+            history={followUpHistory}
+            busy={busy}
+          />
+          {application.source === "pro-site-order" ? (
+            <ManualFollowUpPanel
+              campaignId="uk-pro-order-follow-up"
+              label="Order follow-up"
+              sourceLabel="website order enquiry"
+              eligible={application.market === "UK" && application.status !== "declined"}
+              ineligibleReason={application.status === "declined" ? "Declined applications cannot enter a follow-up." : "This follow-up is currently available for UK order enquiries only."}
+              history={followUpHistory}
+              busy={busy}
+            />
+          ) : null}
         </aside>
       </div>
     </main>

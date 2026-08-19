@@ -11,8 +11,10 @@ import { gbpFromPence } from "../lib/site";
 import { productImageForSku } from "../lib/product-images";
 import { emailIssuedInvoice } from "../lib/invoice-email.server";
 import { latestOrderShipment, saveOrderShipment, SHIPMENT_STATUSES, type ShipmentStatus } from "../lib/order-shipments.server";
+import { loadFollowUpHistory, startManualFollowUp, stopManualFollowUp } from "../lib/manual-follow-ups.server";
 import { OrderStageDetails } from "../components/admin/OrderStageDetails";
 import { OrderInvoiceFlow } from "../components/admin/OrderInvoiceFlow";
+import { ManualFollowUpPanel } from "../components/admin/ManualFollowUpPanel";
 
 export const meta: MetaFunction = () => [
   { title: "Order | Jimmy Coco admin" },
@@ -26,7 +28,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     invoiceForOrder(supabase, params.orderId as string),
     latestOrderShipment(supabase, params.orderId as string),
   ]);
-  return data({ ...result, invoice, shipment } as never, { headers: responseHeaders });
+  const contactEmail = (result.order as unknown as { resellers?: { email?: string } | null }).resellers?.email;
+  const followUpHistory = contactEmail ? await loadFollowUpHistory(contactEmail) : { configured: false, unavailableReason: "not_configured" as const, enrollments: [], messages: [] };
+  return data({ ...result, invoice, shipment, followUpHistory } as never, { headers: responseHeaders });
 }
 export async function action({ request, params }: ActionFunctionArgs) {
   const { supabase, responseHeaders, staff } = await requireArticleStaff(request);
@@ -41,6 +45,37 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   try {
     switch (intent) {
+      case "start-follow-up": {
+        const order = await getOrder(supabase, orderId);
+        if (!order) throw new Error("Order not found.");
+        const account = (order.order as unknown as { resellers?: { email: string; contact_name: string; business_name: string; market: string } | null }).resellers;
+        if (!account?.email || account.market !== "UK") throw new Error("Manual order follow-up campaigns are currently available for UK order records with an email contact.");
+        if (!["confirmed", "invoiced", "shipped"].includes(String(order.order.status))) throw new Error("Confirm or invoice the order before starting its promotional follow-up.");
+        await startManualFollowUp({
+          campaignId: "uk-pro-order-follow-up",
+          sourceType: "order",
+          sourceId: orderId,
+          owner: staff.userId,
+          contact: { email: account.email, firstName: account.contact_name.split(" ")[0] ?? "there", businessName: account.business_name, market: "UK" },
+          context: { ORDER_ID: orderId, ORDER_REFERENCE: order.order.reference, ORDER_STATUS: order.order.status, ORDER_SOURCE: order.order.source },
+        });
+        return data({ notice: "Manual order follow-up enrolled. The campaign remains subject to its release gates." }, { headers: responseHeaders });
+      }
+      case "stop-follow-up": {
+        const order = await getOrder(supabase, orderId);
+        if (!order) throw new Error("Order not found.");
+        const account = (order.order as unknown as { resellers?: { email?: string } | null }).resellers;
+        if (!account?.email) throw new Error("This order has no email contact for a follow-up stop.");
+        await stopManualFollowUp({
+          campaignId: "uk-pro-order-follow-up",
+          sourceType: "order",
+          sourceId: orderId,
+          owner: staff.userId,
+          email: account.email,
+          reason: String(form.get("reason") ?? "manual_suppression"),
+        });
+        return data({ notice: "Manual order follow-up stopped. No future promotional steps will be sent from that enrollment." }, { headers: responseHeaders });
+      }
       case "create-invoice": {
         await createInvoiceFromOrder(supabase, orderId, staff?.userId);
         return data({ notice: "Invoice draft created. Review and issue it below." }, { headers: responseHeaders });
@@ -181,7 +216,7 @@ function waitingFor(value: string) {
 }
 
 export default function OrderDetail() {
-  const { order, items, catalogue, siblings, invoice, shipment } = useLoaderData<typeof loader>() as unknown as {
+  const { order, items, catalogue, siblings, invoice, shipment, followUpHistory } = useLoaderData<typeof loader>() as unknown as {
     order: Order;
     items: Line[];
     catalogue: Record<string, { trade_price_pence: number; retail_price_pence: number | null; unit_label: string }>;
@@ -201,6 +236,7 @@ export default function OrderDetail() {
       customer_emailed_to: string | null;
     } | null;
     shipment: Awaited<ReturnType<typeof latestOrderShipment>>;
+    followUpHistory: Awaited<ReturnType<typeof loadFollowUpHistory>>;
   };
 
   const result = useActionData<typeof action>() as { error?: string; notice?: string } | undefined;
@@ -470,6 +506,16 @@ export default function OrderDetail() {
               </div>
             </section>
           ) : null}
+
+          <ManualFollowUpPanel
+            campaignId="uk-pro-order-follow-up"
+            label="Order follow-up"
+            sourceLabel="confirmed order"
+            eligible={Boolean(account?.email && account.market === "UK" && ["confirmed", "invoiced", "shipped"].includes(order.status))}
+            ineligibleReason={order.status === "cancelled" ? "Cancelled orders cannot enter a follow-up." : account?.market !== "UK" ? "This follow-up is currently available for UK orders only." : "Confirm or invoice the order before starting its promotional follow-up."}
+            history={followUpHistory}
+            busy={busy}
+          />
 
           {siblings.length ? (
             <section className="admin-panel is-secondary">

@@ -53,3 +53,16 @@
 - [x] Add the four latest @jimmyjimmycoco Instagram posts immediately after the “Why leading salons choose Jimmy Coco” section on the Pro website.
 - [x] Validate the responsive Pro-site Instagram showcase, media links and production build without committing or pushing code.
 - [x] Resize the Pro-site Instagram showcase to a compact four-card row on desktop while preserving responsive tablet and mobile layouts.
+- [x] Audit and specify the safe UK free-trial workflow: welcome email, Resend enrollment event, consent/eligibility checks, and manual exit handling without activating outreach.
+- [x] Design a separate manual-start UK free-trial follow-up sequence for eligible applicants, distinct from all transactional trial, approval and shipping emails.
+- [x] Design a separate manual-start UK order follow-up sequence for eligible order-request or order-placement customers, distinct from all transactional order, invoice and shipping emails.
+- [x] Specify in-page admin controls, eligibility gates, enrollment history and manual-stop controls for both follow-up sequences without enabling them.
+- [x] Build disabled local application-managed UK Pro Trial Follow-Up campaign sources and registry entry.
+- [x] Build disabled local application-managed UK Pro Order Follow-Up campaign sources and registry entry.
+- [x] Add Pro-admin manual start, stop and history controls for trial applications, order enquiries and confirmed/invoiced orders.
+- [x] Prepare but do not apply the Supabase migration required for durable follow-up enrollment and audit history.
+- [x] Validate the local implementation and prepare the exact approval gate for Supabase migration and Resend template publication.
+- [x] Apply and verify the approved disabled Supabase seed for the UK Pro Trial Follow-Up and UK Pro Order Follow-Up campaigns.
+- [x] Create and publish the eight approved Resend follow-up templates without enabling either campaign or enrolling any recipient.
+- [x] Record the published Resend template IDs in local campaign sources and the disabled Supabase campaign-step records.
+- [x] Verify both live campaign records remain disabled and no follow-up enrollment or email message exists.

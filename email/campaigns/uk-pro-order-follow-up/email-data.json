@@ -1,0 +1,90 @@
+{
+  "campaign": "uk-pro-order-follow-up",
+  "market": "UK",
+  "purpose": "professional-follow-up",
+  "esp": "resend",
+  "status": "PUBLISHED IN RESEND — CAMPAIGN DISABLED",
+  "defaults": {
+    "lang": "en-GB",
+    "homeUrl": "https://www.jimmycoco.pro",
+    "background": "#EAE2D8",
+    "cardBackground": "#FBF8F3",
+    "accent": "#A77952",
+    "text": "#3B3630",
+    "heading": "#24211E",
+    "buttonBackground": "#26231F",
+    "buttonText": "#FFFDF9",
+    "businessName": "JIMMY COCO (UK) LIMITED",
+    "businessAddress": "22 St. James's Walk, London, England, EC1R 0AP",
+    "unsubscribeText": "You are receiving this because you started a professional order conversation with Jimmy Coco Pro or asked to continue it.",
+    "unsubscribeUrl": "{{{RESEND_UNSUBSCRIBE_URL}}}",
+    "unsubscribeLabel": "Unsubscribe",
+    "senderName": "Matthew at Jimmy Coco Pro",
+    "senderTitle": "Sunless Partnerships · Jimmy Coco (UK)"
+  },
+  "messages": [
+    {
+      "output": "emails/1-first-service.html",
+      "alias": "jc-uk-order-follow-up-01-first-service",
+      "title": "A considered first professional service",
+      "preview": "A practical support route for the first service conversation.",
+      "eyebrow": "Professional support",
+      "headline": "The first service is a useful point to slow down.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{{FIRST_NAME}}},"},
+        {"type":"paragraph","html":"The first professional service is a useful point to make the client experience feel considered. If you would like help planning the first treatment, Matthew is available to talk through the service conversation before or after it takes place."},
+        {"type":"paragraph","html":"That might mean the consultation, the development window, the finish you want the client to see, or simply how the treatment sits within your existing menu."},
+        {"type":"paragraph","html":"This is practical support, not another operational order update."},
+        {"type":"cta","label":"Email Matthew about your first service","url":"mailto:matthew@jimmycoco.pro?subject=Jimmy%20Coco%20Pro%20first%20service"},
+        {"type":"note","html":"Reply <strong>RESULT</strong> if you would like a human-led first-service review."}
+      ]
+    },
+    {
+      "output": "emails/2-client-experience.html",
+      "alias": "jc-uk-order-follow-up-02-client-experience",
+      "title": "Preparing the client experience",
+      "preview": "A focused way to think about the client experience around the first result.",
+      "eyebrow": "The first client experience",
+      "headline": "Keep the consultation simple and the result considered.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{{FIRST_NAME}}},"},
+        {"type":"paragraph","html":"For a first client experience, a simple conversation often creates more confidence than a complicated script."},
+        {"type":"bullets","items":["<strong>Finish:</strong> agree what the client wants the result to look like.","<strong>Development:</strong> set expectations around the stated 6–8-hour window.","<strong>Aftercare:</strong> be ready for the questions a client may ask once they see the result."]},
+        {"type":"paragraph","html":"The professional solution works with standard professional HVLP systems. The important part is how it sits inside your own method and the client’s plans."},
+        {"type":"cta","label":"Email Matthew about first use","url":"mailto:matthew@jimmycoco.pro?subject=Jimmy%20Coco%20Pro%20first%20use"},
+        {"type":"note","html":"Reply <strong>RESULT</strong> if you would like help with a first-service review."}
+      ]
+    },
+    {
+      "output": "emails/3-retail.html",
+      "alias": "jc-uk-order-follow-up-03-retail",
+      "title": "The conversation after the mirror",
+      "preview": "Retail should help a client maintain a result they already value.",
+      "eyebrow": "Client care and retail",
+      "headline": "The natural retail question comes after the client sees the result.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{{FIRST_NAME}}},"},
+        {"type":"paragraph","html":"The natural retail moment is often after the client has seen the result and asks how to keep it looking considered until their next appointment."},
+        {"type":"paragraph","html":"That is why the retail conversation should begin with client care, not a crowded product stand. A focused aftercare edit can be relevant where it supports the client’s routine."},
+        {"type":"bullets","items":["<strong>Application mitt:</strong> a simple maintenance tool.","<strong>Controlled top-up:</strong> for a client who wants to maintain their colour between appointments.","<strong>Complete glow routine:</strong> where a broader aftercare option is genuinely useful."]},
+        {"type":"paragraph","html":"Trade pricing and retail contribution depend on the individual partnership and order quantity."},
+        {"type":"cta","label":"Discuss the retail edit","url":"mailto:matthew@jimmycoco.pro?subject=Jimmy%20Coco%20Pro%20retail"},
+        {"type":"note","html":"Reply <strong>RETAIL</strong> and Matthew will talk through what may be relevant for your setting."}
+      ]
+    },
+    {
+      "output": "emails/4-next-step.html",
+      "alias": "jc-uk-order-follow-up-04-next-step",
+      "title": "Your next professional step",
+      "preview": "A final check-in for the first service, retail or next-order conversation.",
+      "eyebrow": "A final note",
+      "headline": "I will leave the next step with you.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{{FIRST_NAME}}},"},
+        {"type":"paragraph","html":"If a first service is underway or complete, reply <strong>RESULT</strong> to discuss it. If you would like to look at client-care retail, reply <strong>RETAIL</strong>. If you are ready to continue the professional ordering conversation, reply <strong>ORDER</strong>."},
+        {"type":"paragraph","html":"If now is not the time, there is nothing you need to do. This initial follow-up will close here and Matthew will be available when you need him."},
+        {"type":"cta","label":"View the professional order route","url":"https://www.jimmycoco.pro/products/malibu-professional-spray-1l#complete-order"}
+      ]
+    }
+  ]
+}

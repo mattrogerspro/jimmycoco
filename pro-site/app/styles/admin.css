@@ -336,6 +336,30 @@ button,input,select,textarea{font:inherit}
 .admin-kv > span:first-child{color:var(--admin-muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
 .admin-kv a{color:var(--admin-bronze-dark);font-weight:600}
 
+/* Manual promotional follow-ups remain visibly separate from the operational order flow. */
+.admin-follow-up{border-top:2px solid rgba(167,121,82,.45)}
+.admin-follow-up .admin-panel-head{align-items:baseline;gap:12px}
+.admin-follow-up .admin-panel-head span{margin-left:auto;color:var(--admin-bronze-dark);font-size:12px;font-weight:600}
+.admin-follow-up-intro,.admin-follow-up-state{margin:0 0 14px;color:var(--admin-ink2);font-size:14.5px;line-height:1.5}
+.admin-follow-up-state{padding:11px 12px;border-left:3px solid var(--admin-line);background:var(--admin-cream);color:var(--admin-muted)}
+.admin-follow-up-facts{margin:0 0 14px;padding:0;border-top:1px solid var(--admin-line)}
+.admin-follow-up-facts > div{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--admin-line)}
+.admin-follow-up-facts dt{color:var(--admin-muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.admin-follow-up-facts dd{margin:0;color:var(--admin-ink2);font-size:13.5px;text-align:right}
+.admin-follow-up-form{display:grid;gap:10px;margin:0;padding-top:4px}
+.admin-follow-up-form button{min-height:44px;padding:0 14px;border:0;border-radius:7px;background:var(--admin-bronze);color:#FFFDF9;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.admin-follow-up-form button:hover{background:var(--admin-bronze-dark)}
+.admin-follow-up-form button.admin-danger{border:1px solid #D9BBB7;background:transparent;color:#8A2F28}
+.admin-follow-up-form button.admin-danger:hover{background:#FBF2F1}
+.admin-follow-up-form p{margin:0;color:var(--admin-muted);font-size:13px;line-height:1.45}
+.admin-follow-up-form label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--admin-muted);font-weight:600}
+.admin-follow-up-form select{min-height:42px;padding:0 10px;border:1px solid #D8CCBF;border-radius:7px;background:#fff;color:var(--admin-ink);font:inherit;font-size:14px}
+.admin-follow-up-history{display:grid;gap:0;margin:16px 0 0;padding:0;border-top:1px solid var(--admin-line);list-style:none}
+.admin-follow-up-history li{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;padding:10px 0;border-bottom:1px solid var(--admin-line);font-size:13px}
+.admin-follow-up-history span{color:var(--admin-muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.admin-follow-up-history b{justify-self:end;color:var(--admin-bronze-dark);font-size:12px;text-transform:capitalize}
+.admin-follow-up-history small{grid-column:1/-1;color:var(--admin-ink2);font-size:12.5px;line-height:1.35}
+
 .admin-minilist{margin:0;padding:0;list-style:none}
 .admin-minilist li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:11px 18px;border-bottom:1px solid var(--admin-line);font-size:15px}
 .admin-minilist li:last-child{border-bottom:0}

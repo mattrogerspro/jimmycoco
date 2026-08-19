@@ -66,3 +66,10 @@
 - [x] Create and publish the eight approved Resend follow-up templates without enabling either campaign or enrolling any recipient.
 - [x] Record the published Resend template IDs in local campaign sources and the disabled Supabase campaign-step records.
 - [x] Verify both live campaign records remain disabled and no follow-up enrollment or email message exists.
+- [x] Draft the server-side Resend welcome-email and UK sequence-enrollment integration without invoking it.
+- [x] Verify the live Supabase campaign, contact, enrollment, message and business-event schema required for manual follow-up states without modifying data.
+- [x] Map the draft free-trial email integration into the existing signup handler while preserving manual promotional enrollment.
+- [x] Review and present the complete UK Pro Trial Follow-Up sequence timing, message roles, CTAs and exit safeguards without changing live behavior.
+- [x] Review and present the Pro-admin manual UK trial follow-up start/stop control implementation without changing live behavior.
+- [x] Review and present the applied Supabase campaign-state and enrollment migration scripts without modifying data.
+- [x] Complete and validate the local Pro-admin start, stop, eligibility and history controls for disabled UK trial and order follow-up campaigns without enabling or enrolling anyone.

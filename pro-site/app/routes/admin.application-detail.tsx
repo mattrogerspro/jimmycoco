@@ -9,6 +9,7 @@ import {
 } from "../lib/resellers.server";
 import { emitResellerEventSafely } from "../lib/reseller-events.server";
 import { loadFollowUpHistory, startManualFollowUp, stopManualFollowUp, type FollowUpCampaignId } from "../lib/manual-follow-ups.server";
+import { startUKTrialFollowUpManually } from "../lib/free-trial-email-integration.server";
 import { SITE_URL } from "../lib/site";
 import { ManualFollowUpPanel } from "../components/admin/ManualFollowUpPanel";
 
@@ -46,14 +47,25 @@ export async function action({ request, params }: ActionFunctionArgs) {
       if (application.status === "declined") throw new Error("A declined application cannot enter a promotional follow-up.");
       if (campaignId === "uk-pro-trial-follow-up" && !application.wants_trial) throw new Error("This application did not request a free trial.");
       if (campaignId === "uk-pro-order-follow-up" && application.source !== "pro-site-order") throw new Error("Start the order follow-up from a website order enquiry or a confirmed order.");
-      await startManualFollowUp({
-        campaignId,
-        sourceType: "application",
-        sourceId: application.id,
-        owner: staff.userId,
-        contact: { email: application.email, firstName: application.contact_name.split(" ")[0] ?? "there", businessName: application.business_name, market: "UK" },
-        context: { APPLICATION_ID: application.id, APPLICATION_SOURCE: application.source, BUSINESS_TYPE: application.business_type },
-      });
+      if (campaignId === "uk-pro-trial-follow-up") {
+        await startUKTrialFollowUpManually({
+          applicationId: application.id,
+          email: application.email,
+          contactName: application.contact_name,
+          businessName: application.business_name,
+          businessType: application.business_type,
+          ownerUserId: staff.userId,
+        });
+      } else {
+        await startManualFollowUp({
+          campaignId,
+          sourceType: "application",
+          sourceId: application.id,
+          owner: staff.userId,
+          contact: { email: application.email, firstName: application.contact_name.split(" ")[0] ?? "there", businessName: application.business_name, market: "UK" },
+          context: { APPLICATION_ID: application.id, APPLICATION_SOURCE: application.source, BUSINESS_TYPE: application.business_type },
+        });
+      }
       return data({ notice: "Manual follow-up enrolled. The campaign remains subject to its release gates." }, { headers: responseHeaders });
     }
 

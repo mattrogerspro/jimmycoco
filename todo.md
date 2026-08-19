@@ -73,3 +73,6 @@
 - [x] Review and present the Pro-admin manual UK trial follow-up start/stop control implementation without changing live behavior.
 - [x] Review and present the applied Supabase campaign-state and enrollment migration scripts without modifying data.
 - [x] Complete and validate the local Pro-admin start, stop, eligibility and history controls for disabled UK trial and order follow-up campaigns without enabling or enrolling anyone.
+- [x] Review the required Pro-site campaign-service environment configuration without exposing or changing secret values.
+- [x] Draft a safe staging checklist for manual campaign enrollment and stop-flow testing before production enablement.
+- [x] Implement and validate the Pro-admin manual campaign enrollment control in the correct application and order-detail UI locations while preserving disabled no-send gates.

@@ -3,7 +3,7 @@
   "market": "US",
   "purpose": "professional-outreach",
   "esp": "resend",
-  "status": "READY FOR PUBLISH — USER APPROVED",
+  "status": "PUBLISHED IN RESEND — AUTOMATION DISABLED",
   "defaults": {
     "brand": "SUNLESS",
     "brandLine": "by Jimmy Coco",
@@ -101,6 +101,37 @@
         {"type":"bullets","items":["<strong>Trial:</strong> assess the professional formula on a real client.","<strong>NUMBERS:</strong> discuss your current service model before considering a wider route.","<strong>RETAIL:</strong> discuss a small aftercare edit for a fixed salon, studio or mobile kit."]},
         {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"},
         {"type":"note","html":"If the timing is not right, no problem. We will close this sequence here."}
+      ]
+    },
+    {
+      "output": "emails/6-process-v2.html",
+      "alias": "jc-us-wc-prospect-06-process-v2",
+      "title": "What happens after you request information?",
+      "preview": "A clear professional review, trial-availability check and first-order process.",
+      "eyebrow": "A clear next step",
+      "headline": "Here is what happens after you request information.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"We keep the first conversation practical and specific to your business."},
+        {"type":"steps","items":["<strong>Professional review:</strong> tell us a little about your salon, studio or mobile business.","<strong>Trial availability:</strong> we review whether a complimentary professional trial is currently available for your business.","<strong>First-order route:</strong> after testing, any potential first order is reviewed with your individual business before you make a commitment."]},
+        {"type":"paragraph","html":"If a trial is available, we will explain the next step before anything is shipped."},
+        {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"},
+        {"type":"note","html":"Or reply <strong>INFO</strong> and Matthew will help personally."}
+      ]
+    },
+    {
+      "output": "emails/7-choice-v2.html",
+      "alias": "jc-us-wc-prospect-07-choice-v2",
+      "title": "Would more detail be useful?",
+      "preview": "Choose the professional or retail conversation that would be most useful.",
+      "eyebrow": "A useful next conversation",
+      "headline": "Would more detail be useful?",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"If the timing is right, tell us which part needs more context."},
+        {"type":"bullets","items":["<strong>INFO:</strong> the professional formula, trial review and partnership process.","<strong>RETAIL:</strong> a small, practical aftercare edit for a salon, studio or mobile kit."]},
+        {"type":"paragraph","html":"Reply with <strong>INFO</strong> or <strong>RETAIL</strong> and Matthew will reply personally. It is a direct conversation, not another automatic response."},
+        {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"}
       ]
     }
   ]

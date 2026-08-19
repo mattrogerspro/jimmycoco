@@ -3,7 +3,7 @@
   "market": "UK",
   "purpose": "professional-outreach",
   "esp": "resend",
-  "status": "READY FOR PUBLISH — USER APPROVED",
+  "status": "PUBLISHED IN RESEND — AUTOMATION DISABLED",
   "defaults": {
     "brand": "SUNLESS",
     "brandLine": "by Jimmy Coco",
@@ -101,6 +101,37 @@
         {"type":"bullets","items":["<strong>Trial:</strong> test the complimentary 100 ml professional sample on a real client.","<strong>Numbers:</strong> discuss the service calculation using your own treatment price and operating costs.","<strong>Retail:</strong> discuss a simple three-product aftercare edit for the salon or a mobile carry kit."]},
         {"type":"cta","label":"Request your complimentary professional trial","url":"{{TRIAL_LINK}}"},
         {"type":"note","html":"If the timing is not right, no problem. We will close this sequence here."}
+      ]
+    },
+    {
+      "output": "emails/6-process-v2.html",
+      "alias": "jc-uk-prospect-06-process-v2",
+      "title": "What happens after you request the trial?",
+      "preview": "A clear, low-commitment route from application to a first professional order.",
+      "eyebrow": "What happens next",
+      "headline": "Try it first. Then decide what suits your business.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"The trial is deliberately practical. Start with the professional application and we will review it, then come back to you personally."},
+        {"type":"steps","items":["<strong>Review:</strong> we check the details of your professional application.","<strong>Trial:</strong> if eligible, we send a complimentary 100 ml professional sample, delivered free.","<strong>After the trial:</strong> if you choose to continue, the minimum first order is one 1 L bottle of Malibu Professional Spray."]},
+        {"type":"paragraph","html":"There is no obligation to move beyond the trial. It is a simple way to judge the colour, application and fit for your own service."},
+        {"type":"cta","label":"Request your complimentary professional trial","url":"{{TRIAL_LINK}}"},
+        {"type":"note","html":"Or reply <strong>TRIAL</strong> and Matthew will help personally."}
+      ]
+    },
+    {
+      "output": "emails/7-choice-v2.html",
+      "alias": "jc-uk-prospect-07-choice-v2",
+      "title": "Would numbers or retail be more useful?",
+      "preview": "Choose the commercial conversation that is most useful to your business.",
+      "eyebrow": "A useful next conversation",
+      "headline": "Would numbers or retail be more useful?",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"There are two useful conversations to have before deciding whether Jimmy Coco Pro is right for your business."},
+        {"type":"bullets","items":["<strong>NUMBERS:</strong> review solution use alongside the treatment price and operating costs that matter to your service. The discussion uses your own figures, not a generic margin promise.","<strong>RETAIL:</strong> talk through a concise aftercare edit that feels helpful just after a client has seen their result."]},
+        {"type":"paragraph","html":"Reply with <strong>NUMBERS</strong> or <strong>RETAIL</strong> and Matthew will reply personally. It is a direct conversation, not an automated route."},
+        {"type":"cta","label":"Request your complimentary professional trial","url":"{{TRIAL_LINK}}"}
       ]
     }
   ]

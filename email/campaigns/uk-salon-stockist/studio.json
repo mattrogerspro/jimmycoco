@@ -4,11 +4,11 @@
   "shortName": "UK Pro V2",
   "market": "UK",
   "flag": "🇬🇧",
-  "status": "Draft — Resend V2 created",
+  "status": "Published in Resend — automation disabled",
   "hook": "Trial-first premium service, with client-care retail",
   "channel": "Email",
-  "cadence": "18 days",
+  "cadence": "45 days",
   "owner": "Sunless Partnerships",
   "mode": "sequence",
-  "days": [0, 3, 7, 12, 18]
+  "days": [0, 3, 7, 13, 21, 32, 45]
 }

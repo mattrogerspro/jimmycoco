@@ -21,3 +21,23 @@
 - [x] Add existing product imagery to order-line rows.
 - [x] Add compact existing product imagery to rendered invoice lines.
 - [x] Validate images in the restored order and invoice workflow.
+- [x] Create a disabled UK Prospect V2 Resend Automation using the five existing UK templates.
+- [x] Create a disabled U.S. West Coast Prospect V2 Resend Automation using the five existing U.S. templates.
+- [x] Verify both disabled automation definitions before any enablement, event trigger or email send.
+- [x] Review the exact subject lines and content flow of all five published UK V2 prospect templates before any automation enablement.
+- [x] Report UK V2 sign-off observations without enabling, importing or sending.
+- [x] Run one controlled UK automation test to matthew@jimmycoco.pro with full personalization data, then return the automation to disabled status.
+- [x] Verify the controlled first-email rendering and personalization without contacting prospects.
+- [x] Create a visual flowchart of the 18-day UK prospect sequence, trigger and exit controls.
+- [x] Produce a single visual review pack showing all five published UK V2 emails with exact subject lines and full personalised content.
+- [x] Verify and deliver the UK V2 visual review pack without enabling, changing or sending email.
+- [x] Review published UK V2 Emails 3–5 for natural, direct salon-facing language without changing Resend.
+- [x] Draft refined UK V2 Email 3–5 copy for approval before any template update or republish.
+- [x] Assess whether the UK V2 cold-outreach sequence should extend from five to eight emails without changing Resend.
+- [x] Recommend an optimal UK sequence length, cadence and additional value-led touchpoints for approval.
+- [x] Extend the UK V2 prospect sequence from five to seven emails with two value-led touchpoints and revised cadence.
+- [x] Extend the U.S. West Coast V2 prospect sequence from five to seven emails without introducing UK prices or unconfirmed U.S. trade terms.
+- [x] Create and publish the four new market-specific prospect templates, then update both Resend automations while retaining disabled status.
+- [x] Verify both seven-email Resend automations are disabled and no prospect email has been sent.
+- [x] Create two clearly labelled, disabled, internal-only accelerated test workflows for the seven-email UK and U.S. sequences.
+- [x] Enroll only matthew@jimmycoco.pro in the UK and U.S. test workflows, verify all seven steps, and preserve both production automations as disabled.

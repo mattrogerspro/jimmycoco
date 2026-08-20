@@ -72,7 +72,6 @@ export function CalculatorReportModal({ input, totals }: { input: Inputs; totals
                 })}
               >
                 <input type="hidden" name="calculation" value={JSON.stringify(input)} />
-                <input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />
                 <label>
                   <span>First name</span>
                   <input type="text" name="firstName" autoComplete="given-name" required maxLength={80} />

@@ -9,11 +9,12 @@ const THIRTY_DAYS = 60 * 60 * 24 * 30;
 
 function readSupabaseEnvironment() {
   const url = process.env.SUPABASE_URL;
-  const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY;
+  const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY
+    ?? process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
   if (!url || !publishableKey) {
     throw new Error(
-      "Supabase Auth is not configured. Set SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY.",
+      "Supabase Auth is not configured. Set SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY (or VITE_SUPABASE_PUBLISHABLE_KEY).",
     );
   }
 

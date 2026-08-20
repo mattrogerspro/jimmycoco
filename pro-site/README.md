@@ -30,6 +30,15 @@ Set these runtime variables locally and in Vercel:
 - `SUPABASE_URL`
 - `SUPABASE_PUBLISHABLE_KEY`
 
+For backwards-compatible local development, the server also accepts
+`VITE_SUPABASE_PUBLISHABLE_KEY` when `SUPABASE_PUBLISHABLE_KEY` is absent.
+
+Calculator profit-plan PDFs are transactional emails requested explicitly by
+the visitor. Configure `RESEND_API_KEY`, `RESEND_FROM` and `RESEND_REPLY_TO` to
+deliver them. A successful form response is returned only after Resend supplies
+a message ID. `EMAIL_LIVE_MODE` continues to gate manual invoice delivery and
+does not control calculator reports.
+
 The secret/service-role key is not required by the deployed site. It is only
 used by the local, one-time first-admin command.
 

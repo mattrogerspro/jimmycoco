@@ -103,11 +103,8 @@ async function sendCalculatorReportEmail(options: {
   recommendationTitle: string;
   recommendationUrl: string;
 }) {
-  if (process.env.EMAIL_LIVE_MODE !== "true") {
-    throw new Error("Calculator report delivery is disabled in this environment.");
-  }
   if (!process.env.RESEND_API_KEY) {
-    throw new Error("Calculator report delivery is not configured.");
+    throw new Error("Calculator report delivery is not configured. Set RESEND_API_KEY.");
   }
 
   const response = await fetch("https://api.resend.com/emails", {
@@ -151,10 +148,6 @@ export async function handleCalculatorReportSubmit(request: Request): Promise<Ca
   }
 
   const form = await request.formData();
-  if (String(form.get("company_website") ?? "")) {
-    return { ok: true, message: "Your report is on its way." };
-  }
-
   const firstName = String(form.get("firstName") ?? "").trim().slice(0, 80);
   const salonName = String(form.get("salonName") ?? "").trim().slice(0, 140);
   const email = String(form.get("email") ?? "").trim().toLowerCase().slice(0, 254);
@@ -201,9 +194,13 @@ export async function handleCalculatorReportSubmit(request: Request): Promise<Ca
       metadata: reportMetadata,
     });
   } catch (error) {
-    console.error("Calculator report lead failed", (error as Error).message);
+    console.error("[calculator-report] lead storage failed", {
+      error: error instanceof Error ? error.message : String(error),
+    });
     return { ok: false, message: "We could not save your report request just now. Please try again." };
   }
+
+  console.info("[calculator-report] lead stored", { applicationId });
 
   const pdf = await renderCalculatorReportPdf({
     firstName,
@@ -216,8 +213,9 @@ export async function handleCalculatorReportSubmit(request: Request): Promise<Ca
   const monthlyProfit = `£${Math.round(totals.netMonth).toLocaleString("en-GB")}`;
   const litresPerMonth = totals.litresPerMonth.toLocaleString("en-GB", { maximumFractionDigits: 1 });
 
+  let resendEmailId: string;
   try {
-    await sendCalculatorReportEmail({
+    resendEmailId = await sendCalculatorReportEmail({
       applicationId,
       firstName,
       salonName,
@@ -229,12 +227,17 @@ export async function handleCalculatorReportSubmit(request: Request): Promise<Ca
       recommendationUrl: recommendation.url,
     });
   } catch (error) {
-    console.error("Calculator report email failed", (error as Error).message);
+    console.error("[calculator-report] delivery failed", {
+      applicationId,
+      error: error instanceof Error ? error.message : String(error),
+    });
     return {
       ok: false,
       message: "We saved your breakdown, but the email could not be sent just now. Please try again shortly.",
     };
   }
+
+  console.info("[calculator-report] delivered", { applicationId, resendEmailId });
 
   await emitResellerEventSafely({
     trigger: "reseller_application_internal_notice",
@@ -247,6 +250,7 @@ export async function handleCalculatorReportSubmit(request: Request): Promise<Ca
       BUSINESS_NAME: salonName,
       SUBMISSION_SUMMARY: `${input.tansPerWeek} tans per week; ${litresPerMonth} litres per month; ${monthlyProfit} estimated monthly profit.`,
       APPLICATION_ID: applicationId,
+      RESEND_EMAIL_ID: resendEmailId,
     },
   });
 

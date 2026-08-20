@@ -1,8 +1,8 @@
 # Sunless by Jimmy Coco — Sydney Salon Cold Outreach
 ## Copy-ready sequence (plain-text, for your cold-email tool)
 
-**Campaign:** Recruit Greater Sydney spray-tan salons as stockists of the *Sunset* professional line, opening with a complimentary trial. The spine is sun-safe, believable colour built for harsh UV and summer humidity.
-**Offer:** A partnership with two revenue lines — the *Sunset* professional solution for the booth, plus a curated take-home retail range for the shelf. Email 1 leads with a complimentary trial + Jimmy's shade guide.
+**Campaign:** Recruit Greater Sydney spray-tan salons as stockists of the *Malibu* professional line, opening with a complimentary trial. The spine is sun-safe, believable colour built for harsh UV and summer humidity.
+**Offer:** A partnership with two revenue lines — the *Malibu* professional solution for the booth, plus a curated take-home retail range for the shelf. Email 1 leads with a complimentary trial + Jimmy's shade guide.
 **Primary outcome:** a trial request (reply-led). Secondary: a booked 15-minute call.
 **Sequence:** 5 emails over ~20 days (Day 0 → 3 → 8 → 13 → 20).
 
@@ -36,9 +36,9 @@ Hi {{first_name}},
 
 I'll keep this short. I look after salon partnerships for Sunless by Jimmy Coco — the professional line from tanning artist Jimmy Coco, the name behind a lot of the colour you've seen on red carpets and in front of cameras.
 
-Your clients want that warm, lit-from-within colour all year — but under some of the harshest UV on earth, more of them would rather not earn it on the sand or in a bed. Our Sunset professional solution gives them a believable, sun-safe alternative: undertone-true colour that reads natural in daylight, never orange, never flat. It's also built to behave in a Sydney summer — even wear and a clean fade, not a patchy result by the weekend.
+Your clients want that warm, lit-from-within colour all year — but under some of the harshest UV on earth, more of them would rather not earn it on the sand or in a bed. Our Malibu professional solution gives them a believable, sun-safe alternative: undertone-true colour that reads natural in daylight, never orange, never flat. It's also built to behave in a Sydney summer — even wear and a clean fade, not a patchy result by the weekend.
 
-Could I post {{salon_name}} a complimentary trial of the Sunset solution and Jimmy's shade guide — no cost, no commitment?
+Could I post {{salon_name}} a complimentary trial of the Malibu solution and Jimmy's shade guide — no cost, no commitment?
 
 Reply "send it" and I'll get it in the post this week.
 
@@ -59,7 +59,7 @@ Floating this back to the top of your inbox. The real test of a professional tan
 
 That's what Jimmy's shade method is built for: controlled depth, undertone awareness, and a finish that looks considered rather than obvious — one that wears and fades evenly through a humid Sydney week instead of patching off. It means a more confident consultation, colour clients can wear to weddings and events, a premium result that doesn't lean on discounting, and a name your clients already recognise.
 
-The complimentary trial offer still stands — a Sunset sample and Jimmy's shade guide, posted to {{salon_name}} so you can judge the colour on a real client.
+The complimentary trial offer still stands — a Malibu sample and Jimmy's shade guide, posted to {{salon_name}} so you can judge the colour on a real client.
 
 Want me to post one out? A one-word reply is plenty.
 
@@ -77,7 +77,7 @@ Hi {{first_name}},
 
 A quick note on why Jimmy Coco tends to pay for itself — it works two ways inside the same salon:
 
-1. In the booth — the Sunset professional solution. Believable, buildable colour you can price and present as a premium service, not a race to the bottom.
+1. In the booth — the Malibu professional solution. Believable, buildable colour you can price and present as a premium service, not a race to the bottom.
 2. On the shelf — a curated take-home range. Clients keep their colour fresh between visits, which is real margin with no extra chair time.
 
 One partner, one aesthetic and two commercial moments from the same client relationship — and the moment a client walks out of your booth is the highest-intent one you get.

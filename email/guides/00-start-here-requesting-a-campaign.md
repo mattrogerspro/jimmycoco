@@ -21,7 +21,7 @@ The more of these you can state, the fewer questions come back:
 | Market | Greater Sydney, Australia |
 | Audience | Premium spray-tan salon owners |
 | Primary outcome | Trial-kit requests |
-| Offer or hook | complimentary trial of the Sunset solution |
+| Offer or hook | complimentary trial of the Malibu solution |
 | Cadence or length | 5 emails over 3 weeks |
 | Channel | Email, or Email + WhatsApp |
 

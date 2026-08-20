@@ -37,7 +37,7 @@ That distinction explains three common surprises:
 |---|---:|---|
 | [Malibu Tinted Tan Soufflé](/products/tinted-tan-souffle-malibu-beach-choose-from-two-shades) | 6–8 hours | Face and body colour in Medium or Dark |
 | [A-List Face Tanning Mist](/products/face-mist) | 6–8 hours, then rinse with water only | Buildable facial colour over a considered skincare routine |
-| Laguna, Malibu and Sunset professional solutions | 6–12 hours on current professional pages, with additional guidance by skin and desired depth | Professional service planned by the spray-tan artist |
+| Laguna, Malibu and Malibu professional solutions | 6–12 hours on current professional pages, with additional guidance by skin and desired depth | Professional service planned by the spray-tan artist |
 
 Do not apply the professional timing to a consumer product or the consumer timing to a professional spray solution.
 

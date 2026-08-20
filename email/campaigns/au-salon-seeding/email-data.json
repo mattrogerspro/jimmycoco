@@ -26,9 +26,9 @@
       "blocks": [
         {"type":"paragraph","html":"Hi {{first_name}},"},
         {"type":"paragraph","html":"I'll keep this short. I look after salon partnerships for <strong>Sunless by Jimmy Coco</strong> — the professional line from the tanning artist behind a lot of the colour you've seen on red carpets and covers."},
-        {"type":"paragraph","html":"Our <strong>Sunset professional solution</strong> is built around the thing clients notice first: colour that reads warm and believable in daylight — never orange, never flat. It is an undertone-aware professional spray for your booth, with a focused take-home range your clients can buy on the way out."},
+        {"type":"paragraph","html":"Our <strong>Malibu professional solution</strong> is built around the thing clients notice first: colour that reads warm and believable in daylight — never orange, never flat. It is an undertone-aware professional spray for your booth, with a focused take-home range your clients can buy on the way out."},
         {"type":"paragraph","html":"With spring racing and summer bookings not far off, now is the quiet window to trial it."},
-        {"type":"offer","html":"Could I send {{salon_name}} a <strong>complimentary sample</strong> of the Sunset solution and Jimmy's shade guide — no cost, no commitment?"},
+        {"type":"offer","html":"Could I send {{salon_name}} a <strong>complimentary sample</strong> of the Malibu solution and Jimmy's shade guide — no cost, no commitment?"},
         {"type":"cta","label":"Post me a sample","url":"mailto:{{sender_email}}?subject=Send%20it%20%E2%80%94%20{{salon_name}}"},
         {"type":"note","html":"Or just reply “send it” — that is all I need."}
       ]
@@ -41,7 +41,7 @@
       "headline": "Still happy to post one out.",
       "blocks": [
         {"type":"paragraph","html":"Hi {{first_name}},"},
-        {"type":"paragraph","html":"Floating this back to the top of your inbox. The offer still stands — a free sample of the Sunset professional solution and Jimmy's shade guide, sent to {{salon_name}} so you can trial it on a real client before summer."},
+        {"type":"paragraph","html":"Floating this back to the top of your inbox. The offer still stands — a free sample of the Malibu professional solution and Jimmy's shade guide, sent to {{salon_name}} so you can trial it on a real client before summer."},
         {"type":"paragraph","html":"Salons tend to switch for the same reason: fewer “it went orange” conversations, and a premium name clients already recognise. Happy to let the sample make the case."},
         {"type":"cta","label":"Post me a sample","url":"mailto:{{sender_email}}?subject=Send%20me%20a%20sample&amp;body=Yes%2C%20please%20post%20a%20sample%20out%20to%20my%20salon."},
         {"type":"note","html":"Or a one-word reply is plenty."}
@@ -56,7 +56,7 @@
       "blocks": [
         {"type":"paragraph","html":"Hi {{first_name}},"},
         {"type":"paragraph","html":"Jimmy Coco can support two revenue lines inside the same salon:"},
-        {"type":"bullets","items":["<strong>In the booth:</strong> Sunset professional solution for premium, believable colour and a service clients can value properly.","<strong>On the shelf:</strong> a curated take-home range that helps clients maintain their result without using more chair time."]},
+        {"type":"bullets","items":["<strong>In the booth:</strong> Malibu professional solution for premium, believable colour and a service clients can value properly.","<strong>On the shelf:</strong> a curated take-home range that helps clients maintain their result without using more chair time."]},
         {"type":"offer","html":"One partner, one visual language and two commercial opportunities — without discounting your service or your brand."},
         {"type":"cta","label":"Book a 15-minute call","url":"{{calendar_link}}"},
         {"type":"note","html":"The complimentary sample offer is still open — reply and I will arrange it."}
@@ -99,7 +99,7 @@
       "blocks": [
         {"type":"paragraph","html":"Hi {{first_name}},"},
         {"type":"paragraph","html":"Brilliant — really glad you are in. Here is exactly what happens next:"},
-        {"type":"bullets","items":["<strong>Your sample:</strong> reply with the best postal address for {{salon_name}} and I will arrange the Sunset professional solution and Jimmy's shade guide.","<strong>A short setup call:</strong> once you have seen the colour, we will cover Jimmy's shade method, the pro and take-home ranges and trade terms.","<strong>Ready for season:</strong> from there we can get the booth stocked and the team confident before demand increases."]},
+        {"type":"bullets","items":["<strong>Your sample:</strong> reply with the best postal address for {{salon_name}} and I will arrange the Malibu professional solution and Jimmy's shade guide.","<strong>A short setup call:</strong> once you have seen the colour, we will cover Jimmy's shade method, the pro and take-home ranges and trade terms.","<strong>Ready for season:</strong> from there we can get the booth stocked and the team confident before demand increases."]},
         {"type":"offer","html":"No lock-in and no pressure. The sample is yours to judge on your own clients first."},
         {"type":"cta","label":"Choose a call time","url":"{{calendar_link}}"},
         {"type":"note","html":"Jimmy's shade guide: <a href=\"{{shade_guide_link}}\">view the guide</a>."}

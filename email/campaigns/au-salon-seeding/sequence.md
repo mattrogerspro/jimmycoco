@@ -2,8 +2,8 @@
 ## Copy-ready sequence (plain-text, for your cold-email tool)
 
 **Campaign:** Seed Australian spray-tan salons now (winter) to be stocked, trained and ready for spring racing + summer.
-**Offer:** A partnership with two revenue lines — the *Sunset* professional solution for the booth, plus a curated take-home retail range for the shelf.
-**Email-1 hook:** A free sample of the Sunset professional solution + Jimmy's shade guide.
+**Offer:** A partnership with two revenue lines — the *Malibu* professional solution for the booth, plus a curated take-home retail range for the shelf.
+**Email-1 hook:** A free sample of the Malibu professional solution + Jimmy's shade guide.
 **Sequence:** 5 emails over ~20 days.
 
 ---
@@ -36,9 +36,9 @@ Hi {{first_name}},
 
 I'll keep this short. I look after salon partnerships for **Sunless by Jimmy Coco** — the professional line from the tanning artist behind a lot of the colour you've seen on red carpets and covers.
 
-Our **Sunset professional solution** is built around the thing clients notice first: colour that reads warm and believable in daylight — never orange, never flat. It's the same undertone-true formula Jimmy uses on set, in a 1-litre professional spray for your booth, with a small take-home range your clients can buy on the way out.
+Our **Malibu professional solution** is built around the thing clients notice first: colour that reads warm and believable in daylight — never orange, never flat. It's the same undertone-true formula Jimmy uses on set, in a 1-litre professional spray for your booth, with a small take-home range your clients can buy on the way out.
 
-With spring racing and summer bookings not far off, now's the quiet window to trial it. Could I send {{salon_name}} a **complimentary sample** of the Sunset solution and Jimmy's shade guide — no cost, no commitment?
+With spring racing and summer bookings not far off, now's the quiet window to trial it. Could I send {{salon_name}} a **complimentary sample** of the Malibu solution and Jimmy's shade guide — no cost, no commitment?
 
 Reply "send it" and I'll get it in the post this week.
 
@@ -55,7 +55,7 @@ Reply "send it" and I'll get it in the post this week.
 
 Hi {{first_name}},
 
-Floating this back to the top of your inbox. The offer still stands — a free sample of the Sunset professional solution and Jimmy's shade guide, sent to {{salon_name}} so you can trial it on a real client before summer.
+Floating this back to the top of your inbox. The offer still stands — a free sample of the Malibu professional solution and Jimmy's shade guide, sent to {{salon_name}} so you can trial it on a real client before summer.
 
 Salons tend to switch for the same reason: fewer "it went orange" conversations, and a premium name clients already recognise. Happy to let the sample make the case.
 
@@ -75,7 +75,7 @@ Hi {{first_name}},
 
 Quick one on *why* Jimmy Coco tends to pay for itself — it works two ways in the same salon:
 
-**1. In the booth — the Sunset professional solution.**
+**1. In the booth — the Malibu professional solution.**
 Undertone-true colour, buildable depth, an even fade with no orange turn. Because the result looks professional and the name carries weight, it's a service you can price as premium rather than compete on price.
 
 **2. On the shelf — a curated take-home range.**

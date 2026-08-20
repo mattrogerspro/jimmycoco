@@ -77,7 +77,7 @@ Use only the asset ID in campaign content:
 ```json
 {
   "type": "heroImage",
-  "assetId": "product-sunset-professional-hero"
+  "assetId": "product-Malibu-professional-hero"
 }
 ```
 

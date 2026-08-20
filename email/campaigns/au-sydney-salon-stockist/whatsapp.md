@@ -50,21 +50,21 @@ WhatsApp actively polices business messaging. Use this track **only** where you 
 
 > Hi {{first_name}}, it's {{sender_first}} from Sunless by Jimmy Coco. I dropped {{salon_name}} an email earlier — we make the professional tanning line behind a lot of Jimmy's red-carpet work.
 >
-> Before the Sydney summer rush kicks in, I'd love to post you a complimentary trial of our Sunset professional solution and Jimmy's shade guide — no cost, no commitment. Happy for me to send it over?
+> Before the Sydney summer rush kicks in, I'd love to post you a complimentary trial of our Malibu professional solution and Jimmy's shade guide — no cost, no commitment. Happy for me to send it over?
 
 **Template-formatted version (for the WhatsApp API first touch):**
 
-> Hi {{first_name}}, it's {{sender_first}} from Sunless by Jimmy Coco — the professional tanning line from artist Jimmy Coco. We'd love to post {{salon_name}} a complimentary trial of our Sunset solution and shade guide before summer. Would you like us to send it?
+> Hi {{first_name}}, it's {{sender_first}} from Sunless by Jimmy Coco — the professional tanning line from artist Jimmy Coco. We'd love to post {{salon_name}} a complimentary trial of our Malibu solution and shade guide before summer. Would you like us to send it?
 >
 > Reply STOP to opt out.
 
-*Tip: attach one product photo (the Sunset bottle) or a clean before/after image with this message — WhatsApp renders it inline and lifts reply rates. Use only approved assets.*
+*Tip: attach one product photo (the Malibu bottle) or a clean before/after image with this message — WhatsApp renders it inline and lifts reply rates. Use only approved assets.*
 
 ---
 
 ## WhatsApp 2 — Trial nudge (Day 6)
 
-> Hi {{first_name}} — just making sure this didn't slip past you. Still happy to post {{salon_name}} a complimentary trial of the Sunset solution + Jimmy's shade guide so you can try it on a client before summer.
+> Hi {{first_name}} — just making sure this didn't slip past you. Still happy to post {{salon_name}} a complimentary trial of the Malibu solution + Jimmy's shade guide so you can try it on a client before summer.
 >
 > Want me to pop one in the post this week? A quick "yes" is all I need.
 

@@ -95,9 +95,9 @@ The article refers to "Sunless by Jimmy Coco professional solution" and links to
 repository and at least one picture is wrong:
 
 - `pro-site/app/lib/specs.ts` — "Malibu Professional Spray Tan Solution 1L"
-- `content/` and the brand notes — "Sunset 1 Ltr Professional Spray"
+- `content/` and the brand notes — "Malibu 1 Ltr Professional Spray"
 - `website/11-content-hub/` — three litres: Laguna (Light/Medium), Malibu
-  (Medium/Dark), Sunset (Dark/Extra Dark)
+  (Medium/Dark), Malibu (Dark/Extra Dark)
 
 The article is written to survive any answer — it names the brand rather than the
 variant in the body, and the only variant name appears in the citation. Confirm

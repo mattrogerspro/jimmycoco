@@ -17,7 +17,7 @@ Hi {{first_name}},
 Brilliant — really glad you're in. Here's exactly what happens next, kept simple:
 
 **1. Your sample.**
-Reply with the best postal address for {{salon_name}} and I'll send the Sunset professional solution and Jimmy's shade guide out this week. Trial it on a real client — that's the whole point.
+Reply with the best postal address for {{salon_name}} and I'll send the Malibu professional solution and Jimmy's shade guide out this week. Trial it on a real client — that's the whole point.
 
 **2. A quick setup call (15 min).**
 Once you've seen the colour, we'll jump on a short call. I'll walk you through Jimmy's shade method, the pro and take-home ranges, and trade terms — and answer anything. Grab a time that suits: {{calendar_link}}
@@ -42,7 +42,7 @@ Hi {{first_name}},
 
 Brilliant — glad you're in. Three quick steps from here:
 
-1. Send me the best postal address for {{salon_name}} and your Sunset sample + Jimmy's shade guide goes out this week.
+1. Send me the best postal address for {{salon_name}} and your Malibu sample + Jimmy's shade guide goes out this week.
 2. Once you've trialled it, we grab 15 minutes so I can walk you through the shade method, the pro + take-home ranges and trade terms: {{calendar_link}}
 3. Then we get you stocked and your team ready — well before the summer rush.
 
@@ -57,7 +57,7 @@ Looking forward to it,
 
 > Brilliant, {{first_name}} — thanks! Here's what's next:
 >
-> 1. I'll post your Sunset sample + Jimmy's shade guide this week — what's the best address for {{salon_name}}?
+> 1. I'll post your Malibu sample + Jimmy's shade guide this week — what's the best address for {{salon_name}}?
 > 2. Once you've trialled it, we grab 15 mins so I can walk you through the shade method + trade terms.
 > 3. Then we get you ready well before the summer rush.
 >

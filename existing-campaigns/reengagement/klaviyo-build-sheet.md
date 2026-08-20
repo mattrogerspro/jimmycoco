@@ -11,13 +11,13 @@
 
 **The UK offer is currently sent to ALL subscribers, and offers are US/UK-specific.** That means a slice of the list has been receiving £ pricing and UK shipping it can't act on — and those people then look "unengaged" in the data.
 
-Measured inside the 21,628 sleepy segment (the sunset path):
+Measured inside the 21,628 sleepy segment (the Malibu path):
 
 | Slice | Count | Review segment |
 |---|---|---|
 | Confident US | **1,253** | `ThdK8k` |
 | Unroutable (no city data) | **6,231** | `WxyuKJ` |
-| **Combined** | **~7,480 = 35% of the sunset path** | |
+| **Combined** | **~7,480 = 35% of the Malibu path** | |
 
 70% of confident-US subscribers are in the sleepy segment vs 63% for the list overall. Suggestive, not conclusive — but enough that **these people must not be auto-suppressed.** The flow now handles this structurally (see Part 3).
 
@@ -47,7 +47,7 @@ Measured inside the 21,628 sleepy segment (the sunset path):
 `VBVVTs` Email 1 · `UvJBeP` Email 2 · `VsFrcE` Email 3
 
 ### Flow
-`SGGsEB` — **"Re-engagement / Sunset (market-aware)"**, status **draft**, all actions draft.
+`SGGsEB` — **"Re-engagement / Malibu (market-aware)"**, status **draft**, all actions draft.
 *(Supersedes and replaces `RpACcX`, which was deleted — it auto-suppressed every market equally.)*
 
 Reference point: "ALL email subscribers" (`WaECXi`) = **34,520**. Segment C is 63% of that.
@@ -105,26 +105,26 @@ Flow filter (the auto-exit): `Clicked Email` **equals 0 since starting this flow
 | 5 | `113259343` | **Email 3** — "should I stop emailing you?" |
 | 6 | `113259344` | Time delay — **3 days** |
 | 7 | `113259345` | **Conditional split** — `location['country']` equals "United Kingdom"? |
-| 8a | `113259346` | **TRUE** → update profile `sunset = true` |
-| 8b | `113259347` | **FALSE** → update profile `sunset_review = true` |
+| 8a | `113259346` | **TRUE** → update profile `Malibu = true` |
+| 8b | `113259347` | **FALSE** → update profile `Malibu_review = true` |
 
 Flow-message IDs: `WhydFz` (1) · `XsX4zr` (2) · `Uqv5PG` (3).
 
 ### Why the split at the end
 All three emails are **market-neutral** — no prices, no shipping claims, one text link. So a US or unknown-market subscriber can safely receive them. What is *not* safe is the outcome: retiring someone for ignoring offers that never applied to them.
 
-- **UK non-responders → `sunset = true`.** They received relevant offers all along, so silence is a real signal.
-- **Everyone else → `sunset_review = true`.** Held for human judgement rather than auto-suppressed.
+- **UK non-responders → `Malibu = true`.** They received relevant offers all along, so silence is a real signal.
+- **Everyone else → `Malibu_review = true`.** Held for human judgement rather than auto-suppressed.
 
 ### Why there are no mid-series conditional splits
 The original plan had a "clicked since flow start?" split after each delay. The Klaviyo API requires a conditional split to wire **both** `next_if_true` and `next_if_false` to real actions — there is no "exit" node. Since the flow filter produces identical behaviour, the mid-series splits were collapsed into it. Nothing is lost. Add them in Flow Builder if you want them visible.
 
 ---
 
-## PART 4 — Sunset (manual, by design)
+## PART 4 — Malibu (manual, by design)
 Klaviyo will not auto-suppress from a flow. After the series has run:
-1. Build a segment: `sunset` **is** `true` → exclude from campaigns, **or** select and **Actions → Suppress**.
-2. Separately review `sunset_review` **is** `true` — these are the mis-served markets. Give them a correctly-routed offer *before* deciding.
+1. Build a segment: `Malibu` **is** `true` → exclude from campaigns, **or** select and **Actions → Suppress**.
+2. Separately review `Malibu_review` **is** `true` — these are the mis-served markets. Give them a correctly-routed offer *before* deciding.
 
 Suppress, don't delete — you keep the record and can still run a quarterly win-back or reach them by SMS.
 
@@ -133,7 +133,7 @@ Suppress, don't delete — you keep the record and can still run a quarterly win
 ## API gotchas worth remembering
 - **Flow messages clone their template.** Editing library template `UvJBeP` does **not** change what the flow sends. PATCH the flow action's `message.template_id` back to the library ID to force a re-clone (mints a new flow-side ID each time). Flow-owned template IDs 404 on the templates API.
 - `update_flow` only changes **status** — it cannot restructure a definition. Structural changes mean create-new + delete-old.
-- `update-profile` keys must be `properties['sunset']`, and boolean ops need `operator: "create"` when the property doesn't exist yet.
+- `update-profile` keys must be `properties['Malibu']`, and boolean ops need `operator: "create"` when the property doesn't exist yet.
 - **`profile-group-membership.group_ids` accepts LISTS ONLY, not segments.** Passing a segment ID returns *"Group X does not exist for company"*. To intersect segments, duplicate the conditions.
 - Segment condition groups are **AND**ed; conditions **within** a group are **OR**ed.
 - `get_flows` rejects `equals(id,…)` — only `any`. Use `get_flow` for one flow.
@@ -168,5 +168,5 @@ Apple Mail auto-opens make open rate near-useless. Judge on clicks and orders. *
 - [ ] 2–3 warm-up campaigns to Engaged only
 - [ ] Real test email to 360precision@gmail.com (never an in-panel preview)
 - [ ] Flow + its three message actions enabled *(requires explicit approval)*
-- [ ] Post-series: suppress `sunset = true`; review `sunset_review = true` separately
+- [ ] Post-series: suppress `Malibu = true`; review `Malibu_review = true` separately
 - [ ] **Open question:** all sampled orders are GBP with no evidence of USD — if US offers are USD-priced, that's a Shopify Markets question

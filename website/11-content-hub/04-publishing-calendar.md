@@ -12,7 +12,7 @@
 | 2 — 3 Aug | Hands, Feet, Knees and Elbows; Face Tan and Body Tan | Solve precision problems and build a two-product routine | Two carousels and product-page FAQ extracts |
 | 3 — 10 Aug | 72-Hour Event Tan Plan; How to Help Self-Tan Fade Evenly | Capture occasion intent and support retention | Event timeline graphic and saveable aftercare checklist |
 | 4 — 17 Aug | Jimmy Coco Three-Step Routine; At-Home or Professional? | Consolidate the brand method and split journeys | Founder method video and route-selector email |
-| 5 — 24 Aug | Laguna, Malibu or Sunset?; How Many Spray Tans in One Litre? | Establish the trade content cluster | Professional email modules, salon carousel and enquiry CTA |
+| 5 — 24 Aug | Laguna, Malibu or Malibu?; How Many Spray Tans in One Litre? | Establish the trade content cluster | Professional email modules, salon carousel and enquiry CTA |
 
 ## Weeks 6–12 backlog
 
@@ -26,7 +26,7 @@ These topics require a fresh brief and product/claim check before drafting.
 | 9 — 21 Sep | A Beginner’s First Jimmy Coco Tanning Kit | Building a Retail Aftercare Route Around a Spray-Tan Service |
 | 10 — 28 Sep | The Night-Before Tan: What to Prepare and What to Avoid | Laguna Light/Medium: Consultation and Result Planning |
 | 11 — 5 Oct | How to Use a Tanning Brush for a Seamless Finish | Malibu Medium/Dark: Consultation and Result Planning |
-| 12 — 12 Oct | A-List Face Mist: How to Maintain a Year-Round Facial Glow | Sunset Dark/Extra Dark: Consultation and Result Planning |
+| 12 — 12 Oct | A-List Face Mist: How to Maintain a Year-Round Facial Glow | Malibu Dark/Extra Dark: Consultation and Result Planning |
 
 ## Publishing order rules
 

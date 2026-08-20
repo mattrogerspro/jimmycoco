@@ -19,7 +19,7 @@ The programme must create four commercial effects:
 | Experienced self-tanner | Wants a more believable, controlled finish | Professional layering, precision areas and face/body balance | Malibu Soufflé, Body Brush, Face Brush |
 | Face-tan customer | Patchiness, skincare compatibility, over-dark result | Dedicated mist routine and gradual build guidance | A-List Face Tanning Mist |
 | Event-led customer | Timing, transfer, photographs and corrections | 72-hour plan with trial and rinse timing | Appropriate Malibu shade + application tools |
-| Salon professional | Solution selection, yield, consistency and consultation | Laguna/Malibu/Sunset system and operating guidance | One-litre professional solutions |
+| Salon professional | Solution selection, yield, consistency and consultation | Laguna/Malibu/Malibu system and operating guidance | One-litre professional solutions |
 
 ## Editorial position
 
@@ -54,7 +54,7 @@ Core products: Malibu Soufflé, A-List Face Mist, application tools.
 ### Pillar 5 — Professional salon method
 
 Search intent: professional spray solution, shade selection, litres, usage and client consultation.  
-Core products: Laguna Light/Medium, Malibu Medium/Dark, Sunset Dark/Extra Dark.
+Core products: Laguna Light/Medium, Malibu Medium/Dark, Malibu Dark/Extra Dark.
 
 ## Initial deployment architecture
 
@@ -85,7 +85,7 @@ flowchart TD
 | 7 | The 72-Hour Event Tan Plan | Occasion conversion | Malibu Soufflé + tools |
 | 8 | How to Help Self-Tan Fade Evenly | Retention and repeat-use | Jimmy Coco routine |
 | 9 | The Jimmy Coco Three-Step Tanning Routine | Brand method pillar | Mitt, brushes, Soufflé, mist |
-| 10 | Laguna, Malibu or Sunset: Professional Solution Guide | Trade decision page | Professional one-litre range |
+| 10 | Laguna, Malibu or Malibu: Professional Solution Guide | Trade decision page | Professional one-litre range |
 | 11 | How Many Spray Tans Are in One Litre? | Trade commercial calculator | Professional one-litre range |
 | 12 | At-Home Self-Tan or Professional Spray Tan? | Route selector | Consumer and professional ranges |
 

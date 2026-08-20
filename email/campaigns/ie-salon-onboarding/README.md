@@ -1,10 +1,10 @@
 # IE Salon Onboarding — Professional Spray-Tan Line
 
-**Goal:** onboard NEW Irish (Republic of Ireland) professional spray-tan salons as stockists of the **Jimmy Coco professional spray-tan line** (the Sunset 1‑litre professional solution). Introduce the brand, educate on the product, and convert to a professional sample kit.
+**Goal:** onboard NEW Irish (Republic of Ireland) professional spray-tan salons as stockists of the **Jimmy Coco professional spray-tan line** (the Malibu 1‑litre professional solution). Introduce the brand, educate on the product, and convert to a professional sample kit.
 **Audience:** Irish salons / spray-tan professionals.
 **Market:** 🇮🇪 IE
 **Localised from:** `uk-salon-onboarding` (same style, imagery and structure).
-**Primary product (hero):** Sunset professional solution — 1 litre, approximately 28 tans, Dark/Extra Dark 10% DHA. See Copy system › Professional Product Facts (`email/04-copy-system/14-professional-product-facts.md`) — the single source for product figures. **£60 / 1 litre (GBP — kept in pounds per owner decision).**
+**Primary product (hero):** Malibu professional solution — 1 litre, approximately 28 tans, Dark/Extra Dark 10% DHA. See Copy system › Professional Product Facts (`email/04-copy-system/14-professional-product-facts.md`) — the single source for product figures. **£60 / 1 litre (GBP — kept in pounds per owner decision).**
 **Delivery line:** "fast delivery to Ireland" (per owner instruction, 2026-07-21).
 **Primary CTA (every email):** *Request your sample kit* → https://jimmycoco.co.uk/pages/why-choose-pro-professional · trade enquiries matthew@jimmycoco.pro
 **Secondary (never the headline):** the take-home retail range (Self Tan Soufflé, Face Brush, glow balm) as an optional second revenue line, surfaced only in emails 5 & 6 via a side panel + secondary link.
@@ -19,7 +19,7 @@
 | # | Alias | Subject | Hero |
 |---|-------|---------|------|
 | 1 | ie-onboarding-1-welcome | Now landing in Irish salons: the celebrity spray tan | Kendall |
-| 2 | ie-onboarding-2-the-formula | The professional formula, now stocked in Ireland | Sunset 1L |
+| 2 | ie-onboarding-2-the-formula | The professional formula, now stocked in Ireland | Malibu 1L |
 | 3 | ie-onboarding-3-the-glow | The glow Irish clients keep rebooking for | Glow model + application |
 | 4 | ie-onboarding-4-red-carpet | The red-carpet tan — now for salons across Ireland | Kendall + Jimmy quote |
 | 5 | ie-onboarding-5-the-commercial-case | Why Irish salons are adding this to their price list | Application *(secondary: retail)* |

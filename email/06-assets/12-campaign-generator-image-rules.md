@@ -77,7 +77,7 @@ Example:
 ```json
 {
   "type": "heroImage",
-  "assetId": "product-sunset-professional-hero"
+  "assetId": "product-Malibu-professional-hero"
 }
 ```
 

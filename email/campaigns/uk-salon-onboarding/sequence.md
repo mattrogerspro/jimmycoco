@@ -1,6 +1,6 @@
 # UK Salon Onboarding — Sequence (7 emails)
 
-Hero product throughout: **the professional spray-tan line** (Sunset 1L). Retail range = secondary only. Primary CTA every email: **Request your sample kit**.
+Hero product throughout: **the professional spray-tan line** (Malibu 1L). Retail range = secondary only. Primary CTA every email: **Request your sample kit**.
 
 ---
 
@@ -11,7 +11,7 @@ Brand intro (professional spray-tan line, now for UK salons). *Why it belongs in
 
 ## 2 — The professional formula, in one litre  ·  `uk-onboarding-2-the-formula`
 **Preview:** Approximately 28 flawless tans per litre — undertone-true colour that never goes orange.
-Hero: Sunset 1L infographic. Sunset professional solution — 1L, approx. 28 tans, Dark/Extra Dark 10% DHA, undertone-true, buildable, even fade. *What makes it professional* (4 specs). £60 / 1 litre.
+Hero: Malibu 1L infographic. Malibu professional solution — 1L, approx. 28 tans, Dark/Extra Dark 10% DHA, undertone-true, buildable, even fade. *What makes it professional* (4 specs). £60 / 1 litre.
 
 ## 3 — The glow clients book again for  ·  `uk-onboarding-3-the-glow`
 **Preview:** Skincare-led, hydrating, and believable in daylight.

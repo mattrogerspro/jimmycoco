@@ -29,7 +29,7 @@ The research distinguishes consumer self-tan from professional spray-tan solutio
 | 7 | Vita Liberata | Established premium tanning and instant body-finishing range | Occasion content, body-perfecting education and skincare/finish language | Jimmy can connect finish, depth and professional photography/red-carpet context more credibly |
 | 8 | Bali Body | Strong social reach and an unusually extensive searchable advice hub | Myths, mistakes, preparation, moisturising, mousse technique and no-guide-colour education | Jimmy can publish fewer but more authoritative, product-specific answers with better expert provenance |
 | 9 | Norvell | Major professional spray-tan brand with training, equipment and solution architecture | Professional certification, consultation, undertone, technique and business education | Jimmy can combine professional salon economics with consumer retail aftercare in one brand system |
-| 10 | MineTan | Broad international professional and at-home range built around fast, outcome-led choice | One-hour positioning, skin-finish outcomes and professional solution selection | Jimmy can avoid a crowded menu by teaching a memorable three-solution logic: Laguna, Malibu, Sunset |
+| 10 | MineTan | Broad international professional and at-home range built around fast, outcome-led choice | One-hour positioning, skin-finish outcomes and professional solution selection | Jimmy can avoid a crowded menu by teaching a memorable three-solution logic: Laguna, Malibu, Malibu |
 
 ## Category patterns confirmed by the research
 
@@ -61,7 +61,7 @@ The category is moving toward believable daylight colour, lighter layers and gre
 
 ### 5. Professional brands build authority through training
 
-Professional content performs a different commercial job. It must help a salon choose a solution, consult a client, control usage, protect results and understand service economics. Jimmy Coco’s one-litre Laguna, Malibu and Sunset solutions create a clean three-part education system.
+Professional content performs a different commercial job. It must help a salon choose a solution, consult a client, control usage, protect results and understand service economics. Jimmy Coco’s one-litre Laguna, Malibu and Malibu solutions create a clean three-part education system.
 
 ## Jimmy Coco content opportunity
 

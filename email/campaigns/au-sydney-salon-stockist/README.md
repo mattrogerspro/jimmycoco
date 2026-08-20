@@ -1,9 +1,9 @@
 # Sydney Salon Stockist Recruitment — Cold Outreach
 
-**Goal:** recruit independent Greater Sydney spray-tan salons and studios as stockists of the Sunless by Jimmy Coco *Sunset* professional line, opening with a complimentary trial.
+**Goal:** recruit independent Greater Sydney spray-tan salons and studios as stockists of the Sunless by Jimmy Coco *Malibu* professional line, opening with a complimentary trial.
 **Audience:** owners and managers of premium Sydney salons, spray-tan studios and mobile tanning professionals — businesses with premium positioning and clients who value natural, expert-led colour.
 **Market:** 🇦🇺 AU — Greater Sydney (Eastern Suburbs, Inner West, Northern Beaches, North Shore, CBD, Sutherland Shire). Timezone `Australia/Sydney`.
-**Offer / hook:** *A Sydney glow, without the Sydney sun* — a sun-safe, believable professional tan that holds up under harsh UV and summer humidity. Email 1 offers a **complimentary trial** of the Sunset solution + Jimmy's shade guide.
+**Offer / hook:** *A Sydney glow, without the Sydney sun* — a sun-safe, believable professional tan that holds up under harsh UV and summer humidity. Email 1 offers a **complimentary trial** of the Malibu solution + Jimmy's shade guide.
 **Primary outcome:** a professional **trial / sample-kit request** (reply-led). Secondary: a booked 15-minute partnership call.
 **Channel & ESP:** Email (Resend, shared master template) + a WhatsApp companion track. Emails 1, 2 and 5 are best sent plain-text; 3 and 4 can use the branded HTML.
 **Status:** `DRAFT — NOT APPROVED FOR SEND`

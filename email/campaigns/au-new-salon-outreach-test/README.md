@@ -37,8 +37,8 @@
 
 | Candidate | Intended role | Approval / rights state | Decision |
 |---|---|---|---|
-| `assets/images/product-images/Sunset 1 Ltr professional Spray/DED1L.webp` | Real professional-product header | Not present in the approved email asset manifest; AU email rights, current product facts, derivative and public URL are unverified | Blocked; not used |
-| `assets/images/product-images/Sunset 1 Ltr professional Spray/sunless-images.webp` | Real professional-product packshot | Not present in the approved email asset manifest; AU email rights, current packaging, derivative and public URL are unverified | Blocked; not used |
+| `assets/images/product-images/Malibu 1 Ltr professional Spray/DED1L.webp` | Real professional-product header | Not present in the approved email asset manifest; AU email rights, current product facts, derivative and public URL are unverified | Blocked; not used |
+| `assets/images/product-images/Malibu 1 Ltr professional Spray/sunless-images.webp` | Real professional-product packshot | Not present in the approved email asset manifest; AU email rights, current packaging, derivative and public URL are unverified | Blocked; not used |
 | Five celebrity source records in `email/06-assets/asset-manifest.json` | Not relevant to this product-led message | `REVIEW_REQUIRED`; no email/AU/purpose rights, derivative, public URL or approved alt text | Rejected |
 | `test-au-new-salon-outreach-header-v1` | Email 1 header product photo | AI-generated fictional, unbranded TEST fixture; restricted to this campaign; no person, real packaging, product fact or claim | Selected for TEST only |
 

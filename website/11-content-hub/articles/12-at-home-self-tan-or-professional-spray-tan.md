@@ -27,7 +27,7 @@ Both routes use Jimmy Coco’s tanning method. The difference is who controls th
 |---|---|---|
 | Who applies it? | You | Trained spray-tan artist |
 | Main format | Tinted Tan Soufflé and facial mist | HVLP/airbrush professional solution |
-| Shade/depth route | Malibu Medium or Dark; Original Soufflé in relevant markets | Laguna Light/Medium, Malibu Medium/Dark or Sunset Dark/Extra Dark |
+| Shade/depth route | Malibu Medium or Dark; Original Soufflé in relevant markets | Laguna Light/Medium, Malibu Medium/Dark or Malibu Dark/Extra Dark |
 | Best for | Repeat routines, privacy, flexible timing, separate face maintenance | Consultation, hard-to-reach coverage, event preparation, artist control |
 | Application tools | Buff & Glow Mitt, Face Brush, Body Brush | Professional equipment and artist technique |
 | Current development guidance | Malibu and A-List Face Mist: 6–8 hours | Professional solutions: 6–12 hours with additional approved guidance |
@@ -56,7 +56,7 @@ The current Jimmy Coco professional range offers a simple depth ladder:
 
 - [Laguna Light/Medium](/products/laguna-ltr-professional-spray-light-medium)
 - [Malibu Medium/Dark](/products/malibu-1-ltr-professional-spray-medium-dark)
-- [Sunset Dark/Extra Dark](/products/laguna-ltr-professional-spray-light-medium-copy)
+- [Malibu Dark/Extra Dark](/products/laguna-ltr-professional-spray-light-medium-copy)
 
 A good consultation should translate your desired finish into the appropriate solution and development plan rather than asking you to choose a bottle without context.
 

@@ -64,7 +64,7 @@ Corrected 8 August 2026; the professional website previously showed £79, "from 
 
 Three product questions are unsettled. Until each is closed, copy should use the brand name rather than the disputed detail.
 
-**Product name.** `pro-site/app/lib/specs.ts` and the live product URL say *Malibu Professional Spray Tan Solution 1L*. The brand notes and the IE onboarding campaign say *Sunset 1 Ltr Professional Spray*. `website/11-content-hub/` describes three separate litres — Laguna (Light/Medium), Malibu (Medium/Dark) and Sunset (Dark/Extra Dark). At least one of these is wrong.
+**Product name.** `pro-site/app/lib/specs.ts` and the live product URL say *Malibu Professional Spray Tan Solution 1L*. The brand notes and the IE onboarding campaign say *Malibu 1 Ltr Professional Spray*. `website/11-content-hub/` describes three separate litres — Laguna (Light/Medium), Malibu (Medium/Dark) and Malibu (Dark/Extra Dark). At least one of these is wrong.
 
 **Shade depths.** `specs.ts` lists Light, Medium, Medium/Dark and Dark. The IE campaign describes the professional litre as Dark / Extra Dark.
 

@@ -1,23 +1,23 @@
 ---
-title: "Laguna, Malibu or Sunset? Jimmy Coco Professional Solution Guide"
-slug: "laguna-malibu-sunset-professional-solution-guide"
+title: "Laguna, Malibu or Malibu? Jimmy Coco Professional Solution Guide"
+slug: "laguna-malibu-Malibu-professional-solution-guide"
 status: "ready_for_editorial_review"
 audience: "spray-tan artists and salon decision-makers"
 intent: "trade-product-decision"
 primary_keyword: "professional spray tan solution guide"
 secondary_keywords: ["light medium spray tan solution", "dark spray tan solution", "Jimmy Coco professional tan"]
-featured_products: ["Laguna Light/Medium", "Malibu Medium/Dark", "Sunset Dark/Extra Dark"]
+featured_products: ["Laguna Light/Medium", "Malibu Medium/Dark", "Malibu Dark/Extra Dark"]
 product_handles: ["laguna-ltr-professional-spray-light-medium", "malibu-1-ltr-professional-spray-medium-dark", "laguna-ltr-professional-spray-light-medium-copy"]
-canonical_path: "/blogs/jimmy-coco-professional/laguna-malibu-sunset-solution-guide"
-meta_title: "Laguna, Malibu or Sunset? | Jimmy Coco Professional"
-meta_description: "Choose Jimmy Coco Laguna, Malibu or Sunset professional spray solution by requested depth, starting profile and consultation—not guesswork."
+canonical_path: "/blogs/jimmy-coco-professional/laguna-malibu-Malibu-solution-guide"
+meta_title: "Laguna, Malibu or Malibu? | Jimmy Coco Professional"
+meta_description: "Choose Jimmy Coco Laguna, Malibu or Malibu professional spray solution by requested depth, starting profile and consultation—not guesswork."
 publish_window: "week-5"
 last_fact_checked: "2026-07-17"
 ---
 
-# Laguna, Malibu or Sunset? Jimmy Coco Professional Solution Guide
+# Laguna, Malibu or Malibu? Jimmy Coco Professional Solution Guide
 
-Use Laguna for a Light/Medium result, Malibu for Medium/Dark, and Sunset for Dark/Extra Dark. That depth ladder is the starting point—not the whole consultation. A professional should also consider the client’s starting tone, desired finish, previous tanning experience, event, development time and the amount of solution applied.
+Use Laguna for a Light/Medium result, Malibu for Medium/Dark, and Malibu for Dark/Extra Dark. That depth ladder is the starting point—not the whole consultation. A professional should also consider the client’s starting tone, desired finish, previous tanning experience, event, development time and the amount of solution applied.
 
 The Jimmy Coco professional range makes the initial decision deliberately simple:
 
@@ -25,7 +25,7 @@ The Jimmy Coco professional range makes the initial decision deliberately simple
 |---|---|---:|---:|
 | [Laguna](/products/laguna-ltr-professional-spray-light-medium) | Light/Medium | 1 litre | 6–12 hours |
 | [Malibu](/products/malibu-1-ltr-professional-spray-medium-dark) | Medium/Dark | 1 litre | 6–12 hours |
-| [Sunset](/products/laguna-ltr-professional-spray-light-medium-copy) | Dark/Extra Dark | 1 litre | 6–12 hours |
+| [Malibu](/products/laguna-ltr-professional-spray-light-medium-copy) | Dark/Extra Dark | 1 litre | 6–12 hours |
 
 Always use the current professional directions. The live product pages contain additional timing guidance for pale or hard-to-tan skin and for a darker result; those instructions must be followed exactly rather than simplified into an improvised salon rule.
 
@@ -39,7 +39,7 @@ Ask the client to describe the finish, not merely select a shade name. Useful pr
 - Which areas usually become too dark or too light?
 - How much time is available for development and the first rinse?
 
-Translate the answer into the Laguna–Malibu–Sunset ladder only after the desired outcome is clear.
+Translate the answer into the Laguna–Malibu–Malibu ladder only after the desired outcome is clear.
 
 ## Laguna: Light/Medium
 
@@ -49,13 +49,13 @@ Do not present Laguna as “only for pale skin”. Depth preference and professi
 
 ## Malibu: Medium/Dark
 
-Malibu sits at the centre of the range. It suits consultations asking for an unmistakable bronze without automatically moving to the deepest option. For salons, it can function as the core depth between a restrained Laguna result and the darker Sunset route.
+Malibu sits at the centre of the range. It suits consultations asking for an unmistakable bronze without automatically moving to the deepest option. For salons, it can function as the core depth between a restrained Laguna result and the darker Malibu route.
 
 Keep the application even and resist using extra solution to compensate for uncertain consultation. Choose the correct solution first, then spray consistently.
 
-## Sunset: Dark/Extra Dark
+## Malibu: Dark/Extra Dark
 
-Sunset is the deepest stated option in the current trio. Use it when the client and artist have agreed on a dark-to-extra-dark result and when the development plan, event and previous experience support that choice.
+Malibu is the deepest stated option in the current trio. Use it when the client and artist have agreed on a dark-to-extra-dark result and when the development plan, event and previous experience support that choice.
 
 Deeper does not mean heavier spray technique. The current professional pages recommend using solution sparingly—preferably less than 35 ml. Control should come from the selected formula, approved timing and an even application, not saturation.
 
@@ -126,6 +126,6 @@ First-time status supports a restrained consultation, but it does not replace a 
 
 ## Make depth easy to explain
 
-Use the Jimmy Coco trio as a clear professional conversation: [Laguna Light/Medium](/products/laguna-ltr-professional-spray-light-medium), [Malibu Medium/Dark](/products/malibu-1-ltr-professional-spray-medium-dark) and [Sunset Dark/Extra Dark](/products/laguna-ltr-professional-spray-light-medium-copy). Then document the exact plan that turns the selected bottle into a repeatable result.
+Use the Jimmy Coco trio as a clear professional conversation: [Laguna Light/Medium](/products/laguna-ltr-professional-spray-light-medium), [Malibu Medium/Dark](/products/malibu-1-ltr-professional-spray-medium-dark) and [Malibu Dark/Extra Dark](/products/laguna-ltr-professional-spray-light-medium-copy). Then document the exact plan that turns the selected bottle into a repeatable result.
 
 <!-- editorial-sources: Jimmy Coco professional solution pages checked 2026-07-17; trade access, formulation sameness and instructions require final professional review. -->

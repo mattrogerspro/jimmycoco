@@ -27,8 +27,8 @@ Use:
 Examples:
 
 ```text
-product/sunset-professional-email-600x400.jpg
-product/sunset-professional-email-mobile-480x480.jpg
+product/Malibu-professional-email-600x400.jpg
+product/Malibu-professional-email-mobile-480x480.jpg
 ```
 
 ## Rules

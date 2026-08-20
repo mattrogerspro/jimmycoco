@@ -55,7 +55,7 @@
   ],
 
   "citations": [
-    { "text": "Sunset 1 Ltr Professional Spray product specification, Sunless by Jimmy Coco, 2026", "url": "https://www.jimmycoco.pro/products/malibu-professional-spray-1l" },
+    { "text": "Malibu 1 Ltr Professional Spray product specification, Sunless by Jimmy Coco, 2026", "url": "https://www.jimmycoco.pro/products/malibu-professional-spray-1l" },
     { "text": "Spray tan pricing benchmarks, UK sector data, 2025–26", "url": "" }
   ],
 
@@ -73,7 +73,7 @@
     "internal_links": ["what-a-spray-tan-costs", "what-to-charge-for-a-spray-tan"],
     "open_verify_items": 0,
     "blocked_by": [
-      "product naming — Sunset vs Malibu vs Laguna, see brief.md",
+      "product naming — Malibu vs Malibu vs Laguna, see brief.md",
       "structure-patterns.md#known-implementation-gaps item 1 — brand byline typed as Person in article.tsx",
       "cover image not yet produced"
     ]

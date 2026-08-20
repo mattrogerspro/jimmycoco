@@ -19,13 +19,13 @@
   "messages": [
     {
       "output": "emails/1-sample-check-in.html",
-      "title": "How did the Sunset tan turn out?",
+      "title": "How did the Malibu tan turn out?",
       "preview": "Two quick questions, and the next step if you like it.",
       "eyebrow": "Sample check-in",
       "headline": "How did the colour develop?",
       "blocks": [
         {"type":"paragraph","html":"Hi {{first_name}},"},
-        {"type":"paragraph","html":"Your Sunset sample should have landed at {{salon_name}} by now — I hope you have had a chance to put it on a client."},
+        {"type":"paragraph","html":"Your Malibu sample should have landed at {{salon_name}} by now — I hope you have had a chance to put it on a client."},
         {"type":"bullets","items":["How did the colour develop for you? Honest feedback is useful, even when something is not the right fit.","If you liked it, let us take 15 minutes to sort your ranges and trade terms: {{calendar_link}}"]},
         {"type":"offer","html":"No rush and no pressure — reply whenever suits."},
         {"type":"cta","label":"Choose a call time","url":"{{calendar_link}}"}
@@ -40,7 +40,7 @@
       "blocks": [
         {"type":"paragraph","html":"Hi {{first_name}},"},
         {"type":"paragraph","html":"Great chatting today. Here is everything we covered."},
-        {"type":"bullets","items":["<strong>Your ranges:</strong> Sunset professional solution for the booth, plus the agreed take-home retail selection.","<strong>Wholesale margin:</strong> {{wholesale_margin}}","<strong>Opening order:</strong> {{min_opening_order}}","<strong>Reorders:</strong> from {{reorder_minimum}}","<strong>Dispatch:</strong> {{lead_time}}","<strong>Included:</strong> Jimmy's shade guide, method training, launch assets and direct support."]},
+        {"type":"bullets","items":["<strong>Your ranges:</strong> Malibu professional solution for the booth, plus the agreed take-home retail selection.","<strong>Wholesale margin:</strong> {{wholesale_margin}}","<strong>Opening order:</strong> {{min_opening_order}}","<strong>Reorders:</strong> from {{reorder_minimum}}","<strong>Dispatch:</strong> {{lead_time}}","<strong>Included:</strong> Jimmy's shade guide, method training, launch assets and direct support."]},
         {"type":"offer","html":"The one next step is your opening order."},
         {"type":"cta","label":"Place the opening order","url":"{{order_link}}"},
         {"type":"note","html":"Prefer help? Reply and I will walk through it with you."}

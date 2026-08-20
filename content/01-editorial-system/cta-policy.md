@@ -70,7 +70,7 @@ answer to a question it isn't the answer to.
 
 | Product | Price |
 |---|---|
-| Sunset 1 Ltr Professional Spray | £60 |
+| Malibu 1 Ltr Professional Spray | £60 |
 | A-List Glow Kit | £59 |
 | Tinted Tan Soufflé | £18 |
 | Application mitt | £15 |

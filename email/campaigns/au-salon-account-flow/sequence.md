@@ -15,13 +15,13 @@ Bridge from the cold campaign: `../au-salon-seeding/onboarding.md` is the handof
 **Trigger:** ~3–5 days after the sample is dispatched (or on delivery confirmation). · **Goal:** get them to actually trial it, and book the setup call.
 
 ### Email — plain text
-**Subject A:** How did the Sunset tan turn out?
-**Subject B:** Your Sunset sample — first impressions?
+**Subject A:** How did the Malibu tan turn out?
+**Subject B:** Your Malibu sample — first impressions?
 **Preview:** Two quick questions, and the next step if you like it.
 
 Hi {{first_name}},
 
-Your Sunset sample should have landed at {{salon_name}} by now — I hope you've had a chance to put it on a client.
+Your Malibu sample should have landed at {{salon_name}} by now — I hope you've had a chance to put it on a client.
 
 Two quick things:
 
@@ -34,7 +34,7 @@ No rush and no pressure — just reply whenever suits.
 {{sender_title}}
 
 ### WhatsApp
-> Hi {{first_name}} — did the Sunset sample land ok? Keen to hear how the colour turned out on your client. If you liked it, happy to grab 15 mins to sort your ranges + trade terms: {{calendar_link}} — no pressure either way.
+> Hi {{first_name}} — did the Malibu sample land ok? Keen to hear how the colour turned out on your client. If you liked it, happy to grab 15 mins to sort your ranges + trade terms: {{calendar_link}} — no pressure either way.
 
 ---
 
@@ -51,7 +51,7 @@ Hi {{first_name}},
 Great chatting today. Here's everything we covered, in one place.
 
 YOUR RANGES
-- In the booth: the Sunset professional solution
+- In the booth: the Malibu professional solution
 - On the shelf: the take-home retail range (Tinted Tan Soufflé, the Face Brush, extend-your-tan products)
 
 YOUR TRADE TERMS

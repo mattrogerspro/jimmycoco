@@ -54,7 +54,7 @@ website/
 3. **Accessibility** — dedicated `08-accessibility-standards.md` plus per-chapter sections in most files.
 4. **QA / approval / versioning** — scene QA checklist, failure-modes guide, and a versioning & approval workflow now exist.
 5. **Recommendation logic** — `09-shade-match/03` defines a rigorous, transparent rules-and-scoring model with confidence bands, governance, and test matrix.
-6. **Product imagery** — `product-images/` adds real photography for: Malibu Beach Face Contour Kit (Dark), Sunset 1 Ltr Professional Spray, The Face Brush, Tinted Tan Soufflé Malibu Beach, Sunless Brush.
+6. **Product imagery** — `product-images/` adds real photography for: Malibu Beach Face Contour Kit (Dark), Malibu 1 Ltr Professional Spray, The Face Brush, Tinted Tan Soufflé Malibu Beach, Sunless Brush.
 7. Verified clean: **no dangling asset IDs**, **no hex values redefined outside the colour system**, **no broken README file indexes** in the four new sections, desktop canvas (1700px/12-col) and 95%-evolution rules consistent throughout.
 
 ---

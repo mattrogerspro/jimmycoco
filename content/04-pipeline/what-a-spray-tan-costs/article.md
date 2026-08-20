@@ -34,11 +34,11 @@ realistically moves in. Substitute yours.
 
 ### Solution — £2.14
 
-A litre of Sunset Professional is £60. At 28 tans to the litre:
+A litre of Malibu Professional is £60. At 28 tans to the litre:
 
 `£60 ÷ 28 = £2.14 per tan`
 
-Twenty-eight is the figure for the Sunset professional litre. Your own number
+Twenty-eight is the figure for the Malibu professional litre. Your own number
 will sit either side of it depending on your equipment, your technique and how
 much of the body you're covering — a therapist doing full-coverage tans on larger
 frames with an older gun will get fewer; a light, efficient hand with a
@@ -250,7 +250,7 @@ only part of your consumable cost — with
 disposables, filters and laundry, budget around £3.24 a treatment.
 
 **How many spray tans do you get from a litre?**
-Twenty-eight for the Sunset professional litre. Your own number will sit either
+Twenty-eight for the Malibu professional litre. Your own number will sit either
 side of that depending on equipment, technique and how much of the body you
 cover. Measure your
 own: mark the bottle, count the tans over a week, and divide. It's the number
@@ -291,7 +291,7 @@ the slot. That model is different enough to need its own article.
 4. SalonIQ, salon retail benchmarks, 2026
 5. Phorest, salon client research, 2025 (n=716)
 6. Treatwell, UK no-show data, 2025
-7. Sunset 1 Ltr Professional Spray price list, Sunless by Jimmy Coco, 2026 — https://www.jimmycoco.pro/products/malibu-professional-spray-1l
+7. Malibu 1 Ltr Professional Spray price list, Sunless by Jimmy Coco, 2026 — https://www.jimmycoco.pro/products/malibu-professional-spray-1l
 
 ---
 

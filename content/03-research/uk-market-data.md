@@ -76,7 +76,7 @@ Due a 2026 refresh before the pricing article publishes — see
 
 | Figure | Note |
 |---|---|
-| Sunset 1 Ltr Professional Spray — **£60** | The litre used in every worked example |
+| Malibu 1 Ltr Professional Spray — **£60** | The litre used in every worked example |
 | **28 tans** per litre · **10% DHA** | **Do not restate from here.** See Copy system › Professional Product Facts (`email/04-copy-system/14-professional-product-facts.md`) — the single source for product figures. |
 | **£2.14** solution cost per tan | £60 ÷ 28 |
 | A-List Glow Kit **£59** · Tinted Tan Soufflé **£18** · mitt **£15** | Confirmed 8 Aug 2026 — [decision 5](../00-strategy/decisions.md#5-retail-pricing-the-lower-prices-are-correct) |

@@ -107,7 +107,7 @@ The full detail sits in two companion documents (sales-psychology and trust-and-
 4. **Lead with The Glow Edit** — the data says it's your click magnet.
 
 ### Do next — lift opens and clicks structurally
-5. **Sunset unengaged subscribers** and segment engaged-first — raises both open and inbox placement over time.
+5. **Malibu unengaged subscribers** and segment engaged-first — raises both open and inbox placement over time.
 6. **Start collecting product reviews** (post-purchase flow). Star ratings are the highest-ROI trust signal and you currently have none to show.
 7. **Escape the Promotions tab** with a lighter image-to-text balance and a re-engagement ask.
 

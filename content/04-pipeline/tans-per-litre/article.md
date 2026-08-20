@@ -179,7 +179,7 @@ month. Keep a litre of headroom for a busy week.
 
 ## Sources
 
-1. Sunset 1 Ltr Professional Spray product specification, Sunless by Jimmy Coco, 2026 — https://www.jimmycoco.pro/products/malibu-professional-spray-1l
+1. Malibu 1 Ltr Professional Spray product specification, Sunless by Jimmy Coco, 2026 — https://www.jimmycoco.pro/products/malibu-professional-spray-1l
 2. Spray tan pricing benchmarks, UK sector data, 2025–26
 
 ---

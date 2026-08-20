@@ -95,7 +95,7 @@ Campaign JSON references images by `assetId`, not arbitrary URL:
 ```json
 {
   "type": "heroImage",
-  "assetId": "product-sunset-professional-hero"
+  "assetId": "product-Malibu-professional-hero"
 }
 ```
 

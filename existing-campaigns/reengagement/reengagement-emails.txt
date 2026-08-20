@@ -3,7 +3,7 @@ Status: BUILT AS KLAVIYO DRAFTS, 30 July 2026. Not enabled, nothing sent.
 The copy below is the source of truth and matches the live drafts exactly.
 Keep formatting minimal. {% unsubscribe %} renders the working unsubscribe
 link in Klaviyo (do NOT use {{unsubscribe_url}} — it renders a dead href).
-Sent from the flow "Re-engagement / Sunset" to Segment C (Sleepy).
+Sent from the flow "Re-engagement / Malibu" to Segment C (Sleepy).
 Anyone who clicks is removed from the flow before the next email.
 ========================================================================
 
@@ -11,7 +11,7 @@ LIVE KLAVIYO OBJECTS
   Email 1  library template  VBVVTs   flow message  WhydFz
   Email 2  library template  UvJBeP   flow message  XsX4zr
   Email 3  library template  VsFrcE   flow message  Uqv5PG
-  Flow     SGGsEB  "Re-engagement / Sunset (market-aware)"  (draft)
+  Flow     SGGsEB  "Re-engagement / Malibu (market-aware)"  (draft)
            (replaces RpACcX, deleted 30/07/26 - it auto-suppressed all
             markets equally, see re-engagement-flow.md)
 
@@ -20,7 +20,7 @@ MARKET NEUTRALITY - IMPORTANT
   That is deliberate: it means a US or unknown-market subscriber can safely
   receive all three, because "do you still want to hear from us?" is true in
   every market. Keep it that way. The flow's final split decides the OUTCOME
-  by country (UK -> sunset, everyone else -> sunset_review), so the copy
+  by country (UK -> Malibu, everyone else -> Malibu_review), so the copy
   itself never needs a market variant.
   The one link points at jimmycoco.co.uk, which will show GBP - minor, but
   worth knowing if US routing is ever added.

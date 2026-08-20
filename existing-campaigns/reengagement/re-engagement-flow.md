@@ -4,7 +4,7 @@
 
 **Prepared:** 30 July 2026 · **Built as Klaviyo drafts:** 30 July 2026
 
-> **Status: BUILT, NOT ENABLED.** Flow `SGGsEB` "Re-engagement / Sunset (market-aware)" and all supporting segments exist in account `WneYkr`. Nothing has been sent. Object IDs and click-by-click detail are in `klaviyo-build-sheet.md`.
+> **Status: BUILT, NOT ENABLED.** Flow `SGGsEB` "Re-engagement / Malibu (market-aware)" and all supporting segments exist in account `WneYkr`. Nothing has been sent. Object IDs and click-by-click detail are in `klaviyo-build-sheet.md`.
 
 ---
 
@@ -12,7 +12,7 @@
 
 Gmail decides where your email lands largely on **how *your* subscribers engage with *you*.** Every email sent to someone who ignores it is a small negative signal; every click and purchase is a positive one. So the fastest way to improve placement is to *stop sending to dead weight* and *concentrate sends on people who react* — then reputation lifts for everyone.
 
-The sequence is always: **clean → warm up on the engaged → win back the sleepy → sunset the silent.** Out of order (e.g. blast the whole list to "boost numbers") and placement gets worse.
+The sequence is always: **clean → warm up on the engaged → win back the sleepy → Malibu the silent.** Out of order (e.g. blast the whole list to "boost numbers") and placement gets worse.
 
 > **Caveat before setting thresholds:** Apple Mail auto-opens every email, so *opens are unreliable.* Define "engaged" on **clicks, site activity and purchases** — things a machine can't fake — and treat opens as a soft signal only.
 
@@ -45,7 +45,7 @@ By market:
 
 **"Confident" = country matches AND city is populated.** Country alone can't be trusted: it was defaulted to "United Kingdom" on a 2022-era import, so profiles with US ISP IPs (Comcast, Verizon) sit in the UK bucket. Raw US-by-country is 3,329; only 1,797 survive the city test. Newer Shopify/TikTok profiles carry proper location — the rot is confined to legacy imports.
 
-Inside the sunset path:
+Inside the Malibu path:
 
 | Slice of the 21,628 | Count |
 |---|---|
@@ -55,7 +55,7 @@ Inside the sunset path:
 
 **70% of confident-US subscribers are in the sleepy segment, against 63% for the list overall.** Suggestive rather than conclusive — US subscribers may be disproportionately sleepy for other reasons, e.g. TikTok impulse buyers who were never going to repeat — but it points the same way common sense does.
 
-**Consequence: roughly a third of the people the sunset flow would eventually retire may never have been properly served.** Retiring them would be discarding an audience, not cleaning a list. The flow now handles this structurally rather than relying on anyone remembering.
+**Consequence: roughly a third of the people the Malibu flow would eventually retire may never have been properly served.** Retiring them would be discarding an audience, not cleaning a list. The flow now handles this structurally rather than relying on anyone remembering.
 
 ---
 
@@ -115,10 +115,10 @@ None of the three carries a price, a discount or a shipping claim. That's why a 
 ### The market-aware ending
 What is **not** safe is the outcome. So the flow ends on a conditional split:
 
-- **`location['country']` = "United Kingdom" → `sunset = true`.** They've had relevant offers all along, so silence is a genuine signal.
-- **Anything else → `sunset_review = true`.** Held for human judgement instead of auto-suppressed. These are the ~7,480 who may simply have been sent the wrong country's offer.
+- **`location['country']` = "United Kingdom" → `Malibu = true`.** They've had relevant offers all along, so silence is a genuine signal.
+- **Anything else → `Malibu_review = true`.** Held for human judgement instead of auto-suppressed. These are the ~7,480 who may simply have been sent the wrong country's offer.
 
-This replaces the original single "tag everyone sunset" ending. The earlier flow (`RpACcX`) was deleted rather than left in place, so nobody can enable the version that retires all markets equally.
+This replaces the original single "tag everyone Malibu" ending. The earlier flow (`RpACcX`) was deleted rather than left in place, so nobody can enable the version that retires all markets equally.
 
 ### Decision — no discount code
 The original plan left an optional `[CODE] for [X]% off` in Email 2. Dropped, because:
@@ -133,12 +133,12 @@ If reactivation lands below ~3%, adding a modest code to Email 2 is the obvious 
 
 ---
 
-## Step 4 — Sunset the silent
+## Step 4 — Malibu the silent
 
 Two buckets now, and they are not the same:
 
-- **`sunset = true`** (UK non-responders) → suppress from campaigns. Do **not** delete: you keep the record, and can still run a quarterly win-back or reach them by SMS.
-- **`sunset_review = true`** (US, other markets, unknown) → **do not suppress yet.** Give them a correctly-routed offer first. If they ignore *that*, they're genuinely cold.
+- **`Malibu = true`** (UK non-responders) → suppress from campaigns. Do **not** delete: you keep the record, and can still run a quarterly win-back or reach them by SMS.
+- **`Malibu_review = true`** (US, other markets, unknown) → **do not suppress yet.** Give them a correctly-routed offer first. If they ignore *that*, they're genuinely cold.
 
 Klaviyo cannot auto-suppress from a flow by design, so both steps are manual — which is useful here, because it forces the review.
 
@@ -186,5 +186,5 @@ Full copy is in `reengagement-emails.txt`, which is the source of truth and matc
 - [ ] Send next 2–3 campaigns to Engaged only (Step 2)
 - [ ] Real test to 360precision@gmail.com
 - [ ] Enable the flow *(requires explicit approval)*
-- [ ] Post-series: suppress `sunset = true`, review `sunset_review = true` (Step 4)
+- [ ] Post-series: suppress `Malibu = true`, review `Malibu_review = true` (Step 4)
 - [ ] Confirm whether US offers are USD-priced — Shopify Markets question, not Klaviyo

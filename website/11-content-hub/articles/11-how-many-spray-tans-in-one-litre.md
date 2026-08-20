@@ -6,7 +6,7 @@ audience: "salon owners and spray-tan artists"
 intent: "trade-commercial-education"
 primary_keyword: "how many spray tans in a litre"
 secondary_keywords: ["spray tan solution per client", "cost per spray tan solution", "35ml spray tan"]
-featured_products: ["Laguna Light/Medium", "Malibu Medium/Dark", "Sunset Dark/Extra Dark"]
+featured_products: ["Laguna Light/Medium", "Malibu Medium/Dark", "Malibu Dark/Extra Dark"]
 product_handles: ["laguna-ltr-professional-spray-light-medium", "malibu-1-ltr-professional-spray-medium-dark", "laguna-ltr-professional-spray-light-medium-copy"]
 canonical_path: "/blogs/jimmy-coco-professional/how-many-spray-tans-in-one-litre"
 meta_title: "How Many Spray Tans per Litre? | Jimmy Coco Pro"
@@ -55,7 +55,7 @@ Depth should begin with the correct Jimmy Coco solution:
 
 - [Laguna](/products/laguna-ltr-professional-spray-light-medium) for Light/Medium;
 - [Malibu](/products/malibu-1-ltr-professional-spray-medium-dark) for Medium/Dark;
-- [Sunset](/products/laguna-ltr-professional-spray-light-medium-copy) for Dark/Extra Dark.
+- [Malibu](/products/laguna-ltr-professional-spray-light-medium-copy) for Dark/Extra Dark.
 
 The artist then follows the approved technique and development plan.
 
@@ -122,9 +122,9 @@ No. The current direction says approximately 28 full-body tans per litre, about 
 
 Real services include priming, overspray, residue and variation. The published range is designed for practical planning rather than perfect laboratory recovery.
 
-### Should I use more Sunset to create an extra-dark result?
+### Should I use more Malibu to create an extra-dark result?
 
-No. Sunset is already the Dark/Extra Dark option. Follow the approved application and development instructions instead of relying on oversaturation.
+No. Malibu is already the Dark/Extra Dark option. Follow the approved application and development instructions instead of relying on oversaturation.
 
 ## Plan from evidence, not instinct
 

@@ -3,7 +3,7 @@
   "market": "IE",
   "style": "uk-stockist rich (600px, Playfair/Arial, #e7dccd)",
   "assetBase": "https://jimmycoco.email/email-assets/uk-stockist/",
-  "primaryProduct": "Sunset professional solution (1L, approx. 28 tans, Dark/Extra Dark 10% DHA, £60)",
+  "primaryProduct": "Malibu professional solution (1L, approx. 28 tans, Dark/Extra Dark 10% DHA, £60)",
   "primaryCTA": {
     "label": "Request your sample kit",
     "url": "https://jimmycoco.co.uk/pages/why-choose-pro-professional"
@@ -23,7 +23,7 @@
       "file": "emails/2-the-formula.html",
       "subject": "The professional formula, now stocked in Ireland",
       "preview": "Approximately 28 flawless tans per litre — undertone-true colour that never goes orange.",
-      "hero": "product-sunset.jpg"
+      "hero": "product-Malibu.jpg"
     },
     {
       "alias": "ie-onboarding-3-the-glow",

@@ -132,7 +132,7 @@ Google's 2026 rules: authentication mandatory, spam-complaint rate must stay **u
 Gmail sorts bulk promotional mail into the **Promotions tab** — that's not spam, but it's checked far less often, which is most of your missing 10%. You can't reliably force Primary, but you improve the odds:
 
 - **Reduce the image-to-text ratio.** Heavy, single-image promotional emails are a Promotions-tab and spam-heuristic magnet. Worth noting: the flash sale email is image-led (a big hero, baked-in headline type). It's beautiful, but it's exactly the profile Gmail files under Promotions. A more balanced live-text-to-image ratio helps placement.
-- **Sunset unengaged Gmail subscribers.** Anyone on Gmail who hasn't opened in 90–180 days is actively *dragging down* your Gmail reputation — Gmail watches per-recipient engagement and learns to junk senders their users ignore. Cutting dead weight raises placement for everyone else. Counterintuitive but it's the highest-return list action you have.
+- **Malibu unengaged Gmail subscribers.** Anyone on Gmail who hasn't opened in 90–180 days is actively *dragging down* your Gmail reputation — Gmail watches per-recipient engagement and learns to junk senders their users ignore. Cutting dead weight raises placement for everyone else. Counterintuitive but it's the highest-return list action you have.
 - **Warm the good signal first.** On a big send, mail your most-engaged Gmail users *first*; a strong early open/click burst tells Gmail this is wanted mail before the rest goes out.
 - **Ask once for the Primary tab.** In your welcome email, a line like *"drag us to your Primary tab so you don't miss a drop"* plus encouraging a reply trains Gmail that you're wanted.
 

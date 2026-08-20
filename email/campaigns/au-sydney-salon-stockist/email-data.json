@@ -33,9 +33,9 @@
       "blocks": [
         {"type": "paragraph", "html": "Hi {{first_name}},"},
         {"type": "paragraph", "html": "I'll keep this short. I look after salon partnerships for <strong>Sunless by Jimmy Coco</strong> — the professional line from tanning artist Jimmy Coco, the name behind a lot of the colour you've seen on red carpets and in front of cameras."},
-        {"type": "paragraph", "html": "Your clients want that warm, lit-from-within colour all year — but under some of the harshest UV on earth, more of them would rather not earn it on the sand or in a bed. Our <strong>Sunset professional solution</strong> gives them a believable, sun-safe alternative: undertone-true colour that reads natural in daylight, never orange, never flat."},
+        {"type": "paragraph", "html": "Your clients want that warm, lit-from-within colour all year — but under some of the harshest UV on earth, more of them would rather not earn it on the sand or in a bed. Our <strong>Malibu professional solution</strong> gives them a believable, sun-safe alternative: undertone-true colour that reads natural in daylight, never orange, never flat."},
         {"type": "paragraph", "html": "It's also built to behave in a Sydney summer — even wear and a clean fade, not a patchy result by the weekend."},
-        {"type": "offer", "html": "Could I post {{salon_name}} a <strong>complimentary trial</strong> of the Sunset solution and Jimmy's shade guide — no cost, no commitment?"},
+        {"type": "offer", "html": "Could I post {{salon_name}} a <strong>complimentary trial</strong> of the Malibu solution and Jimmy's shade guide — no cost, no commitment?"},
         {"type": "cta", "label": "Post me a trial", "url": "mailto:{{sender_email}}?subject=Send%20a%20trial%20for%20{{salon_name}}"},
         {"type": "note", "html": "Or just reply 'send it' — that's all I need."}
       ]
@@ -52,7 +52,7 @@
         {"type": "paragraph", "html": "Floating this back to the top of your inbox. The real test of a professional tan isn't the treatment room — it's a client at Bondi at midday, in the photos from a February wedding, or out on the harbour three days later."},
         {"type": "paragraph", "html": "That's what Jimmy's shade method is built for: controlled depth, undertone awareness, and a finish that looks considered rather than obvious — one that wears and fades evenly through a humid Sydney week instead of patching off."},
         {"type": "bullets", "items": ["A more confident consultation with every client", "Colour clients can wear to weddings, events and a long weekend away", "A premium result that doesn't lean on discounting", "A name your clients already recognise"]},
-        {"type": "paragraph", "html": "The complimentary trial offer still stands — a Sunset sample and Jimmy's shade guide, posted to {{salon_name}} so you can judge the colour on a real client."},
+        {"type": "paragraph", "html": "The complimentary trial offer still stands — a Malibu sample and Jimmy's shade guide, posted to {{salon_name}} so you can judge the colour on a real client."},
         {"type": "cta", "label": "Post me a trial", "url": "mailto:{{sender_email}}?subject=Trial%20for%20{{salon_name}}"},
         {"type": "note", "html": "A one-word reply is plenty."}
       ]
@@ -67,7 +67,7 @@
       "blocks": [
         {"type": "paragraph", "html": "Hi {{first_name}},"},
         {"type": "paragraph", "html": "A quick note on why Jimmy Coco tends to pay for itself — it works two ways inside the same salon:"},
-        {"type": "bullets", "items": ["<strong>In the booth:</strong> the Sunset professional solution — believable, buildable colour you can price and present as a premium service, not a race to the bottom.", "<strong>On the shelf:</strong> a curated take-home range so clients can keep their colour fresh between visits — real margin, no extra chair time."]},
+        {"type": "bullets", "items": ["<strong>In the booth:</strong> the Malibu professional solution — believable, buildable colour you can price and present as a premium service, not a race to the bottom.", "<strong>On the shelf:</strong> a curated take-home range so clients can keep their colour fresh between visits — real margin, no extra chair time."]},
         {"type": "offer", "html": "One partner, one aesthetic and two commercial moments from the same client relationship — and the moment a client walks out of your booth is the highest-intent one you get."},
         {"type": "paragraph", "html": "The exact range and trade terms are confirmed through the approved partner route — I won't quote anything I can't stand behind. Happy to walk you through it on a quick call."},
         {"type": "cta", "label": "Book a 15-minute call", "url": "{{calendar_link}}"},

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """UK salon onboarding sequence (7 emails) in the UK-stockist rich style.
-Hero product = the professional spray-tan line (Sunset 1L). Take-home retail
+Hero product = the professional spray-tan line (Malibu 1L). Take-home retail
 range is SECONDARY only. Self-contained (no MailerLite). Images hosted at
 ASSET_BASE. Emits template/ (with {{{RESEND_UNSUBSCRIBE_URL}}}) and sent/
 (substituted) HTML."""
@@ -158,9 +158,9 @@ EMAILS=[
  dict(slug="2-the-formula", alias="uk-onboarding-2-the-formula",
    subject="The professional formula, in one litre",
    preview="Approximately 28 flawless tans per litre — undertone-true colour that never goes orange.",
-   rows=lambda:[s_header(), s_hero("product-sunset.jpg","Sunset professional spray tan — 1 litre"),
+   rows=lambda:[s_header(), s_hero("product-Malibu.jpg","Malibu professional spray tan — 1 litre"),
      s_intro("The professional solution","Built for the booth."),
-     s_para(["The <strong>Sunset professional solution</strong> is the heart of the line &mdash; a one-litre professional spray delivering <strong>approximately 28 full-body tans</strong>. Dark / Extra Dark at 10% DHA, undertone-true and buildable, with an even, believable fade.",
+     s_para(["The <strong>Malibu professional solution</strong> is the heart of the line &mdash; a one-litre professional spray delivering <strong>approximately 28 full-body tans</strong>. Dark / Extra Dark at 10% DHA, undertone-true and buildable, with an even, believable fade.",
              "It&rsquo;s the same colour philosophy Jimmy is known for: warm and natural in daylight, never flat, never orange &mdash; a result you can confidently price as premium."]),
      s_heading("What makes it professional"),
      s_benefits([("Professional spray","engineered for a flawless, even full-body tan."),

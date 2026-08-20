@@ -1,6 +1,6 @@
 # IE Salon Onboarding — Sequence (7 emails)
 
-Localised from the UK salon onboarding sequence for Ireland. Pricing kept in **GBP (£60 / 1 litre)** and delivery stated as **"fast delivery to Ireland"** per owner decision. Hero product throughout: **the professional spray-tan line** (Sunset 1L). Retail range = secondary only. Primary CTA every email: **Request your sample kit**.
+Localised from the UK salon onboarding sequence for Ireland. Pricing kept in **GBP (£60 / 1 litre)** and delivery stated as **"fast delivery to Ireland"** per owner decision. Hero product throughout: **the professional spray-tan line** (Malibu 1L). Retail range = secondary only. Primary CTA every email: **Request your sample kit**.
 
 ---
 
@@ -11,7 +11,7 @@ Brand intro (professional spray-tan line, now for Irish salons). *Why it belongs
 
 ## 2 — The professional formula, now stocked in Ireland  ·  `ie-onboarding-2-the-formula`
 **Preview:** Approximately 28 flawless tans per litre — undertone-true colour that never goes orange.
-Hero: Sunset 1L infographic. Sunset professional solution — 1L, approx. 28 tans, Dark/Extra Dark 10% DHA, undertone-true, buildable, even fade. *What makes it professional* (4 specs). Price note: £60 for 1 litre · professional grade · fast delivery to Ireland.
+Hero: Malibu 1L infographic. Malibu professional solution — 1L, approx. 28 tans, Dark/Extra Dark 10% DHA, undertone-true, buildable, even fade. *What makes it professional* (4 specs). Price note: £60 for 1 litre · professional grade · fast delivery to Ireland.
 
 ## 3 — The glow Irish clients keep rebooking for  ·  `ie-onboarding-3-the-glow`
 **Preview:** Skincare-led, hydrating, and believable in daylight.

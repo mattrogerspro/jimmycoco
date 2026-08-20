@@ -1,9 +1,9 @@
 # UK Salon Onboarding — Professional Spray-Tan Line
 
-**Goal:** onboard NEW UK professional spray-tan salons as stockists of the **Jimmy Coco professional spray-tan line** (the Sunset 1‑litre professional solution). Introduce the brand, educate on the product, and convert to a professional sample kit.
+**Goal:** onboard NEW UK professional spray-tan salons as stockists of the **Jimmy Coco professional spray-tan line** (the Malibu 1‑litre professional solution). Introduce the brand, educate on the product, and convert to a professional sample kit.
 **Audience:** UK salons / spray-tan professionals.
 **Market:** 🇬🇧 UK
-**Primary product (hero):** Sunset professional solution — 1 litre, approximately 28 tans, Dark/Extra Dark 10% DHA. £60 / 1 litre. Product figures come from Copy system › Professional Product Facts (`email/04-copy-system/14-professional-product-facts.md`) — the single source. Do not restate them from another asset.
+**Primary product (hero):** Malibu professional solution — 1 litre, approximately 28 tans, Dark/Extra Dark 10% DHA. £60 / 1 litre. Product figures come from Copy system › Professional Product Facts (`email/04-copy-system/14-professional-product-facts.md`) — the single source. Do not restate them from another asset.
 **Primary CTA (every email):** *Request your sample kit* → https://jimmycoco.co.uk/pages/why-choose-pro-professional · trade enquiries matthew@jimmycoco.pro
 **Secondary (never the headline):** the take-home retail range (Self Tan Soufflé, Face Brush, glow balm) as an optional second revenue line, surfaced only in emails 5 & 6 via a side panel + secondary link.
 **Style:** the rich UK-stockist template — 600px, Playfair Display / Arial, warm #e7dccd palette, hero imagery, matte-bronze CTAs. Self-contained (no MailerLite).
@@ -14,7 +14,7 @@
 | # | Alias | Subject | Hero |
 |---|-------|---------|------|
 | 1 | uk-onboarding-1-welcome | Your clients already know this name | Kendall |
-| 2 | uk-onboarding-2-the-formula | The professional formula, in one litre | Sunset 1L |
+| 2 | uk-onboarding-2-the-formula | The professional formula, in one litre | Malibu 1L |
 | 3 | uk-onboarding-3-the-glow | The glow clients book again for | Glow model + application |
 | 4 | uk-onboarding-4-red-carpet | The tan behind the red carpet | Kendall + Jimmy quote |
 | 5 | uk-onboarding-5-the-commercial-case | Why the professional line pays for itself | Application *(secondary: retail)* |

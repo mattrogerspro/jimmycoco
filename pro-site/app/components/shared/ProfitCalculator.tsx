@@ -13,6 +13,7 @@ const CALCULATOR_BACKGROUND_SRCSET = [480, 768, 1080, 1440, 1920, 2560, 3200, 40
   .join(", ");
 
 type Mode = "compact" | "full";
+type BusinessPreset = "salon" | "mobile";
 
 type SliderProps = {
   label: string;
@@ -83,6 +84,27 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
     },
     [mode, reportChange],
   );
+
+  const activeBusinessPreset: BusinessPreset | null = input.roomFixedCostsMonthly === 450
+    && input.minutesPerTan === 25
+    && input.hourlyRate === 12.71
+    ? "salon"
+    : input.roomFixedCostsMonthly === 0
+      && input.minutesPerTan === 40
+      && input.hourlyRate === 0
+      ? "mobile"
+      : null;
+
+  const applyBusinessPreset = useCallback((preset: BusinessPreset) => {
+    const presetValues = preset === "salon"
+      ? { roomFixedCostsMonthly: 450, minutesPerTan: 25, hourlyRate: 12.71 }
+      : { roomFixedCostsMonthly: 0, minutesPerTan: 40, hourlyRate: 0 };
+
+    setInput((current) => ({ ...current, ...presetValues }));
+    engaged.current = true;
+    trackOnce("calculator_start", "calculator_start", { section: "calculator", mode });
+    track("calculator_business_preset", { preset, mode });
+  }, [mode]);
 
   const volumeTotals = useMemo(() => calculate(input), [input]);
   const recommendation = professionalOrderRecommendation(volumeTotals.litresPerMonth);
@@ -177,6 +199,21 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
 
         <div className="calc-grid">
           <div className="calc-in">
+            {full && <div className="calc-business-presets" role="group" aria-label="Business type preset">
+              <p>Start with your business type</p>
+              <div>
+                <button type="button" aria-pressed={activeBusinessPreset === "salon"} onClick={() => applyBusinessPreset("salon")}>
+                  <span aria-hidden="true">🏢</span>
+                  <b>Treatment Room / Salon</b>
+                  <small>£450 rent · 25 min · £12.71 wage</small>
+                </button>
+                <button type="button" aria-pressed={activeBusinessPreset === "mobile"} onClick={() => applyBusinessPreset("mobile")}>
+                  <span aria-hidden="true">🚗</span>
+                  <b>Mobile Spray Artist</b>
+                  <small>£0 rent · 40 min door-to-door · £0 wage</small>
+                </button>
+              </div>
+            </div>}
             <div className="calc-group">
               <h3>In the booth</h3>
               <Slider label="Your price per spray tan" value={input.pricePerTan} min={15} max={60} display={gbp(input.pricePerTan)} onChange={set("pricePerTan", "price_per_tan")} />
@@ -381,6 +418,13 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
                     <th scope="row">
                       {lever.label}
                       <small>{lever.note}</small>
+                      {lever.id === "retail" && <Link
+                        className="calc-retail-starter-link"
+                        to={`${PRODUCT_PATH}?mitt=1&souffleMedium=1&souffleDark=1#retail-products`}
+                        onClick={() => track("calculator_retail_starter_cta", { annual_profit: Math.round(lever.annual) })}
+                      >
+                        See the 3-Piece Retail Starter Set →
+                      </Link>}
                     </th>
                     <td>{gbp(lever.annual)}</td>
                   </tr>

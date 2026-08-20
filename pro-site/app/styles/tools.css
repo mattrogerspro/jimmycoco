@@ -120,6 +120,93 @@
   font-weight: 600;
 }
 
+.calc-business-presets {
+  grid-column: 1/-1;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(237, 228, 215, .15);
+}
+
+.calc-business-presets > p {
+  margin: 0 0 10px;
+  color: #D09A68;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.calc-business-presets > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.calc-business-presets button {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 9px;
+  align-items: center;
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid rgba(237, 228, 215, .28);
+  border-radius: 6px;
+  background: rgba(253, 251, 248, .05);
+  color: #EDE4D7;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.calc-business-presets button:hover {
+  border-color: rgba(208, 154, 104, .72);
+  background: rgba(208, 154, 104, .1);
+}
+
+.calc-business-presets button[aria-pressed="true"] {
+  border-color: #D09A68;
+  background: rgba(208, 154, 104, .18);
+  box-shadow: inset 0 0 0 1px rgba(208, 154, 104, .32);
+}
+
+.calc-business-presets button > span {
+  grid-row: 1/3;
+  font-size: 22px;
+}
+
+.calc-business-presets button b {
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+}
+
+.calc-business-presets button small {
+  color: #B7AB9B;
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+.calc-retail-starter-link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 13px;
+  padding: 8px 12px;
+  border: 1px solid rgba(208, 154, 104, .55);
+  border-radius: 999px;
+  background: rgba(208, 154, 104, .1);
+  color: #F2C79E;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.calc-retail-starter-link:hover {
+  border-color: #D09A68;
+  background: rgba(208, 154, 104, .2);
+  color: #FFFDF9;
+}
+
 /* --- crawlable prose beneath the calculator --------------------------- */
 
 .tool-prose { padding: 84px 0 96px; }
@@ -228,6 +315,8 @@
   .levers-table tbody td { font-size:26px;padding:19px 0; }
   .calc-levers .note{font-size:18px}
   .tool-table th[scope="row"], .tool-table td { padding-top: 11px; padding-bottom: 11px; }
+  .calc-business-presets > div { grid-template-columns: 1fr; }
+  .calc-retail-starter-link { white-space: normal; }
 }
 
 /* ---- fixes for hosting .calc outside the home page --------------------- */

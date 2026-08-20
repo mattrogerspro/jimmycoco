@@ -55,6 +55,14 @@ export function professionalOrderPricing(quantity: number) {
   };
 }
 
+export function professionalOrderRecommendation(litresPerMonth: number) {
+  const quantity = Math.max(1, Math.ceil(Math.max(0, litresPerMonth) - 1e-9));
+  return {
+    quantity,
+    ...professionalOrderPricing(quantity),
+  };
+}
+
 export function professionalTierProfit(quantity: number, unitPrice: number) {
   const revenue = quantity * TANS_PER_LITRE * DEFAULT_TREATMENT_PRICE;
   const cost = quantity * unitPrice;

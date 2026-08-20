@@ -100,6 +100,26 @@
   max-width: 46ch;
 }
 
+.calc-derived-price {
+  padding: 11px 13px;
+  border: 1px solid rgba(237, 228, 215, .22);
+  border-radius: 6px;
+  background: rgba(253, 251, 248, .06);
+}
+
+.calc-derived-price-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #EDE4D7;
+  font-size: 18px;
+}
+
+.calc-derived-price-label output {
+  color: #fff;
+  font-weight: 600;
+}
+
 /* --- crawlable prose beneath the calculator --------------------------- */
 
 .tool-prose { padding: 84px 0 96px; }

@@ -8,8 +8,8 @@
     "malibu1L": {
       "name": "Malibu Professional Spray 1 Litre",
       "tiers": [
-        { "name": "Starter", "minQuantity": 1, "maxQuantity": 3, "exampleQuantity": 1, "unitPrice": 60 },
-        { "name": "Growth", "minQuantity": 4, "maxQuantity": 9, "exampleQuantity": 4, "unitPrice": 55 },
+        { "name": "Starter", "minQuantity": 1, "maxQuantity": 4, "exampleQuantity": 1, "unitPrice": 60 },
+        { "name": "Growth", "minQuantity": 5, "maxQuantity": 9, "exampleQuantity": 5, "unitPrice": 55 },
         { "name": "Premium", "minQuantity": 10, "maxQuantity": null, "exampleQuantity": 10, "unitPrice": 50 }
       ]
     }

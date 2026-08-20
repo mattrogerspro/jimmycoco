@@ -1,6 +1,6 @@
 import { calculate, DEFAULTS, levers, type Inputs } from "./calculator";
 import { renderCalculatorReportPdf } from "./calculator-report-pdf.server";
-import { professionalOrderPricing } from "./order-pricing";
+import { professionalOrderRecommendation } from "./order-pricing";
 import { emitResellerEventSafely, INTERNAL_NOTICE_ADDRESS } from "./reseller-events.server";
 import { isPlausibleEmail, submitApplication } from "./resellers.server";
 import { isSameOriginPost } from "./supabase.server";
@@ -60,19 +60,23 @@ function safeFilename(value: string) {
 }
 
 function recommendationFor(input: Inputs) {
+  const litresPerMonth = calculate(input).litresPerMonth;
+  const pricing = professionalOrderRecommendation(litresPerMonth);
+  const orderTitle = `Order ${pricing.quantity}L ${pricing.tier.name} ${pricing.quantity === 1 ? "Litre" : "Pack"} - £${pricing.total} (£${pricing.unitPrice}/L)`;
+  const orderUrl = `https://www.jimmycoco.pro/products/malibu-professional-spray-1l?qty=${pricing.quantity}#configure-solution`;
+
   if (input.tansPerWeek >= 15) {
-    const pricing = professionalOrderPricing(4);
     return {
-      quantity: 4,
-      title: `Order 4L High-Volume Pack - £${pricing.total}, save £${pricing.saving}`,
-      detail: `Your volume points to ${calculate(input).litresPerMonth.toFixed(1)} litres a month. Start with four litres at the Growth rate so the order matches the demand you have modelled.`,
-      url: "https://www.jimmycoco.pro/products/malibu-professional-spray-1l?qty=4#configure-solution",
+      quantity: pricing.quantity,
+      title: orderTitle,
+      detail: `Your volume points to ${litresPerMonth.toFixed(1)} litres a month, rounded up to ${pricing.quantity} whole litres at the ${pricing.tier.name} rate of £${pricing.unitPrice} per litre.`,
+      url: orderUrl,
     };
   }
   return {
-    quantity: 1,
+    quantity: pricing.quantity,
     title: "Claim your complimentary 100ml trial box",
-    detail: "Test the colour, application and fade on a real client before placing your first full-litre order.",
+    detail: `Test the colour, application and fade on a real client first. Your current bookings indicate a ${pricing.quantity}L ${pricing.tier.name} order at £${pricing.unitPrice} per litre when you are ready.`,
     url: "https://www.jimmycoco.pro/#trial",
   };
 }

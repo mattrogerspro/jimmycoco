@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { PRODUCT_PATH } from "../../lib/site";
 import { debounceTrack, track, trackOnce } from "../../lib/analytics";
 import { DEFAULTS, type Inputs, calculate, levers } from "../../lib/calculator";
-import { professionalOrderPricing } from "../../lib/order-pricing";
+import { professionalOrderRecommendation } from "../../lib/order-pricing";
 import { CalculatorReportModal } from "./CalculatorReportModal";
 import { CurrencyDisclosure, useCurrency } from "./CurrencyContext";
 
@@ -84,12 +84,19 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
     [mode, reportChange],
   );
 
-  const totals = useMemo(() => calculate(input), [input]);
-  const leverRows = useMemo(() => (full ? levers(input) : []), [full, input]);
+  const volumeTotals = useMemo(() => calculate(input), [input]);
+  const recommendation = professionalOrderRecommendation(volumeTotals.litresPerMonth);
+  const pricedInput = useMemo(
+    () => ({ ...input, litrePrice: recommendation.unitPrice }),
+    [input, recommendation.unitPrice],
+  );
+  const totals = useMemo(() => calculate(pricedInput), [pricedInput]);
+  const leverRows = useMemo(() => (full ? levers(pricedInput) : []), [full, pricedInput]);
   const highVolumeRecommendation = input.tansPerWeek >= 15;
-  const recommendedQuantity = highVolumeRecommendation ? 4 : 1;
-  const recommendedPricing = professionalOrderPricing(recommendedQuantity);
+  const recommendedQuantity = recommendation.quantity;
+  const recommendedPricing = recommendation;
   const recommendedProductPath = `${PRODUCT_PATH}?qty=${recommendedQuantity}#configure-solution`;
+  const orderCtaLabel = `Order ${recommendedQuantity}L ${recommendedPricing.tier.name} ${recommendedQuantity === 1 ? "Litre" : "Pack"} — ${gbp(recommendedPricing.total)} (${gbp(recommendedPricing.unitPrice)}/L) →`;
 
   const headline = full ? totals.netMonth : totals.grossMonth;
   useEffect(() => onMonthlyChange?.(headline), [headline, onMonthlyChange]);
@@ -107,14 +114,17 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
       monthly_gross: Math.round(totals.grossMonth),
       monthly_net: Math.round(totals.netMonth),
       yearly_net: Math.round(totals.netYear),
-      price_per_tan: input.pricePerTan,
-      tans_per_week: input.tansPerWeek,
-      tans_per_bottle: input.tansPerLitre,
-      retail_units: input.retailUnitsPerWeek,
-      minutes_per_tan: input.minutesPerTan,
-      room_fixed_costs: input.roomFixedCostsMonthly,
+      price_per_tan: pricedInput.pricePerTan,
+      tans_per_week: pricedInput.tansPerWeek,
+      tans_per_bottle: pricedInput.tansPerLitre,
+      litre_price: pricedInput.litrePrice,
+      recommended_litres: recommendedQuantity,
+      pricing_tier: recommendedPricing.tier.name,
+      retail_units: pricedInput.retailUnitsPerWeek,
+      minutes_per_tan: pricedInput.minutesPerTan,
+      room_fixed_costs: pricedInput.roomFixedCostsMonthly,
     });
-  }, [input, mode, reportResult, totals]);
+  }, [mode, pricedInput, recommendedPricing.tier.name, recommendedQuantity, reportResult, totals]);
 
   // Fires once when the levers panel is actually seen — the feature we most
   // want to know is being used.
@@ -172,7 +182,15 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
               <Slider label="Your price per spray tan" value={input.pricePerTan} min={15} max={60} display={gbp(input.pricePerTan)} onChange={set("pricePerTan", "price_per_tan")} />
               <Slider label="Spray tans per week" value={input.tansPerWeek} min={1} max={60} display={`${input.tansPerWeek}`} onChange={set("tansPerWeek", "tans_per_week")} />
               {full && <Slider label="Tans per litre" value={input.tansPerLitre} min={24} max={32} display={`${input.tansPerLitre}`} hint="Measure your own — mark the bottle, count the tans, divide." onChange={set("tansPerLitre", "tans_per_bottle")} />}
-              {full && <Slider label="Price per litre" value={input.litrePrice} min={40} max={90} display={gbp(input.litrePrice)} onChange={set("litrePrice", "litre_price")} />}
+              {full && <div className="field calc-derived-price">
+                <div className="calc-derived-price-label">
+                  <span>Price per litre</span>
+                  <output>{gbp(recommendedPricing.unitPrice)}</output>
+                </div>
+                <small className="field-hint">
+                  {recommendedPricing.tier.name} pricing for the {recommendedQuantity}L monthly order calculated from your bookings.
+                </small>
+              </div>}
             </div>
 
             {full && (
@@ -315,7 +333,7 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
                       litres_per_month: Number(totals.litresPerMonth.toFixed(1)),
                     })}
                   >
-                    Order 4L High-Volume Pack ({gbp(recommendedPricing.total)} — Save {gbp(recommendedPricing.saving)}) →
+                    {orderCtaLabel}
                   </Link>
                   <Link className="btn btn-outline-light" to="/#trial" onClick={() => track("calculator_dynamic_trial_cta", { path: "high_volume_secondary", tans_per_week: input.tansPerWeek })}>
                     Request Free Trial Sample First
@@ -335,11 +353,11 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
                       litres_per_month: Number(totals.litresPerMonth.toFixed(1)),
                     })}
                   >
-                    Order 1L Starter ({gbp(recommendedPricing.total)})
+                    {orderCtaLabel}
                   </Link>
                 </>
               )}
-              <CalculatorReportModal input={input} totals={totals} />
+              <CalculatorReportModal input={pricedInput} totals={totals} />
             </div> : null}
           </div>
         </div>

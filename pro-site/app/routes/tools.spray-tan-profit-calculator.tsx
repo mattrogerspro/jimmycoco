@@ -258,15 +258,15 @@ export default function CalculatorPage() {
               </tbody>
             </table>
 
-            <h2>Questions</h2>
-            <dl className="tool-faq">
-              {faq.map((item) => (
-                <div key={item.question}>
-                  <dt>{item.question}</dt>
-                  <dd>{item.answer}</dd>
-                </div>
+            <section className="tool-faq" aria-labelledby="calculator-faq-title">
+              <h2 id="calculator-faq-title">Frequently asked questions</h2>
+              {faq.map((item, index) => (
+                <details key={item.question} name="calculator-faq" open={index === 0}>
+                  <summary>{item.question}</summary>
+                  <p>{item.answer}</p>
+                </details>
               ))}
-            </dl>
+            </section>
 
             <p className="tool-note">
               These figures are a model, not a forecast. Substitute your own numbers — the

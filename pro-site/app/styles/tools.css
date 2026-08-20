@@ -331,17 +331,59 @@
   border-top: 1px solid var(--ink);
 }
 
-.tool-faq { margin: 24px 0 40px; }
-.tool-faq > div { padding: 22px 0; border-bottom: 1px solid var(--line); }
+.tool-faq { margin: 64px 0 40px; }
 
-.tool-faq dt {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 22px;
-  color: var(--ink);
-  margin-bottom: 10px;
+.tool-faq h2 {
+  margin: 0 0 20px;
+  color: #17130f;
+  font-family: var(--reading);
+  font-size: clamp(30px, 3.4vw, 38px);
+  font-weight: 800;
+  letter-spacing: -.02em;
 }
 
-.tool-faq dd { margin: 0; font-size: 19px; color: var(--muted); max-width: 68ch; }
+.tool-faq details {
+  border-bottom: 1px solid #e5d9cd;
+  background: transparent;
+}
+
+.tool-faq summary {
+  position: relative;
+  padding: 22px 44px 22px 0;
+  list-style: none;
+  color: #17130f;
+  cursor: pointer;
+  font-family: var(--reading);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.38;
+}
+
+.tool-faq summary::-webkit-details-marker { display: none; }
+
+.tool-faq summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  color: #8b542e;
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.tool-faq details[open] summary::after { content: "–"; }
+.tool-faq summary:hover { color: #8b542e; }
+
+.tool-faq details p {
+  margin: 0;
+  padding: 0 44px 24px 0;
+  color: var(--ink-read);
+  font-family: var(--reading);
+  font-size: 21px;
+  line-height: 1.68;
+}
 
 .tool-note {
   font-size: 17px !important;
@@ -371,6 +413,8 @@
   .tool-hero .sub { max-width: 34ch; }
   .tool-prose { padding: 56px 0 68px; }
   .tool-prose p { font-size: 18px; }
+  .tool-faq summary { font-size: 20px; }
+  .tool-faq details p { font-size: 19.5px; }
   .tool-table, .levers-table { font-size: 17px; }
   .calc-levers{padding:30px 20px}.calc-levers-head h3{font-size:36px}.calc-levers-head p{font-size:19px}
   .levers-table thead th{font-size:13px}.levers-table tbody th{font-size:19px;padding:19px 16px 19px 0}.levers-table tbody th small{font-size:16px}

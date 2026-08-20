@@ -4,6 +4,7 @@ import type { ApplicationActionResult } from "../../lib/application-action.serve
 import { track } from "../../lib/analytics";
 import { PRODUCT_PATH } from "../../lib/site";
 import { RetailProductCards } from "../shared/RetailProductCards";
+import type { TrialCalculatorContext } from "../shared/ProfitCalculator";
 import { LITRE_PRICE_GBP, TANS_PER_LITRE, costPerTan } from "../../lib/specs";
 import { useCurrency } from "../shared/CurrencyContext";
 
@@ -43,7 +44,7 @@ export function Hero() {
           <p className="eyebrow">For salons, spas &amp; mobile professionals</p>
           <h1>The tan your<br />clients ask for.<br /><em>Now in your booth.</em></h1>
           <div className="hero-stats"><div>Hollywood's professional spray tan system.</div><div>Approx. {TANS_PER_LITRE} full-body tans per bottle.</div><div>Designed to create clients who come back.</div></div>
-          <div className="hero-ctas"><Link className="btn btn-bronze" to={PRODUCT_PATH}>Order Malibu 1L — {money(LITRE_PRICE_GBP)}</Link><a className="btn btn-ghost" href="#trial">Request a free trial</a><a className="hero-profit-link" href="#calculator">Calculate your salon profits →</a></div>
+          <div className="hero-ctas" aria-label="Choose how you would like to start"><a className="btn hero-trial-cta" href="#trial">Request Free 100ml Trial Box</a><Link className="btn btn-ghost hero-order-cta" to={PRODUCT_PATH}>Order Malibu 1L ({money(LITRE_PRICE_GBP)})</Link><p className="hero-profit-line">Curious about margins? <a href="#calculator">See the salon profit breakdown <span aria-hidden="true">↓</span></a></p></div>
         </div>
         <HeroBottle /></div>
         {/* The headline over this photo used to be burnt into the raster, which
@@ -286,9 +287,13 @@ export function Certification() {
   </div></section>;
 }
 
-export function Trial({ monthlyProfit }: { monthlyProfit: number }) {
+export function Trial({ monthlyProfit, calculatorContext }: { monthlyProfit: number; calculatorContext: TrialCalculatorContext | null }) {
   const { money } = useCurrency();
   const gbp = money;
+  const monthlyLitres = calculatorContext ? (Math.round(calculatorContext.litresPerMonth * 10) / 10).toLocaleString("en-GB", { maximumFractionDigits: 1 }) : null;
+  const calculatorNote = calculatorContext
+    ? `Calculator estimate: approximately ${calculatorContext.tansPerWeek} tans per week, ${monthlyLitres} litres required per month at ${calculatorContext.tansPerLitre} tans per litre.`
+    : "";
   const result = useActionData() as ApplicationActionResult | undefined;
   const navigation = useNavigation();
   const submitting = navigation.state === "submitting";
@@ -316,10 +321,9 @@ export function Trial({ monthlyProfit }: { monthlyProfit: number }) {
         <div className="ts-next">
           <h3>What happens next</h3>
           <ol>
-            <li><div><b>We review your details</b><span>Our team checks your trial request and delivery information.</span></div></li>
-            <li><div><b>Your trial box is posted this week</b><span>We send your complimentary 100ml solution and Jimmy&rsquo;s shade guide.</span></div></li>
-            <li><div><b>You tan one real client</b><span>See the colour, finish and fade for yourself before making any decision.</span></div></li>
-            <li><div><b>We talk trade terms only if you love it</b><span>A straightforward 15-minute conversation — no pressure and no commitment.</span></div></li>
+            <li><div><b>We post your complimentary 100 ml trial bottle</b><span>No card details needed — just your salon delivery information.</span></div></li>
+            <li><div><b>Test it in your booth</b><span>Tan a team member or regular client, then judge the colour and 6–8 hour fade for yourself.</span></div></li>
+            <li><div><b>Order only if you love it</b><span>Order online at trade rates, or keep Jimmy&rsquo;s shade guide with our compliments.</span></div></li>
           </ol>
         </div>
         <p className="ts-reassurance"><b>No card. No commitment.</b> We will be in touch this week.</p>
@@ -328,10 +332,10 @@ export function Trial({ monthlyProfit }: { monthlyProfit: number }) {
   }
 
   return <section className="partner-close" id="trial"><div className="wrap"><p className="eyebrow">The partnership · complimentary trial</p><h2>Try it on a real client. <em>Free.</em></h2><p className="sub">Party season books out before it starts. Salons that trial now are stocked, trained and ready before the rush — and the trial costs you nothing but one appointment.</p><div className="close-grid"><div>
-    <div className="trialbox"><span className="tb-tag">Become a Jimmy Coco Certified Salon.</span><ul><li><b>The Sunset professional solution</b><span>Enough to tan a real client — judge the colour on skin, not on a screen.</span></li><li><b>Jimmy's shade guide</b><span>The method behind 20+ years of red-carpet colour. Yours to keep, either way.</span></li></ul><p>Posted this week · no cost · no commitment</p></div>
+    <div className="trialbox"><span className="tb-tag">Become a Jimmy Coco Certified Salon.</span><ul><li><b>Malibu Professional Spray (10% DHA)</b>{" "}<span>Enough to tan a real client — judge the colour and fade on skin, not on a screen.</span></li><li><b>Jimmy's shade guide</b>{" "}<span>The method behind 20+ years of red-carpet colour. Yours to keep, either way.</span></li></ul><p>Posted this week · no cost · no commitment</p></div>
     <div className="perks"><div><i>◆</i><b>Trade pricing</b><span>on the professional litre and the retail range</span></div><div><i>✦</i><b>Team training</b><span>Jimmy's shade method — confident from day one</span><a className="perk-link" href="#certification">Become a Jimmy Coco Certified Salon →</a></div><div><i>❋</i><b>Launch assets</b><span>marketing, ready to use on day one</span></div></div>
-    <p className="close-note">No lock-in and no pressure at any step. Trial it, judge it, then we talk terms — or we don't, and the shade guide is still yours.</p><div className="trial-order"><b>Ready to place an order?</b><Link to={PRODUCT_PATH}>Order Malibu 1L — {gbp(LITRE_PRICE_GBP)} →</Link></div>
-  </div><Form method="post" className="trialform" data-form-id="trade_trial" replace><div className="tf-head"><h3>Get the trial box</h3><span className="tf-badge">Free</span></div><p>Thirty seconds now. Posted this week.</p><p className="tf-echo">You calculated <b>{gbp(monthlyProfit)}</b> a month. The trial is how you check the colour deserves it.</p><input type="text" name="salon" autoComplete="organization" aria-label="Salon or business name" placeholder="Salon or business name" required /><input type="text" name="name" autoComplete="name" aria-label="Your name" placeholder="Your name" required /><input type="email" name="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required /><input type="tel" name="phone" autoComplete="tel" aria-label="Phone number (optional)" placeholder="Phone (optional)" /><select name="type" aria-label="Business type" defaultValue="Salon"><option>Salon</option><option>Spa</option><option>Mobile professional</option><option>Multi-site group</option></select><input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />
+    <p className="close-note">No lock-in and no pressure at any step. Trial it in your own booth, then choose whether to order online at trade rates. Either way, the shade guide is yours to keep.</p><div className="trial-order"><b>Ready to place an order?</b><Link to={PRODUCT_PATH}>Order Malibu 1L — {gbp(LITRE_PRICE_GBP)} →</Link></div>
+  </div><Form method="post" className="trialform" data-form-id="trade_trial" replace><div className="tf-head"><h3>Get the trial box</h3><span className="tf-badge">Free</span></div><p>Thirty seconds now. Posted this week.</p><p className="tf-echo">You calculated <b>{gbp(monthlyProfit)}</b> a month. {calculatorContext ? <>Based on your <b>~{calculatorContext.tansPerWeek} tans/week</b> estimate, plan for <b>about {monthlyLitres} litres</b> in your first month — use the complimentary 100ml trial to test the colour in your own booth first.</> : "The trial is how you check the colour deserves it."}</p><input type="hidden" name="notes" value={calculatorNote} /><input type="text" name="salon" autoComplete="organization" aria-label="Salon or business name" placeholder="Salon or business name" required /><input type="text" name="name" autoComplete="name" aria-label="Your name" placeholder="Your name" required /><input type="email" name="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required /><input type="tel" name="phone" autoComplete="tel" aria-label="Phone number (optional)" placeholder="Phone (optional)" /><select name="type" aria-label="Business type" defaultValue="Salon"><option>Salon</option><option>Spa</option><option>Mobile professional</option><option>Multi-site group</option></select><input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />
     {result && !result.ok ? <p className="form-error" role="alert">{result.message}</p> : null}
-    <button className="btn btn-bronze" type="submit" disabled={submitting}>{submitting ? "Sending…" : "Email for a free sample 100ml"}</button><ol className="tf-steps"><li><b>This week:</b> your trial box is posted</li><li><b>You tan</b> one real client and judge the result</li><li><b>15 minutes</b> on trade terms — only if you love it</li></ol><small>No card. No commitment. One email stops everything.</small></Form></div></div></section>;
+    <button className="btn btn-bronze" type="submit" disabled={submitting}>{submitting ? "Sending…" : "Email for a free sample 100ml"}</button><ol className="tf-steps"><li><b>1. We post</b> your complimentary 100 ml trial bottle — no card details needed.</li><li><b>2. You test</b> it on a team member or regular client and judge the 6–8 hour fade.</li><li><b>3. You choose:</b> order online at trade rates if you love it, or keep the shade guide with our compliments.</li></ol><small>No card. No commitment. One email stops everything.</small></Form></div></div></section>;
 }

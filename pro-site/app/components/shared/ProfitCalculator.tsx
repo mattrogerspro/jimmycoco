@@ -45,13 +45,21 @@ function Slider({ label, value, min, max, step = 1, display, hint, onChange }: S
   );
 }
 
+export type TrialCalculatorContext = {
+  tansPerWeek: number;
+  tansPerLitre: number;
+  litresPerMonth: number;
+};
+
 type Props = {
   mode?: Mode;
   /** Reports the headline figure for the mode — gross when compact, net when full. */
   onMonthlyChange?: (value: number) => void;
+  /** Carries a visitor's calculator assumptions into the homepage trial form. */
+  onTrialContextChange?: (context: TrialCalculatorContext) => void;
 };
 
-export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
+export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialContextChange }: Props) {
   const { money, isUsd } = useCurrency();
   const gbp = money;
   const full = mode === "full";
@@ -79,6 +87,11 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
 
   const headline = full ? totals.netMonth : totals.grossMonth;
   useEffect(() => onMonthlyChange?.(headline), [headline, onMonthlyChange]);
+  useEffect(() => onTrialContextChange?.({
+    tansPerWeek: input.tansPerWeek,
+    tansPerLitre: input.tansPerLitre,
+    litresPerMonth: totals.litresPerMonth,
+  }), [input.tansPerLitre, input.tansPerWeek, onTrialContextChange, totals.litresPerMonth]);
 
   // The outcome the visitor actually saw, once they stop moving things.
   useEffect(() => {
@@ -237,6 +250,24 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
                   <b>{gbp(totals.grossMonth)}</b>
                   <small>from the booth and shelf · before labour and premises</small>
                 </div>
+                <div className="calc-cta calc-compact-trial-cta">
+                  <a
+                    className="btn calc-trial-cta"
+                    href="#trial"
+                    onClick={() => track("calculator_trial_cta", {
+                      mode,
+                      tans_per_week: input.tansPerWeek,
+                      tans_per_litre: input.tansPerLitre,
+                      litres_per_month: Math.round(totals.litresPerMonth * 10) / 10,
+                      monthly_gross: Math.round(totals.grossMonth),
+                    })}
+                  >
+                    Test this in your booth — Claim Free 100ml Trial
+                  </a>
+                  <Link className="calc-detail-link" to={CALCULATOR_PATH}>
+                    See every cost in the full calculator →
+                  </Link>
+                </div>
                 <div className="ocard">
                   <span>Profit per tan before labour &amp; premises</span>
                   <b>{gbp(totals.grossPerTan, 2)}</b>
@@ -260,28 +291,15 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange }: Props) {
               </>
             )}
 
-            <div className="calc-cta">
-              {full ? (
-                <>
-                  <Link className="btn btn-bronze" to={PRODUCT_PATH}>
-                    Order the litre — {gbp(DEFAULTS.litrePrice)}
-                  </Link>
-                  <Link className="btn btn-outline-light" to="/#trial">
-                    Start with a free trial
-                  </Link>
-                  <p>Ready now or trial first—the next step is yours.</p>
-                </>
-              ) : (
-                <>
-                  <Link className="btn btn-bronze" to={CALCULATOR_PATH}>
-                    Open the full calculator
-                  </Link>
-                  <a className="btn btn-outline-light" href="#trial">
-                    Start with a free trial
-                  </a>
-                </>
-              )}
-            </div>
+            {full ? <div className="calc-cta">
+              <Link className="btn btn-bronze" to={PRODUCT_PATH}>
+                Order the litre — {gbp(DEFAULTS.litrePrice)}
+              </Link>
+              <Link className="btn btn-outline-light" to="/#trial">
+                Start with a free trial
+              </Link>
+              <p>Ready now or trial first—the next step is yours.</p>
+            </div> : null}
           </div>
         </div>
 

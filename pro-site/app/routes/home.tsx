@@ -8,7 +8,7 @@ import commerceStyles from "../styles/commerce.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { ApplicationRitual } from "../components/shared/ApplicationRitual";
 import { Certification, Formula, GlowDuo, Hero, InstagramShowcase, Retail, Shades, Story, Trial } from "../components/home/HomeSections";
-import { ProfitCalculator } from "../components/shared/ProfitCalculator";
+import { ProfitCalculator, type TrialCalculatorContext } from "../components/shared/ProfitCalculator";
 import { siteEntityGraph } from "../lib/entity";
 import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 import { handleApplicationSubmit } from "../lib/application-action.server";
@@ -82,7 +82,9 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export default function HomePage() {
   const [monthlyProfit, setMonthlyProfit] = useState(1282);
+  const [trialCalculatorContext, setTrialCalculatorContext] = useState<TrialCalculatorContext | null>(null);
   const updateMonthlyProfit = useCallback((value: number) => setMonthlyProfit(value), []);
+  const updateTrialCalculatorContext = useCallback((context: TrialCalculatorContext) => setTrialCalculatorContext(context), []);
 
   return (
     <>
@@ -95,11 +97,11 @@ export default function HomePage() {
         <InstagramShowcase />
         <Formula />
         <Shades />
-        <ProfitCalculator mode="compact" onMonthlyChange={updateMonthlyProfit} />
+        <ProfitCalculator mode="compact" onMonthlyChange={updateMonthlyProfit} onTrialContextChange={updateTrialCalculatorContext} />
         <ApplicationRitual />
         <Retail />
         <GlowDuo />
-        <Trial monthlyProfit={monthlyProfit} />
+        <Trial monthlyProfit={monthlyProfit} calculatorContext={trialCalculatorContext} />
         <Certification />
       </main>
       <SiteFooter />

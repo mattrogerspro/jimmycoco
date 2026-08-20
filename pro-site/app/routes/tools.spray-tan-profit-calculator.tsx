@@ -17,9 +17,9 @@ export const links: LinksFunction = () => [
   {
     rel: "preload",
     as: "image",
-    href: "/assets/site/calculator-page/header-hero-2560.webp",
+    href: "/assets/site/calculator-page/header-hero-1440.webp",
     imageSrcSet:
-      "/assets/site/calculator-page/header-hero-1440.webp 1440w, /assets/site/calculator-page/header-hero-2560.webp 2560w",
+      "/assets/site/calculator-page/header-hero-480.webp 480w, /assets/site/calculator-page/header-hero-768.webp 768w, /assets/site/calculator-page/header-hero-1080.webp 1080w, /assets/site/calculator-page/header-hero-1440.webp 1440w, /assets/site/calculator-page/header-hero-1920.webp 1920w, /assets/site/calculator-page/header-hero-2560.webp 2560w",
     imageSizes: "100vw",
   },
   { rel: "stylesheet", href: homeStyles },

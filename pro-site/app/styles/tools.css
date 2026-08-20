@@ -22,10 +22,10 @@
   overflow: hidden;
   background-color: #112f3d;
   background-image:
-    linear-gradient(90deg, rgba(4, 14, 18, .86) 0%, rgba(4, 14, 18, .72) 38%, rgba(4, 14, 18, .34) 67%, rgba(4, 14, 18, .58) 100%),
-    linear-gradient(0deg, rgba(4, 14, 18, .44), rgba(4, 14, 18, .12)),
+    linear-gradient(90deg, rgba(4, 14, 18, .9) 0%, rgba(4, 14, 18, .72) 36%, rgba(4, 14, 18, .18) 70%, rgba(4, 14, 18, .06) 100%),
+    linear-gradient(0deg, rgba(4, 14, 18, .36), rgba(4, 14, 18, .08)),
     image-set(
-      url("/assets/site/calculator-page/header-hero-1440.webp") 1x,
+      url("/assets/site/calculator-page/header-hero-1920.webp") 1x,
       url("/assets/site/calculator-page/header-hero-2560.webp") 2x
     );
   background-position: center;
@@ -35,6 +35,12 @@
 .tool-hero .wrap {
   position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-left: clamp(24px, 7vw, 140px);
+  padding-right: clamp(24px, 7vw, 140px);
+  text-align: left;
 }
 
 .tool-hero .eyebrow {
@@ -45,6 +51,18 @@
   max-width: 760px;
   color: rgba(255, 253, 249, .86);
   text-shadow: 0 1px 18px rgba(4, 14, 18, .28);
+}
+
+@media (max-width: 1180px) {
+  .tool-hero {
+    background-image:
+      linear-gradient(90deg, rgba(4, 14, 18, .9) 0%, rgba(4, 14, 18, .72) 36%, rgba(4, 14, 18, .18) 70%, rgba(4, 14, 18, .06) 100%),
+      linear-gradient(0deg, rgba(4, 14, 18, .36), rgba(4, 14, 18, .08)),
+      image-set(
+        url("/assets/site/calculator-page/header-hero-1080.webp") 1x,
+        url("/assets/site/calculator-page/header-hero-1920.webp") 2x
+      );
+  }
 }
 
 /* --- levers panel, inside the calculator ------------------------------ */
@@ -342,9 +360,12 @@
     min-height: 520px;
     padding: 74px 0 64px;
     background-image:
-      linear-gradient(90deg, rgba(4, 14, 18, .9) 0%, rgba(4, 14, 18, .78) 54%, rgba(4, 14, 18, .42) 100%),
-      linear-gradient(0deg, rgba(4, 14, 18, .5), rgba(4, 14, 18, .14)),
-      url("/assets/site/calculator-page/header-hero-1440.webp");
+      linear-gradient(90deg, rgba(4, 14, 18, .92) 0%, rgba(4, 14, 18, .76) 48%, rgba(4, 14, 18, .18) 100%),
+      linear-gradient(0deg, rgba(4, 14, 18, .42), rgba(4, 14, 18, .1)),
+      image-set(
+        url("/assets/site/calculator-page/header-hero-768.webp") 1x,
+        url("/assets/site/calculator-page/header-hero-1440.webp") 2x
+      );
     background-position: 58% center;
   }
   .tool-hero .sub { max-width: 34ch; }
@@ -358,6 +379,19 @@
   .tool-table th[scope="row"], .tool-table td { padding-top: 11px; padding-bottom: 11px; }
   .calc-business-presets > div { grid-template-columns: 1fr; }
   .calc-retail-starter-link { white-space: normal; }
+}
+
+@media (max-width: 520px) {
+  .tool-hero {
+    background-image:
+      linear-gradient(90deg, rgba(4, 14, 18, .94) 0%, rgba(4, 14, 18, .78) 58%, rgba(4, 14, 18, .2) 100%),
+      linear-gradient(0deg, rgba(4, 14, 18, .46), rgba(4, 14, 18, .12)),
+      image-set(
+        url("/assets/site/calculator-page/header-hero-480.webp") 1x,
+        url("/assets/site/calculator-page/header-hero-1080.webp") 2x
+      );
+    background-position: 60% center;
+  }
 }
 
 /* ---- fixes for hosting .calc outside the home page --------------------- */
@@ -407,10 +441,10 @@
   overflow: hidden;
   background-color: #102c3a;
   background-image:
-    linear-gradient(90deg, rgba(4, 14, 18, .88) 0%, rgba(4, 14, 18, .68) 42%, rgba(4, 14, 18, .22) 72%, rgba(4, 14, 18, .5) 100%),
-    linear-gradient(0deg, rgba(4, 14, 18, .52), rgba(4, 14, 18, .08)),
+    linear-gradient(90deg, rgba(4, 14, 18, .06) 0%, rgba(4, 14, 18, .18) 30%, rgba(4, 14, 18, .72) 64%, rgba(4, 14, 18, .9) 100%),
+    linear-gradient(0deg, rgba(4, 14, 18, .36), rgba(4, 14, 18, .08)),
     image-set(
-      url("/assets/site/calculator-page/footer-hero-1440.webp") 1x,
+      url("/assets/site/calculator-page/footer-hero-1920.webp") 1x,
       url("/assets/site/calculator-page/footer-hero-2560.webp") 2x
     );
   background-position: center;
@@ -420,6 +454,15 @@
 .tool-footer-hero .wrap {
   position: relative;
   z-index: 1;
+  display: flex;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-left: clamp(24px, 7vw, 140px);
+  padding-right: clamp(24px, 7vw, 140px);
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
 }
 
 .tool-footer-hero .eyebrow {
@@ -446,6 +489,10 @@
   line-height: 1.6;
 }
 
+.tool-footer-hero .tool-next {
+  justify-content: flex-end;
+}
+
 .tool-footer-hero .btn-ghost {
   border-color: rgba(255, 253, 249, .62);
   color: #FFFDF9;
@@ -456,20 +503,49 @@
   background: rgba(255, 253, 249, .1);
 }
 
+@media (max-width: 1180px) {
+  .tool-footer-hero {
+    background-image:
+      linear-gradient(90deg, rgba(4, 14, 18, .06) 0%, rgba(4, 14, 18, .18) 30%, rgba(4, 14, 18, .72) 64%, rgba(4, 14, 18, .9) 100%),
+      linear-gradient(0deg, rgba(4, 14, 18, .36), rgba(4, 14, 18, .08)),
+      image-set(
+        url("/assets/site/calculator-page/footer-hero-1080.webp") 1x,
+        url("/assets/site/calculator-page/footer-hero-1920.webp") 2x
+      );
+  }
+}
+
 @media (max-width: 760px) {
   .tool-footer-hero {
     min-height: 520px;
     padding: 70px 0;
     background-image:
-      linear-gradient(90deg, rgba(4, 14, 18, .9) 0%, rgba(4, 14, 18, .76) 58%, rgba(4, 14, 18, .4) 100%),
-      linear-gradient(0deg, rgba(4, 14, 18, .56), rgba(4, 14, 18, .14)),
-      url("/assets/site/calculator-page/footer-hero-1440.webp");
+      linear-gradient(90deg, rgba(4, 14, 18, .18) 0%, rgba(4, 14, 18, .38) 38%, rgba(4, 14, 18, .9) 100%),
+      linear-gradient(0deg, rgba(4, 14, 18, .42), rgba(4, 14, 18, .1)),
+      image-set(
+        url("/assets/site/calculator-page/footer-hero-768.webp") 1x,
+        url("/assets/site/calculator-page/footer-hero-1440.webp") 2x
+      );
     background-position: 57% center;
   }
 
   .tool-footer-hero h2 { font-size: 42px; }
   .tool-footer-hero p:not(.eyebrow) { font-size: 18px; }
+  .tool-footer-hero .tool-next { width: min(100%, 620px); }
   .tool-next .btn { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 520px) {
+  .tool-footer-hero {
+    background-image:
+      linear-gradient(90deg, rgba(4, 14, 18, .2) 0%, rgba(4, 14, 18, .42) 36%, rgba(4, 14, 18, .94) 100%),
+      linear-gradient(0deg, rgba(4, 14, 18, .48), rgba(4, 14, 18, .12)),
+      image-set(
+        url("/assets/site/calculator-page/footer-hero-480.webp") 1x,
+        url("/assets/site/calculator-page/footer-hero-1080.webp") 2x
+      );
+    background-position: 59% center;
+  }
 }
 
 /* ---- calculator conversion actions and saved-report modal ------------- */

@@ -115,7 +115,10 @@ async function sendCalculatorReportEmail(options: {
       "Idempotency-Key": `calculator-report-${options.applicationId}`,
     },
     body: JSON.stringify({
-      from: process.env.RESEND_FROM || DEFAULT_FROM,
+      // Calculator reports always use the already-verified Resend subdomain.
+      // A deployment-wide RESEND_FROM may legitimately target another sender,
+      // but must not be allowed to break this public transactional workflow.
+      from: DEFAULT_FROM,
       to: [options.email],
       bcc: [INTERNAL_NOTICE_ADDRESS],
       reply_to: process.env.RESEND_REPLY_TO || DEFAULT_REPLY_TO,

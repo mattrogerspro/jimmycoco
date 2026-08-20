@@ -14,6 +14,14 @@ import { CONTENT_UPDATED, PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/sit
 export const TOOL_PATH = "/tools/spray-tan-profit-calculator";
 
 export const links: LinksFunction = () => [
+  {
+    rel: "preload",
+    as: "image",
+    href: "/assets/site/calculator-page/header-hero-2560.webp",
+    imageSrcSet:
+      "/assets/site/calculator-page/header-hero-1440.webp 1440w, /assets/site/calculator-page/header-hero-2560.webp 2560w",
+    imageSizes: "100vw",
+  },
   { rel: "stylesheet", href: homeStyles },
   { rel: "stylesheet", href: chromeStyles },
   { rel: "stylesheet", href: toolStyles },
@@ -294,6 +302,21 @@ export default function CalculatorPage() {
               inside your order confirmation and trial box.
             </p>
 
+          </div>
+        </section>
+
+        <section className="tool-footer-hero" aria-labelledby="calculator-footer-title">
+          <div className="wrap">
+            <p className="eyebrow">Turn the calculation into a plan</p>
+            <h2 id="calculator-footer-title">
+              Run the numbers,
+              <br />
+              then order what the room needs.
+            </h2>
+            <p>
+              Start with the litre that anchors the profit model, or request the salon trial if you
+              want to test the finish first.
+            </p>
             <div className="tool-next">
               <Link className="btn btn-bronze" to={PRODUCT_PATH}>
                 Order the litre — {gbp(DEFAULTS.litrePrice)}

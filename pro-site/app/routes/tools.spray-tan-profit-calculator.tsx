@@ -7,7 +7,7 @@ import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../compone
 import { ProfitCalculator } from "../components/shared/ProfitCalculator";
 import { useCurrency } from "../components/shared/CurrencyContext";
 import { ORG_ID, brandEntities } from "../lib/entity";
-import { ASSUMPTIONS, DEFAULTS, calculate, calculatorFaq, levers } from "../lib/calculator";
+import { ASSUMPTIONS, DEFAULTS, calculate, calculatorFaq } from "../lib/calculator";
 import { handleCalculatorReportSubmit } from "../lib/calculator-report.server";
 import { CONTENT_UPDATED, PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 
@@ -119,7 +119,6 @@ export default function CalculatorPage() {
   const { isUsd, money } = useCurrency();
   const gbp = money;
   const totals = calculate(DEFAULTS);
-  const leverRows = levers(DEFAULTS);
   const fullCost = DEFAULTS.pricePerTan - totals.netPerTan;
 
   return (
@@ -233,37 +232,11 @@ export default function CalculatorPage() {
               cheaper.
             </p>
 
-            <h3>What actually moves the number</h3>
-            <p>
-              Same salon, {Math.round(totals.tansPerYear)} tans a year, one change at a time:
-            </p>
-            <table className="tool-table">
-              <caption>Annual value of each change, at the default figures</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Change</th>
-                  <th scope="col">Extra profit per year</th>
-                </tr>
-              </thead>
-              <tbody>
-                {leverRows.map((lever) => (
-                  <tr key={lever.id}>
-                    <th scope="row">{lever.label}</th>
-                    <td>{gbp(lever.annual)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <p>
-              Read that from the bottom. A litre 20% cheaper is the smallest lever available to you,
-              and it is the one the industry spends most of its time arguing about. Retail is the
-              largest, and it costs no chair time at all.
-            </p>
-
             <h3>The assumptions</h3>
             <p>
-              Everything the model chooses rather than measures, with the range it realistically
-              moves in. Change any of them in the calculator above.
+              Everything the model chooses rather than measures, with the range it realistically moves
+              in. Change any of them in the calculator above; the sensitivity block updates from the
+              same numbers.
             </p>
             <table className="tool-table">
               <caption>Stated assumptions and their realistic ranges</caption>

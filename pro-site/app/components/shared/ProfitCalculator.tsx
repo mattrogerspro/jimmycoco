@@ -403,7 +403,11 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
           <div className="calc-levers" ref={leversRef}>
             <div className="calc-levers-head">
               <h3>What actually moves the number</h3>
-              <p>At your figures, one change at a time, over a year.</p>
+              <p>
+                Live from your sliders: {input.tansPerWeek} tans/week at {gbp(input.pricePerTan)} a
+                tan, {gbp(recommendedPricing.unitPrice)}/litre and {input.retailUnitsPerWeek} retail
+                add-ons/week. One change at a time, over a year.
+              </p>
             </div>
             <table className="levers-table">
               <thead>

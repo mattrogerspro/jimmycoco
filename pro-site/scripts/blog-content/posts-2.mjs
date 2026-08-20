@@ -370,7 +370,7 @@ ranges are 6 to 30 miles, 30 to 55 minutes and 1% to 5%. Substitute your own.</e
       { text: "BIM37620: travel costs, itinerant trades, HMRC Business Income Manual", url: "https://www.gov.uk/hmrc-internal-manuals/business-income-manual/bim37620" },
       { text: "BIM37635: travel costs, predictability of destinations, HMRC Business Income Manual", url: "https://www.gov.uk/hmrc-internal-manuals/business-income-manual/bim37635" },
       { text: "Quarterly Energy Prices, June 2026, Department for Energy Security and Net Zero", url: "https://www.gov.uk/government/statistics/energy-trends-and-prices-statistical-release-30-july-2026" },
-      { text: "Sunset 1 Ltr Professional Spray price list, Sunless by Jimmy Coco, 2026", url: "https://www.jimmycoco.pro/products/malibu-professional-spray-1l" },
+      { text: "Malibu Professional Spray (10% DHA) price list, Sunless by Jimmy Coco, 2026", url: "https://www.jimmycoco.pro/products/malibu-professional-spray-1l" },
     ],
   },
   {

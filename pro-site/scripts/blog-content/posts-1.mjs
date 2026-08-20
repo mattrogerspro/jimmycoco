@@ -55,7 +55,7 @@ week is a real column rather than a wishful one.</p>
 end, with the range it realistically moves in. Swap in yours as you go.</p>
 <h2>What leaves the room with every client</h2>
 <h3>Solution — £2.14</h3>
-<p>A litre of Sunset Professional is £60. At 28 tans to the litre:</p>
+<p>A litre of Malibu Professional Spray (10% DHA) is £60. At 28 tans to the litre:</p>
 <p><code>£60 ÷ 28 = £2.14 per tan</code></p>
 <p>Twenty-eight is the rating for the professional litre. Yours will land either
 side of it — a full-coverage tan on a larger frame with an older gun uses more, a
@@ -329,7 +329,7 @@ with a range, and the retail figures have been replaced with sourced ones.</em><
 `,
     faq: [
       { question: "How much does a litre of spray tan solution cost per treatment?", answer: "At £60 a litre and 28 treatments to the litre, £2.14 a tan. Yours will land either side of that depending on equipment, technique and coverage. Solution is only part of what a treatment consumes — with disposables, filters and laundry, budget around £3.24 a tan." },
-      { question: "How many spray tans do you get from a litre?", answer: "Around 28 for the Sunset professional litre. Yours will land either side of that depending on equipment, technique and how much of the body you're covering. Measure it: mark the bottle, count the tans over a normal week, divide. Every other calculation depends on that one number." },
+      { question: "How many spray tans do you get from a litre?", answer: "Around 28 for the Malibu Professional Spray (10% DHA) litre. Yours will land either side of that depending on equipment, technique and how much of the body you're covering. Measure it: mark the bottle, count the tans over a normal week, divide. Every other calculation depends on that one number." },
       { question: "What profit is there in a spray tan?", answer: "On a £30 tan with an employed therapist, about £11.30 once you've taken off consumables, card fees, loaded chair time and a share of your fixed costs — roughly 37%. If you do the tans yourself it's about £17.65, though that includes what you'd otherwise be paying someone. There is no published average net margin for a UK salon to compare that against, but with one in five salons trading at a loss, a treatment column at 37% is a strong one." },
       { question: "Is it worth switching to a cheaper spray tan solution?", answer: "Probably not. At 12 tans a week, a solution 20% cheaper saves about £267 a year — roughly £5 a week, and the smallest lever in the model. Selling three retail items a week is worth £1,404, and putting £2 on your price is worth £1,229. One client lost to a poor result wipes out the saving." },
       { question: "How do I work out my overhead per spray tan?", answer: "Take the fixed costs that belong to the tanning room each month — a share of rent, rates, utilities, insurance and booking software — and divide by the treatments you did that month. At £450 a month and 52 tans, that's £8.65 a tan. It falls as you get busier, which is why filling the room is the same thing as making it cheaper." },
@@ -341,7 +341,7 @@ with a range, and the retail figures have been replaced with sourced ones.</em><
       { text: "NHBF, State of the Sector, fieldwork February 2026 (n=423)", url: "https://www.nhbf.co.uk/about-the-nhbf/campaigning-for-you/industry-research-reports-and-statistics/nhbf-state-of-the-industry-surveys/" },
       { text: "Phorest, Consumer Insights Report 2025 (n=716, UK and Ireland)", url: "" },
       { text: "Circana, UK self-tan retail sales, year to April 2026", url: "https://cosmeticsbusiness.com/self-tan-sales-rise-43-as-sunless-tanning" },
-      { text: "Sunset 1 Ltr Professional Spray price list, Sunless by Jimmy Coco, 2026", url: "https://www.jimmycoco.pro/products/malibu-professional-spray-1l" },
+      { text: "Malibu Professional Spray (10% DHA) price list, Sunless by Jimmy Coco, 2026", url: "https://www.jimmycoco.pro/products/malibu-professional-spray-1l" },
     ],
   },
   {
@@ -485,7 +485,7 @@ holds.</em></p>
       { question: "Does any of this change if I'm mobile?", answer: "Your yield doesn't. The same hand uses the same solution wherever it's working. What changes is everything around it — travel time, fuel, equipment wear, and a no-show costing you the journey as well as the slot." },
     ],
     citations: [
-      { text: "Sunset 1 Ltr Professional Spray product specification, Sunless by Jimmy Coco, 2026", url: "https://www.jimmycoco.pro/products/malibu-professional-spray-1l" },
+      { text: "Malibu Professional Spray (10% DHA) product specification, Sunless by Jimmy Coco, 2026", url: "https://www.jimmycoco.pro/products/malibu-professional-spray-1l" },
       { text: "Spray tan pricing benchmarks, UK sector data, 2025–26", url: "" },
     ],
   },

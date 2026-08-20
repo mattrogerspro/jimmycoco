@@ -240,7 +240,7 @@ export function calculatorFaq(): Array<{ question: string; answer: string }> {
     },
     {
       question: "How many spray tans do you get from a litre?",
-      answer: `${DEFAULTS.tansPerLitre} for the Sunset professional litre. Your own number will sit either side of that depending on equipment, technique and coverage. Measure your own: mark the bottle, count the tans over a week and divide. Every other figure in this calculator depends on it.`,
+      answer: `${DEFAULTS.tansPerLitre} for the Malibu Professional Spray (10% DHA) litre. Your own number will sit either side of that depending on equipment, technique and coverage. Measure your own: mark the bottle, count the tans over a week and divide. Every other figure in this calculator depends on it.`,
     },
     {
       question: "Is this calculator free?",

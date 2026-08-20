@@ -269,7 +269,7 @@ export default function ArticlePage() {
             <p className="article-kicker">Professional trial</p>
             <h2>Judge the colour on a real client.</h2>
             <p>
-              A complimentary professional trial — the Sunset litre and Jimmy's shade guide, posted this
+              A complimentary professional trial — Malibu Professional Spray (10% DHA) and Jimmy's shade guide, posted this
               week. No cost, no commitment, and the guide is yours either way.
             </p>
             <div className="article-cta-actions">

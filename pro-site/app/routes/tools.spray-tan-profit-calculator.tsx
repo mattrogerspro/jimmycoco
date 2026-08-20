@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from "react-router";
+import type { ActionFunctionArgs, LinksFunction, MetaFunction } from "react-router";
 import { Link } from "react-router";
 import homeStyles from "../styles/home.css?url";
 import chromeStyles from "../styles/chrome.css?url";
@@ -8,6 +8,7 @@ import { ProfitCalculator } from "../components/shared/ProfitCalculator";
 import { useCurrency } from "../components/shared/CurrencyContext";
 import { ORG_ID, brandEntities } from "../lib/entity";
 import { ASSUMPTIONS, DEFAULTS, calculate, calculatorFaq, levers } from "../lib/calculator";
+import { handleCalculatorReportSubmit } from "../lib/calculator-report.server";
 import { CONTENT_UPDATED, PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 
 export const TOOL_PATH = "/tools/spray-tan-profit-calculator";
@@ -93,6 +94,10 @@ const schema = [
     ],
   },
 ];
+
+export async function action({ request }: ActionFunctionArgs) {
+  return handleCalculatorReportSubmit(request);
+}
 
 /**
  * Everything below the calculator is server-rendered prose.
@@ -284,8 +289,9 @@ export default function CalculatorPage() {
 
             <p className="tool-note">
               These figures are a model, not a forecast. Substitute your own numbers — the
-              assumptions are listed above so you can. Retail margin is illustrative; your exact
-              trade terms are confirmed on your setup call.
+              assumptions are listed above so you can. Retail margin is illustrative — standard
+              UK trade margin is ~50% (keystone markup). Full trade wholesale pricing is included
+              inside your order confirmation and trial box.
             </p>
 
             <div className="tool-next">

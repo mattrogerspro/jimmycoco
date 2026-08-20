@@ -3,6 +3,8 @@ import { Link } from "react-router";
 import { PRODUCT_PATH } from "../../lib/site";
 import { debounceTrack, track, trackOnce } from "../../lib/analytics";
 import { DEFAULTS, type Inputs, calculate, levers } from "../../lib/calculator";
+import { professionalOrderPricing } from "../../lib/order-pricing";
+import { CalculatorReportModal } from "./CalculatorReportModal";
 import { CurrencyDisclosure, useCurrency } from "./CurrencyContext";
 
 export const CALCULATOR_PATH = "/tools/spray-tan-profit-calculator";
@@ -84,6 +86,10 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
 
   const totals = useMemo(() => calculate(input), [input]);
   const leverRows = useMemo(() => (full ? levers(input) : []), [full, input]);
+  const highVolumeRecommendation = input.tansPerWeek >= 15;
+  const recommendedQuantity = highVolumeRecommendation ? 4 : 1;
+  const recommendedPricing = professionalOrderPricing(recommendedQuantity);
+  const recommendedProductPath = `${PRODUCT_PATH}?qty=${recommendedQuantity}#configure-solution`;
 
   const headline = full ? totals.netMonth : totals.grossMonth;
   useEffect(() => onMonthlyChange?.(headline), [headline, onMonthlyChange]);
@@ -202,7 +208,7 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
 
             <p className="note">
               {full
-                ? "Retail margin is illustrative — your exact trade terms are confirmed on your setup call. Every assumption is listed below the calculator."
+                ? "Retail margin is illustrative — standard UK trade margin is ~50% (keystone markup). Full trade wholesale pricing is included inside your order confirmation and trial box. Every assumption is listed below the calculator."
                 : `Quick estimate: ${gbp(DEFAULTS.litrePrice)} per litre, ${DEFAULTS.tansPerLitre} tans per litre, ${gbp(18)} average retail item and 50% illustrative retail margin. Open the full calculator to change every cost.`}
             </p>
           </div>
@@ -291,14 +297,49 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
               </>
             )}
 
-            {full ? <div className="calc-cta">
-              <Link className="btn btn-bronze" to={PRODUCT_PATH}>
-                Order the litre — {gbp(DEFAULTS.litrePrice)}
-              </Link>
-              <Link className="btn btn-outline-light" to="/#trial">
-                Start with a free trial
-              </Link>
-              <p>Ready now or trial first—the next step is yours.</p>
+            {full ? <div className={`calc-cta calc-contextual-cta${highVolumeRecommendation ? " is-high-volume" : " is-trial-first"}`}>
+              <p className="calc-recommendation-label">
+                <b>{highVolumeRecommendation ? "Recommended for your volume" : "Recommended first step"}</b>
+                <span>{highVolumeRecommendation
+                  ? `${totals.litresPerMonth.toFixed(1)} litres/month at your current bookings.`
+                  : "Test the colour and fade on a real client before committing."}</span>
+              </p>
+              {highVolumeRecommendation ? (
+                <>
+                  <Link
+                    className="btn btn-bronze"
+                    to={recommendedProductPath}
+                    onClick={() => track("calculator_dynamic_order_cta", {
+                      quantity: recommendedQuantity,
+                      tans_per_week: input.tansPerWeek,
+                      litres_per_month: Number(totals.litresPerMonth.toFixed(1)),
+                    })}
+                  >
+                    Order 4L High-Volume Pack ({gbp(recommendedPricing.total)} — Save {gbp(recommendedPricing.saving)}) →
+                  </Link>
+                  <Link className="btn btn-outline-light" to="/#trial" onClick={() => track("calculator_dynamic_trial_cta", { path: "high_volume_secondary", tans_per_week: input.tansPerWeek })}>
+                    Request Free Trial Sample First
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link className="btn btn-bronze" to="/#trial" onClick={() => track("calculator_dynamic_trial_cta", { path: "trial_first_primary", tans_per_week: input.tansPerWeek })}>
+                    Claim Free 100ml Trial Box
+                  </Link>
+                  <Link
+                    className="btn btn-outline-light"
+                    to={recommendedProductPath}
+                    onClick={() => track("calculator_dynamic_order_cta", {
+                      quantity: recommendedQuantity,
+                      tans_per_week: input.tansPerWeek,
+                      litres_per_month: Number(totals.litresPerMonth.toFixed(1)),
+                    })}
+                  >
+                    Order 1L Starter ({gbp(recommendedPricing.total)})
+                  </Link>
+                </>
+              )}
+              <CalculatorReportModal input={input} totals={totals} />
             </div> : null}
           </div>
         </div>

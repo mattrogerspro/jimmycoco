@@ -157,6 +157,12 @@ export function usePurchaseState() {
       // A malformed or unavailable local store should never prevent ordering.
     }
 
+    const requestedQuantity = Number(params.get("qty"));
+    if (Number.isFinite(requestedQuantity) && requestedQuantity >= 1) {
+      restored.qty = Math.max(1, Math.min(48, Math.round(requestedQuantity)));
+      params.delete("qty");
+    }
+
     RETAIL_PRODUCTS.forEach(({ id }) => {
       if (params.has(id)) {
         restored.retail[id] = incomingRetail[id];

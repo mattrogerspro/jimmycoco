@@ -11,7 +11,12 @@ export function Announcement({ page = "home" }: HeaderProps) {
   return page === "product" ? (
     <div className="announce">★ {currency === "USD" ? "US availability and shipping confirmed before invoicing" : "Free UK delivery over £40"} · <b>14-day returns</b> · complimentary trial for new salons</div>
   ) : (
-    <div className="announce">★ complimentary professional trial for salons — <b>no cost, no commitment</b></div>
+    <div className="announce">
+      ★{" "}
+      <a className="announce-link" href="/#trial">
+        complimentary professional trial for salons — <b>no cost, no commitment</b>
+      </a>
+    </div>
   );
 }
 

@@ -301,3 +301,11 @@
 .article-body blockquote{border-left-color:#4E7C91;background:#EAF1F3}
 .article-body a,.article-sources a{color:#285F78}
 .article-sources{border-top-color:#D8E1E4}
+
+.content-shell .announce-link{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.35em;color:inherit;text-decoration:none;isolation:isolate;transition:color .22s ease,text-shadow .22s ease,letter-spacing .22s ease}
+.content-shell .announce-link::before{content:"";position:absolute;inset:-5px -12px;border-radius:999px;background:linear-gradient(110deg,transparent 0%,rgba(201,149,103,.18) 35%,rgba(237,228,215,.24) 50%,rgba(201,149,103,.18) 65%,transparent 100%);opacity:0;transform:scaleX(.82);transition:opacity .22s ease,transform .22s ease;z-index:-1}
+.content-shell .announce-link::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;background:linear-gradient(90deg,transparent,#c99567,#ede4d7,#c99567,transparent);opacity:.55;transform:scaleX(.2);transition:opacity .22s ease,transform .22s ease}
+.content-shell .announce-link:hover,.content-shell .announce-link:focus-visible{color:#fff;text-shadow:0 0 18px rgba(201,149,103,.45);letter-spacing:.18em}
+.content-shell .announce-link:hover::before,.content-shell .announce-link:focus-visible::before{opacity:1;transform:scaleX(1)}
+.content-shell .announce-link:hover::after,.content-shell .announce-link:focus-visible::after{opacity:1;transform:scaleX(1)}
+.content-shell .announce-link:focus-visible{outline:1px solid rgba(201,149,103,.75);outline-offset:5px;border-radius:999px}

@@ -46,7 +46,12 @@ export function CookieConsent() {
   if (panel === "hidden") return null;
 
   return (
-    <div className="cc-root" role="dialog" aria-modal="false" aria-label="Cookie choices">
+    <section
+      className={`cc-root cc-root-${panel}`}
+      role="region"
+      aria-label="Cookie choices"
+      aria-live="polite"
+    >
       <div className="cc-panel">
         {panel === "banner" ? (
           <>
@@ -148,6 +153,6 @@ export function CookieConsent() {
           .
         </p>
       </div>
-    </div>
+    </section>
   );
 }

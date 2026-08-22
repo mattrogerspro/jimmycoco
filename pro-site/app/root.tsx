@@ -1,17 +1,22 @@
 // updatesdsdsd
-import type { LinksFunction } from "react-router";
+import type { LinksFunction, LoaderFunctionArgs } from "react-router";
 import consentStyles from "./styles/consent.css?url";
+import chatStyles from "./styles/chat.css?url";
 import { CONSENT_BOOTSTRAP, GA_MEASUREMENT_ID } from "./lib/consent";
 import { CookieConsent } from "./components/shared/CookieConsent";
 import { AnalyticsBridge } from "./components/shared/AnalyticsBridge";
+import { ChatWidget } from "./components/shared/ChatWidget";
 import { CurrencyProvider } from "./components/shared/CurrencyContext";
+import { getSupabasePublicConfig } from "./lib/supabase.server";
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  data,
   isRouteErrorResponse,
+  useLoaderData,
   useRouteError,
 } from "react-router";
 
@@ -20,9 +25,14 @@ export const links: LinksFunction = () => [
   { rel: "preload", href: "/fonts/montserrat-var.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
   { rel: "preconnect", href: "https://www.googletagmanager.com" },
   { rel: "stylesheet", href: consentStyles },
+  { rel: "stylesheet", href: chatStyles },
   { rel: "icon", href: "/img/favicon.svg", type: "image/svg+xml" },
   { rel: "manifest", href: "/site.webmanifest" },
 ];
+
+export async function loader(_args: LoaderFunctionArgs) {
+  return data({ supabase: getSupabasePublicConfig() });
+}
 
 // Walbaum Com Roman is a single static weight with no italic companion, so the
 // display face is declared once at weight 400. Montserrat carries the whole
@@ -79,7 +89,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <CurrencyProvider><Outlet /></CurrencyProvider>;
+  const { supabase } = useLoaderData<typeof loader>();
+
+  return (
+    <CurrencyProvider>
+      <Outlet />
+      <ChatWidget config={supabase} />
+    </CurrencyProvider>
+  );
 }
 
 export function ErrorBoundary() {

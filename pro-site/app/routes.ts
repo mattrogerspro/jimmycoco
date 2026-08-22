@@ -19,6 +19,7 @@ export default [
     route("articles", "routes/admin.articles.tsx"),
     route("articles/:articleId", "routes/admin.article-editor.tsx"),
     route("article-stats", "routes/admin.article-stats.tsx"),
+    route("chat", "routes/admin.chat.tsx"),
     route("media", "routes/admin.media.tsx"),
     route("qr-codes", "routes/admin.qr-codes.tsx"),
     route("resellers", "routes/admin.resellers.tsx"),

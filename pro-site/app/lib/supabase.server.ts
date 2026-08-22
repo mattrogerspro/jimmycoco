@@ -21,6 +21,10 @@ function readSupabaseEnvironment() {
   return { url, publishableKey };
 }
 
+export function getSupabasePublicConfig() {
+  return readSupabaseEnvironment();
+}
+
 export function createPublicSupabaseClient() {
   const { url, publishableKey } = readSupabaseEnvironment();
   return createClient(url, publishableKey, {

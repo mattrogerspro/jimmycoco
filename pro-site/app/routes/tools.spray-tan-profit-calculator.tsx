@@ -148,117 +148,155 @@ export default function CalculatorPage() {
         <section className="tool-prose">
           <div className="wrap">
             {isUsd && <p className="tool-note">The methodology and assumptions below remain GBP-base reference material. Displayed figures are indicative USD equivalents, not US pricing commitments or an earnings forecast.</p>}
-            <h2>What a spray tan costs to deliver</h2>
-            <p>
-              At {gbp(DEFAULTS.litrePrice)} a litre and {DEFAULTS.tansPerLitre} tans to the litre, the
-              solution in the bottle costs {gbp(totals.solutionPerTan, 2)} a tan. That is the number
-              most people mean when they talk about what a tan costs — and it is the smallest part of
-              it.
-            </p>
-            <p>
-              Add disposables, filters, liners and laundry and consumables come to{" "}
-              {gbp(totals.consumablesPerTan, 2)}. Add card fees, the loaded cost of the chair time,
-              and the share of your premises that the tanning room uses, and the full cost of a{" "}
-              {gbp(DEFAULTS.pricePerTan)} tan is about {gbp(fullCost, 2)} — leaving{" "}
-              {gbp(totals.netPerTan, 2)} of profit, or {totals.netMarginPercent.toFixed(1)}%.
-            </p>
+            <div className="tool-prose-hero">
+              <p className="eyebrow">Calculator methodology</p>
+              <h2>What a spray tan costs to deliver</h2>
+              <p>
+                At {gbp(DEFAULTS.litrePrice)} a litre and {DEFAULTS.tansPerLitre} tans to the litre, the
+                solution in the bottle costs {gbp(totals.solutionPerTan, 2)} a tan. That is the number
+                most people mean when they talk about what a tan costs — and it is the smallest part of
+                it.
+              </p>
+              <p>
+                Add disposables, filters, liners and laundry and consumables come to{" "}
+                {gbp(totals.consumablesPerTan, 2)}. Add card fees, the loaded cost of the chair time,
+                and the share of your premises that the tanning room uses, and the full cost of a{" "}
+                {gbp(DEFAULTS.pricePerTan)} tan is about {gbp(fullCost, 2)} — leaving{" "}
+                {gbp(totals.netPerTan, 2)} of profit, or {totals.netMarginPercent.toFixed(1)}%.
+              </p>
+              <div className="tool-prose-stats" aria-label="Default calculator highlights">
+                <div>
+                  <span>Solution cost</span>
+                  <b>{gbp(totals.solutionPerTan, 2)}</b>
+                  <small>per tan</small>
+                </div>
+                <div>
+                  <span>Full delivery cost</span>
+                  <b>{gbp(fullCost, 2)}</b>
+                  <small>per tan</small>
+                </div>
+                <div>
+                  <span>Net profit</span>
+                  <b>{gbp(totals.netPerTan, 2)}</b>
+                  <small>{totals.netMarginPercent.toFixed(1)}% margin</small>
+                </div>
+              </div>
+            </div>
 
-            <h3>The worked example</h3>
-            <p>
-              One salon, one treatment room, an employed therapist. {DEFAULTS.tansPerWeek} tans a
-              week at {gbp(DEFAULTS.pricePerTan)} each — {Math.round(totals.tansPerYear)} a year.
-              Spray tans run {gbp(20)}–{gbp(40)} across the UK, so these are middling numbers on purpose.
-            </p>
-            <table className="tool-table">
-              <caption>Cost of one spray tan at {gbp(DEFAULTS.pricePerTan)}</caption>
-              <tbody>
-                <tr>
-                  <th scope="row">Client pays</th>
-                  <td>{gbp(DEFAULTS.pricePerTan, 2)}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Solution</th>
-                  <td>−{gbp(totals.solutionPerTan, 2)}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Disposables</th>
-                  <td>−{gbp(DEFAULTS.disposablesPerTan, 2)}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Filters, liners and laundry</th>
-                  <td>−{gbp(DEFAULTS.sundriesPerTan, 2)}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Card fee</th>
-                  <td>−{gbp(totals.cardFeePerTan, 2)}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Chair time, loaded</th>
-                  <td>−{gbp(totals.labourPerTan, 2)}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Share of fixed costs</th>
-                  <td>−{gbp(totals.overheadPerTan, 2)}</td>
-                </tr>
-                <tr className="tool-total">
-                  <th scope="row">Profit</th>
-                  <td>{gbp(totals.netPerTan, 2)}</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <h3>How the chair time is costed</h3>
-            <p>
-              A spray tan is not a fifteen-minute treatment. Door to door — consultation, prep,
-              treatment, clean-down and reset — the model assumes {DEFAULTS.minutesPerTan} minutes.
-              At the National Living Wage of {gbp(DEFAULTS.hourlyRate, 2)} an hour from April 2026,
-              that is {gbp(DEFAULTS.hourlyRate * (DEFAULTS.minutesPerTan / 60), 2)} of wage, and
-              about {gbp(totals.labourPerTan, 2)} once employer National Insurance and holiday pay
-              accrual are added. If you do the tans yourself, set the hourly rate to zero — but the
-              minutes are still the scarcest thing you own.
-            </p>
-
-            <h3>How the overhead is apportioned</h3>
-            <p>
-              Take the fixed costs attributable to the tanning room each month — a share of rent and
-              rates, the room's heat, light and water, your treatment liability insurance, a slice of
-              the booking software — and divide by the treatments you did that month. At{" "}
-              {gbp(DEFAULTS.roomFixedCostsMonthly)} a month and {Math.round(totals.tansPerMonth)}{" "}
-              tans, that is {gbp(totals.overheadPerTan, 2)} a tan.
-            </p>
-            <p>
-              Note what that does: overhead per tan is a function of how busy you are, not of how
-              much you spend. Doing more tans in the same room is the same thing as making the room
-              cheaper.
-            </p>
-
-            <h3>The assumptions</h3>
-            <p>
-              Everything the model chooses rather than measures, with the range it realistically moves
-              in. Change any of them in the calculator above; the sensitivity block updates from the
-              same numbers.
-            </p>
-            <table className="tool-table">
-              <caption>Stated assumptions and their realistic ranges</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Assumption</th>
-                  <th scope="col">Used here</th>
-                  <th scope="col">Realistic range</th>
-                </tr>
-              </thead>
-              <tbody>
-                {ASSUMPTIONS.map((assumption) => (
-                  <tr key={assumption.name}>
-                    <th scope="row">{assumption.name}</th>
-                    <td>{assumption.used}</td>
-                    <td>{assumption.range}</td>
+            <article className="tool-prose-card tool-worked-example">
+              <div className="tool-prose-card-copy">
+                <p className="eyebrow">Worked example</p>
+                <h3>The baseline salon model.</h3>
+                <p>
+                  One salon, one treatment room, an employed therapist. {DEFAULTS.tansPerWeek} tans a
+                  week at {gbp(DEFAULTS.pricePerTan)} each — {Math.round(totals.tansPerYear)} a year.
+                  Spray tans run {gbp(20)}–{gbp(40)} across the UK, so these are middling numbers on purpose.
+                </p>
+              </div>
+              <table className="tool-table">
+                <caption>Cost of one spray tan at {gbp(DEFAULTS.pricePerTan)}</caption>
+                <tbody>
+                  <tr>
+                    <th scope="row">Client pays</th>
+                    <td>{gbp(DEFAULTS.pricePerTan, 2)}</td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                  <tr>
+                    <th scope="row">Solution</th>
+                    <td>−{gbp(totals.solutionPerTan, 2)}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Disposables</th>
+                    <td>−{gbp(DEFAULTS.disposablesPerTan, 2)}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Filters, liners and laundry</th>
+                    <td>−{gbp(DEFAULTS.sundriesPerTan, 2)}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Card fee</th>
+                    <td>−{gbp(totals.cardFeePerTan, 2)}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Chair time, loaded</th>
+                    <td>−{gbp(totals.labourPerTan, 2)}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Share of fixed costs</th>
+                    <td>−{gbp(totals.overheadPerTan, 2)}</td>
+                  </tr>
+                  <tr className="tool-total">
+                    <th scope="row">Profit</th>
+                    <td>{gbp(totals.netPerTan, 2)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
 
-            <section className="tool-faq" aria-labelledby="calculator-faq-title">
+            <div className="tool-prose-grid">
+              <article className="tool-prose-card">
+                <span className="tool-prose-card-index">01</span>
+                <h3>How the chair time is costed</h3>
+                <p>
+                  A spray tan is not a fifteen-minute treatment. Door to door — consultation, prep,
+                  treatment, clean-down and reset — the model assumes {DEFAULTS.minutesPerTan} minutes.
+                  At the National Living Wage of {gbp(DEFAULTS.hourlyRate, 2)} an hour from April 2026,
+                  that is {gbp(DEFAULTS.hourlyRate * (DEFAULTS.minutesPerTan / 60), 2)} of wage, and
+                  about {gbp(totals.labourPerTan, 2)} once employer National Insurance and holiday pay
+                  accrual are added. If you do the tans yourself, set the hourly rate to zero — but the
+                  minutes are still the scarcest thing you own.
+                </p>
+              </article>
+
+              <article className="tool-prose-card">
+                <span className="tool-prose-card-index">02</span>
+                <h3>How the overhead is apportioned</h3>
+                <p>
+                  Take the fixed costs attributable to the tanning room each month — a share of rent and
+                  rates, the room's heat, light and water, your treatment liability insurance, a slice of
+                  the booking software — and divide by the treatments you did that month. At{" "}
+                  {gbp(DEFAULTS.roomFixedCostsMonthly)} a month and {Math.round(totals.tansPerMonth)}{" "}
+                  tans, that is {gbp(totals.overheadPerTan, 2)} a tan.
+                </p>
+                <p>
+                  Note what that does: overhead per tan is a function of how busy you are, not of how
+                  much you spend. Doing more tans in the same room is the same thing as making the room
+                  cheaper.
+                </p>
+              </article>
+            </div>
+
+            <article className="tool-prose-card tool-assumptions-card">
+              <div className="tool-prose-card-copy">
+                <p className="eyebrow">Transparent assumptions</p>
+                <h3>The assumptions</h3>
+                <p>
+                  Everything the model chooses rather than measures, with the range it realistically moves
+                  in. Change any of them in the calculator above; the sensitivity block updates from the
+                  same numbers.
+                </p>
+              </div>
+              <table className="tool-table">
+                <caption>Stated assumptions and their realistic ranges</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Assumption</th>
+                    <th scope="col">Used here</th>
+                    <th scope="col">Realistic range</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ASSUMPTIONS.map((assumption) => (
+                    <tr key={assumption.name}>
+                      <th scope="row">{assumption.name}</th>
+                      <td>{assumption.used}</td>
+                      <td>{assumption.range}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </article>
+
+            <section className="article-faq calculator-faq" aria-labelledby="calculator-faq-title">
               <h2 id="calculator-faq-title">Frequently asked questions</h2>
               {faq.map((item, index) => (
                 <details key={item.question} name="calculator-faq" open={index === 0}>

@@ -110,6 +110,20 @@ function formatMessageTime(value: string) {
   }).format(new Date(value));
 }
 
+type BrowserNotificationStatus = "unsupported" | "default" | "granted" | "denied";
+
+function getBrowserNotificationStatus(): BrowserNotificationStatus {
+  if (typeof window === "undefined" || !("Notification" in window)) return "unsupported";
+  return Notification.permission;
+}
+
+function getAlertSettingsLabel(status: BrowserNotificationStatus, soundEnabled: boolean) {
+  if (status === "unsupported") return soundEnabled ? "Sound on" : "Sound off";
+  if (status === "denied") return soundEnabled ? "Sound on · notifications blocked" : "Alerts blocked";
+  if (status === "granted") return soundEnabled ? "Alerts on" : "Notifications on · sound off";
+  return soundEnabled ? "Enable notifications" : "Enable alerts";
+}
+
 export default function AdminChat() {
   const loaderData = useLoaderData<typeof loader>();
   const [conversations, setConversations] = useState(loaderData.conversations);
@@ -121,8 +135,15 @@ export default function AdminChat() {
   const [busy, setBusy] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [connectionState, setConnectionState] = useState("Connecting…");
+  const [notificationStatus, setNotificationStatus] = useState<BrowserNotificationStatus>("unsupported");
+  const [soundEnabled, setSoundEnabled] = useState(false);
   const messageEndRef = useRef<HTMLDivElement>(null);
   const channelRef = useRef<RealtimeChannel | null>(null);
+  const selectedIdRef = useRef<string | null>(loaderData.initialConversationId);
+  const conversationsRef = useRef(loaderData.conversations);
+  const notificationStatusRef = useRef<BrowserNotificationStatus>("unsupported");
+  const soundEnabledRef = useRef(false);
+  const audioContextRef = useRef<AudioContext | null>(null);
   const client = useMemo(
     () => createChatStaffClient(loaderData.config, loaderData.accessToken),
     [loaderData.accessToken, loaderData.config.publishableKey, loaderData.config.url],
@@ -135,6 +156,51 @@ export default function AdminChat() {
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ block: "nearest" });
   }, [messages]);
+
+  useEffect(() => {
+    selectedIdRef.current = selectedId;
+  }, [selectedId]);
+
+  useEffect(() => {
+    conversationsRef.current = conversations;
+  }, [conversations]);
+
+  useEffect(() => {
+    notificationStatusRef.current = notificationStatus;
+  }, [notificationStatus]);
+
+  useEffect(() => {
+    soundEnabledRef.current = soundEnabled;
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("jc-admin-chat-sound", soundEnabled ? "on" : "off");
+    }
+  }, [soundEnabled]);
+
+  useEffect(() => {
+    setNotificationStatus(getBrowserNotificationStatus());
+    notificationStatusRef.current = getBrowserNotificationStatus();
+
+    if (typeof window !== "undefined") {
+      const storedSound = window.localStorage.getItem("jc-admin-chat-sound");
+      const shouldEnableSound = storedSound === "on";
+      setSoundEnabled(shouldEnableSound);
+      soundEnabledRef.current = shouldEnableSound;
+    }
+
+    return () => {
+      audioContextRef.current?.close().catch(() => undefined);
+      audioContextRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    const count = unseen.size;
+    const baseTitle = "Live chat | Jimmy Coco Admin";
+    document.title = count > 0 ? `(${count}) ${baseTitle}` : baseTitle;
+    return () => {
+      document.title = baseTitle;
+    };
+  }, [unseen.size]);
 
   useEffect(() => {
     const channel = client
@@ -152,10 +218,13 @@ export default function AdminChat() {
         { event: "INSERT", schema: "public", table: "chat_messages" },
         (payload) => {
           const incoming = payload.new as ChatMessage;
-          if (incoming.conversation_id === selectedId) {
+          if (incoming.conversation_id === selectedIdRef.current) {
             setMessages((current) => mergeMessage(current, incoming));
           } else if (incoming.sender_kind === "visitor") {
             setUnseen((current) => new Set(current).add(incoming.conversation_id));
+          }
+          if (incoming.sender_kind === "visitor") {
+            notifyNewVisitorMessage(incoming);
           }
         },
       )
@@ -171,7 +240,98 @@ export default function AdminChat() {
       client.removeChannel(channel);
       channelRef.current = null;
     };
-  }, [client, selectedId]);
+  }, [client]);
+
+  function playNewMessageSound() {
+    if (!soundEnabledRef.current || typeof window === "undefined") return;
+    const browserWindow = window as Window & typeof globalThis & {
+      webkitAudioContext?: typeof AudioContext;
+    };
+    const AudioContextClass = browserWindow.AudioContext || browserWindow.webkitAudioContext;
+    if (!AudioContextClass) return;
+
+    const context = audioContextRef.current ?? new AudioContextClass();
+    audioContextRef.current = context;
+
+    if (context.state === "suspended") {
+      context.resume().catch(() => undefined);
+    }
+
+    const now = context.currentTime;
+    const gain = context.createGain();
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.14, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.42);
+    gain.connect(context.destination);
+
+    [720, 960].forEach((frequency, index) => {
+      const oscillator = context.createOscillator();
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(frequency, now + index * 0.08);
+      oscillator.connect(gain);
+      oscillator.start(now + index * 0.08);
+      oscillator.stop(now + 0.36 + index * 0.08);
+    });
+  }
+
+  function showBrowserNotification(message: ChatMessage) {
+    if (
+      notificationStatusRef.current !== "granted"
+      || typeof window === "undefined"
+      || !("Notification" in window)
+    ) {
+      return;
+    }
+
+    const conversation = conversationsRef.current.find((item) => item.id === message.conversation_id);
+    const title = conversation?.visitor_name
+      ? `New chat from ${conversation.visitor_name}`
+      : "New website chat";
+    const notification = new Notification(title, {
+      body: message.body.slice(0, 160),
+      tag: `jimmy-coco-chat-${message.conversation_id}`,
+    });
+
+    notification.onclick = () => {
+      window.focus();
+      void selectConversation(message.conversation_id);
+      notification.close();
+    };
+  }
+
+  function notifyNewVisitorMessage(message: ChatMessage) {
+    playNewMessageSound();
+    showBrowserNotification(message);
+  }
+
+  async function enableAlerts() {
+    setSoundEnabled(true);
+    soundEnabledRef.current = true;
+    playNewMessageSound();
+
+    if (typeof window === "undefined" || !("Notification" in window)) {
+      setNotificationStatus("unsupported");
+      notificationStatusRef.current = "unsupported";
+      return;
+    }
+
+    if (Notification.permission === "default") {
+      const result = await Notification.requestPermission();
+      setNotificationStatus(result);
+      notificationStatusRef.current = result;
+      return;
+    }
+
+    setNotificationStatus(Notification.permission);
+    notificationStatusRef.current = Notification.permission;
+  }
+
+  function toggleSound() {
+    const next = !soundEnabled;
+    setSoundEnabled(next);
+    soundEnabledRef.current = next;
+    if (next) playNewMessageSound();
+  }
 
   async function selectConversation(conversationId: string) {
     setSelectedId(conversationId);
@@ -264,9 +424,19 @@ export default function AdminChat() {
           <h1>Live chat</h1>
           <p>Reply to website visitors in real time.</p>
         </div>
-        <span className={`admin-chat-connection${connectionState === "Live" ? " is-live" : ""}`}>
-          {connectionState}
-        </span>
+        <div className="admin-chat-head-actions">
+          <button
+            className={`admin-chat-alert-toggle${notificationStatus === "granted" && soundEnabled ? " is-on" : ""}`}
+            type="button"
+            onClick={notificationStatus === "granted" ? toggleSound : enableAlerts}
+            aria-pressed={notificationStatus === "granted" && soundEnabled}
+          >
+            {getAlertSettingsLabel(notificationStatus, soundEnabled)}
+          </button>
+          <span className={`admin-chat-connection${connectionState === "Live" ? " is-live" : ""}`}>
+            {connectionState}
+          </span>
+        </div>
       </header>
 
       <section className="admin-chat-shell">

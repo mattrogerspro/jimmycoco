@@ -632,6 +632,9 @@
   .trialform > p{font-size:18px;color:var(--muted);margin-bottom:22px}
   .trialform input,.trialform select{width:100%;border:1.5px solid var(--line);border-radius:3px;padding:17px 19px;font-family:inherit;font-size:18.5px;background:var(--paper);margin-bottom:14px;color:var(--ink2)}
   .trialform .btn{width:100%}
+  .trialform .btn-trial-submit{background-color:#9E5836;color:#FFF;transition:background-color 150ms ease,transform 150ms ease,box-shadow 150ms ease}
+  .trialform .btn-trial-submit:hover{background-color:#8F4F31;color:#FFF}
+  .trialform .btn-trial-submit:focus-visible{outline:3px solid #C99567;outline-offset:3px}
   .hp-field{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;border:0!important;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
   .form-error{background:rgba(176,74,74,.14);border:1px solid rgba(214,120,120,.45);border-radius:4px;color:#F3D9D9;font-size:15px;line-height:1.45;padding:12px 14px;margin-bottom:14px}
   .form-ok{background:rgba(201,149,103,.14);border:1px solid rgba(201,149,103,.5);border-radius:4px;color:#F0E3D2;font-size:15px;line-height:1.45;padding:12px 14px;margin-bottom:14px}

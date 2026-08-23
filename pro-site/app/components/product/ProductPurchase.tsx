@@ -58,6 +58,7 @@ export function ProductPurchase({ state, setState, ctaRef }: {
 }) {
   const { money, baseReference, currency } = useCurrency();
   const [selectedImage, setSelectedImage] = useState(0);
+  const [professionalConfigured, setProfessionalConfigured] = useState(false);
   const pricing = professionalOrderPricing(state.qty);
   const total = pricing.total;
   const capacity = pricing.capacity;
@@ -110,7 +111,20 @@ export function ProductPurchase({ state, setState, ctaRef }: {
         <div><span>Revenue potential</span><b>{money(capacity * DEFAULT_TREATMENT_PRICE)}+</b><small>at {money(DEFAULT_TREATMENT_PRICE)} per tan · <Link to="/#calculator">your margins</Link></small></div>
       </div>
 
-      <div className="cta-col" ref={ctaRef}><OrderConfiguratorModal state={state} setState={setState} /><Link className="trial-link" to="/#trial">New to Jimmy Coco? Start with a free trial →</Link></div>
+      <div className={`cta-col${professionalConfigured ? " is-configured" : ""}`} ref={ctaRef}>
+        {professionalConfigured ? <p className="configuration-complete" role="status"><b>Step 1 complete</b><span>{litres} configured for your order</span></p> : null}
+        <div className="cta-actions">
+          <OrderConfiguratorModal
+            state={state}
+            setState={setState}
+            triggerLabel={professionalConfigured ? "Edit professional solution" : undefined}
+            triggerClassName={`btn ${professionalConfigured ? "btn-ghost" : "btn-bronze"}`}
+            onConfirm={() => setProfessionalConfigured(true)}
+          />
+          {professionalConfigured ? <a className="btn btn-bronze next-step-cta" href="#retail-products">Step 2 · Choose retail products →</a> : null}
+        </div>
+        <Link className="trial-link" to="/#trial">New to Jimmy Coco? Start with a free trial →</Link>
+      </div>
       <p className="trust-line"><span>{currency === "USD" ? "US terms confirmed before invoicing" : "Free UK delivery"}</span><span>14-day returns</span><span>Secure ordering</span></p>
     </div>
   </div>;

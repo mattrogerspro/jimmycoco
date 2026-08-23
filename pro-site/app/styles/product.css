@@ -86,6 +86,13 @@
   .maths div small{display:block;font-size:12px;color:#AFA397;margin-top:0}
   .maths a{color:var(--gold);font-weight:600;text-underline-offset:3px}
   .cta-col{display:grid;gap:8px;text-align:center}
+  .cta-actions{display:grid;grid-template-columns:1fr;gap:10px}
+  .cta-col.is-configured{padding:12px;border:1px solid var(--sky);border-radius:8px;background:var(--mist)}
+  .cta-col.is-configured .cta-actions{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}
+  .configuration-complete{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--ink2);font-size:13px;line-height:1.3}
+  .configuration-complete b{color:var(--ocean);letter-spacing:.12em;text-transform:uppercase}
+  .configuration-complete span:before{content:"·";margin-right:10px;color:var(--blue)}
+  .cta-col .next-step-cta{box-shadow:0 5px 14px rgba(135,84,46,.2)}
   .cta-col .btn{width:100%;padding:18px 20px;font-size:15px}
   .trial-link{font-size:14px;color:var(--bronze2);font-weight:600;text-underline-offset:4px}
   .trust-line{display:flex;justify-content:center;gap:0;color:var(--muted);font-size:12.5px;text-align:center}
@@ -390,6 +397,9 @@
     .maths>div{min-width:0}
     .maths div b{font-size:clamp(27px,8.5vw,38px);white-space:normal;overflow-wrap:anywhere}
     .cta-col .btn,.profit-modal-trigger,.retail-add{min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;line-height:1.3}
+    .cta-col.is-configured .cta-actions{grid-template-columns:1fr}
+    .configuration-complete{align-items:flex-start;flex-direction:column;gap:2px;text-align:left}
+    .configuration-complete span:before{display:none}
     .trust-line{align-items:center;flex-direction:column;gap:4px}
     .trust-line span+span:before{display:none}
     .product-proof p{align-items:flex-start;flex-wrap:wrap}

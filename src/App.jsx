@@ -70,7 +70,7 @@ function BrandMark() {
 
 function Status({ value }) {
   const kind = value.toLowerCase().replaceAll(' ', '-')
-  return <span className={`status status-${kind}`}><i />{value}</span>
+  return <span className={`status status-${kind}`} title={value}><i /><span>{value}</span></span>
 }
 
 function Sidebar({ currentView, setCurrentView, open, onClose, onCollapse }) {
@@ -411,8 +411,10 @@ function Sequences({ params, routeTo, onOpenEmail }) {
           <aside className="sequence-list panel">
             <div className="sequence-list-head"><span>Campaign sequences</span><b>{filteredCampaigns.length}</b></div>
             {filteredCampaigns.map((item) => (
-              <button key={item.id} className={item.id === campaign.id ? 'active' : ''} onClick={() => routeTo(['sequences', item.id])}>
-                <span className="flag-tile small">{item.flag}</span><div><strong>{item.name}</strong><small>{item.hook}</small></div><Status value={item.status} />
+              <button key={item.id} className={`sequence-list-item${item.id === campaign.id ? ' active' : ''}`} onClick={() => routeTo(['sequences', item.id])}>
+                <span className="flag-tile small">{item.flag}</span>
+                <div className="sequence-list-copy"><strong title={item.name}>{item.name}</strong><small title={item.hook}>{item.hook}</small></div>
+                <span className="sequence-list-status"><Status value={item.status} /></span>
               </button>
             ))}
           </aside>

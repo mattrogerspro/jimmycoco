@@ -113,6 +113,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .campaign-highlight-top > div strong { font-size: 12px; margin-top: 3px; }
 .status { width: fit-content; display: inline-flex; align-items: center; gap: 5px; border-radius: 20px; padding: 5px 8px; font-size: 8px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; background: #eeeae5; color: #706962; white-space: nowrap; }
 .status i { width: 5px; height: 5px; background: currentColor; border-radius: 50%; }
+.status > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .status-live { color: var(--green); background: var(--green-soft); }
 .status-ready { color: #796249; background: #eee5da; }
 .status-blueprint { color: #65616b; background: #e7e5ea; }
@@ -223,6 +224,12 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .sequence-list > button > div { min-width: 0; display: flex; flex-direction: column; }
 .sequence-list > button strong { font-size: 9px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .sequence-list > button small { color: #999088; font-size: 8px; margin-top: 4px; }
+.sequence-list > .sequence-list-item { grid-template-columns: 34px minmax(0, 1fr); align-items: center; }
+.sequence-list-item > .flag-tile { grid-column: 1; grid-row: 1 / span 2; }
+.sequence-list-copy { grid-column: 2; min-width: 0; }
+.sequence-list-copy small { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; line-height: 1.35; }
+.sequence-list-status { grid-column: 2; min-width: 0; max-width: 100%; margin-top: 8px; }
+.sequence-list-status .status { max-width: 100%; }
 .sequence-detail { background: #f8f4ef; box-shadow: none; overflow: hidden; }
 .sequence-hero { padding: 22px 28px; background: linear-gradient(135deg, #eee5dc 0%, #e9ded2 100%); display: flex; justify-content: space-between; align-items: center; gap: 28px; }
 .sequence-hero-copy { min-width: 0; }
@@ -465,6 +472,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .sequence-list-head { padding: 25px; font-size: 19px; }
 .sequence-list-head b { min-width: 29px; height: 29px; font-size: 13px; }
 .sequence-list > button { grid-template-columns: 44px 1fr auto; padding: 20px 18px; gap: 14px; }
+.sequence-list > .sequence-list-item { grid-template-columns: 44px minmax(0, 1fr); }
 .sequence-list > button strong { font-size: 19px; }
 .sequence-list > button small { font-size: 16px; line-height: 1.35; }
 .sequence-list .status, .sequence-kicker .status { padding: 8px 11px; font-size: 14px; }

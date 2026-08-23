@@ -29,12 +29,14 @@ export function OrderConfiguratorModal({
   setState,
   triggerLabel,
   triggerClassName = "btn btn-bronze",
+  onConfirm,
 }: {
   item?: ConfigurableItem;
   state: PurchaseState;
   setState: Dispatch<SetStateAction<PurchaseState>>;
   triggerLabel?: string;
   triggerClassName?: string;
+  onConfirm?: () => void;
 }) {
   const { money } = useCurrency();
   const gbp = money;
@@ -127,7 +129,7 @@ export function OrderConfiguratorModal({
           {hasVolumeTiers ? <div className="config-profit-panel"><div className="config-cost-breakdown"><div><span>Price</span><strong>{unitPrice ? `${gbp(unitPrice, unitPrice % 1 ? 2 : 0)}/${professional ? "l" : "unit"}` : "—"}</strong></div><div><span>Total</span><strong>{gbp(orderSubtotal)}</strong></div></div><span>{professional ? "Potential booth profit*" : "Potential retail profit*"}</span><strong>{gbp(currentPotentialProfit)}</strong><small>{professionalProfit ? `*Maximum potential from ${gbp(professionalProfit.revenue)} sales at full treatment price.` : retailProfit ? `*Maximum potential from ${gbp(retailProfit.revenue)} sales at full retail price.` : ""}</small>{nextTier && nextQuantity && nextProfit !== undefined ? <div className="config-tier-action"><button type="button" onClick={() => setQuantity(nextQuantity)}>Add {quantityToNextTier}{professional ? "L" : ""} to reach {nextTier.name}</button><span>{gbp(nextProfit)} potential profit · <strong>+{gbp(nextProfit - currentPotentialProfit)}</strong></span></div> : <p className="is-max"><b>{currentLevel === "Premium" ? "Premium price unlocked" : "Move the slider to begin"}</b><span>{currentLevel === "Premium" ? "You are receiving the best available unit price." : "The first tier begins at six units."}</span></p>}</div> : <div className="config-profit-panel config-fixed-result"><span>Trade subtotal</span><strong>{gbp(orderSubtotal)}</strong><small>{quantity ? `${quantity} × ${gbp(unitPrice ?? 0)} per unit` : "Move the slider to add this product."}</small><p><b>Fixed trade price</b><span>This item has no volume levels.</span></p></div>}
         </section>
 
-        <footer className="order-config-footer"><p><b>Configuring {title}</b></p><form method="dialog"><button className="btn btn-bronze">{confirmLabel}</button></form></footer>
+        <footer className="order-config-footer"><p><b>Configuring {title}</b></p><form method="dialog"><button className="btn btn-bronze" onClick={onConfirm}>{confirmLabel}</button></form></footer>
       </div>
     </dialog>
   </>;

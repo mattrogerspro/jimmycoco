@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs, LinksFunction, MetaFunction } from "react-router";
+import type { LinksFunction, MetaFunction } from "react-router";
 import { Link } from "react-router";
 import homeStyles from "../styles/home.css?url";
 import chromeStyles from "../styles/chrome.css?url";
@@ -8,7 +8,6 @@ import { ProfitCalculator } from "../components/shared/ProfitCalculator";
 import { useCurrency } from "../components/shared/CurrencyContext";
 import { ORG_ID, brandEntities } from "../lib/entity";
 import { ASSUMPTIONS, DEFAULTS, calculate, calculatorFaq } from "../lib/calculator";
-import { handleCalculatorReportSubmit } from "../lib/calculator-report.server";
 import { CONTENT_UPDATED, PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 
 export const TOOL_PATH = "/tools/spray-tan-profit-calculator";
@@ -102,10 +101,6 @@ const schema = [
     ],
   },
 ];
-
-export async function action({ request }: ActionFunctionArgs) {
-  return handleCalculatorReportSubmit(request);
-}
 
 /**
  * Everything below the calculator is server-rendered prose.

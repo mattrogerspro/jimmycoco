@@ -7,6 +7,7 @@ export default [
   route("tools/spray-tan-profit-calculator", "routes/tools.spray-tan-profit-calculator.tsx"),
   route("articles/:slug", "routes/article.tsx"),
   route("api/article-view", "routes/api.article-view.ts"),
+  route("api/calculator-report", "routes/api.calculator-report.ts"),
   route("api/chat-escalations", "routes/api.chat-escalations.ts"),
   route("api/fx-rate", "routes/api.fx-rate.ts"),
   route("q/:code", "routes/qr-redirect.ts"),

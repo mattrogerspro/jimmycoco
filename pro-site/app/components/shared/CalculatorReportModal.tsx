@@ -5,7 +5,7 @@ import { buildTrialHandoffPath, type Inputs, type Totals } from "../../lib/calcu
 import { track } from "../../lib/analytics";
 import { useCurrency } from "./CurrencyContext";
 
-const CALCULATOR_REPORT_PATH = "/tools/spray-tan-profit-calculator";
+const CALCULATOR_REPORT_PATH = "/api/calculator-report";
 
 export function CalculatorReportModal({ input, totals }: { input: Inputs; totals: Totals }) {
   const dialogRef = useRef<HTMLDialogElement>(null);

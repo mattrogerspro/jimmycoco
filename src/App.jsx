@@ -451,6 +451,7 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
   const availableMessages = useMemo(() => campaign.messages.filter((message) => message.html), [campaign])
   const sequenceMessages = useMemo(() => availableMessages.filter((item) => !item.isSupplemental), [availableMessages])
   const [viewport, setViewport] = useState('desktop')
+  const [format, setFormat] = useState('html')
   const [personalised, setPersonalised] = useState(true)
   const [analytics, setAnalytics] = useState({ loading: true, configured: null, campaign: null, steps: [] })
   const studioRef = useRef(null)
@@ -529,6 +530,7 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
     return () => studio.removeEventListener('wheel', scrollEmailPreview)
   }, [])
   const previewHtml = personalised ? applyMergeData(message?.html, sampleMergeData) : message?.html
+  const previewText = personalised ? applyMergeData(message?.text, sampleMergeData) : message?.text
   const campaignStats = analytics.campaign || {}
   const selectedStepStats = analytics.steps.find((step) => Number(step.step_number) === message?.index)
   const rate = (value, total) => Number(total) ? `${Math.round((Number(value || 0) / Number(total)) * 100)}%` : '—'
@@ -552,7 +554,8 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
         ) : 'No HTML'}</span><strong>{message?.title || 'No rendered emails in this campaign'}</strong></div>
         <div className="toolbar-actions">
           <CopyLink parts={['emails', campaign.id, message?.index]} />
-          <div className="viewport-switch"><button className={viewport === 'desktop' ? 'active' : ''} onClick={() => setViewport('desktop')} aria-label="Desktop preview"><Icon name="monitor" /></button><button className={viewport === 'mobile' ? 'active' : ''} onClick={() => setViewport('mobile')} aria-label="Mobile preview"><Icon name="mobile" /></button></div>
+          <div className="format-switch" aria-label="Email format"><button className={format === 'html' ? 'active' : ''} onClick={() => setFormat('html')}>HTML</button><button className={format === 'text' ? 'active' : ''} onClick={() => setFormat('text')} disabled={!message?.text}>Text</button></div>
+          {format === 'html' && <div className="viewport-switch"><button className={viewport === 'desktop' ? 'active' : ''} onClick={() => setViewport('desktop')} aria-label="Desktop preview"><Icon name="monitor" /></button><button className={viewport === 'mobile' ? 'active' : ''} onClick={() => setViewport('mobile')} aria-label="Mobile preview"><Icon name="mobile" /></button></div>}
           <button className={`personalise-toggle ${personalised ? 'active' : ''}`} onClick={() => setPersonalised((value) => !value)}><Icon name="spark" />Sample data<span><i /></span></button>
         </div>
       </div>
@@ -630,9 +633,11 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
                 <div><small>Subject</small><strong>{personalised ? applyMergeData(message.title) : message.title}</strong></div>
                 <div><small>Preview text</small><span>{personalised ? applyMergeData(message.preview) : message.preview}</span></div>
               </div>
-              <div className={`device-frame ${viewport}`}>
-                <div className="browser-chrome"><span /><span /><span /><b>{viewport === 'desktop' ? 'Email preview · 680px' : 'Mobile preview · 390px'}</b></div>
-                <iframe ref={previewFrameRef} title={`Preview of ${message.title}`} srcDoc={previewHtml} sandbox="allow-popups allow-same-origin" />
+              <div className={`device-frame ${format === 'html' ? viewport : 'desktop'}`}>
+                <div className="browser-chrome"><span /><span /><span /><b>{format === 'text' ? 'Plain-text source preview' : viewport === 'desktop' ? 'Email preview · 680px' : 'Mobile preview · 390px'}</b></div>
+                {format === 'html'
+                  ? <iframe ref={previewFrameRef} title={`Preview of ${message.title}`} srcDoc={previewHtml} sandbox="allow-popups allow-same-origin" />
+                  : <pre className="plain-text-preview">{previewText || 'No repository text output is available for this message.'}</pre>}
               </div>
             </>
           ) : <div className="empty-preview"><Icon name="mail" size={34} /><h2>No HTML preview yet</h2><p>Choose a campaign with a rendered email, or add one to its emails folder.</p></div>}
@@ -646,7 +651,7 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
                 ? `Triggered email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')}`
                 : `Email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${getDisplayDay(message.day)}`
           }</span></div>
-          <dl><div><dt>Headline</dt><dd>{message.headline}</dd></div><div><dt>Eyebrow</dt><dd>{message.eyebrow}</dd></div><div><dt>Format</dt><dd>Branded HTML</dd></div><div><dt>Output</dt><dd>{message.output.split('/').pop()}</dd></div></dl>
+          <dl><div><dt>Headline</dt><dd>{message.headline}</dd></div><div><dt>Eyebrow</dt><dd>{message.eyebrow}</dd></div><div><dt>Format</dt><dd>{message.text ? 'Repository HTML + text' : 'Repository HTML'}</dd></div><div><dt>HTML output</dt><dd>{message.output.split('/').pop()}</dd></div>{message.textPath && <div><dt>Text output</dt><dd>{message.textPath.split('/').pop()}</dd></div>}</dl>
           <hr />
           <p className="eyebrow">Sample recipient</p>
           <dl className="recipient-data"><div><dt>Name</dt><dd>{sampleMergeData.first_name}</dd></div><div><dt>Salon</dt><dd>{sampleMergeData.salon_name}</dd></div><div><dt>City</dt><dd>{sampleMergeData.city}</dd></div></dl>

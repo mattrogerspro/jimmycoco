@@ -6,7 +6,7 @@ This folder contains the single source of truth for branded campaign-email produ
 
 - `EMAIL-CAMPAIGN-GENERATOR-PROMPT.md` — mandatory system prompt for any AI or agent creating, editing, localising or extending a campaign.
 - `master-template.js` — shared email-safe HTML layout, typography, spacing, image modules, CTA, signature and footer system.
-- `build-all.js` — validates campaign content and approved image usage, then regenerates every branded campaign email.
+- `build-all.js` — validates campaign content and approved image usage, regenerates branded HTML, generates plain text for repository-delivered campaigns, and writes the immutable runtime content module.
 
 ## Mandatory generator rule
 
@@ -38,7 +38,7 @@ Validate all registered campaigns without rewriting HTML:
 node email/campaigns/_shared/build-all.js --check
 ```
 
-The build reads the registered campaign manifests and writes HTML under each campaign's `emails/` directory. It also validates every image reference against `email/06-assets/asset-manifest.json`.
+The build reads the registered campaign manifests and writes HTML under each campaign's `emails/` directory. Campaigns with `deliveryMode: "repository-html"` also receive matching `.txt` files and entries in `shared/campaign-content.generated.js`. It also validates every image reference against `email/06-assets/asset-manifest.json`.
 
 ## Registered campaigns
 

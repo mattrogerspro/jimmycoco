@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node email/campaigns/_shared/build-all.js",
     "build": "vite build",
     "preview": "vite preview",
     "test": "node --experimental-strip-types --test",
+    "campaigns:build": "node email/campaigns/_shared/build-all.js",
+    "campaigns:check": "node email/campaigns/_shared/build-all.js --check",
     "templates:check": "node scripts/sync-resend-templates.js",
     "templates:publish": "node scripts/sync-resend-templates.js --publish",
     "test-email:build": "node email/campaigns/test-editorial-commerce-email/build.js",

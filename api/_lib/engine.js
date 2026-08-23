@@ -2,7 +2,7 @@ import crypto from 'node:crypto'
 import { findCampaign, findTriggeredStep } from '../../shared/campaign-registry.js'
 import { assertSupabase, getSupabase, oneRow } from './supabase.js'
 import { campaignSendAt } from './time.js'
-import { isLiveMode, sendTemplateEmail } from './resend.js'
+import { getCampaignContentMetadata, isLiveMode, sendCampaignEmail } from './resend.js'
 
 function workerId() {
   return `${process.env.VERCEL_REGION || 'local'}-${crypto.randomUUID()}`
@@ -49,6 +49,7 @@ async function recentNonTransactionalSend(contactId, gapHours) {
 
 async function reserveMessage({ campaign, step, contact, enrollmentId, jobId, idempotencyKey, source }) {
   const supabase = getSupabase()
+  const content = getCampaignContentMetadata(campaign, step)
   const record = {
     enrollment_id: enrollmentId || null,
     job_id: jobId || null,
@@ -60,11 +61,20 @@ async function reserveMessage({ campaign, step, contact, enrollmentId, jobId, id
     classification: step.classification || campaign.classification,
     idempotency_key: idempotencyKey,
     template_alias: step.templateAlias,
-    template_id: step.templateId,
+    template_id: campaign.deliveryMode === 'repository-html' ? null : step.templateId,
     recipient_email: contact.email,
     subject: step.subject,
     status: 'sending',
-    tags: { campaign_id: campaign.id, sequence_step: step.key, market: campaign.market.toLowerCase() },
+    tags: {
+      campaign_id: campaign.id,
+      sequence_step: step.key,
+      market: campaign.market.toLowerCase(),
+      delivery_mode: content.deliveryMode,
+      campaign_version: campaign.version,
+      content_checksum: content.checksum || null,
+      content_html_path: content.htmlPath || null,
+      content_text_path: content.textPath || null,
+    },
   }
   const inserted = await supabase.from('email_messages').insert(record).select().maybeSingle()
   if (!inserted.error) return inserted.data
@@ -87,11 +97,12 @@ async function sendClaimedMessage({ campaign, step, contact, context, enrollment
   if (message.resend_email_id || ['accepted', 'delivered', 'opened', 'clicked'].includes(message.status)) return { message, duplicate: true }
 
   try {
-    const sent = await sendTemplateEmail({
+    const sent = await sendCampaignEmail({
       campaign,
       step,
       contact,
       context,
+      messageId: message.id,
       idempotencyKey,
       tags: enrollmentId ? [{ name: 'enrollment_id', value: enrollmentId }] : [{ name: 'job_id', value: jobId }],
     })
@@ -99,7 +110,9 @@ async function sendClaimedMessage({ campaign, step, contact, context, enrollment
     const updated = await getSupabase().from('email_messages').update({
       resend_email_id: sent.id,
       status: 'accepted',
+      subject: sent.content?.subject || message.subject,
       sent_at: now,
+      tags: { ...message.tags, content_checksum: sent.content?.checksum || null, content_html_path: sent.content?.htmlPath || null, content_text_path: sent.content?.textPath || null },
       error_message: null,
     }).eq('id', message.id).select().single()
     return { message: assertSupabase(updated, 'mark message accepted'), duplicate: false }

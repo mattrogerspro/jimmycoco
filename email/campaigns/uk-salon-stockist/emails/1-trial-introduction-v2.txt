@@ -1,0 +1,22 @@
+The tan your clients ask for. Now in your treatment room.
+
+Hi {{FIRST_NAME}},
+
+I’m reaching out because {{BUSINESS_NAME}} looks like the kind of {{BUSINESS_TYPE}} that puts the finished result first.
+
+Sunless by Jimmy Coco brings a red-carpet spray-tan look directly to professional treatment rooms: a natural-looking bronze finish, a clean luxury experience and a named service you can present as a premium booking rather than a generic tan.
+
+The best way to assess the formula is on a real client in your own booth. Eligible UK professional partners can request a complimentary 100 ml professional trial sample, shipped free, before making any commercial decision.
+
+Request your complimentary professional trial
+{{TRIAL_LINK}}
+
+Or simply reply TRIAL and Matthew will explain the review step personally.
+
+Matthew at Jimmy Coco Pro
+Sunless Partnerships · Jimmy Coco (UK)
+
+JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP
+
+You are receiving this because you are a professional contact at {{BUSINESS_NAME}} and we believe this message is relevant to your business.
+Unsubscribe: {{RESEND_UNSUBSCRIBE_URL}}

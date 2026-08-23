@@ -1,0 +1,25 @@
+A premium service has to look worth booking again.
+
+Hi {{FIRST_NAME}},
+
+The real test of a professional tan is not under treatment-room lighting. It is how the client feels wearing it later in daylight, in photographs and when they decide whether to rebook.
+
+Malibu Professional Spray is a universal bronze, 10% DHA formula with a stated 6–8-hour development window. For day-to-day application, the formula uses under 35 ml for a full-body tan and works with standard HVLP systems.
+
+- Efficient application: a repeatable full-body application using under 35 ml with standard HVLP equipment.
+- Simplified professional setup: one universal bronze formula to assess in your own treatment-room workflow.
+
+It supports a natural-looking finish and a clearer consultation conversation: the right depth and finish for the client’s plans, not simply how dark.
+
+Request your complimentary professional trial
+{{TRIAL_LINK}}
+
+Prefer to test it with your team first? Reply SAMPLE and Matthew will help personally.
+
+Matthew at Jimmy Coco Pro
+Sunless Partnerships · Jimmy Coco (UK)
+
+JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP
+
+You are receiving this because you are a professional contact at {{BUSINESS_NAME}} and we believe this message is relevant to your business.
+Unsubscribe: {{RESEND_UNSUBSCRIBE_URL}}

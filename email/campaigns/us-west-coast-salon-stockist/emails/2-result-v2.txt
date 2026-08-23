@@ -1,0 +1,20 @@
+A premium service has to look worth coming back for.
+
+Hi {{FIRST_NAME}},
+
+The test of a professional tan is how it reads later—in daylight, in photographs, in evening light and at the event the client booked it for.
+
+Malibu Professional Spray is presented as a universal bronze, 10% DHA formula with a stated 6–8-hour development window. Professional guidance recommends under 35 ml for a full-body application and confirms compatibility with standard HVLP systems.
+
+That supports a believable, polished finish and a more valuable consultation: considered depth and a finish designed to look natural, rather than simply darker.
+
+Request professional trial information
+{{TRIAL_LINK}}
+
+{{SENDER_NAME}}
+{{SENDER_TITLE}}
+
+Sunless by Jimmy Coco · Jimmy Coco LA Spray-Tan Studio · Suite 313, 9301 Wilshire Blvd, Beverly Hills, CA 90210
+
+Advertisement from Jimmy Coco LA Spray-Tan Studio.
+Unsubscribe: {{RESEND_UNSUBSCRIBE_URL}}

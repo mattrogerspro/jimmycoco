@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { campaignRegistry, findStepByTemplateId } from '../shared/campaign-registry.js'
+import { findRepositoryCampaignContent } from '../shared/campaign-content.generated.js'
 
 test('campaign IDs and template IDs are unique', () => {
   const campaignIds = campaignRegistry.map((campaign) => campaign.id)
@@ -50,4 +51,19 @@ test('template webhook lookup returns its campaign and step', () => {
   const match = findStepByTemplateId('c3d0ff13-85cb-4670-b7cc-e303babec1c4')
   assert.equal(match.campaign.id, 'uae-dubai-salon-stockist')
   assert.equal(match.step.key, '01')
+})
+
+test('UK and US prospect campaigns use versioned repository HTML and text', () => {
+  for (const campaignId of ['uk-salon-stockist', 'us-west-coast-salon-stockist']) {
+    const campaign = campaignRegistry.find((item) => item.id === campaignId)
+    assert.equal(campaign.deliveryMode, 'repository-html')
+    for (const step of campaign.steps) {
+      assert.equal(step.templateId, null)
+      assert.match(step.legacyTemplateId, /^[0-9a-f-]{36}$/)
+      const content = findRepositoryCampaignContent(campaign.id, step.templateAlias)
+      assert.ok(content?.html)
+      assert.ok(content?.text)
+      assert.match(content.checksum, /^[0-9a-f]{64}$/)
+    }
+  }
 })

@@ -1,4 +1,6 @@
 import { Resend } from 'resend'
+import { findRepositoryCampaignContent } from '../../shared/campaign-content.generated.js'
+import { createUnsubscribeUrl } from './unsubscribe.js'
 
 let client
 
@@ -50,39 +52,91 @@ function escapeTemplateValue(value) {
     .replace(/'/g, '&#039;')
 }
 
-export function buildTemplateVariables(step, contact, context = {}) {
+export function buildTemplateVariables(step, contact, context = {}, messageId = null) {
   const upperContext = Object.fromEntries(Object.entries(context).map(([key, value]) => [key.toUpperCase(), value]))
+  const unsubscribeUrl = messageId ? createUnsubscribeUrl(messageId) : undefined
   const candidates = {
     ...variableDefaults(),
     ...upperContext,
+    FIRST_NAME: contact.first_name || upperContext.FIRST_NAME || 'there',
+    LAST_NAME: contact.last_name || upperContext.LAST_NAME || '',
+    EMAIL: contact.email,
     SALON_NAME: upperContext.SALON_NAME || contact.business_name,
     BUSINESS_NAME: upperContext.BUSINESS_NAME || contact.business_name,
+    BUSINESS_TYPE: upperContext.BUSINESS_TYPE || 'professional tanning business',
+    RESEND_UNSUBSCRIBE_URL: unsubscribeUrl,
   }
   const missing = step.requiredVariables.filter((key) => candidates[key] === undefined || candidates[key] === null || candidates[key] === '')
   if (missing.length) throw new Error(`missing_template_variables:${missing.join(',')}`)
+  if (messageId) return candidates
   return Object.fromEntries(step.requiredVariables.map((key) => [key, escapeTemplateValue(candidates[key])]))
 }
 
-export async function sendTemplateEmail({ campaign, step, contact, context, idempotencyKey, tags = [] }) {
-  if (!isLiveMode()) throw new Error('email_live_mode_disabled')
-  const resend = getResend()
-  const variables = buildTemplateVariables(step, contact, context)
-  const payload = {
+function renderTokens(value, variables, escape = false) {
+  return String(value || '').replace(/\{\{\{?\s*([A-Za-z0-9_.]+)\s*\}\}\}?/g, (_match, key) => {
+    const resolved = variables[key.toUpperCase()]
+    if (resolved === undefined || resolved === null) throw new Error(`missing_render_variable:${key.toUpperCase()}`)
+    const clean = String(resolved).replace(/[\r\n]+/g, ' ')
+    return escape ? escapeTemplateValue(clean) : clean
+  })
+}
+
+function providerTagValue(value) {
+  return String(value).replace(/[^A-Za-z0-9_-]/g, '_').slice(0, 256)
+}
+
+export function prepareCampaignEmail({ campaign, step, contact, context = {}, messageId, tags = [] }) {
+  const variables = buildTemplateVariables(step, contact, context, campaign.deliveryMode === 'repository-html' ? messageId : null)
+  const base = {
     from: process.env.RESEND_FROM || 'Sunless Partnerships <partnerships@email.jimmycoco.pro>',
     to: [contact.email],
     bcc: auditCopyRecipients(contact.email),
     replyTo: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
-    template: { id: step.templateId || step.templateAlias, variables },
     tags: [
-      { name: 'campaign_id', value: campaign.id },
-      { name: 'sequence_step', value: step.key },
-      { name: 'market', value: campaign.market.toLowerCase() },
+      { name: 'campaign_id', value: providerTagValue(campaign.id) },
+      { name: 'sequence_step', value: providerTagValue(step.key) },
+      { name: 'market', value: providerTagValue(campaign.market.toLowerCase()) },
       ...tags,
     ],
   }
+
+  if (campaign.deliveryMode !== 'repository-html') {
+    return { payload: { ...base, template: { id: step.templateId || step.templateAlias, variables } }, content: { deliveryMode: 'resend-template', checksum: null, subject: step.subject } }
+  }
+
+  const content = findRepositoryCampaignContent(campaign.id, step.templateAlias)
+  if (!content) throw new Error(`repository_campaign_content_not_found:${campaign.id}/${step.templateAlias}`)
+  const unsubscribeUrl = variables.RESEND_UNSUBSCRIBE_URL
+  return {
+    payload: {
+      ...base,
+      subject: renderTokens(content.subject, variables),
+      html: renderTokens(content.html, variables, true),
+      text: renderTokens(content.text, variables),
+      headers: {
+        'List-Unsubscribe': `<${unsubscribeUrl}>`,
+        'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+      },
+      tags: [...base.tags, { name: 'content_hash', value: content.checksum }],
+    },
+    content: { deliveryMode: 'repository-html', checksum: content.checksum, htmlPath: content.htmlPath, textPath: content.textPath, subject: renderTokens(content.subject, variables) },
+  }
+}
+
+export function getCampaignContentMetadata(campaign, step) {
+  if (campaign.deliveryMode !== 'repository-html') return { deliveryMode: 'resend-template' }
+  const content = findRepositoryCampaignContent(campaign.id, step.templateAlias)
+  if (!content) throw new Error(`repository_campaign_content_not_found:${campaign.id}/${step.templateAlias}`)
+  return { deliveryMode: 'repository-html', checksum: content.checksum, htmlPath: content.htmlPath, textPath: content.textPath }
+}
+
+export async function sendCampaignEmail({ campaign, step, contact, context, messageId, idempotencyKey, tags = [] }) {
+  if (!isLiveMode()) throw new Error('email_live_mode_disabled')
+  const resend = getResend()
+  const { payload, content } = prepareCampaignEmail({ campaign, step, contact, context, messageId, tags })
   const result = await resend.emails.send(payload, { idempotencyKey })
   if (result.error) throw new Error(`resend_send_failed:${result.error.message}`)
-  return result.data
+  return { ...result.data, content }
 }
 
 export async function syncResendContact(contact) {

@@ -4,7 +4,7 @@
 **Audience:** UK corporate salons and spas; mobile professionals only where soft opt-in or consent is documented.
 **Market:** 🇬🇧 UK  
 **Channel:** Promotional email through Resend.  
-**Status:** Revised source awaiting template release. Automation remains disabled.  
+**Status:** Repository HTML/text delivery implemented. Campaign remains disabled pending review and release gates.
 **Owner:** Matthew at Jimmy Coco Pro.
 
 ## Hook and conversion route
@@ -25,10 +25,10 @@ The sequence leads with a complimentary 100 ml professional trial sample, shippe
 
 ## Operating controls
 
-The source of truth is `email-data.json`; regenerate HTML with `node email/campaigns/_shared/build-all.js uk-salon-stockist` after any source change. `resend.json` records the actual Resend template IDs. `studio.json`, `sequence.md` and `shared/campaign-registry.js` expose the sequence to the local marketing system.
+The source of truth is `email-data.json`; regenerate HTML, plain text and the immutable runtime content module with `node email/campaigns/_shared/build-all.js uk-salon-stockist` after any source change. `resend.json` retains legacy provider-template IDs for rollback history only. `studio.json`, `sequence.md` and `shared/campaign-registry.js` expose the sequence and its live Resend-webhook statistics in the online Playbook.
 
 Exit a prospect on any reply, trial request/application, unsubscribe, complaint, hard bounce, existing-customer match or manual suppression. Until the order system emits a verified outreach-exit event, manually suppress any known trade-order contact immediately. Do not make the sequence live until the eligible contact segment, permission fields, reply handling and form/order suppression path are tested.
 
 ## Sender and compliance
 
-Use `Matthew at Jimmy Coco Pro <partnerships@email.jimmycoco.pro>` with reply-to `matthew@jimmycoco.pro`. The footer must retain **JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP** and Resend’s unsubscribe variable.
+Use `Matthew at Jimmy Coco Pro <partnerships@email.jimmycoco.pro>` with reply-to `matthew@jimmycoco.pro`. The footer must retain **JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP** and the application-generated signed unsubscribe URL.

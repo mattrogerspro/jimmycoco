@@ -7,14 +7,22 @@ import { createClient } from "@supabase/supabase-js";
 
 const THIRTY_DAYS = 60 * 60 * 24 * 30;
 
-function readSupabaseEnvironment() {
+function readSupabaseUrl() {
   const url = process.env.SUPABASE_URL;
+  if (!url) {
+    throw new Error("Supabase database access is not configured. Set SUPABASE_URL.");
+  }
+  return url;
+}
+
+function readSupabaseEnvironment() {
+  const url = readSupabaseUrl();
   const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY
     ?? process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
-  if (!url || !publishableKey) {
+  if (!publishableKey) {
     throw new Error(
-      "Supabase Auth is not configured. Set SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY (or VITE_SUPABASE_PUBLISHABLE_KEY).",
+      "Supabase public Data API access is not configured. Set SUPABASE_PUBLISHABLE_KEY (or VITE_SUPABASE_PUBLISHABLE_KEY).",
     );
   }
 
@@ -34,7 +42,7 @@ export function createPublicSupabaseClient() {
 
 export function articleMediaUrl(path: string | null | undefined) {
   if (!path) return null;
-  const { url } = readSupabaseEnvironment();
+  const url = readSupabaseUrl();
   const encoded = path.split("/").map(encodeURIComponent).join("/");
   return `${url}/storage/v1/object/public/article-media/${encoded}`;
 }

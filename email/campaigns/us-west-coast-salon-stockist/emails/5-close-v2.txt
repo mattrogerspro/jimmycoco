@@ -1,0 +1,22 @@
+I’ll leave the timing with you.
+
+Hi {{FIRST_NAME}},
+
+Sunless by Jimmy Coco may be relevant to {{BUSINESS_NAME}} if you are considering a more distinctive spray-tan offer: a premium client result, a service model you can assess using your own operating numbers, and a small aftercare edit for clients who want to maintain the result.
+
+- Trial: assess the professional formula on a real client.
+- NUMBERS: discuss your current service model before considering a wider route.
+- RETAIL: discuss a small aftercare edit for a fixed salon, studio or mobile kit.
+
+Request professional trial information
+{{TRIAL_LINK}}
+
+If the timing is not right, no problem. We will close this sequence here.
+
+{{SENDER_NAME}}
+{{SENDER_TITLE}}
+
+Sunless by Jimmy Coco · Jimmy Coco LA Spray-Tan Studio · Suite 313, 9301 Wilshire Blvd, Beverly Hills, CA 90210
+
+Advertisement from Jimmy Coco LA Spray-Tan Studio.
+Unsubscribe: {{RESEND_UNSUBSCRIBE_URL}}

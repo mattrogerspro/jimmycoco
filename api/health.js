@@ -9,6 +9,7 @@ export default function handler(_request, response) {
       supabase: isSupabaseConfigured(),
       resend: Boolean(process.env.RESEND_API_KEY),
       resend_webhook: Boolean(process.env.RESEND_WEBHOOK_SECRET),
+      unsubscribe: Boolean(process.env.EMAIL_UNSUBSCRIBE_SECRET),
       live_mode: isLiveMode(),
     },
   })

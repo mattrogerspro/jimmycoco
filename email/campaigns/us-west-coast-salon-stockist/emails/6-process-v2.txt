@@ -1,0 +1,24 @@
+Here is what happens after you request information.
+
+Hi {{FIRST_NAME}},
+
+We keep the first conversation practical and specific to your business.
+
+1. Professional review: tell us a little about your salon, studio or mobile business.
+2. Trial availability: we review whether a complimentary professional trial is currently available for your business.
+3. First-order route: after testing, any potential first order is reviewed with your individual business before you make a commitment.
+
+If a trial is available, we will explain the next step before anything is shipped.
+
+Request professional trial information
+{{TRIAL_LINK}}
+
+Or reply INFO and Matthew will help personally.
+
+{{SENDER_NAME}}
+{{SENDER_TITLE}}
+
+Sunless by Jimmy Coco · Jimmy Coco LA Spray-Tan Studio · Suite 313, 9301 Wilshire Blvd, Beverly Hills, CA 90210
+
+Advertisement from Jimmy Coco LA Spray-Tan Studio.
+Unsubscribe: {{RESEND_UNSUBSCRIBE_URL}}

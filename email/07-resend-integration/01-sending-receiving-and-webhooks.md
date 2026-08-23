@@ -12,7 +12,9 @@ Before every send:
 - create an idempotent internal send record;
 - submit through the server-side Resend adapter.
 
-Store the provider message ID, template version, sequence step, recipient ID, send category and timestamps.
+Store the provider message ID, repository content checksum and paths (or provider-template version for legacy flows), sequence step, recipient ID, send category and timestamps.
+
+Repository-delivered promotional messages must include both a visible signed unsubscribe URL and RFC 8058 `List-Unsubscribe` / `List-Unsubscribe-Post` headers. The unsubscribe endpoint writes an application suppression and exits active marketing enrollments before returning success.
 
 ## Inbound email
 

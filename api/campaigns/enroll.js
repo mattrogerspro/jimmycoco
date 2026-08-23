@@ -12,6 +12,10 @@ export default async function handler(request, response) {
     if (!campaign.enabled) return json(response, 409, { error: 'campaign_disabled_in_registry' })
     if (!isEmail(body.email)) return json(response, 422, { error: 'valid_email_required' })
     const email = normaliseEmail(body.email)
+    const context = {
+      ...(body.context || {}),
+      ...(body.business_type ? { BUSINESS_TYPE: body.business_type } : {}),
+    }
     const supabase = getSupabase()
     const databaseCampaign = assertSupabase(await supabase.from('email_campaigns').select('enabled').eq('id', campaign.id).maybeSingle(), 'check database campaign gate')
     if (!databaseCampaign?.enabled) return json(response, 409, { error: 'campaign_disabled_in_database' })
@@ -24,7 +28,7 @@ export default async function handler(request, response) {
       p_market: body.market || campaign.market,
       p_timezone: body.timezone || campaign.timezone,
       p_owner: body.owner || null,
-      p_context: body.context || {},
+      p_context: context,
       p_next_send_at: body.start_at || new Date().toISOString(),
     }), 'enroll contact'))
     const contact = assertSupabase(await supabase.from('email_contacts').select('*').eq('id', enrollment.contact_id).single(), 'load enrolled contact')
@@ -42,7 +46,7 @@ export default async function handler(request, response) {
       campaign_id: campaign.id,
       enrollment_id: enrollment.id,
       event_type: campaign.manualStart ? 'manual_follow_up_started' : 'campaign_enrolled',
-      data: { owner: body.owner || null, context: body.context || {}, source_type: body.source_type || null, source_id: body.source_id || null },
+      data: { owner: body.owner || null, context, source_type: body.source_type || null, source_id: body.source_id || null },
     }, { onConflict: 'external_event_id', ignoreDuplicates: true })
     if (campaign.supersedesCampaigns?.length) {
       const exited = assertSupabase(await supabase

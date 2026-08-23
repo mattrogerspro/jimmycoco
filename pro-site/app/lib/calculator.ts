@@ -86,6 +86,57 @@ export type Totals = {
   litresPerMonth: number;
 };
 
+export type TrialCalculatorContext = {
+  tansPerWeek: number;
+  tansPerLitre: number;
+  litresPerMonth: number;
+};
+
+export type TrialCalculatorHandoff = {
+  monthlyProfit: number;
+  context: TrialCalculatorContext;
+};
+
+const TRIAL_HANDOFF_PARAMS = {
+  monthlyProfit: "calc_monthly_profit",
+  tansPerWeek: "calc_tans_per_week",
+  tansPerLitre: "calc_tans_per_litre",
+  litresPerMonth: "calc_litres_per_month",
+} as const;
+
+/** Carries a calculator result from the standalone tool to the homepage trial form. */
+export function buildTrialHandoffPath(handoff: TrialCalculatorHandoff) {
+  const params = new URLSearchParams({
+    [TRIAL_HANDOFF_PARAMS.monthlyProfit]: String(Math.round(handoff.monthlyProfit)),
+    [TRIAL_HANDOFF_PARAMS.tansPerWeek]: String(Math.round(handoff.context.tansPerWeek)),
+    [TRIAL_HANDOFF_PARAMS.tansPerLitre]: String(Math.round(handoff.context.tansPerLitre)),
+    [TRIAL_HANDOFF_PARAMS.litresPerMonth]: String(Math.round(handoff.context.litresPerMonth * 10) / 10),
+  });
+  return `/?${params.toString()}#trial`;
+}
+
+function boundedNumber(params: URLSearchParams, key: string, min: number, max: number) {
+  const raw = params.get(key);
+  if (raw === null || raw.trim() === "") return null;
+  const value = Number(raw);
+  return Number.isFinite(value) && value >= min && value <= max ? value : null;
+}
+
+/** Treat URL data as untrusted and ignore incomplete or implausible handoffs. */
+export function parseTrialHandoff(search: string): TrialCalculatorHandoff | null {
+  const params = new URLSearchParams(search);
+  const monthlyProfit = boundedNumber(params, TRIAL_HANDOFF_PARAMS.monthlyProfit, -100_000, 1_000_000);
+  const tansPerWeek = boundedNumber(params, TRIAL_HANDOFF_PARAMS.tansPerWeek, 1, 100);
+  const tansPerLitre = boundedNumber(params, TRIAL_HANDOFF_PARAMS.tansPerLitre, 1, 100);
+  const litresPerMonth = boundedNumber(params, TRIAL_HANDOFF_PARAMS.litresPerMonth, 0, 100);
+  if (monthlyProfit === null || tansPerWeek === null || tansPerLitre === null || litresPerMonth === null) return null;
+
+  return {
+    monthlyProfit,
+    context: { tansPerWeek, tansPerLitre, litresPerMonth },
+  };
+}
+
 export function calculate(input: Inputs): Totals {
   const solutionPerTan = input.tansPerLitre > 0 ? input.litrePrice / input.tansPerLitre : 0;
   const consumablesPerTan = solutionPerTan + input.disposablesPerTan + input.sundriesPerTan;

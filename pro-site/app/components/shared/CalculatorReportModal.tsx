@@ -1,7 +1,7 @@
 import { useRef } from "react";
-import { useFetcher } from "react-router";
+import { Link, useFetcher } from "react-router";
 import type { CalculatorReportActionResult } from "../../lib/calculator-report.server";
-import type { Inputs, Totals } from "../../lib/calculator";
+import { buildTrialHandoffPath, type Inputs, type Totals } from "../../lib/calculator";
 import { track } from "../../lib/analytics";
 import { useCurrency } from "./CurrencyContext";
 
@@ -13,6 +13,14 @@ export function CalculatorReportModal({ input, totals }: { input: Inputs; totals
   const { money } = useCurrency();
   const submitting = fetcher.state !== "idle";
   const roundedLitres = totals.litresPerMonth.toLocaleString("en-GB", { maximumFractionDigits: 1 });
+  const trialHandoffPath = buildTrialHandoffPath({
+    monthlyProfit: totals.netMonth,
+    context: {
+      tansPerWeek: input.tansPerWeek,
+      tansPerLitre: input.tansPerLitre,
+      litresPerMonth: totals.litresPerMonth,
+    },
+  });
 
   const open = () => {
     track("calculator_report_open", {
@@ -46,7 +54,25 @@ export function CalculatorReportModal({ input, totals }: { input: Inputs; totals
               <p className="eyebrow">Report sent</p>
               <h2>Your numbers are on their way.</h2>
               <p>{fetcher.data.message}</p>
-              <form method="dialog"><button className="btn btn-bronze">Done</button></form>
+              <div className="calculator-report-upsell">
+                <p>Your PDF is on its way. Would you like us to dispatch your free 100ml trial bottle now?</p>
+                <div className="calculator-report-success-actions">
+                  <Link
+                    className="btn btn-bronze"
+                    to={trialHandoffPath}
+                    onClick={() => track("calculator_report_trial_upsell_click", {
+                      tans_per_week: input.tansPerWeek,
+                      litres_per_month: Number(totals.litresPerMonth.toFixed(1)),
+                      monthly_net: Math.round(totals.netMonth),
+                    })}
+                  >
+                    Yes — request my free 100ml trial
+                  </Link>
+                  <form method="dialog">
+                    <button type="submit" className="calculator-report-dismiss">Not right now</button>
+                  </form>
+                </div>
+              </div>
             </div>
           ) : (
             <>

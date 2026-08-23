@@ -2,8 +2,8 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 import { Link } from "react-router";
 import { PRODUCT_PATH } from "../../lib/site";
 import { debounceTrack, track, trackOnce } from "../../lib/analytics";
-import { DEFAULTS, type Inputs, calculate, levers } from "../../lib/calculator";
-import { professionalOrderRecommendation } from "../../lib/order-pricing";
+import { DEFAULTS, type Inputs, type TrialCalculatorContext, buildTrialHandoffPath, calculate, levers } from "../../lib/calculator";
+import { professionalOrderRecommendation, retailProductPotentialProfit } from "../../lib/order-pricing";
 import { CalculatorReportModal } from "./CalculatorReportModal";
 import { CurrencyDisclosure, useCurrency } from "./CurrencyContext";
 
@@ -11,6 +11,19 @@ export const CALCULATOR_PATH = "/tools/spray-tan-profit-calculator";
 const CALCULATOR_BACKGROUND_SRCSET = [480, 768, 1080, 1440, 1920, 2560, 3200, 4096]
   .map((width) => `/assets/site/calculator-background-light-${width}.webp ${width}w`)
   .join(", ");
+const RETAIL_STARTER_ITEMS = ["mitt", "souffleMedium", "souffleDark"] as const;
+const RETAIL_STARTER_ECONOMICS = RETAIL_STARTER_ITEMS.reduce(
+  (total, productId) => {
+    const item = retailProductPotentialProfit(productId, 1);
+    return {
+      revenue: total.revenue + item.revenue,
+      cost: total.cost + item.cost,
+      profit: total.profit + item.profit,
+    };
+  },
+  { revenue: 0, cost: 0, profit: 0 },
+);
+const RETAIL_STARTER_MARGIN = Math.round((RETAIL_STARTER_ECONOMICS.profit / RETAIL_STARTER_ECONOMICS.revenue) * 100);
 
 type Mode = "compact" | "full";
 type BusinessPreset = "salon" | "mobile";
@@ -47,12 +60,6 @@ function Slider({ label, value, min, max, step = 1, display, hint, onChange }: S
     </div>
   );
 }
-
-export type TrialCalculatorContext = {
-  tansPerWeek: number;
-  tansPerLitre: number;
-  litresPerMonth: number;
-};
 
 type Props = {
   mode?: Mode;
@@ -118,9 +125,17 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
   const recommendedQuantity = recommendation.quantity;
   const recommendedPricing = recommendation;
   const recommendedProductPath = `${PRODUCT_PATH}?qty=${recommendedQuantity}#configure-solution`;
+  const headline = full ? totals.netMonth : totals.grossMonth;
+  const trialHandoffPath = buildTrialHandoffPath({
+    monthlyProfit: headline,
+    context: {
+      tansPerWeek: input.tansPerWeek,
+      tansPerLitre: input.tansPerLitre,
+      litresPerMonth: totals.litresPerMonth,
+    },
+  });
   const orderCtaLabel = `Order ${recommendedQuantity}L ${recommendedPricing.tier.name} ${recommendedQuantity === 1 ? "Litre" : "Pack"} — ${gbp(recommendedPricing.total)} (${gbp(recommendedPricing.unitPrice)}/L) →`;
 
-  const headline = full ? totals.netMonth : totals.grossMonth;
   useEffect(() => onMonthlyChange?.(headline), [headline, onMonthlyChange]);
   useEffect(() => onTrialContextChange?.({
     tansPerWeek: input.tansPerWeek,
@@ -372,13 +387,13 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
                   >
                     {orderCtaLabel}
                   </Link>
-                  <Link className="btn btn-outline-light" to="/#trial" onClick={() => track("calculator_dynamic_trial_cta", { path: "high_volume_secondary", tans_per_week: input.tansPerWeek })}>
+                  <Link className="btn btn-outline-light" to={trialHandoffPath} onClick={() => track("calculator_dynamic_trial_cta", { path: "high_volume_secondary", tans_per_week: input.tansPerWeek, monthly_net: Math.round(totals.netMonth) })}>
                     Request Free Trial Sample First
                   </Link>
                 </>
               ) : (
                 <>
-                  <Link className="btn btn-bronze" to="/#trial" onClick={() => track("calculator_dynamic_trial_cta", { path: "trial_first_primary", tans_per_week: input.tansPerWeek })}>
+                  <Link className="btn btn-bronze" to={trialHandoffPath} onClick={() => track("calculator_dynamic_trial_cta", { path: "trial_first_primary", tans_per_week: input.tansPerWeek, monthly_net: Math.round(totals.netMonth) })}>
                     Claim Free 100ml Trial Box
                   </Link>
                   <Link
@@ -423,11 +438,26 @@ export function ProfitCalculator({ mode = "compact", onMonthlyChange, onTrialCon
                       {lever.label}
                       <small>{lever.note}</small>
                       {lever.id === "retail" && <Link
-                        className="calc-retail-starter-link"
+                        className="calc-retail-starter-card"
                         to={`${PRODUCT_PATH}?mitt=1&souffleMedium=1&souffleDark=1#retail-products`}
                         onClick={() => track("calculator_retail_starter_cta", { annual_profit: Math.round(lever.annual) })}
                       >
-                        See the 3-Piece Retail Starter Set →
+                        <span className="calc-retail-starter-visual" aria-hidden="true">
+                          <img src="/assets/site/buff-mitt-pro-480.webp" alt="" width="480" height="480" loading="lazy" decoding="async" />
+                          <img src="/assets/site/self-tan-souffle-medium-480.webp" alt="" width="480" height="480" loading="lazy" decoding="async" />
+                          <img src="/assets/site/self-tan-souffle-dark-480.webp" alt="" width="480" height="480" loading="lazy" decoding="async" />
+                        </span>
+                        <span className="calc-retail-starter-content">
+                          <span className="calc-retail-starter-kicker">3-piece retail starter set</span>
+                          <strong>Buff &amp; Glow Mitt + Medium &amp; Dark Soufflés</strong>
+                          <span className="calc-retail-starter-margins" aria-label={`Combined recommended retail price ${gbp(RETAIL_STARTER_ECONOMICS.revenue, 2)}. Trade cost ${gbp(RETAIL_STARTER_ECONOMICS.cost, 2)}. Potential retail profit ${gbp(RETAIL_STARTER_ECONOMICS.profit, 2)}. ${RETAIL_STARTER_MARGIN}% retail margin.`}>
+                            <span><i>Trade cost</i><b>{gbp(RETAIL_STARTER_ECONOMICS.cost, 2)}</b></span>
+                            <span><i>Combined RRP</i><b>{gbp(RETAIL_STARTER_ECONOMICS.revenue, 2)}</b></span>
+                            <span className="is-profit"><i>Retail profit</i><b>{gbp(RETAIL_STARTER_ECONOMICS.profit, 2)}</b></span>
+                            <span className="is-profit"><i>Retail margin</i><b>{RETAIL_STARTER_MARGIN}%</b></span>
+                          </span>
+                          <span className="calc-retail-starter-action">Preselect this set in the salon order <i aria-hidden="true">→</i></span>
+                        </span>
                       </Link>}
                     </th>
                     <td>{gbp(lever.annual)}</td>

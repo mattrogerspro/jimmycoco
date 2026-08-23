@@ -299,7 +299,7 @@ export default function CalculatorPage() {
             <section className="article-faq calculator-faq" aria-labelledby="calculator-faq-title">
               <h2 id="calculator-faq-title">Frequently asked questions</h2>
               {faq.map((item, index) => (
-                <details key={item.question} name="calculator-faq" open={index === 0}>
+                <details key={item.question} open={index === 0 || index === 2}>
                   <summary>{item.question}</summary>
                   <p>{item.answer}</p>
                 </details>

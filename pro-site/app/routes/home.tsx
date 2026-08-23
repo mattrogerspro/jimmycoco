@@ -1,6 +1,6 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { ActionFunctionArgs, LinksFunction, MetaFunction } from "react-router";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import homeStyles from "../styles/home.css?url";
 import ritualStyles from "../styles/ritual.css?url";
 import chromeStyles from "../styles/chrome.css?url";
@@ -8,7 +8,8 @@ import commerceStyles from "../styles/commerce.css?url";
 import { Announcement, SiteFooter, SiteHeader, StructuredData } from "../components/shared/SiteChrome";
 import { ApplicationRitual } from "../components/shared/ApplicationRitual";
 import { Certification, Formula, GlowDuo, Hero, InstagramShowcase, Retail, Shades, Story, Trial } from "../components/home/HomeSections";
-import { ProfitCalculator, type TrialCalculatorContext } from "../components/shared/ProfitCalculator";
+import { ProfitCalculator } from "../components/shared/ProfitCalculator";
+import { parseTrialHandoff, type TrialCalculatorContext } from "../lib/calculator";
 import { siteEntityGraph } from "../lib/entity";
 import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 import { handleApplicationSubmit } from "../lib/application-action.server";
@@ -81,6 +82,8 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function HomePage() {
+  const location = useLocation();
+  const incomingCalculatorHandoff = useMemo(() => parseTrialHandoff(location.search), [location.search]);
   const [monthlyProfit, setMonthlyProfit] = useState(1282);
   const [trialCalculatorContext, setTrialCalculatorContext] = useState<TrialCalculatorContext | null>(null);
   const updateMonthlyProfit = useCallback((value: number) => setMonthlyProfit(value), []);
@@ -101,7 +104,10 @@ export default function HomePage() {
         <ApplicationRitual />
         <Retail />
         <GlowDuo />
-        <Trial monthlyProfit={monthlyProfit} calculatorContext={trialCalculatorContext} />
+        <Trial
+          monthlyProfit={incomingCalculatorHandoff?.monthlyProfit ?? monthlyProfit}
+          calculatorContext={incomingCalculatorHandoff?.context ?? trialCalculatorContext}
+        />
         <Certification />
       </main>
       <SiteFooter />

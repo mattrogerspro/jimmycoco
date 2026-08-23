@@ -1,4 +1,6 @@
-.cc-root{position:fixed;left:0;right:0;bottom:0;z-index:9999;pointer-events:none}
+.cc-root{position:fixed;left:0;right:0;bottom:0;z-index:1200;pointer-events:none}
+html[data-consent-panel]{scroll-padding-bottom:calc(var(--cc-height,0px) + 16px)}
+html[data-consent-panel] body{padding-bottom:var(--cc-height,0px)}
 .cc-panel{pointer-events:auto;width:100%;box-sizing:border-box;background:#14100D;color:#EDE4D7;border-top:1px solid rgba(201,149,103,.42);box-shadow:0 -12px 34px rgba(12,9,7,.24);padding:14px clamp(18px,4vw,64px);font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.45;display:grid;grid-template-columns:minmax(280px,1fr) auto;grid-template-areas:'copy actions' 'legal actions';column-gap:clamp(24px,4vw,60px);row-gap:4px;align-items:center}
 .cc-copy{grid-area:copy}
 .cc-copy h2{margin:0 0 3px;font-family:'Walbaum',Georgia,serif;font-weight:400;font-size:clamp(19px,1.6vw,23px);line-height:1.1;color:#FFFDF9}

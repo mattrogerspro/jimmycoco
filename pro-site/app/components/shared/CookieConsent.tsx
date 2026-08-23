@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   OPEN_CONSENT_EVENT,
   applyConsent,
@@ -9,6 +9,7 @@ import {
 type Panel = "hidden" | "banner" | "preferences";
 
 export function CookieConsent() {
+  const rootRef = useRef<HTMLElement>(null);
   const [panel, setPanel] = useState<Panel>("hidden");
   const [analytics, setAnalytics] = useState(true);
   const [marketing, setMarketing] = useState(false);
@@ -43,10 +44,37 @@ export function CookieConsent() {
     setPanel("hidden");
   }, []);
 
+  useEffect(() => {
+    const html = document.documentElement;
+    const root = rootRef.current;
+    if (panel === "hidden" || !root) {
+      delete html.dataset.consentPanel;
+      html.style.removeProperty("--cc-height");
+      return;
+    }
+
+    html.dataset.consentPanel = panel;
+    const updateHeight = () => {
+      html.style.setProperty("--cc-height", `${Math.ceil(root.getBoundingClientRect().height)}px`);
+    };
+    updateHeight();
+
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(updateHeight);
+    observer?.observe(root);
+    window.addEventListener("resize", updateHeight);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", updateHeight);
+      delete html.dataset.consentPanel;
+      html.style.removeProperty("--cc-height");
+    };
+  }, [panel]);
+
   if (panel === "hidden") return null;
 
   return (
     <section
+      ref={rootRef}
       className={`cc-root cc-root-${panel}`}
       role="region"
       aria-label="Cookie choices"

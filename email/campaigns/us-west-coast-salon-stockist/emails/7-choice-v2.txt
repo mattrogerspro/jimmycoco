@@ -1,0 +1,21 @@
+Would more detail be useful?
+
+Hi {{FIRST_NAME}},
+
+If the timing is right, tell us which part needs more context.
+
+- INFO: the professional formula, trial review and partnership process.
+- RETAIL: a small, practical aftercare edit for a salon, studio or mobile kit.
+
+Reply with INFO or RETAIL and Matthew will reply personally. It is a direct conversation, not another automatic response.
+
+Request professional trial information
+{{TRIAL_LINK}}
+
+{{SENDER_NAME}}
+{{SENDER_TITLE}}
+
+Sunless by Jimmy Coco · Jimmy Coco LA Spray-Tan Studio · Suite 313, 9301 Wilshire Blvd, Beverly Hills, CA 90210
+
+Advertisement from Jimmy Coco LA Spray-Tan Studio.
+Unsubscribe: {{RESEND_UNSUBSCRIBE_URL}}

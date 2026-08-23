@@ -8,7 +8,7 @@ Define how approved Sunless email templates become immutable, testable productio
 
 The repository and application own template source, component contracts, approved copy, assets and version history. Resend receives fully validated output or a controlled provider template reference where implementation later requires it.
 
-Provider-side editing must not create an untracked second source of truth.
+Provider-side editing must not create an untracked second source of truth. The UK and US prospect campaigns use `deliveryMode: repository-html`: the build produces committed `.html` and `.txt` files plus `shared/campaign-content.generated.js`, and the Resend adapter submits those rendered outputs without a provider template ID.
 
 ## Rendering pipeline
 

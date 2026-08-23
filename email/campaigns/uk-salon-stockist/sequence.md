@@ -1,6 +1,6 @@
 # UK Jimmy Coco Pro Recruitment — 28-Day Sequence
 
-**Status:** Source updated for human review and template release. The Resend automation remains disabled.
+**Status:** Repository HTML/text source updated for human review. The application campaign and legacy Resend automation remain disabled.
 **Audience:** Eligible UK corporate salons, aesthetics clinics and mobile spray-tan professionals where soft opt-in or consent is documented.
 **Primary outcome:** A qualified complimentary 100 ml professional trial request. A professional order enquiry is a secondary path for businesses already ready to review the 1-litre route.
 **Reply owner:** Matthew at Jimmy Coco Pro. `TRIAL`, `SAMPLE`, `NUMBERS`, `RETAIL` and `ORDER` are human-handled reply signals.
@@ -25,7 +25,7 @@ Eligible UK professionals may request a complimentary 100 ml professional trial 
 
 ## Sender, footer and routing
 
-Use sender `Matthew at Jimmy Coco Pro <partnerships@email.jimmycoco.pro>` and reply-to `matthew@jimmycoco.pro`. The promotional footer is **JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP**, with the live Resend unsubscribe link. Each event payload must include `FIRST_NAME`, `BUSINESS_NAME` and, for Email 1, `BUSINESS_TYPE`; use `there`, `your studio` and `professional tanning business` where source data is incomplete.
+Use sender `Matthew at Jimmy Coco Pro <partnerships@email.jimmycoco.pro>` and reply-to `matthew@jimmycoco.pro`. The promotional footer is **JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP**, with the application-generated signed unsubscribe link and one-click headers. Each enrollment must include `FIRST_NAME`, `BUSINESS_NAME` and, for Email 1, `BUSINESS_TYPE`; use `there`, `your studio` and `professional tanning business` where source data is incomplete.
 
 ## Technical hand-off
 

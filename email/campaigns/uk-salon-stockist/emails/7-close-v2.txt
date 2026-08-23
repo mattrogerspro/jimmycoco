@@ -1,0 +1,24 @@
+I’ll leave the timing with you.
+
+Hi {{FIRST_NAME}},
+
+I will leave this with you after today so I do not clutter your inbox.
+
+If you would like to explore Jimmy Coco Pro for {{BUSINESS_NAME}}, you have three straightforward routes:
+
+- Reply TRIAL: Matthew will review your complimentary 100 ml professional trial request for a real-client test.
+- Reply NUMBERS: review the service calculation and current professional order conversation for your setting.
+- Reply ORDER: receive the direct professional ordering route for 1-litre bottles.
+
+If the timing is not right, no problem at all. We will pause outreach here, and you are welcome to reconnect whenever you are reviewing your treatment menu.
+
+Request your complimentary professional trial
+{{TRIAL_LINK}}
+
+Matthew at Jimmy Coco Pro
+Sunless Partnerships · Jimmy Coco (UK)
+
+JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP
+
+You are receiving this because you are a professional contact at {{BUSINESS_NAME}} and we believe this message is relevant to your business.
+Unsubscribe: {{RESEND_UNSUBSCRIBE_URL}}

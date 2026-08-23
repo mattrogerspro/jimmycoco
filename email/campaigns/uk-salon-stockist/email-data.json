@@ -3,7 +3,8 @@
   "market": "UK",
   "purpose": "professional-outreach",
   "esp": "resend",
-  "status": "PUBLISHED IN RESEND — AUTOMATION DISABLED",
+  "deliveryMode": "repository-html",
+  "status": "REPOSITORY HTML/TEXT — CAMPAIGN DISABLED",
   "defaults": {
     "brand": "SUNLESS",
     "brandLine": "by Jimmy Coco",

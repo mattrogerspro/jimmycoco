@@ -1,6 +1,6 @@
 # U.S. West Coast Jimmy Coco Pro Recruitment — V2
 
-**Status:** Seven templates are published in Resend; the automation remains disabled pending contact import and explicit launch approval.
+**Status:** Seven repository-backed HTML/text messages are generated; the application campaign and legacy Resend automation remain disabled pending explicit launch approval.
 **Audience:** Eligible professional salons, studios, spas and mobile professionals in the approved U.S. West Coast service area, subject to the recorded contact basis.
 **Primary outcome:** Professional trial information and individual eligibility review.
 **Reply owner:** Matthew / Sunless Partnerships. `INFO`, `TRIAL`, `NUMBERS` and `RETAIL` are human-handled reply signals.
@@ -25,4 +25,4 @@ Retail is framed as client care: Buff & Glow Mitt for even-looking maintenance, 
 
 ## Send controls
 
-Use sender `Sunless Partnerships <partnerships@email.jimmycoco.pro>`, reply-to `matthew@jimmycoco.pro`, a working Resend unsubscribe link and the U.S. sender footer. Confirm the contact source and applicable West Coast service area before release. `INFO` and `RETAIL` remain human-handled; no keyword-only commercial automation is authorised.
+Use sender `Sunless Partnerships <partnerships@email.jimmycoco.pro>`, reply-to `matthew@jimmycoco.pro`, the signed application unsubscribe route with one-click headers and the U.S. sender footer. Confirm the contact source and applicable West Coast service area before release. `INFO` and `RETAIL` remain human-handled; no keyword-only commercial automation is authorised.

@@ -2,11 +2,11 @@
 
 ## System boundary
 
-The repository is the source of truth for campaign timing, classification, template aliases, template IDs and exit rules. The canonical machine-readable definition is `shared/campaign-registry.js`.
+The repository is the source of truth for campaign timing, classification, content aliases, rendered HTML/text and exit rules. The canonical machine-readable definition is `shared/campaign-registry.js`.
 
-Repository HTML is also canonical. `npm run templates:check` validates the local template contract and, when `RESEND_API_KEY` is available, reports drift against published Resend versions. `npm run templates:publish` is the explicit release action that creates a draft from approved repository HTML and publishes it. Never publish automatically on every commit.
+Repository HTML and plain text are canonical. `npm run campaigns:build` regenerates them and the immutable runtime content module; `npm run campaigns:check` proves committed outputs match the source. Campaigns with `deliveryMode: repository-html` are excluded from `npm run templates:publish`. That command remains available only for explicitly approved provider-template campaigns.
 
-Supabase stores contacts, sequence state, queued lifecycle work, sends, append-only webhook events, suppressions and aggregate reporting. Resend stores published email templates and transports messages. Vercel hosts the protected APIs, webhook endpoint and recurring worker.
+Supabase stores contacts, sequence state, queued lifecycle work, sends, append-only webhook events, suppressions and aggregate reporting. Resend transports messages and emits delivery/open/click/reply events. Vercel hosts the protected APIs, signed unsubscribe endpoint, webhook endpoint and recurring worker. The online Playbook bundles the repository HTML/text previews and reads aggregate stats from Supabase.
 
 ## Safety gates
 
@@ -16,7 +16,7 @@ No email can leave the system unless all of these are true:
 2. The matching Supabase campaign row is enabled during release promotion.
 3. `EMAIL_LIVE_MODE=true` is set in the production Vercel environment.
 4. The recipient is eligible and not suppressed for the message classification.
-5. Required template variables and commercial values are present.
+5. Required render variables, signed unsubscribe configuration and commercial values are present.
 6. The 16-hour non-transactional contact gap is clear.
 
 Keep the registry campaigns disabled while installing and testing infrastructure.
@@ -31,8 +31,9 @@ Keep the registry campaigns disabled while installing and testing infrastructure
 6. Create the Resend webhook pointing to `https://<production-domain>/api/webhooks/resend`.
 7. Subscribe to sent, delivered, delayed, bounced, complained, opened, clicked, failed, suppressed, received and contact-updated events.
 8. Save the returned signing secret as `RESEND_WEBHOOK_SECRET` in Vercel and redeploy.
-9. Send provider test events and confirm they appear in the Live Emails performance strip.
-10. Run a controlled internal-address campaign test before enabling any prospect campaign.
+9. Configure `EMAIL_PUBLIC_BASE_URL=https://www.jimmycoco.email`, a separate `EMAIL_UNSUBSCRIBE_SECRET`, and both tracking flags.
+10. Send provider test events and confirm they appear in the Live Emails performance strip.
+11. Run a controlled internal-address campaign test before enabling any prospect campaign.
 
 The UK pilot currently contains legacy MailerLite-hosted asset URLs. The template release command intentionally blocks until those are moved to the approved production email asset host.
 
@@ -53,7 +54,8 @@ All mutation APIs require `Authorization: Bearer <AUTOMATION_API_KEY>`.
   "timezone": "Australia/Sydney",
   "owner": "Matt",
   "context": {
-    "salon_name": "Maison Glow"
+    "salon_name": "Maison Glow",
+    "business_type": "salon"
   }
 }
 ```
@@ -97,6 +99,8 @@ Supported AU account triggers are `sample_dispatched`, `setup_call_completed` an
 ## Webhook behavior
 
 The handler verifies the raw body against the Resend signing secret, deduplicates on the Svix ID, stores a minimal append-only event, and updates message timestamps monotonically. Permanent bounces, complaints and provider suppressions create global suppressions. Contact unsubscribe events create marketing suppressions. Inbound email exits any active acquisition sequence as a reply without storing the email body.
+
+Raw repository delivery does not reduce analytics. The worker stores the Resend email ID before webhook events arrive; sent, delivered, opened and clicked events therefore reconcile to the same `email_messages` and aggregate campaign/step views used by the online Playbook. Opens remain directional because mailbox privacy features can inflate them.
 
 ## Release rule
 

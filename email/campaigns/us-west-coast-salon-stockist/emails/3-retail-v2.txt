@@ -1,0 +1,25 @@
+Build the numbers around your business—not a generic margin claim.
+
+Hi {{FIRST_NAME}},
+
+A premium product becomes a commercial opportunity only when it fits the way your business actually operates.
+
+- The premium service price that fits your market.
+- Your own solution use, labor, disposables and payment costs.
+- The client result and consultation experience you want to deliver.
+- The aftercare product that naturally answers the client’s next question.
+
+The formula trial lets you test the result first. A short Partnership review can then help you assess whether the treatment and aftercare route fit your business before you make a wider decision.
+
+Request professional trial information
+{{TRIAL_LINK}}
+
+Or reply NUMBERS for a human conversation about your current treatment setup.
+
+{{SENDER_NAME}}
+{{SENDER_TITLE}}
+
+Sunless by Jimmy Coco · Jimmy Coco LA Spray-Tan Studio · Suite 313, 9301 Wilshire Blvd, Beverly Hills, CA 90210
+
+Advertisement from Jimmy Coco LA Spray-Tan Studio.
+Unsubscribe: {{RESEND_UNSUBSCRIBE_URL}}

@@ -23,6 +23,12 @@ const htmlFiles = import.meta.glob('../../email/campaigns/**/*.html', {
   eager: true,
 })
 
+const textFiles = import.meta.glob('../../email/campaigns/**/*.txt', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+})
+
 const categoryMap = {
   '00-strategy': ['Strategy', 'North-star rules for audiences, journeys, frequency, and measurement.'],
   '01-design-system': ['Design system', 'The visual and interaction language shared by every email.'],
@@ -138,39 +144,58 @@ const resolveCampaignHtml = (campaignId, output) => {
   }
 }
 
+const resolveCampaignText = (campaignId, output) => {
+  if (!output) return { text: null, textPath: null }
+  const textOutput = output.replace(/\.html$/i, '.txt')
+  const normalisedOutput = textOutput.replace(/^\.\//, '').replace(/^\//, '')
+  const candidates = normalisedOutput.startsWith('emails/')
+    ? [normalisedOutput]
+    : [`emails/${normalisedOutput}`, normalisedOutput]
+
+  for (const candidate of candidates) {
+    const textPath = `../../email/campaigns/${campaignId}/${candidate}`
+    if (textFiles[textPath]) return { text: textFiles[textPath], textPath }
+  }
+  return { text: null, textPath: `../../email/campaigns/${campaignId}/${candidates[0]}` }
+}
+
 export const campaigns = campaignDefinitions.map((campaign) => ({
   ...campaign,
-  messages: campaign.data.messages.map((message, index) => {
+  messages: campaign.data.messages.map((message, sourceIndex) => {
     const output = message.output || message.file
-    const title = message.title || message.subject || `Email ${index + 1}`
+    const title = message.title || message.subject || `Email ${sourceIndex + 1}`
     const { html, htmlPath } = resolveCampaignHtml(campaign.id, output)
+    const { text, textPath } = resolveCampaignText(campaign.id, output)
     const registryCampaign = campaignsById[campaign.id]
     const { registryStep, isSupplemental, isTriggered } = resolveCampaignMessageState({
       campaignMode: campaign.mode,
-      index,
+      index: sourceIndex,
       messageAlias: message.alias,
       output,
       supplementalOutputs: campaign.supplementalOutputs,
       registryCampaign,
     })
+    const sequenceNumber = registryStep?.number ?? sourceIndex + 1
     return {
       ...message,
       output,
       title,
       headline: message.headline || title,
       eyebrow: message.eyebrow || campaign.name,
-      id: `${campaign.id}-${index + 1}`,
-      index: index + 1,
-      day: registryStep?.day ?? registryStep?.delayDays ?? campaign.days[index] ?? index * 3,
+      id: `${campaign.id}-${sequenceNumber}`,
+      index: sequenceNumber,
+      day: registryStep?.day ?? registryStep?.delayDays ?? campaign.days[sourceIndex] ?? sourceIndex * 3,
       trigger: registryStep?.trigger,
       templateAlias: registryStep?.templateAlias || message.alias,
       html,
       htmlPath,
+      text,
+      textPath,
       isTriggered,
       isSupplemental,
-      status: campaign.archived ? 'Archived' : (campaign.status === 'Live' && index === 0 ? 'Live' : 'Ready'),
+      status: campaign.archived ? 'Archived' : (campaign.status === 'Live' && sequenceNumber === 1 ? 'Live' : 'Ready'),
     }
-  }),
+  }).sort((a, b) => a.index - b.index || a.day - b.day),
 }))
 
 const lifecycleFolders = Object.entries(markdownFiles)

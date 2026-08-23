@@ -1,8 +1,8 @@
 /**
  * Canonical machine-readable campaign definitions.
  *
- * The repository owns timing, template selection, classification and exit rules.
- * Resend owns the published template content and transport. A campaign must be
+ * The repository owns timing, rendered content, classification and exit rules.
+ * Resend owns transport and delivery events. A campaign must be
  * enabled here AND EMAIL_LIVE_MODE must be true before the worker can send it.
  */
 export const campaignRegistry = [
@@ -47,10 +47,11 @@ export const campaignRegistry = [
   },
   {
     id: 'uk-salon-stockist',
-    version: '2026-08-19.2',
+    version: '2026-08-23.1',
     name: 'UK Jimmy Coco Pro Recruitment — 28-Day Seven Email',
     market: 'UK',
     mode: 'sequence',
+    deliveryMode: 'repository-html',
     classification: 'promotional',
     enabled: false,
     timezone: 'Europe/London',
@@ -58,21 +59,22 @@ export const campaignRegistry = [
     minimumContactGapHours: 16,
     exitEvents: ['reply', 'sample_requested', 'trial_requested', 'unsubscribe', 'complaint', 'hard_bounce', 'existing_customer', 'manual_suppression'],
     steps: [
-      { key: '01-trial', number: 1, day: 0, templateAlias: 'jc-uk-prospect-01-trial-v2', templateId: 'eba8d19c-55ec-4ee0-b7e4-2f145a02ec0b', subject: 'Complimentary Jimmy Coco professional trial for {{BUSINESS_NAME}}', requiredVariables: ['BUSINESS_NAME', 'BUSINESS_TYPE', 'TRIAL_LINK'] },
-      { key: '02-result', number: 2, day: 3, templateAlias: 'jc-uk-prospect-02-result-v2', templateId: 'ffdc157c-a2ee-4f85-b286-bf20af24d8a5', subject: 'The formula details clients notice after their tan', requiredVariables: ['BUSINESS_NAME', 'TRIAL_LINK'] },
-      { key: '03-economics', number: 3, day: 6, templateAlias: 'jc-uk-prospect-03-economics-v2', templateId: '708c8ac6-ef80-4d98-803f-09cc1de9ddda', subject: 'The salon maths behind a premium tan (£2.14 per treatment)', requiredVariables: ['BUSINESS_NAME', 'TRIAL_LINK'] },
-      { key: '04-retail', number: 4, day: 10, templateAlias: 'jc-uk-prospect-04-retail-v2', templateId: '603bcb34-1e75-44cc-83bd-eca9aea8518c', subject: 'The second revenue moment after the treatment', requiredVariables: ['BUSINESS_NAME', 'TRIAL_LINK'] },
-      { key: '05-trial-guide', number: 5, day: 15, templateAlias: 'jc-uk-prospect-06-process-v2', templateId: 'fe598cad-a067-4d1a-8416-55b4d75b298e', subject: 'What to look for when you test Jimmy Coco Pro', requiredVariables: ['BUSINESS_NAME', 'TRIAL_LINK'] },
-      { key: '06-onboarding', number: 6, day: 21, templateAlias: 'jc-uk-prospect-07-choice-v2', templateId: '0eb5e875-776e-4dbc-a791-5588e622066b', subject: 'How to introduce Jimmy Coco Pro to your treatment menu', requiredVariables: ['BUSINESS_NAME', 'TRIAL_LINK'] },
-      { key: '07-close', number: 7, day: 28, templateAlias: 'jc-uk-prospect-05-close-v2', templateId: 'ff9a1c83-db9a-4d46-b544-fb9c542388c2', subject: 'Shall I close your file for now, {{FIRST_NAME}}?', requiredVariables: ['BUSINESS_NAME', 'TRIAL_LINK'] },
+      { key: '01-trial', number: 1, day: 0, templateAlias: 'jc-uk-prospect-01-trial-v2', templateId: null, legacyTemplateId: 'eba8d19c-55ec-4ee0-b7e4-2f145a02ec0b', subject: 'Complimentary Jimmy Coco professional trial for {{BUSINESS_NAME}}', requiredVariables: ['BUSINESS_NAME', 'BUSINESS_TYPE', 'TRIAL_LINK'] },
+      { key: '02-result', number: 2, day: 3, templateAlias: 'jc-uk-prospect-02-result-v2', templateId: null, legacyTemplateId: 'ffdc157c-a2ee-4f85-b286-bf20af24d8a5', subject: 'The formula details clients notice after their tan', requiredVariables: ['BUSINESS_NAME', 'TRIAL_LINK'] },
+      { key: '03-economics', number: 3, day: 6, templateAlias: 'jc-uk-prospect-03-economics-v2', templateId: null, legacyTemplateId: '708c8ac6-ef80-4d98-803f-09cc1de9ddda', subject: 'The salon maths behind a premium tan (£2.14 per treatment)', requiredVariables: ['BUSINESS_NAME', 'TRIAL_LINK'] },
+      { key: '04-retail', number: 4, day: 10, templateAlias: 'jc-uk-prospect-04-retail-v2', templateId: null, legacyTemplateId: '603bcb34-1e75-44cc-83bd-eca9aea8518c', subject: 'The second revenue moment after the treatment', requiredVariables: ['BUSINESS_NAME', 'TRIAL_LINK'] },
+      { key: '05-trial-guide', number: 5, day: 15, templateAlias: 'jc-uk-prospect-06-process-v2', templateId: null, legacyTemplateId: 'fe598cad-a067-4d1a-8416-55b4d75b298e', subject: 'What to look for when you test Jimmy Coco Pro', requiredVariables: ['BUSINESS_NAME', 'TRIAL_LINK'] },
+      { key: '06-onboarding', number: 6, day: 21, templateAlias: 'jc-uk-prospect-07-choice-v2', templateId: null, legacyTemplateId: '0eb5e875-776e-4dbc-a791-5588e622066b', subject: 'How to introduce Jimmy Coco Pro to your treatment menu', requiredVariables: ['BUSINESS_NAME', 'TRIAL_LINK'] },
+      { key: '07-close', number: 7, day: 28, templateAlias: 'jc-uk-prospect-05-close-v2', templateId: null, legacyTemplateId: 'ff9a1c83-db9a-4d46-b544-fb9c542388c2', subject: 'Shall I close your file for now, {{FIRST_NAME}}?', requiredVariables: ['BUSINESS_NAME', 'TRIAL_LINK'] },
     ],
   },
   {
     id: 'us-west-coast-salon-stockist',
-    version: '2026-08-19.1',
+    version: '2026-08-23.1',
     name: 'US West Coast Jimmy Coco Pro Recruitment — V2 — Seven Email',
     market: 'US-West-Coast',
     mode: 'sequence',
+    deliveryMode: 'repository-html',
     classification: 'promotional',
     enabled: false,
     timezone: 'America/Los_Angeles',
@@ -80,13 +82,13 @@ export const campaignRegistry = [
     minimumContactGapHours: 16,
     exitEvents: ['reply', 'trial_requested', 'application_submitted', 'unsubscribe', 'complaint', 'hard_bounce', 'existing_customer', 'ineligible', 'manual_suppression'],
     steps: [
-      { key: '01-trial', number: 1, day: 0, templateAlias: 'jc-us-wc-prospect-01-trial-v2', templateId: '8760b944-c87a-46eb-9223-8d24edafb81c', subject: 'A premium spray-tan service — with a second client-care moment after the appointment', requiredVariables: ['BUSINESS_NAME', 'BUSINESS_TYPE', 'SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
-      { key: '02-result', number: 2, day: 4, templateAlias: 'jc-us-wc-prospect-02-result-v2', templateId: '2e5cdaeb-1f61-47ce-9b62-4732a154f406', subject: 'The result is what gives a premium tan its value', requiredVariables: ['SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
-      { key: '03-retail', number: 3, day: 8, templateAlias: 'jc-us-wc-prospect-03-retail-v2', templateId: '0e3c37f9-31ad-4277-a6fc-75222a29e569', subject: 'The commercial question is not “what does it cost?” It is “what can the service support?”', requiredVariables: ['SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
-      { key: '04-partner-path', number: 4, day: 13, templateAlias: 'jc-us-wc-prospect-04-partner-path-v2', templateId: '55de732a-c2c8-42de-813d-715a1ec1acda', subject: 'One client relationship. Two useful revenue moments.', requiredVariables: ['SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
-      { key: '06-process', number: 5, day: 21, templateAlias: 'jc-us-wc-prospect-06-process-v2', templateId: 'fd62292a-a7ba-4c69-a8b0-f0db0533584f', subject: 'What happens after you request information?', requiredVariables: ['BUSINESS_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
-      { key: '07-choice', number: 6, day: 32, templateAlias: 'jc-us-wc-prospect-07-choice-v2', templateId: '612adfab-caa7-4947-a5e5-e98bd306f8b2', subject: 'Would more detail be useful?', requiredVariables: ['SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
-      { key: '05-close', number: 7, day: 45, templateAlias: 'jc-us-wc-prospect-05-close-v2', templateId: 'f4d561b0-cb75-43b5-bdc3-f035068ce8fa', subject: 'Shall I close this for now?', requiredVariables: ['SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
+      { key: '01-trial', number: 1, day: 0, templateAlias: 'jc-us-wc-prospect-01-trial-v2', templateId: null, legacyTemplateId: '8760b944-c87a-46eb-9223-8d24edafb81c', subject: 'A premium spray-tan service — with a second client-care moment after the appointment', requiredVariables: ['BUSINESS_NAME', 'BUSINESS_TYPE', 'SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
+      { key: '02-result', number: 2, day: 4, templateAlias: 'jc-us-wc-prospect-02-result-v2', templateId: null, legacyTemplateId: '2e5cdaeb-1f61-47ce-9b62-4732a154f406', subject: 'The result is what gives a premium tan its value', requiredVariables: ['SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
+      { key: '03-retail', number: 3, day: 8, templateAlias: 'jc-us-wc-prospect-03-retail-v2', templateId: null, legacyTemplateId: '0e3c37f9-31ad-4277-a6fc-75222a29e569', subject: 'The commercial question is not “what does it cost?” It is “what can the service support?”', requiredVariables: ['SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
+      { key: '04-partner-path', number: 4, day: 13, templateAlias: 'jc-us-wc-prospect-04-partner-path-v2', templateId: null, legacyTemplateId: '55de732a-c2c8-42de-813d-715a1ec1acda', subject: 'One client relationship. Two useful revenue moments.', requiredVariables: ['SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
+      { key: '06-process', number: 5, day: 21, templateAlias: 'jc-us-wc-prospect-06-process-v2', templateId: null, legacyTemplateId: 'fd62292a-a7ba-4c69-a8b0-f0db0533584f', subject: 'What happens after you request information?', requiredVariables: ['BUSINESS_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
+      { key: '07-choice', number: 6, day: 32, templateAlias: 'jc-us-wc-prospect-07-choice-v2', templateId: null, legacyTemplateId: '612adfab-caa7-4947-a5e5-e98bd306f8b2', subject: 'Would more detail be useful?', requiredVariables: ['SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
+      { key: '05-close', number: 7, day: 45, templateAlias: 'jc-us-wc-prospect-05-close-v2', templateId: null, legacyTemplateId: 'f4d561b0-cb75-43b5-bdc3-f035068ce8fa', subject: 'Shall I close this for now?', requiredVariables: ['SENDER_NAME', 'SENDER_TITLE', 'TRIAL_LINK'] },
     ],
   },
   {
@@ -224,7 +226,7 @@ export function findCampaign(id) {
 export function findStepByTemplateId(templateId) {
   for (const campaign of campaignRegistry) {
     const steps = [...campaign.steps, ...(campaign.triggeredSteps || [])]
-    const step = steps.find((candidate) => candidate.templateId === templateId)
+    const step = steps.find((candidate) => candidate.templateId === templateId || candidate.legacyTemplateId === templateId)
     if (step) return { campaign, step }
   }
   return null

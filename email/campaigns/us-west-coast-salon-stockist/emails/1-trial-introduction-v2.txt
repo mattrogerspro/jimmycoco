@@ -1,0 +1,25 @@
+A premium tan is one appointment. The client relationship can continue after it.
+
+Hi {{FIRST_NAME}},
+
+I’m reaching out because {{BUSINESS_NAME}} looks like the kind of {{BUSINESS_TYPE}} we would like to speak with: thoughtful presentation, premium service and clients who care how their color looks beyond the treatment room.
+
+Sunless by Jimmy Coco brings believable, natural-looking color, a named service you can present as premium, and a focused aftercare edit for clients who want to maintain the result between visits.
+
+- A distinctive professional treatment.
+- A relevant aftercare recommendation once the client sees a result they love.
+
+Eligible U.S. professional partners can request a complimentary 100 ml professional trial sample. We review current availability for your business before shipping.
+
+Request professional trial information
+{{TRIAL_LINK}}
+
+Or reply INFO and we will keep it straightforward.
+
+{{SENDER_NAME}}
+{{SENDER_TITLE}}
+
+Sunless by Jimmy Coco · Jimmy Coco LA Spray-Tan Studio · Suite 313, 9301 Wilshire Blvd, Beverly Hills, CA 90210
+
+Advertisement from Jimmy Coco LA Spray-Tan Studio.
+Unsubscribe: {{RESEND_UNSUBSCRIBE_URL}}

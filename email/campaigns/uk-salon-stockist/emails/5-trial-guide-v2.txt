@@ -1,0 +1,26 @@
+A useful trial gives you something real to judge.
+
+Hi {{FIRST_NAME}},
+
+By this stage, the key question is whether the solution performs in your hands, through your equipment and on your clients.
+
+When you assess a complimentary 100 ml professional trial sample on a real client, there are three practical checks:
+
+- Application: how smoothly the solution works through your standard HVLP setup at under 35 ml for a full-body tan.
+- Finished result: how the universal bronze develops over its stated 6–8-hour window and reads in daylight and photographs.
+- Service fit: whether the colour, finish and consultation work for the service you want to offer.
+
+There is no complex application process and no obligation. If the formula is right for your menu, the ongoing trade minimum is one 1-litre bottle (£60).
+
+Request your complimentary professional trial
+{{TRIAL_LINK}}
+
+Reply TRIAL and Matthew will review the request personally.
+
+Matthew at Jimmy Coco Pro
+Sunless Partnerships · Jimmy Coco (UK)
+
+JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP
+
+You are receiving this because you are a professional contact at {{BUSINESS_NAME}} and we believe this message is relevant to your business.
+Unsubscribe: {{RESEND_UNSUBSCRIBE_URL}}

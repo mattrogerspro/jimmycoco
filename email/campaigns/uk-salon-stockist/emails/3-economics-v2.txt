@@ -1,0 +1,24 @@
+The salon maths behind a premium named service.
+
+Hi {{FIRST_NAME}},
+
+Premium brand positioning only works if the treatment economics make sense for your business.
+
+The current UK Malibu Professional Spray 1-litre bottle is £60 and yields approximately 28 full-body tans. That gives an approximate solution cost of £2.14 per tan.
+
+That is not a profit promise and it is not a suggested treatment price. It is a clear baseline before you factor in your team, disposables, card fees, premises and VAT.
+
+You can assess the formula on a real client first, or—if you already know the brand—review the professional litre and trade-order route directly.
+
+Request your complimentary professional trial
+{{TRIAL_LINK}}
+
+Ready to review the product order route? View the professional 1-litre order page. Or reply NUMBERS for a service calculation using your own local pricing.
+
+Matthew at Jimmy Coco Pro
+Sunless Partnerships · Jimmy Coco (UK)
+
+JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP
+
+You are receiving this because you are a professional contact at {{BUSINESS_NAME}} and we believe this message is relevant to your business.
+Unsubscribe: {{RESEND_UNSUBSCRIBE_URL}}

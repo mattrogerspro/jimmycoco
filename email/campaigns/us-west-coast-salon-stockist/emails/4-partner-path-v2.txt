@@ -1,0 +1,24 @@
+Retail should feel like client care—not a hard sell.
+
+Hi {{FIRST_NAME}},
+
+The best retail moment is often just after a client sees a result they love and asks how to keep it looking good until the next appointment.
+
+- Buff & Glow Mitt: a more even-looking maintenance routine.
+- Self Tan Soufflé: a controlled at-home top-up.
+- A-List Glow Kit: a complete routine or elevated gift option.
+
+For a fixed salon, this can begin as a three-product checkout edit. For a mobile professional, it can begin as a small carry kit. Current availability, order route and partner terms are reviewed with the individual business before any retail plan is set.
+
+Request professional trial information
+{{TRIAL_LINK}}
+
+Or reply RETAIL for the checkout or mobile-kit conversation.
+
+{{SENDER_NAME}}
+{{SENDER_TITLE}}
+
+Sunless by Jimmy Coco · Jimmy Coco LA Spray-Tan Studio · Suite 313, 9301 Wilshire Blvd, Beverly Hills, CA 90210
+
+Advertisement from Jimmy Coco LA Spray-Tan Studio.
+Unsubscribe: {{RESEND_UNSUBSCRIBE_URL}}

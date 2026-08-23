@@ -26,7 +26,7 @@ Define the production boundary between the Sunless application and Resend.
 
 1. A product or lifecycle event occurs.
 2. The application evaluates consent, eligibility, frequency and suppression rules.
-3. The application selects a versioned template and prepares validated data.
+3. The application selects versioned repository content and prepares validated data.
 4. A durable internal send record is created.
 5. The message is submitted to Resend.
 6. The provider message identifier is stored.
@@ -62,4 +62,4 @@ Use separate configuration for local, preview and production environments. Produ
 
 ## Future portability
 
-Templates, data contracts, sequence rules and internal event history must remain provider-independent. Resend integration details should be isolated inside this folder and the application adapter layer.
+Templates, data contracts, sequence rules and internal event history must remain provider-independent. For `repository-html` campaigns, generated HTML/text and a content checksum are bundled with the application and submitted directly to Resend. Resend integration details should be isolated inside this folder and the application adapter layer.

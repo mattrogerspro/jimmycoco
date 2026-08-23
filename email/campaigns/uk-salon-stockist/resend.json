@@ -1,7 +1,7 @@
 {
   "campaign": "uk-salon-stockist",
   "publish": false,
-  "status": "SOURCE REVISED — RESEND AUTOMATION DISABLED",
+  "status": "LEGACY ROLLBACK REFERENCES ONLY — NOT USED BY RUNTIME",
   "templates": [
     {"file":"emails/1-trial-introduction-v2.html","alias":"jc-uk-prospect-01-trial-v2","id":"eba8d19c-55ec-4ee0-b7e4-2f145a02ec0b","name":"JC-UK-PROSPECT-01-TRIAL-V2","subject":"Complimentary Jimmy Coco professional trial for {{BUSINESS_NAME}}"},
     {"file":"emails/2-result-v2.html","alias":"jc-uk-prospect-02-result-v2","id":"ffdc157c-a2ee-4f85-b286-bf20af24d8a5","name":"JC-UK-PROSPECT-02-RESULT-V2","subject":"The formula details clients notice after their tan"},

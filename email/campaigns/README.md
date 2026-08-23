@@ -12,10 +12,10 @@ Home for every **outreach & marketing campaign** — cold acquisition, stockist 
 | Australia-wide new salon outreach (TEST) | [`au-new-salon-outreach-test/`](au-new-salon-outreach-test/) | Email (Resend TEST fixture) | AU | TEST — NOT FOR SEND | A fictional, evidence-led salon partnership review |
 | AU salon seeding (cold outreach) | [`au-salon-seeding/`](au-salon-seeding/) | Email + WhatsApp | 🇦🇺 AU | Draft | Free sample before summer |
 | AU salon account flow (post-sample) | [`au-salon-account-flow/`](au-salon-account-flow/) | Email + WhatsApp | 🇦🇺 AU | Draft | Sample → terms → first order |
-| UK salon stockist recruitment | [`uk-salon-stockist/`](uk-salon-stockist/) | Email (MailerLite) | 🇬🇧 UK | Email 1 live | “Your clients already know this name” |
+| UK salon stockist recruitment | [`uk-salon-stockist/`](uk-salon-stockist/) | Repository HTML/text → Resend | 🇬🇧 UK | Draft — disabled | Trial-first professional recruitment |
 | UK salon onboarding | [`uk-salon-onboarding/`](uk-salon-onboarding/) | Email (Resend) | 🇬🇧 UK | Ready | Professional line → sample kit |
 | UAE / Dubai salon stockist recruitment | [`uae-dubai-salon-stockist/`](uae-dubai-salon-stockist/) | Email (Resend-ready) | 🇦🇪 UAE | Draft | Premium professional trial for Dubai partners |
-| US West Coast salon stockist recruitment (TEST) | [`us-west-coast-salon-stockist/`](us-west-coast-salon-stockist/) | Email (Resend) | 🇺🇸 US-WC | Draft — not approved for send | Camera-ready color for West Coast daylight |
+| US West Coast salon stockist recruitment | [`us-west-coast-salon-stockist/`](us-west-coast-salon-stockist/) | Repository HTML/text → Resend | 🇺🇸 US-WC | Draft — disabled | Trial-first natural-looking colour and aftercare |
 | Sydney salon stockist recruitment | [`au-sydney-salon-stockist/`](au-sydney-salon-stockist/) | Email + WhatsApp | 🇦🇺 AU (Sydney) | Draft — not approved for send | A Sydney glow, without the Sydney sun |
 | Gold Coast salon stockist recruitment | [`au-gold-coast-salon-stockist/`](au-gold-coast-salon-stockist/) | Email (Resend) | 🇦🇺 AU (Gold Coast) | Draft — not approved for send | A more considered professional colour partnership |
 | UK reseller lifecycle (forms → account → order) | [`uk-reseller-lifecycle/`](uk-reseller-lifecycle/) | Email (Resend) | 🇬🇧 UK | Draft — not approved for send | Free trial, order request, signup and portal-order service emails |
@@ -57,7 +57,7 @@ Campaign copy belongs in `sequence.md` and `email-data.json`. Do not hand-edit g
   studio.json     — UI name, status, owner, mode and send-day timeline
   whatsapp.md     — WhatsApp copy when used
   onboarding.md   — post-reply copy when used
-  emails/         — generated sendable HTML, one file per branded email
+  emails/         — generated sendable HTML and, for repository-delivered campaigns, plain text
   docs/           — playbooks, guides and PDFs; reference material only
 ```
 
@@ -69,7 +69,7 @@ Plain-text-only emails remain in `sequence.md` and do not require an HTML file.
 2. Complete `README.md` and `sequence.md`.
 3. Add branded messages to `email-data.json`.
 4. Add `studio.json`; the Live Emails UI discovers the campaign automatically.
-5. Register send timing and Resend template IDs in `shared/campaign-registry.js` when the campaign will be sent by the outreach worker.
+5. Register send timing, delivery mode, content alias and exit rules in `shared/campaign-registry.js` when the campaign will be sent by the outreach worker.
 6. Run the shared build and `npm test`.
 7. Add the campaign to the table above.
 
@@ -79,14 +79,14 @@ The repository is the source of truth. Vite bundles every `email-data.json`, `st
 
 When the repository is connected to Vercel, each push creates a deployment. Content becomes visible as soon as that deployment is ready. A repository-backed site cannot expose an unbuilt commit: if content must change without a deployment, it needs to move to a runtime CMS or database instead.
 
-Before promoting repository email HTML back into Resend, run:
+Provider-template campaigns can still be compared and promoted with:
 
 ```bash
 npm run templates:check
 npm run templates:publish
 ```
 
-The check discovers campaign folders automatically and compares the repository copy with the registered Resend templates. Publishing remains an explicit approval step.
+Repository-delivered campaigns set `deliveryMode: "repository-html"`; they are excluded from template publishing and are submitted as versioned HTML/text by the application. Provider-template publishing remains an explicit approval step for other campaigns.
 
 ## Conventions
 

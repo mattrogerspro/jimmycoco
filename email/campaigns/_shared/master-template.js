@@ -7,6 +7,21 @@ const escapeHtml = (value = '') => String(value)
 
 const DEFAULT_LOGO_URL = 'https://jimmycoco.email/email-assets/logo.webp';
 
+const decodeText = (value = '') => String(value)
+  .replace(/<br\s*\/?>/gi, '\n')
+  .replace(/<\/p>/gi, '\n\n')
+  .replace(/<[^>]+>/g, '')
+  .replace(/&nbsp;/gi, ' ')
+  .replace(/&amp;/gi, '&')
+  .replace(/&quot;/gi, '"')
+  .replace(/&#0?39;/gi, "'")
+  .replace(/&lt;/gi, '<')
+  .replace(/&gt;/gi, '>')
+  .replace(/&pound;/gi, '£')
+  .replace(/[ \t]+\n/g, '\n')
+  .replace(/\n{3,}/g, '\n\n')
+  .trim();
+
 const logoTag = (data) => `<a href="${data.homeUrl || 'https://jimmycoco.co.uk'}" style="display:inline-block;text-decoration:none;"><img src="${DEFAULT_LOGO_URL}" width="240" height="70" alt="Sunless by Jimmy Coco" style="display:block;width:240px;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;"></a>`;
 
 const imageTag = (block, maxWidth = 496) => {
@@ -29,6 +44,8 @@ function renderBlock(block, theme) {
       return `<h2 class="sans" style="margin:26px 0 12px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:18px;line-height:1.35;color:${heading};">${block.html || ''}</h2>`;
     case 'bullets':
       return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:2px 0 24px 0;">${(block.items || []).map(item => `<tr><td valign="top" style="width:22px;padding:5px 0;color:${accent};font-size:15px;">•</td><td class="sans" style="padding:5px 0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:15.5px;line-height:1.55;color:${text};">${item}</td></tr>`).join('')}</table>`;
+    case 'steps':
+      return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:2px 0 24px 0;">${(block.items || []).map((item, index) => `<tr><td valign="top" style="width:28px;padding:5px 0;color:${accent};font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;font-weight:600;">${index + 1}.</td><td class="sans" style="padding:5px 0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:15.5px;line-height:1.55;color:${text};">${item}</td></tr>`).join('')}</table>`;
     case 'offer':
       return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 28px 0;"><tr><td style="background:#F1E9DF;border-left:3px solid ${accent};padding:20px 22px;"><p class="sans" style="margin:0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:15.5px;line-height:1.55;color:${text};">${block.html || ''}</p></td></tr></table>`;
     case 'quote':
@@ -55,6 +72,52 @@ function renderBlock(block, theme) {
   }
 }
 
+function renderTextBlock(block) {
+  switch (block.type) {
+    case 'paragraph':
+    case 'subheading':
+    case 'offer':
+    case 'quote':
+    case 'note':
+    case 'small':
+      return decodeText(block.html || block.copy || block.title || '');
+    case 'bullets':
+      return (block.items || []).map((item) => `- ${decodeText(item)}`).join('\n');
+    case 'steps':
+      return (block.items || []).map((item, index) => `${index + 1}. ${decodeText(item)}`).join('\n');
+    case 'divider':
+      return '---';
+    case 'cta': {
+      const url = block.url || block.href;
+      return block.label && url ? `${decodeText(block.label)}\n${url}` : '';
+    }
+    case 'image':
+    case 'heroImage':
+      return decodeText(block.caption || block.alt || '');
+    case 'productFeature':
+    case 'imageText':
+      return [decodeText(block.title || ''), decodeText(block.html || block.copy || ''), block.ctaLabel && block.ctaUrl ? `${decodeText(block.ctaLabel)}\n${block.ctaUrl}` : ''].filter(Boolean).join('\n');
+    case 'productGrid':
+      return (block.items || []).map((item) => [decodeText(item.title || ''), decodeText(item.copy || '')].filter(Boolean).join(': ')).join('\n');
+    case 'proofStrip':
+      return (block.items || []).map((item) => decodeText(item.alt || '')).filter(Boolean).join('\n');
+    default:
+      throw new Error(`Unsupported email block type: ${block.type}`);
+  }
+}
+
+function renderTextEmail(data) {
+  const unsubscribeLabel = data.unsubscribeLabel || 'Manage preferences or unsubscribe';
+  const sections = [
+    data.headline,
+    ...(data.blocks || []).map(renderTextBlock),
+    `${data.senderName || '{{SENDER_NAME}}'}\n${data.senderTitle || '{{SENDER_TITLE}}'}`,
+    `${data.businessName || 'Sunless by Jimmy Coco'} · ${data.businessAddress || '{{BUSINESS_ADDRESS}}'}`,
+    `${decodeText(data.unsubscribeText || 'You are receiving this because this message is relevant to your relationship with Sunless by Jimmy Coco.')}\n${unsubscribeLabel}: ${data.unsubscribeUrl || data.unsubscribeHref || '{{RESEND_UNSUBSCRIBE_URL}}'}`,
+  ];
+  return `${sections.filter(Boolean).map(decodeText).join('\n\n').trim()}\n`;
+}
+
 function renderEmail(data) {
   const theme = {
     background: data.background || '#EAE2D8', cardBackground: data.cardBackground || '#FBF8F3', accent: data.accent || '#A77952', text: data.text || '#3B3630', heading: data.heading || '#24211E', buttonBackground: data.buttonBackground || '#26231F', buttonText: data.buttonText || '#FFFDF9'
@@ -64,4 +127,4 @@ function renderEmail(data) {
   return `<!DOCTYPE html><html lang="${escapeHtml(data.lang || 'en')}" xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="x-apple-disable-message-reformatting"><title>${escapeHtml(data.title || 'Sunless by Jimmy Coco')}</title><!--[if mso]><style>.serif{font-family:Georgia,serif!important}.sans{font-family:Arial,sans-serif!important}</style><![endif]--><style>body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}table,td{mso-table-lspace:0;mso-table-rspace:0}img{-ms-interpolation-mode:bicubic;border:0;height:auto;line-height:100%;outline:none;text-decoration:none}body{margin:0;padding:0;width:100%!important;background:${theme.background}}a{color:${theme.accent}}@media only screen and (max-width:600px){.container{width:100%!important}.px{padding-left:26px!important;padding-right:26px!important}.stack{display:block!important;width:100%!important;padding-left:0!important;padding-right:0!important}}</style></head><body style="margin:0;padding:0;background:${theme.background};"><div style="display:none;max-height:0;overflow:hidden;opacity:0;font-size:1px;line-height:1px;color:${theme.background};">${escapeHtml(data.preview || '')}&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</div><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${theme.background};"><tr><td align="center" style="padding:34px 12px;"><table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;"><tr><td align="center" style="padding:6px 0 22px;">${logoTag(data)}</td></tr><tr><td class="px" style="background:${theme.cardBackground};border-radius:4px;padding:46px 52px 40px;"><p class="sans" style="margin:0 0 20px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:${theme.accent};">${data.eyebrow || ''}</p><h1 class="serif" style="margin:0 0 24px;font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:33px;line-height:1.14;color:${theme.heading};letter-spacing:-.01em;">${data.headline || ''}</h1>${blocks}</td></tr><tr><td class="px" style="padding:30px 52px 8px;"><p class="sans" style="margin:0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:15px;line-height:1.6;color:${theme.text};">${data.senderName || '{{sender_name}}'}<br><span style="color:#7A726A;font-size:13.5px;">${data.senderTitle || '{{sender_title}}'}</span></p></td></tr><tr><td class="px" style="padding:24px 52px 8px;"><div style="border-top:1px solid #DCD2C6;"></div></td></tr><tr><td class="px" style="padding:14px 52px 30px;"><p class="sans" style="margin:0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;line-height:1.6;color:#948B81;">${data.businessName || 'Sunless by Jimmy Coco'} · ${data.businessAddress || '{{business_address}}'}<br>${data.unsubscribeText || 'You are receiving this because this message is relevant to your relationship with Sunless by Jimmy Coco.'} <a href="${data.unsubscribeUrl || data.unsubscribeHref || '{{unsubscribe_link}}'}" style="color:#948B81;text-decoration:underline;">${unsubscribeLabel}</a>.</p></td></tr></table></td></tr></table></body></html>`;
 }
 
-module.exports = { renderEmail };
+module.exports = { renderEmail, renderTextEmail };

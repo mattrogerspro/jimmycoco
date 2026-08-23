@@ -301,6 +301,10 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .email-toolbar-title span { color: var(--bronze); font-size: 7px; text-transform: uppercase; letter-spacing: .12em; }
 .email-toolbar-title strong { margin-top: 3px; font: 600 15px var(--font-sans); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .toolbar-actions { display: flex; align-items: center; gap: 9px; padding-right: 24px; }
+.format-switch { display: flex; padding: 3px; border: 1px solid var(--line); border-radius: 5px; }
+.format-switch button { min-width: 42px; height: 29px; padding: 0 9px; border: 0; background: transparent; border-radius: 3px; color: #8e867e; font-size: 8px; font-weight: 700; cursor: pointer; }
+.format-switch button.active { background: #ece5de; color: var(--ink); }
+.format-switch button:disabled { opacity: .45; cursor: not-allowed; }
 .viewport-switch { display: flex; padding: 3px; border: 1px solid var(--line); border-radius: 5px; }
 .viewport-switch button { width: 31px; height: 29px; border: 0; display: grid; place-items: center; background: transparent; border-radius: 3px; color: #8e867e; cursor: pointer; }
 .viewport-switch button.active { background: #ece5de; color: var(--ink); }
@@ -365,6 +369,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .browser-chrome span { width: 5px; height: 5px; border-radius: 50%; background: #c8c0b9; }
 .browser-chrome b { margin-left: auto; margin-right: auto; color: #948c85; font-size: 7px; font-weight: 500; }
 .device-frame iframe { display: block; flex: 1 1 auto; width: 100%; height: auto; min-height: 0; border: 0; background: #fff; }
+.plain-text-preview { flex: 1 1 auto; min-height: 0; margin: 0; padding: 34px 38px; overflow: auto; white-space: pre-wrap; background: #fff; color: #312c28; font: 14px/1.65 Arial,Helvetica,sans-serif; }
 .email-inspector { height: 100%; overflow-y: auto; overscroll-behavior: contain; border-left: 1px solid #d9d2cb; padding: 23px 18px; }
 .inspector-status { margin-top: 14px; display: flex; align-items: center; justify-content: space-between; color: #9a9189; font-size: 8px; }
 .email-inspector dl { margin: 22px 0 0; }

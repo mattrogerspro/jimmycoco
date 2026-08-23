@@ -19,8 +19,9 @@ const aliases = {
   resend_unsubscribe_url: 'RESEND_UNSUBSCRIBE_URL',
 }
 
-// Legacy source remains in the repository for research only. Publishing is restricted
-// to the two current Jimmy Coco Pro V2 recruitment campaigns.
+// Provider templates remain supported for legacy/lifecycle campaigns. Campaigns with
+// deliveryMode=repository-html are rendered and sent by the application and must never
+// be promoted back into Resend templates by this script.
 const publishableCampaignIds = new Set([
   'uk-salon-stockist',
   'us-west-coast-salon-stockist',
@@ -58,6 +59,7 @@ async function localTemplates() {
     }
 
     if (data.esp && data.esp.toLowerCase() !== 'resend') continue
+    if (data.deliveryMode === 'repository-html') continue
     if (!publishableCampaignIds.has(campaignId)) continue
 
     const campaign = campaignsById[campaignId]

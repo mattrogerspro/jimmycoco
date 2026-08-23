@@ -196,6 +196,10 @@ button,input,select,textarea{font:inherit}
 /* ---- live chat --------------------------------------------------------- */
 .admin-chat-main{max-width:1680px}
 .admin-chat-head-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.admin-chat-presence-count{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:7px 12px;border:1px solid var(--admin-line);border-radius:999px;background:var(--admin-paper);color:var(--admin-muted);font-size:12px;font-weight:700}
+.admin-chat-presence-count::before{content:"";width:9px;height:9px;border-radius:50%;background:#B7AB9B}
+.admin-chat-presence-count.is-online{border-color:rgba(79,148,96,.28);background:#EDF4EC;color:#33602F}
+.admin-chat-presence-count.is-online::before{background:#4F9460;box-shadow:0 0 0 4px rgba(79,148,96,.12)}
 .admin-chat-alert-toggle{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:7px 12px;border:1px solid var(--admin-line);border-radius:999px;background:var(--admin-paper);color:var(--admin-muted);font-size:12px;font-weight:700;cursor:pointer;transition:border-color .15s ease,background .15s ease,color .15s ease,box-shadow .15s ease}
 .admin-chat-alert-toggle::before{content:"";width:9px;height:9px;border-radius:50%;background:#B7AB9B;box-shadow:0 0 0 4px rgba(183,171,155,.13)}
 .admin-chat-alert-toggle:hover{border-color:var(--admin-bronze);color:var(--admin-bronze-dark);background:#FFFDF9}

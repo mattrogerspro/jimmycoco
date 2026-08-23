@@ -32,6 +32,19 @@ export function createPublicSupabaseClient() {
   });
 }
 
+export function createSupabaseServiceClient() {
+  const { url } = readSupabaseEnvironment();
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SECRET_KEY;
+
+  if (!serviceKey) {
+    throw new Error("Supabase service access is not configured. Set SUPABASE_SERVICE_ROLE_KEY.");
+  }
+
+  return createClient(url, serviceKey, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+}
+
 export function articleMediaUrl(path: string | null | undefined) {
   if (!path) return null;
   const { url } = readSupabaseEnvironment();

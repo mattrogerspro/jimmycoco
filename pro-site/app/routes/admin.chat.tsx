@@ -7,7 +7,13 @@ import type {
 import { data, useLoaderData } from "react-router";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { requireArticleStaff } from "../lib/article-auth.server";
-import type { ChatConversation, ChatMessage } from "../lib/chat";
+import {
+  CHAT_STAFF_PRESENCE_CHANNEL,
+  countStaffPresence,
+  type ChatConversation,
+  type ChatMessage,
+  type ChatStaffPresence,
+} from "../lib/chat";
 import { createChatStaffClient } from "../lib/supabase.browser";
 import { getSupabasePublicConfig } from "../lib/supabase.server";
 
@@ -137,8 +143,10 @@ export default function AdminChat() {
   const [connectionState, setConnectionState] = useState("Connecting…");
   const [notificationStatus, setNotificationStatus] = useState<BrowserNotificationStatus>("unsupported");
   const [soundEnabled, setSoundEnabled] = useState(false);
+  const [onlineStaffCount, setOnlineStaffCount] = useState(0);
   const messageEndRef = useRef<HTMLDivElement>(null);
   const channelRef = useRef<RealtimeChannel | null>(null);
+  const presenceChannelRef = useRef<RealtimeChannel | null>(null);
   const selectedIdRef = useRef<string | null>(loaderData.initialConversationId);
   const conversationsRef = useRef(loaderData.conversations);
   const notificationStatusRef = useRef<BrowserNotificationStatus>("unsupported");
@@ -241,6 +249,32 @@ export default function AdminChat() {
       channelRef.current = null;
     };
   }, [client]);
+
+  useEffect(() => {
+    const channel = client
+      .channel(CHAT_STAFF_PRESENCE_CHANNEL, {
+        config: { presence: { key: loaderData.staff.userId } },
+      })
+      .on("presence", { event: "sync" }, () => {
+        setOnlineStaffCount(countStaffPresence(channel.presenceState()));
+      })
+      .subscribe(async (status) => {
+        if (status === "SUBSCRIBED") {
+          await channel.track({
+            staffId: loaderData.staff.userId,
+            name: loaderData.staff.displayName || loaderData.staff.email || "Jimmy Coco team",
+            onlineAt: new Date().toISOString(),
+          } satisfies ChatStaffPresence);
+        }
+      });
+
+    presenceChannelRef.current = channel;
+    return () => {
+      channel.untrack().catch(() => undefined);
+      client.removeChannel(channel);
+      presenceChannelRef.current = null;
+    };
+  }, [client, loaderData.staff.displayName, loaderData.staff.email, loaderData.staff.userId]);
 
   function playNewMessageSound() {
     if (!soundEnabledRef.current || typeof window === "undefined") return;
@@ -425,6 +459,9 @@ export default function AdminChat() {
           <p>Reply to website visitors in real time.</p>
         </div>
         <div className="admin-chat-head-actions">
+          <span className={`admin-chat-presence-count${onlineStaffCount > 0 ? " is-online" : ""}`}>
+            {onlineStaffCount} online
+          </span>
           <button
             className={`admin-chat-alert-toggle${notificationStatus === "granted" && soundEnabled ? " is-on" : ""}`}
             type="button"

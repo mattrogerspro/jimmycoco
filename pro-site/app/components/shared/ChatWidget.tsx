@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useLocation } from "react-router";
 import type { RealtimeChannel, SupabaseClient, User } from "@supabase/supabase-js";
-import type { ChatConversation, ChatMessage, SupabasePublicConfig } from "../../lib/chat";
+import {
+  CHAT_STAFF_PRESENCE_CHANNEL,
+  countStaffPresence,
+  type ChatConversation,
+  type ChatMessage,
+  type SupabasePublicConfig,
+} from "../../lib/chat";
 
 type ChatWidgetProps = {
   config: SupabasePublicConfig;
@@ -40,8 +46,11 @@ export function ChatWidget({ config }: ChatWidgetProps) {
   const [errorMessage, setErrorMessage] = useState("");
   const [sending, setSending] = useState(false);
   const [client, setClient] = useState<SupabaseClient | null>(null);
+  const [staffPresenceReady, setStaffPresenceReady] = useState(false);
+  const [staffOnline, setStaffOnline] = useState(false);
   const messageEndRef = useRef<HTMLDivElement>(null);
   const channelRef = useRef<RealtimeChannel | null>(null);
+  const presenceChannelRef = useRef<RealtimeChannel | null>(null);
 
   const isPrivateArea = location.pathname.startsWith("/admin")
     || location.pathname.startsWith("/portal");
@@ -49,6 +58,52 @@ export function ChatWidget({ config }: ChatWidgetProps) {
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ block: "nearest" });
   }, [messages, widgetState]);
+
+  useEffect(() => {
+    if (isPrivateArea) return;
+
+    let cancelled = false;
+    let activeClient: SupabaseClient | null = null;
+    let activeChannel: RealtimeChannel | null = null;
+
+    async function connectPresence() {
+      try {
+        activeClient = client ?? (await import("../../lib/supabase.browser"))
+          .getChatVisitorClient(config);
+        if (cancelled) return;
+        if (!client) setClient(activeClient);
+
+        const channel = activeClient
+          .channel(CHAT_STAFF_PRESENCE_CHANNEL)
+          .on("presence", { event: "sync" }, () => {
+            if (cancelled) return;
+            const count = countStaffPresence(channel.presenceState());
+            setStaffOnline(count > 0);
+            setStaffPresenceReady(true);
+          })
+          .subscribe((status) => {
+            if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
+              setStaffPresenceReady(false);
+              setStaffOnline(false);
+            }
+          });
+
+        activeChannel = channel;
+        presenceChannelRef.current = channel;
+      } catch (error) {
+        console.warn("Unable to connect chat presence", error);
+        setStaffPresenceReady(false);
+        setStaffOnline(false);
+      }
+    }
+
+    connectPresence();
+    return () => {
+      cancelled = true;
+      if (activeClient && activeChannel) activeClient.removeChannel(activeChannel);
+      if (presenceChannelRef.current === activeChannel) presenceChannelRef.current = null;
+    };
+  }, [client, config, isPrivateArea]);
 
   useEffect(() => {
     if (!client || !conversation || widgetState === "closed") return;
@@ -215,16 +270,26 @@ export function ChatWidget({ config }: ChatWidgetProps) {
   }
 
   const isOpen = widgetState !== "closed";
+  const hasKnownOfflineTeam = staffPresenceReady && !staffOnline;
+  const supportStatus = staffOnline
+    ? "Team online"
+    : hasKnownOfflineTeam
+      ? "Team offline - leave a message"
+      : "Message the professional team";
+  const chatTitle = staffOnline ? "How can we help?" : "Leave us a message";
 
   return (
-    <aside className={`chat-widget${isOpen ? " is-open" : ""}`} aria-label="Chat with Jimmy Coco Professional">
+    <aside
+      className={`chat-widget${isOpen ? " is-open" : ""}${hasKnownOfflineTeam ? " is-offline" : ""}`}
+      aria-label="Chat with Jimmy Coco Professional"
+    >
       {isOpen && (
         <section className="chat-window" role="dialog" aria-modal="false" aria-labelledby="chat-title">
           <header className="chat-window-head">
             <div>
-              <span className="chat-presence" aria-hidden="true" />
-              <p>Jimmy Coco Professional</p>
-              <h2 id="chat-title">How can we help?</h2>
+              <span className={`chat-presence${staffOnline ? " is-online" : " is-offline"}`} aria-hidden="true" />
+              <p>{supportStatus}</p>
+              <h2 id="chat-title">{chatTitle}</h2>
             </div>
             <button type="button" onClick={() => setWidgetState("closed")} aria-label="Close chat">×</button>
           </header>
@@ -233,7 +298,11 @@ export function ChatWidget({ config }: ChatWidgetProps) {
 
           {widgetState === "intro" && (
             <form className="chat-intro" onSubmit={startConversation}>
-              <p>Ask us about the professional litre, a free trial or your salon setup.</p>
+              <p>
+                {hasKnownOfflineTeam
+                  ? "The professional team is offline right now. Leave your question and email so we can reply."
+                  : "Ask us about the professional litre, a free trial or your salon setup."}
+              </p>
               <label>
                 Your name
                 <input name="name" autoComplete="name" maxLength={80} required />
@@ -258,7 +327,9 @@ export function ChatWidget({ config }: ChatWidgetProps) {
             <>
               <div className="chat-transcript" aria-live="polite">
                 <div className="chat-welcome">
-                  Thanks for getting in touch. Leave your message here and the professional team will reply in this conversation.
+                  {hasKnownOfflineTeam
+                    ? "Thanks for getting in touch. The team is offline, but your message is saved here and we will reply as soon as possible."
+                    : "Thanks for getting in touch. Leave your message here and the professional team will reply in this conversation."}
                 </div>
                 {messages.map((message) => (
                   <article key={message.id} className={`chat-message is-${message.sender_kind}`}>
@@ -308,7 +379,7 @@ export function ChatWidget({ config }: ChatWidgetProps) {
         aria-label={isOpen ? "Close chat" : "Chat with Jimmy Coco Professional"}
       >
         <span className="chat-launcher-icon" aria-hidden="true">{isOpen ? "×" : "↗"}</span>
-        <span>{isOpen ? "Close" : "Chat with us"}</span>
+        <span>{isOpen ? "Close" : hasKnownOfflineTeam ? "Leave a message" : "Chat with us"}</span>
       </button>
     </aside>
   );

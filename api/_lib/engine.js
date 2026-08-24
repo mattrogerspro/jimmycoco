@@ -22,6 +22,23 @@ function contactFromClaim(row) {
   }
 }
 
+const INTERNAL_CANARY_EMAIL = /^[^@+]+\+[^@]*canary[^@]*@gmail\.com$/i
+
+export function assertInternalCanaryContact(contact, expectedEmail) {
+  const email = String(contact?.email || '').trim().toLowerCase()
+  const expected = String(expectedEmail || '').trim().toLowerCase()
+  const properties = contact?.properties && typeof contact.properties === 'object' ? contact.properties : {}
+  const source = String(properties.source || '').trim().toLowerCase()
+  const lawfulBasis = String(properties.lawful_basis || '').trim().toLowerCase()
+  const decision = String(properties.eligibility_decision || '').trim().toLowerCase()
+  if (!email || email !== expected) throw new Error('canary_recipient_mismatch')
+  if (!INTERNAL_CANARY_EMAIL.test(email)) throw new Error('canary_recipient_not_internal_alias')
+  if (source !== 'internal app-managed canary') throw new Error('canary_source_not_verified')
+  if (!lawfulBasis.includes('internal test address controlled by the account owner')) throw new Error('canary_lawful_basis_not_verified')
+  if (decision !== 'eligible' || contact.marketing_status !== 'eligible') throw new Error('canary_contact_not_eligible')
+  return contact
+}
+
 class PreSendExitError extends Error {
   constructor(reason) {
     super(`pre_send_exit:${reason}`)
@@ -348,6 +365,56 @@ export async function processDueWork(limit = 25) {
     try { processed.push(await processJob(row)) } catch (error) { processed.push(await handleFailure('job', row, error)) }
   }
   return { live: true, worker, claimed: enrollmentRows.length + jobRows.length, processed }
+}
+
+export async function processCanaryEnrollment({ enrollmentId, expectedEmail, expectedCampaignId }) {
+  if (process.env.EMAIL_CANARY_MODE !== 'true') throw new Error('email_canary_mode_disabled')
+  if (!isLiveMode()) throw new Error('email_live_mode_disabled')
+  const supabase = getSupabase()
+  const enrollment = assertSupabase(await supabase
+    .from('email_enrollments')
+    .select('*')
+    .eq('id', enrollmentId)
+    .maybeSingle(), 'load canary enrollment')
+  if (!enrollment) throw new Error('canary_enrollment_not_found')
+  if (enrollment.campaign_id !== expectedCampaignId) throw new Error('canary_campaign_mismatch')
+  if (enrollment.status !== 'active' || enrollment.next_step !== 1) throw new Error('canary_enrollment_not_at_first_step')
+  if (!enrollment.next_send_at || new Date(enrollment.next_send_at).getTime() > Date.now()) throw new Error('canary_enrollment_not_due')
+  if (enrollment.locked_at && new Date(enrollment.locked_at).getTime() > Date.now() - (10 * 60 * 1000)) throw new Error('canary_enrollment_locked')
+
+  const contact = assertSupabase(await supabase
+    .from('email_contacts')
+    .select('id,email,first_name,last_name,business_name,market,timezone,marketing_status,properties')
+    .eq('id', enrollment.contact_id)
+    .maybeSingle(), 'load canary contact')
+  assertInternalCanaryContact(contact, expectedEmail)
+
+  let lockQuery = supabase.from('email_enrollments').update({
+    locked_at: new Date().toISOString(),
+    locked_by: `canary-${workerId()}`,
+  }).eq('id', enrollment.id).eq('status', 'active')
+  lockQuery = enrollment.locked_at ? lockQuery.eq('locked_at', enrollment.locked_at) : lockQuery.is('locked_at', null)
+  const locked = assertSupabase(await lockQuery.select().maybeSingle(), 'lock canary enrollment')
+  if (!locked) throw new Error('canary_enrollment_lock_failed')
+
+  const row = {
+    ...locked,
+    enrollment_id: locked.id,
+    contact_id: contact.id,
+    email: contact.email,
+    first_name: contact.first_name,
+    last_name: contact.last_name,
+    business_name: contact.business_name,
+    market: contact.market,
+    timezone: contact.timezone,
+    marketing_status: contact.marketing_status,
+    properties: contact.properties,
+  }
+  try {
+    return await processEnrollment(row)
+  } catch (error) {
+    return handleFailure('enrollment', row, error)
+  }
 }
 
 export async function enqueueLifecycleEvent({ campaignId, trigger, sourceEventId, contact, context = {} }) {

@@ -1,4 +1,5 @@
 import { findCampaign } from '../../shared/campaign-registry.js'
+import { requireEmailAdmin } from '../_lib/email-auth.js'
 import { allowMethods, json, publicError, readJson, requireBearer } from '../_lib/http.js'
 import { assertSupabase, getSupabase, isSupabaseConfigured } from '../_lib/supabase.js'
 
@@ -30,7 +31,7 @@ async function campaignControlState(supabase, campaignId) {
 }
 
 export default async function handler(request, response) {
-  if (!allowMethods(request, response, ['POST']) || !requireBearer(request, response)) return
+  if (!allowMethods(request, response, ['POST']) || !requireEmailAdmin(request, response) || !requireBearer(request, response)) return
   if (!isSupabaseConfigured()) return json(response, 503, { error: 'supabase_not_configured' })
 
   try {

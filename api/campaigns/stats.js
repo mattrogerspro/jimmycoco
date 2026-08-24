@@ -1,4 +1,5 @@
 import { allowMethods, json } from '../_lib/http.js'
+import { requireEmailAdmin } from '../_lib/email-auth.js'
 import { assertSupabase, getSupabase, isSupabaseConfigured } from '../_lib/supabase.js'
 
 export function trackingForCampaign(campaign, environment = process.env) {
@@ -12,6 +13,7 @@ export function trackingForCampaign(campaign, environment = process.env) {
 
 export default async function handler(request, response) {
   if (!allowMethods(request, response, ['GET'])) return
+  if (!requireEmailAdmin(request, response)) return
   if (!isSupabaseConfigured()) return json(response, 503, { configured: false, error: 'analytics_not_configured' })
   const campaignId = String(request.query.campaign_id || '')
   if (!campaignId) return json(response, 400, { error: 'campaign_id_required' })

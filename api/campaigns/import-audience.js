@@ -7,6 +7,7 @@ import {
   validateAudienceImport,
   verifyAudiencePreviewToken,
 } from '../_lib/audience-import.js'
+import { requireEmailAdmin } from '../_lib/email-auth.js'
 import { allowMethods, json, readJson, requireBearer } from '../_lib/http.js'
 import { assertSupabase, getSupabase, oneRow } from '../_lib/supabase.js'
 
@@ -64,7 +65,7 @@ function importerError(error) {
 }
 
 export default async function handler(request, response) {
-  if (!allowMethods(request, response, ['POST']) || !requireBearer(request, response, process.env.AUDIENCE_IMPORT_API_KEY)) return
+  if (!allowMethods(request, response, ['POST']) || !requireEmailAdmin(request, response) || !requireBearer(request, response, process.env.AUDIENCE_IMPORT_API_KEY)) return
 
   try {
     const body = await readJson(request)

@@ -71,12 +71,21 @@ function BrandMark() {
   )
 }
 
+function initialsFor(value) {
+  return String(value || 'Email admin')
+    .split(/\s+|@/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join('') || 'EA'
+}
+
 function Status({ value }) {
   const kind = value.toLowerCase().replaceAll(' ', '-')
   return <span className={`status status-${kind}`} title={value}><i /><span>{value}</span></span>
 }
 
-function Sidebar({ currentView, setCurrentView, open, onClose, onCollapse }) {
+function Sidebar({ currentView, setCurrentView, open, onClose, onCollapse, user, onLogout }) {
   return (
     <>
       {open && <button className="sidebar-scrim" onClick={onClose} aria-label="Close navigation" />}
@@ -120,9 +129,9 @@ function Sidebar({ currentView, setCurrentView, open, onClose, onCollapse }) {
             </div>
           </div>
           <div className="profile-row">
-            <span className="avatar">MR</span>
-            <div><strong>Matt Rogers</strong><span>Administrator</span></div>
-            <Icon name="dots" />
+            <span className="avatar">{initialsFor(user?.display_name || user?.email)}</span>
+            <div><strong>{user?.display_name || user?.email || 'Email admin'}</strong><span>Super admin</span></div>
+            <button className="profile-logout" type="button" onClick={onLogout}>Sign out</button>
           </div>
         </div>
       </aside>
@@ -130,7 +139,7 @@ function Sidebar({ currentView, setCurrentView, open, onClose, onCollapse }) {
   )
 }
 
-function Topbar({ title, query, setQuery, onMenu, showBreadcrumb = true, compact = false }) {
+function Topbar({ title, query, setQuery, onMenu, user, onLogout, showBreadcrumb = true, compact = false }) {
   return (
     <header className={`topbar ${compact ? 'topbar-compact' : ''}`}>
       <button className="icon-button menu-button" onClick={onMenu} aria-label="Open navigation"><Icon name="menu" /></button>
@@ -140,8 +149,71 @@ function Topbar({ title, query, setQuery, onMenu, showBreadcrumb = true, compact
         <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search the workspace" />
         <kbd>⌘ K</kbd>
       </label>
-      <button className="avatar top-avatar" aria-label="Account">MR</button>
+      <button className="email-admin-pill" type="button" onClick={onLogout} title="Sign out">
+        <span className="avatar top-avatar">{initialsFor(user?.display_name || user?.email)}</span>
+        <span>Super admin</span>
+      </button>
     </header>
+  )
+}
+
+function authErrorMessage(error) {
+  if (error === 'invalid_credentials') return 'That email address or password was not accepted.'
+  if (error === 'email_admin_access_denied') return 'This account is not enabled as a jimmycoco.email super admin.'
+  if (error === 'email_admin_access_migration_not_applied') return 'The email admin access migration has not been applied yet.'
+  if (error === 'email_admin_session_secret_not_configured') return 'EMAIL_ADMIN_SESSION_SECRET is not configured.'
+  if (error === 'supabase_auth_not_configured') return 'Supabase Auth environment variables are not configured for this app.'
+  return 'Sign-in is temporarily unavailable.'
+}
+
+function EmailAdminLogin({ onLogin }) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
+
+  const submit = async (event) => {
+    event.preventDefault()
+    setBusy(true)
+    setError('')
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(data.error || 'login_failed')
+      onLogin(data.user)
+    } catch (err) {
+      setError(authErrorMessage(err instanceof Error ? err.message : 'login_failed'))
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <main className="email-auth-screen">
+      <section className="email-auth-card">
+        <BrandMark />
+        <p className="eyebrow">Private campaign operations</p>
+        <h1>Sign in to jimmycoco.email</h1>
+        <p>The email playbook, live sequence controls and audience importer are restricted to super admins.</p>
+        {error && <p className="email-auth-error" role="alert">{error}</p>}
+        <form className="email-auth-form" onSubmit={submit}>
+          <label>
+            <span>Email address</span>
+            <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="username" inputMode="email" required autoFocus />
+          </label>
+          <label>
+            <span>Password</span>
+            <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" required />
+          </label>
+          <button className="primary-button" type="submit" disabled={busy}>{busy ? 'Signing in…' : 'Sign in securely'}<Icon name="arrow" size={15} /></button>
+        </form>
+        <small>Uses the same staff identity source as the pro admin, with separate access for the email domain.</small>
+      </section>
+    </main>
   )
 }
 
@@ -365,6 +437,7 @@ function CampaignKillSwitch({ campaign, analytics, onChanged }) {
   const [apiToken, setApiToken] = useState('')
   const [operator, setOperator] = useState('')
   const [reason, setReason] = useState('Emergency stop from campaign admin')
+  const [pendingEnabled, setPendingEnabled] = useState(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
@@ -373,6 +446,13 @@ function CampaignKillSwitch({ campaign, analytics, onChanged }) {
   const paused = Number(control.paused_by_kill_switch || control.enrollment_statuses?.paused || 0)
   const pendingJobs = Number(control.pending_jobs || 0)
   const jobsPaused = Number(control.jobs_paused_by_kill_switch || 0)
+
+  const openAction = (nextEnabled) => {
+    setPendingEnabled(nextEnabled)
+    setError('')
+    setNotice('')
+    setReason(nextEnabled ? 'Re-enable after launch checks passed' : 'Emergency stop from campaign admin')
+  }
 
   const updateSwitch = async (nextEnabled) => {
     setBusy(true)
@@ -397,6 +477,7 @@ function CampaignKillSwitch({ campaign, analytics, onChanged }) {
       if (!response.ok) throw new Error(data.error || 'kill_switch_update_failed')
       onChanged?.(data)
       setNotice(nextEnabled ? 'Database campaign gate re-enabled.' : 'Campaign kill switch is now active.')
+      setPendingEnabled(null)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'kill_switch_update_failed')
     } finally {
@@ -405,26 +486,42 @@ function CampaignKillSwitch({ campaign, analytics, onChanged }) {
   }
 
   return (
-    <section className={`campaign-kill-switch ${enabled ? '' : 'is-killed'}`} aria-label="Campaign kill switch">
-      <div className="kill-switch-state">
-        <span><Icon name="power" size={15} />Campaign database gate</span>
-        <strong>{enabled ? 'Enabled' : 'Killed'}</strong>
-        <small>{paused} paused enrolments · {pendingJobs} pending jobs · {jobsPaused} jobs held by switch</small>
+    <section className={`campaign-kill-switch ${enabled ? '' : 'is-killed'} ${pendingEnabled !== null ? 'is-open' : ''}`} aria-label="Campaign kill switch">
+      <div className="kill-switch-summary">
+        <div className="kill-switch-state">
+          <span><Icon name="power" size={15} />Campaign database gate</span>
+          <strong>{enabled ? 'Enabled' : 'Killed'}</strong>
+        </div>
+        <div className="kill-switch-counts" aria-label="Campaign queue state">
+          <span><b>{paused}</b> paused enrolments</span>
+          <span><b>{pendingJobs}</b> pending jobs</span>
+          <span><b>{jobsPaused}</b> held jobs</span>
+        </div>
+        <button className={enabled ? 'danger-button' : 'secondary-button'} disabled={busy} onClick={() => openAction(!enabled)}>
+          <Icon name="power" size={15} />{enabled ? 'Kill campaign now' : 'Re-enable database gate'}
+        </button>
       </div>
-      <div className="kill-switch-fields">
-        <label><span>Admin token</span><input type="password" value={apiToken} onChange={(event) => setApiToken(event.target.value)} placeholder="Automation API token" /></label>
-        <label><span>Operator</span><input value={operator} onChange={(event) => setOperator(event.target.value)} placeholder="Who changed it" /></label>
-        <label><span>Reason</span><input value={reason} onChange={(event) => setReason(event.target.value)} /></label>
-      </div>
-      <div className="kill-switch-actions">
-        {enabled ? (
-          <button className="danger-button" disabled={busy} onClick={() => updateSwitch(false)}><Icon name="power" size={15} />Kill campaign now</button>
-        ) : (
-          <button className="secondary-button" disabled={busy} onClick={() => updateSwitch(true)}><Icon name="power" size={15} />Re-enable database gate</button>
-        )}
-        {error && <span className="kill-switch-error">{error}</span>}
-        {notice && <span className="kill-switch-notice">{notice}</span>}
-      </div>
+      {pendingEnabled !== null && (
+        <div className="kill-switch-confirm">
+          <div className="kill-switch-confirm-copy">
+            <strong>{pendingEnabled ? 'Re-enable this campaign' : 'Kill this campaign immediately'}</strong>
+            <span>Enter the Automation API bearer token. Operator and reason are written to the campaign audit config.</span>
+          </div>
+          <div className="kill-switch-fields">
+            <label><span>Automation API bearer token</span><input type="password" value={apiToken} onChange={(event) => setApiToken(event.target.value)} placeholder="Paste AUTOMATION_API_KEY" /></label>
+            <label><span>Operator</span><input value={operator} onChange={(event) => setOperator(event.target.value)} placeholder="Your name" /></label>
+            <label><span>Reason</span><input value={reason} onChange={(event) => setReason(event.target.value)} /></label>
+          </div>
+          <div className="kill-switch-actions">
+            <button className="secondary-button" disabled={busy} onClick={() => { setPendingEnabled(null); setError('') }}>Cancel</button>
+            <button className={pendingEnabled ? 'secondary-button' : 'danger-button'} disabled={busy} onClick={() => updateSwitch(pendingEnabled)}>
+              <Icon name="power" size={15} />{pendingEnabled ? 'Confirm re-enable' : 'Confirm kill switch'}
+            </button>
+          </div>
+          {error && <span className="kill-switch-error">{error}</span>}
+        </div>
+      )}
+      {notice && <span className="kill-switch-notice">{notice}</span>}
     </section>
   )
 }
@@ -1264,12 +1361,35 @@ const parseRoute = () => {
 }
 
 export default function App() {
+  const [authState, setAuthState] = useState({ status: 'loading', user: null })
   const [route, setRoute] = useState(parseRoute)
   const [query, setQuery] = useState('')
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => window.localStorage.getItem('sunless-sidebar-collapsed') === 'true')
   const currentView = route.view
   const title = navItems.find((item) => item.id === currentView)?.label || 'Overview'
+
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/auth/session')
+      .then(async (response) => {
+        const data = await response.json().catch(() => ({}))
+        if (cancelled) return
+        if (response.ok && data.authenticated) {
+          setAuthState({ status: 'authenticated', user: data.user })
+          if (window.location.pathname === '/login') {
+            const next = new URLSearchParams(window.location.search).get('next') || '/'
+            window.history.replaceState(null, '', next)
+          }
+        } else {
+          setAuthState({ status: 'anonymous', user: null })
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setAuthState({ status: 'anonymous', user: null })
+      })
+    return () => { cancelled = true }
+  }, [])
 
   useEffect(() => {
     const handleKeydown = (event) => {
@@ -1320,13 +1440,37 @@ export default function App() {
     setSidebarOpen(true)
     window.localStorage.setItem('sunless-sidebar-collapsed', 'false')
   }
+  const completeLogin = (user) => {
+    setAuthState({ status: 'authenticated', user })
+    const next = new URLSearchParams(window.location.search).get('next')
+    if (window.location.pathname === '/login' && next) window.history.replaceState(null, '', next)
+  }
+  const logout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' }).catch(() => {})
+    setAuthState({ status: 'anonymous', user: null })
+    window.history.replaceState(null, '', '/login')
+  }
+
+  if (authState.status === 'loading') {
+    return (
+      <main className="email-auth-screen">
+        <section className="email-auth-card is-loading">
+          <BrandMark />
+          <p className="eyebrow">Private campaign operations</p>
+          <h1>Checking access…</h1>
+        </section>
+      </main>
+    )
+  }
+
+  if (!authState.user) return <EmailAdminLogin onLogin={completeLogin} />
 
   return (
     <div className={`app-shell ${sidebarCollapsed ? 'sidebar-is-collapsed' : ''} ${currentView === 'emails' ? 'emails-view' : ''} ${currentView === 'sequences' ? 'sequences-view' : ''}`}>
-      <Sidebar currentView={currentView} setCurrentView={navigate} open={sidebarOpen} onClose={() => setSidebarOpen(false)} onCollapse={collapseSidebar} />
+      <Sidebar currentView={currentView} setCurrentView={navigate} open={sidebarOpen} onClose={() => setSidebarOpen(false)} onCollapse={collapseSidebar} user={authState.user} onLogout={logout} />
       <button className="nav-reopen" onClick={openSidebar} aria-label="Open workspace navigation"><Icon name="menu" /></button>
       <div className="app-main">
-        {currentView !== 'emails' && currentView !== 'sequences' && <Topbar title={title} query={query} setQuery={setQuery} onMenu={openSidebar} />}
+        {currentView !== 'emails' && currentView !== 'sequences' && <Topbar title={title} query={query} setQuery={setQuery} onMenu={openSidebar} user={authState.user} onLogout={logout} />}
         {currentView === 'overview' && <Overview routeTo={routeTo} />}
         {currentView === 'playbooks' && <Playbooks query={query} category={route.params[0]} doc={route.params[1]} routeTo={routeTo} />}
         {currentView === 'sequences' && <Sequences params={route.params} routeTo={routeTo} onOpenEmail={openEmail} />}

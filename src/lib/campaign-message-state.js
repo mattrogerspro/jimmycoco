@@ -29,3 +29,17 @@ export function resolveCampaignMessageState({
     isTriggered: campaignMode === 'event' || Boolean(registryStep?.trigger) || isSupplemental,
   }
 }
+
+export function sortCampaignMessages(campaignMode, messages) {
+  return [...messages].sort((left, right) => {
+    if (left.isSupplemental !== right.isSupplemental) {
+      return left.isSupplemental ? 1 : -1
+    }
+
+    if (campaignMode === 'sequence' && !left.isSupplemental && !right.isSupplemental) {
+      return left.index - right.index
+    }
+
+    return left.sourceIndex - right.sourceIndex
+  })
+}

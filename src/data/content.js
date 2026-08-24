@@ -1,5 +1,5 @@
 import { campaignsById } from '../../shared/campaign-registry.js'
-import { resolveCampaignMessageState } from '../lib/campaign-message-state.js'
+import { resolveCampaignMessageState, sortCampaignMessages } from '../lib/campaign-message-state.js'
 
 const campaignDataFiles = import.meta.glob('../../email/campaigns/*/email-data.json', {
   import: 'default',
@@ -138,9 +138,8 @@ const resolveCampaignHtml = (campaignId, output) => {
   }
 }
 
-export const campaigns = campaignDefinitions.map((campaign) => ({
-  ...campaign,
-  messages: campaign.data.messages.map((message, index) => {
+export const campaigns = campaignDefinitions.map((campaign) => {
+  const messages = campaign.data.messages.map((message, index) => {
     const output = message.output || message.file
     const title = message.title || message.subject || `Email ${index + 1}`
     const { html, htmlPath } = resolveCampaignHtml(campaign.id, output)
@@ -153,14 +152,18 @@ export const campaigns = campaignDefinitions.map((campaign) => ({
       supplementalOutputs: campaign.supplementalOutputs,
       registryCampaign,
     })
+    const sourceIndex = index + 1
+    const stepIndex = registryStep?.number ?? sourceIndex
+
     return {
       ...message,
       output,
       title,
       headline: message.headline || title,
       eyebrow: message.eyebrow || campaign.name,
-      id: `${campaign.id}-${index + 1}`,
-      index: index + 1,
+      id: `${campaign.id}-${sourceIndex}`,
+      index: stepIndex,
+      sourceIndex,
       day: registryStep?.day ?? registryStep?.delayDays ?? campaign.days[index] ?? index * 3,
       trigger: registryStep?.trigger,
       templateAlias: registryStep?.templateAlias || message.alias,
@@ -170,8 +173,13 @@ export const campaigns = campaignDefinitions.map((campaign) => ({
       isSupplemental,
       status: campaign.archived ? 'Archived' : (campaign.status === 'Live' && index === 0 ? 'Live' : 'Ready'),
     }
-  }),
-}))
+  })
+
+  return {
+    ...campaign,
+    messages: sortCampaignMessages(campaign.mode, messages),
+  }
+})
 
 const lifecycleFolders = Object.entries(markdownFiles)
   .filter(([path]) => /\/email\/03-sequences\/[^/]+\/README\.md$/.test(path))

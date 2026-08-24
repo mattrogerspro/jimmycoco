@@ -1,6 +1,6 @@
 # U.S. West Coast Jimmy Coco Pro Recruitment — V2
 
-**Status:** Seven templates are published in Resend; the automation remains disabled pending contact import and explicit launch approval.
+**Status:** Seven repository-rendered messages are ready for review; the application campaign remains disabled pending contact import and explicit launch approval.
 **Audience:** Eligible professional salons, studios, spas and mobile professionals in the approved U.S. West Coast service area, subject to the recorded contact basis.
 **Primary outcome:** Professional trial information and individual eligibility review.
 **Reply owner:** Matthew / Sunless Partnerships. `INFO`, `TRIAL`, `NUMBERS` and `RETAIL` are human-handled reply signals.
@@ -10,12 +10,12 @@
 | Day | Template | Subject | Purpose | CTA |
 |---:|---|---|---|---|
 | 0 | `jc-us-wc-prospect-01-trial-v2` | A premium spray-tan service — with a second client-care moment after the appointment | Trial-first treatment plus relevant aftercare conversation. | Request professional trial information |
-| 4 | `jc-us-wc-prospect-02-result-v2` | The result is what gives a premium tan its value | Result-led premium positioning and considered consultation. | Request professional trial information |
-| 8 | `jc-us-wc-prospect-03-retail-v2` | The commercial question is not “what does it cost?” It is “what can the service support?” | Assess an individual service model without generic margin claims. | Trial information or human `NUMBERS` reply |
-| 13 | `jc-us-wc-prospect-04-partner-path-v2` | One client relationship. Two useful revenue moments. | A focused fixed-location or mobile treatment-plus-aftercare workflow. | Trial information or human `RETAIL` reply |
-| 21 | `jc-us-wc-prospect-06-process-v2` | What happens after you request information? | Clarify the professional review, trial-availability check and first-order process without fixed U.S. trade terms. | Request trial information or human `INFO` reply |
-| 32 | `jc-us-wc-prospect-07-choice-v2` | Would more detail be useful? | Invite a direct, human-routed formula or retail conversation. | Human `INFO` or `RETAIL` reply |
-| 45 | `jc-us-wc-prospect-05-close-v2` | Shall I close this out for now? | Give a final route to trial or human conversation, then stop. | Trial information or human reply |
+| 3 | `jc-us-wc-prospect-02-result-v2` | The result is what gives a premium tan its value | Result-led premium positioning and considered consultation. | Request professional trial information |
+| 6 | `jc-us-wc-prospect-03-retail-v2` | The commercial question is not “what does it cost?” It is “what can the service support?” | Assess an individual service model without generic margin claims. | Trial information or human `NUMBERS` reply |
+| 10 | `jc-us-wc-prospect-04-partner-path-v2` | One client relationship. Two useful revenue moments. | A focused fixed-location or mobile treatment-plus-aftercare workflow. | Trial information or human `RETAIL` reply |
+| 15 | `jc-us-wc-prospect-06-process-v2` | What happens after you request information? | Clarify the professional review, trial-availability check and first-order process without fixed U.S. trade terms. | Request trial information or human `INFO` reply |
+| 21 | `jc-us-wc-prospect-07-choice-v2` | Would more detail be useful? | Invite a direct, human-routed formula or retail conversation. | Human `INFO` or `RETAIL` reply |
+| 28 | `jc-us-wc-prospect-05-close-v2` | Shall I close this out for now? | Give a final route to trial or human conversation, then stop. | Trial information or human reply |
 
 ## Approved commercial boundaries
 
@@ -25,4 +25,4 @@ Retail is framed as client care: Buff & Glow Mitt for even-looking maintenance, 
 
 ## Send controls
 
-Use sender `Sunless Partnerships <partnerships@email.jimmycoco.pro>`, reply-to `matthew@jimmycoco.pro`, a working Resend unsubscribe link and the U.S. sender footer. Confirm the contact source and applicable West Coast service area before release. `INFO` and `RETAIL` remain human-handled; no keyword-only commercial automation is authorised.
+Use sender `Sunless Partnerships <partnerships@email.jimmycoco.pro>`, reply-to `partnerships@email.jimmycoco.pro`, the application-signed `PREFERENCES_LINK` and the U.S. sender footer. The reply-to address must be Resend-managed inbound mail so the `email.received` webhook exits the playbook before forwarding to Matthew. The worker derives `GREETING_NAME` from the contact first name and falls back to `there`. Confirm the contact source and applicable West Coast service area before release. `INFO` and `RETAIL` remain human-handled; no keyword-only commercial automation is authorised.

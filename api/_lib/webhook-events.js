@@ -37,6 +37,16 @@ function safePayload(event) {
   }
 }
 
+function emailFrom(value) {
+  if (!value) return null
+  if (typeof value === 'string') {
+    const match = value.match(/<([^<>\s@]+@[^<>\s@]+\.[^<>\s@]+)>|([^\s<>@]+@[^\s<>@]+\.[^\s<>@]+)/)
+    return match?.[1] || match?.[2] || value
+  }
+  if (Array.isArray(value)) return emailFrom(value[0])
+  return value.email || value.address || null
+}
+
 async function ensureContact(email, market) {
   if (!email) return null
   return oneRow(assertSupabase(await getSupabase().rpc('upsert_email_contact', {
@@ -75,7 +85,7 @@ async function ensureMessage(event) {
     classification: step.classification || campaign.classification,
     idempotency_key: `resend-external/${data.email_id}`,
     template_alias: step.templateAlias,
-    template_id: data.template_id || step.templateId,
+    template_id: data.template_id || null,
     recipient_email: recipient,
     subject: data.subject || step.subject,
     status: eventStatus[event.type] || 'sent',
@@ -129,7 +139,7 @@ async function suppressAndExit(email, reason, scope, svixId, data) {
 }
 
 async function recordInboundReply(event, svixId) {
-  const email = event.data?.from
+  const email = emailFrom(event.data?.from)
   if (!email) return
   await ensureContact(email)
   await getSupabase().rpc('exit_email_enrollments', {
@@ -156,7 +166,7 @@ export async function processResendEvent(event, svixId) {
   if (inserted.error) throw new Error(`store webhook event: ${inserted.error.message}`)
 
   await applyMessageEvent(message, event)
-  const recipient = Array.isArray(event.data?.to) ? event.data.to[0] : event.data?.to
+  const recipient = emailFrom(event.data?.to)
   if (event.type === 'email.bounced') await suppressAndExit(recipient, 'hard_bounce', 'global', svixId, safePayload(event))
   if (event.type === 'email.complained') await suppressAndExit(recipient, 'complaint', 'global', svixId, safePayload(event))
   if (event.type === 'email.suppressed') await suppressAndExit(recipient, 'provider_suppression', 'global', svixId, safePayload(event))

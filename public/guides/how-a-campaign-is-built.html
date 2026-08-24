@@ -296,7 +296,7 @@
       <tr><td>Build &amp; validation</td><td><code>email/campaigns/_shared/build-all.js</code> · <code>--check</code> for a no-write validation pass</td></tr>
       <tr><td>Canonical process</td><td><code>email/campaigns/_shared/EMAIL-CAMPAIGN-GENERATOR-PROMPT.md</code></td></tr>
       <tr><td>Send registry &amp; locks</td><td><code>shared/campaign-registry.js</code> + <code>EMAIL_LIVE_MODE</code></td></tr>
-      <tr><td>Resend drift check / release</td><td><code>npm run templates:check</code> (read-only) · <code>npm run templates:publish</code> (approval-gated)</td></tr>
+      <tr><td>Runtime email contract</td><td><code>npm run templates:check</code> — read-only validation; no Resend Template publishing step</td></tr>
       <tr><td>Studio discovery</td><td><code>src/data/content.js</code> — glob discovery of every campaign folder</td></tr>
       <tr><td>Playbooks (the rules)</td><td><code>email/00-strategy/ … 07-resend-integration/</code></td></tr>
       <tr><td>Help &amp; guides (this series)</td><td><code>email/guides/</code> · rendered in the Studio automatically</td></tr>

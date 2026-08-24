@@ -1,7 +1,7 @@
 {
   "campaign": "uk-salon-stockist",
   "publish": false,
-  "status": "SOURCE REVISED — RESEND AUTOMATION DISABLED",
+  "status": "RETIRED TEMPLATE COPIES — NOT USED BY APPLICATION WORKER",
   "templates": [
     {"file":"emails/1-trial-introduction-v2.html","alias":"jc-uk-prospect-01-trial-v2","id":"eba8d19c-55ec-4ee0-b7e4-2f145a02ec0b","name":"JC-UK-PROSPECT-01-TRIAL-V2","subject":"Complimentary Jimmy Coco professional trial for {{BUSINESS_NAME}}"},
     {"file":"emails/2-result-v2.html","alias":"jc-uk-prospect-02-result-v2","id":"ffdc157c-a2ee-4f85-b286-bf20af24d8a5","name":"JC-UK-PROSPECT-02-RESULT-V2","subject":"The formula details clients notice after their tan"},
@@ -9,6 +9,6 @@
     {"file":"emails/4-retail-v2.html","alias":"jc-uk-prospect-04-retail-v2","id":"603bcb34-1e75-44cc-83bd-eca9aea8518c","name":"JC-UK-PROSPECT-04-RETAIL-V2","subject":"The second revenue moment after the treatment"},
     {"file":"emails/5-trial-guide-v2.html","alias":"jc-uk-prospect-06-process-v2","id":"fe598cad-a067-4d1a-8416-55b4d75b298e","name":"JC UK V2 E5 — Trial Guide","subject":"What to look for when you test Jimmy Coco Pro"},
     {"file":"emails/6-onboarding-v2.html","alias":"jc-uk-prospect-07-choice-v2","id":"0eb5e875-776e-4dbc-a791-5588e622066b","name":"JC UK V2 E6 — Order Route","subject":"How to introduce Jimmy Coco Pro to your treatment menu"},
-    {"file":"emails/7-close-v2.html","alias":"jc-uk-prospect-05-close-v2","id":"ff9a1c83-db9a-4d46-b544-fb9c542388c2","name":"JC UK V2 E7 — Close","subject":"Shall I close your file for now, {{FIRST_NAME}}?"}
+    {"file":"emails/7-close-v2.html","alias":"jc-uk-prospect-05-close-v2","id":"ff9a1c83-db9a-4d46-b544-fb9c542388c2","name":"JC UK V2 E7 — Close","subject":"Shall I close your file for now, {{GREETING_NAME}}?"}
   ]
 }

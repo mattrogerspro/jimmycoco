@@ -3,7 +3,7 @@
   "market": "US",
   "purpose": "professional-outreach",
   "esp": "resend",
-  "status": "PUBLISHED IN RESEND — AUTOMATION DISABLED",
+  "status": "REPOSITORY RUNTIME SOURCE — CAMPAIGN DISABLED",
   "defaults": {
     "brand": "SUNLESS",
     "brandLine": "by Jimmy Coco",
@@ -18,7 +18,7 @@
     "businessName": "Sunless by Jimmy Coco",
     "businessAddress": "Jimmy Coco LA Spray-Tan Studio · Suite 313, 9301 Wilshire Blvd, Beverly Hills, CA 90210",
     "unsubscribeText": "Advertisement from Jimmy Coco LA Spray-Tan Studio.",
-    "unsubscribeUrl": "{{RESEND_UNSUBSCRIBE_URL}}",
+    "unsubscribeUrl": "{{PREFERENCES_LINK}}",
     "unsubscribeLabel": "Unsubscribe",
     "senderName": "{{SENDER_NAME}}",
     "senderTitle": "{{SENDER_TITLE}}"
@@ -32,7 +32,7 @@
       "eyebrow": "West Coast professional partnerships",
       "headline": "A premium tan is one appointment. The client relationship can continue after it.",
       "blocks": [
-        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"Hi {{GREETING_NAME}},"},
         {"type":"paragraph","html":"I’m reaching out because <strong>{{BUSINESS_NAME}}</strong> looks like the kind of <strong>{{BUSINESS_TYPE}}</strong> we would like to speak with: thoughtful presentation, premium service and clients who care how their color looks beyond the treatment room."},
         {"type":"paragraph","html":"Sunless by Jimmy Coco brings believable, natural-looking color, a named service you can present as premium, and a focused aftercare edit for clients who want to maintain the result between visits."},
         {"type":"bullets","items":["A distinctive professional treatment.","A relevant aftercare recommendation once the client sees a result they love."]},
@@ -49,7 +49,7 @@
       "eyebrow": "The result beyond the treatment room",
       "headline": "A premium service has to look worth coming back for.",
       "blocks": [
-        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"Hi {{GREETING_NAME}},"},
         {"type":"paragraph","html":"The test of a professional tan is how it reads later—in daylight, in photographs, in evening light and at the event the client booked it for."},
         {"type":"paragraph","html":"Malibu Professional Spray is presented as a universal bronze, 10% DHA formula with a stated 6–8-hour development window. Professional guidance recommends under 35 ml for a full-body application and confirms compatibility with standard HVLP systems."},
         {"type":"paragraph","html":"That supports a believable, polished finish and a more valuable consultation: considered depth and a finish designed to look natural, rather than simply darker."},
@@ -64,7 +64,7 @@
       "eyebrow": "Professional opportunity",
       "headline": "Build the numbers around your business—not a generic margin claim.",
       "blocks": [
-        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"Hi {{GREETING_NAME}},"},
         {"type":"paragraph","html":"A premium product becomes a commercial opportunity only when it fits the way your business actually operates."},
         {"type":"bullets","items":["The premium service price that fits your market.","Your own solution use, labor, disposables and payment costs.","The client result and consultation experience you want to deliver.","The aftercare product that naturally answers the client’s next question."]},
         {"type":"paragraph","html":"The formula trial lets you test the result first. A short Partnership review can then help you assess whether the treatment and aftercare route fit your business before you make a wider decision."},
@@ -80,7 +80,7 @@
       "eyebrow": "Treatment and retail",
       "headline": "Retail should feel like client care—not a hard sell.",
       "blocks": [
-        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"Hi {{GREETING_NAME}},"},
         {"type":"paragraph","html":"The best retail moment is often just after a client sees a result they love and asks how to keep it looking good until the next appointment."},
         {"type":"bullets","items":["<strong>Buff &amp; Glow Mitt:</strong> a more even-looking maintenance routine.","<strong>Self Tan Soufflé:</strong> a controlled at-home top-up.","<strong>A-List Glow Kit:</strong> a complete routine or elevated gift option."]},
         {"type":"paragraph","html":"For a fixed salon, this can begin as a three-product checkout edit. For a mobile professional, it can begin as a small carry kit. Current availability, order route and partner terms are reviewed with the individual business before any retail plan is set."},
@@ -96,7 +96,7 @@
       "eyebrow": "A final note",
       "headline": "I’ll leave the timing with you.",
       "blocks": [
-        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"Hi {{GREETING_NAME}},"},
         {"type":"paragraph","html":"Sunless by Jimmy Coco may be relevant to {{BUSINESS_NAME}} if you are considering a more distinctive spray-tan offer: a premium client result, a service model you can assess using your own operating numbers, and a small aftercare edit for clients who want to maintain the result."},
         {"type":"bullets","items":["<strong>Trial:</strong> assess the professional formula on a real client.","<strong>NUMBERS:</strong> discuss your current service model before considering a wider route.","<strong>RETAIL:</strong> discuss a small aftercare edit for a fixed salon, studio or mobile kit."]},
         {"type":"cta","label":"Request professional trial information","url":"{{TRIAL_LINK}}"},
@@ -111,7 +111,7 @@
       "eyebrow": "A clear next step",
       "headline": "Here is what happens after you request information.",
       "blocks": [
-        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"Hi {{GREETING_NAME}},"},
         {"type":"paragraph","html":"We keep the first conversation practical and specific to your business."},
         {"type":"steps","items":["<strong>Professional review:</strong> tell us a little about your salon, studio or mobile business.","<strong>Trial availability:</strong> we review whether a complimentary professional trial is currently available for your business.","<strong>First-order route:</strong> after testing, any potential first order is reviewed with your individual business before you make a commitment."]},
         {"type":"paragraph","html":"If a trial is available, we will explain the next step before anything is shipped."},
@@ -127,7 +127,7 @@
       "eyebrow": "A useful next conversation",
       "headline": "Would more detail be useful?",
       "blocks": [
-        {"type":"paragraph","html":"Hi {{FIRST_NAME}},"},
+        {"type":"paragraph","html":"Hi {{GREETING_NAME}},"},
         {"type":"paragraph","html":"If the timing is right, tell us which part needs more context."},
         {"type":"bullets","items":["<strong>INFO:</strong> the professional formula, trial review and partnership process.","<strong>RETAIL:</strong> a small, practical aftercare edit for a salon, studio or mobile kit."]},
         {"type":"paragraph","html":"Reply with <strong>INFO</strong> or <strong>RETAIL</strong> and Matthew will reply personally. It is a direct conversation, not another automatic response."},

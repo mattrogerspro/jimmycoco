@@ -33,4 +33,4 @@ Even a fully approved campaign cannot send unless **both** locks open:
 
 ## Release actions that always need fresh approval
 
-Publishing or updating a Resend template (`npm run templates:publish`) · enabling an automation or broadcast · importing contacts · enabling a campaign or `EMAIL_LIVE_MODE` · changing Supabase production data · deploying Vercel production changes. A routine git push is never implicit authority to publish — the drift check (`npm run templates:check`) is the safe, read-only diagnostic.
+Enabling an automation or broadcast · importing contacts · enabling a campaign or `EMAIL_LIVE_MODE` · changing Supabase production data · deploying Vercel production changes · sending any live or test email. A routine git push never writes to Resend; `npm run templates:check` is a safe, read-only runtime-contract validation.

@@ -2,7 +2,7 @@ import crypto from 'node:crypto'
 import { findCampaign, findTriggeredStep } from '../../shared/campaign-registry.js'
 import { assertSupabase, getSupabase, oneRow } from './supabase.js'
 import { campaignSendAt } from './time.js'
-import { isLiveMode, sendTemplateEmail } from './resend.js'
+import { isLiveMode, sendCampaignEmail } from './resend.js'
 
 function workerId() {
   return `${process.env.VERCEL_REGION || 'local'}-${crypto.randomUUID()}`
@@ -17,7 +17,70 @@ function contactFromClaim(row) {
     business_name: row.business_name,
     market: row.market,
     timezone: row.timezone,
+    marketing_status: row.marketing_status,
+    properties: row.properties || {},
   }
+}
+
+class PreSendExitError extends Error {
+  constructor(reason) {
+    super(`pre_send_exit:${reason}`)
+    this.reason = reason
+  }
+}
+
+class CampaignPausedError extends Error {
+  constructor(reason) {
+    super(`campaign_paused:${reason}`)
+    this.reason = reason
+  }
+}
+
+function requiresMarketingEligibility(classification) {
+  return classification === 'promotional' || classification === 'lifecycle'
+}
+
+function ineligibleReason(contact, classification) {
+  const status = String(contact.marketing_status || 'unknown').toLowerCase()
+  const properties = contact.properties && typeof contact.properties === 'object' ? contact.properties : {}
+  const decision = String(properties.eligibility_decision || properties.eligibilityDecision || '').toLowerCase()
+  if (status === 'ineligible' || decision === 'ineligible') return 'ineligible'
+  if (status === 'unsubscribed') return 'unsubscribe'
+  if (requiresMarketingEligibility(classification) && status !== 'eligible') return 'ineligible'
+  return null
+}
+
+async function currentContactForSend(contact) {
+  const query = getSupabase()
+    .from('email_contacts')
+    .select('id,email,first_name,last_name,business_name,market,timezone,marketing_status,properties')
+  const result = contact.id
+    ? await query.eq('id', contact.id).maybeSingle()
+    : await query.eq('email', contact.email).maybeSingle()
+  const row = assertSupabase(result, 'load current send contact')
+  if (!row) throw new PreSendExitError('contact_not_found')
+  return row
+}
+
+async function validateContactCanReceive(contact, classification) {
+  const current = await currentContactForSend(contact)
+  const eligibilityReason = ineligibleReason(current, classification)
+  if (eligibilityReason) throw new PreSendExitError(eligibilityReason)
+  const suppression = await suppressionFor(current, classification)
+  if (suppression) throw new PreSendExitError(suppression.reason)
+  return current
+}
+
+async function validateCampaignCanSend(campaign) {
+  if (!isLiveMode()) throw new CampaignPausedError('email_live_mode_disabled')
+  const result = await getSupabase()
+    .from('email_campaigns')
+    .select('id,enabled')
+    .eq('id', campaign.id)
+    .maybeSingle()
+  const databaseCampaign = assertSupabase(result, 'check campaign kill switch')
+  if (!databaseCampaign?.enabled) throw new CampaignPausedError('campaign_disabled_in_database')
+  return databaseCampaign
 }
 
 async function suppressionFor(contact, classification) {
@@ -60,7 +123,7 @@ async function reserveMessage({ campaign, step, contact, enrollmentId, jobId, id
     classification: step.classification || campaign.classification,
     idempotency_key: idempotencyKey,
     template_alias: step.templateAlias,
-    template_id: step.templateId,
+    template_id: step.templateId || null,
     recipient_email: contact.email,
     subject: step.subject,
     status: 'sending',
@@ -80,17 +143,17 @@ async function markMessageFailed(messageId, error) {
 
 async function sendClaimedMessage({ campaign, step, contact, context, enrollmentId, jobId, idempotencyKey, source }) {
   const classification = step.classification || campaign.classification
-  const suppression = await suppressionFor(contact, classification)
-  if (suppression) throw new Error(`contact_is_suppressed:${suppression.reason}`)
+  await validateCampaignCanSend(campaign)
+  const currentContact = await validateContactCanReceive(contact, classification)
 
-  const message = await reserveMessage({ campaign, step, contact, enrollmentId, jobId, idempotencyKey, source })
+  const message = await reserveMessage({ campaign, step, contact: currentContact, enrollmentId, jobId, idempotencyKey, source })
   if (message.resend_email_id || ['accepted', 'delivered', 'opened', 'clicked'].includes(message.status)) return { message, duplicate: true }
 
   try {
-    const sent = await sendTemplateEmail({
+    const sent = await sendCampaignEmail({
       campaign,
       step,
-      contact,
+      contact: currentContact,
       context,
       idempotencyKey,
       tags: enrollmentId ? [{ name: 'enrollment_id', value: enrollmentId }] : [{ name: 'job_id', value: jobId }],
@@ -109,6 +172,64 @@ async function sendClaimedMessage({ campaign, step, contact, context, enrollment
   }
 }
 
+function isPreSendExit(error) {
+  return error instanceof PreSendExitError || /^pre_send_exit:/.test(String(error?.message || error))
+}
+
+function isCampaignPaused(error) {
+  return error instanceof CampaignPausedError || /^campaign_paused:/.test(String(error?.message || error))
+}
+
+function campaignPausedReason(error) {
+  return error.reason || String(error.message || error).replace(/^campaign_paused:/, '') || 'campaign_paused'
+}
+
+async function exitEnrollmentBeforeSend(row, contact, step, error) {
+  const reason = error.reason || String(error.message).replace(/^pre_send_exit:/, '') || 'pre_send_exit'
+  const externalEventId = `pre-send/${row.enrollment_id}/${step.key}/${reason}`
+  const exited = assertSupabase(await getSupabase().rpc('exit_email_enrollments', {
+    p_email: contact.email,
+    p_reason: reason,
+    p_event_type: reason,
+    p_external_event_id: externalEventId,
+    p_data: { source: 'sequence_worker_pre_send', campaign_id: row.campaign_id, step_key: step.key },
+  }), 'exit enrollment before send')
+  return { id: row.enrollment_id, status: 'exited_pre_send', reason, exited }
+}
+
+async function cancelJobBeforeSend(row, step, error) {
+  const reason = error.reason || String(error.message).replace(/^pre_send_exit:/, '') || 'pre_send_exit'
+  assertSupabase(await getSupabase().from('email_jobs').update({
+    status: 'cancelled',
+    locked_at: null,
+    locked_by: null,
+    last_error: `pre_send_exit:${reason}`,
+  }).eq('id', row.job_id), 'cancel lifecycle job before send')
+  return { id: row.job_id, status: 'cancelled_pre_send', step: step.key, reason }
+}
+
+async function pauseEnrollmentForCampaignSwitch(row, step, error) {
+  const reason = campaignPausedReason(error)
+  assertSupabase(await getSupabase().from('email_enrollments').update({
+    status: 'paused',
+    locked_at: null,
+    locked_by: null,
+    exit_reason: reason,
+  }).eq('id', row.enrollment_id), 'pause enrollment for campaign switch')
+  return { id: row.enrollment_id, status: 'paused_campaign_switch', step: step.key, reason }
+}
+
+async function releaseJobForCampaignSwitch(row, step, error) {
+  const reason = campaignPausedReason(error)
+  assertSupabase(await getSupabase().from('email_jobs').update({
+    status: 'pending',
+    locked_at: null,
+    locked_by: null,
+    last_error: `campaign_paused:${reason}`,
+  }).eq('id', row.job_id), 'release lifecycle job for campaign switch')
+  return { id: row.job_id, status: 'released_campaign_switch', step: step.key, reason }
+}
+
 async function rescheduleForFrequency(row, campaign) {
   const last = await recentNonTransactionalSend(row.contact_id, campaign.minimumContactGapHours || 16)
   if (!last?.sent_at) return false
@@ -123,11 +244,29 @@ async function processEnrollment(row) {
   if (!campaign.enabled) throw new Error('campaign_disabled_in_registry')
   const step = campaign.steps[row.next_step - 1]
   if (!step) throw new Error('sequence_step_not_found')
+  const contact = contactFromClaim(row)
+  try {
+    await validateCampaignCanSend(campaign)
+  } catch (error) {
+    if (isCampaignPaused(error)) return pauseEnrollmentForCampaignSwitch(row, step, error)
+    throw error
+  }
+  try {
+    await validateContactCanReceive(contact, step.classification || campaign.classification)
+  } catch (error) {
+    if (isPreSendExit(error)) return exitEnrollmentBeforeSend(row, contact, step, error)
+    throw error
+  }
   if (await rescheduleForFrequency(row, campaign)) return { id: row.enrollment_id, status: 'rescheduled_frequency' }
 
-  const contact = contactFromClaim(row)
   const idempotencyKey = `${campaign.id}/${row.enrollment_id}/${step.key}/${campaign.version}`
-  await sendClaimedMessage({ campaign, step, contact, context: row.context, enrollmentId: row.enrollment_id, idempotencyKey, source: 'sequence_engine' })
+  try {
+    await sendClaimedMessage({ campaign, step, contact, context: row.context, enrollmentId: row.enrollment_id, idempotencyKey, source: 'sequence_engine' })
+  } catch (error) {
+    if (isCampaignPaused(error)) return pauseEnrollmentForCampaignSwitch(row, step, error)
+    if (isPreSendExit(error)) return exitEnrollmentBeforeSend(row, contact, step, error)
+    throw error
+  }
 
   const nextStep = campaign.steps[row.next_step]
   const update = nextStep
@@ -155,9 +294,21 @@ async function processJob(row) {
   if (!campaign.enabled) throw new Error('campaign_disabled_in_registry')
   const step = [...campaign.steps, ...(campaign.triggeredSteps || [])].find((candidate) => candidate.key === row.step_key)
   if (!step) throw new Error('event_step_not_found')
+  try {
+    await validateCampaignCanSend(campaign)
+  } catch (error) {
+    if (isCampaignPaused(error)) return releaseJobForCampaignSwitch(row, step, error)
+    throw error
+  }
   const contact = contactFromClaim(row)
   const idempotencyKey = `${campaign.id}/${row.source_event_id}/${step.key}/${campaign.version}`
-  await sendClaimedMessage({ campaign, step, contact, context: row.context, jobId: row.job_id, idempotencyKey, source: 'lifecycle_engine' })
+  try {
+    await sendClaimedMessage({ campaign, step, contact, context: row.context, jobId: row.job_id, idempotencyKey, source: 'lifecycle_engine' })
+  } catch (error) {
+    if (isCampaignPaused(error)) return releaseJobForCampaignSwitch(row, step, error)
+    if (isPreSendExit(error)) return cancelJobBeforeSend(row, step, error)
+    throw error
+  }
   assertSupabase(await getSupabase().from('email_jobs').update({ status: 'completed', locked_at: null, locked_by: null, last_error: null }).eq('id', row.job_id), 'complete lifecycle job')
   return { id: row.job_id, status: 'completed', step: step.key }
 }

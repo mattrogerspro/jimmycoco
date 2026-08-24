@@ -34,9 +34,9 @@ Read each area's README or index before selecting its relevant documents.
 | Branded renderer input | campaign `email-data.json` |
 | Studio name, status, mode and timeline | campaign `studio.json` |
 | Generated preview/send HTML | campaign `emails/` |
-| Runtime cadence, IDs, variables and exit rules | `shared/campaign-registry.js` |
+| Runtime cadence, local aliases, variables and exit rules | `shared/campaign-registry.js` |
 | Shared email rendering | `email/campaigns/_shared/master-template.js` |
-| Resend release comparison | `scripts/sync-resend-templates.js` |
+| Runtime contract validation | `scripts/validate-runtime-email-templates.js` |
 | Outreach data and webhooks | `api/`, `supabase/`, `vercel.json` |
 
 ## Comparable campaign selection

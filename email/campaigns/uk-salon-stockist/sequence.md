@@ -1,6 +1,6 @@
 # UK Jimmy Coco Pro Recruitment — 28-Day Sequence
 
-**Status:** Source updated for human review and template release. The Resend automation remains disabled.
+**Status:** Repository runtime source updated for human review. The application campaign remains disabled.
 **Audience:** Eligible UK corporate salons, aesthetics clinics and mobile spray-tan professionals where soft opt-in or consent is documented.
 **Primary outcome:** A qualified complimentary 100 ml professional trial request. A professional order enquiry is a secondary path for businesses already ready to review the 1-litre route.
 **Reply owner:** Matthew at Jimmy Coco Pro. `TRIAL`, `SAMPLE`, `NUMBERS`, `RETAIL` and `ORDER` are human-handled reply signals.
@@ -15,7 +15,7 @@
 | 10 | `jc-uk-prospect-04-retail-v2` | The second revenue moment after the treatment | Client-care aftercare edit. | Request free 100 ml trial | `RETAIL` |
 | 15 | `jc-uk-prospect-06-process-v2` | What to look for when you test Jimmy Coco Pro | Real-client trial guide and one-litre minimum. | Request free 100 ml trial | `TRIAL` |
 | 21 | `jc-uk-prospect-07-choice-v2` | How to introduce Jimmy Coco Pro to your treatment menu | Professional order route and individual next-step conversation. | View professional ordering options | Request trial / `TRIAL` |
-| 28 | `jc-uk-prospect-05-close-v2` | Shall I close your file for now, `{{FIRST_NAME}}`? | Respectful final choice then stop. | Request free 100 ml trial | `TRIAL`, `NUMBERS` or `ORDER` |
+| 28 | `jc-uk-prospect-05-close-v2` | Shall I close your file for now, `{{GREETING_NAME}}`? | Respectful final choice then stop. | Request free 100 ml trial | `TRIAL`, `NUMBERS` or `ORDER` |
 
 ## Commercial boundaries
 
@@ -25,8 +25,8 @@ Eligible UK professionals may request a complimentary 100 ml professional trial 
 
 ## Sender, footer and routing
 
-Use sender `Matthew at Jimmy Coco Pro <partnerships@email.jimmycoco.pro>` and reply-to `matthew@jimmycoco.pro`. The promotional footer is **JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP**, with the live Resend unsubscribe link. Each event payload must include `FIRST_NAME`, `BUSINESS_NAME` and, for Email 1, `BUSINESS_TYPE`; use `there`, `your studio` and `professional tanning business` where source data is incomplete.
+Use sender `Matthew at Jimmy Coco Pro <partnerships@email.jimmycoco.pro>` and reply-to `partnerships@email.jimmycoco.pro`. That address must be a Resend-managed inbound address so the `email.received` webhook exits the playbook before the message is forwarded to Matthew. The promotional footer is **JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP**, with the application-signed `PREFERENCES_LINK`. The worker derives `GREETING_NAME` from the contact first name and falls back to `there`; payload data must supply `BUSINESS_NAME` and, for Email 1, `BUSINESS_TYPE`.
 
 ## Technical hand-off
 
-The professional trial CTA must resolve to `https://www.jimmycoco.pro/#trial`. The verified professional order route is `https://www.jimmycoco.pro/products/malibu-professional-spray-1l#complete-order`; no `/#starter-pack` anchor is used. The campaign must be exited through the outreach runtime on a reply or trial request/application. Until a verified order-exit event is connected to the outreach runtime, a known trade-order contact must be manually suppressed immediately. Replies containing `TRIAL`, `SAMPLE`, `NUMBERS`, `RETAIL` or `ORDER` require same-day human follow-up by Matthew.
+The professional trial CTA must resolve to `https://www.jimmycoco.pro/#trial`. The verified professional order route is `https://www.jimmycoco.pro/products/malibu-professional-spray-1l#complete-order`; no `/#starter-pack` anchor is used. The campaign must be exited through the outreach runtime on a reply, trial request/application or trade order. Replies containing `TRIAL`, `SAMPLE`, `NUMBERS`, `RETAIL` or `ORDER` require same-day human follow-up by Matthew.

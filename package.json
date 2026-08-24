@@ -8,11 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "node --experimental-strip-types --test",
-    "templates:check": "node scripts/sync-resend-templates.js",
-    "templates:publish": "node scripts/sync-resend-templates.js --publish",
+    "templates:check": "node scripts/validate-runtime-email-templates.js",
     "test-email:build": "node email/campaigns/test-editorial-commerce-email/build.js",
-    "test-email:check": "node --env-file=.env.local scripts/sync-resend-templates.js --only test-not-for-send-editorial-commerce-01-preview",
-    "test-email:publish": "npm run test-email:build && node --env-file=.env.local scripts/sync-resend-templates.js --publish --only test-not-for-send-editorial-commerce-01-preview"
+    "test-email:check": "npm run test-email:build"
   },
   "engines": {
     "node": ">=22"

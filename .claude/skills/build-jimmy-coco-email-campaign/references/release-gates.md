@@ -16,13 +16,13 @@ Apply only the gates relevant to the requested stage. File creation does not imp
 - Lifecycle collisions, exclusions, stop rules and response handoff are reviewed.
 - Mobile, blocked-image, Outlook, accessibility and plain-text behaviour are reviewed.
 
-## Template release
+## Runtime email release
 
 - `npm test` and `npm run build` pass.
 - Campaign validator passes.
-- `npm run templates:check` passes with remote comparison when credentials are available.
-- Repository and Resend alias, subject, variables and HTML differences are understood.
-- The complete drift set is reviewed, and a human explicitly approves `npm run templates:publish` for that exact set. Do not use MCP writes as an equivalent release path.
+- `npm run templates:check` passes for all 14 UK/U.S. repository-rendered messages.
+- The direct-send payload contains complete subject and HTML, no Resend Template reference and no unresolved token.
+- The signed preferences link and one-click unsubscribe path are verified.
 
 ## Sending enablement
 
@@ -37,7 +37,7 @@ Apply only the gates relevant to the requested stage. File creation does not imp
 - Stage named task files only.
 - Never include another agent's changes in a commit without review and user direction.
 - Do not force-push.
-- Do not let a pre-push hook publish Resend templates implicitly; use `SKIP_RESEND_SYNC=1` for a Git-only push when appropriate.
+- The pre-push hook must remain read-only and must never publish Resend templates.
 - Confirm the pushed commit is an ancestor of `origin/main` before claiming deployment readiness.
 
 If a gate is not applicable, mark it `NOT APPLICABLE` with a reason. Never silently skip a required gate.

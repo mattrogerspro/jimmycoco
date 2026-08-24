@@ -3,8 +3,8 @@
 **Goal:** Convert eligible UK professional tanning salons, aesthetics clinics and mobile spray artists into a qualified Jimmy Coco Pro trial request or a professional 1-litre order enquiry.
 **Audience:** UK corporate salons and spas; mobile professionals only where soft opt-in or consent is documented.
 **Market:** 🇬🇧 UK  
-**Channel:** Promotional email through Resend.  
-**Status:** Revised source awaiting template release. Automation remains disabled.  
+**Channel:** Repository-rendered promotional email delivered through the Resend Send Email API.
+**Status:** Repository runtime source ready for review. Campaign remains disabled.
 **Owner:** Matthew at Jimmy Coco Pro.
 
 ## Hook and conversion route
@@ -25,10 +25,10 @@ The sequence leads with a complimentary 100 ml professional trial sample, shippe
 
 ## Operating controls
 
-The source of truth is `email-data.json`; regenerate HTML with `node email/campaigns/_shared/build-all.js uk-salon-stockist` after any source change. `resend.json` records the actual Resend template IDs. `studio.json`, `sequence.md` and `shared/campaign-registry.js` expose the sequence to the local marketing system.
+The source of truth is `email-data.json`; regenerate HTML with `node email/campaigns/_shared/build-all.js uk-salon-stockist` after any source change. The worker renders this repository source and sends complete HTML directly through Resend; it does not use Resend Templates. `resend.json` is retained only as an audit record of the retired template copies. `studio.json`, `sequence.md` and `shared/campaign-registry.js` expose the sequence to the local marketing system.
 
-Exit a prospect on any reply, trial request/application, unsubscribe, complaint, hard bounce, existing-customer match or manual suppression. Until the order system emits a verified outreach-exit event, manually suppress any known trade-order contact immediately. Do not make the sequence live until the eligible contact segment, permission fields, reply handling and form/order suppression path are tested.
+Exit a prospect on any reply, trial request/application, trade order, unsubscribe, complaint, hard bounce, existing-customer match, ineligible decision or manual suppression. Do not make the sequence live until the eligible contact segment, permission fields, reply handling and form/order suppression path are tested.
 
 ## Sender and compliance
 
-Use `Matthew at Jimmy Coco Pro <partnerships@email.jimmycoco.pro>` with reply-to `matthew@jimmycoco.pro`. The footer must retain **JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP** and Resend’s unsubscribe variable.
+Use `Matthew at Jimmy Coco Pro <partnerships@email.jimmycoco.pro>` with reply-to `partnerships@email.jimmycoco.pro`. That address must be Resend-managed inbound mail: the webhook exits the playbook as `reply`, then the route forwards to Matthew for human follow-up. The footer must retain **JIMMY COCO (UK) LIMITED · 22 St. James's Walk, London, England, EC1R 0AP** and the application-signed `PREFERENCES_LINK`.

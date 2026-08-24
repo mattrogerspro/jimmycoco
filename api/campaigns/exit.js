@@ -4,7 +4,21 @@ import { enqueueLifecycleEvent } from '../_lib/engine.js'
 import { allowMethods, isEmail, json, normaliseEmail, readJson, requireBearer } from '../_lib/http.js'
 import { assertSupabase, getSupabase } from '../_lib/supabase.js'
 
-const allowedReasons = new Set(['reply', 'sample_requested', 'trial_requested', 'call_booked', 'unsubscribe', 'complaint', 'hard_bounce', 'existing_customer', 'current_negotiation', 'manual_suppression'])
+const allowedReasons = new Set([
+  'reply',
+  'sample_requested',
+  'trial_requested',
+  'application_submitted',
+  'call_booked',
+  'opening_order_placed',
+  'unsubscribe',
+  'complaint',
+  'hard_bounce',
+  'existing_customer',
+  'current_negotiation',
+  'manual_suppression',
+  'ineligible',
+])
 
 export default async function handler(request, response) {
   if (!allowMethods(request, response, ['POST']) || !requireBearer(request, response)) return

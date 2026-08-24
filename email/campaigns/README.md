@@ -69,7 +69,7 @@ Plain-text-only emails remain in `sequence.md` and do not require an HTML file.
 2. Complete `README.md` and `sequence.md`.
 3. Add branded messages to `email-data.json`.
 4. Add `studio.json`; the Live Emails UI discovers the campaign automatically.
-5. Register send timing and Resend template IDs in `shared/campaign-registry.js` when the campaign will be sent by the outreach worker.
+5. Register send timing, the local message alias and exact runtime variables in `shared/campaign-registry.js` when the campaign will be sent by the outreach worker.
 6. Run the shared build and `npm test`.
 7. Add the campaign to the table above.
 
@@ -79,14 +79,13 @@ The repository is the source of truth. Vite bundles every `email-data.json`, `st
 
 When the repository is connected to Vercel, each push creates a deployment. Content becomes visible as soon as that deployment is ready. A repository-backed site cannot expose an unbuilt commit: if content must change without a deployment, it needs to move to a runtime CMS or database instead.
 
-Before promoting repository email HTML back into Resend, run:
+Before deploying repository email HTML, run:
 
 ```bash
 npm run templates:check
-npm run templates:publish
 ```
 
-The check discovers campaign folders automatically and compares the repository copy with the registered Resend templates. Publishing remains an explicit approval step.
+The check verifies the 14 production outreach messages against the worker's application-owned variable contract. Resend receives fully rendered HTML at send time; there is no Resend Template publishing step.
 
 ## Conventions
 

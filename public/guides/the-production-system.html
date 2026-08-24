@@ -137,16 +137,16 @@
     <p class="eyebrow">Part three</p>
     <h2>The three flows that move work through the system</h2>
 
-    <h3>Flow 1 · Build &amp; ship — repo to live Studio and synced templates</h3>
+    <h3>Flow 1 · Build &amp; ship — repo to live Studio and runtime email source</h3>
     <div class="vflow">
       <div class="vstep"><span class="vnum">1</span><div class="vhead"><b>Request</b><span class="vtag">Anyone</span></div><p>A plain-language ask — "build a campaign for Sydney onboarding salon stockists." No schemas, no file names.</p></div>
       <div class="vstep"><span class="vnum">2</span><div class="vhead"><b>Claude + the skill</b><span class="vtag">The producer</span></div><p>Brief → compliance preflight → author the folder → generate HTML through the master template → validate.</p></div>
       <div class="vstep"><span class="vnum">3</span><div class="vhead"><b>Human review</b><span class="vtag">The approver</span></div><p>Draft reviewed, approval tokens filled, commercial facts confirmed. Nothing proceeds unapproved.</p></div>
-      <div class="vstep"><span class="vnum">4</span><div class="vhead"><b>git push</b><span class="vtag">The approver</span></div><p>The pre-push hook syncs templates to Resend on the way — a failed sync aborts the push, so the repo and Resend cannot silently diverge.</p></div>
+      <div class="vstep"><span class="vnum">4</span><div class="vhead"><b>git push</b><span class="vtag">The approver</span></div><p>The pre-push hook validates all 14 launch messages locally. It performs no network writes and never publishes to Resend.</p></div>
       <div class="vstep"><span class="vnum">5</span><div class="vhead"><b>GitHub → Vercel</b><span class="vtag">Automated</span></div><p>Every push builds the Studio from source and deploys it.</p></div>
       <div class="vstep vend"><span class="vnum">✓</span><div class="vhead"><b>Live</b><span class="vtag">jimmycoco.email</span></div><p>The site serves the new state — campaigns, guides and reports included.</p></div>
     </div>
-    <p class="flow-cap">Bypass for git-only pushes: <code>SKIP_RESEND_SYNC=1 git push</code>. Deliberate releases use <code>npm run templates:publish</code> after <code>templates:check</code> passes.</p>
+    <p class="flow-cap">The UK and U.S. launch worker renders complete HTML from repository source. Run <code>npm run templates:check</code> before deployment; there is no Resend Template publishing step.</p>
 
     <h3>Flow 2 · The send gauntlet — what every single email must pass</h3>
     <p>When (and only when) sending is enabled, Vercel's cron calls the worker every 15 minutes with a bearer secret. Each due message then has to survive six gates in <code>api/_lib/engine.js</code> before Resend is ever contacted:</p>
@@ -230,13 +230,13 @@
     <table>
       <tr><th>Connection</th><th>Code</th></tr>
       <tr><td>Send worker (cron, every 15 min)</td><td><code>vercel.json</code> crons → <code>api/cron/process-sequences.js</code> → <code>api/_lib/engine.js</code></td></tr>
-      <tr><td>Sending to Resend</td><td><code>api/_lib/resend.js</code> — template send with idempotency key and tags</td></tr>
+      <tr><td>Sending to Resend</td><td><code>api/_lib/resend.js</code> — repository-rendered HTML send with idempotency key, signed preferences link and tags</td></tr>
       <tr><td>Delivery events in</td><td><code>api/webhooks/resend.js</code> → <code>api/_lib/webhook-events.js</code></td></tr>
       <tr><td>Enrollment / exit</td><td><code>api/campaigns/enroll.js</code> · <code>api/campaigns/exit.js</code> (bearer-key gated)</td></tr>
       <tr><td>Lifecycle triggers</td><td><code>api/lifecycle/trigger.js</code> → <code>enqueueLifecycleEvent</code></td></tr>
       <tr><td>Studio dashboard data</td><td><code>api/campaigns/stats.js</code> ← Supabase stats views</td></tr>
-      <tr><td>Template sync on push</td><td><code>.githooks/pre-push</code> → <code>email/tools/sync-resend.py</code></td></tr>
-      <tr><td>Deliberate template release</td><td><code>scripts/sync-resend-templates.js</code> — <code>templates:check</code> / <code>templates:publish</code></td></tr>
+      <tr><td>Email contract validation on push</td><td><code>.githooks/pre-push</code> → <code>npm run templates:check</code> (read-only)</td></tr>
+      <tr><td>Runtime renderer</td><td><code>email/runtime-templates.js</code> + <code>scripts/validate-runtime-email-templates.js</code></td></tr>
       <tr><td>Database schema</td><td><code>supabase/migrations/20260714150000_email_outreach.sql</code></td></tr>
       <tr><td>Claude's connections</td><td><code>.mcp.json</code> — Resend, Supabase and Vercel MCP servers · the campaign skill governs production</td></tr>
     </table>

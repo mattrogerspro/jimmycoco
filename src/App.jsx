@@ -23,6 +23,8 @@ const icons = {
   monitor: '<rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 22h8M12 18v4"/>',
   mobile: '<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>',
   send: '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+  upload: '<path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>',
+  power: '<path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/>',
   dots: '<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>',
   menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
   close: '<path d="m18 6-12 12M6 6l12 12"/>',
@@ -57,6 +59,7 @@ const navItems = [
   { id: 'emails', label: 'Live emails', icon: 'mail' },
   { id: 'klaviyo', label: 'Klaviyo previews', icon: 'monitor' },
   { id: 'guides', label: 'Help & guides', icon: 'help' },
+  { id: 'audience-import', label: 'Audience importer', icon: 'upload', admin: true },
 ]
 
 function BrandMark() {
@@ -85,7 +88,7 @@ function Sidebar({ currentView, setCurrentView, open, onClose, onCollapse }) {
         </div>
         <nav className="primary-nav" aria-label="Primary navigation">
           <p className="nav-label">Workspace</p>
-          {navItems.map((item) => (
+          {navItems.filter((item) => !item.admin).map((item) => (
             <button
               key={item.id}
               className={currentView === item.id ? 'active' : ''}
@@ -94,6 +97,17 @@ function Sidebar({ currentView, setCurrentView, open, onClose, onCollapse }) {
               <Icon name={item.icon} />
               <span>{item.label}</span>
               {item.id === 'emails' && <b>1</b>}
+            </button>
+          ))}
+          <p className="nav-label nav-label-admin">Admin</p>
+          {navItems.filter((item) => item.admin).map((item) => (
+            <button
+              key={item.id}
+              className={currentView === item.id ? 'active' : ''}
+              onClick={() => { setCurrentView(item.id); onClose() }}
+            >
+              <Icon name={item.icon} />
+              <span>{item.label}</span>
             </button>
           ))}
         </nav>
@@ -347,6 +361,74 @@ function SequenceTimeline({ campaign, analytics, onOpenEmail }) {
   )
 }
 
+function CampaignKillSwitch({ campaign, analytics, onChanged }) {
+  const [apiToken, setApiToken] = useState('')
+  const [operator, setOperator] = useState('')
+  const [reason, setReason] = useState('Emergency stop from campaign admin')
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const [notice, setNotice] = useState('')
+  const control = analytics.control || {}
+  const enabled = Boolean(control.enabled ?? analytics.campaign?.enabled)
+  const paused = Number(control.paused_by_kill_switch || control.enrollment_statuses?.paused || 0)
+  const pendingJobs = Number(control.pending_jobs || 0)
+  const jobsPaused = Number(control.jobs_paused_by_kill_switch || 0)
+
+  const updateSwitch = async (nextEnabled) => {
+    setBusy(true)
+    setError('')
+    setNotice('')
+    try {
+      if (!apiToken.trim()) throw new Error('Enter the admin bearer token.')
+      const response = await fetch('/api/campaigns/kill-switch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiToken.trim()}`,
+        },
+        body: JSON.stringify({
+          campaign_id: campaign.id,
+          enabled: nextEnabled,
+          operator: operator.trim() || null,
+          reason: reason.trim() || null,
+        }),
+      })
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.error || 'kill_switch_update_failed')
+      onChanged?.(data)
+      setNotice(nextEnabled ? 'Database campaign gate re-enabled.' : 'Campaign kill switch is now active.')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'kill_switch_update_failed')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <section className={`campaign-kill-switch ${enabled ? '' : 'is-killed'}`} aria-label="Campaign kill switch">
+      <div className="kill-switch-state">
+        <span><Icon name="power" size={15} />Campaign database gate</span>
+        <strong>{enabled ? 'Enabled' : 'Killed'}</strong>
+        <small>{paused} paused enrolments · {pendingJobs} pending jobs · {jobsPaused} jobs held by switch</small>
+      </div>
+      <div className="kill-switch-fields">
+        <label><span>Admin token</span><input type="password" value={apiToken} onChange={(event) => setApiToken(event.target.value)} placeholder="Automation API token" /></label>
+        <label><span>Operator</span><input value={operator} onChange={(event) => setOperator(event.target.value)} placeholder="Who changed it" /></label>
+        <label><span>Reason</span><input value={reason} onChange={(event) => setReason(event.target.value)} /></label>
+      </div>
+      <div className="kill-switch-actions">
+        {enabled ? (
+          <button className="danger-button" disabled={busy} onClick={() => updateSwitch(false)}><Icon name="power" size={15} />Kill campaign now</button>
+        ) : (
+          <button className="secondary-button" disabled={busy} onClick={() => updateSwitch(true)}><Icon name="power" size={15} />Re-enable database gate</button>
+        )}
+        {error && <span className="kill-switch-error">{error}</span>}
+        {notice && <span className="kill-switch-notice">{notice}</span>}
+      </div>
+    </section>
+  )
+}
+
 function Sequences({ params, routeTo, onOpenEmail }) {
   const isLifecycle = params[0] === 'lifecycle'
   const [marketFilter, setMarketFilter] = useState('all')
@@ -368,7 +450,7 @@ function Sequences({ params, routeTo, onOpenEmail }) {
   )
   const campaign = campaigns.find((item) => item.id === params[0]) || filteredCampaigns[0] || visibleCampaigns[0] || campaigns[0]
   const lifecycle = lifecycleSequences.find((item) => item.id === params[1]) || lifecycleSequences[0]
-  const [analytics, setAnalytics] = useState({ loading: true, configured: null, campaign: null, steps: [], tracking: null })
+  const [analytics, setAnalytics] = useState({ loading: true, configured: null, campaign: null, steps: [], control: null, tracking: null })
 
   useEffect(() => {
     let cancelled = false
@@ -376,9 +458,9 @@ function Sequences({ params, routeTo, onOpenEmail }) {
       try {
         const response = await fetch(`/api/campaigns/stats?campaign_id=${encodeURIComponent(campaign.id)}`)
         const data = await response.json()
-        if (!cancelled) setAnalytics({ loading: false, configured: Boolean(data.configured), campaign: data.campaign, steps: data.steps || [], tracking: data.tracking })
+        if (!cancelled) setAnalytics({ loading: false, configured: Boolean(data.configured), campaign: data.campaign, steps: data.steps || [], control: data.control || null, tracking: data.tracking })
       } catch {
-        if (!cancelled) setAnalytics({ loading: false, configured: false, campaign: null, steps: [], tracking: null })
+        if (!cancelled) setAnalytics({ loading: false, configured: false, campaign: null, steps: [], control: null, tracking: null })
       }
     }
     setAnalytics((current) => ({ ...current, loading: true }))
@@ -427,6 +509,17 @@ function Sequences({ params, routeTo, onOpenEmail }) {
                 <div className="sequence-ownership"><span><b>Owner</b>{campaign.owner}</span><CopyLink parts={['sequences', campaign.id]} /></div>
               </div>
             </div>
+            <CampaignKillSwitch campaign={campaign} analytics={analytics} onChanged={(data) => setAnalytics((current) => ({
+              ...current,
+              campaign: current.campaign ? { ...current.campaign, enabled: data.campaign?.enabled } : current.campaign,
+              control: {
+                ...(current.control || {}),
+                enabled: data.campaign?.enabled,
+                enrollment_statuses: data.enrollments || {},
+                pending_jobs: data.pending_jobs || 0,
+                jobs_paused_by_kill_switch: data.paused_jobs || 0,
+              },
+            }))} />
             <SequenceTimeline campaign={campaign} analytics={analytics} onOpenEmail={onOpenEmail} />
           </section>
         </div>
@@ -454,7 +547,7 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
   const sequenceMessages = useMemo(() => availableMessages.filter((item) => !item.isSupplemental), [availableMessages])
   const [viewport, setViewport] = useState('desktop')
   const [personalised, setPersonalised] = useState(true)
-  const [analytics, setAnalytics] = useState({ loading: true, configured: null, campaign: null, steps: [] })
+  const [analytics, setAnalytics] = useState({ loading: true, configured: null, campaign: null, steps: [], control: null, tracking: null })
   const studioRef = useRef(null)
   const previewFrameRef = useRef(null)
   const message = availableMessages.find((item) => item.index === emailNumber) || availableMessages[0]
@@ -508,9 +601,9 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
       try {
         const response = await fetch(`/api/campaigns/stats?campaign_id=${encodeURIComponent(campaign.id)}`)
         const data = await response.json()
-        if (!cancelled) setAnalytics({ loading: false, configured: Boolean(data.configured), campaign: data.campaign, steps: data.steps || [], tracking: data.tracking })
+        if (!cancelled) setAnalytics({ loading: false, configured: Boolean(data.configured), campaign: data.campaign, steps: data.steps || [], control: data.control || null, tracking: data.tracking })
       } catch {
-        if (!cancelled) setAnalytics({ loading: false, configured: false, campaign: null, steps: [] })
+        if (!cancelled) setAnalytics({ loading: false, configured: false, campaign: null, steps: [], control: null, tracking: null })
       }
     }
     load()
@@ -628,6 +721,17 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
                   <p className="performance-empty">The dashboard is ready. Apply the Supabase migration and connect the Vercel environment to begin collecting verified Resend events.</p>
                 )}
               </section>
+              <CampaignKillSwitch campaign={campaign} analytics={analytics} onChanged={(data) => setAnalytics((current) => ({
+                ...current,
+                campaign: current.campaign ? { ...current.campaign, enabled: data.campaign?.enabled } : current.campaign,
+                control: {
+                  ...(current.control || {}),
+                  enabled: data.campaign?.enabled,
+                  enrollment_statuses: data.enrollments || {},
+                  pending_jobs: data.pending_jobs || 0,
+                  jobs_paused_by_kill_switch: data.paused_jobs || 0,
+                },
+              }))} />
               <div className="inbox-header">
                 <div><small>Subject</small><strong>{personalised ? applyMergeData(message.title) : message.title}</strong></div>
                 <div><small>Preview text</small><span>{personalised ? applyMergeData(message.preview) : message.preview}</span></div>
@@ -868,6 +972,289 @@ function KlaviyoPreviews() {
   )
 }
 
+const audienceImportCampaigns = [
+  { id: 'uk-salon-stockist', label: 'UK Jimmy Coco Pro Recruitment', market: 'UK', timezone: 'Europe/London' },
+  { id: 'us-west-coast-salon-stockist', label: 'US West Coast Jimmy Coco Pro Recruitment', market: 'US', timezone: 'America/Los_Angeles' },
+]
+
+const audienceCsvHeaders = [
+  'email',
+  'first_name',
+  'business_name',
+  'business_type',
+  'market',
+  'timezone',
+  'company_legal_entity_type',
+  'source',
+  'source_date',
+  'owner',
+  'eligibility_decision',
+  'eligibility_reason',
+  'lawful_basis',
+]
+
+const tomorrowUtcInput = () => {
+  const value = new Date()
+  value.setUTCDate(value.getUTCDate() + 1)
+  value.setUTCHours(10, 0, 0, 0)
+  return value.toISOString().slice(0, 16)
+}
+
+const humaniseImportValue = (value) => String(value || '')
+  .replaceAll('_', ' ')
+  .replace(/\b\w/g, (letter) => letter.toUpperCase())
+
+function AudienceImporter() {
+  const [campaignId, setCampaignId] = useState(audienceImportCampaigns[0].id)
+  const [startUtc, setStartUtc] = useState(tomorrowUtcInput)
+  const [apiToken, setApiToken] = useState('')
+  const [operator, setOperator] = useState('')
+  const [csv, setCsv] = useState('')
+  const [fileName, setFileName] = useState('')
+  const [preview, setPreview] = useState(null)
+  const [confirmation, setConfirmation] = useState('')
+  const [confirmed, setConfirmed] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [commitResult, setCommitResult] = useState(null)
+  const campaign = audienceImportCampaigns.find((item) => item.id === campaignId) || audienceImportCampaigns[0]
+
+  const startAt = useMemo(() => {
+    if (!startUtc) return ''
+    const value = new Date(`${startUtc}:00.000Z`)
+    return Number.isNaN(value.getTime()) ? '' : value.toISOString()
+  }, [startUtc])
+
+  const campaignLocalStart = useMemo(() => {
+    if (!startAt) return 'Choose a valid UTC date and time'
+    return new Intl.DateTimeFormat('en-GB', {
+      dateStyle: 'full',
+      timeStyle: 'short',
+      timeZone: campaign.timezone,
+    }).format(new Date(startAt))
+  }, [campaign.timezone, startAt])
+
+  const invalidatePreview = () => {
+    setPreview(null)
+    setCommitResult(null)
+    setConfirmation('')
+    setConfirmed(false)
+    setError('')
+  }
+
+  const selectFile = async (event) => {
+    const file = event.target.files?.[0]
+    invalidatePreview()
+    if (!file) {
+      setCsv('')
+      setFileName('')
+      return
+    }
+    setCsv(await file.text())
+    setFileName(file.name)
+  }
+
+  const downloadTemplate = () => {
+    const today = new Date().toISOString().slice(0, 10)
+    const sample = [
+      'owner@example-salon.com',
+      'Alex',
+      'Example Glow Salon',
+      'Salon',
+      campaign.market,
+      campaign.timezone,
+      campaign.market === 'UK' ? 'limited_company' : 'limited_liability_company',
+      'Manual prospect research',
+      today,
+      'Matt Rogers',
+      'review',
+      'Replace with the documented human eligibility decision',
+      'Replace with the approved lawful-basis record',
+    ]
+    const blob = new Blob([`${audienceCsvHeaders.join(',')}\n${sample.join(',')}\n`], { type: 'text/csv;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${campaign.market.toLowerCase()}-audience-import-template.csv`
+    link.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const callImporter = async (action) => {
+    setLoading(true)
+    setError('')
+    try {
+      if (!apiToken.trim()) throw new Error('Enter the audience import admin token.')
+      if (!csv) throw new Error('Choose a CSV file first.')
+      if (!startAt) throw new Error('Choose a valid UTC start time.')
+      const response = await fetch('/api/campaigns/import-audience', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiToken.trim()}`,
+        },
+        body: JSON.stringify({
+          action,
+          campaign_id: campaignId,
+          start_at: startAt,
+          csv,
+          file_name: fileName,
+          operator,
+          preview_token: preview?.preview_token,
+          confirmation,
+          confirmed,
+        }),
+      })
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(data.error || `Importer request failed (${response.status})`)
+      if (action === 'preview') {
+        setPreview(data)
+        setConfirmation('')
+        setConfirmed(false)
+        setCommitResult(null)
+      } else {
+        setCommitResult(data.import)
+      }
+    } catch (requestError) {
+      setError(humaniseImportValue(requestError instanceof Error ? requestError.message : requestError))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const metrics = preview ? [
+    ['Total records', preview.summary.total_records],
+    ['Valid records', preview.summary.valid_records],
+    ['Invalid records', preview.summary.invalid_records],
+    ['Duplicates', preview.summary.duplicates],
+    ['Existing contacts', preview.summary.existing_contacts],
+    ['Existing customers', preview.summary.existing_customers],
+    ['Trial applicants', preview.summary.existing_trial_applicants],
+    ['Suppressed', preview.summary.suppressed_contacts],
+    ['UK individuals', preview.summary.uk_individual_subscribers],
+    ['Already enrolled', preview.summary.already_enrolled],
+    ['Final eligible', preview.summary.final_eligible_count],
+  ] : []
+
+  return (
+    <div className="page audience-import-page">
+      <div className="page-intro audience-import-intro">
+        <p className="eyebrow">Admin · Audience control</p>
+        <h1>Import outreach contacts</h1>
+        <p>Validate and reconcile a CSV against customers, trial applicants, suppressions and active enrolments before anything is written. A preview never imports or sends email.</p>
+      </div>
+
+      <div className="audience-import-layout">
+        <section className="panel audience-import-form">
+          <div className="import-section-heading">
+            <div><span>01</span><div><strong>Define the import</strong><small>Campaign and timing are mandatory.</small></div></div>
+            <span className="import-safe-badge">Preview first</span>
+          </div>
+
+          <div className="import-fields">
+            <label className="import-field import-field-wide">
+              <span>Campaign sequence</span>
+              <select value={campaignId} onChange={(event) => { setCampaignId(event.target.value); invalidatePreview() }}>
+                {audienceImportCampaigns.map((item) => <option key={item.id} value={item.id}>{item.market} · {item.label}</option>)}
+              </select>
+              <small>Only the current UK and US production outreach campaigns are permitted.</small>
+            </label>
+            <label className="import-field">
+              <span>First-send time (UTC)</span>
+              <input type="datetime-local" value={startUtc} onChange={(event) => { setStartUtc(event.target.value); invalidatePreview() }} />
+              <small>{campaign.timezone}: {campaignLocalStart}</small>
+            </label>
+            <label className="import-field">
+              <span>Operator confirming import</span>
+              <input value={operator} onChange={(event) => { setOperator(event.target.value); invalidatePreview() }} placeholder="Your full name" autoComplete="name" />
+              <small>Stored in the immutable import audit.</small>
+            </label>
+            <label className="import-field import-field-wide">
+              <span>Audience import admin token</span>
+              <input type="password" value={apiToken} onChange={(event) => setApiToken(event.target.value)} placeholder="Required for preview and commit" autoComplete="off" />
+              <small>Held only in this page’s memory; it is not placed in the URL or browser storage.</small>
+            </label>
+          </div>
+
+          <div className="import-upload-block">
+            <div>
+              <span className="import-upload-icon"><Icon name="upload" size={22} /></span>
+              <div><strong>{fileName || 'Choose the contacts CSV'}</strong><small>{fileName ? `${new Blob([csv]).size.toLocaleString()} bytes loaded` : 'CSV only · maximum 5,000 records'}</small></div>
+            </div>
+            <div className="import-upload-actions">
+              <button type="button" className="secondary-button" onClick={downloadTemplate}>Download CSV template</button>
+              <label className="primary-button import-file-button">Choose CSV<input type="file" accept=".csv,text/csv" onChange={selectFile} /></label>
+            </div>
+          </div>
+
+          <div className="import-contract-note">
+            <Icon name="check" />
+            <p><strong>No inferred permission.</strong> Every row needs an explicit eligibility decision plus a reason or lawful-basis record. Submitting an email address alone can never make it eligible.</p>
+          </div>
+
+          {error && <div className="import-message import-message-error" role="alert">{error}</div>}
+          <button type="button" className="primary-button import-preview-button" onClick={() => callImporter('preview')} disabled={loading || !csv}>
+            {loading ? 'Checking audience…' : 'Run dry-run preview'} <Icon name="arrow" />
+          </button>
+        </section>
+
+        <aside className="panel import-readiness-card">
+          <p className="eyebrow">Required CSV fields</p>
+          <h2>One accountable record per contact</h2>
+          <ul>
+            <li>Email and first name (or the Salon Owner fallback)</li>
+            <li>Business name, type, market and IANA timezone</li>
+            <li>Company or legal-entity type</li>
+            <li>Source, source date and owner</li>
+            <li>Eligibility decision and supporting record</li>
+          </ul>
+          <div><strong>Import does not send</strong><span>Contacts are staged with the explicit first-send time. Campaign and live-mode gates remain separate.</span></div>
+        </aside>
+      </div>
+
+      {preview && <section className="panel import-preview-results">
+        <div className="import-preview-head">
+          <div><p className="eyebrow">02 · Dry-run result</p><h2>{preview.summary.final_eligible_count} contacts can be enrolled</h2><p>{preview.campaign_market} campaign · first send {new Date(preview.start_at).toLocaleString('en-GB', { timeZone: preview.campaign_timezone, dateStyle: 'medium', timeStyle: 'short' })} ({preview.campaign_timezone})</p></div>
+          <span className="import-safe-badge">Nothing written</span>
+        </div>
+        <div className="import-metrics">
+          {metrics.map(([label, value]) => <div key={label} className={label === 'Final eligible' ? 'eligible' : ''}><strong>{value}</strong><span>{label}</span></div>)}
+        </div>
+        <div className="import-row-table-wrap">
+          <table className="import-row-table">
+            <thead><tr><th>Row</th><th>Contact</th><th>Business</th><th>Market</th><th>Decision</th><th>Reason</th></tr></thead>
+            <tbody>
+              {preview.rows.map((row) => <tr key={row.row_number}>
+                <td>{row.row_number}</td>
+                <td>{row.email || '—'}{row.existing_contact && <small>Existing contact</small>}</td>
+                <td>{row.business_name || '—'}</td>
+                <td>{row.market || '—'}</td>
+                <td><span className={`import-outcome import-outcome-${row.outcome}`}>{humaniseImportValue(row.outcome)}</span></td>
+                <td>{row.reasons.length ? row.reasons.map(humaniseImportValue).join(' · ') : 'Passed all checks'}</td>
+              </tr>)}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="import-confirm-panel">
+          <div><p className="eyebrow">03 · Final confirmation</p><h3>Commit this exact preview</h3><p>Database state is checked again at commit. If anything changed, the import stops and requires a fresh preview.</p></div>
+          <label className="import-field">
+            <span>Type <code>{preview.confirmation_text}</code></span>
+            <input value={confirmation} onChange={(event) => setConfirmation(event.target.value)} autoComplete="off" />
+          </label>
+          <label className="import-check"><input type="checkbox" checked={confirmed} onChange={(event) => setConfirmed(event.target.checked)} /><span>I confirm the audience, campaign and first-send time are correct.</span></label>
+          <button type="button" className="primary-button import-commit-button" onClick={() => callImporter('commit')} disabled={loading || commitResult || !confirmed || confirmation !== preview.confirmation_text || !operator.trim()}>
+            {commitResult ? 'Import committed' : loading ? 'Rechecking and importing…' : `Import ${preview.summary.final_eligible_count} eligible contacts`}
+          </button>
+          {commitResult && <div className="import-message import-message-success" role="status">
+            Import complete: {commitResult.enrolled_contacts} new enrolments, {commitResult.existing_enrollments} already enrolled, {commitResult.excluded_at_commit} excluded by the final database check. No email was sent.
+          </div>}
+        </div>
+      </section>}
+    </div>
+  )
+}
+
 const parseRoute = () => {
   const segments = window.location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map((part) => {
     try { return decodeURIComponent(part) } catch { return part }
@@ -946,6 +1333,7 @@ export default function App() {
         {currentView === 'emails' && <EmailStudio campaignId={route.params[0]} emailNumber={Number(route.params[1]) || null} routeTo={routeTo} />}
         {currentView === 'klaviyo' && <KlaviyoPreviews />}
         {currentView === 'guides' && <Guides query={query} slug={route.params[0]} routeTo={routeTo} />}
+        {currentView === 'audience-import' && <AudienceImporter />}
       </div>
     </div>
   )

@@ -19,15 +19,15 @@ All 57 older Resend templates were renamed with an `ARCHIVED` prefix. Their cont
 
 ## Release safeguard
 
-The repository publishing script now accepts only the two V2 recruitment campaign IDs. It validates ten local templates. It rejects an archived alias, so historical files cannot be republished accidentally through the standard repository command.
+The runtime validator accepts only the two production recruitment campaign IDs and validates their 14 repository-rendered messages. It performs no network writes, so historical files cannot be republished accidentally through the standard repository command.
 
 | Command | Expected result |
 |---|---|
-| `npm run templates:check` | Validates only 10 current V2 recruitment templates. |
-| `node scripts/sync-resend-templates.js --only jc-uk-prospect-01-trial-v2` | Validates the requested current V2 template. |
-| `node scripts/sync-resend-templates.js --only au-seeding-1-opener` | Refuses the archived alias. |
+| `npm run templates:check` | Validates all 14 current UK/U.S. repository-rendered messages. |
+| `node scripts/validate-runtime-email-templates.js --only jc-uk-prospect-01-trial-v2` | Validates the requested current runtime message. |
+| `node scripts/validate-runtime-email-templates.js --only au-seeding-1-opener` | Refuses the non-launch alias. |
 
-> No template was deleted, published or sent during archive cleanup. No automation was enabled.
+> No remote template was deleted or published and no email was sent during archive cleanup. No automation was enabled.
 
 ## Before releasing either V2 sequence
 

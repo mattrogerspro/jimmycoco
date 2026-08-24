@@ -1,15 +1,12 @@
-# email/tools — keeping the repo and Resend in sync
+# email/tools — email validation and legacy utilities
 
-**The repo is the single source of truth.** You edit the campaign HTML here; a
-small script pushes it to Resend so the two never drift.
+**The repo is the single source of truth.** The UK and U.S. launch campaigns are rendered by the application and sent as complete HTML. They do not use Resend Templates.
 
 ## Files
 
-- `sync-resend.py` — reads every `email/campaigns/<campaign>/resend.json` and
-  creates/updates + publishes each template in Resend from the repo's HTML.
-  Idempotent: templates already matching Resend are skipped.
+- `sync-resend.py` — legacy manual utility for older campaigns that still have an approved Resend Template delivery path. It must not be used for the UK/U.S. launch campaigns.
 - `install-hooks.sh` — one-time: activates the `.githooks/pre-push` hook.
-- `../../.githooks/pre-push` — runs the sync automatically on every `git push`.
+- `../../.githooks/pre-push` — runs the read-only application template contract validation on every `git push`.
 
 ## How a campaign opts in
 
@@ -50,16 +47,13 @@ RESEND_API_KEY=re_xxx python3 email/tools/sync-resend.py
 RESEND_API_KEY=re_xxx python3 email/tools/sync-resend.py --campaign uk-salon-onboarding
 ```
 
-## Auto-sync on push (one-time setup)
+## Read-only validation on push (one-time setup)
 
 ```bash
 sh email/tools/install-hooks.sh          # activate .githooks
-export RESEND_API_KEY=re_xxx             # add to ~/.zshrc to persist
 ```
 
-After that, every `git push` syncs Resend first. If the key isn't set the push
-still goes through (with a warning). Bypass a single push with
-`SKIP_RESEND_SYNC=1 git push`.
+After that, every `git push` runs `npm run templates:check`. The hook performs no network calls and never writes to Resend.
 
 ## Notes
 

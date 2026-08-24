@@ -4,11 +4,11 @@
   "shortName": "US West Pro V2",
   "market": "US-West-Coast",
   "flag": "🇺🇸",
-  "status": "Published in Resend — automation disabled",
+  "status": "Repository runtime source — campaign disabled",
   "hook": "Trial-first natural-looking colour, with useful aftercare retail",
   "channel": "Email",
-  "cadence": "45 days",
+  "cadence": "28 days",
   "owner": "Sunless Partnerships",
   "mode": "sequence",
-  "days": [0, 4, 8, 13, 21, 32, 45]
+  "days": [0, 3, 6, 10, 15, 21, 28]
 }

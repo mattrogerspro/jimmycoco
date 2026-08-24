@@ -22,8 +22,8 @@
 
 ## Release boundaries
 
-- `npm run templates:check` is diagnostic. `npm run templates:publish` requires explicit human approval after review.
-- Never treat an ordinary Git push as authority to publish Resend templates. Use `SKIP_RESEND_SYNC=1` for a Git-only push when the configured hook would otherwise mutate Resend.
+- `npm run templates:check` validates the application-owned runtime contract for the UK and U.S. launch emails. There is no Resend Template publishing command for these campaigns.
+- The pre-push hook is read-only and must never mutate Resend.
 - Never send to recipients, create broadcasts, import contacts, enable automations or turn on `EMAIL_LIVE_MODE` without fresh explicit approval.
 - Run campaign validation, `npm test` and `npm run build` before reporting campaign work complete. Report blockers rather than weakening validation.
 

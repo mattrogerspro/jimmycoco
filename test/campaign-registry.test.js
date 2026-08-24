@@ -28,6 +28,15 @@ test('canonical AU and Dubai cadence is preserved', () => {
   assert.deepEqual(dubai.steps.map((step) => step.day), [0, 4, 8, 13, 18])
 })
 
+test('UK and US salon outreach use the same 28-day cadence', () => {
+  const uk = campaignRegistry.find((campaign) => campaign.id === 'uk-salon-stockist')
+  const us = campaignRegistry.find((campaign) => campaign.id === 'us-west-coast-salon-stockist')
+  const expectedDays = [0, 3, 6, 10, 15, 21, 28]
+
+  assert.deepEqual(uk.steps.map((step) => step.day), expectedDays)
+  assert.deepEqual(us.steps.map((step) => step.day), expectedDays)
+})
+
 test('manual UK trial and order follow-ups remain separately scoped and disabled', () => {
   const trial = campaignRegistry.find((campaign) => campaign.id === 'uk-pro-trial-follow-up')
   const order = campaignRegistry.find((campaign) => campaign.id === 'uk-pro-order-follow-up')

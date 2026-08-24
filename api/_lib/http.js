@@ -57,5 +57,6 @@ export function publicError(error) {
   const message = error instanceof Error ? error.message : String(error)
   if (message.includes('contact_is_suppressed')) return { status: 409, error: 'contact_is_suppressed' }
   if (message.includes('missing_template_variables')) return { status: 422, error: message }
+  if (message.includes('unresolved_template_')) return { status: 422, error: message }
   return { status: 500, error: 'internal_error' }
 }

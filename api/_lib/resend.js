@@ -1,4 +1,6 @@
 import { Resend } from 'resend'
+import { renderRuntimeTemplate } from '../../email/runtime-templates.js'
+import { buildPreferencesUrl } from './preferences.js'
 
 let client
 
@@ -12,14 +14,12 @@ export function isLiveMode() {
   return process.env.EMAIL_LIVE_MODE === 'true'
 }
 
-function variableDefaults() {
-  const supportEmail = process.env.EMAIL_SUPPORT_EMAIL || process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro'
+function variableDefaults(contact) {
   return {
     SENDER_NAME: process.env.EMAIL_SENDER_NAME || 'Matt',
     SENDER_TITLE: process.env.EMAIL_SENDER_TITLE || 'Partnerships, Sunless by Jimmy Coco',
     SENDER_EMAIL: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
-    SUPPORT_EMAIL: supportEmail,
-    PREFERENCES_LINK: process.env.EMAIL_PREFERENCES_LINK || `mailto:${supportEmail}?subject=Remove%20my%20trade%20details`,
+    SUPPORT_EMAIL: process.env.EMAIL_SUPPORT_EMAIL || process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
     BUSINESS_ADDRESS: process.env.EMAIL_BUSINESS_ADDRESS,
     CALENDAR_LINK: process.env.EMAIL_CALENDAR_LINK,
     TRIAL_LINK: process.env.EMAIL_TRIAL_LINK,
@@ -41,7 +41,7 @@ function auditCopyRecipients(primaryEmail) {
     .filter((email, index, all) => email && email !== primaryEmail.toLowerCase() && !email.endsWith(BLOCKED_LEGACY_DOMAIN) && all.indexOf(email) === index)
 }
 
-function escapeTemplateValue(value) {
+function escapeHtml(value) {
   return String(value)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -53,26 +53,58 @@ function escapeTemplateValue(value) {
 export function buildTemplateVariables(step, contact, context = {}) {
   const upperContext = Object.fromEntries(Object.entries(context).map(([key, value]) => [key.toUpperCase(), value]))
   const candidates = {
-    ...variableDefaults(),
+    ...variableDefaults(contact),
     ...upperContext,
+    GREETING_NAME: upperContext.GREETING_NAME || String(contact.first_name || '').trim() || 'there',
+    FIRST_NAME: upperContext.FIRST_NAME || String(contact.first_name || '').trim() || 'there',
     SALON_NAME: upperContext.SALON_NAME || contact.business_name,
     BUSINESS_NAME: upperContext.BUSINESS_NAME || contact.business_name,
   }
+  if (step.requiredVariables.includes('PREFERENCES_LINK')) candidates.PREFERENCES_LINK = buildPreferencesUrl(contact.email)
   const missing = step.requiredVariables.filter((key) => candidates[key] === undefined || candidates[key] === null || candidates[key] === '')
   if (missing.length) throw new Error(`missing_template_variables:${missing.join(',')}`)
-  return Object.fromEntries(step.requiredVariables.map((key) => [key, escapeTemplateValue(candidates[key])]))
+  const variables = Object.fromEntries(step.requiredVariables.map((key) => [key, String(candidates[key])]))
+  for (const [key, value] of Object.entries(variables)) {
+    if (/\{\{\{?\s*[\w.]+\s*\}\}\}?/.test(value)) throw new Error(`unresolved_template_variable_value:${key}`)
+  }
+  return variables
 }
 
-export async function sendTemplateEmail({ campaign, step, contact, context, idempotencyKey, tags = [] }) {
-  if (!isLiveMode()) throw new Error('email_live_mode_disabled')
-  const resend = getResend()
+function renderTokens(value, variables, { html = false } = {}) {
+  const legacyAliases = {
+    unsubscribe_link: 'PREFERENCES_LINK',
+    resend_unsubscribe_url: 'PREFERENCES_LINK',
+  }
+  return String(value).replace(/\{\{\{?\s*([\w.]+)\s*\}\}\}?/g, (token, sourceKey) => {
+    const key = legacyAliases[sourceKey.toLowerCase()] || sourceKey.replaceAll('.', '_').toUpperCase()
+    if (!Object.hasOwn(variables, key)) return token
+    return html ? escapeHtml(variables[key]) : variables[key]
+  })
+}
+
+export function assertNoUnresolvedTokens(value, field = 'email') {
+  const unresolved = [...String(value).matchAll(/\{\{\{?\s*([\w.]+)\s*\}\}\}?/g)].map((match) => match[1])
+  if (unresolved.length) throw new Error(`unresolved_template_tokens:${field}:${[...new Set(unresolved)].join(',')}`)
+}
+
+export function buildDirectEmailPayload({ campaign, step, contact, context, tags = [] }) {
   const variables = buildTemplateVariables(step, contact, context)
+  const classification = step.classification || campaign.classification
+  const marketing = classification === 'promotional' || classification === 'lifecycle'
+  const preferencesLink = marketing ? variables.PREFERENCES_LINK || buildPreferencesUrl(contact.email) : null
+  const renderVariables = preferencesLink ? { ...variables, PREFERENCES_LINK: preferencesLink } : variables
+  const source = renderRuntimeTemplate(step.templateAlias)
+  const subject = renderTokens(source.subject, renderVariables)
+  const html = renderTokens(source.html, renderVariables, { html: true })
+  assertNoUnresolvedTokens(subject, 'subject')
+  assertNoUnresolvedTokens(html, 'html')
   const payload = {
     from: process.env.RESEND_FROM || 'Sunless Partnerships <partnerships@email.jimmycoco.pro>',
     to: [contact.email],
     bcc: auditCopyRecipients(contact.email),
     replyTo: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
-    template: { id: step.templateId || step.templateAlias, variables },
+    subject,
+    html,
     tags: [
       { name: 'campaign_id', value: campaign.id },
       { name: 'sequence_step', value: step.key },
@@ -80,6 +112,40 @@ export async function sendTemplateEmail({ campaign, step, contact, context, idem
       ...tags,
     ],
   }
+  if (preferencesLink) {
+    payload.headers = {
+      'List-Unsubscribe': `<${preferencesLink}>`,
+      'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+    }
+  }
+  return payload
+}
+
+function buildLegacyTemplatePayload({ campaign, step, contact, context, tags = [] }) {
+  const variables = Object.fromEntries(
+    Object.entries(buildTemplateVariables(step, contact, context)).map(([key, value]) => [key, escapeHtml(value)]),
+  )
+  return {
+    from: process.env.RESEND_FROM || 'Sunless Partnerships <partnerships@email.jimmycoco.pro>',
+    to: [contact.email],
+    bcc: auditCopyRecipients(contact.email),
+    replyTo: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
+    template: { id: step.templateId, variables },
+    tags: [
+      { name: 'campaign_id', value: campaign.id },
+      { name: 'sequence_step', value: step.key },
+      { name: 'market', value: campaign.market.toLowerCase() },
+      ...tags,
+    ],
+  }
+}
+
+export async function sendCampaignEmail({ campaign, step, contact, context, idempotencyKey, tags = [] }) {
+  if (!isLiveMode()) throw new Error('email_live_mode_disabled')
+  const resend = getResend()
+  const payload = step.templateId
+    ? buildLegacyTemplatePayload({ campaign, step, contact, context, tags })
+    : buildDirectEmailPayload({ campaign, step, contact, context, tags })
   const result = await resend.emails.send(payload, { idempotencyKey })
   if (result.error) throw new Error(`resend_send_failed:${result.error.message}`)
   return result.data

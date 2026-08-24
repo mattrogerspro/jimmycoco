@@ -1,7 +1,7 @@
 {
   "campaign": "us-west-coast-salon-stockist",
   "publish": false,
-  "status": "PUBLISHED IN RESEND — AUTOMATION DISABLED",
+  "status": "RETIRED TEMPLATE COPIES — NOT USED BY APPLICATION WORKER",
   "templates": [
     {"file":"emails/1-trial-introduction-v2.html","alias":"jc-us-wc-prospect-01-trial-v2","id":"8760b944-c87a-46eb-9223-8d24edafb81c","name":"JC-US-WC-PROSPECT-01-TRIAL-V2","subject":"A premium spray-tan partnership for {{{BUSINESS_NAME}}}"},
     {"file":"emails/2-result-v2.html","alias":"jc-us-wc-prospect-02-result-v2","id":"2e5cdaeb-1f61-47ce-9b62-4732a154f406","name":"JC-US-WC-PROSPECT-02-RESULT-V2","subject":"Color clients trust in daylight"},

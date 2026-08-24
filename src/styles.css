@@ -285,8 +285,11 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .kill-switch-counts span { display: inline-flex; align-items: center; min-height: 24px; padding: 0 9px; border: 1px solid #e0d7ce; border-radius: 999px; background: rgba(255,253,249,.78); white-space: nowrap; }
 .kill-switch-confirm { margin-top: 10px; padding-top: 10px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 8px 12px; border-top: 1px solid rgba(216,206,196,.75); }
 .kill-switch-confirm-copy { min-width: 0; grid-column: 1 / -1; }
+.kill-switch-confirm-copy small { display: block; color: #9a6a47; font-size: 9px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
 .kill-switch-confirm-copy strong { display: block; color: #332d28; font-size: 13px; line-height: 1.2; }
 .kill-switch-confirm-copy span { display: block; margin-top: 4px; color: #80776e; font-size: 10px; line-height: 1.35; }
+.kill-switch-confirm-icon { display: none; }
+.kill-switch-auth-note { grid-column: 1 / -1; margin: 0; color: #6f665f; font-size: 11px; line-height: 1.45; }
 .kill-switch-fields { display: grid; grid-template-columns: minmax(160px, 1fr) minmax(105px, .6fr) minmax(135px, .85fr); gap: 8px; }
 .kill-switch-fields label { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .kill-switch-fields span { color: #8d8379; font-size: 8px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
@@ -295,7 +298,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .kill-switch-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
 .danger-button { height: 34px; border: 0; border-radius: 5px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 13px; background: #8e3f35; color: #fffdf9; font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: background .15s ease, transform .15s ease; white-space: nowrap; }
 .danger-button:hover:not(:disabled) { background: #7b352d; transform: translateY(-1px); }
-.danger-button:disabled, .campaign-kill-switch button:disabled { opacity: .55; cursor: not-allowed; }
+.confirm-button { min-height: 34px; border: 0; border-radius: 5px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 13px; background: #52705f; color: #fffdf9; font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: background .15s ease, transform .15s ease; white-space: nowrap; }
+.confirm-button:hover:not(:disabled) { background: #435d4f; transform: translateY(-1px); }
+.danger-button:disabled, .confirm-button:disabled, .campaign-kill-switch button:disabled { opacity: .55; cursor: not-allowed; }
 .kill-switch-error, .kill-switch-notice { grid-column: 1 / -1; flex: 1 1 100%; font-size: 10px; line-height: 1.35; }
 .kill-switch-error { color: #8e3f35; }
 .kill-switch-notice { display: block; margin-top: 7px; color: #4f735f; }
@@ -306,16 +311,28 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .campaign-kill-switch.is-toolbar .kill-switch-counts { display: none; }
 .campaign-kill-switch.is-toolbar .danger-button,
 .campaign-kill-switch.is-toolbar .secondary-button { min-height: 46px; height: 46px; padding: 0 18px; border-radius: 7px; font-size: 14px; letter-spacing: .08em; box-shadow: 0 8px 20px rgba(70,54,42,.07); }
-.campaign-kill-switch.is-toolbar .kill-switch-confirm { position: absolute; top: calc(100% + 12px); right: 0; z-index: 70; display: block; width: min(560px, calc(100vw - 32px)); margin: 0; padding: 18px; border: 1px solid #d8d0c7; border-radius: 8px; background: #fffdfa; box-shadow: 0 22px 70px rgba(42,34,28,.18); }
-.campaign-kill-switch.is-toolbar .kill-switch-confirm-copy strong { font-size: 16px; }
-.campaign-kill-switch.is-toolbar .kill-switch-confirm-copy span { font-size: 13px; }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm { position: absolute; top: calc(100% + 12px); right: 0; z-index: 70; display: block; width: min(590px, calc(100vw - 32px)); margin: 0; padding: 0; overflow: hidden; border: 1px solid #d8d0c7; border-radius: 10px; background: #fffdfa; box-shadow: 0 24px 80px rgba(42,34,28,.2); }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: #52705f; }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm.is-kill::before { background: #8e3f35; }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm-copy { display: flex; gap: 13px; align-items: flex-start; padding: 18px 20px 16px 22px; background: linear-gradient(135deg, #eef5ef, #fffdfa 68%); border-bottom: 1px solid #dbe5dd; }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm.is-kill .kill-switch-confirm-copy { background: linear-gradient(135deg, #f8eeee, #fffdfa 68%); border-bottom-color: #ead4cf; }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm-icon { flex: 0 0 34px; width: 34px; height: 34px; margin-top: 0; border-radius: 50%; display: grid; place-items: center; background: #52705f; color: #fffdfa; box-shadow: 0 0 0 5px rgba(82,112,95,.12); }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm.is-kill .kill-switch-confirm-icon { background: #8e3f35; box-shadow: 0 0 0 5px rgba(142,63,53,.12); }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm-copy small { color: #52705f; font-size: 11px; }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm.is-kill .kill-switch-confirm-copy small { color: #8e3f35; }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm-copy strong { margin-top: 3px; font-size: 20px; letter-spacing: -.02em; }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm-copy span:not(.kill-switch-confirm-icon) { max-width: 460px; margin-top: 7px; color: #665d55; font-size: 13px; }
+.campaign-kill-switch.is-toolbar .kill-switch-auth-note { margin: 16px 20px 0 22px; padding: 11px 13px; border: 1px solid #eadfce; border-radius: 7px; background: #fbf4e9; color: #755b43; font-size: 13px; }
 .campaign-kill-switch.is-toolbar .kill-switch-fields { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.campaign-kill-switch.is-toolbar .kill-switch-fields { padding: 0 20px 0 22px; }
 .campaign-kill-switch.is-toolbar .kill-switch-fields label:first-child { grid-column: 1 / -1; }
-.campaign-kill-switch.is-toolbar .kill-switch-fields span { font-size: 10px; }
-.campaign-kill-switch.is-toolbar .kill-switch-fields input { height: 40px; font-size: 14px; }
-.campaign-kill-switch.is-toolbar .kill-switch-actions { margin-top: 14px; display: flex; justify-content: flex-end; gap: 10px; }
+.campaign-kill-switch.is-toolbar .kill-switch-fields span { margin-bottom: 2px; color: #8c7b69; font-size: 10px; }
+.campaign-kill-switch.is-toolbar .kill-switch-fields input { height: 44px; border-color: #d9cbbb; background: #fffaf3; font-size: 14px; }
+.campaign-kill-switch.is-toolbar .kill-switch-fields input:focus { border-color: #9a6a47; box-shadow: 0 0 0 3px rgba(154,106,71,.14); }
+.campaign-kill-switch.is-toolbar .kill-switch-actions { margin-top: 18px; padding: 14px 20px 18px 22px; display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #eee4da; background: #fbf8f4; }
 .campaign-kill-switch.is-toolbar .kill-switch-actions .secondary-button,
 .campaign-kill-switch.is-toolbar .kill-switch-actions .danger-button { min-height: 42px; height: 42px; padding: 0 16px; box-shadow: none; }
+.campaign-kill-switch.is-toolbar .kill-switch-actions .confirm-button { min-height: 42px; height: 42px; padding: 0 17px; border-radius: 6px; font-size: 12px; box-shadow: none; }
 .campaign-kill-switch.is-toolbar .kill-switch-error { display: block; margin-top: 10px; font-size: 13px; }
 
 .email-sequence-board { margin-top: 0; background: transparent; }

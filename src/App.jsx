@@ -502,11 +502,16 @@ function CampaignKillSwitch({ campaign, analytics, onChanged, placement = 'panel
         </button>
       </div>
       {pendingEnabled !== null && (
-        <div className="kill-switch-confirm">
+        <div className={`kill-switch-confirm ${pendingEnabled ? 'is-reenable' : 'is-kill'}`}>
           <div className="kill-switch-confirm-copy">
-            <strong>{pendingEnabled ? 'Re-enable this campaign' : 'Kill this campaign immediately'}</strong>
-            <span>Enter the Automation API bearer token. Operator and reason are written to the campaign audit config.</span>
+            <span className="kill-switch-confirm-icon"><Icon name="power" size={18} /></span>
+            <div>
+              <small>{pendingEnabled ? 'Campaign recovery' : 'Emergency stop'}</small>
+              <strong>{pendingEnabled ? 'Re-enable this campaign' : 'Kill this campaign immediately'}</strong>
+              <span>{pendingEnabled ? 'Future scheduled sends can resume once the database gate is reopened.' : 'Future scheduled sends stop immediately; paused jobs remain visible and recoverable.'}</span>
+            </div>
           </div>
+          <p className="kill-switch-auth-note">Authentication required: paste the Automation API bearer token. Operator and reason are saved to the campaign audit config.</p>
           <div className="kill-switch-fields">
             <label><span>Automation API bearer token</span><input type="password" value={apiToken} onChange={(event) => setApiToken(event.target.value)} placeholder="Paste AUTOMATION_API_KEY" /></label>
             <label><span>Operator</span><input value={operator} onChange={(event) => setOperator(event.target.value)} placeholder="Your name" /></label>
@@ -514,7 +519,7 @@ function CampaignKillSwitch({ campaign, analytics, onChanged, placement = 'panel
           </div>
           <div className="kill-switch-actions">
             <button className="secondary-button" disabled={busy} onClick={() => { setPendingEnabled(null); setError('') }}>Cancel</button>
-            <button className={pendingEnabled ? 'secondary-button' : 'danger-button'} disabled={busy} onClick={() => updateSwitch(pendingEnabled)}>
+            <button className={pendingEnabled ? 'confirm-button' : 'danger-button'} disabled={busy} onClick={() => updateSwitch(pendingEnabled)}>
               <Icon name="power" size={15} />{pendingEnabled ? 'Confirm re-enable' : 'Confirm kill switch'}
             </button>
           </div>

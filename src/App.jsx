@@ -806,7 +806,6 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
             ))}
           </div>
           {!availableMessages.length && <div className="empty-list">This campaign has no rendered HTML emails yet.</div>}
-          <div className="email-list-note"><Icon name="check" /><p><strong>Read directly from source</strong><span>Rebuild campaign HTML and refresh to see the latest version.</span></p></div>
         </aside>
         <main className="preview-area">
           {message ? (
@@ -846,6 +845,7 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
                 : `Email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${getDisplayDay(message.day)}`
           }</span></div>
           <dl><div><dt>Subject</dt><dd>{personalised ? applyMergeData(message.title, sampleMergeData) : message.title}</dd></div><div><dt>Preview text</dt><dd>{personalised ? applyMergeData(message.preview, sampleMergeData) : message.preview}</dd></div><div><dt>Headline</dt><dd>{message.headline}</dd></div><div><dt>Eyebrow</dt><dd>{message.eyebrow}</dd></div><div><dt>Format</dt><dd>Branded HTML</dd></div><div><dt>Output</dt><dd>{message.output.split('/').pop()}</dd></div></dl>
+          <div className="email-list-note inspector-source-note"><Icon name="check" /><p><strong>Read directly from source</strong><span>Rebuild campaign HTML and refresh to see the latest version.</span></p></div>
           <hr />
           <p className="eyebrow">Sample recipient</p>
           <dl className="recipient-data"><div><dt>Name</dt><dd>{sampleMergeData.first_name}</dd></div><div><dt>Salon</dt><dd>{sampleMergeData.salon_name}</dd></div><div><dt>City</dt><dd>{sampleMergeData.city}</dd></div></dl>

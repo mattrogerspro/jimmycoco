@@ -433,7 +433,7 @@ function SequenceTimeline({ campaign, analytics, onOpenEmail }) {
   )
 }
 
-function CampaignKillSwitch({ campaign, analytics, onChanged }) {
+function CampaignKillSwitch({ campaign, analytics, onChanged, placement = 'panel' }) {
   const [apiToken, setApiToken] = useState('')
   const [operator, setOperator] = useState('')
   const [reason, setReason] = useState('Emergency stop from campaign admin')
@@ -486,7 +486,7 @@ function CampaignKillSwitch({ campaign, analytics, onChanged }) {
   }
 
   return (
-    <section className={`campaign-kill-switch ${enabled ? '' : 'is-killed'} ${pendingEnabled !== null ? 'is-open' : ''}`} aria-label="Campaign kill switch">
+    <section className={`campaign-kill-switch ${enabled ? '' : 'is-killed'} ${pendingEnabled !== null ? 'is-open' : ''} ${placement === 'toolbar' ? 'is-toolbar' : ''}`} aria-label="Campaign kill switch">
       <div className="kill-switch-summary">
         <div className="kill-switch-state">
           <span><Icon name="power" size={15} />Campaign database gate</span>
@@ -743,6 +743,17 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
               : `Sequence email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${getDisplayDay(message.day)}`
         ) : 'No HTML'}</span><strong>{message?.title || 'No rendered emails in this campaign'}</strong></div>
         <div className="toolbar-actions">
+          {message && <CampaignKillSwitch campaign={campaign} analytics={analytics} placement="toolbar" onChanged={(data) => setAnalytics((current) => ({
+            ...current,
+            campaign: current.campaign ? { ...current.campaign, enabled: data.campaign?.enabled } : current.campaign,
+            control: {
+              ...(current.control || {}),
+              enabled: data.campaign?.enabled,
+              enrollment_statuses: data.enrollments || {},
+              pending_jobs: data.pending_jobs || 0,
+              jobs_paused_by_kill_switch: data.paused_jobs || 0,
+            },
+          }))} />}
           <CopyLink parts={['emails', campaign.id, message?.index]} />
           <div className="viewport-switch"><button className={viewport === 'desktop' ? 'active' : ''} onClick={() => setViewport('desktop')} aria-label="Desktop preview"><Icon name="monitor" /></button><button className={viewport === 'mobile' ? 'active' : ''} onClick={() => setViewport('mobile')} aria-label="Mobile preview"><Icon name="mobile" /></button></div>
           <button className={`personalise-toggle ${personalised ? 'active' : ''}`} onClick={() => setPersonalised((value) => !value)}><Icon name="spark" />Sample data<span><i /></span></button>
@@ -818,21 +829,6 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
                   <p className="performance-empty">The dashboard is ready. Apply the Supabase migration and connect the Vercel environment to begin collecting verified Resend events.</p>
                 )}
               </section>
-              <CampaignKillSwitch campaign={campaign} analytics={analytics} onChanged={(data) => setAnalytics((current) => ({
-                ...current,
-                campaign: current.campaign ? { ...current.campaign, enabled: data.campaign?.enabled } : current.campaign,
-                control: {
-                  ...(current.control || {}),
-                  enabled: data.campaign?.enabled,
-                  enrollment_statuses: data.enrollments || {},
-                  pending_jobs: data.pending_jobs || 0,
-                  jobs_paused_by_kill_switch: data.paused_jobs || 0,
-                },
-              }))} />
-              <div className="inbox-header">
-                <div><small>Subject</small><strong>{personalised ? applyMergeData(message.title) : message.title}</strong></div>
-                <div><small>Preview text</small><span>{personalised ? applyMergeData(message.preview) : message.preview}</span></div>
-              </div>
               <div className={`device-frame ${viewport}`}>
                 <div className="browser-chrome"><span /><span /><span /><b>{viewport === 'desktop' ? 'Email preview · 680px' : 'Mobile preview · 390px'}</b></div>
                 <iframe ref={previewFrameRef} title={`Preview of ${message.title}`} srcDoc={previewHtml} sandbox="allow-popups allow-same-origin" />
@@ -849,7 +845,7 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
                 ? `Triggered email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')}`
                 : `Email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${getDisplayDay(message.day)}`
           }</span></div>
-          <dl><div><dt>Headline</dt><dd>{message.headline}</dd></div><div><dt>Eyebrow</dt><dd>{message.eyebrow}</dd></div><div><dt>Format</dt><dd>Branded HTML</dd></div><div><dt>Output</dt><dd>{message.output.split('/').pop()}</dd></div></dl>
+          <dl><div><dt>Subject</dt><dd>{personalised ? applyMergeData(message.title, sampleMergeData) : message.title}</dd></div><div><dt>Preview text</dt><dd>{personalised ? applyMergeData(message.preview, sampleMergeData) : message.preview}</dd></div><div><dt>Headline</dt><dd>{message.headline}</dd></div><div><dt>Eyebrow</dt><dd>{message.eyebrow}</dd></div><div><dt>Format</dt><dd>Branded HTML</dd></div><div><dt>Output</dt><dd>{message.output.split('/').pop()}</dd></div></dl>
           <hr />
           <p className="eyebrow">Sample recipient</p>
           <dl className="recipient-data"><div><dt>Name</dt><dd>{sampleMergeData.first_name}</dd></div><div><dt>Salon</dt><dd>{sampleMergeData.salon_name}</dd></div><div><dt>City</dt><dd>{sampleMergeData.city}</dd></div></dl>

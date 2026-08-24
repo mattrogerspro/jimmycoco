@@ -1,7 +1,3 @@
 git config --global user.name "Flo Davenport"
 git config --global user.email "flo@jimmycoco.co.uk"
 
-.agents/skills/build-jimmy-coco-email-campaign/
-
-ARTICLE_ADMIN_INITIAL_PASSWORD=H_8erber8t***
-RESEND_API_KEY=re_Q4cmtETH_AxRfkohkS12ksbArfPr1hZGx

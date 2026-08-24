@@ -299,6 +299,18 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .kill-switch-error, .kill-switch-notice { grid-column: 1 / -1; flex: 1 1 100%; font-size: 10px; line-height: 1.35; }
 .kill-switch-error { color: #8e3f35; }
 .kill-switch-notice { display: block; margin-top: 7px; color: #4f735f; }
+.campaign-kill-switch.is-toolbar { position: relative; padding: 0; border: 0; background: transparent; }
+.campaign-kill-switch.is-toolbar.is-killed { border: 0; background: transparent; }
+.campaign-kill-switch.is-toolbar .kill-switch-summary { display: block; }
+.campaign-kill-switch.is-toolbar .kill-switch-state,
+.campaign-kill-switch.is-toolbar .kill-switch-counts { display: none; }
+.campaign-kill-switch.is-toolbar .danger-button,
+.campaign-kill-switch.is-toolbar .secondary-button { min-height: 46px; height: 46px; padding: 0 18px; border-radius: 7px; font-size: 14px; letter-spacing: .08em; box-shadow: 0 8px 20px rgba(70,54,42,.07); }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm { position: absolute; top: calc(100% + 12px); right: 0; z-index: 70; width: min(640px, calc(100vw - 32px)); padding: 15px; border: 1px solid #d8d0c7; border-radius: 8px; background: #fffdfa; box-shadow: 0 22px 70px rgba(42,34,28,.18); }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm-copy strong { font-size: 16px; }
+.campaign-kill-switch.is-toolbar .kill-switch-confirm-copy span { font-size: 13px; }
+.campaign-kill-switch.is-toolbar .kill-switch-fields span { font-size: 10px; }
+.campaign-kill-switch.is-toolbar .kill-switch-fields input { height: 40px; font-size: 14px; }
 
 .email-sequence-board { margin-top: 0; background: transparent; }
 .email-sequence-board-head, .email-board-row { display: grid; grid-template-columns: 100px minmax(260px, 1fr) minmax(320px, .78fr) 48px; gap: 0; align-items: center; }
@@ -360,7 +372,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .personalise-toggle > span i { display: block; width: 10px; height: 10px; background: #fff; border-radius: 50%; transition: .2s; }
 .personalise-toggle.active > span { background: var(--green); }
 .personalise-toggle.active > span i { transform: translateX(11px); }
-.email-workspace { flex: 1; min-height: 0; overflow: hidden; display: grid; grid-template-columns: var(--email-sequence-column) minmax(520px, 1fr) 220px; }
+.email-workspace { flex: 1; min-height: 0; overflow: hidden; display: grid; grid-template-columns: var(--email-sequence-column) minmax(520px, 1fr) 300px; }
 .email-list, .email-inspector { background: #f8f5f0; }
 .email-list { height: 100%; overflow-y: auto; overscroll-behavior: contain; border-right: 1px solid #d9d2cb; padding: 17px 10px; }
 .email-list-heading { padding: 2px 7px 12px; display: flex; justify-content: space-between; align-items: center; }
@@ -395,14 +407,14 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .performance-strip { width: min(100%, 790px); margin: 0 auto 8px; border: 1px solid #d8d0c7; border-radius: 7px; background: rgba(255,253,250,.94); overflow: hidden; box-shadow: 0 6px 20px rgba(70,54,42,.035); }
 .preview-area > .campaign-kill-switch { width: min(100%, 790px); margin: 0 auto 8px; border: 1px solid #d8d0c7; border-radius: 7px; }
 .performance-heading { min-height: 28px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line); }
-.performance-heading > span { display: flex; align-items: center; gap: 7px; color: #5d554e; font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; }
+.performance-heading > span { display: flex; align-items: center; gap: 7px; color: #5d554e; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
 .performance-heading i { width: 6px; height: 6px; border-radius: 50%; background: #6f917c; box-shadow: 0 0 0 3px rgba(111,145,124,.13); }
-.performance-heading small { color: #9b9289; font-size: 7px; }
+.performance-heading small { color: #9b9289; font-size: 10px; }
 .performance-metrics { display: grid; grid-template-columns: repeat(6, 1fr); }
 .performance-metrics > div { min-width: 0; padding: 8px 12px; display: flex; flex-direction: column; border-right: 1px solid var(--line); }
 .performance-metrics > div:last-child { border-right: 0; }
 .performance-metrics strong { font: 600 18px var(--font-sans); color: #332d28; }
-.performance-metrics span { margin-top: 2px; color: #958d85; font-size: 7px; white-space: nowrap; }
+.performance-metrics span { margin-top: 2px; color: #958d85; font-size: 10px; white-space: nowrap; }
 .performance-metrics .step-performance { background: #f2ebe3; }
 .performance-empty { margin: 0; padding: 13px; color: #7d756d; font-size: 8px; line-height: 1.45; }
 .inbox-header { width: min(100%, 790px); margin: 0 auto 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: #f7f3ee; border: 1px solid #d8d1ca; border-radius: 6px; overflow: hidden; }
@@ -421,8 +433,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .inspector-status { margin-top: 14px; display: flex; align-items: center; justify-content: space-between; color: #9a9189; font-size: 8px; }
 .email-inspector dl { margin: 22px 0 0; }
 .email-inspector dl div { margin-bottom: 15px; }
-.email-inspector dt { color: #a29991; font-size: 7px; text-transform: uppercase; letter-spacing: .08em; }
-.email-inspector dd { margin: 4px 0 0; color: #554e48; font-size: 9px; line-height: 1.4; word-break: break-word; }
+.email-inspector dt { color: #a29991; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+.email-inspector dd { margin: 5px 0 0; color: #554e48; font-size: 14px; line-height: 1.4; word-break: break-word; }
 .email-inspector hr { border: 0; border-top: 1px solid var(--line); margin: 23px 0; }
 .recipient-data div { display: flex; justify-content: space-between; gap: 10px; }
 .recipient-data dd { margin: 0; text-align: right; }
@@ -556,7 +568,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .email-toolbar-title span { font-size: 14px; }
 .email-toolbar-title strong { margin-top: 7px; font-size: 32px; line-height: 1.12; }
 .personalise-toggle { height: 46px; font-size: 14px; }
-.email-workspace { min-height: 0; grid-template-columns: var(--email-sequence-column) minmax(620px, 1fr) 280px; }
+.email-workspace { min-height: 0; grid-template-columns: var(--email-sequence-column) minmax(560px, 1fr) 340px; }
 .email-list { padding: 21px 12px; }
 .email-list-heading { padding-block: 6px 17px; }
 .email-list-heading .eyebrow { font-size: 16px; letter-spacing: .15em; }
@@ -577,22 +589,22 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .email-list-note { padding: 16px; }
 .email-list-note strong { font-size: 16px; }
 .email-list-note span { font-size: 15px; line-height: 1.5; }
-.performance-heading { min-height: 30px; padding-inline: 13px; }
-.performance-heading > span { font-size: 10px; }
-.performance-heading small { font-size: 9px; }
-.performance-metrics > div { padding: 8px 13px; }
+.performance-heading { min-height: 34px; padding-inline: 14px; }
+.performance-heading > span { font-size: 12px; }
+.performance-heading small { font-size: 11px; }
+.performance-metrics > div { padding: 10px 14px; }
 .performance-metrics strong { font-size: 21px; }
-.performance-metrics span { font-size: 9px; }
+.performance-metrics span { font-size: 11px; }
 .performance-empty { padding: 12px; font-size: 11px; }
 .inbox-header > div { padding: 8px 13px; }
 .inbox-header small { font-size: 10px; }
 .inbox-header strong, .inbox-header span { font-size: 12px; }
 .browser-chrome { height: 35px; }
 .browser-chrome b { font-size: 12px; }
-.email-inspector { padding: 27px 22px; }
+.email-inspector { padding: 28px 24px; }
 .inspector-status { font-size: 13px; }
-.email-inspector dt { font-size: 12px; }
-.email-inspector dd { font-size: 15px; }
+.email-inspector dt { font-size: 13px; }
+.email-inspector dd { font-size: 16px; }
 
 @media (max-width: 1180px) {
   .app-shell { grid-template-columns: 260px minmax(0, 1fr); }

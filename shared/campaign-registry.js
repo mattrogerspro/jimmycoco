@@ -1,9 +1,9 @@
 /**
  * Canonical machine-readable campaign definitions.
  *
- * The repository owns timing, template selection, classification and exit rules.
- * Resend owns the published template content and transport. A campaign must be
- * enabled here AND EMAIL_LIVE_MODE must be true before the worker can send it.
+ * The repository owns timing, rendered HTML, classification and exit rules.
+ * Resend is transport only. A campaign must be enabled here AND
+ * EMAIL_LIVE_MODE must be true before the worker can send it.
  */
 export const campaignRegistry = [
   {
@@ -113,7 +113,7 @@ export const campaignRegistry = [
   },
   {
     id: 'uk-pro-trial-follow-up',
-    version: '2026-08-19.1',
+    version: '2026-08-24.2',
     name: 'UK Pro Trial Follow-Up — Manual Start',
     market: 'UK',
     mode: 'sequence',
@@ -126,15 +126,36 @@ export const campaignRegistry = [
     minimumContactGapHours: 16,
     exitEvents: ['reply', 'unsubscribe', 'complaint', 'hard_bounce', 'existing_customer', 'current_negotiation', 'manual_suppression'],
     steps: [
-      { key: '01-test-plan', number: 1, day: 0, templateAlias: 'jc-uk-trial-follow-up-01-test-plan', templateId: 'ce0665c6-a205-45f9-9626-484eaa320a20', subject: 'A real-client test, at your pace', requiredVariables: ['FIRST_NAME', 'BUSINESS_NAME'] },
-      { key: '02-result-review', number: 2, day: 5, templateAlias: 'jc-uk-trial-follow-up-02-result-review', templateId: 'af33fc1a-45b5-45bb-8d7e-298b6ad804aa', subject: 'What to notice in the first result', requiredVariables: ['FIRST_NAME', 'BUSINESS_NAME'] },
-      { key: '03-service-maths', number: 3, day: 12, templateAlias: 'jc-uk-trial-follow-up-03-service-maths', templateId: '91987cee-ac1b-4ead-b766-267dca40704c', subject: 'The service maths after a good test', requiredVariables: ['FIRST_NAME'] },
-      { key: '04-next-step', number: 4, day: 21, templateAlias: 'jc-uk-trial-follow-up-04-next-step', templateId: '61d444ef-b61a-419e-8f19-ce08a8deb653', subject: 'The next step is yours', requiredVariables: ['FIRST_NAME', 'BUSINESS_NAME'] },
+      { key: '01-test-plan', number: 1, day: 0, templateAlias: 'jc-uk-trial-follow-up-01-test-plan', templateId: null, subject: 'A real-client test, at your pace', requiredVariables: ['GREETING_NAME', 'BUSINESS_NAME', 'PREFERENCES_LINK'] },
+      { key: '02-result-review', number: 2, day: 5, templateAlias: 'jc-uk-trial-follow-up-02-result-review', templateId: null, subject: 'What to notice in the first result', requiredVariables: ['GREETING_NAME', 'PREFERENCES_LINK'] },
+      { key: '03-service-maths', number: 3, day: 12, templateAlias: 'jc-uk-trial-follow-up-03-service-maths', templateId: null, subject: 'The service maths after a good test', requiredVariables: ['GREETING_NAME', 'PREFERENCES_LINK'] },
+      { key: '04-next-step', number: 4, day: 21, templateAlias: 'jc-uk-trial-follow-up-04-next-step', templateId: null, subject: 'The next step is yours', requiredVariables: ['GREETING_NAME', 'BUSINESS_NAME', 'PREFERENCES_LINK'] },
+    ],
+  },
+  {
+    id: 'uk-calculator-follow-up',
+    version: '2026-08-24.1',
+    name: 'UK Calculator PDF Follow-Up — Manual Start',
+    market: 'UK',
+    mode: 'sequence',
+    classification: 'promotional',
+    enabled: false,
+    manualStart: true,
+    supersedesCampaigns: ['uk-salon-stockist'],
+    timezone: 'Europe/London',
+    localSendHour: 10,
+    minimumContactGapHours: 16,
+    exitEvents: ['reply', 'trial_requested', 'order_placed', 'unsubscribe', 'complaint', 'hard_bounce', 'existing_customer', 'current_negotiation', 'manual_suppression'],
+    steps: [
+      { key: '01-your-numbers', number: 1, day: 1, templateAlias: 'jc-uk-calculator-follow-up-01-your-numbers', templateId: null, subject: 'What your spray-tan numbers are really showing', requiredVariables: ['GREETING_NAME', 'BUSINESS_NAME', 'MONTHLY_PROFIT', 'LITRES_PER_MONTH', 'CALCULATOR_LINK', 'PREFERENCES_LINK'] },
+      { key: '02-margin-levers', number: 2, day: 4, templateAlias: 'jc-uk-calculator-follow-up-02-margin-levers', templateId: null, subject: 'The three levers behind your spray-tan margin', requiredVariables: ['GREETING_NAME', 'BUSINESS_NAME', 'TANS_PER_WEEK', 'CALCULATOR_LINK', 'PREFERENCES_LINK'] },
+      { key: '03-test-the-result', number: 3, day: 9, templateAlias: 'jc-uk-calculator-follow-up-03-test-the-result', templateId: null, subject: 'The numbers matter—but the client result comes first', requiredVariables: ['GREETING_NAME', 'BUSINESS_NAME', 'TRIAL_LINK', 'PREFERENCES_LINK'] },
+      { key: '04-next-step', number: 4, day: 16, templateAlias: 'jc-uk-calculator-follow-up-04-next-step', templateId: null, subject: 'Your next step from the profit plan', requiredVariables: ['GREETING_NAME', 'BUSINESS_NAME', 'CALCULATOR_LINK', 'TRIAL_LINK', 'ORDER_LINK', 'PREFERENCES_LINK'] },
     ],
   },
   {
     id: 'uk-pro-order-follow-up',
-    version: '2026-08-19.1',
+    version: '2026-08-24.2',
     name: 'UK Pro Order Follow-Up — Manual Start',
     market: 'UK',
     mode: 'sequence',
@@ -147,10 +168,10 @@ export const campaignRegistry = [
     minimumContactGapHours: 16,
     exitEvents: ['reply', 'unsubscribe', 'complaint', 'hard_bounce', 'existing_customer', 'current_negotiation', 'manual_suppression'],
     steps: [
-      { key: '01-first-service', number: 1, day: 0, templateAlias: 'jc-uk-order-follow-up-01-first-service', templateId: '64e430bd-f71e-4233-9c7b-df5de97ab017', subject: 'A considered first professional service', requiredVariables: ['FIRST_NAME'] },
-      { key: '02-client-experience', number: 2, day: 4, templateAlias: 'jc-uk-order-follow-up-02-client-experience', templateId: 'b74a04bf-3489-4e6f-90a0-0219b8d5025d', subject: 'Preparing the client experience', requiredVariables: ['FIRST_NAME'] },
-      { key: '03-retail', number: 3, day: 11, templateAlias: 'jc-uk-order-follow-up-03-retail', templateId: '546d5af1-1b34-4428-afcf-2c073119be7c', subject: 'The conversation after the mirror', requiredVariables: ['FIRST_NAME'] },
-      { key: '04-next-step', number: 4, day: 21, templateAlias: 'jc-uk-order-follow-up-04-next-step', templateId: '3b2cf7c1-8cee-4c85-a1af-a19c65534d41', subject: 'Your next professional step', requiredVariables: ['FIRST_NAME'] },
+      { key: '01-first-service', number: 1, day: 0, templateAlias: 'jc-uk-order-follow-up-01-first-service', templateId: null, subject: 'A considered first professional service', requiredVariables: ['GREETING_NAME', 'PREFERENCES_LINK'] },
+      { key: '02-client-experience', number: 2, day: 4, templateAlias: 'jc-uk-order-follow-up-02-client-experience', templateId: null, subject: 'Preparing the client experience', requiredVariables: ['GREETING_NAME', 'PREFERENCES_LINK'] },
+      { key: '03-retail', number: 3, day: 11, templateAlias: 'jc-uk-order-follow-up-03-retail', templateId: null, subject: 'The conversation after the mirror', requiredVariables: ['GREETING_NAME', 'PREFERENCES_LINK'] },
+      { key: '04-next-step', number: 4, day: 21, templateAlias: 'jc-uk-order-follow-up-04-next-step', templateId: null, subject: 'Your next professional step', requiredVariables: ['GREETING_NAME', 'PREFERENCES_LINK'] },
     ],
   },
   {
@@ -204,9 +225,9 @@ export const campaignRegistry = [
     timezone: 'Europe/London',
     localSendHour: 9,
     steps: [
-      { key: 'trial-request-received', trigger: 'reseller_trial_request_received', delayDays: 0, number: 1, enabled: true, templateAlias: 'jc-transactional-free-sample-request-received-v2', templateId: '5dfc9c2c-5c07-4f32-9520-708ff743ae0a', classification: 'service', subject: 'We have your free sample request', requiredVariables: ['APPLICANT_NAME', 'BUSINESS_NAME', 'SENDER_NAME'] },
+      { key: 'trial-request-received', trigger: 'reseller_trial_request_received', delayDays: 0, number: 1, enabled: true, templateAlias: 'jc-transactional-free-sample-request-received-v2', templateId: null, classification: 'service', subject: 'We have your free sample request', requiredVariables: ['CONTACT_NAME', 'SALON_NAME', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
       { key: 'order-request-received', trigger: 'reseller_order_request_received', delayDays: 0, number: 2, enabled: false, templateAlias: 'uk-reseller-2-order-request-received', templateId: null, classification: 'service', subject: 'We have your trade order request', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ORDER_SUMMARY', 'CUSTOMER_NOTES', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
-      { key: 'internal-notice', trigger: 'reseller_application_internal_notice', delayDays: 0, number: 3, enabled: true, templateAlias: 'jc-transactional-free-sample-internal-notice-v2', templateId: 'c5199b11-c9a1-4c52-8bae-923a6ba92658', classification: 'transactional', subject: 'New free sample request — {{BUSINESS_NAME}}', requiredVariables: ['BUSINESS_NAME', 'APPLICANT_NAME', 'APPLICANT_EMAIL', 'BUSINESS_TYPE', 'SUBMISSION_SUMMARY', 'ADMIN_LINK'] },
+      { key: 'internal-notice', trigger: 'reseller_application_internal_notice', delayDays: 0, number: 3, enabled: true, templateAlias: 'jc-transactional-free-sample-internal-notice-v2', templateId: null, classification: 'transactional', subject: 'New free sample request — {{BUSINESS_NAME}}', requiredVariables: ['REQUEST_TYPE', 'SALON_NAME', 'CONTACT_NAME', 'CONTACT_EMAIL', 'BUSINESS_TYPE', 'SUBMISSION_SUMMARY', 'ADMIN_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
       { key: 'approved-welcome', trigger: 'reseller_approved', delayDays: 0, number: 4, enabled: false, templateAlias: 'uk-reseller-4-approved-welcome', templateId: null, classification: 'service', subject: 'You are approved — welcome to Jimmy Coco', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ACCOUNT_CODE', 'PORTAL_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
       { key: 'portal-order-received', trigger: 'reseller_order_submitted', delayDays: 0, number: 5, enabled: false, templateAlias: 'uk-reseller-5-portal-order-received', templateId: null, classification: 'service', subject: 'Thank you for your order', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'ORDER_REFERENCE', 'ORDER_SUMMARY', 'ORDER_TOTAL', 'CUSTOMER_NOTES', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },
       { key: 'order-internal-notice', trigger: 'reseller_order_internal_notice', delayDays: 0, number: 6, enabled: false, templateAlias: 'uk-reseller-6-order-internal-notice', templateId: null, classification: 'transactional', subject: 'New trade portal order — {{ORDER_REFERENCE}}', requiredVariables: ['SALON_NAME', 'CONTACT_NAME', 'CONTACT_EMAIL', 'ACCOUNT_CODE', 'ORDER_REFERENCE', 'ORDER_SUMMARY', 'ORDER_TOTAL', 'CUSTOMER_NOTES', 'ADMIN_LINK', 'SENDER_NAME', 'SENDER_TITLE', 'PREFERENCES_LINK'] },

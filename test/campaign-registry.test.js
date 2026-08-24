@@ -37,22 +37,27 @@ test('UK and US salon outreach use the same 28-day cadence', () => {
   assert.deepEqual(us.steps.map((step) => step.day), expectedDays)
 })
 
-test('manual UK trial and order follow-ups remain separately scoped and disabled', () => {
+test('manual UK trial, calculator and order follow-ups are repository-rendered, separately scoped and disabled', () => {
   const trial = campaignRegistry.find((campaign) => campaign.id === 'uk-pro-trial-follow-up')
+  const calculator = campaignRegistry.find((campaign) => campaign.id === 'uk-calculator-follow-up')
   const order = campaignRegistry.find((campaign) => campaign.id === 'uk-pro-order-follow-up')
 
   assert.ok(trial)
+  assert.ok(calculator)
   assert.ok(order)
   assert.equal(trial.enabled, false)
+  assert.equal(calculator.enabled, false)
   assert.equal(order.enabled, false)
   assert.equal(trial.manualStart, true)
+  assert.equal(calculator.manualStart, true)
   assert.equal(order.manualStart, true)
   assert.deepEqual(trial.supersedesCampaigns, ['uk-salon-stockist'])
+  assert.deepEqual(calculator.supersedesCampaigns, ['uk-salon-stockist'])
   assert.deepEqual(order.supersedesCampaigns, ['uk-salon-stockist'])
   assert.deepEqual(trial.steps.map((step) => step.day), [0, 5, 12, 21])
+  assert.deepEqual(calculator.steps.map((step) => step.day), [1, 4, 9, 16])
   assert.deepEqual(order.steps.map((step) => step.day), [0, 4, 11, 21])
-  assert.equal(trial.steps.every((step) => typeof step.templateId === 'string' && step.templateId.length > 0), true)
-  assert.equal(order.steps.every((step) => typeof step.templateId === 'string' && step.templateId.length > 0), true)
+  assert.equal([trial, calculator, order].every((item) => item.steps.every((step) => step.templateId === null)), true)
 })
 
 test('template webhook lookup returns its campaign and step', () => {

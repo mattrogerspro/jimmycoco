@@ -222,12 +222,18 @@ export const contentStats = {
 
 export const sampleMergeData = {
   first_name: 'Sophie',
+  greeting_name: 'Sophie',
   salon_name: 'Maison Glow',
   city: 'London',
   sender_name: 'Matt',
   sender_title: 'Partnerships, Sunless by Jimmy Coco',
   sender_email: 'partnerships@sunlessbyjimmycoco.com',
   calendar_link: '#book-a-call',
+  calculator_link: 'https://www.jimmycoco.pro/tools/spray-tan-profit-calculator',
+  monthly_profit: '£705',
+  litres_per_month: '1.9',
+  tans_per_week: '12',
+  order_link: 'https://www.jimmycoco.pro/products/malibu-professional-spray-1l',
   trial_link: '#professional-trial',
   trade_link: '#uae-trade',
   shade_guide_link: '#shade-guide',

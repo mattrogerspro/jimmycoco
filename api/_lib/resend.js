@@ -32,6 +32,7 @@ function variableDefaults(contact, campaign, step) {
     SUPPORT_EMAIL: process.env.EMAIL_SUPPORT_EMAIL || process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
     BUSINESS_ADDRESS: process.env.EMAIL_BUSINESS_ADDRESS,
     CALENDAR_LINK: process.env.EMAIL_CALENDAR_LINK,
+    CALCULATOR_LINK: process.env.EMAIL_CALCULATOR_LINK || 'https://www.jimmycoco.pro/tools/spray-tan-profit-calculator',
     TRIAL_LINK: trialLinkFor(campaign, step),
     TRADE_LINK: process.env.EMAIL_TRADE_LINK,
     SHADE_GUIDE_LINK: process.env.EMAIL_SHADE_GUIDE_LINK,

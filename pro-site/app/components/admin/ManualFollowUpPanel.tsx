@@ -41,7 +41,7 @@ export function ManualFollowUpPanel({ campaignId, label, sourceLabel, eligible, 
             <input type="hidden" name="intent" value="start-follow-up" />
             <input type="hidden" name="campaignId" value={campaignId} />
             <button className="admin-primary" type="submit" disabled={busy}>Start {label}</button>
-            <p>Starts now from this {sourceLabel} and first ends any active UK prospecting sequence for this contact.</p>
+            <p>Starts from this {sourceLabel} on the campaign schedule and first ends any active UK prospecting sequence for this contact.</p>
           </Form>
         ) : null}
         {eligible && history.configured && active ? (

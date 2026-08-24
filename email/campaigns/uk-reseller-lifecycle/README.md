@@ -3,8 +3,8 @@
 **Goal:** acknowledge every pro-site trade request, keep the admin team notified, and confirm approved-reseller portal orders.
 **Audience:** UK salons, spas, mobile professionals and multi-site groups using www.jimmycoco.pro.
 **Market:** UK
-**Channel:** Email. ESP: Resend. Sent by the outreach worker via `shared/campaign-registry.js`.
-**Status:** Draft — not approved for send
+**Channel:** Email. ESP: Resend transport. HTML is rendered from repository source by the app.
+**Status:** Repository-rendered lifecycle; production still depends on database and `EMAIL_LIVE_MODE` gates.
 **Owner:** Partnerships
 **Entry:** the recipient submitted a pro-site request, was approved by admin, or placed a portal order.
 
@@ -42,15 +42,15 @@ All messages are immediate event responses. There are no scheduled follow-ups in
 - No payment is taken by these flows.
 - No cold outreach or promotional follow-up belongs in this lifecycle.
 - Suppression, bounce, complaint and idempotency handling is inherited from the engine.
-- The campaign remains disabled until Resend template publication, registry enablement, database enablement and `EMAIL_LIVE_MODE=true` are explicitly approved.
+- Sends remain blocked unless the database campaign gate and `EMAIL_LIVE_MODE=true` are explicitly approved.
 
 ## Approval tokens
 
 | Token | Needed for | Status |
 |---|---|---|
 | `{{BUSINESS_ADDRESS}}` | Footer, all emails | Supplied from `EMAIL_BUSINESS_ADDRESS`; must be configured before live send. |
-| `{{PREFERENCES_LINK}}` | Removal/preferences link | Supplied from `EMAIL_PREFERENCES_LINK`, falling back to a monitored mailto removal request. |
-| Resend template IDs | All seven messages | Not published yet; `templateId` values remain `null` until approved release. |
+| `{{PREFERENCES_LINK}}` | Removal/preferences link | Supplied by the app for marketing/lifecycle sends. Service-only lifecycle receipts do not add list-unsubscribe headers. |
+| Resend template IDs | All seven messages | Deprecated. Runtime delivery uses repository-rendered HTML with `templateId: null`. |
 
 ## Compliance notes
 

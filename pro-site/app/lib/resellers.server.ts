@@ -20,6 +20,7 @@ export type ResellerApplication = {
   wants_trial: boolean;
   status: ApplicationStatus;
   source: string;
+  metadata: Record<string, unknown>;
   review_note: string | null;
   reviewed_at: string | null;
   created_at: string;
@@ -114,7 +115,7 @@ export async function listApplications(supabase: SupabaseClient, status?: Applic
   let query = supabase
     .from("reseller_applications")
     .select(
-      "id, business_name, contact_name, email, phone, business_type, market, message, wants_trial, status, source, review_note, reviewed_at, created_at",
+      "id, business_name, contact_name, email, phone, business_type, market, message, wants_trial, status, source, metadata, review_note, reviewed_at, created_at",
     )
     .order("created_at", { ascending: false })
     .limit(200);

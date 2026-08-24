@@ -5,7 +5,7 @@ import { emitResellerEventSafely } from "./reseller-events.server";
  * Server-only integration contract for a free-trial application.
  *
  * The transactional welcome is emitted through the existing lifecycle service,
- * which owns the live-send, Resend-template and audit-copy safeguards. The
+ * which owns the live-send, repository-template and audit-copy safeguards. The
  * promotional Trial Follow-Up is intentionally separate and must be started by
  * a member of staff from the Pro admin; it is never called automatically here.
  */

@@ -5,6 +5,7 @@ import auOutreachTest from './campaigns/au-new-salon-outreach-test/email-data.js
 import auSeeding from './campaigns/au-salon-seeding/email-data.json' with { type: 'json' }
 import auSydney from './campaigns/au-sydney-salon-stockist/email-data.json' with { type: 'json' }
 import uaeDubai from './campaigns/uae-dubai-salon-stockist/email-data.json' with { type: 'json' }
+import ukCalculatorFollowUp from './campaigns/uk-calculator-follow-up/email-data.json' with { type: 'json' }
 import ukOrderFollowUp from './campaigns/uk-pro-order-follow-up/email-data.json' with { type: 'json' }
 import ukTrialFollowUp from './campaigns/uk-pro-trial-follow-up/email-data.json' with { type: 'json' }
 import ukReseller from './campaigns/uk-reseller-lifecycle/email-data.json' with { type: 'json' }
@@ -22,6 +23,7 @@ const campaignManifests = [
   { id: 'au-salon-seeding', manifest: auSeeding },
   { id: 'au-sydney-salon-stockist', manifest: auSydney },
   { id: 'uae-dubai-salon-stockist', manifest: uaeDubai },
+  { id: 'uk-calculator-follow-up', manifest: ukCalculatorFollowUp },
   { id: 'uk-pro-order-follow-up', manifest: ukOrderFollowUp },
   { id: 'uk-pro-trial-follow-up', manifest: ukTrialFollowUp },
   { id: 'uk-reseller-lifecycle', manifest: ukReseller },

@@ -15,20 +15,23 @@ function campaign(id) {
   return result
 }
 
-test('manual Trial and Order Follow-Up campaigns have a complete but disabled release contract', () => {
+test('manual Trial, Calculator and Order Follow-Up campaigns have a repository-rendered disabled release contract', () => {
   const trial = campaign('uk-pro-trial-follow-up')
+  const calculator = campaign('uk-calculator-follow-up')
   const order = campaign('uk-pro-order-follow-up')
 
-  for (const item of [trial, order]) {
+  for (const item of [trial, calculator, order]) {
     assert.equal(item.mode, 'sequence')
     assert.equal(item.manualStart, true)
     assert.equal(item.enabled, false)
     assert.deepEqual(item.supersedesCampaigns, ['uk-salon-stockist'])
     assert.equal(item.steps.length, 4)
-    assert.equal(item.steps.every((step) => typeof step.templateId === 'string' && step.templateId.length > 0), true)
+    assert.equal(item.steps.every((step) => step.templateId === null), true)
+    assert.equal(item.steps.every((step) => step.requiredVariables.includes('PREFERENCES_LINK')), true)
   }
 
   assert.deepEqual(trial.steps.map((step) => step.day), [0, 5, 12, 21])
+  assert.deepEqual(calculator.steps.map((step) => step.day), [1, 4, 9, 16])
   assert.deepEqual(order.steps.map((step) => step.day), [0, 4, 11, 21])
 })
 
@@ -81,7 +84,7 @@ test('server-only manual trigger bridge submits distinct Trial and Order enrollm
       { campaign: order.campaign_id, event: order.event_id, source: order.source_type, id: order.source_id, market: order.market },
       { campaign: 'uk-pro-order-follow-up', event: 'manual-follow-up/uk-pro-order-follow-up/order/order-789', source: 'order', id: 'order-789', market: 'UK' },
     )
-    assert.equal(trial.context.FIRST_NAME, 'Matthew')
+    assert.equal(trial.context.GREETING_NAME, 'Matthew')
     assert.equal(order.context.ORDER_STATUS, 'confirmed')
   } finally {
     globalThis.fetch = originalFetch
@@ -142,6 +145,8 @@ test('Pro-admin application and order detail views mount the protected manual fo
   ])
 
   assert.match(applicationRoute, /<ManualFollowUpPanel[\s\S]*campaignId="uk-pro-trial-follow-up"/)
+  assert.match(applicationRoute, /<ManualFollowUpPanel[\s\S]*campaignId="uk-calculator-follow-up"/)
+  assert.match(applicationRoute, /application\.source === "pro-site-calculator-report"/)
   assert.match(applicationRoute, /startUKTrialFollowUpManually/)
   assert.match(orderRoute, /<ManualFollowUpPanel[\s\S]*campaignId="uk-pro-order-follow-up"/)
   assert.match(panel, /name="intent" value="start-follow-up"/)

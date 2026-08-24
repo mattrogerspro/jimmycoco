@@ -1,25 +1,25 @@
 {
   "campaign": "uk-reseller-lifecycle",
   "publish": false,
-  "status": "DRAFT — TRANSACTIONAL V2 NOT WIRED TO BACKEND",
+  "status": "DEPRECATED - REPOSITORY DIRECT SEND",
   "templates": [
     {
       "file": "emails/1-free-trial-request-received.html",
-      "alias": "jc-transactional-trade-application-received-v2",
-      "id": "5dfc9c2c-5c07-4f32-9520-708ff743ae0a",
-      "name": "JC-TRANSACTIONAL-TRADE-APPLICATION-RECEIVED-V2",
-      "subject": "We have your trade application",
+      "alias": "jc-transactional-free-sample-request-received-v2",
+      "id": null,
+      "name": "JC-TRANSACTIONAL-FREE-SAMPLE-REQUEST-RECEIVED-V2",
+      "subject": "We have your free sample request",
       "trigger": "reseller_trial_request_received",
-      "backendAction": "Map the form/application receipt to this template after implementation review."
+      "backendAction": "Sent directly from repository-rendered HTML by the app."
     },
     {
       "file": "emails/4-approved-welcome.html",
       "alias": "jc-transactional-trade-approved-v2",
-      "id": "f92a94dd-4f19-4542-a3f8-545500a61630",
+      "id": null,
       "name": "JC-TRANSACTIONAL-TRADE-APPROVED-V2",
       "subject": "You are approved — welcome to Jimmy Coco",
       "trigger": "reseller_approved",
-      "backendAction": "Map the trade-approval event to this template after implementation review."
+      "backendAction": "Reserved for direct repository-rendered delivery when the approval event is enabled."
     }
   ]
 }

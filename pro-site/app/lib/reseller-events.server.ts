@@ -3,8 +3,7 @@
  *
  * The engine refuses to send unless the campaign is enabled in
  * shared/campaign-registry.js AND in email_campaigns AND EMAIL_LIVE_MODE is on.
- * uk-reseller-lifecycle ships disabled with no template ids, so these calls are
- * recorded and rejected until the templates are built and explicitly released.
+ * Lifecycle email HTML is rendered from repository source; Resend is transport.
  */
 
 export type ResellerTrigger =

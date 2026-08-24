@@ -3,7 +3,7 @@
   "market": "UK",
   "purpose": "professional-follow-up",
   "esp": "resend",
-  "status": "PUBLISHED IN RESEND — CAMPAIGN DISABLED",
+  "status": "REPOSITORY DIRECT SEND — CAMPAIGN DISABLED",
   "defaults": {
     "lang": "en-GB",
     "homeUrl": "https://www.jimmycoco.pro",
@@ -17,7 +17,7 @@
     "businessName": "JIMMY COCO (UK) LIMITED",
     "businessAddress": "22 St. James's Walk, London, England, EC1R 0AP",
     "unsubscribeText": "You are receiving this because you requested a Jimmy Coco Pro trial or asked to continue the professional conversation.",
-    "unsubscribeUrl": "{{{RESEND_UNSUBSCRIBE_URL}}}",
+    "unsubscribeUrl": "{{{PREFERENCES_LINK}}}",
     "unsubscribeLabel": "Unsubscribe",
     "senderName": "Matthew at Jimmy Coco Pro",
     "senderTitle": "Sunless Partnerships · Jimmy Coco (UK)"
@@ -31,7 +31,7 @@
       "eyebrow": "Your professional trial",
       "headline": "A useful trial gives you something real to judge.",
       "blocks": [
-        {"type":"paragraph","html":"Hi {{{FIRST_NAME}}},"},
+        {"type":"paragraph","html":"Hi {{{GREETING_NAME}}},"},
         {"type":"paragraph","html":"You have already requested the trial. The useful next step is not another product pitch; it is one considered real-client test in the setting where you would actually use the professional solution."},
         {"type":"bullets","items":["<strong>Application:</strong> how the solution feels through your usual HVLP workflow.","<strong>Finished result:</strong> how the finish develops over the stated 6–8-hour window.","<strong>Service fit:</strong> whether the result suits the treatment you want <strong>{{{BUSINESS_NAME}}}</strong> to offer."]},
         {"type":"paragraph","html":"There is no pressure to decide quickly. If you would like a second pair of eyes on how to structure the test, Matthew will help personally."},
@@ -47,7 +47,7 @@
       "eyebrow": "The result review",
       "headline": "Separate the product from the whole service experience.",
       "blocks": [
-        {"type":"paragraph","html":"Hi {{{FIRST_NAME}}},"},
+        {"type":"paragraph","html":"Hi {{{GREETING_NAME}}},"},
         {"type":"paragraph","html":"When you review a first professional result, it helps to look at the service in three parts rather than trying to decide everything from one number or one photograph."},
         {"type":"bullets","items":["<strong>Application:</strong> how it works through your regular equipment.","<strong>Finish:</strong> how the developed colour reads in daylight, photographs and the client’s mirror.","<strong>Menu fit:</strong> whether the consultation and result make sense inside your current service." ]},
         {"type":"paragraph","html":"Those are the questions that make the trial useful. If you would like to talk through the result, Matthew is available to help."},
@@ -63,7 +63,7 @@
       "eyebrow": "Professional service maths",
       "headline": "A clear baseline before you price the service your way.",
       "blocks": [
-        {"type":"paragraph","html":"Hi {{{FIRST_NAME}}},"},
+        {"type":"paragraph","html":"Hi {{{GREETING_NAME}}},"},
         {"type":"paragraph","html":"If the test looks right in your hands, the next sensible question is whether the service economics work for your business."},
         {"type":"offer","html":"The current UK professional 1-litre solution is <strong>£60</strong> and provides approximately <strong>28 full-body tans</strong>. That is an approximate <strong>solution cost of £2.14 per tan</strong>."},
         {"type":"paragraph","html":"It is a baseline, not a profit promise or a suggested treatment price. Labour, disposables, card fees, premises and VAT still belong in your own calculation."},
@@ -79,7 +79,7 @@
       "eyebrow": "A final note",
       "headline": "I will leave the timing with you.",
       "blocks": [
-        {"type":"paragraph","html":"Hi {{{FIRST_NAME}}},"},
+        {"type":"paragraph","html":"Hi {{{GREETING_NAME}}},"},
         {"type":"paragraph","html":"If you would like to continue the conversation for <strong>{{{BUSINESS_NAME}}}</strong>, there are three simple routes."},
         {"type":"bullets","items":["<strong>RESULT:</strong> talk through the trial and what you noticed.","<strong>NUMBERS:</strong> review the service calculation using your own model.","<strong>ORDER:</strong> discuss the professional ordering route with Matthew."]},
         {"type":"paragraph","html":"If the timing is not right, there is nothing you need to do. This follow-up will pause here and Matthew will be available when you are ready."},

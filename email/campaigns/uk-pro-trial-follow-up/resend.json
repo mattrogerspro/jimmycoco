@@ -1,11 +1,11 @@
 {
   "campaign": "uk-pro-trial-follow-up",
   "publish": false,
-  "status": "PUBLISHED IN RESEND — CAMPAIGN DISABLED",
+  "status": "DEPRECATED — REPOSITORY DIRECT SEND",
   "templates": [
-    {"file":"emails/1-trial-test-plan.html","alias":"jc-uk-trial-follow-up-01-test-plan","id":"ce0665c6-a205-45f9-9626-484eaa320a20","name":"JC UK Pro Trial Follow-Up 01 — Test Plan","subject":"A real-client test, at your pace"},
-    {"file":"emails/2-result-review.html","alias":"jc-uk-trial-follow-up-02-result-review","id":"af33fc1a-45b5-45bb-8d7e-298b6ad804aa","name":"JC UK Pro Trial Follow-Up 02 — Result Review","subject":"What to notice in the first result"},
-    {"file":"emails/3-service-maths.html","alias":"jc-uk-trial-follow-up-03-service-maths","id":"91987cee-ac1b-4ead-b766-267dca40704c","name":"JC UK Pro Trial Follow-Up 03 — Service Maths","subject":"The service maths after a good test"},
-    {"file":"emails/4-next-step.html","alias":"jc-uk-trial-follow-up-04-next-step","id":"61d444ef-b61a-419e-8f19-ce08a8deb653","name":"JC UK Pro Trial Follow-Up 04 — Next Step","subject":"The next step is yours"}
+    {"file":"emails/1-trial-test-plan.html","alias":"jc-uk-trial-follow-up-01-test-plan","id":null,"name":"JC UK Pro Trial Follow-Up 01 — Test Plan","subject":"A real-client test, at your pace"},
+    {"file":"emails/2-result-review.html","alias":"jc-uk-trial-follow-up-02-result-review","id":null,"name":"JC UK Pro Trial Follow-Up 02 — Result Review","subject":"What to notice in the first result"},
+    {"file":"emails/3-service-maths.html","alias":"jc-uk-trial-follow-up-03-service-maths","id":null,"name":"JC UK Pro Trial Follow-Up 03 — Service Maths","subject":"The service maths after a good test"},
+    {"file":"emails/4-next-step.html","alias":"jc-uk-trial-follow-up-04-next-step","id":null,"name":"JC UK Pro Trial Follow-Up 04 — Next Step","subject":"The next step is yours"}
   ]
 }

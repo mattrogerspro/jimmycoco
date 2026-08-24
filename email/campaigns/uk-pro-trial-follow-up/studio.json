@@ -6,6 +6,6 @@
   "owner": "Matthew at Jimmy Coco Pro",
   "mode": "Manual-start sequence",
   "cadence": "Days 0, 5, 12 and 21",
-  "status": "Draft — disabled",
+  "status": "Repository direct send — disabled",
   "days": [0, 5, 12, 21]
 }

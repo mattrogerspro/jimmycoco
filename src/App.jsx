@@ -735,8 +735,9 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
       <div className="email-toolbar">
         <div className="campaign-select-wrap">
           <label>Campaign</label>
-          <select value={campaign.id} onChange={(event) => routeTo(['emails', event.target.value])}>
-            {campaigns.map((item) => <option key={item.id} value={item.id}>{item.flag} {item.name}</option>)}
+          <select value={campaign.archived ? '' : campaign.id} onChange={(event) => routeTo(['emails', event.target.value])} aria-label="Select an active email campaign">
+            {campaign.archived && <option value="" disabled>Archived email reference</option>}
+            {activeCampaigns.map((item) => <option key={item.id} value={item.id}>{item.flag} {item.name}</option>)}
           </select>
           <Icon name="chevron" size={15} />
         </div>

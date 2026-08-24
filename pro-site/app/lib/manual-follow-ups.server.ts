@@ -1,6 +1,6 @@
-export const FOLLOW_UP_CAMPAIGN_IDS = ["uk-pro-trial-follow-up", "uk-pro-order-follow-up"] as const;
+export const FOLLOW_UP_CAMPAIGN_IDS = ["uk-pro-trial-follow-up", "uk-calculator-follow-up", "uk-pro-order-follow-up"] as const;
 export type FollowUpCampaignId = (typeof FOLLOW_UP_CAMPAIGN_IDS)[number];
-export type FollowUpSourceType = "application" | "order";
+export type FollowUpSourceType = "application" | "calculator_report" | "order";
 
 export type FollowUpEnrollment = {
   id: string;
@@ -84,6 +84,7 @@ export async function startManualFollowUp(input: {
   owner: string;
   contact: Contact;
   context?: Record<string, unknown>;
+  startAt?: string;
 }) {
   return callAutomation<{ enrollment_id: string; status: string; next_send_at: string | null }>("/api/campaigns/enroll", {
     campaign_id: input.campaignId,
@@ -95,8 +96,9 @@ export async function startManualFollowUp(input: {
     first_name: input.contact.firstName,
     business_name: input.contact.businessName,
     market: input.contact.market,
+    start_at: input.startAt,
     context: {
-      FIRST_NAME: input.contact.firstName || "there",
+      GREETING_NAME: input.contact.firstName || "there",
       BUSINESS_NAME: input.contact.businessName || "your business",
       SOURCE_TYPE: input.sourceType,
       SOURCE_ID: input.sourceId,

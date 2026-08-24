@@ -1,0 +1,11 @@
+{
+  "order": 42,
+  "name": "UK Calculator PDF Follow-Up",
+  "market": "🇬🇧 UK",
+  "hook": "Manual follow-up for an eligible salon that requested the spray-tan profit-plan PDF.",
+  "owner": "Matthew at Jimmy Coco Pro",
+  "mode": "Manual-start sequence",
+  "cadence": "Days 1, 4, 9 and 16",
+  "status": "Repository direct send — disabled",
+  "days": [1, 4, 9, 16]
+}

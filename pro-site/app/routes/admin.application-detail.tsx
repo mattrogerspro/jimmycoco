@@ -40,12 +40,13 @@ export async function action({ request, params }: ActionFunctionArgs) {
   try {
     if (intent === "start-follow-up") {
       const campaignId = String(form.get("campaignId") ?? "") as FollowUpCampaignId;
-      if (campaignId !== "uk-pro-trial-follow-up" && campaignId !== "uk-pro-order-follow-up") throw new Error("Choose a valid manual follow-up campaign.");
+      if (!(["uk-pro-trial-follow-up", "uk-calculator-follow-up", "uk-pro-order-follow-up"] as FollowUpCampaignId[]).includes(campaignId)) throw new Error("Choose a valid manual follow-up campaign.");
       const application = await getApplication(supabase, applicationId);
       if (!application) throw new Error("Application not found.");
       if (application.market !== "UK") throw new Error("Manual follow-up campaigns are currently available for UK applications only.");
       if (application.status === "declined") throw new Error("A declined application cannot enter a promotional follow-up.");
       if (campaignId === "uk-pro-trial-follow-up" && !application.wants_trial) throw new Error("This application did not request a free trial.");
+      if (campaignId === "uk-calculator-follow-up" && application.source !== "pro-site-calculator-report") throw new Error("Start the calculator follow-up from a calculator PDF request.");
       if (campaignId === "uk-pro-order-follow-up" && application.source !== "pro-site-order") throw new Error("Start the order follow-up from a website order enquiry or a confirmed order.");
       if (campaignId === "uk-pro-trial-follow-up") {
         await startUKTrialFollowUpManually({
@@ -57,13 +58,32 @@ export async function action({ request, params }: ActionFunctionArgs) {
           ownerUserId: staff.userId,
         });
       } else {
+        const calculatorInputs = application.metadata?.calculator_inputs as Record<string, unknown> | undefined;
+        const calculatorTotals = application.metadata?.calculator_totals as Record<string, unknown> | undefined;
+        const isCalculator = campaignId === "uk-calculator-follow-up";
+        const netMonth = Number(calculatorTotals?.netMonth);
+        const litresPerMonth = Number(calculatorTotals?.litresPerMonth);
+        const tansPerWeek = Number(calculatorInputs?.tansPerWeek);
+        if (isCalculator && (![netMonth, litresPerMonth, tansPerWeek].every(Number.isFinite))) {
+          throw new Error("This calculator request is missing the saved calculation required for follow-up personalisation.");
+        }
         await startManualFollowUp({
           campaignId,
-          sourceType: "application",
+          sourceType: isCalculator ? "calculator_report" : "application",
           sourceId: application.id,
           owner: staff.userId,
           contact: { email: application.email, firstName: application.contact_name.split(" ")[0] ?? "there", businessName: application.business_name, market: "UK" },
-          context: { APPLICATION_ID: application.id, APPLICATION_SOURCE: application.source, BUSINESS_TYPE: application.business_type },
+          startAt: isCalculator ? new Date(Date.now() + 86_400_000).toISOString() : undefined,
+          context: {
+            APPLICATION_ID: application.id,
+            APPLICATION_SOURCE: application.source,
+            BUSINESS_TYPE: application.business_type,
+            ...(isCalculator ? {
+              MONTHLY_PROFIT: Number.isFinite(netMonth) ? `£${Math.round(netMonth).toLocaleString("en-GB")}` : null,
+              LITRES_PER_MONTH: Number.isFinite(litresPerMonth) ? litresPerMonth.toLocaleString("en-GB", { maximumFractionDigits: 1 }) : null,
+              TANS_PER_WEEK: Number.isFinite(tansPerWeek) ? String(tansPerWeek) : null,
+            } : {}),
+          },
         });
       }
       return data({ notice: "Manual follow-up enrolled. The campaign remains subject to its release gates." }, { headers: responseHeaders });
@@ -71,7 +91,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
     if (intent === "stop-follow-up") {
       const campaignId = String(form.get("campaignId") ?? "") as FollowUpCampaignId;
-      if (campaignId !== "uk-pro-trial-follow-up" && campaignId !== "uk-pro-order-follow-up") throw new Error("Choose a valid manual follow-up campaign.");
+      if (!(["uk-pro-trial-follow-up", "uk-calculator-follow-up", "uk-pro-order-follow-up"] as FollowUpCampaignId[]).includes(campaignId)) throw new Error("Choose a valid manual follow-up campaign.");
       const application = await getApplication(supabase, applicationId);
       if (!application) throw new Error("Application not found.");
       await stopManualFollowUp({
@@ -250,15 +270,28 @@ export default function ApplicationDetail() {
               </p>
             </div>
           </section>
-          <ManualFollowUpPanel
-            campaignId="uk-pro-trial-follow-up"
-            label="Trial follow-up"
-            sourceLabel="trial application"
-            eligible={application.market === "UK" && application.wants_trial && application.status !== "declined"}
-            ineligibleReason={application.status === "declined" ? "Declined applications cannot enter a follow-up." : application.market !== "UK" ? "This follow-up is currently available for UK applications only." : "This application did not request a free trial."}
-            history={followUpHistory}
-            busy={busy}
-          />
+          {application.wants_trial ? (
+            <ManualFollowUpPanel
+              campaignId="uk-pro-trial-follow-up"
+              label="Trial follow-up"
+              sourceLabel="trial application"
+              eligible={application.market === "UK" && application.status !== "declined"}
+              ineligibleReason={application.status === "declined" ? "Declined applications cannot enter a follow-up." : "This follow-up is currently available for UK applications only."}
+              history={followUpHistory}
+              busy={busy}
+            />
+          ) : null}
+          {application.source === "pro-site-calculator-report" ? (
+            <ManualFollowUpPanel
+              campaignId="uk-calculator-follow-up"
+              label="Calculator PDF follow-up"
+              sourceLabel="calculator PDF request"
+              eligible={application.market === "UK" && application.status !== "declined"}
+              ineligibleReason={application.status === "declined" ? "Declined applications cannot enter a follow-up." : "This follow-up is currently available for UK calculator requests only."}
+              history={followUpHistory}
+              busy={busy}
+            />
+          ) : null}
           {application.source === "pro-site-order" ? (
             <ManualFollowUpPanel
               campaignId="uk-pro-order-follow-up"

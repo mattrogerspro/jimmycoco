@@ -5,6 +5,10 @@ import { campaignsById } from '../shared/campaign-registry.js'
 const campaignIds = [
   'uk-salon-stockist',
   'us-west-coast-salon-stockist',
+  'uk-reseller-lifecycle',
+  'uk-pro-trial-follow-up',
+  'uk-calculator-follow-up',
+  'uk-pro-order-follow-up',
 ]
 
 const onlyArgument = process.argv.find((argument) => argument.startsWith('--only='))
@@ -22,7 +26,10 @@ let validated = 0
 
 for (const campaignId of campaignIds) {
   const campaign = campaignsById[campaignId]
-  for (const step of campaign.steps) {
+  const steps = campaignId === 'uk-reseller-lifecycle'
+    ? campaign.steps.filter((step) => step.enabled !== false)
+    : campaign.steps
+  for (const step of steps) {
     if (onlyAlias && step.templateAlias !== onlyAlias) continue
     let rendered
     try {

@@ -1,0 +1,90 @@
+{
+  "campaign": "uk-calculator-follow-up",
+  "market": "UK",
+  "purpose": "calculator-report-follow-up",
+  "esp": "resend-transport-only",
+  "status": "REPOSITORY DIRECT SEND — CAMPAIGN DISABLED",
+  "defaults": {
+    "lang": "en-GB",
+    "homeUrl": "https://www.jimmycoco.pro",
+    "background": "#EAE2D8",
+    "cardBackground": "#FBF8F3",
+    "accent": "#A77952",
+    "text": "#3B3630",
+    "heading": "#24211E",
+    "buttonBackground": "#26231F",
+    "buttonText": "#FFFDF9",
+    "businessName": "JIMMY COCO (UK) LIMITED",
+    "businessAddress": "22 St. James's Walk, London, England, EC1R 0AP",
+    "unsubscribeText": "You are receiving this because you requested a Jimmy Coco Pro spray-tan profit plan and a member of staff confirmed this professional follow-up was appropriate.",
+    "unsubscribeUrl": "{{{PREFERENCES_LINK}}}",
+    "unsubscribeLabel": "Unsubscribe",
+    "senderName": "Matthew at Jimmy Coco Pro",
+    "senderTitle": "Sunless Partnerships · Jimmy Coco (UK)"
+  },
+  "messages": [
+    {
+      "output": "emails/1-your-numbers.html",
+      "alias": "jc-uk-calculator-follow-up-01-your-numbers",
+      "title": "What your spray-tan numbers are really showing",
+      "preview": "A calm read of the volume and profit assumptions in your PDF plan.",
+      "eyebrow": "Your profit plan",
+      "headline": "The useful part is knowing which assumptions deserve your attention.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{{GREETING_NAME}}},"},
+        {"type":"paragraph","html":"Your PDF model for <strong>{{{BUSINESS_NAME}}}</strong> estimated <strong>{{{MONTHLY_PROFIT}}} a month</strong> and approximately <strong>{{{LITRES_PER_MONTH}} litres of solution a month</strong> from the figures you entered."},
+        {"type":"paragraph","html":"That is not an earnings promise. It is a working model that makes the assumptions visible: treatment volume, price, chair time, consumables, room costs and retail contribution."},
+        {"type":"paragraph","html":"The best next step is to change one assumption at a time and see which number materially changes the result."},
+        {"type":"cta","label":"Reopen the profit calculator","url":"{{{CALCULATOR_LINK}}}"},
+        {"type":"note","html":"Reply <strong>NUMBERS</strong> if you would like Matthew to look at the model with you."}
+      ]
+    },
+    {
+      "output": "emails/2-margin-levers.html",
+      "alias": "jc-uk-calculator-follow-up-02-margin-levers",
+      "title": "The three levers behind your spray-tan margin",
+      "preview": "Volume, chair time and service price usually move the model more than solution cost alone.",
+      "eyebrow": "Commercial clarity",
+      "headline": "A cheaper litre is rarely the whole margin story.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{{GREETING_NAME}}},"},
+        {"type":"paragraph","html":"At <strong>{{{TANS_PER_WEEK}}} tans a week</strong>, the model for <strong>{{{BUSINESS_NAME}}}</strong> is shaped by three practical levers."},
+        {"type":"bullets","items":["<strong>Volume:</strong> more treatments spread the same room costs across more appointments.","<strong>Chair time:</strong> consultation, application and reset time affect the full delivery cost.","<strong>Service value:</strong> the price must support the experience and result your client is booking."]},
+        {"type":"paragraph","html":"Solution cost matters, but judging a professional formula only by the litre price can hide the larger commercial picture."},
+        {"type":"cta","label":"Test another scenario","url":"{{{CALCULATOR_LINK}}}"},
+        {"type":"note","html":"Reply <strong>MARGIN</strong> for a human review of the assumptions."}
+      ]
+    },
+    {
+      "output": "emails/3-test-the-result.html",
+      "alias": "jc-uk-calculator-follow-up-03-test-the-result",
+      "title": "The numbers matter—but the client result comes first",
+      "preview": "A commercial model is most useful once you know the colour and service fit your salon.",
+      "eyebrow": "From model to real client",
+      "headline": "Before an order decision, test the service you would actually deliver.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{{GREETING_NAME}}},"},
+        {"type":"paragraph","html":"The calculator can show whether the service structure looks viable for <strong>{{{BUSINESS_NAME}}}</strong>. It cannot tell you how the colour applies through your equipment, how it develops on a real client or how naturally it fits your treatment menu."},
+        {"type":"paragraph","html":"That is why the complimentary 100ml professional trial exists: to let an eligible UK salon assess the result before committing to the full ordering route."},
+        {"type":"cta","label":"Request the complimentary trial","url":"{{{TRIAL_LINK}}}"},
+        {"type":"note","html":"Reply <strong>TRIAL</strong> if you would rather arrange it with Matthew directly."}
+      ]
+    },
+    {
+      "output": "emails/4-next-step.html",
+      "alias": "jc-uk-calculator-follow-up-04-next-step",
+      "title": "Your next step from the profit plan",
+      "preview": "Rework the numbers, test the professional solution or discuss the order route.",
+      "eyebrow": "Choose the useful next step",
+      "headline": "The calculation has done its job if it makes the next decision clearer.",
+      "blocks": [
+        {"type":"paragraph","html":"Hi {{{GREETING_NAME}}},"},
+        {"type":"paragraph","html":"I will leave the timing with you after this note. For <strong>{{{BUSINESS_NAME}}}</strong>, there are three straightforward routes from here."},
+        {"type":"bullets","items":["Reopen the calculator and test a more conservative or ambitious scenario.","Request the complimentary professional trial and assess the result on a real client.","Review the professional ordering route if the result and service model are already clear."]},
+        {"type":"cta","label":"Reopen your decision routes","url":"{{{CALCULATOR_LINK}}}"},
+        {"type":"paragraph","html":"Trial route: <a href=\"{{{TRIAL_LINK}}}\">request a complimentary 100ml trial</a>.<br>Order route: <a href=\"{{{ORDER_LINK}}}\">view the professional solution</a>."},
+        {"type":"note","html":"Reply <strong>NUMBERS</strong>, <strong>TRIAL</strong> or <strong>ORDER</strong> and Matthew will pick it up personally."}
+      ]
+    }
+  ]
+}

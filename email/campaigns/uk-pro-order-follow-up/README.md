@@ -6,7 +6,7 @@
 
 **Market:** UK.  
 **Channel:** Promotional email through the application-managed Resend delivery service.  
-**Status:** Draft — disabled locally and in the database pending review, template publication and release approval.  
+**Status:** Repository-rendered draft — disabled locally and in the database pending review and release approval.  
 **Owner:** Matthew at Jimmy Coco Pro.
 
 ## Entry, exclusions and exit
@@ -33,5 +33,5 @@ No message may state that an order is accepted, paid, dispatched or delivered, o
 - `sequence.md` — human-readable copy and stop logic.
 - `email-data.json` — canonical generated-email input.
 - `studio.json` — Campaign Studio metadata.
-- `resend.json` — unpublished template-release manifest.
+- `resend.json` — deprecated historical release manifest; runtime sends repository-rendered HTML directly.
 - `emails/` — generated HTML; never hand-edit.

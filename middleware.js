@@ -1,7 +1,7 @@
 const COOKIE_NAME = 'jc_email_admin_session'
 
 export const config = {
-  matcher: ['/((?!api/auth/|api/cron/|api/health|api/webhooks/|api/preferences/|email-assets/|assets/|favicon.ico|robots.txt).*)'],
+  matcher: ['/((?!api/auth/|api/cron/|api/health|api/webhooks/|api/preferences/|healthz|email-assets/|assets/|favicon.ico|robots.txt).*)'],
 }
 
 function shouldProtectHost(host) {

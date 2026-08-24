@@ -47,6 +47,7 @@ test('static email studio is protected by jimmycoco.email middleware but operati
   assert.match(middleware, /api\/auth\//)
   assert.match(middleware, /api\/cron\//)
   assert.match(middleware, /api\/health/)
+  assert.match(middleware, /healthz/)
   assert.match(middleware, /api\/webhooks\//)
   assert.match(middleware, /email-assets\//)
 })

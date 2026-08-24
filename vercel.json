@@ -7,5 +7,8 @@
   "crons": [
     { "path": "/api/cron/process-sequences", "schedule": "*/15 * * * *" }
   ],
-  "rewrites": [{ "source": "/((?!email-assets/|api/).*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/healthz", "destination": "/api/health" },
+    { "source": "/((?!email-assets/|api/).*)", "destination": "/index.html" }
+  ]
 }

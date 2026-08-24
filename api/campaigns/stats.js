@@ -2,6 +2,27 @@ import { allowMethods, json } from '../_lib/http.js'
 import { requireEmailAdmin } from '../_lib/email-auth.js'
 import { assertSupabase, getSupabase, isSupabaseConfigured } from '../_lib/supabase.js'
 
+const REPORTABLE_MESSAGE_SOURCES = ['sequence_engine', 'lifecycle_engine', 'resend_broadcast']
+
+export function summariseReportableMessages(messages = []) {
+  const count = (field) => messages.filter((message) => Boolean(message[field])).length
+  const activity = messages
+    .map((message) => message.sent_at || message.created_at)
+    .filter(Boolean)
+    .sort()
+    .at(-1) || null
+  return {
+    sent: count('sent_at'),
+    delivered: count('delivered_at'),
+    opened: count('first_opened_at'),
+    clicked: count('first_clicked_at'),
+    bounced: count('bounced_at'),
+    complained: count('complained_at'),
+    failed: count('failed_at'),
+    last_activity_at: activity,
+  }
+}
+
 export function trackingForCampaign(campaign, environment = process.env) {
   const reporting = campaign?.reporting || {}
   return {
@@ -19,8 +40,18 @@ export default async function handler(request, response) {
   if (!campaignId) return json(response, 400, { error: 'campaign_id_required' })
   try {
     const supabase = getSupabase()
-    const campaign = assertSupabase(await supabase.from('email_campaign_stats').select('*').eq('campaign_id', campaignId).maybeSingle(), 'load campaign stats')
-    const steps = assertSupabase(await supabase.from('email_step_stats').select('*').eq('campaign_id', campaignId).order('step_number'), 'load step stats')
+    const campaignView = assertSupabase(await supabase.from('email_campaign_stats').select('*').eq('campaign_id', campaignId).maybeSingle(), 'load campaign stats')
+    const stepViews = assertSupabase(await supabase.from('email_step_stats').select('*').eq('campaign_id', campaignId).order('step_number'), 'load step stats')
+    const reportableMessages = assertSupabase(await supabase
+      .from('email_messages')
+      .select('step_key,sent_at,delivered_at,first_opened_at,first_clicked_at,bounced_at,complained_at,failed_at,created_at')
+      .eq('campaign_id', campaignId)
+      .in('source', REPORTABLE_MESSAGE_SOURCES), 'load reportable campaign messages') || []
+    const campaign = campaignView ? { ...campaignView, ...summariseReportableMessages(reportableMessages) } : null
+    const steps = (stepViews || []).map((step) => ({
+      ...step,
+      ...summariseReportableMessages(reportableMessages.filter((message) => message.step_key === step.step_key)),
+    }))
     const enrollments = assertSupabase(await supabase.from('email_enrollments').select('status,exit_reason').eq('campaign_id', campaignId), 'load campaign enrollment control stats') || []
     const jobs = assertSupabase(await supabase.from('email_jobs').select('status,last_error').eq('campaign_id', campaignId).in('status', ['pending', 'processing', 'needs_attention']), 'load campaign job control stats') || []
     const control = {

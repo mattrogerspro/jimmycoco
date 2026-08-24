@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "test": "node --experimental-strip-types --test",
     "templates:check": "node scripts/validate-runtime-email-templates.js",
+    "webhook:smoke": "node scripts/send-signed-resend-webhook-test.js --send",
     "test-email:build": "node email/campaigns/test-editorial-commerce-email/build.js",
     "test-email:check": "npm run test-email:build"
   },

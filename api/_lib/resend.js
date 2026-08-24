@@ -1,5 +1,6 @@
 import { Resend } from 'resend'
 import { renderRuntimeTemplate } from '../../email/runtime-templates.js'
+import { buildCampaignTrialUrl } from '../../shared/trial-journey.js'
 import { buildPreferencesUrl } from './preferences.js'
 
 let client
@@ -14,7 +15,16 @@ export function isLiveMode() {
   return process.env.EMAIL_LIVE_MODE === 'true'
 }
 
-function variableDefaults(contact) {
+function trialLinkFor(campaign, step) {
+  const baseUrl = campaign?.id === 'us-west-coast-salon-stockist'
+    ? process.env.EMAIL_US_TRIAL_LINK || process.env.EMAIL_TRIAL_LINK
+    : process.env.EMAIL_TRIAL_LINK
+  if (!baseUrl || !campaign?.id || !step?.key) return baseUrl
+  if (!['uk-salon-stockist', 'us-west-coast-salon-stockist'].includes(campaign.id)) return baseUrl
+  return buildCampaignTrialUrl(baseUrl, campaign.id, step.key)
+}
+
+function variableDefaults(contact, campaign, step) {
   return {
     SENDER_NAME: process.env.EMAIL_SENDER_NAME || 'Matt',
     SENDER_TITLE: process.env.EMAIL_SENDER_TITLE || 'Partnerships, Sunless by Jimmy Coco',
@@ -22,7 +32,7 @@ function variableDefaults(contact) {
     SUPPORT_EMAIL: process.env.EMAIL_SUPPORT_EMAIL || process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
     BUSINESS_ADDRESS: process.env.EMAIL_BUSINESS_ADDRESS,
     CALENDAR_LINK: process.env.EMAIL_CALENDAR_LINK,
-    TRIAL_LINK: process.env.EMAIL_TRIAL_LINK,
+    TRIAL_LINK: trialLinkFor(campaign, step),
     TRADE_LINK: process.env.EMAIL_TRADE_LINK,
     SHADE_GUIDE_LINK: process.env.EMAIL_SHADE_GUIDE_LINK,
     ORDER_LINK: process.env.EMAIL_ORDER_LINK,
@@ -50,10 +60,10 @@ function escapeHtml(value) {
     .replace(/'/g, '&#039;')
 }
 
-export function buildTemplateVariables(step, contact, context = {}) {
+export function buildTemplateVariables(step, contact, context = {}, campaign = null) {
   const upperContext = Object.fromEntries(Object.entries(context).map(([key, value]) => [key.toUpperCase(), value]))
   const candidates = {
-    ...variableDefaults(contact),
+    ...variableDefaults(contact, campaign, step),
     ...upperContext,
     GREETING_NAME: upperContext.GREETING_NAME || String(contact.first_name || '').trim() || 'there',
     FIRST_NAME: upperContext.FIRST_NAME || String(contact.first_name || '').trim() || 'there',
@@ -88,7 +98,7 @@ export function assertNoUnresolvedTokens(value, field = 'email') {
 }
 
 export function buildDirectEmailPayload({ campaign, step, contact, context, tags = [] }) {
-  const variables = buildTemplateVariables(step, contact, context)
+  const variables = buildTemplateVariables(step, contact, context, campaign)
   const classification = step.classification || campaign.classification
   const marketing = classification === 'promotional' || classification === 'lifecycle'
   const preferencesLink = marketing ? variables.PREFERENCES_LINK || buildPreferencesUrl(contact.email) : null
@@ -123,7 +133,7 @@ export function buildDirectEmailPayload({ campaign, step, contact, context, tags
 
 function buildLegacyTemplatePayload({ campaign, step, contact, context, tags = [] }) {
   const variables = Object.fromEntries(
-    Object.entries(buildTemplateVariables(step, contact, context)).map(([key, value]) => [key, escapeHtml(value)]),
+    Object.entries(buildTemplateVariables(step, contact, context, campaign)).map(([key, value]) => [key, escapeHtml(value)]),
   )
   return {
     from: process.env.RESEND_FROM || 'Sunless Partnerships <partnerships@email.jimmycoco.pro>',

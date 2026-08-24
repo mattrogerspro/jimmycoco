@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ActionFunctionArgs, LinksFunction, MetaFunction } from "react-router";
 import { Link, useLocation } from "react-router";
 import homeStyles from "../styles/home.css?url";
@@ -13,6 +13,8 @@ import { parseTrialHandoff, type TrialCalculatorContext } from "../lib/calculato
 import { siteEntityGraph } from "../lib/entity";
 import { PRODUCT_PATH, SITE_URL, absoluteUrl } from "../lib/site";
 import { handleApplicationSubmit } from "../lib/application-action.server";
+import { useCurrency } from "../components/shared/CurrencyContext";
+import { isUsTrialAttribution, parseTrialAttribution } from "../../../shared/trial-journey.js";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: homeStyles },
@@ -62,11 +64,17 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export default function HomePage() {
   const location = useLocation();
+  const { currency, setCurrency } = useCurrency();
   const incomingCalculatorHandoff = useMemo(() => parseTrialHandoff(location.search), [location.search]);
+  const trialAttribution = useMemo(() => parseTrialAttribution(new URLSearchParams(location.search)), [location.search]);
   const [monthlyProfit, setMonthlyProfit] = useState(1282);
   const [trialCalculatorContext, setTrialCalculatorContext] = useState<TrialCalculatorContext | null>(null);
   const updateMonthlyProfit = useCallback((value: number) => setMonthlyProfit(value), []);
   const updateTrialCalculatorContext = useCallback((context: TrialCalculatorContext) => setTrialCalculatorContext(context), []);
+
+  useEffect(() => {
+    if (isUsTrialAttribution(trialAttribution) && currency !== "USD") setCurrency("USD");
+  }, [currency, setCurrency, trialAttribution]);
 
   return (
     <>
@@ -86,6 +94,7 @@ export default function HomePage() {
         <Trial
           monthlyProfit={incomingCalculatorHandoff?.monthlyProfit ?? monthlyProfit}
           calculatorContext={incomingCalculatorHandoff?.context ?? trialCalculatorContext}
+          attribution={trialAttribution}
         />
         <Certification />
       </main>

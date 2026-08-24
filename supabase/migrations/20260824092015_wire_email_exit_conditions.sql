@@ -91,7 +91,12 @@ begin
         'source', 'reseller_applications_trigger',
         'application_id', new.id,
         'business_name', new.business_name,
-        'market', new.market
+        'market', new.market,
+        'origin_campaign', new.metadata ->> 'origin_campaign',
+        'origin_email', new.metadata ->> 'origin_email',
+        'origin_market', new.metadata ->> 'origin_market',
+        'service_state', new.metadata ->> 'service_state',
+        'serviceability_status', new.metadata ->> 'serviceability_status'
       )
     );
   end if;

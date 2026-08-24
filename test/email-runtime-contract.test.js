@@ -58,6 +58,9 @@ test('all 14 outreach steps render complete direct-send payloads from repository
       assert.equal(payload.replyTo, 'partnerships@email.jimmycoco.pro')
       assert.doesNotMatch(payload.html, /\{\{/)
       assert.doesNotMatch(payload.subject, /\{\{/)
+      assert.match(payload.html, new RegExp(`outreach_campaign=${campaign.id}`))
+      assert.match(payload.html, new RegExp(`outreach_step=${step.key}`))
+      assert.match(payload.html, new RegExp(`outreach_market=${encodeURIComponent(campaign.market)}`))
       assert.match(payload.headers['List-Unsubscribe'], /^<https:\/\/jimmycoco\.email\/api\/preferences\/unsubscribe\?token=/)
       assert.equal(payload.headers['List-Unsubscribe-Post'], 'List-Unsubscribe=One-Click')
     }

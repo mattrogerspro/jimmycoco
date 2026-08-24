@@ -146,6 +146,10 @@ export default function ApplicationDetail() {
   const navigation = useNavigation();
   const busy = navigation.state === "submitting";
   const decided = application.status !== "pending";
+  const originCampaign = String(application.metadata.origin_campaign || "Direct site");
+  const originEmail = String(application.metadata.origin_email || "—");
+  const serviceability = String(application.metadata.serviceability_status || "not_applicable");
+  const serviceState = String(application.metadata.service_state || "—");
 
   return (
     <main className="admin-main">
@@ -182,6 +186,10 @@ export default function ApplicationDetail() {
               <div><dt>Instagram</dt><dd>{application.instagram || "—"}</dd></div>
               <div><dt>Wants trial</dt><dd>{application.wants_trial ? "Yes" : "No"}</dd></div>
               <div><dt>Source</dt><dd>{application.source}</dd></div>
+              <div><dt>Origin campaign</dt><dd>{originCampaign}</dd></div>
+              <div><dt>Origin email</dt><dd>{originEmail}</dd></div>
+              <div><dt>Service state</dt><dd>{serviceState}</dd></div>
+              <div><dt>Serviceability</dt><dd>{serviceability.replaceAll("_", " ")}</dd></div>
             </dl>
           </section>
 

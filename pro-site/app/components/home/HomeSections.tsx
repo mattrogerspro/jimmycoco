@@ -7,6 +7,11 @@ import { PRODUCT_PATH } from "../../lib/site";
 import { RetailProductCards } from "../shared/RetailProductCards";
 import { LITRE_PRICE_GBP, TANS_PER_LITRE, costPerTan } from "../../lib/specs";
 import { useCurrency } from "../shared/CurrencyContext";
+import {
+  TRIAL_ATTRIBUTION_FIELDS,
+  isUsTrialAttribution,
+  type TrialAttribution,
+} from "../../../../shared/trial-journey.js";
 
 const A = "/assets/site/";
 const STORY_IMAGE_SIZES = "(max-width: 900px) 100vw, 45vw";
@@ -287,12 +292,21 @@ export function Certification() {
   </div></section>;
 }
 
-export function Trial({ monthlyProfit, calculatorContext }: { monthlyProfit: number; calculatorContext: TrialCalculatorContext | null }) {
+export function Trial({
+  monthlyProfit,
+  calculatorContext,
+  attribution,
+}: {
+  monthlyProfit: number;
+  calculatorContext: TrialCalculatorContext | null;
+  attribution: TrialAttribution | null;
+}) {
   const { money } = useCurrency();
   const gbp = money;
+  const isUsJourney = isUsTrialAttribution(attribution);
   const monthlyLitres = calculatorContext ? (Math.round(calculatorContext.litresPerMonth * 10) / 10).toLocaleString("en-GB", { maximumFractionDigits: 1 }) : null;
   const calculatorNote = calculatorContext
-    ? `Calculator estimate: ${Math.round(monthlyProfit).toLocaleString("en-GB")} GBP monthly profit, approximately ${calculatorContext.tansPerWeek} tans per week, ${monthlyLitres} litres required per month at ${calculatorContext.tansPerLitre} tans per litre.`
+    ? `Calculator estimate: ${Math.round(monthlyProfit).toLocaleString("en-GB")} GBP base-reference monthly profit, approximately ${calculatorContext.tansPerWeek} tans per week, ${monthlyLitres} litres required per month at ${calculatorContext.tansPerLitre} tans per litre.`
     : "";
   const result = useActionData() as ApplicationActionResult | undefined;
   const navigation = useNavigation();
@@ -305,37 +319,50 @@ export function Trial({ monthlyProfit, calculatorContext }: { monthlyProfit: num
       form_id: "trade_trial",
       value: result.ok ? 1 : 0,
       error_message: result.ok ? undefined : result.message,
+      campaign_id: attribution?.campaignId,
+      sequence_step: attribution?.emailStep,
+      market: result.ok ? result.market : attribution?.market,
     });
     if (result.ok) successHeadingRef.current?.focus();
-  }, [result]);
+  }, [attribution, result]);
 
   if (result?.ok) {
+    const completedUsJourney = result.market === "US-West-Coast";
+    const outsideCurrentArea = result.serviceability === "outside_current_area";
     return <section className="partner-close trial-complete" id="trial"><div className="wrap">
       <div className="trial-success" role="status" aria-live="polite">
         <div className="ts-intro">
           <span className="ts-check" aria-hidden="true">✓</span>
-          <p className="eyebrow">Trial request received</p>
+          <p className="eyebrow">{completedUsJourney ? "U.S. trial review received" : "Trial request received"}</p>
           <h2 ref={successHeadingRef} tabIndex={-1}>Thank you.<br /><em>Your request is in.</em></h2>
-          <p>We have your details. There is nothing else you need to do right now.</p>
+          <p>{completedUsJourney
+            ? outsideCurrentArea
+              ? `${result.serviceState || "Your location"} is outside our current California, Oregon and Washington trial area. We have recorded your interest, but we will not dispatch anything automatically.`
+              : "We will review current U.S. availability for your business and confirm the fulfilment route before anything is shipped."
+            : "We have your details. There is nothing else you need to do right now."}</p>
         </div>
         <div className="ts-next">
           <h3>What happens next</h3>
-          <ol>
+          {completedUsJourney ? <ol>
+            <li><div><b>We review your professional request</b><span>We check the business details, location and current U.S. trial availability.</span></div></li>
+            <li><div><b>We confirm the available route</b><span>{outsideCurrentArea ? "Matthew will contact you only if an alternative route is available for your state." : "If the trial is available, we will explain shipping and timing before fulfilment."}</span></div></li>
+            <li><div><b>You decide after the review</b><span>No card and no commitment. No U.S. shipping or availability promise is made until we confirm it directly.</span></div></li>
+          </ol> : <ol>
             <li><div><b>We post your complimentary 100 ml trial bottle</b><span>No card details needed — just your salon delivery information.</span></div></li>
             <li><div><b>Test it in your booth</b><span>Tan a team member or regular client, then judge the colour and 6–8 hour fade for yourself.</span></div></li>
             <li><div><b>Order only if you love it</b><span>Order online at trade rates, or keep Jimmy&rsquo;s shade guide with our compliments.</span></div></li>
-          </ol>
+          </ol>}
         </div>
-        <p className="ts-reassurance"><b>No card. No commitment.</b> We will be in touch this week.</p>
+        <p className="ts-reassurance"><b>No card. No commitment.</b> {completedUsJourney ? "Your originating U.S. outreach sequence has been stopped." : "We will be in touch this week."}</p>
       </div>
     </div></section>;
   }
 
-  return <section className="partner-close" id="trial"><div className="wrap"><p className="eyebrow">The partnership · complimentary trial</p><h2>Try it on a real client. <em>Free.</em></h2><p className="sub">Party season books out before it starts. Salons that trial now are stocked, trained and ready before the rush — and the trial costs you nothing but one appointment.</p><div className="close-grid"><div>
-    <div className="trialbox"><span className="tb-tag">Become a Jimmy Coco Certified Salon.</span><ul><li><b>Malibu Professional Spray (10% DHA)</b>{" "}<span>Enough to tan a real client — judge the colour and fade on skin, not on a screen.</span></li><li><b>Jimmy's shade guide</b>{" "}<span>The method behind 20+ years of red-carpet colour. Yours to keep, either way.</span></li></ul><p>Posted this week · no cost · no commitment</p></div>
+  return <section className="partner-close" id="trial"><div className="wrap"><p className="eyebrow">{isUsJourney ? "U.S. professional partnership · availability review" : "The partnership · complimentary trial"}</p><h2>{isUsJourney ? <>Request a professional <em>trial review.</em></> : <>Try it on a real client. <em>Free.</em></>}</h2><p className="sub">{isUsJourney ? "Eligible California, Oregon and Washington salons can request a complimentary 100 ml professional sample. We confirm current availability, shipping and timing for each business before anything is dispatched." : "Party season books out before it starts. Salons that trial now are stocked, trained and ready before the rush — and the trial costs you nothing but one appointment."}</p><div className="close-grid"><div>
+    <div className="trialbox"><span className="tb-tag">{isUsJourney ? "U.S. professional availability review" : "Become a Jimmy Coco Certified Salon."}</span><ul><li><b>Malibu Professional Spray (10% DHA)</b>{" "}<span>Enough to tan a real client — judge the colour and fade on skin, not on a screen.</span></li><li><b>Jimmy's shade guide</b>{" "}<span>The method behind 20+ years of red-carpet colour. {isUsJourney ? "Included when a U.S. trial is confirmed." : "Yours to keep, either way."}</span></li></ul><p>{isUsJourney ? "Availability reviewed individually · no card · no commitment" : "Posted this week · no cost · no commitment"}</p></div>
     <div className="perks"><div><i>◆</i><b>Trade pricing</b><span>on the professional litre and the retail range</span></div><div><i>✦</i><b>Team training</b><span>Jimmy's shade method — confident from day one</span><a className="perk-link" href="#certification">Become a Jimmy Coco Certified Salon →</a></div><div><i>❋</i><b>Launch assets</b><span>marketing, ready to use on day one</span></div></div>
-    <p className="close-note">No lock-in and no pressure at any step. Trial it in your own booth, then choose whether to order online at trade rates. Either way, the shade guide is yours to keep.</p><div className="trial-order"><b>Ready to place an order?</b><Link to={PRODUCT_PATH}>Order Malibu 1L — {gbp(LITRE_PRICE_GBP)} →</Link></div>
-  </div><Form method="post" className="trialform" data-form-id="trade_trial" replace><div className="tf-head"><h3>Get the trial box</h3><span className="tf-badge">Free</span></div><p>Thirty seconds now. Posted this week.</p><p className="tf-echo">Based on your calculation of <b>{gbp(monthlyProfit)}/month</b>, {calculatorContext ? <>at <b>~{calculatorContext.tansPerWeek} tans/week</b>, plan for <b>about {monthlyLitres} litres</b> in your first month — use the complimentary 100ml trial to test the colour in your own booth first.</> : "the trial is how you check the colour deserves it."}</p><input type="hidden" name="notes" value={calculatorNote} /><input type="text" name="salon" autoComplete="organization" aria-label="Salon or business name" placeholder="Salon or business name" required /><input type="text" name="name" autoComplete="name" aria-label="Your name" placeholder="Your name" required /><input type="email" name="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required /><input type="tel" name="phone" autoComplete="tel" aria-label="Phone number (optional)" placeholder="Phone (optional)" /><select name="type" aria-label="Business type" defaultValue="Salon"><option>Salon</option><option>Spa</option><option>Mobile professional</option><option>Multi-site group</option></select><input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />
+    <p className="close-note">{isUsJourney ? "No lock-in and no pressure. Requests outside California, Oregon and Washington are recorded for review but are not dispatched automatically." : "No lock-in and no pressure at any step. Trial it in your own booth, then choose whether to order online at trade rates. Either way, the shade guide is yours to keep."}</p>{isUsJourney ? <div className="trial-order"><b>Already have a U.S. availability question?</b><a href="mailto:partnerships@email.jimmycoco.pro">Email Partnerships →</a></div> : <div className="trial-order"><b>Ready to place an order?</b><Link to={PRODUCT_PATH}>Order Malibu 1L — {gbp(LITRE_PRICE_GBP)} →</Link></div>}
+  </div><Form method="post" className="trialform" data-form-id="trade_trial" replace><div className="tf-head"><h3>{isUsJourney ? "Request a U.S. trial review" : "Get the trial box"}</h3><span className="tf-badge">{isUsJourney ? "Review" : "Free"}</span></div><p>{isUsJourney ? "Thirty seconds now. We will confirm whether we can currently serve your location." : "Thirty seconds now. Posted this week."}</p><p className="tf-echo">{isUsJourney ? "Tell us where your business operates. California, Oregon and Washington requests enter the current West Coast availability review; other states are recorded without a dispatch promise." : <>Based on your calculation of <b>{gbp(monthlyProfit)}/month</b>, {calculatorContext ? <>at <b>~{calculatorContext.tansPerWeek} tans/week</b>, plan for <b>about {monthlyLitres} litres</b> in your first month — use the complimentary 100ml trial to test the colour in your own booth first.</> : "the trial is how you check the colour deserves it."}</>}</p><input type="hidden" name="notes" value={calculatorNote} />{attribution ? <><input type="hidden" name={TRIAL_ATTRIBUTION_FIELDS.campaign} value={attribution.campaignId} /><input type="hidden" name={TRIAL_ATTRIBUTION_FIELDS.email} value={attribution.emailStep} /><input type="hidden" name={TRIAL_ATTRIBUTION_FIELDS.market} value={attribution.market} /></> : null}<input type="text" name="salon" autoComplete="organization" aria-label="Salon or business name" placeholder="Salon or business name" required /><input type="text" name="name" autoComplete="name" aria-label="Your name" placeholder="Your name" required /><input type="email" name="email" autoComplete="email" aria-label="Email address" placeholder="Email address" required /><input type="tel" name="phone" autoComplete="tel" aria-label="Phone number (optional)" placeholder="Phone (optional)" />{isUsJourney ? <input type="text" name="service_state" autoComplete="address-level1" aria-label="U.S. state (two-letter abbreviation)" placeholder="U.S. state — e.g. CA" minLength={2} maxLength={2} pattern="[A-Za-z]{2}" required /> : null}<select name="type" aria-label="Business type" defaultValue="Salon"><option>Salon</option><option>Spa</option><option>Mobile professional</option><option>Multi-site group</option></select><input type="text" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp-field" />
     {result && !result.ok ? <p className="form-error" role="alert">{result.message}</p> : null}
-    <button className="btn btn-bronze btn-trial-submit" type="submit" disabled={submitting}>{submitting ? "Sending…" : "CLAIM FREE 100ML TRIAL BOX (POSTED FREE) →"}</button><ol className="tf-steps"><li><b>1. We post</b> your complimentary 100 ml trial bottle — no card details needed.</li><li><b>2. You test</b> it on a team member or regular client and judge the 6–8 hour fade.</li><li><b>3. You choose:</b> order online at trade rates if you love it, or keep the shade guide with our compliments.</li></ol><small>100% Free • No card required • Dispatched to UK salons within 48 business hours.</small></Form></div></div></section>;
+    <button className="btn btn-bronze btn-trial-submit" type="submit" disabled={submitting}>{submitting ? "Sending…" : isUsJourney ? "REQUEST U.S. PROFESSIONAL TRIAL REVIEW →" : "CLAIM FREE 100ML TRIAL BOX (POSTED FREE) →"}</button>{isUsJourney ? <ol className="tf-steps"><li><b>1. We review</b> your business and current service-area availability.</li><li><b>2. We confirm</b> shipping and timing before anything is sent.</li><li><b>3. You choose:</b> proceed only if the available route works for you.</li></ol> : <ol className="tf-steps"><li><b>1. We post</b> your complimentary 100 ml trial bottle — no card details needed.</li><li><b>2. You test</b> it on a team member or regular client and judge the 6–8 hour fade.</li><li><b>3. You choose:</b> order online at trade rates if you love it, or keep the shade guide with our compliments.</li></ol>}<small>{isUsJourney ? "Complimentary where currently available • No card required • U.S. fulfilment confirmed individually." : "100% Free • No card required • Dispatched to UK salons within 48 business hours."}</small></Form></div></div></section>;
 }

@@ -5,9 +5,20 @@ import {
   emitResellerEventSafely,
 } from "./reseller-events.server";
 import { isSameOriginPost } from "./supabase.server";
+import {
+  classifyUsTrialServiceability,
+  isUsTrialAttribution,
+  parseTrialAttribution,
+} from "../../../shared/trial-journey.js";
 
 export type ApplicationActionResult =
-  | { ok: true; reference: string }
+  | {
+      ok: true;
+      reference: string;
+      market: "UK" | "US-West-Coast";
+      serviceability: "not_applicable" | "eligible_area" | "outside_current_area";
+      serviceState?: string;
+    }
   | { ok: false; message: string };
 
 function submittedFieldSnapshot(form: FormData) {
@@ -56,7 +67,7 @@ export async function handleApplicationSubmit(
 
   // Bots fill every field; humans never see this one.
   if (typeof form.get("company_website") === "string" && form.get("company_website") !== "") {
-    return { ok: true, reference: "ignored" };
+    return { ok: true, reference: "ignored", market: "UK", serviceability: "not_applicable" };
   }
 
   const businessName = String(form.get("salon") ?? "").trim();
@@ -66,6 +77,11 @@ export async function handleApplicationSubmit(
   const businessType = normaliseBusinessType(form.get("type"));
   const orderSummary = String(form.get("order") ?? "").trim();
   const notes = String(form.get("notes") ?? "").trim();
+  const attribution = parseTrialAttribution(form);
+  const isUsJourney = isUsTrialAttribution(attribution);
+  const market = isUsJourney ? "US-West-Coast" : "UK";
+  const serviceState = String(form.get("service_state") ?? "").trim().toUpperCase();
+  const usServiceability = isUsJourney ? classifyUsTrialServiceability(serviceState) : null;
   const message = messageFrom(orderSummary, notes);
   const submittedFields = submittedFieldSnapshot(form);
   const requestType = requestTypeFor(options.source);
@@ -77,6 +93,9 @@ export async function handleApplicationSubmit(
   if (!isPlausibleEmail(email)) {
     return { ok: false, message: "That email address does not look right — please check it." };
   }
+  if (isUsJourney && !/^[A-Z]{2}$/.test(serviceState)) {
+    return { ok: false, message: "Please enter the two-letter abbreviation for your U.S. state." };
+  }
 
   let applicationId: string;
   try {
@@ -86,12 +105,19 @@ export async function handleApplicationSubmit(
       email,
       phone: phone || null,
       businessType,
+      market,
       message,
       wantsTrial: !isTradeOrderEnquiry,
-      source: options.source,
+      source: attribution ? "email-outreach-trial" : options.source,
       metadata: {
         request_type: requestType,
         intake_type: isTradeOrderEnquiry ? "trade_order_enquiry" : "free_sample_request",
+        submission_source: options.source,
+        origin_campaign: attribution?.campaignId ?? null,
+        origin_email: attribution?.emailStep ?? null,
+        origin_market: attribution?.market ?? market,
+        service_state: usServiceability?.state || null,
+        serviceability_status: usServiceability?.status ?? "not_applicable",
         submitted_fields: submittedFields,
         user_agent: request.headers.get("User-Agent") ?? null,
       },
@@ -108,11 +134,12 @@ export async function handleApplicationSubmit(
     email,
     first_name: contactName.split(" ")[0] ?? null,
     business_name: businessName,
-    market: "UK",
+    market,
   };
 
-  await Promise.all([
-    emitResellerEventSafely({
+  const applicantReceipt = isUsJourney
+    ? Promise.resolve({ dispatched: false as const, reason: "us_trial_review_requires_market_specific_receipt" as const })
+    : emitResellerEventSafely({
       trigger: receivedTriggerFor(options.source),
       eventId: `reseller-application-${applicationId}-received`,
       contact,
@@ -123,12 +150,20 @@ export async function handleApplicationSubmit(
         CONTACT_NAME: contactName,
         ORDER_SUMMARY: orderSummary || "No order summary submitted.",
         CUSTOMER_NOTES: notes || "None supplied.",
+        ORIGIN_CAMPAIGN: attribution?.campaignId ?? "direct-site",
+        ORIGIN_EMAIL: attribution?.emailStep ?? "none",
+        ORIGIN_MARKET: attribution?.market ?? market,
+        SERVICE_STATE: usServiceability?.state || "Not supplied",
+        SERVICEABILITY_STATUS: usServiceability?.status ?? "not_applicable",
       },
-    }),
+    });
+
+  await Promise.all([
+    applicantReceipt,
     emitResellerEventSafely({
       trigger: "reseller_application_internal_notice",
       eventId: `reseller-application-${applicationId}-internal`,
-      contact: { email: INTERNAL_NOTICE_ADDRESS, business_name: "Sunless by Jimmy Coco", market: "UK" },
+      contact: { email: INTERNAL_NOTICE_ADDRESS, business_name: "Sunless by Jimmy Coco", market },
       context: {
         APPLICANT_NAME: contactName,
         APPLICANT_EMAIL: email,
@@ -138,11 +173,22 @@ export async function handleApplicationSubmit(
         CONTACT_EMAIL: email,
         BUSINESS_TYPE: businessType,
         REQUEST_TYPE: requestType,
+        ORIGIN_CAMPAIGN: attribution?.campaignId ?? "direct-site",
+        ORIGIN_EMAIL: attribution?.emailStep ?? "none",
+        ORIGIN_MARKET: attribution?.market ?? market,
+        SERVICE_STATE: usServiceability?.state || "Not supplied",
+        SERVICEABILITY_STATUS: usServiceability?.status ?? "not_applicable",
         SUBMISSION_SUMMARY: message ?? "No notes or order summary submitted.",
         ADMIN_LINK: `${options.adminBaseUrl ?? ""}/admin/applications/${applicationId}`,
       },
     }),
   ]);
 
-  return { ok: true, reference: applicationId };
+  return {
+    ok: true,
+    reference: applicationId,
+    market,
+    serviceability: usServiceability?.status === "outside_current_area" ? "outside_current_area" : usServiceability?.status === "eligible_area" ? "eligible_area" : "not_applicable",
+    serviceState: usServiceability?.state || undefined,
+  };
 }

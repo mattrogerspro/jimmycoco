@@ -1277,6 +1277,22 @@ function AudienceImporter() {
             </div>
           </div>
 
+          <label className="import-field import-paste-field">
+            <span>Or paste CSV content</span>
+            <textarea
+              rows="6"
+              value={fileName === 'pasted-contacts.csv' ? csv : ''}
+              onChange={(event) => {
+                invalidatePreview()
+                setCsv(event.target.value)
+                setFileName(event.target.value.trim() ? 'pasted-contacts.csv' : '')
+              }}
+              placeholder="Paste the header row and contact rows here"
+              spellCheck="false"
+            />
+            <small>Useful for small controlled imports. Pasted data receives the same validation and final database checks as an uploaded file.</small>
+          </label>
+
           <div className="import-contract-note">
             <Icon name="check" />
             <p><strong>No inferred permission.</strong> Every row needs an explicit eligibility decision plus a reason or lawful-basis record. Submitting an email address alone can never make it eligible.</p>

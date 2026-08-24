@@ -762,8 +762,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .import-field { min-width: 0; display: flex; flex-direction: column; gap: 7px; }
 .import-field-wide { grid-column: 1 / -1; }
 .import-field > span { color: #625a53; font-size: 13px; font-weight: 700; }
-.import-field input, .import-field select { width: 100%; min-height: 50px; border: 1px solid #d5ccc3; border-radius: 7px; padding: 0 13px; color: var(--ink); background: #fff; font-size: 15px; }
-.import-field input:hover, .import-field select:hover { border-color: #b99a80; }
+.import-field input, .import-field select, .import-field textarea { width: 100%; min-height: 50px; border: 1px solid #d5ccc3; border-radius: 7px; padding: 0 13px; color: var(--ink); background: #fff; font-size: 15px; }
+.import-field textarea { min-height: 132px; padding-top: 12px; padding-bottom: 12px; resize: vertical; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; line-height: 1.5; }
+.import-field input:hover, .import-field select:hover, .import-field textarea:hover { border-color: #b99a80; }
 .import-field small { min-height: 18px; color: #8c837b; font-size: 12px; line-height: 1.45; }
 .import-field code { padding: 3px 6px; border-radius: 4px; color: #59483a; background: #eadfd3; font-size: 12px; }
 .import-upload-block { margin-top: 22px; padding: 20px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border: 1px dashed #bfae9f; border-radius: 9px; background: #faf6f1; }
@@ -772,6 +773,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .import-upload-block > div:first-child > div { min-width: 0; display: flex; flex-direction: column; }
 .import-upload-block strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; }
 .import-upload-block small { margin-top: 4px; color: #8a8179; font-size: 12px; }
+.import-paste-field { margin-top: 18px; }
 .import-upload-actions { flex: 0 0 auto; display: flex; gap: 9px; }
 .import-file-button { position: relative; overflow: hidden; }
 .import-file-button input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }

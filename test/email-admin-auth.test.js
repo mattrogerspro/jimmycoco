@@ -73,6 +73,7 @@ test('audience importer uses the super-admin session without a second browser to
   assert.match(importer, /requireEmailAdmin\(request, response\)/)
   assert.doesNotMatch(importer, /AUDIENCE_IMPORT_API_KEY/)
   assert.doesNotMatch(app, /Audience import admin token/)
+  assert.match(app, /Or paste CSV content/)
 })
 
 test('pro-site admin role contract remains unchanged', async () => {

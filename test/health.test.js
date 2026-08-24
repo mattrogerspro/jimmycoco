@@ -34,4 +34,6 @@ test('health endpoint retains JSON for machines and provides an HTML monitoring 
   assert.match(htmlResponse.headers['Content-Type'], /text\/html/)
   assert.match(htmlResponse.body, /Jimmy Coco Email Health/)
   assert.match(htmlResponse.body, /"live_mode"/)
+  assert.match(htmlResponse.body, /"preferences"/)
+  assert.match(htmlResponse.body, /"audit_copy_enabled"/)
 })

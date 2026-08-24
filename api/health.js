@@ -10,6 +10,11 @@ export function healthStatus() {
       resend: Boolean(process.env.RESEND_API_KEY),
       resend_webhook: Boolean(process.env.RESEND_WEBHOOK_SECRET),
       audience_import: Boolean(process.env.AUDIENCE_IMPORT_API_KEY && process.env.AUDIENCE_IMPORT_SIGNING_SECRET),
+      preferences: Boolean(process.env.EMAIL_PREFERENCES_SIGNING_SECRET && process.env.EMAIL_PREFERENCES_BASE_URL),
+      uk_trial_link: Boolean(process.env.EMAIL_TRIAL_LINK),
+      us_trial_link: Boolean(process.env.EMAIL_US_TRIAL_LINK || process.env.EMAIL_TRIAL_LINK),
+      reply_to: Boolean(process.env.RESEND_REPLY_TO),
+      audit_copy_enabled: Boolean(String(process.env.EMAIL_AUDIT_COPY || '').trim()),
       live_mode: isLiveMode(),
     },
   }

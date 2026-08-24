@@ -28,7 +28,7 @@ All messages are immediate event responses. There are no scheduled follow-ups in
 - `pro-site/app/routes/admin.application-detail.tsx` emits approval and decline events.
 - `pro-site/app/routes/portal.order.tsx` saves approved-reseller orders to `reseller_orders` and `reseller_order_items`, then emits customer and internal order events.
 - `pro-site/app/lib/reseller-events.server.ts` posts to `/api/lifecycle/trigger` on the automation deployment.
-- `api/_lib/resend.js` sends through Resend and BCCs audit copies to `EMAIL_AUDIT_COPY`, defaulting to `matthew@jimmycoco.pro`.
+- `api/_lib/resend.js` sends through Resend. Optional controlled QA copies are taken only from an explicitly configured `EMAIL_AUDIT_COPY`; there is no default BCC.
 
 ## Data recording audit
 

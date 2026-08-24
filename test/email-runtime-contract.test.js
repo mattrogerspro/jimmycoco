@@ -13,11 +13,13 @@ function withEmailEnvironment(callback) {
     EMAIL_PREFERENCES_BASE_URL: process.env.EMAIL_PREFERENCES_BASE_URL,
     EMAIL_TRIAL_LINK: process.env.EMAIL_TRIAL_LINK,
     RESEND_REPLY_TO: process.env.RESEND_REPLY_TO,
+    EMAIL_AUDIT_COPY: process.env.EMAIL_AUDIT_COPY,
   }
   process.env.EMAIL_PREFERENCES_SIGNING_SECRET = signingSecret
   process.env.EMAIL_PREFERENCES_BASE_URL = 'https://jimmycoco.email/api/preferences/unsubscribe'
   process.env.EMAIL_TRIAL_LINK = 'https://www.jimmycoco.pro/#trial'
   process.env.RESEND_REPLY_TO = 'partnerships@email.jimmycoco.pro'
+  delete process.env.EMAIL_AUDIT_COPY
   try {
     return callback()
   } finally {
@@ -56,6 +58,7 @@ test('all 14 outreach steps render complete direct-send payloads from repository
       assert.equal('template' in payload, false)
       assert.match(payload.html, /Hi there,/) 
       assert.equal(payload.replyTo, 'partnerships@email.jimmycoco.pro')
+      assert.equal('bcc' in payload, false)
       assert.doesNotMatch(payload.html, /\{\{/)
       assert.doesNotMatch(payload.subject, /\{\{/)
       assert.match(payload.html, new RegExp(`outreach_campaign=${campaign.id}`))
@@ -65,6 +68,17 @@ test('all 14 outreach steps render complete direct-send payloads from repository
       assert.equal(payload.headers['List-Unsubscribe-Post'], 'List-Unsubscribe=One-Click')
     }
   }
+}))
+
+test('audit BCC is opt-in and never copied back to the primary recipient', () => withEmailEnvironment(() => {
+  const campaign = campaignRegistry.find((item) => item.id === 'uk-salon-stockist')
+  const step = campaign.steps[0]
+  const contact = { email: 'owner@example.com', first_name: 'Alex', business_name: 'Example Salon' }
+  const context = { business_type: 'professional salon' }
+
+  process.env.EMAIL_AUDIT_COPY = 'audit@example.com, owner@example.com, audit@example.com'
+  const payload = buildDirectEmailPayload({ campaign, step, contact, context })
+  assert.deepEqual(payload.bcc, ['audit@example.com'])
 }))
 
 test('missing required variables and unresolved values abort before delivery', () => withEmailEnvironment(() => {

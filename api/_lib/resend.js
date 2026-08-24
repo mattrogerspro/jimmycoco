@@ -41,12 +41,11 @@ function variableDefaults(contact, campaign, step) {
   }
 }
 
-const REQUIRED_PRO_AUDIT_RECIPIENT = 'matthew@jimmycoco.pro'
 const BLOCKED_LEGACY_DOMAIN = '@jimmycoco.co.uk'
 
 function auditCopyRecipients(primaryEmail) {
   const raw = process.env.EMAIL_AUDIT_COPY || ''
-  return [REQUIRED_PRO_AUDIT_RECIPIENT, ...raw.split(',')]
+  return raw.split(',')
     .map((email) => email.trim().toLowerCase())
     .filter((email, index, all) => email && email !== primaryEmail.toLowerCase() && !email.endsWith(BLOCKED_LEGACY_DOMAIN) && all.indexOf(email) === index)
 }
@@ -108,10 +107,11 @@ export function buildDirectEmailPayload({ campaign, step, contact, context, tags
   const html = renderTokens(source.html, renderVariables, { html: true })
   assertNoUnresolvedTokens(subject, 'subject')
   assertNoUnresolvedTokens(html, 'html')
+  const auditRecipients = auditCopyRecipients(contact.email)
   const payload = {
     from: process.env.RESEND_FROM || 'Sunless Partnerships <partnerships@email.jimmycoco.pro>',
     to: [contact.email],
-    bcc: auditCopyRecipients(contact.email),
+    ...(auditRecipients.length ? { bcc: auditRecipients } : {}),
     replyTo: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
     subject,
     html,
@@ -135,10 +135,11 @@ function buildLegacyTemplatePayload({ campaign, step, contact, context, tags = [
   const variables = Object.fromEntries(
     Object.entries(buildTemplateVariables(step, contact, context, campaign)).map(([key, value]) => [key, escapeHtml(value)]),
   )
+  const auditRecipients = auditCopyRecipients(contact.email)
   return {
     from: process.env.RESEND_FROM || 'Sunless Partnerships <partnerships@email.jimmycoco.pro>',
     to: [contact.email],
-    bcc: auditCopyRecipients(contact.email),
+    ...(auditRecipients.length ? { bcc: auditRecipients } : {}),
     replyTo: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
     template: { id: step.templateId, variables },
     tags: [

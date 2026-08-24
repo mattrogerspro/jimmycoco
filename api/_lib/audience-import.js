@@ -3,7 +3,7 @@ import { isEmail, normaliseEmail } from './http.js'
 
 export const AUDIENCE_IMPORT_CAMPAIGNS = Object.freeze({
   'uk-salon-stockist': { market: 'UK', timezone: 'Europe/London' },
-  'us-west-coast-salon-stockist': { market: 'US', timezone: 'America/Los_Angeles' },
+  'us-west-coast-salon-stockist': { market: 'US-West-Coast', timezone: 'America/Los_Angeles' },
 })
 
 export const AUDIENCE_IMPORT_MAX_ROWS = 5000
@@ -77,7 +77,7 @@ const normaliseText = (value) => String(value || '').trim()
 const normaliseMarket = (value) => {
   const market = normaliseText(value).toUpperCase().replaceAll('.', '')
   if (['UK', 'UNITED KINGDOM', 'GB', 'GREAT BRITAIN'].includes(market)) return 'UK'
-  if (['US', 'USA', 'UNITED STATES', 'UNITED STATES OF AMERICA'].includes(market)) return 'US'
+  if (['US', 'USA', 'UNITED STATES', 'UNITED STATES OF AMERICA', 'US-WEST-COAST'].includes(market)) return 'US-West-Coast'
   return market
 }
 

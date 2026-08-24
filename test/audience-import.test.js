@@ -109,6 +109,26 @@ test('dry run reports duplicates, customers, trials, suppressions, UK individual
   assert.equal(report.rows.find((row) => row.email === 'review@example.com').outcome, 'not_marked_eligible')
 })
 
+test('US aliases normalise to the canonical US-West-Coast campaign market', () => {
+  const validation = validateAudienceImport({
+    csv: makeCsv([csvRow({
+      email: 'us-owner@example.com',
+      market: 'US',
+      timezone: 'America/Los_Angeles',
+      company_legal_entity_type: 'limited liability company',
+    })]),
+    campaignId: 'us-west-coast-salon-stockist',
+    startAt,
+    now,
+  })
+  const report = reconcileAudienceImport(validation)
+
+  assert.equal(validation.campaign.market, 'US-West-Coast')
+  assert.equal(report.rows[0].market, 'US-West-Coast')
+  assert.equal(report.rows[0].outcome, 'eligible')
+  assert.equal(report.summary.final_eligible_count, 1)
+})
+
 test('preview token binds the campaign, start, rows and current database result', () => {
   const validation = validateAudienceImport({
     csv: makeCsv([csvRow()]),

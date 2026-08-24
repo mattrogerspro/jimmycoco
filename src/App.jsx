@@ -1105,7 +1105,6 @@ const humaniseImportValue = (value) => String(value || '')
 function AudienceImporter() {
   const [campaignId, setCampaignId] = useState(audienceImportCampaigns[0].id)
   const [startUtc, setStartUtc] = useState(tomorrowUtcInput)
-  const [apiToken, setApiToken] = useState('')
   const [operator, setOperator] = useState('')
   const [csv, setCsv] = useState('')
   const [fileName, setFileName] = useState('')
@@ -1182,14 +1181,12 @@ function AudienceImporter() {
     setLoading(true)
     setError('')
     try {
-      if (!apiToken.trim()) throw new Error('Enter the audience import admin token.')
       if (!csv) throw new Error('Choose a CSV file first.')
       if (!startAt) throw new Error('Choose a valid UTC start time.')
       const response = await fetch('/api/campaigns/import-audience', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiToken.trim()}`,
         },
         body: JSON.stringify({
           action,
@@ -1266,11 +1263,6 @@ function AudienceImporter() {
               <span>Operator confirming import</span>
               <input value={operator} onChange={(event) => { setOperator(event.target.value); invalidatePreview() }} placeholder="Your full name" autoComplete="name" />
               <small>Stored in the immutable import audit.</small>
-            </label>
-            <label className="import-field import-field-wide">
-              <span>Audience import admin token</span>
-              <input type="password" value={apiToken} onChange={(event) => setApiToken(event.target.value)} placeholder="Required for preview and commit" autoComplete="off" />
-              <small>Held only in this page’s memory; it is not placed in the URL or browser storage.</small>
             </label>
           </div>
 

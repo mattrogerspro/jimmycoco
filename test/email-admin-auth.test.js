@@ -66,6 +66,15 @@ test('campaign studio UI requires the email-admin session and exposes logout', a
   assert.match(styles, /\.email-admin-pill/)
 })
 
+test('audience importer uses the super-admin session without a second browser token', async () => {
+  const app = await source('src/App.jsx')
+  const importer = await source('api/campaigns/import-audience.js')
+
+  assert.match(importer, /requireEmailAdmin\(request, response\)/)
+  assert.doesNotMatch(importer, /AUDIENCE_IMPORT_API_KEY/)
+  assert.doesNotMatch(app, /Audience import admin token/)
+})
+
 test('pro-site admin role contract remains unchanged', async () => {
   const articleAuth = await source('pro-site/app/lib/article-auth.server.ts')
   const articleLogin = await source('pro-site/app/routes/admin.login.tsx')

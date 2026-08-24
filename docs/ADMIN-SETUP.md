@@ -38,7 +38,7 @@ Copy [.env.example](https://github.com/mattrogerspro/jimmycoco/blob/main/.env.ex
 |---|---|
 | Supabase | `SUPABASE_URL` · `SUPABASE_SERVICE_ROLE_KEY` · `VITE_SUPABASE_PUBLISHABLE_KEY` |
 | Resend | `RESEND_API_KEY` · `RESEND_WEBHOOK_SECRET` · `RESEND_FROM` · `RESEND_REPLY_TO` |
-| Send locks & auth | `EMAIL_LIVE_MODE` (keep `false`) · `CRON_SECRET` · `AUTOMATION_API_KEY` · `AUDIENCE_IMPORT_API_KEY` · `AUDIENCE_IMPORT_SIGNING_SECRET` · `EMAIL_WORKER_BATCH_SIZE` |
+| Send locks & auth | `EMAIL_LIVE_MODE` (keep `false`) · `CRON_SECRET` · `AUTOMATION_API_KEY` · `AUDIENCE_IMPORT_SIGNING_SECRET` · `EMAIL_WORKER_BATCH_SIZE` |
 | Sender identity | `EMAIL_SENDER_NAME` · `EMAIL_SENDER_TITLE` · `EMAIL_SUPPORT_EMAIL` · `EMAIL_BUSINESS_ADDRESS` |
 | Campaign links | `EMAIL_CALENDAR_LINK` · `EMAIL_TRIAL_LINK` · optional `EMAIL_US_TRIAL_LINK` · `EMAIL_TRADE_LINK` · `EMAIL_SHADE_GUIDE_LINK` · `EMAIL_ORDER_LINK` |
 | Market facts | `EMAIL_UAE_DELIVERY_STATEMENT` · `EMAIL_UAE_PARTNER_TERMS` |
@@ -52,7 +52,7 @@ Create a project and apply the committed migrations in timestamp order with `npx
 
 ### Audience importer
 
-The Studio route `#audience-import` is the protected admin importer. Set a dedicated `AUDIENCE_IMPORT_API_KEY`; do not reuse or expose the Supabase service-role key. `AUDIENCE_IMPORT_SIGNING_SECRET` signs 30-minute previews so a changed file, campaign, start time or database eligibility result must be previewed again before commit.
+The Studio route `#audience-import` is protected by the signed `jimmycoco.email` super-admin session. `AUDIENCE_IMPORT_SIGNING_SECRET` signs 30-minute previews so a changed file, campaign, start time or database eligibility result must be previewed again before commit. The Supabase service-role key remains server-only and is never exposed to the browser.
 
 The importer requires the CSV columns `email`, `first_name`, `business_name`, `business_type`, `market`, `timezone`, `company_legal_entity_type`, `source`, `source_date`, `owner`, `eligibility_decision`, `eligibility_reason` and `lawful_basis`. `first_name` may be blank (the runtime uses `Salon Owner`), and either the eligibility reason or lawful-basis record may be blank, but not both. A row is never made eligible from its email address alone.
 

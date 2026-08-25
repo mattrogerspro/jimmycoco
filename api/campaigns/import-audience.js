@@ -67,8 +67,10 @@ function importerError(error) {
 export default async function handler(request, response) {
   if (!allowMethods(request, response, ['POST']) || !requireEmailAdmin(request, response)) return
 
+  let action = null
   try {
     const body = await readJson(request)
+    action = body.action || null
     if (!['preview', 'commit'].includes(body.action)) return json(response, 422, { error: 'action_must_be_preview_or_commit' })
 
     const supabase = getSupabase()
@@ -115,6 +117,12 @@ export default async function handler(request, response) {
     })
   } catch (error) {
     const result = importerError(error)
+    if (result.status >= 500) {
+      console.error('Audience import failed', {
+        error: error instanceof Error ? error.message : String(error),
+        action,
+      })
+    }
     return json(response, result.status, { error: result.error })
   }
 }

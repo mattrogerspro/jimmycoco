@@ -18,6 +18,7 @@ Disallow: /pricing-report.html
 Disallow: /shipping-report.html
 Disallow: /bundle-report.html
 
+
 # ─────────────────────────────────────────────────────────────
 # AI assistants that retrieve and cite
 # These read a page to answer a live question and attribute the source,

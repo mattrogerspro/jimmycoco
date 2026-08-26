@@ -56,6 +56,7 @@ export const campaignRegistry = [
     timezone: 'Europe/London',
     localSendHour: 10,
     minimumContactGapHours: 16,
+    dailySendCap: 100,
     exitEvents: ['reply', 'sample_requested', 'trial_requested', 'unsubscribe', 'complaint', 'hard_bounce', 'existing_customer', 'manual_suppression'],
     steps: [
       { key: '01-trial', number: 1, day: 0, templateAlias: 'jc-uk-prospect-01-trial-v2', templateId: null, subject: 'Complimentary Jimmy Coco professional trial for {{BUSINESS_NAME}}', requiredVariables: ['GREETING_NAME', 'PREFERENCES_LINK', 'BUSINESS_NAME', 'BUSINESS_TYPE', 'TRIAL_LINK'] },

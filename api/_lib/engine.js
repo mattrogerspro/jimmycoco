@@ -127,6 +127,41 @@ async function recentNonTransactionalSend(contactId, gapHours) {
   return assertSupabase(result, 'check frequency policy')
 }
 
+export function dailySendCapFor(campaign) {
+  const cap = Number(campaign?.dailySendCap || 0)
+  return Number.isInteger(cap) && cap > 0 ? cap : null
+}
+
+export function dailySendCapDeferralAt(now = new Date()) {
+  return new Date(now.getTime() + 24 * 60 * 60 * 1000 + 60 * 1000).toISOString()
+}
+
+async function deferEnrollmentForDailySendCap(row, campaign) {
+  const cap = dailySendCapFor(campaign)
+  if (!cap) return null
+
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+  const sent = assertSupabase(await getSupabase()
+    .from('email_messages')
+    .select('id')
+    .not('sent_at', 'is', null)
+    .gte('sent_at', since)
+    .limit(cap), 'check daily send cap') || []
+  if (sent.length < cap) return null
+
+  const nextSendAt = dailySendCapDeferralAt()
+  assertSupabase(await getSupabase()
+    .from('email_enrollments')
+    .update({
+      status: 'active',
+      next_send_at: nextSendAt,
+      locked_at: null,
+      locked_by: null,
+    })
+    .eq('id', row.enrollment_id), 'defer enrollment for daily send cap')
+  return nextSendAt
+}
+
 async function reserveMessage({ campaign, step, contact, enrollmentId, jobId, idempotencyKey, source }) {
   const supabase = getSupabase()
   const record = {
@@ -275,6 +310,8 @@ async function processEnrollment(row) {
     throw error
   }
   if (await rescheduleForFrequency(row, campaign)) return { id: row.enrollment_id, status: 'rescheduled_frequency' }
+  const dailyCapDeferral = await deferEnrollmentForDailySendCap(row, campaign)
+  if (dailyCapDeferral) return { id: row.enrollment_id, status: 'deferred_daily_send_cap', next_send_at: dailyCapDeferral }
 
   const idempotencyKey = `${campaign.id}/${row.enrollment_id}/${step.key}/${campaign.version}`
   try {

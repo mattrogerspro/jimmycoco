@@ -144,6 +144,7 @@ export default function AdminChat() {
   const [notificationStatus, setNotificationStatus] = useState<BrowserNotificationStatus>("unsupported");
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [onlineStaffCount, setOnlineStaffCount] = useState(0);
+  const [mobileInboxOpen, setMobileInboxOpen] = useState(false);
   const messageEndRef = useRef<HTMLDivElement>(null);
   const channelRef = useRef<RealtimeChannel | null>(null);
   const presenceChannelRef = useRef<RealtimeChannel | null>(null);
@@ -369,6 +370,7 @@ export default function AdminChat() {
 
   async function selectConversation(conversationId: string) {
     setSelectedId(conversationId);
+    setMobileInboxOpen(false);
     setErrorMessage("");
     setUnseen((current) => {
       const next = new Set(current);
@@ -476,7 +478,7 @@ export default function AdminChat() {
         </div>
       </header>
 
-      <section className="admin-chat-shell">
+      <section className={`admin-chat-shell${mobileInboxOpen || !selectedConversation ? " is-mobile-inbox-open" : ""}`}>
         <aside className="admin-chat-list" aria-label="Chat conversations">
           <div className="admin-chat-list-head">
             <div>
@@ -525,6 +527,9 @@ export default function AdminChat() {
           ) : (
             <>
               <header className="admin-chat-thread-head">
+                <button className="admin-chat-mobile-back" type="button" onClick={() => setMobileInboxOpen(true)}>
+                  <span aria-hidden="true">←</span> Inbox
+                </button>
                 <div>
                   <h2>{selectedConversation.visitor_name}</h2>
                   <p>

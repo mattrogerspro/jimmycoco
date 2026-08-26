@@ -4,6 +4,7 @@ import type {
   LoaderFunctionArgs,
   MetaFunction,
 } from "react-router";
+import { useState } from "react";
 import { Form, Link, NavLink, Outlet, data, useLoaderData } from "react-router";
 import adminStyles from "../styles/admin.css?url";
 import { requireArticleStaff } from "../lib/article-auth.server";
@@ -81,12 +82,33 @@ const NAV_GROUPS = [
 
 export default function AdminLayout() {
   const { staff } = useLoaderData<typeof loader>();
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
     <div className="admin-app">
-      <aside className="admin-side">
+      <button
+        className="admin-mobile-nav-toggle"
+        type="button"
+        aria-expanded={mobileNavOpen}
+        aria-controls="admin-navigation"
+        onClick={() => setMobileNavOpen(true)}
+      >
+        <span aria-hidden="true">☰</span>
+        <span>Menu</span>
+      </button>
+      <button
+        className={`admin-mobile-nav-scrim${mobileNavOpen ? " is-visible" : ""}`}
+        type="button"
+        aria-label="Close navigation"
+        tabIndex={mobileNavOpen ? 0 : -1}
+        onClick={() => setMobileNavOpen(false)}
+      />
+      <aside className={`admin-side${mobileNavOpen ? " is-open" : ""}`}>
+        <button className="admin-mobile-nav-close" type="button" onClick={() => setMobileNavOpen(false)}>
+          <span>Close menu</span><span aria-hidden="true">×</span>
+        </button>
         <div className="admin-side-top">
-          <Link className="admin-org" to="/admin/articles">
+          <Link className="admin-org" to="/admin/articles" onClick={() => setMobileNavOpen(false)}>
             <span className="admin-org-chip">JC</span>
             <span className="admin-org-name">
               <b>Jimmy Coco</b>
@@ -104,12 +126,12 @@ export default function AdminLayout() {
             </span>
           </div>
 
-          <nav className="admin-nav" aria-label="Admin navigation">
+          <nav id="admin-navigation" className="admin-nav" aria-label="Admin navigation">
             {NAV_GROUPS.map((group) => (
               <div key={group.label} className="admin-nav-block">
                 <p className="admin-nav-group">{group.label}</p>
                 {group.items.map((item) => (
-                  <NavLink key={item.to} to={item.to} className="admin-nav-link">
+                  <NavLink key={item.to} to={item.to} className="admin-nav-link" onClick={() => setMobileNavOpen(false)}>
                     <i aria-hidden="true">{item.glyph}</i>
                     <span>{item.label}</span>
                   </NavLink>

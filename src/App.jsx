@@ -6,6 +6,7 @@ import {
   contentStats,
   guides,
   lifecycleSequences,
+  manualDisabledCampaigns,
   playbookCategories,
   sampleMergeData,
 } from './data/content'
@@ -83,9 +84,12 @@ function initialsFor(value) {
     .join('') || 'EA'
 }
 
+function statusClass(value) {
+  return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+}
+
 function Status({ value }) {
-  const kind = value.toLowerCase().replaceAll(' ', '-')
-  return <span className={`status status-${kind}`} title={value}><i /><span>{value}</span></span>
+  return <span className={`status status-${statusClass(value)}`} title={value}><i /><span>{value}</span></span>
 }
 
 function Sidebar({ currentView, setCurrentView, open, onClose, onCollapse, user, onLogout }) {
@@ -386,19 +390,26 @@ function SequenceTimeline({ campaign, analytics, onOpenEmail }) {
 
   return (
     <div className="sequence-timeline">
-      <section className="sequence-performance" aria-label="Live campaign performance">
-        <div className="sequence-performance-label">
-          <span><i />Live performance</span>
-          <small>{analytics.loading ? 'Refreshing…' : analytics.configured ? 'Refreshes every 15 seconds' : 'Supabase connection required'}</small>
-        </div>
-        <div className="sequence-performance-metrics">
-          <div><span>Sent</span><strong>{campaignStats.sent || 0}</strong></div>
-          <div><span>Delivered</span><strong>{rate(campaignStats.delivered, campaignStats.sent)}</strong></div>
-          <div><span>Opened</span><strong>{rate(campaignStats.opened, campaignStats.delivered, analytics.tracking?.opens)}</strong></div>
-          <div><span>Clicked</span><strong>{rate(campaignStats.clicked, campaignStats.delivered, analytics.tracking?.clicks)}</strong></div>
-          <div><span>Responses</span><strong>{Number(campaignStats.replies || 0) + Number(campaignStats.conversions || 0)}</strong></div>
-        </div>
-      </section>
+      {campaign.manualDisabled ? (
+        <section className="manual-sequence-notice" aria-label="Manual disabled sequence notice">
+          <div><Status value="Manual — Disabled" /><strong>Read-only campaign reference</strong></div>
+          <p>This sequence is available for review only. It cannot enrol a contact, re-enable its database gate, or send an email from Email Studio.</p>
+        </section>
+      ) : (
+        <section className="sequence-performance" aria-label="Live campaign performance">
+          <div className="sequence-performance-label">
+            <span><i />Live performance</span>
+            <small>{analytics.loading ? 'Refreshing…' : analytics.configured ? 'Refreshes every 15 seconds' : 'Supabase connection required'}</small>
+          </div>
+          <div className="sequence-performance-metrics">
+            <div><span>Sent</span><strong>{campaignStats.sent || 0}</strong></div>
+            <div><span>Delivered</span><strong>{rate(campaignStats.delivered, campaignStats.sent)}</strong></div>
+            <div><span>Opened</span><strong>{rate(campaignStats.opened, campaignStats.delivered, analytics.tracking?.opens)}</strong></div>
+            <div><span>Clicked</span><strong>{rate(campaignStats.clicked, campaignStats.delivered, analytics.tracking?.clicks)}</strong></div>
+            <div><span>Responses</span><strong>{Number(campaignStats.replies || 0) + Number(campaignStats.conversions || 0)}</strong></div>
+          </div>
+        </section>
+      )}
 
       <section className="email-sequence-board" aria-label={`${campaign.name} emails`}>
         <div className="email-sequence-board-head">
@@ -415,7 +426,7 @@ function SequenceTimeline({ campaign, analytics, onOpenEmail }) {
                   <span>{message.isTriggered ? 'Triggered' : `Day ${getDisplayDay(message.day)}`}</span>
                 </div>
                 <div className="email-board-copy">
-                  <div><span className={`email-plan-status ${message.status.toLowerCase()}`}><i />{message.status}</span></div>
+                  <div><span className={`email-plan-status ${statusClass(message.status)}`}><i />{message.status}</span></div>
                   <strong>{message.title}</strong>
                   <small>{message.preview}</small>
                 </div>
@@ -539,7 +550,7 @@ function Sequences({ params, routeTo, onOpenEmail }) {
   const [marketFilter, setMarketFilter] = useState('all')
   const [showArchived, setShowArchived] = useState(false)
   const visibleCampaigns = useMemo(
-    () => showArchived ? campaigns : activeCampaigns,
+    () => showArchived ? campaigns : [...activeCampaigns, ...manualDisabledCampaigns],
     [showArchived],
   )
   const marketOptions = useMemo(() => {
@@ -614,7 +625,7 @@ function Sequences({ params, routeTo, onOpenEmail }) {
                 <div className="sequence-ownership"><span><b>Owner</b>{campaign.owner}</span><CopyLink parts={['sequences', campaign.id]} /></div>
               </div>
             </div>
-            <CampaignKillSwitch campaign={campaign} analytics={analytics} onChanged={(data) => setAnalytics((current) => ({
+            {!campaign.manualDisabled && <CampaignKillSwitch campaign={campaign} analytics={analytics} onChanged={(data) => setAnalytics((current) => ({
               ...current,
               campaign: current.campaign ? { ...current.campaign, enabled: data.campaign?.enabled } : current.campaign,
               control: {
@@ -624,7 +635,7 @@ function Sequences({ params, routeTo, onOpenEmail }) {
                 pending_jobs: data.pending_jobs || 0,
                 jobs_paused_by_kill_switch: data.paused_jobs || 0,
               },
-            }))} />
+            }))} />}
             <SequenceTimeline campaign={campaign} analytics={analytics} onOpenEmail={onOpenEmail} />
           </section>
         </div>
@@ -752,7 +763,7 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
               : `Sequence email ${String(message.index).padStart(2, '0')} of ${String(sequenceMessages.length).padStart(2, '0')} · Day ${getDisplayDay(message.day)}`
         ) : 'No HTML'}</span><strong>{message?.title || 'No rendered emails in this campaign'}</strong></div>
         <div className="toolbar-actions">
-          {message && <CampaignKillSwitch campaign={campaign} analytics={analytics} placement="toolbar" onChanged={(data) => setAnalytics((current) => ({
+          {message && !campaign.manualDisabled && <CampaignKillSwitch campaign={campaign} analytics={analytics} placement="toolbar" onChanged={(data) => setAnalytics((current) => ({
             ...current,
             campaign: current.campaign ? { ...current.campaign, enabled: data.campaign?.enabled } : current.campaign,
             control: {

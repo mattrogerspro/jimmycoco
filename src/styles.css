@@ -135,6 +135,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .status-live { color: var(--green); background: var(--green-soft); }
 .status-ready { color: #796249; background: #eee5da; }
 .status-blueprint { color: #65616b; background: #e7e5ea; }
+.status-manual-disabled { color: #6e5946; background: #efe6da; }
 .progress-track { height: 3px; margin-top: 17px; background: #dcd2c8; border-radius: 3px; overflow: hidden; }
 .progress-track i { display: block; height: 100%; background: var(--green); }
 .campaign-progress-meta { display: flex; justify-content: space-between; margin-top: 9px; color: #8d857d; font-size: 8px; }
@@ -559,6 +560,10 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .sequence-kicker > span { font-size: 15px; }
 .sequence-ownership span { font-size: 16px; }
 .sequence-ownership b { font-size: 12px; }
+.manual-sequence-notice { display: grid; gap: 10px; margin: 18px; padding: 18px 20px; border: 1px solid #d9c9b8; border-left: 4px solid var(--bronze); border-radius: 8px; background: #f8f1e9; }
+.manual-sequence-notice > div { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.manual-sequence-notice strong { font-size: 16px; }
+.manual-sequence-notice p { margin: 0; max-width: 760px; color: #6e6358; font-size: 14px; line-height: 1.5; }
 .sequence-performance-label > span { font-size: 14px; }
 .sequence-performance-label small { font-size: 13px; }
 .sequence-performance-metrics span { font-size: 13px; }

@@ -89,6 +89,12 @@ const currentCampaignIds = new Set([
   'us-west-coast-salon-stockist',
 ])
 
+const manualDisabledCampaignIds = new Set([
+  'uk-pro-trial-follow-up',
+  'uk-calculator-follow-up',
+  'uk-pro-order-follow-up',
+])
+
 const campaignDefinitions = Object.entries(campaignDataFiles)
   .map(([dataPath, data]) => {
     const id = dataPath.split('/').at(-2)
@@ -98,13 +104,15 @@ const campaignDefinitions = Object.entries(campaignDataFiles)
     const lastDay = days.length ? Math.max(...days) : Math.max(0, (data.messages?.length - 1) * 3)
     const market = studio.market || data.market || registry?.market || id.split('-')[0].toUpperCase()
 
+    const manualDisabled = manualDisabledCampaignIds.has(id)
+
     return {
       id,
       name: studio.name || registry?.name || toTitle(id),
       shortName: studio.shortName || studio.name || registry?.name || toTitle(id),
       market,
       flag: studio.flag || marketFlags[market] || '✉️',
-      status: (Boolean(studio.archived) || !currentCampaignIds.has(id)) ? 'Archived' : (studio.status || 'Draft'),
+      status: manualDisabled ? 'Manual — Disabled' : ((Boolean(studio.archived) || !currentCampaignIds.has(id)) ? 'Archived' : (studio.status || 'Draft')),
       hook: studio.hook || 'Email campaign',
       channel: studio.channel || 'Email',
       cadence: studio.cadence || `${lastDay} days`,
@@ -114,6 +122,7 @@ const campaignDefinitions = Object.entries(campaignDataFiles)
       supplementalOutputs: studio.supplementalOutputs || [],
       order: studio.order ?? 999,
       archived: Boolean(studio.archived) || !currentCampaignIds.has(id),
+      manualDisabled,
       data,
     }
   })
@@ -171,7 +180,7 @@ export const campaigns = campaignDefinitions.map((campaign) => {
       htmlPath,
       isTriggered,
       isSupplemental,
-      status: campaign.archived ? 'Archived' : (campaign.status === 'Live' && index === 0 ? 'Live' : 'Ready'),
+      status: campaign.manualDisabled ? 'Manual — Disabled' : (campaign.archived ? 'Archived' : (campaign.status === 'Live' && index === 0 ? 'Live' : 'Ready')),
     }
   })
 
@@ -210,13 +219,15 @@ export const lifecycleSequences = lifecycleFolders.map(([readmePath, content]) =
 }).sort((a, b) => a.id.localeCompare(b.id))
 
 export const activeCampaigns = campaigns.filter((campaign) => !campaign.archived)
-export const archivedCampaigns = campaigns.filter((campaign) => campaign.archived)
+export const manualDisabledCampaigns = campaigns.filter((campaign) => campaign.manualDisabled)
+export const archivedCampaigns = campaigns.filter((campaign) => campaign.archived && !campaign.manualDisabled)
 
 export const contentStats = {
   playbooks: playbookCategories.reduce((total, category) => total + category.documents.length, 0),
   lifecycleSequences: lifecycleSequences.length,
   campaigns: activeCampaigns.length,
   archivedCampaigns: archivedCampaigns.length,
+  manualDisabledCampaigns: manualDisabledCampaigns.length,
   renderedEmails: activeCampaigns.reduce((total, campaign) => total + campaign.messages.filter((message) => message.html).length, 0),
 }
 

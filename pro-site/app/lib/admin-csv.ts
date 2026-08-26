@@ -17,6 +17,7 @@ function csvResponse(filename: string, header: string[], rows: string[][], respo
 type OrderExportRow = {
   reference: string;
   status: string;
+  data_mode: "demo" | "live";
   submitted_at: string;
   confirmed_at: string | null;
   currency: string;
@@ -29,9 +30,10 @@ type OrderExportRow = {
 export function ordersCsv(rows: OrderExportRow[], responseHeaders: Headers) {
   return csvResponse(
     "jimmy-coco-orders",
-    ["Reference", "Status", "Account code", "Business", "Contact", "Email", "Placed", "Confirmed", "Currency", "Total", "Customer note", "Internal note"],
+    ["Reference", "Data mode", "Status", "Account code", "Business", "Contact", "Email", "Placed", "Confirmed", "Currency", "Total", "Customer note", "Internal note"],
     rows.map((row) => [
       row.reference,
+      row.data_mode,
       row.status,
       row.resellers?.account_code ?? "",
       row.resellers?.business_name ?? "",
@@ -58,6 +60,7 @@ type AccountExportRow = {
   pricing_tier: string;
   discount_percent: number;
   status: string;
+  data_mode: "demo" | "live";
   user_id: string | null;
   approved_at: string | null;
   created_at: string;
@@ -66,7 +69,7 @@ type AccountExportRow = {
 export function accountsCsv(rows: AccountExportRow[], responseHeaders: Headers) {
   return csvResponse(
     "jimmy-coco-accounts",
-    ["Account code", "Business", "Contact", "Email", "Phone", "Market", "Tier", "Discount %", "Status", "Portal", "Approved", "Created"],
+    ["Account code", "Business", "Contact", "Email", "Phone", "Market", "Tier", "Discount %", "Data mode", "Status", "Portal", "Approved", "Created"],
     rows.map((row) => [
       row.account_code,
       row.business_name,
@@ -76,6 +79,7 @@ export function accountsCsv(rows: AccountExportRow[], responseHeaders: Headers) 
       row.market,
       row.pricing_tier,
       String(row.discount_percent),
+      row.data_mode,
       row.status,
       row.user_id ? "Signed up" : "Not signed up",
       row.approved_at ?? "",
@@ -88,6 +92,7 @@ export function accountsCsv(rows: AccountExportRow[], responseHeaders: Headers) 
 type InvoiceExportRow = {
   invoice_number: string | null;
   status: string;
+  data_mode: "demo" | "live";
   issue_date: string | null;
   due_date: string | null;
   currency: string;
@@ -103,9 +108,10 @@ type InvoiceExportRow = {
 export function invoicesCsv(rows: InvoiceExportRow[], responseHeaders: Headers) {
   return csvResponse(
     "jimmy-coco-invoices",
-    ["Invoice", "Status", "Account code", "Business", "Contact", "Email", "Issued", "Due", "Currency", "Net", "VAT", "Total", "Paid", "Outstanding", "Accounting reference"],
+    ["Invoice", "Data mode", "Status", "Account code", "Business", "Contact", "Email", "Issued", "Due", "Currency", "Net", "VAT", "Total", "Paid", "Outstanding", "Accounting reference"],
     rows.map((row) => [
       row.invoice_number ?? "",
+      row.data_mode,
       row.status,
       row.resellers?.account_code ?? "",
       row.resellers?.business_name ?? "",

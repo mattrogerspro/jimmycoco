@@ -25,6 +25,7 @@ type OrderRow = {
   id: string;
   reference: string;
   status: string;
+  data_mode: "demo" | "live";
   subtotal_pence: number;
   customer_note: string | null;
   submitted_at: string;
@@ -223,6 +224,7 @@ export function OrdersPanel({
                       Placed{sortMark("submitted_at")}
                     </Link>
                   </th>
+                  <th scope="col">Data</th>
                   <th scope="col" aria-sort={ariaSort("status")}>
                     <Link to={sortHref("status")} preventScrollReset>
                       Status{sortMark("status")}
@@ -251,6 +253,7 @@ export function OrdersPanel({
                       </td>
                     )}
                     <td>{new Date(order.submitted_at).toLocaleDateString("en-GB")}</td>
+                    <td><span className={`admin-status admin-status-mode-${order.data_mode}`}>{order.data_mode}</span></td>
                     <td>
                       <span className={`admin-status admin-status-${order.status}`}>{order.status}</span>
                     </td>

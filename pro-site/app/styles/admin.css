@@ -191,6 +191,8 @@ button,input,select,textarea{font:inherit}
 .admin-status-declined,.admin-status-cancelled,.admin-status-closed{background:#F1E1E1;color:#7A2E2E}
 .admin-status-on_hold,.admin-status-suspended,.admin-status-submitted{background:#EFE6DA;color:#7A5326}
 .admin-status-invoiced{background:#DDE6F0;color:#2C4F72}
+.admin-status-mode-demo{background:#EDE7E1;color:#6B6058}
+.admin-status-mode-live{background:#DDEDEA;color:#1F5A52}
 .admin-status-shipped{background:#DDEDEA;color:#1F5A52}
 
 /* ---- live chat --------------------------------------------------------- */

@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { calculateLine, type InvoiceStatus, type PaymentMethod } from "./invoice-constants";
 import type { InvoiceQuery } from "./invoices-query";
+import type { DataMode } from "./resellers.server";
 
 export { INVOICE_STATUSES } from "./invoice-constants";
 
@@ -56,6 +57,7 @@ export type Invoice = {
   reseller_id: string;
   order_id: string | null;
   status: InvoiceStatus;
+  data_mode: DataMode;
   currency: string;
   issue_date: string | null;
   due_date: string | null;
@@ -86,7 +88,7 @@ export type Invoice = {
   created_at: string;
 };
 const INVOICE_COLUMNS =
-  "id, invoice_number, reseller_id, order_id, status, currency, issue_date, due_date, payment_terms_days, vat_registered, vat_number, vat_rate_bps, prices_include_vat, net_pence, vat_pence, gross_pence, paid_pence, balance_pence, issuer, bill_to, customer_note, internal_note, terms_text, external_reference, issued_at, paid_at, voided_at, void_reason, customer_emailed_at, customer_emailed_to, customer_email_resend_id, customer_emailed_by, created_at";
+  "id, invoice_number, reseller_id, order_id, status, data_mode, currency, issue_date, due_date, payment_terms_days, vat_registered, vat_number, vat_rate_bps, prices_include_vat, net_pence, vat_pence, gross_pence, paid_pence, balance_pence, issuer, bill_to, customer_note, internal_note, terms_text, external_reference, issued_at, paid_at, voided_at, void_reason, customer_emailed_at, customer_emailed_to, customer_email_resend_id, customer_emailed_by, created_at";
 const LIST_COLUMNS = `${INVOICE_COLUMNS}, resellers(id, account_code, business_name, contact_name, email)`;
 
 /* ------------------------------------------------------------------ *
@@ -129,7 +131,7 @@ export async function createInvoiceFromOrder(supabase: SupabaseClient, orderId: 
 
   const { data: order, error: orderError } = await supabase
     .from("reseller_orders")
-    .select("id, reseller_id, currency, customer_note, delivery_note, reference")
+    .select("id, reseller_id, data_mode, currency, customer_note, delivery_note, reference")
     .eq("id", orderId)
     .maybeSingle();
   if (orderError) throw new Error(`Could not load the order: ${orderError.message}`);
@@ -151,6 +153,7 @@ export async function createInvoiceFromOrder(supabase: SupabaseClient, orderId: 
     .insert({
       reseller_id: (order as unknown as { reseller_id: string }).reseller_id,
       order_id: orderId,
+      data_mode: (order as unknown as { data_mode: DataMode }).data_mode,
       currency: (order as unknown as { currency: string }).currency,
       // Frozen now, so changing the settings later cannot rewrite this invoice.
       vat_registered: settings.vat_registered,
@@ -302,7 +305,7 @@ export async function getInvoice(supabase: SupabaseClient, invoiceId: string) {
   const { data: invoice, error } = await supabase
     .from("invoices")
     .select(
-      `${INVOICE_COLUMNS}, resellers(id, account_code, business_name, contact_name, email, phone, market, address, pricing_tier, discount_percent, status)`,
+      `${INVOICE_COLUMNS}, resellers(id, account_code, business_name, contact_name, email, phone, market, address, pricing_tier, discount_percent, status, data_mode)`,
     )
     .eq("id", invoiceId)
     .maybeSingle();
@@ -359,7 +362,7 @@ export async function getInvoice(supabase: SupabaseClient, invoiceId: string) {
 export async function invoiceForOrder(supabase: SupabaseClient, orderId: string) {
   const { data, error } = await supabase
     .from("invoices")
-    .select("id, invoice_number, status, gross_pence, paid_pence, balance_pence, due_date, issue_date, currency, paid_at, customer_emailed_at, customer_emailed_to")
+    .select("id, invoice_number, status, data_mode, gross_pence, paid_pence, balance_pence, due_date, issue_date, currency, paid_at, customer_emailed_at, customer_emailed_to")
     .eq("order_id", orderId)
     .order("created_at", { ascending: false })
     .limit(1)

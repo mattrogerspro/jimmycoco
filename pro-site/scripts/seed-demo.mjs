@@ -280,13 +280,19 @@ async function purge(db, { withAuth }) {
 
 async function apply(db, dataset, { withAuth, password }) {
   step("applications…");
-  const applications = await insertAll(db, "reseller_applications", dataset.applications, { returning: "id, email" });
+  const applications = await insertAll(
+    db,
+    "reseller_applications",
+    dataset.applications.map((application) => ({ ...clean(application), data_mode: "demo" })),
+    { returning: "id, email" },
+  );
   const applicationByEmail = new Map(applications.map((row) => [String(row.email).toLowerCase(), row.id]));
 
   step("reseller accounts…");
   const resellerRows = dataset.resellers.map((reseller) => ({
     ...clean(reseller),
     application_id: applicationByEmail.get(reseller._applicationEmail.toLowerCase()) ?? null,
+    data_mode: "demo",
   }));
   const resellers = await insertAll(db, "resellers", resellerRows, {
     returning: "id, account_code, email",
@@ -298,6 +304,7 @@ async function apply(db, dataset, { withAuth, password }) {
   const orderRows = dataset.orders.map((order) => ({
     ...clean(order),
     reseller_id: resellerByCode.get(order._accountCode),
+    data_mode: "demo",
   }));
   const orders = await insertAll(db, "reseller_orders", orderRows, { returning: "id, reference" });
   const orderByReference = new Map(orders.map((row) => [row.reference, row.id]));
@@ -319,6 +326,7 @@ async function apply(db, dataset, { withAuth, password }) {
     currency: order.currency || "GBP",
     customer_note: order.customer_note ?? null,
     internal_note: `DEMO seed invoice: ${order.reference}`,
+    data_mode: "demo",
   }));
   const invoices = await insertAll(db, "invoices", invoiceRows, { returning: "id, order_id" });
   const invoiceByOrderId = new Map(invoices.map((invoice) => [invoice.order_id, invoice.id]));

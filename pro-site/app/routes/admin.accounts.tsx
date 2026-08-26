@@ -218,6 +218,7 @@ export default function AdminAccounts() {
                   <th scope="col">Orders</th>
                   <th scope="col">Lifetime value</th>
                   <th scope="col">Portal</th>
+                  <th scope="col">Data</th>
                   <th scope="col" aria-sort={ariaSort("status")}>
                     <Link to={sortHref("status")} preventScrollReset>
                       Status{sortMark("status")}
@@ -258,6 +259,7 @@ export default function AdminAccounts() {
                       ) : null}
                     </td>
                     <td>{reseller.user_id ? "Signed up" : "Not signed up"}</td>
+                    <td><span className={`admin-status admin-status-mode-${reseller.data_mode}`}>{reseller.data_mode}</span></td>
                     <td>
                       <span className={`admin-status admin-status-${reseller.status}`}>{reseller.status}</span>
                     </td>

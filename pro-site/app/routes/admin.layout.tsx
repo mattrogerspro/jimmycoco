@@ -76,6 +76,7 @@ const NAV_GROUPS = [
       { to: "/admin/accounts", label: "Accounts", glyph: "◆" },
       { to: "/admin/orders", label: "Orders", glyph: "▣" },
       { to: "/admin/invoices", label: "Invoices", glyph: "£" },
+      { to: "/admin/data-mode", label: "Data mode", glyph: "◐" },
     ],
   },
 ];

@@ -7,6 +7,7 @@ import type { AccountQuery } from "./accounts-query";
 export type ApplicationStatus = "pending" | "approved" | "declined" | "on_hold";
 export type ResellerStatus = "active" | "suspended" | "closed";
 export type OrderStatus = "submitted" | "confirmed" | "invoiced" | "shipped" | "cancelled";
+export type DataMode = "demo" | "live";
 
 export type ResellerApplication = {
   id: string;
@@ -20,6 +21,7 @@ export type ResellerApplication = {
   wants_trial: boolean;
   status: ApplicationStatus;
   source: string;
+  data_mode: DataMode;
   metadata: Record<string, unknown>;
   review_note: string | null;
   reviewed_at: string | null;
@@ -37,6 +39,7 @@ export type Reseller = {
   pricing_tier: "standard" | "silver" | "gold";
   discount_percent: number;
   status: ResellerStatus;
+  data_mode: DataMode;
   user_id: string | null;
   approved_at: string | null;
   created_at: string;
@@ -57,6 +60,7 @@ export type ResellerOrder = {
   id: string;
   reference: string;
   status: OrderStatus;
+  data_mode: DataMode;
   source: string;
   currency: string;
   subtotal_pence: number;
@@ -115,7 +119,7 @@ export async function listApplications(supabase: SupabaseClient, status?: Applic
   let query = supabase
     .from("reseller_applications")
     .select(
-      "id, business_name, contact_name, email, phone, business_type, market, message, wants_trial, status, source, metadata, review_note, reviewed_at, created_at",
+      "id, business_name, contact_name, email, phone, business_type, market, message, wants_trial, status, data_mode, source, metadata, review_note, reviewed_at, created_at",
     )
     .order("created_at", { ascending: false })
     .limit(200);
@@ -131,7 +135,7 @@ export async function listResellers(supabase: SupabaseClient) {
   const { data, error } = await supabase
     .from("resellers")
     .select(
-      "id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, user_id, approved_at, created_at",
+      "id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, data_mode, user_id, approved_at, created_at",
     )
     .order("created_at", { ascending: false })
     .limit(200);
@@ -154,7 +158,7 @@ export async function approveApplication(
 ) {
   const { data: application, error: loadError } = await supabase
     .from("reseller_applications")
-    .select("id, business_name, contact_name, email, phone, market, status")
+    .select("id, business_name, contact_name, email, phone, market, status, data_mode")
     .eq("id", applicationId)
     .maybeSingle();
 
@@ -186,6 +190,7 @@ export async function approveApplication(
     .from("reseller_applications")
     .update({
       status: "approved",
+      data_mode: application.data_mode,
       reviewed_by: reviewerId,
       reviewed_at: new Date().toISOString(),
       review_note: options.note ?? null,
@@ -234,7 +239,7 @@ export async function loadCatalogue(supabase: SupabaseClient) {
 export async function listOrders(supabase: SupabaseClient, resellerId?: string) {
   let query = supabase
     .from("reseller_orders")
-    .select("id, reference, status, source, currency, subtotal_pence, customer_note, submitted_at")
+    .select("id, reference, status, data_mode, source, currency, subtotal_pence, customer_note, submitted_at")
     .order("submitted_at", { ascending: false })
     .limit(100);
 
@@ -258,7 +263,7 @@ export function orderReference() {
 
 export async function createOrder(
   supabase: SupabaseClient,
-  reseller: Pick<Reseller, "id" | "discount_percent">,
+  reseller: Pick<Reseller, "id" | "discount_percent" | "data_mode">,
   lines: OrderLineInput[],
   customerNote?: string,
   source = "pro_website",
@@ -291,6 +296,7 @@ export async function createOrder(
       reference: orderReference(),
       customer_note: customerNote?.trim() || null,
       source,
+      data_mode: reseller.data_mode,
     })
     .select("id, reference")
     .single();
@@ -327,7 +333,7 @@ export async function getApplication(supabase: SupabaseClient, id: string) {
   const { data, error } = await supabase
     .from("reseller_applications")
     .select(
-      "id, business_name, contact_name, email, phone, business_type, market, website, instagram, address, message, wants_trial, status, source, metadata, reviewed_at, review_note, created_at, updated_at",
+      "id, business_name, contact_name, email, phone, business_type, market, website, instagram, address, message, wants_trial, status, data_mode, source, metadata, reviewed_at, review_note, created_at, updated_at",
     )
     .eq("id", id)
     .maybeSingle();
@@ -346,7 +352,7 @@ export async function getReseller(supabase: SupabaseClient, id: string) {
   const { data, error } = await supabase
     .from("resellers")
     .select(
-      "id, application_id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, user_id, address, internal_notes, approved_at, created_at, updated_at",
+      "id, application_id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, data_mode, user_id, address, internal_notes, approved_at, created_at, updated_at",
     )
     .eq("id", id)
     .maybeSingle();
@@ -380,7 +386,7 @@ export async function listOrdersDetailed(supabase: SupabaseClient, resellerId?: 
   let query = supabase
     .from("reseller_orders")
     .select(
-      "id, reference, status, source, currency, subtotal_pence, customer_note, internal_note, submitted_at, confirmed_at, reseller_id, resellers(account_code, business_name, contact_name, email)",
+      "id, reference, status, data_mode, source, currency, subtotal_pence, customer_note, internal_note, submitted_at, confirmed_at, reseller_id, resellers(account_code, business_name, contact_name, email)",
     )
     .order("submitted_at", { ascending: false })
     .limit(200);
@@ -403,7 +409,7 @@ export async function getOrder(supabase: SupabaseClient, id: string) {
   const { data: order, error } = await supabase
     .from("reseller_orders")
     .select(
-      "id, reference, status, source, currency, subtotal_pence, customer_note, internal_note, delivery_note, submitted_at, confirmed_at, created_at, updated_at, reseller_id, resellers(id, account_code, business_name, contact_name, email, phone, market, address, pricing_tier, discount_percent, status)",
+      "id, reference, status, data_mode, source, currency, subtotal_pence, customer_note, internal_note, delivery_note, submitted_at, confirmed_at, created_at, updated_at, reseller_id, resellers(id, account_code, business_name, contact_name, email, phone, market, address, pricing_tier, discount_percent, status, data_mode)",
     )
     .eq("id", id)
     .maybeSingle();
@@ -514,7 +520,7 @@ export type OrderListRow = ResellerOrder & {
 };
 
 const ORDER_COLUMNS =
-  "id, reference, status, source, currency, subtotal_pence, customer_note, internal_note, submitted_at, confirmed_at, reseller_id, resellers(account_code, business_name, contact_name, email)";
+  "id, reference, status, data_mode, source, currency, subtotal_pence, customer_note, internal_note, submitted_at, confirmed_at, reseller_id, resellers(account_code, business_name, contact_name, email)";
 
 /**
  * The subset of the PostgREST builder the filters touch. Typing it structurally
@@ -687,7 +693,7 @@ export async function listResellerOptions(supabase: SupabaseClient) {
  * ------------------------------------------------------------------ */
 
 const ACCOUNT_COLUMNS =
-  "id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, user_id, approved_at, created_at";
+  "id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, data_mode, user_id, approved_at, created_at";
 
 function applyAccountFilters<T>(builder: T, query: AccountQuery): T {
   let next = builder as Filterable;

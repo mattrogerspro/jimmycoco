@@ -34,6 +34,7 @@ export default [
     route("invoices/:invoiceId", "routes/admin.invoice-detail.tsx"),
     route("invoices/:invoiceId/document", "routes/admin.invoice-document.tsx"),
     route("invoice-settings", "routes/admin.invoice-settings.tsx"),
+    route("data-mode", "routes/admin.data-mode.tsx"),
   ]),
   route("portal/login", "routes/portal.login.tsx"),
   route("portal/register", "routes/portal.register.tsx"),

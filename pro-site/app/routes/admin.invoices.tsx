@@ -206,6 +206,7 @@ export default function AdminInvoices() {
                       Due{mark("due_date")}
                     </Link>
                   </th>
+                  <th scope="col">Data</th>
                   <th scope="col">Status</th>
                   <th scope="col">
                     <Link to={sortHref("gross_pence")} preventScrollReset>
@@ -241,6 +242,7 @@ export default function AdminInvoices() {
                         {invoice.due_date ? new Date(`${invoice.due_date}T00:00:00`).toLocaleDateString("en-GB") : "—"}
                         {late ? <span className="admin-late">overdue</span> : null}
                       </td>
+                      <td><span className={`admin-status admin-status-mode-${invoice.data_mode}`}>{invoice.data_mode}</span></td>
                       <td>
                         <span className={`admin-status admin-status-inv-${invoice.status}`}>
                           {INVOICE_STATUS_LABELS[invoice.status]}

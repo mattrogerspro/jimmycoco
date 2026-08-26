@@ -3,7 +3,7 @@ import { createSupabaseServerClient } from "./supabase.server";
 import type { Reseller } from "./resellers.server";
 
 const RESELLER_COLUMNS =
-  "id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, user_id, approved_at, created_at";
+  "id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, data_mode, user_id, approved_at, created_at";
 
 function loginRedirectUrl(request: Request, reason?: "unlinked" | "suspended") {
   const requestUrl = new URL(request.url);

@@ -73,6 +73,7 @@ export default function AdminApplications() {
                   <th scope="col">Contact</th>
                   <th scope="col">Type</th>
                   <th scope="col">Received</th>
+                  <th scope="col">Data</th>
                   <th scope="col">Status</th>
                 </tr>
               </thead>
@@ -86,6 +87,7 @@ export default function AdminApplications() {
                     <td>{application.contact_name}<span>{application.email}</span></td>
                     <td>{application.business_type}</td>
                     <td>{new Date(application.created_at).toLocaleDateString("en-GB")}</td>
+                    <td><span className={`admin-status admin-status-mode-${application.data_mode}`}>{application.data_mode}</span></td>
                     <td><span className={`admin-status admin-status-${application.status}`}>{application.status}</span></td>
                   </ClickableRow>
                 ))}

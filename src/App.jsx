@@ -62,6 +62,7 @@ const navItems = [
   { id: 'guides', label: 'Help & guides', icon: 'help' },
   { id: 'audience-import', label: 'Audience importer', icon: 'upload', admin: true },
   { id: 'audience-imports', label: 'Imported audience', icon: 'contacts', admin: true },
+  { id: 'contact-activity', label: 'Contact activity', icon: 'contacts', admin: true },
 ]
 
 function BrandMark() {
@@ -1494,6 +1495,180 @@ function AudienceImportHistory() {
   )
 }
 
+function formatContactName(contact) {
+  if (!contact) return 'Contact'
+  return contact.business_name || [contact.first_name, contact.last_name].filter(Boolean).join(' ') || contact.email || 'Contact'
+}
+
+function contactStatusClass(value) {
+  return String(value || 'unknown').toLowerCase().replace(/[^a-z0-9]+/g, '-')
+}
+
+function ContactActivity() {
+  const [campaignId, setCampaignId] = useState(audienceImportCampaigns[0].id)
+  const [selectedContactId, setSelectedContactId] = useState('')
+  const [search, setSearch] = useState('')
+  const [activity, setActivity] = useState({ contacts: [], selected_contact: null, refreshed_at: null })
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [revision, setRevision] = useState(0)
+
+  useEffect(() => {
+    let cancelled = false
+    const query = new URLSearchParams({ campaign_id: campaignId })
+    if (selectedContactId) query.set('contact_id', selectedContactId)
+    setLoading(true)
+    setError('')
+    fetch(`/api/campaigns/contact-activity?${query.toString()}`)
+      .then(async (response) => {
+        const data = await response.json().catch(() => ({}))
+        if (!response.ok) throw new Error(data.error || `Contact activity request failed (${response.status})`)
+        return data
+      })
+      .then((data) => {
+        if (cancelled) return
+        setActivity(data)
+        if (!selectedContactId && data.selected_contact?.id) setSelectedContactId(data.selected_contact.id)
+      })
+      .catch((requestError) => {
+        if (!cancelled) setError(humaniseImportValue(requestError instanceof Error ? requestError.message : requestError))
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+    return () => { cancelled = true }
+  }, [campaignId, selectedContactId, revision])
+
+  const visibleContacts = useMemo(() => {
+    const needle = search.trim().toLowerCase()
+    if (!needle) return activity.contacts
+    return activity.contacts.filter((contact) => [contact.business_name, contact.first_name, contact.last_name, contact.email, contact.enrollment_status, contact.exit_reason]
+      .filter(Boolean)
+      .some((value) => String(value).toLowerCase().includes(needle)))
+  }, [activity.contacts, search])
+
+  const contact = activity.selected_contact
+  const summary = contact?.message_summary || {}
+  const selectedCampaign = audienceImportCampaigns.find((campaign) => campaign.id === campaignId) || audienceImportCampaigns[0]
+  const currentEnrollment = contact?.enrollments?.find((enrollment) => enrollment.status === 'active') || contact?.enrollments?.[0] || null
+  const operationalEvents = [
+    ...(contact?.business_events || []).map((event) => ({ ...event, kind: 'business' })),
+    ...(contact?.suppressions || []).map((suppression) => ({ ...suppression, occurred_at: suppression.created_at, event_type: suppression.reason, kind: 'suppression' })),
+  ].sort((left, right) => String(right.occurred_at || '').localeCompare(String(left.occurred_at || '')))
+
+  return (
+    <div className="page contact-activity-page">
+      <div className="page-intro contact-activity-intro">
+        <p className="eyebrow">Admin · Contact reporting</p>
+        <h1>Contact activity</h1>
+        <p>Review every contact with a sequence record, including delivery, opens, clicks, replies, sequence state and marketing suppression. This page is read-only and cannot send, pause or alter a contact.</p>
+      </div>
+
+      {error && <div className="import-message import-message-error" role="alert">{error}</div>}
+      <div className="contact-activity-toolbar panel">
+        <label className="contact-activity-field">
+          <span>Campaign sequence</span>
+          <select value={campaignId} onChange={(event) => { setCampaignId(event.target.value); setSelectedContactId('') }}>
+            {audienceImportCampaigns.map((campaign) => <option key={campaign.id} value={campaign.id}>{campaign.market} · {campaign.label}</option>)}
+          </select>
+        </label>
+        <label className="contact-activity-search">
+          <span>Find a contact</span>
+          <div><Icon name="search" size={16} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Salon, name or email" /></div>
+        </label>
+        <button type="button" className="secondary-button contact-activity-refresh" onClick={() => setRevision((value) => value + 1)} disabled={loading}>Refresh</button>
+        <small>{activity.refreshed_at ? `Last refreshed ${formatAudienceImportDate(activity.refreshed_at)}` : 'Loading live campaign records…'}</small>
+      </div>
+
+      <div className="contact-activity-layout">
+        <section className="panel contact-activity-list" aria-label="Campaign contacts">
+          <div className="history-panel-head">
+            <div><p className="eyebrow">Sequence contacts</p><h2>{visibleContacts.length} of {activity.contacts.length} shown</h2></div>
+            <span className="contact-activity-count">{selectedCampaign.market}</span>
+          </div>
+          <div className="contact-activity-list-items">
+            {loading && !activity.contacts.length && <p className="audience-history-empty">Loading contact activity…</p>}
+            {!loading && !activity.contacts.length && <p className="audience-history-empty">No contacts have entered this campaign sequence yet.</p>}
+            {!loading && activity.contacts.length > 0 && !visibleContacts.length && <p className="audience-history-empty">No sequence contacts match that search.</p>}
+            {visibleContacts.map((item) => (
+              <button type="button" key={item.id} className={`contact-activity-record ${contact?.id === item.id ? 'is-selected' : ''}`} onClick={() => setSelectedContactId(item.id)}>
+                <span className="contact-activity-record-top"><strong>{formatContactName(item)}</strong><span className={`contact-activity-status contact-activity-status-${contactStatusClass(item.enrollment_status)}`}>{humaniseImportValue(item.enrollment_status)}</span></span>
+                <span>{item.email}</span>
+                <small>{item.marketing_status === 'unsubscribed' ? 'Marketing unsubscribed' : item.next_send_at ? `Next send ${formatAudienceImportDate(item.next_send_at, { timeZone: 'UTC' })} UTC` : item.exit_reason ? `Exited · ${humaniseImportValue(item.exit_reason)}` : 'No next send scheduled'}</small>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="panel contact-activity-detail">
+          {!contact && !loading && <p className="audience-history-empty">Choose a contact to inspect their campaign activity.</p>}
+          {contact && <>
+            <div className="contact-detail-head">
+              <div>
+                <p className="eyebrow">Contact record</p>
+                <h2>{formatContactName(contact)}</h2>
+                <p>{contact.email} · {contact.market || selectedCampaign.market}{contact.timezone ? ` · ${contact.timezone}` : ''}</p>
+              </div>
+              <div className="contact-detail-statuses">
+                <span className={`contact-activity-status contact-activity-status-${contactStatusClass(currentEnrollment?.status || 'not_enrolled')}`}>{humaniseImportValue(currentEnrollment?.status || 'not_enrolled')}</span>
+                <span className={`contact-activity-status contact-activity-status-${contactStatusClass(contact.marketing_status)}`}>Marketing {humaniseImportValue(contact.marketing_status)}</span>
+              </div>
+            </div>
+
+            <div className="import-metrics contact-activity-metrics">
+              <div><strong>{summary.sent || 0}</strong><span>Emails sent</span></div>
+              <div><strong>{summary.delivered || 0}</strong><span>Delivered</span></div>
+              <div><strong>{summary.opened || 0}</strong><span>Opened</span></div>
+              <div><strong>{summary.clicked || 0}</strong><span>Clicked</span></div>
+              <div><strong>{contact.business_events?.filter((event) => event.event_type === 'reply').length || 0}</strong><span>Replies</span></div>
+            </div>
+
+            <div className="contact-enrollment-summary">
+              <span><strong>Entered sequence:</strong> {currentEnrollment?.enrolled_at ? formatAudienceImportDate(currentEnrollment.enrolled_at) : '—'}</span>
+              <span><strong>Next step:</strong> {currentEnrollment?.status === 'active' ? `Email ${currentEnrollment.next_step || 1}` : 'No active step'}</span>
+              <span><strong>Next send:</strong> {currentEnrollment?.next_send_at ? `${formatAudienceImportDate(currentEnrollment.next_send_at, { timeZone: 'UTC' })} UTC` : '—'}</span>
+              <span><strong>Exit:</strong> {currentEnrollment?.exit_reason ? humaniseImportValue(currentEnrollment.exit_reason) : '—'}</span>
+            </div>
+
+            <div className="contact-table-section">
+              <div className="contact-section-head"><div><strong>Email delivery history</strong><small>Tracking timestamps are shown only when a verified provider event was received.</small></div></div>
+              <div className="import-row-table-wrap">
+                <table className="import-row-table contact-message-table">
+                  <thead><tr><th>Email</th><th>Subject</th><th>Status</th><th>Sent</th><th>Delivered</th><th>Opened</th><th>Clicked</th></tr></thead>
+                  <tbody>
+                    {!contact.messages?.length && <tr><td colSpan="7" className="contact-empty-cell">No sequence email has been queued for this contact yet.</td></tr>}
+                    {contact.messages?.map((message) => <tr key={message.id}>
+                      <td>Email {message.step_number}</td>
+                      <td className="contact-subject-cell">{message.subject}</td>
+                      <td><span className={`contact-activity-status contact-activity-status-${contactStatusClass(message.status)}`}>{humaniseImportValue(message.status)}</span>{message.error_message && <small className="contact-message-error">{message.error_message}</small>}</td>
+                      <td>{formatAudienceImportDate(message.sent_at)}</td>
+                      <td>{formatAudienceImportDate(message.delivered_at)}</td>
+                      <td>{formatAudienceImportDate(message.first_opened_at)}</td>
+                      <td>{formatAudienceImportDate(message.first_clicked_at)}</td>
+                    </tr>)}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="contact-table-section">
+              <div className="contact-section-head"><div><strong>Contact events</strong><small>Replies, conversions and opt-outs that have exited or suppressed this contact.</small></div></div>
+              {!operationalEvents.length && <p className="audience-history-empty">No reply, conversion, exit or suppression event has been recorded.</p>}
+              {!!operationalEvents.length && <div className="contact-event-timeline">
+                {operationalEvents.map((event) => <div className="contact-event" key={`${event.kind}-${event.id || event.email}-${event.occurred_at}`}>
+                  <span className={`contact-event-dot contact-event-dot-${event.kind}`} />
+                  <div><strong>{humaniseImportValue(event.event_type)}</strong><p>{event.kind === 'suppression' ? `${humaniseImportValue(event.scope)} suppression via ${humaniseImportValue(event.source)}` : event.data?.received_email_id ? 'Inbound email received' : 'Recorded campaign event'}</p></div>
+                  <time>{formatAudienceImportDate(event.occurred_at)}</time>
+                </div>)}
+              </div>}
+            </div>
+          </>}
+        </section>
+      </div>
+    </div>
+  )
+}
+
 const parseRoute = () => {
   const segments = window.location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map((part) => {
     try { return decodeURIComponent(part) } catch { return part }
@@ -1621,6 +1796,7 @@ export default function App() {
         {currentView === 'guides' && <Guides query={query} slug={route.params[0]} routeTo={routeTo} />}
         {currentView === 'audience-import' && <AudienceImporter />}
         {currentView === 'audience-imports' && <AudienceImportHistory />}
+        {currentView === 'contact-activity' && <ContactActivity />}
       </div>
     </div>
   )

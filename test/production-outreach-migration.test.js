@@ -27,11 +27,11 @@ function migrationSteps(campaignId) {
     }))
 }
 
-test('production outreach migration matches the disabled UK and US registry definitions', () => {
+test('production outreach migration retains disabled database defaults while the approved UK registry gate is open', () => {
   for (const campaignId of productionCampaignIds) {
     const campaign = campaignRegistry.find((item) => item.id === campaignId)
     assert.ok(campaign)
-    assert.equal(campaign.enabled, false)
+    assert.equal(campaign.enabled, campaignId === 'uk-salon-stockist')
     assert.deepEqual(migrationSteps(campaignId), campaign.steps.map((step) => ({
       key: step.key,
       number: step.number,

@@ -52,7 +52,7 @@ export const campaignRegistry = [
     market: 'UK',
     mode: 'sequence',
     classification: 'promotional',
-    enabled: false,
+    enabled: true,
     timezone: 'Europe/London',
     localSendHour: 10,
     minimumContactGapHours: 16,

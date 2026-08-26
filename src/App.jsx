@@ -1464,7 +1464,8 @@ function AudienceImportHistory() {
             </div>
             <div className="audience-history-meta">
               <span><strong>CSV:</strong> {selectedImport.source_file || '—'}</span>
-              <span><strong>First send:</strong> {formatAudienceImportDate(selectedImport.start_at, { timeZone: 'UTC' })} UTC</span>
+              <span><strong>Live next send:</strong> {selectedImport.live_next_send_at ? `${formatAudienceImportDate(selectedImport.live_next_send_at, { timeZone: 'UTC' })} UTC` : 'No active first-step enrolments'}</span>
+              <span><strong>Original import schedule:</strong> {formatAudienceImportDate(selectedImport.start_at, { timeZone: 'UTC' })} UTC</span>
               <span><strong>Imported / already enrolled:</strong> {importedRows.length}</span>
             </div>
             <div className="audience-history-toolbar">
@@ -1473,7 +1474,7 @@ function AudienceImportHistory() {
             </div>
             <div className="import-row-table-wrap">
               <table className="import-row-table audience-history-table">
-                <thead><tr><th>Row</th><th>Contact</th><th>Business</th><th>Outcome</th><th>Reason</th><th>First send</th></tr></thead>
+                <thead><tr><th>Row</th><th>Contact</th><th>Business</th><th>Outcome</th><th>Reason</th><th>Live next send</th></tr></thead>
                 <tbody>
                   {visibleRows.map((row) => <tr key={`${row.import_id}-${row.row_number}`}>
                     <td>{row.row_number}</td>
@@ -1481,7 +1482,7 @@ function AudienceImportHistory() {
                     <td>{row.payload?.business_name || '—'}</td>
                     <td><span className={`import-outcome import-outcome-${row.outcome}`}>{humaniseImportValue(row.outcome)}</span></td>
                     <td>{row.reasons?.length ? row.reasons.map(humaniseImportValue).join(' · ') : row.outcome === 'enrolled' ? 'Enrolled for the sequence' : 'Passed final checks'}</td>
-                    <td>{formatAudienceImportDate(selectedImport.start_at, { timeZone: 'UTC' })} UTC</td>
+                    <td>{row.live_next_send_at ? `${formatAudienceImportDate(row.live_next_send_at, { timeZone: 'UTC' })} UTC` : '—'}</td>
                   </tr>)}
                 </tbody>
               </table>

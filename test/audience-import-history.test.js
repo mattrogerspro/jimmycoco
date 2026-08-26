@@ -50,6 +50,8 @@ test('audience import history is super-admin protected and retrieves audited row
   assert.match(routeSource, /from\('email_audience_import_rows'\)/)
   assert.match(routeSource, /eq\('import_id', selectedImport\.id\)/)
   assert.match(routeSource, /order\('row_number', \{ ascending: true \}\)/)
+  assert.match(routeSource, /from\('email_enrollments'\)/)
+  assert.match(routeSource, /live_next_send_at/)
 })
 
 test('Studio navigation exposes the imported audience audit screen with outcome filtering', () => {
@@ -57,4 +59,6 @@ test('Studio navigation exposes the imported audience audit screen with outcome 
   assert.match(appSource, /currentView === 'audience-imports' && <AudienceImportHistory \/>/)
   assert.match(appSource, /Contact decisions/)
   assert.match(appSource, /Imported \/ already enrolled/)
+  assert.match(appSource, /Live next send/)
+  assert.match(appSource, /Original import schedule/)
 })

@@ -31,6 +31,8 @@ const IMPORT_ROW_COLUMNS = [
   'created_at',
 ].join(',')
 
+const ENROLLMENT_SCHEDULE_COLUMNS = 'id,status,next_step,next_send_at'
+
 const safeCampaignId = (value) => String(value || '').trim().slice(0, 120)
 const safeImportId = (value) => String(value || '').trim().slice(0, 120)
 
@@ -90,11 +92,30 @@ export default async function handler(request, response) {
         .limit(5000), 'load audience import rows') || []
       : []
 
+    const enrollmentIds = [...new Set(rows.map((row) => row.enrollment_id).filter(Boolean))]
+    const schedules = enrollmentIds.length
+      ? assertSupabase(await supabase
+        .from('email_enrollments')
+        .select(ENROLLMENT_SCHEDULE_COLUMNS)
+        .in('id', enrollmentIds), 'load live audience enrollment schedule') || []
+      : []
+    const schedulesByEnrollmentId = new Map(schedules.map((schedule) => [schedule.id, schedule]))
+    const rowsWithLiveSchedule = rows.map((row) => {
+      const schedule = schedulesByEnrollmentId.get(row.enrollment_id)
+      return schedule ? { ...row, live_next_send_at: schedule.next_send_at, live_status: schedule.status } : row
+    })
+    const liveNextSendAt = schedules
+      .filter((schedule) => schedule.status === 'active' && schedule.next_step === 1 && schedule.next_send_at)
+      .map((schedule) => schedule.next_send_at)
+      .sort()[0] || null
+    const selectedImportSummary = audienceImportSummary(selectedImport)
+    if (selectedImportSummary) selectedImportSummary.live_next_send_at = liveNextSendAt
+
     return json(response, 200, {
       configured: true,
       imports: imports.map(audienceImportSummary),
-      selected_import: audienceImportSummary(selectedImport),
-      rows,
+      selected_import: selectedImportSummary,
+      rows: rowsWithLiveSchedule,
       refreshed_at: new Date().toISOString(),
     })
   } catch (error) {
@@ -103,4 +124,4 @@ export default async function handler(request, response) {
   }
 }
 
-export { IMPORT_COLUMNS, IMPORT_ROW_COLUMNS }
+export { IMPORT_COLUMNS, IMPORT_ROW_COLUMNS, ENROLLMENT_SCHEDULE_COLUMNS }

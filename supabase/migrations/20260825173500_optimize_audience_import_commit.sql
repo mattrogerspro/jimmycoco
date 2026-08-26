@@ -1,6 +1,6 @@
 -- Replaces the row-by-row audience-import commit path with a set-based transaction.
 -- The earlier implementation evaluated several eligibility lookups for every CSV row
--- using lower(email::text), which bypassed the citext indexes and could exceed the
+-- using lower(email::text), which bypassed lookup indexes and could exceed the
 -- PostgREST statement-time budget on a realistic audience file.
 begin;
 
@@ -12,8 +12,19 @@ create index if not exists email_enrollments_active_campaign_contact
 create index if not exists email_audience_import_rows_import_email_outcome
   on public.email_audience_import_rows (import_id, email, outcome);
 
--- Keep the preview endpoint fast as files grow. The email columns are citext, so
--- direct equality remains case-insensitive while allowing their btree indexes to be used.
+-- The production schema stores email addresses as text. Match on normalized values
+-- and add corresponding functional indexes instead of depending on citext.
+create index if not exists email_contacts_email_lower
+  on public.email_contacts ((lower(email::text)));
+create index if not exists resellers_email_lower
+  on public.resellers ((lower(email::text)));
+create index if not exists reseller_applications_email_lower_trial
+  on public.reseller_applications ((lower(email::text)))
+  where wants_trial = true;
+create index if not exists email_suppressions_email_lower_scope
+  on public.email_suppressions ((lower(email::text)), scope);
+
+-- Keep the preview endpoint fast as files grow using the lowercase functional indexes.
 create or replace function public.preview_email_audience_state(
   p_campaign_id text,
   p_emails text[]
@@ -43,18 +54,18 @@ as $$
     exists (
       select 1
       from public.resellers reseller
-      where reseller.email = requested.email::citext
+      where lower(reseller.email::text) = requested.email
     ) as existing_customer,
     exists (
       select 1
       from public.reseller_applications application
-      where application.email = requested.email::citext
+      where lower(application.email::text) = requested.email
         and application.wants_trial = true
     ) as existing_trial_applicant,
     contact.marketing_status = 'unsubscribed' or exists (
       select 1
       from public.email_suppressions suppression
-      where suppression.email = requested.email::citext
+      where lower(suppression.email::text) = requested.email
         and suppression.scope in ('marketing', 'global')
     ) as suppressed,
     exists (
@@ -66,7 +77,7 @@ as $$
     ) as already_enrolled
   from requested
   left join public.email_contacts contact
-    on contact.email = requested.email::citext;
+    on lower(contact.email::text) = requested.email;
 $$;
 
 create or replace function public.commit_email_audience_import(
@@ -154,7 +165,7 @@ begin
 
   create temporary table audience_import_stage (
     row_number integer not null,
-    email citext,
+    email text,
     outcome text not null,
     reasons jsonb not null,
     first_name text,
@@ -197,7 +208,7 @@ begin
   )
   select
     source_rows.row_number,
-    nullif(lower(btrim(source_rows.email)), '')::citext,
+    nullif(lower(btrim(source_rows.email)), ''),
     coalesce(nullif(btrim(source_rows.outcome), ''), 'invalid'),
     coalesce(source_rows.reasons, '[]'::jsonb),
     nullif(btrim(source_rows.first_name), ''),
@@ -276,7 +287,7 @@ begin
           from pg_catalog.pg_timezone_names timezone_record
           where timezone_record.name = stage.timezone
         ) then 'invalid_timezone_at_commit'
-        when stage.source_date !~ '^\\d{4}-\\d{2}-\\d{2}$' then 'invalid_source_date_at_commit'
+        when stage.source_date !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' then 'invalid_source_date_at_commit'
         when stage.source_date > current_date::text then 'future_source_date_at_commit'
         when stage.market <> campaign_market then 'market_mismatch_at_commit'
         when campaign_market = 'UK'
@@ -286,18 +297,18 @@ begin
           or exists (
             select 1
             from public.email_suppressions suppression
-            where suppression.email = stage.email
+            where lower(suppression.email::text) = stage.email
               and suppression.scope in ('marketing', 'global')
           ) then 'suppressed_at_commit'
         when exists (
           select 1
           from public.resellers reseller
-          where reseller.email = stage.email
+          where lower(reseller.email::text) = stage.email
         ) then 'existing_customer_at_commit'
         when exists (
           select 1
           from public.reseller_applications application
-          where application.email = stage.email
+          where lower(application.email::text) = stage.email
             and application.wants_trial = true
         ) then 'existing_trial_applicant_at_commit'
         when count(*) over (partition by stage.email) > 1
@@ -314,7 +325,7 @@ begin
       end as final_outcome
     from audience_import_stage stage
     left join public.email_contacts contact
-      on contact.email = stage.email
+      on lower(contact.email::text) = stage.email
     where stage.preview_eligible
   )
   update audience_import_stage stage

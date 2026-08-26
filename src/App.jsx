@@ -24,6 +24,7 @@ const icons = {
   mobile: '<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>',
   send: '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
   upload: '<path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>',
+  contacts: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
   power: '<path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/>',
   dots: '<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>',
   menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
@@ -60,6 +61,7 @@ const navItems = [
   { id: 'klaviyo', label: 'Klaviyo previews', icon: 'monitor' },
   { id: 'guides', label: 'Help & guides', icon: 'help' },
   { id: 'audience-import', label: 'Audience importer', icon: 'upload', admin: true },
+  { id: 'audience-imports', label: 'Imported audience', icon: 'contacts', admin: true },
 ]
 
 function BrandMark() {
@@ -1354,10 +1356,139 @@ function AudienceImporter() {
             {commitResult ? 'Import committed' : loading ? 'Rechecking and importing…' : `Import ${preview.summary.final_eligible_count} eligible contacts`}
           </button>
           {commitResult && <div className="import-message import-message-success" role="status">
-            Import complete: {commitResult.enrolled_contacts} new enrolments, {commitResult.existing_enrollments} already enrolled, {commitResult.excluded_at_commit} excluded by the final database check. No email was sent.
+            Import complete: {commitResult.enrolled_contacts} new enrolments, {commitResult.existing_enrollments} already enrolled, {commitResult.excluded_at_commit} excluded by the final database check. No email was sent. <a href="#audience-imports">View imported audience</a>
           </div>}
         </div>
       </section>}
+    </div>
+  )
+}
+
+function formatAudienceImportDate(value, options = {}) {
+  if (!value) return '—'
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return '—'
+  return date.toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short', ...options })
+}
+
+function AudienceImportHistory() {
+  const [history, setHistory] = useState({ imports: [], selected_import: null, rows: [], refreshed_at: null })
+  const [selectedImportId, setSelectedImportId] = useState('')
+  const [outcomeFilter, setOutcomeFilter] = useState('all')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    let cancelled = false
+    const query = new URLSearchParams()
+    if (selectedImportId) query.set('import_id', selectedImportId)
+    setLoading(true)
+    setError('')
+    fetch(`/api/campaigns/audience-import-history${query.size ? `?${query.toString()}` : ''}`)
+      .then(async (response) => {
+        const data = await response.json().catch(() => ({}))
+        if (!response.ok) throw new Error(data.error || `Import history request failed (${response.status})`)
+        return data
+      })
+      .then((data) => {
+        if (cancelled) return
+        setHistory(data)
+        if (!selectedImportId && data.selected_import?.id) setSelectedImportId(data.selected_import.id)
+      })
+      .catch((requestError) => {
+        if (!cancelled) setError(humaniseImportValue(requestError instanceof Error ? requestError.message : requestError))
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+    return () => { cancelled = true }
+  }, [selectedImportId])
+
+  const selectedImport = history.selected_import
+  const outcomeCounts = history.rows.reduce((counts, row) => {
+    counts[row.outcome] = (counts[row.outcome] || 0) + 1
+    return counts
+  }, {})
+  const visibleRows = history.rows.filter((row) => outcomeFilter === 'all' || row.outcome === outcomeFilter)
+  const importedRows = history.rows.filter((row) => ['enrolled', 'already_enrolled'].includes(row.outcome))
+
+  return (
+    <div className="page audience-history-page">
+      <div className="page-intro audience-history-intro">
+        <p className="eyebrow">Admin · Audience audit</p>
+        <h1>Imported audience</h1>
+        <p>Review each committed audience import, its write-time decision for every contact, and the scheduled first-send time. Importing recipients never sends email by itself.</p>
+      </div>
+
+      {error && <div className="import-message import-message-error" role="alert">{error}</div>}
+      <div className="audience-history-layout">
+        <section className="panel audience-import-list" aria-label="Audience import history">
+          <div className="history-panel-head">
+            <div><p className="eyebrow">Committed imports</p><h2>{history.imports.length} recent records</h2></div>
+            <button type="button" className="secondary-button" onClick={() => setSelectedImportId('')} disabled={loading}>Refresh</button>
+          </div>
+          <div className="audience-import-list-items">
+            {loading && !history.imports.length && <p className="audience-history-empty">Loading import history…</p>}
+            {!loading && !history.imports.length && <p className="audience-history-empty">No audience imports have been committed yet.</p>}
+            {history.imports.map((record) => (
+              <button
+                type="button"
+                key={record.id}
+                className={`audience-import-record ${selectedImport?.id === record.id ? 'is-selected' : ''}`}
+                onClick={() => setSelectedImportId(record.id)}
+              >
+                <span className="audience-import-record-top"><strong>{record.campaign_id}</strong><span className={`import-history-status import-history-status-${record.status}`}>{humaniseImportValue(record.status)}</span></span>
+                <span>{formatAudienceImportDate(record.created_at)}</span>
+                <small>{record.enrolled_contacts} enrolled · {record.excluded_at_commit} excluded</small>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="panel audience-import-detail">
+          {!selectedImport && !loading && <p className="audience-history-empty">Choose an import to inspect its audience.</p>}
+          {selectedImport && <>
+            <div className="history-panel-head audience-detail-head">
+              <div>
+                <p className="eyebrow">Import record</p>
+                <h2>{selectedImport.campaign_id}</h2>
+                <p>Committed {formatAudienceImportDate(selectedImport.completed_at || selectedImport.created_at)} by {selectedImport.operator || 'Unknown operator'}.</p>
+              </div>
+              <span className={`import-history-status import-history-status-${selectedImport.status}`}>{humaniseImportValue(selectedImport.status)}</span>
+            </div>
+            <div className="import-metrics audience-history-metrics">
+              <div className="eligible"><strong>{selectedImport.enrolled_contacts}</strong><span>New enrolments</span></div>
+              <div><strong>{selectedImport.existing_enrollments}</strong><span>Already enrolled</span></div>
+              <div><strong>{selectedImport.excluded_at_commit}</strong><span>Excluded at commit</span></div>
+              <div><strong>{selectedImport.total_records}</strong><span>Total records</span></div>
+            </div>
+            <div className="audience-history-meta">
+              <span><strong>CSV:</strong> {selectedImport.source_file || '—'}</span>
+              <span><strong>First send:</strong> {formatAudienceImportDate(selectedImport.start_at, { timeZone: 'UTC' })} UTC</span>
+              <span><strong>Imported / already enrolled:</strong> {importedRows.length}</span>
+            </div>
+            <div className="audience-history-toolbar">
+              <div><strong>Contact decisions</strong><small>{visibleRows.length} of {history.rows.length} rows shown</small></div>
+              <label><span>Show</span><select value={outcomeFilter} onChange={(event) => setOutcomeFilter(event.target.value)}><option value="all">All outcomes</option>{Object.keys(outcomeCounts).sort().map((outcome) => <option key={outcome} value={outcome}>{humaniseImportValue(outcome)} ({outcomeCounts[outcome]})</option>)}</select></label>
+            </div>
+            <div className="import-row-table-wrap">
+              <table className="import-row-table audience-history-table">
+                <thead><tr><th>Row</th><th>Contact</th><th>Business</th><th>Outcome</th><th>Reason</th><th>First send</th></tr></thead>
+                <tbody>
+                  {visibleRows.map((row) => <tr key={`${row.import_id}-${row.row_number}`}>
+                    <td>{row.row_number}</td>
+                    <td>{row.email || '—'}</td>
+                    <td>{row.payload?.business_name || '—'}</td>
+                    <td><span className={`import-outcome import-outcome-${row.outcome}`}>{humaniseImportValue(row.outcome)}</span></td>
+                    <td>{row.reasons?.length ? row.reasons.map(humaniseImportValue).join(' · ') : row.outcome === 'enrolled' ? 'Enrolled for the sequence' : 'Passed final checks'}</td>
+                    <td>{formatAudienceImportDate(selectedImport.start_at, { timeZone: 'UTC' })} UTC</td>
+                  </tr>)}
+                </tbody>
+              </table>
+            </div>
+          </>}
+        </section>
+      </div>
     </div>
   )
 }
@@ -1488,6 +1619,7 @@ export default function App() {
         {currentView === 'klaviyo' && <KlaviyoPreviews />}
         {currentView === 'guides' && <Guides query={query} slug={route.params[0]} routeTo={routeTo} />}
         {currentView === 'audience-import' && <AudienceImporter />}
+        {currentView === 'audience-imports' && <AudienceImportHistory />}
       </div>
     </div>
   )

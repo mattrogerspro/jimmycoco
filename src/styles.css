@@ -897,8 +897,10 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 }
 
 /* Contact activity reporting */
-.contact-activity-page { max-width: 1500px; }
-.contact-activity-toolbar { margin-top: 24px; display: grid; grid-template-columns: minmax(220px, .7fr) minmax(280px, 1.2fr) auto; align-items: end; gap: 18px; padding: 18px 20px; }
+.contact-activity-page { max-width: 1500px; padding-top: 20px; }
+.contact-activity-intro { margin: 0 0 14px; }
+.contact-activity-intro h1 { margin: 0; font: 600 clamp(30px, 3vw, 38px)/1.05 var(--font-sans); letter-spacing: -.035em; }
+.contact-activity-toolbar { margin-top: 0; display: grid; grid-template-columns: minmax(220px, .7fr) minmax(280px, 1.2fr) auto; align-items: end; gap: 18px; padding: 18px 20px; }
 .contact-activity-toolbar > small { grid-column: 1 / -1; color: var(--muted); font-size: 11px; }
 .contact-activity-field, .contact-activity-search { display: flex; flex-direction: column; gap: 7px; color: #625a53; font-size: 12px; font-weight: 700; }
 .contact-activity-field select { min-height: 40px; border: 1px solid #d5ccc3; border-radius: 6px; padding: 0 10px; color: var(--ink); background: #fff; }

@@ -146,20 +146,20 @@ function Sidebar({ currentView, setCurrentView, open, onClose, onCollapse, user,
   )
 }
 
-function Topbar({ title, query, setQuery, onMenu, user, onLogout, showBreadcrumb = true, compact = false }) {
+function Topbar({ title, query, setQuery, onMenu, user, onLogout, showBreadcrumb = true, showSearch = true, showAdminPill = true, compact = false }) {
   return (
     <header className={`topbar ${compact ? 'topbar-compact' : ''}`}>
       <button className="icon-button menu-button" onClick={onMenu} aria-label="Open navigation"><Icon name="menu" /></button>
       {showBreadcrumb && <div className="topbar-title"><span>Sunless Studio</span><Icon name="arrow" size={14} /><strong>{title}</strong></div>}
-      <label className="search-field">
+      {showSearch && <label className="search-field">
         <Icon name="search" size={17} />
         <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search the workspace" />
         <kbd>⌘ K</kbd>
-      </label>
-      <button className="email-admin-pill" type="button" onClick={onLogout} title="Sign out">
+      </label>}
+      {showAdminPill && <button className="email-admin-pill" type="button" onClick={onLogout} title="Sign out">
         <span className="avatar top-avatar">{initialsFor(user?.display_name || user?.email)}</span>
         <span>Super admin</span>
-      </button>
+      </button>}
     </header>
   )
 }
@@ -1569,10 +1569,8 @@ function ContactActivity() {
 
   return (
     <div className="page contact-activity-page">
-      <div className="page-intro contact-activity-intro">
-        <p className="eyebrow">Admin · Contact reporting</p>
+      <div className="contact-activity-intro">
         <h1>Contact activity</h1>
-        <p>Review every contact with a sequence record, including delivery, opens, clicks, replies, sequence state and marketing suppression. This page is read-only and cannot send, pause or alter a contact.</p>
       </div>
 
       {error && <div className="import-message import-message-error" role="alert">{error}</div>}
@@ -1798,7 +1796,7 @@ export default function App() {
       <Sidebar currentView={currentView} setCurrentView={navigate} open={sidebarOpen} onClose={() => setSidebarOpen(false)} onCollapse={collapseSidebar} user={authState.user} onLogout={logout} />
       <button className="nav-reopen" onClick={openSidebar} aria-label="Open workspace navigation"><Icon name="menu" /></button>
       <div className="app-main">
-        {currentView !== 'emails' && currentView !== 'sequences' && <Topbar title={title} query={query} setQuery={setQuery} onMenu={openSidebar} user={authState.user} onLogout={logout} />}
+        {currentView !== 'emails' && currentView !== 'sequences' && <Topbar title={title} query={query} setQuery={setQuery} onMenu={openSidebar} user={authState.user} onLogout={logout} showSearch={currentView !== 'contact-activity'} showAdminPill={currentView !== 'contact-activity'} compact={currentView === 'contact-activity'} />}
         {currentView === 'overview' && <Overview routeTo={routeTo} />}
         {currentView === 'playbooks' && <Playbooks query={query} category={route.params[0]} doc={route.params[1]} routeTo={routeTo} />}
         {currentView === 'sequences' && <Sequences params={route.params} routeTo={routeTo} onOpenEmail={openEmail} />}

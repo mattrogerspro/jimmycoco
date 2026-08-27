@@ -8,7 +8,7 @@ import type {
 import { useState } from "react";
 import { Form, Link, data, useActionData, useNavigation } from "react-router";
 import portalStyles from "../styles/portal.css?url";
-import { PortalEmblem, PortalField, PortalSplit } from "../components/portal/PortalSplit";
+import { PortalField, PortalSplit } from "../components/portal/PortalSplit";
 import { PasswordStrength } from "../components/portal/PasswordStrength";
 import { sendAdminAccessRequestNotification } from "../lib/admin-access-notification.server";
 import {
@@ -159,14 +159,13 @@ export default function AdminRegister() {
 
   return (
     <PortalSplit
-      eyebrow="Private professional workspace"
+      className="portal-split-admin-register"
+      eyebrow=""
       headline={<>Request <em>access.</em></>}
-      blurb="Email verification and manual Administrator approval are both required before the PRO admin workspace becomes available."
+      blurb=""
     >
-      <Form method="post" className="portal-form" data-form-id="admin_register" replace>
-        <PortalEmblem />
-        <h1>Request admin access</h1>
-        <p>Use your work email address. You cannot choose your own privileges.</p>
+      <Form method="post" className="portal-form portal-form-admin-register" data-form-id="admin_register" replace>
+        <h1>Request access</h1>
 
         {actionData?.error ? (
           <p className="portal-alert alert-error" role="alert">
@@ -229,11 +228,11 @@ export default function AdminRegister() {
         <p className="portal-divider">Already registered?</p>
         <p className="portal-note">
           <i aria-hidden="true">◆</i>
-          <span><Link to="/admin/login">Sign in to the PRO admin workspace</Link>.</span>
+          <span><Link to="/admin/login">Sign in to PRO admin</Link>.</span>
         </p>
         <small>
           <i aria-hidden="true">✦</i>
-          <span>Verification alone does not grant access. An Administrator assigns either Admin or Editor privileges.</span>
+          <span>Email verification and manual Admin approval are required.</span>
         </small>
       </Form>
     </PortalSplit>

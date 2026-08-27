@@ -6,12 +6,13 @@ type PortalSplitProps = {
   headline: ReactNode;
   blurb: string;
   children: ReactNode;
+  className?: string;
 };
 
 /** Shared split-screen frame for the trade portal's sign-in screens. */
-export function PortalSplit({ eyebrow, headline, blurb, children }: PortalSplitProps) {
+export function PortalSplit({ eyebrow, headline, blurb, children, className }: PortalSplitProps) {
   return (
-    <div className="portal portal-split">
+    <div className={`portal portal-split${className ? ` ${className}` : ""}`}>
       <section className="portal-visual" aria-hidden="true">
         <img
           src="/assets/site/glow-duo-bikini.webp"

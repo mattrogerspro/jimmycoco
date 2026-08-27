@@ -84,6 +84,9 @@ const NAV_GROUPS = [
 export default function AdminLayout() {
   const { staff } = useLoaderData<typeof loader>();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const navGroups = staff.role === "admin"
+    ? [...NAV_GROUPS, { label: "Workspace", items: [{ to: "/admin/access-requests", label: "Access requests", glyph: "⌁" }] }]
+    : NAV_GROUPS;
 
   return (
     <div className="admin-app">
@@ -128,7 +131,7 @@ export default function AdminLayout() {
           </div>
 
           <nav id="admin-navigation" className="admin-nav" aria-label="Admin navigation">
-            {NAV_GROUPS.map((group) => (
+            {navGroups.map((group) => (
               <div key={group.label} className="admin-nav-block">
                 <p className="admin-nav-group">{group.label}</p>
                 {group.items.map((item) => (

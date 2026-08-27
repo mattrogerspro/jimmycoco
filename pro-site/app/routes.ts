@@ -14,6 +14,7 @@ export default [
   route("sitemap.xml", "routes/sitemap.ts"),
   route("rss.xml", "routes/rss.ts"),
   route("admin/login", "routes/admin.login.tsx"),
+  route("admin/register", "routes/admin.register.tsx"),
   route("admin/logout", "routes/admin.logout.tsx"),
   route("admin/qr-assets/:qrId/:format", "routes/admin.qr-code-image.ts"),
   route("admin", "routes/admin.layout.tsx", [
@@ -35,6 +36,7 @@ export default [
     route("invoices/:invoiceId/document", "routes/admin.invoice-document.tsx"),
     route("invoice-settings", "routes/admin.invoice-settings.tsx"),
     route("data-mode", "routes/admin.data-mode.tsx"),
+    route("access-requests", "routes/admin.access-requests.tsx"),
   ]),
   route("portal/login", "routes/portal.login.tsx"),
   route("portal/register", "routes/portal.register.tsx"),

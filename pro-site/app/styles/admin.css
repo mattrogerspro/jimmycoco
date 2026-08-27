@@ -1117,3 +1117,20 @@ button,input,select,textarea{font:inherit}
   .admin-chat-reply textarea{min-height:74px;font-size:16px}
   .admin-chat-reply .admin-primary{min-height:42px;padding:10px 14px}
 }
+
+/* ---- administrator access requests -------------------------------------- */
+.admin-access-requests .admin-panel-head .admin-muted{font-size:13.5px}
+.admin-access-request-decision{display:grid;gap:10px;min-width:260px}
+.admin-access-request-decision label{display:grid;gap:5px;color:var(--admin-muted);font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.admin-access-request-decision label em{font-style:normal;font-weight:400;letter-spacing:0;text-transform:none}
+.admin-access-request-decision select,.admin-access-request-decision textarea{width:100%;border:1px solid #D8CCBF;border-radius:7px;background:#fff;color:var(--admin-ink);padding:9px 10px;font-size:14px;line-height:1.4}
+.admin-access-request-decision textarea{resize:vertical;min-height:64px}
+.admin-access-request-decision select:focus-visible,.admin-access-request-decision textarea:focus-visible{outline:3px solid var(--admin-bronze);outline-offset:1px}
+.admin-access-request-actions{display:flex;flex-wrap:wrap;gap:8px}
+.admin-access-request-actions button{min-height:38px;padding:0 14px;font-weight:600}
+.admin-access-request-actions button:disabled{cursor:not-allowed;opacity:.52}
+.admin-access-request-actions button:disabled:hover{border-color:var(--admin-line);color:var(--admin-ink2);background:var(--admin-paper)}
+@media (max-width:720px){
+  .admin-access-requests .admin-table-wrap th,.admin-access-requests .admin-table-wrap td{padding:13px 16px}
+  .admin-access-request-decision{min-width:220px}
+}

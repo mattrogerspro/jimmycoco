@@ -155,6 +155,10 @@ export default function AdminLogin() {
         </p>
         <p className="portal-note">
           <i aria-hidden="true">✦</i>
+          <span><Link to="/admin/register">Need access? Submit an access request</Link>.</span>
+        </p>
+        <p className="portal-note">
+          <i aria-hidden="true">✦</i>
           <span>
             <Link to="/">Return to the professional website</Link>
           </span>

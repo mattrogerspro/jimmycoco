@@ -5,7 +5,7 @@
     "api/webhooks/resend.js": { "maxDuration": 30 }
   },
   "crons": [
-    { "path": "/api/cron/process-sequences", "schedule": "*/15 * * * *" }
+    { "path": "/api/cron/process-sequences", "schedule": "30 6 * * *" }
   ],
   "rewrites": [
     { "source": "/healthz", "destination": "/api/health?format=html" },

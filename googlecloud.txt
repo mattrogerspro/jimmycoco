@@ -1,3 +1,0 @@
-gcloud auth application-default login \
-  --scopes=https://www.googleapis.com/auth/analytics.readonly,https://www.googleapis.com/auth/cloud-platform \
-  --client-id-file=/users/mrogers/client_secret_2_23888377255-urp9mts80fgol92ojsi3mju5tb5lttfp.json

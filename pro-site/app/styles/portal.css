@@ -142,51 +142,53 @@ body{background:var(--p-cream)}
 /* ---- compact PRO admin registration ------------------------------------ */
 @media (min-width:901px){
   .portal-split-admin-register{height:100vh;height:100dvh;min-height:0;overflow:hidden}
-  .portal-split-admin-register .portal-visual-card{bottom:clamp(24px,3.2vh,42px);padding:clamp(18px,2.1vw,28px)}
+  .portal-split-admin-register .portal-visual-card{bottom:clamp(26px,3.6vh,48px);padding:clamp(22px,2.6vw,34px)}
   .portal-split-admin-register .portal-visual-eyebrow,
   .portal-split-admin-register .portal-visual-card > p:not(.portal-visual-brand){display:none}
-  .portal-split-admin-register .portal-visual-brand{margin:0 0 12px;font-size:16px}
-  .portal-split-admin-register .portal-visual-brand small{font-size:7px;margin-top:2px}
-  .portal-split-admin-register .portal-visual-card h2{margin:0;font-size:clamp(29px,3vw,42px);line-height:1.02}
-  .portal-split-admin-register .portal-aside{padding:16px clamp(22px,3.2vw,46px);overflow:hidden}
-  .portal-split-admin-register .portal-aside .portal-form-admin-register{width:min(100%,430px);max-width:430px;padding:24px 28px 20px;border-radius:11px;box-shadow:0 18px 48px rgba(25,21,18,.10)}
-  .portal-split-admin-register .portal-form-admin-register h1{margin:0 0 10px;font-size:clamp(29px,2.6vw,38px);line-height:1.02}
-  .portal-split-admin-register .portal-form-admin-register label{margin:12px 0 5px;font-size:10px;letter-spacing:.1em}
-  .portal-split-admin-register .portal-form-admin-register input{min-height:43px;padding:10px 12px;font-size:14px;line-height:1.2}
-  .portal-split-admin-register .portal-form-admin-register .portal-field input{padding-left:41px}
-  .portal-split-admin-register .portal-field i{left:12px;width:18px;height:18px}
-  .portal-split-admin-register .pw-strength{margin-top:12px;padding:11px 12px;border-radius:8px}
+  .portal-split-admin-register .portal-visual-brand{margin:0 0 14px;font-size:18px}
+  .portal-split-admin-register .portal-visual-brand small{font-size:8px;margin-top:3px}
+  .portal-split-admin-register .portal-visual-card h2{margin:0;font-size:clamp(33px,3.2vw,46px);line-height:1.02}
+  .portal-split-admin-register .portal-aside{padding:20px clamp(26px,3.8vw,54px);overflow:hidden}
+  .portal-split-admin-register .portal-aside .portal-form-admin-register{width:min(100%,480px);max-width:480px;padding:30px 34px 26px;border-radius:12px;box-shadow:0 20px 54px rgba(25,21,18,.11)}
+  .portal-split-admin-register .portal-form-admin-register h1{margin:0 0 13px;font-size:clamp(34px,2.8vw,42px);line-height:1.04}
+  .portal-split-admin-register .portal-form-admin-register label{margin:15px 0 6px;font-size:11.5px;letter-spacing:.1em}
+  .portal-split-admin-register .portal-form-admin-register input{min-height:50px;padding:12px 14px;font-size:16px;line-height:1.25}
+  .portal-split-admin-register .portal-form-admin-register .portal-field input{padding-left:47px}
+  .portal-split-admin-register .portal-field i{left:14px;width:20px;height:20px}
+  .portal-split-admin-register .pw-strength{margin-top:15px;padding:15px 16px;border-radius:9px}
   .portal-split-admin-register .pw-head b,
-  .portal-split-admin-register .pw-label{font-size:11px}
-  .portal-split-admin-register .pw-meter{height:5px;margin-top:7px}
-  .portal-split-admin-register .pw-title{margin:10px 0 5px;font-size:10px}
-  .portal-split-admin-register .pw-reqs{gap:4px}
-  .portal-split-admin-register .pw-reqs li{gap:7px;font-size:10.5px;line-height:1.25}
-  .portal-split-admin-register .pw-reqs i{width:14px;height:14px;margin-top:0}
-  .portal-split-admin-register .pw-types{gap:5px}
-  .portal-split-admin-register .pw-types li{padding:4px 8px;font-size:10px;line-height:1.2}
-  .portal-split-admin-register .pw-mismatch{margin:7px 0 0;padding:8px 10px;font-size:11px}
-  .portal-split-admin-register .portal-btn{min-height:39px;margin-top:14px;padding:10px 16px;font-size:11px;letter-spacing:.11em}
-  .portal-split-admin-register .portal-btn svg{width:14px;height:14px}
-  .portal-split-admin-register .portal-divider{margin:13px 0 4px;font-size:9px;letter-spacing:.16em}
-  .portal-split-admin-register .portal-note{gap:7px;margin-top:7px;font-size:11px;line-height:1.3}
-  .portal-split-admin-register .portal-note i{font-size:11px;line-height:1.3}
-  .portal-split-admin-register .portal-form small{gap:7px;margin-top:9px;font-size:10.5px;line-height:1.3}
-  .portal-split-admin-register .portal-alert{margin-bottom:10px;padding:9px 10px;font-size:11px;line-height:1.35}
+  .portal-split-admin-register .pw-label{font-size:13px}
+  .portal-split-admin-register .pw-meter{height:7px;margin-top:9px}
+  .portal-split-admin-register .pw-title{margin:13px 0 7px;font-size:12px}
+  .portal-split-admin-register .pw-reqs{gap:6px}
+  .portal-split-admin-register .pw-reqs li{gap:8px;font-size:12px;line-height:1.3}
+  .portal-split-admin-register .pw-reqs i{width:17px;height:17px;margin-top:0}
+  .portal-split-admin-register .pw-types{gap:6px}
+  .portal-split-admin-register .pw-types li{padding:5px 10px;font-size:11px;line-height:1.25}
+  .portal-split-admin-register .pw-mismatch{margin:9px 0 0;padding:10px 12px;font-size:12px}
+  .portal-split-admin-register .portal-btn{min-height:45px;margin-top:17px;padding:12px 18px;font-size:12px;letter-spacing:.11em}
+  .portal-split-admin-register .portal-btn svg{width:15px;height:15px}
+  .portal-split-admin-register .portal-divider{margin:16px 0 5px;font-size:10px;letter-spacing:.17em}
+  .portal-split-admin-register .portal-note{gap:8px;margin-top:8px;font-size:12.5px;line-height:1.35}
+  .portal-split-admin-register .portal-note i{font-size:12px;line-height:1.35}
+  .portal-split-admin-register .portal-form small{gap:8px;margin-top:10px;font-size:12px;line-height:1.35}
+  .portal-split-admin-register .portal-alert{margin-bottom:12px;padding:10px 12px;font-size:12px;line-height:1.4}
 }
 
 @media (min-width:901px) and (max-height:760px){
-  .portal-split-admin-register .portal-aside .portal-form-admin-register{padding:18px 24px 16px}
-  .portal-split-admin-register .portal-form-admin-register h1{font-size:29px;margin-bottom:6px}
-  .portal-split-admin-register .portal-form-admin-register label{margin-top:8px}
-  .portal-split-admin-register .portal-form-admin-register input{min-height:38px;padding-top:8px;padding-bottom:8px}
-  .portal-split-admin-register .pw-strength{margin-top:8px;padding:8px 10px}
-  .portal-split-admin-register .pw-title{margin:7px 0 4px}
-  .portal-split-admin-register .pw-reqs{gap:2px}
-  .portal-split-admin-register .pw-reqs li{font-size:9.5px}
-  .portal-split-admin-register .pw-types li{padding:3px 7px;font-size:9px}
-  .portal-split-admin-register .portal-btn{min-height:35px;margin-top:10px;padding-top:8px;padding-bottom:8px}
-  .portal-split-admin-register .portal-divider{margin-top:9px}
-  .portal-split-admin-register .portal-note{margin-top:5px}
-  .portal-split-admin-register .portal-form small{margin-top:6px}
+  .portal-split-admin-register .portal-aside .portal-form-admin-register{max-width:450px;padding:22px 28px 18px}
+  .portal-split-admin-register .portal-form-admin-register h1{font-size:32px;margin-bottom:8px}
+  .portal-split-admin-register .portal-form-admin-register label{margin-top:10px;font-size:10.5px}
+  .portal-split-admin-register .portal-form-admin-register input{min-height:43px;padding-top:10px;padding-bottom:10px;font-size:14px}
+  .portal-split-admin-register .pw-strength{margin-top:10px;padding:10px 12px}
+  .portal-split-admin-register .pw-head b,.portal-split-admin-register .pw-label{font-size:11.5px}
+  .portal-split-admin-register .pw-title{margin:8px 0 5px;font-size:10.5px}
+  .portal-split-admin-register .pw-reqs{gap:3px}
+  .portal-split-admin-register .pw-reqs li{font-size:10.5px}
+  .portal-split-admin-register .pw-reqs i{width:15px;height:15px}
+  .portal-split-admin-register .pw-types li{padding:4px 8px;font-size:9.5px}
+  .portal-split-admin-register .portal-btn{min-height:39px;margin-top:12px;padding-top:9px;padding-bottom:9px}
+  .portal-split-admin-register .portal-divider{margin-top:11px}
+  .portal-split-admin-register .portal-note{margin-top:6px;font-size:11px}
+  .portal-split-admin-register .portal-form small{margin-top:7px;font-size:10.5px}
 }

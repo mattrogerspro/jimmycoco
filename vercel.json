@@ -8,7 +8,10 @@
     { "path": "/api/cron/process-sequences", "schedule": "30 6 * * *" }
   ],
   "rewrites": [
-    { "source": "/healthz", "destination": "/api/health?format=html" },
+    { "source": "/healthz", "destination": "/api/index" },
+    { "source": "/api/cron/:path*", "destination": "/api/cron/:path*" },
+    { "source": "/api/webhooks/:path*", "destination": "/api/webhooks/:path*" },
+    { "source": "/api/:path*", "destination": "/api/index" },
     { "source": "/((?!email-assets/|api/).*)", "destination": "/index.html" }
   ]
 }

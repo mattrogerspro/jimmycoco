@@ -1,0 +1,369 @@
+<!--
+  Jimmy Coco retail homepage → Pro website traffic block
+  Paste into a Shopify "Custom liquid" section or hand to the retail theme developer.
+  Scope: all styles are namespaced under .jc-pro-bridge to avoid leaking into the theme.
+-->
+<section class="jc-pro-bridge" aria-labelledby="jc-pro-bridge-title">
+  <div class="jc-pro-bridge__wrap">
+    <div class="jc-pro-bridge__panel">
+      <div class="jc-pro-bridge__copy">
+        <p class="jc-pro-bridge__eyebrow">For salon professionals</p>
+        <h2 id="jc-pro-bridge-title">Want to offer the Jimmy Coco glow in your salon?</h2>
+        <p class="jc-pro-bridge__lead">
+          Start with a complimentary 100ml Malibu Professional trial, or go straight to the salon-size
+          litre. Training, launch support and Certified Salon listing are available when they help you
+          turn the treatment into a premium service.
+        </p>
+
+        <div class="jc-pro-bridge__choice" aria-label="Jimmy Coco Pro entry options">
+          <p class="jc-pro-bridge__choice-label">Two easy ways in</p>
+          <div class="jc-pro-bridge__choice-grid">
+            <article>
+              <span>01</span>
+              <h3>Test the tan first</h3>
+              <p>Use the free 100ml trial on a paying client or model before you stock the litre.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Ready now? Order pro</h3>
+              <p>Start with Malibu Professional 1L and add training or retail support when useful.</p>
+            </article>
+          </div>
+          <p class="jc-pro-bridge__support">
+            Includes access to Jimmy’s one-hour online training and Certified Salon listing review for eligible salons.
+          </p>
+        </div>
+
+        <div class="jc-pro-bridge__actions" aria-label="Professional website links">
+          <a
+            class="jc-pro-bridge__button jc-pro-bridge__button--primary"
+            href="https://www.jimmycoco.pro/?utm_source=retail_homepage&utm_medium=homepage_section&utm_campaign=professional_crosslink#trial"
+          >
+            Claim the free 100ml trial
+            <span aria-hidden="true">→</span>
+          </a>
+          <a
+            class="jc-pro-bridge__button jc-pro-bridge__button--secondary"
+            href="https://www.jimmycoco.pro/products/malibu-professional-spray-1l?utm_source=retail_homepage&utm_medium=homepage_section&utm_campaign=professional_crosslink#configure-solution"
+          >
+            Start a pro order
+          </a>
+        </div>
+      </div>
+
+      <div class="jc-pro-bridge__visual" aria-label="Jimmy Coco professional range">
+        <img
+          class="jc-pro-bridge__jimmy"
+          src="https://www.jimmycoco.pro/assets/site/jimmy-coco-story-v2.webp"
+          alt="Jimmy Coco with professional spray tanning equipment"
+          width="760"
+          height="950"
+          loading="lazy"
+        >
+        <div class="jc-pro-bridge__product">
+          <img
+            src="https://www.jimmycoco.pro/assets/site/pro-bottle.webp"
+            alt="Malibu Professional Spray 1 litre bottle"
+            width="280"
+            height="280"
+            loading="lazy"
+          >
+          <p>
+            <span>Malibu Professional Spray</span>
+            <strong>1 litre · ~28 tans · approx. £2.14 per tan</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .jc-pro-bridge {
+    --jc-ink: #26231f;
+    --jc-cream: #f8f4ee;
+    --jc-ivory: #fffdf9;
+    --jc-linen: #e9ded1;
+    --jc-bronze: #9e5836;
+    --jc-bronze-dark: #8f4e30;
+    --jc-blue: #0e2f3a;
+    --jc-blue-soft: #173f4a;
+    --jc-muted: #615a53;
+    --jc-rule: rgba(255, 253, 249, 0.18);
+    background: #f8f4ee;
+    color: var(--jc-ink);
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 0;
+  }
+
+  .jc-pro-bridge,
+  .jc-pro-bridge * {
+    box-sizing: border-box;
+  }
+
+  .jc-pro-bridge__wrap {
+    width: 100%;
+    margin: 0;
+  }
+
+  .jc-pro-bridge__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(330px, 0.72fr);
+    min-height: 460px;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 12% 10%, rgba(183, 117, 68, 0.24), transparent 34%),
+      linear-gradient(135deg, var(--jc-blue) 0%, #0a2731 100%);
+  }
+
+  .jc-pro-bridge__copy {
+    display: grid;
+    align-content: center;
+    padding: clamp(36px, 5.2vw, 72px) clamp(22px, 7vw, 112px);
+    color: #fffdf9;
+  }
+
+  .jc-pro-bridge__eyebrow {
+    margin: 0 0 12px;
+    color: #d6b18e;
+    font: 900 12px/1.25 Arial, Helvetica, sans-serif;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .jc-pro-bridge h2 {
+    max-width: 680px;
+    margin: 0;
+    color: #fffdf9;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(38px, 5.2vw, 72px);
+    font-weight: 500;
+    letter-spacing: -0.055em;
+    line-height: 0.94;
+  }
+
+  .jc-pro-bridge__lead {
+    max-width: 690px;
+    margin: 18px 0 0;
+    color: rgba(255, 253, 249, 0.82);
+    font: 400 clamp(16px, 1.4vw, 19px)/1.52 Arial, Helvetica, sans-serif;
+  }
+
+  .jc-pro-bridge__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 26px 0 0;
+  }
+
+  .jc-pro-bridge__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 50px;
+    padding: 15px 22px;
+    border-radius: 4px;
+    font: 900 12.5px/1 Arial, Helvetica, sans-serif;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease;
+  }
+
+  .jc-pro-bridge__button:hover {
+    transform: translateY(-1px);
+  }
+
+  .jc-pro-bridge__button--primary {
+    border: 1px solid var(--jc-bronze);
+    background: var(--jc-bronze);
+    color: #fff;
+  }
+
+  .jc-pro-bridge__button--primary:hover {
+    border-color: var(--jc-bronze-dark);
+    background: var(--jc-bronze-dark);
+  }
+
+  .jc-pro-bridge__button--secondary {
+    border: 1px solid rgba(255, 253, 249, 0.55);
+    background: transparent;
+    color: #fffdf9;
+  }
+
+  .jc-pro-bridge__button--secondary:hover {
+    border-color: #fffdf9;
+    background: rgba(255, 253, 249, 0.08);
+  }
+
+  .jc-pro-bridge__choice {
+    margin: 30px 0 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--jc-rule);
+  }
+
+  .jc-pro-bridge__choice-label {
+    margin: 0 0 12px;
+    color: #d6b18e;
+    font: 900 11px/1.25 Arial, Helvetica, sans-serif;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .jc-pro-bridge__choice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .jc-pro-bridge__choice article {
+    position: relative;
+    min-height: 150px;
+    padding: 20px 20px 20px 70px;
+    border: 1px solid rgba(255, 253, 249, 0.16);
+    border-radius: 18px;
+    background: rgba(255, 253, 249, 0.07);
+  }
+
+  .jc-pro-bridge__choice article:first-child {
+    background: rgba(158, 88, 54, 0.24);
+    border-color: rgba(214, 177, 142, 0.34);
+  }
+
+  .jc-pro-bridge__choice article span {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background: #fffdf9;
+    color: var(--jc-blue);
+    font: 900 11px/1 Arial, Helvetica, sans-serif;
+  }
+
+  .jc-pro-bridge__choice h3 {
+    margin: 0 0 8px;
+    color: #fffdf9;
+    font: 900 clamp(22px, 2vw, 30px)/1.03 Arial, Helvetica, sans-serif;
+    letter-spacing: -0.035em;
+  }
+
+  .jc-pro-bridge__choice article p {
+    margin: 0;
+    color: rgba(255, 253, 249, 0.74);
+    font: 400 14.5px/1.45 Arial, Helvetica, sans-serif;
+  }
+
+  .jc-pro-bridge__support {
+    margin: 14px 0 0;
+    color: rgba(255, 253, 249, 0.72);
+    font: 800 13.5px/1.42 Arial, Helvetica, sans-serif;
+  }
+
+  .jc-pro-bridge__visual {
+    position: relative;
+    min-height: 460px;
+    background:
+      linear-gradient(90deg, rgba(10, 39, 49, 0.02), rgba(10, 39, 49, 0.76)),
+      var(--jc-linen);
+  }
+
+  .jc-pro-bridge__jimmy {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 460px;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .jc-pro-bridge__product {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    left: 24px;
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+    padding: 14px;
+    border: 1px solid rgba(255, 253, 249, 0.5);
+    border-radius: 16px;
+    background: rgba(255, 253, 249, 0.92);
+    box-shadow: 0 18px 44px rgba(38, 35, 31, 0.18);
+  }
+
+  .jc-pro-bridge__product img {
+    display: block;
+    width: 70px;
+    height: 92px;
+    object-fit: contain;
+  }
+
+  .jc-pro-bridge__product p {
+    margin: 0;
+  }
+
+  .jc-pro-bridge__product span {
+    display: block;
+    margin: 0 0 5px;
+    color: var(--jc-bronze);
+    font: 900 10px/1.2 Arial, Helvetica, sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .jc-pro-bridge__product strong {
+    display: block;
+    color: var(--jc-blue);
+    font: 900 17px/1.12 Arial, Helvetica, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  @media (max-width: 980px) {
+    .jc-pro-bridge__panel {
+      grid-template-columns: 1fr;
+    }
+
+    .jc-pro-bridge__visual,
+    .jc-pro-bridge__jimmy {
+      min-height: 360px;
+    }
+
+    .jc-pro-bridge__choice-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .jc-pro-bridge__copy {
+      padding: 32px 18px;
+    }
+
+    .jc-pro-bridge h2 {
+      font-size: clamp(34px, 11vw, 48px);
+    }
+
+    .jc-pro-bridge__button {
+      width: 100%;
+    }
+
+    .jc-pro-bridge__visual,
+    .jc-pro-bridge__jimmy {
+      min-height: 320px;
+    }
+
+    .jc-pro-bridge__product {
+      right: 14px;
+      bottom: 14px;
+      left: 14px;
+    }
+  }
+</style>

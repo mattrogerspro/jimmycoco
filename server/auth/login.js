@@ -1,3 +1,4 @@
+//logininjspai
 import { allowMethods, isEmail, json, readJson } from '../_lib/http.js'
 import { createEmailAdminCookie, publicSessionUser, signInEmailAdmin } from '../_lib/email-auth.js'
 

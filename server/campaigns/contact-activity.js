@@ -3,7 +3,7 @@ import { allowMethods, json } from '../_lib/http.js'
 import { assertSupabase, getSupabase, isSupabaseConfigured } from '../_lib/supabase.js'
 
 const CONTACT_COLUMNS = 'id,email,first_name,last_name,business_name,market,timezone,marketing_status,created_at,updated_at'
-const ENROLLMENT_COLUMNS = 'id,campaign_id,status,next_step,enrolled_at,next_send_at,exited_at,exit_reason,owner,retry_count,created_at,updated_at'
+const ENROLLMENT_COLUMNS = 'id,campaign_id,status,next_step,enrolled_at,sequence_started_at,next_send_at,exited_at,exit_reason,owner,retry_count,created_at,updated_at'
 const MESSAGE_COLUMNS = 'id,enrollment_id,step_key,step_number,source,classification,subject,status,error_message,queued_at,sent_at,delivered_at,first_opened_at,first_clicked_at,bounced_at,complained_at,failed_at,suppressed_at,created_at,updated_at'
 const EVENT_COLUMNS = 'id,event_type,message_id,occurred_at,received_at'
 const BUSINESS_EVENT_COLUMNS = 'id,event_type,enrollment_id,occurred_at,data,created_at'
@@ -52,6 +52,7 @@ export function contactListItem(contact, enrollments = []) {
     marketing_status: contact.marketing_status,
     enrollment_status: currentEnrollment?.status || 'not_enrolled',
     next_step: currentEnrollment?.next_step || null,
+    sequence_started_at: currentEnrollment?.sequence_started_at || null,
     next_send_at: currentEnrollment?.next_send_at || null,
     exit_reason: currentEnrollment?.exit_reason || null,
     updated_at: currentEnrollment?.updated_at || contact.updated_at,

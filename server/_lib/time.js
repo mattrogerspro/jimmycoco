@@ -33,6 +33,17 @@ export function campaignSendAt(enrolledAt, dayOffset, timeZone, localHour) {
   }, timeZone)
 }
 
+export function sequenceStepSendAt(sequenceStartedAt, dayOffset, timeZone, localHour) {
+  const anchor = new Date(sequenceStartedAt)
+  if (dayOffset === 0) return anchor
+
+  const preferredLocalSend = campaignSendAt(anchor, dayOffset, timeZone, localHour)
+  const minimumElapsedSend = new Date(anchor.getTime() + dayOffset * 24 * 60 * 60 * 1000)
+  return preferredLocalSend.getTime() >= minimumElapsedSend.getTime()
+    ? preferredLocalSend
+    : minimumElapsedSend
+}
+
 export function daysFromNow(days) {
   return new Date(Date.now() + days * 24 * 60 * 60 * 1000)
 }

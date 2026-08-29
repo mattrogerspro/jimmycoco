@@ -19,7 +19,7 @@ export default async function handler(request, response) {
 
     const enrollments = assertSupabase(await supabase
       .from('email_enrollments')
-      .select('id,campaign_id,status,next_step,enrolled_at,next_send_at,exited_at,exit_reason,owner,context,created_at,updated_at')
+      .select('id,campaign_id,status,next_step,enrolled_at,sequence_started_at,next_send_at,exited_at,exit_reason,owner,context,created_at,updated_at')
       .eq('contact_id', contact.id)
       .in('campaign_id', campaignIds)
       .order('created_at', { ascending: false }), 'load follow-up enrollments') || []

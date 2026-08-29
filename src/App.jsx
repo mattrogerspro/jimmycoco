@@ -1634,6 +1634,7 @@ function ContactActivity() {
 
             <div className="contact-enrollment-summary">
               <span><strong>Entered sequence:</strong> {currentEnrollment?.enrolled_at ? formatAudienceImportDate(currentEnrollment.enrolled_at) : '—'}</span>
+              <span><strong>Sequence started:</strong> {currentEnrollment?.sequence_started_at ? `${formatAudienceImportDate(currentEnrollment.sequence_started_at, { timeZone: 'UTC' })} UTC` : 'Not sent email 1 yet'}</span>
               <span><strong>Next step:</strong> {currentEnrollment?.status === 'active' ? `Email ${currentEnrollment.next_step || 1}` : 'No active step'}</span>
               <span><strong>Next send:</strong> {currentEnrollment?.next_send_at ? `${formatAudienceImportDate(currentEnrollment.next_send_at, { timeZone: 'UTC' })} UTC` : '—'}</span>
               <span><strong>Exit:</strong> {currentEnrollment?.exit_reason ? humaniseImportValue(currentEnrollment.exit_reason) : '—'}</span>

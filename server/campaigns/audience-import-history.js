@@ -31,7 +31,7 @@ const IMPORT_ROW_COLUMNS = [
   'created_at',
 ].join(',')
 
-const ENROLLMENT_SCHEDULE_COLUMNS = 'id,status,next_step,next_send_at'
+const ENROLLMENT_SCHEDULE_COLUMNS = 'id,status,next_step,sequence_started_at,next_send_at'
 
 const safeCampaignId = (value) => String(value || '').trim().slice(0, 120)
 const safeImportId = (value) => String(value || '').trim().slice(0, 120)
@@ -102,7 +102,7 @@ export default async function handler(request, response) {
     const schedulesByEnrollmentId = new Map(schedules.map((schedule) => [schedule.id, schedule]))
     const rowsWithLiveSchedule = rows.map((row) => {
       const schedule = schedulesByEnrollmentId.get(row.enrollment_id)
-      return schedule ? { ...row, live_next_send_at: schedule.next_send_at, live_status: schedule.status } : row
+      return schedule ? { ...row, live_sequence_started_at: schedule.sequence_started_at, live_next_send_at: schedule.next_send_at, live_status: schedule.status } : row
     })
     const liveNextSendAt = schedules
       .filter((schedule) => schedule.status === 'active' && schedule.next_step === 1 && schedule.next_send_at)

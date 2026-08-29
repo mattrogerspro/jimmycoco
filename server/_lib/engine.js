@@ -1,7 +1,7 @@
 import crypto from 'node:crypto'
 import { findCampaign, findTriggeredStep } from '../../shared/campaign-registry.js'
 import { assertSupabase, getSupabase, oneRow } from './supabase.js'
-import { campaignSendAt } from './time.js'
+import { campaignSendAt, sequenceStepSendAt } from './time.js'
 import { isLiveMode, sendCampaignEmail } from './resend.js'
 
 function workerId() {
@@ -309,13 +309,15 @@ async function processEnrollment(row) {
     if (isPreSendExit(error)) return exitEnrollmentBeforeSend(row, contact, step, error)
     throw error
   }
+  if (row.next_step > 1 && !row.sequence_started_at) throw new Error('sequence_anchor_missing')
   if (await rescheduleForFrequency(row, campaign)) return { id: row.enrollment_id, status: 'rescheduled_frequency' }
   const dailyCapDeferral = await deferEnrollmentForDailySendCap(row, campaign)
   if (dailyCapDeferral) return { id: row.enrollment_id, status: 'deferred_daily_send_cap', next_send_at: dailyCapDeferral }
 
   const idempotencyKey = `${campaign.id}/${row.enrollment_id}/${step.key}/${campaign.version}`
+  let sendResult
   try {
-    await sendClaimedMessage({ campaign, step, contact, context: row.context, enrollmentId: row.enrollment_id, idempotencyKey, source: 'sequence_engine' })
+    sendResult = await sendClaimedMessage({ campaign, step, contact, context: row.context, enrollmentId: row.enrollment_id, idempotencyKey, source: 'sequence_engine' })
   } catch (error) {
     if (isCampaignPaused(error)) return pauseEnrollmentForCampaignSwitch(row, step, error)
     if (isPreSendExit(error)) return exitEnrollmentBeforeSend(row, contact, step, error)
@@ -323,16 +325,20 @@ async function processEnrollment(row) {
   }
 
   const nextStep = campaign.steps[row.next_step]
+  const actualSentAt = sendResult?.message?.sent_at || new Date().toISOString()
+  const sequenceStartedAt = row.sequence_started_at || actualSentAt
   const update = nextStep
     ? {
         next_step: row.next_step + 1,
-        next_send_at: campaignSendAt(row.enrolled_at, nextStep.day, contact.timezone || campaign.timezone, campaign.localSendHour).toISOString(),
+        sequence_started_at: sequenceStartedAt,
+        next_send_at: sequenceStepSendAt(sequenceStartedAt, nextStep.day, contact.timezone || campaign.timezone, campaign.localSendHour).toISOString(),
         retry_count: 0,
         locked_at: null,
         locked_by: null,
       }
     : {
         status: 'completed',
+        sequence_started_at: sequenceStartedAt,
         next_send_at: null,
         retry_count: 0,
         locked_at: null,

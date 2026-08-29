@@ -8,7 +8,7 @@ import {
   reconcileAudienceImport,
   validateAudienceImport,
   verifyAudiencePreviewToken,
-} from '../api/_lib/audience-import.js'
+} from '../server/_lib/audience-import.js'
 
 const now = new Date('2026-08-24T08:00:00.000Z')
 const startAt = '2026-08-25T09:00:00.000Z'

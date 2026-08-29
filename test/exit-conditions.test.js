@@ -7,9 +7,9 @@ const migration = readFileSync(
   'utf8',
 )
 
-const engine = readFileSync(new URL('../api/_lib/engine.js', import.meta.url), 'utf8')
-const webhookEvents = readFileSync(new URL('../api/_lib/webhook-events.js', import.meta.url), 'utf8')
-const killSwitchApi = readFileSync(new URL('../api/campaigns/kill-switch.js', import.meta.url), 'utf8')
+const engine = readFileSync(new URL('../server/_lib/engine.js', import.meta.url), 'utf8')
+const webhookEvents = readFileSync(new URL('../server/_lib/webhook-events.js', import.meta.url), 'utf8')
+const killSwitchApi = readFileSync(new URL('../server/campaigns/kill-switch.js', import.meta.url), 'utf8')
 const app = readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8')
 
 test('exit-condition migration wires site events to outreach exits', () => {

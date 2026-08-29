@@ -1,10 +1,10 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { contactListItem, contactMessageSummary, safeContactId } from '../api/campaigns/contact-activity.js'
+import { contactListItem, contactMessageSummary, safeContactId } from '../server/campaigns/contact-activity.js'
 
 const routeSource = readFileSync(
-  new URL('../api/campaigns/contact-activity.js', import.meta.url),
+  new URL('../server/campaigns/contact-activity.js', import.meta.url),
   'utf8',
 )
 const appSource = readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8')

@@ -1,10 +1,10 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { dailySendCapDeferralAt, dailySendCapFor } from '../api/_lib/engine.js'
+import { dailySendCapDeferralAt, dailySendCapFor } from '../server/_lib/engine.js'
 import { campaignRegistry } from '../shared/campaign-registry.js'
 
-const engineSource = readFileSync(new URL('../api/_lib/engine.js', import.meta.url), 'utf8')
+const engineSource = readFileSync(new URL('../server/_lib/engine.js', import.meta.url), 'utf8')
 
 test('approved UK stockist sequence has a fixed 100-per-day delivery cap', () => {
   const ukCampaign = campaignRegistry.find((campaign) => campaign.id === 'uk-salon-stockist')

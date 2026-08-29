@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { campaignRegistry } from '../shared/campaign-registry.js'
-import { trackingForCampaign } from '../api/campaigns/stats.js'
+import { trackingForCampaign } from '../server/campaigns/stats.js'
 
 const migration = readFileSync(
   new URL('../supabase/migrations/20260824072033_production_uk_us_outreach_campaigns.sql', import.meta.url),

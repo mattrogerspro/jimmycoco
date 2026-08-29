@@ -140,8 +140,8 @@ test('Pro-admin application and order detail views mount the protected manual fo
     source('pro-site/app/routes/admin.application-detail.tsx'),
     source('pro-site/app/routes/admin.order-detail.tsx'),
     source('pro-site/app/components/admin/ManualFollowUpPanel.tsx'),
-    source('api/campaigns/enroll.js'),
-    source('api/campaigns/stop.js'),
+    source('server/campaigns/enroll.js'),
+    source('server/campaigns/stop.js'),
   ])
 
   assert.match(applicationRoute, /<ManualFollowUpPanel[\s\S]*campaignId="uk-pro-trial-follow-up"/)

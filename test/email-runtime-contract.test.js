@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { buildDirectEmailPayload, buildTemplateVariables } from '../api/_lib/resend.js'
-import { buildPreferencesUrl, createPreferencesToken, unsubscribeMarketingContact, verifyPreferencesToken } from '../api/_lib/preferences.js'
+import { buildDirectEmailPayload, buildTemplateVariables } from '../server/_lib/resend.js'
+import { buildPreferencesUrl, createPreferencesToken, unsubscribeMarketingContact, verifyPreferencesToken } from '../server/_lib/preferences.js'
 import { campaignRegistry } from '../shared/campaign-registry.js'
 
 const signingSecret = 'test-only-signing-secret-with-at-least-32-characters'

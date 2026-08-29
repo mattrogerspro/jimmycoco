@@ -1,10 +1,10 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { audienceImportSummary } from '../api/campaigns/audience-import-history.js'
+import { audienceImportSummary } from '../server/campaigns/audience-import-history.js'
 
 const routeSource = readFileSync(
-  new URL('../api/campaigns/audience-import-history.js', import.meta.url),
+  new URL('../server/campaigns/audience-import-history.js', import.meta.url),
   'utf8',
 )
 const appSource = readFileSync(new URL('../src/App.jsx', import.meta.url), 'utf8')

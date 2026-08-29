@@ -21,10 +21,10 @@ test('jimmycoco.email has a separate super-admin access table', async () => {
 })
 
 test('email admin auth uses Supabase sign-in then requires active super-admin profile', async () => {
-  const auth = await source('api/_lib/email-auth.js')
-  const login = await source('api/auth/login.js')
-  const session = await source('api/auth/session.js')
-  const logout = await source('api/auth/logout.js')
+  const auth = await source('server/_lib/email-auth.js')
+  const login = await source('server/auth/login.js')
+  const session = await source('server/auth/session.js')
+  const logout = await source('server/auth/logout.js')
 
   assert.match(auth, /signInWithPassword/)
   assert.match(auth, /\.from\('email_admin_profiles'\)/)
@@ -68,7 +68,7 @@ test('campaign studio UI requires the email-admin session and exposes logout', a
 
 test('audience importer uses the super-admin session without a second browser token', async () => {
   const app = await source('src/App.jsx')
-  const importer = await source('api/campaigns/import-audience.js')
+  const importer = await source('server/campaigns/import-audience.js')
 
   assert.match(importer, /requireEmailAdmin\(request, response\)/)
   assert.doesNotMatch(importer, /AUDIENCE_IMPORT_API_KEY/)

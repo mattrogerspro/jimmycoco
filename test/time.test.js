@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { campaignSendAt } from '../api/_lib/time.js'
+import { campaignSendAt } from '../server/_lib/time.js'
 
 test('Dubai cadence resolves to 10:00 local time', () => {
   const result = campaignSendAt('2026-07-14T12:00:00.000Z', 4, 'Asia/Dubai', 10)

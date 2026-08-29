@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { assertInternalCanaryContact } from '../api/_lib/engine.js'
+import { assertInternalCanaryContact } from '../server/_lib/engine.js'
 
 function canary(overrides = {}) {
   return {

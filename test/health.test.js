@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import healthHandler from '../api/health.js'
+import healthHandler from '../server/health.js'
 
 function responseDouble() {
   return {

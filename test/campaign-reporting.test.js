@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { summariseReportableMessages } from '../api/campaigns/stats.js'
+import { summariseReportableMessages } from '../server/campaigns/stats.js'
 
 test('campaign reporting summarises only the reportable rows supplied by the API', () => {
   const summary = summariseReportableMessages([

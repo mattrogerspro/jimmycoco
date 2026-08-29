@@ -1,7 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { calculateLine, type InvoiceStatus, type PaymentMethod } from "./invoice-constants";
 import type { InvoiceQuery } from "./invoices-query";
-import type { DataMode } from "./resellers.server";
+import { applyTradeDataVisibility, type DataMode, type TradeDataVisibility } from "./resellers.server";
 
 export { INVOICE_STATUSES } from "./invoice-constants";
 
@@ -301,13 +301,17 @@ async function getInvoiceRow(supabase: SupabaseClient, invoiceId: string) {
   return data as unknown as Invoice;
 }
 
-export async function getInvoice(supabase: SupabaseClient, invoiceId: string) {
-  const { data: invoice, error } = await supabase
+export async function getInvoice(supabase: SupabaseClient, invoiceId: string, visibility?: TradeDataVisibility) {
+  const query = applyTradeDataVisibility(
+    supabase
     .from("invoices")
     .select(
       `${INVOICE_COLUMNS}, resellers(id, account_code, business_name, contact_name, email, phone, market, address, pricing_tier, discount_percent, status, data_mode)`,
     )
-    .eq("id", invoiceId)
+      .eq("id", invoiceId),
+    visibility,
+  );
+  const { data: invoice, error } = await query
     .maybeSingle();
   if (error) throw new Error(`Could not load the invoice: ${error.message}`);
   if (!invoice) return null;
@@ -359,11 +363,15 @@ export async function getInvoice(supabase: SupabaseClient, invoiceId: string) {
 }
 
 /** The invoice attached to an order, if there is one. Drives the order page. */
-export async function invoiceForOrder(supabase: SupabaseClient, orderId: string) {
-  const { data, error } = await supabase
+export async function invoiceForOrder(supabase: SupabaseClient, orderId: string, visibility?: TradeDataVisibility) {
+  const query = applyTradeDataVisibility(
+    supabase
     .from("invoices")
     .select("id, invoice_number, status, data_mode, gross_pence, paid_pence, balance_pence, due_date, issue_date, currency, paid_at, customer_emailed_at, customer_emailed_to")
-    .eq("order_id", orderId)
+      .eq("order_id", orderId),
+    visibility,
+  );
+  const { data, error } = await query
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
@@ -419,24 +427,31 @@ function applyInvoiceFilters<T>(builder: T, query: InvoiceQuery, resellerIds: st
   return next as T;
 }
 
-async function resellerIdsMatching(supabase: SupabaseClient, term: string) {
+async function resellerIdsMatching(supabase: SupabaseClient, term: string, visibility?: TradeDataVisibility) {
   const like = `%${term}%`;
-  const { data, error } = await supabase
+  const query = applyTradeDataVisibility(
+    supabase
     .from("resellers")
     .select("id")
-    .or(`business_name.ilike.${like},account_code.ilike.${like},contact_name.ilike.${like},email.ilike.${like}`)
+      .or(`business_name.ilike.${like},account_code.ilike.${like},contact_name.ilike.${like},email.ilike.${like}`),
+    visibility,
+  );
+  const { data, error } = await query
     .limit(2000);
   if (error) throw new Error(`Could not search accounts: ${error.message}`);
   return (data ?? []).map((row) => row.id as string);
 }
 
-export async function listInvoicesPage(supabase: SupabaseClient, query: InvoiceQuery) {
-  const resellerIds = query.q ? await resellerIdsMatching(supabase, query.q) : null;
+export async function listInvoicesPage(supabase: SupabaseClient, query: InvoiceQuery, visibility?: TradeDataVisibility) {
+  const resellerIds = query.q ? await resellerIdsMatching(supabase, query.q, visibility) : null;
 
   // Summary pass ignores the status pills so each pill can show its own count.
-  const summaryBuilder = supabase
+  const summaryBuilder = applyTradeDataVisibility(
+    supabase
     .from("invoices")
-    .select("status, gross_pence, balance_pence, due_date", { count: "exact" });
+      .select("status, gross_pence, balance_pence, due_date", { count: "exact" }),
+    visibility,
+  );
   const { data: summaryData, error: summaryError } = await applyInvoiceFilters(
     summaryBuilder,
     { ...query, statuses: [] },
@@ -463,7 +478,7 @@ export async function listInvoicesPage(supabase: SupabaseClient, query: InvoiceQ
   const page = Math.min(Math.max(1, query.page), pageCount);
   const offset = (page - 1) * query.perPage;
 
-  const pageBuilder = supabase.from("invoices").select(LIST_COLUMNS);
+  const pageBuilder = applyTradeDataVisibility(supabase.from("invoices").select(LIST_COLUMNS), visibility);
   const { data, error } = await applyInvoiceFilters(pageBuilder, query, resellerIds)
     .order(query.sort, { ascending: query.direction === "asc", nullsFirst: false })
     // Unique tiebreak, so pages cannot overlap or drop a row.
@@ -495,9 +510,9 @@ export async function listInvoicesPage(supabase: SupabaseClient, query: InvoiceQ
   };
 }
 
-export async function listInvoicesForExport(supabase: SupabaseClient, query: InvoiceQuery, limit = 5000) {
-  const resellerIds = query.q ? await resellerIdsMatching(supabase, query.q) : null;
-  const builder = supabase.from("invoices").select(LIST_COLUMNS);
+export async function listInvoicesForExport(supabase: SupabaseClient, query: InvoiceQuery, limit = 5000, visibility?: TradeDataVisibility) {
+  const resellerIds = query.q ? await resellerIdsMatching(supabase, query.q, visibility) : null;
+  const builder = applyTradeDataVisibility(supabase.from("invoices").select(LIST_COLUMNS), visibility);
   const { data, error } = await applyInvoiceFilters(builder, query, resellerIds)
     .order(query.sort, { ascending: query.direction === "asc", nullsFirst: false })
     .order("id", { ascending: true })

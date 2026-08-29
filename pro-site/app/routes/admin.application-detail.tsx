@@ -10,6 +10,7 @@ import {
 import { emitResellerEventSafely } from "../lib/reseller-events.server";
 import { loadFollowUpHistory, startManualFollowUp, stopManualFollowUp, type FollowUpCampaignId } from "../lib/manual-follow-ups.server";
 import { startUKTrialFollowUpManually } from "../lib/free-trial-email-integration.server";
+import { getTradeDataVisibility } from "../lib/trade-data-settings.server";
 import { SITE_URL } from "../lib/site";
 import { ManualFollowUpPanel } from "../components/admin/ManualFollowUpPanel";
 
@@ -20,7 +21,8 @@ export const meta: MetaFunction = () => [
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const { supabase, responseHeaders, staff } = await requireArticleStaff(request);
-  const application = await getApplication(supabase, params.applicationId as string);
+  const visibility = await getTradeDataVisibility(supabase);
+  const application = await getApplication(supabase, params.applicationId as string, visibility);
   if (!application) throw new Response("Application not found", { status: 404, headers: responseHeaders });
   const followUpHistory = await loadFollowUpHistory(application.email);
   return data({ staff, application, followUpHistory }, { headers: responseHeaders });
@@ -36,12 +38,13 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const intent = String(form.get("intent") ?? "");
   const note = String(form.get("note") ?? "").trim() || undefined;
   const applicationId = params.applicationId as string;
+  const visibility = await getTradeDataVisibility(supabase);
 
   try {
     if (intent === "start-follow-up") {
       const campaignId = String(form.get("campaignId") ?? "") as FollowUpCampaignId;
       if (!(["uk-pro-trial-follow-up", "uk-calculator-follow-up", "uk-pro-order-follow-up"] as FollowUpCampaignId[]).includes(campaignId)) throw new Error("Choose a valid manual follow-up campaign.");
-      const application = await getApplication(supabase, applicationId);
+      const application = await getApplication(supabase, applicationId, visibility);
       if (!application) throw new Error("Application not found.");
       if (application.market !== "UK") throw new Error("Manual follow-up campaigns are currently available for UK applications only.");
       if (application.status === "declined") throw new Error("A declined application cannot enter a promotional follow-up.");
@@ -92,7 +95,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     if (intent === "stop-follow-up") {
       const campaignId = String(form.get("campaignId") ?? "") as FollowUpCampaignId;
       if (!(["uk-pro-trial-follow-up", "uk-calculator-follow-up", "uk-pro-order-follow-up"] as FollowUpCampaignId[]).includes(campaignId)) throw new Error("Choose a valid manual follow-up campaign.");
-      const application = await getApplication(supabase, applicationId);
+      const application = await getApplication(supabase, applicationId, visibility);
       if (!application) throw new Error("Application not found.");
       await stopManualFollowUp({
         campaignId,
@@ -106,6 +109,8 @@ export async function action({ request, params }: ActionFunctionArgs) {
     }
 
     if (intent === "approve") {
+      const application = await getApplication(supabase, applicationId, visibility);
+      if (!application) throw new Error("Application not found.");
       const tier = String(form.get("pricingTier") ?? "standard") as "standard" | "silver" | "gold";
       const discount = Number.parseFloat(String(form.get("discountPercent") ?? "0")) || 0;
       const reseller = await approveApplication(supabase, applicationId, staff.userId, {
@@ -133,6 +138,8 @@ export async function action({ request, params }: ActionFunctionArgs) {
     }
 
     if (intent === "decline" || intent === "on_hold") {
+      const application = await getApplication(supabase, applicationId, visibility);
+      if (!application) throw new Error("Application not found.");
       const status = intent === "decline" ? "declined" : "on_hold";
       const app = await setApplicationStatus(supabase, applicationId, status, staff.userId, note);
       if (status === "declined") {

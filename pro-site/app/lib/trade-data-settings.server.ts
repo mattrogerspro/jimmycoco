@@ -5,6 +5,14 @@ export type TradeDataSettings = {
   updated_at: string;
 };
 
+export function visibilityFromTradeDataSettings(settings: TradeDataSettings) {
+  return { showDemoData: settings.create_new_records_as_demo };
+}
+
+export async function getTradeDataVisibility(supabase: SupabaseClient) {
+  return visibilityFromTradeDataSettings(await getTradeDataSettings(supabase));
+}
+
 export async function getTradeDataSettings(supabase: SupabaseClient) {
   const { data, error } = await supabase
     .from("trade_data_settings")

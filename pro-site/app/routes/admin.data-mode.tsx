@@ -53,7 +53,7 @@ export default function AdminDataMode() {
         <div>
           <p className="admin-eyebrow">Trade data controls</p>
           <h1>Data mode</h1>
-          <p>Separate demo records from live trade activity without changing historical values or workflow status.</p>
+          <p>Control whether the admin works in Live mode only or includes Demo records for testing.</p>
         </div>
         <span className={`admin-status admin-status-mode-${demoModeOn ? "demo" : "live"}`}>
           {demoModeOn ? "Demo mode" : "Live mode"}
@@ -74,22 +74,23 @@ export default function AdminDataMode() {
       <Form method="post" replace>
         <section className="admin-panel is-primary">
           <div className="admin-panel-head">
-            <h2>New record classification</h2>
+            <h2>Admin demo mode</h2>
           </div>
           <div className="admin-panel-body">
             <label className="admin-switch">
               <input type="checkbox" name="createNewRecordsAsDemo" defaultChecked={demoModeOn} />
               <span>
-                <b>Create new records as Demo</b>
-                On: new standalone applications and accounts are Demo. Off: they are Live. Orders and invoices always inherit
-                the classification of their account or order, so linked records cannot cross between modes.
+                <b>Show and create Demo records</b>
+                On: admin lists, exports and detail pages include Demo records, and new standalone applications and accounts are
+                marked Demo. Off: admin pages show Live records only, and new standalone applications and accounts are marked Live.
+                Orders and invoices always inherit the classification of their account or order.
               </span>
             </label>
 
             <p className="admin-hint">
               All applications, accounts, orders and invoices that existed before this control was introduced are marked Demo.
-              This switch only affects future standalone records; it does not rewrite existing classifications, invoice amounts,
-              account status, or order history.
+              Switching Live mode on does not delete them; it simply hides Demo rows from normal admin workflows. The switch does
+              not rewrite historical classifications, invoice amounts, account status, or order history.
             </p>
           </div>
         </section>

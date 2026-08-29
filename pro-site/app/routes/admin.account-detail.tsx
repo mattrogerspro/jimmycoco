@@ -10,6 +10,7 @@ import {
   updateReseller,
 } from "../lib/resellers.server";
 import { parseOrderQuery, withParams } from "../lib/orders-query";
+import { getTradeDataVisibility } from "../lib/trade-data-settings.server";
 import { OrdersPanel } from "../components/admin/OrdersPanel";
 import { ordersCsv } from "../lib/admin-csv";
 import { gbpFromPence } from "../lib/site";
@@ -21,7 +22,8 @@ export const meta: MetaFunction = () => [
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const { supabase, responseHeaders } = await requireArticleStaff(request);
-  const reseller = await getReseller(supabase, params.resellerId as string);
+  const visibility = await getTradeDataVisibility(supabase);
+  const reseller = await getReseller(supabase, params.resellerId as string, visibility);
   if (!reseller) throw new Response("Account not found", { status: 404, headers: responseHeaders });
 
   const url = new URL(request.url);
@@ -29,12 +31,12 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const query = { ...parseOrderQuery(url.searchParams), resellerId: reseller.id };
 
   if (url.searchParams.get("export") === "csv") {
-    return ordersCsv(await listOrdersForExport(supabase, query), responseHeaders);
+    return ordersCsv(await listOrdersForExport(supabase, query, 5000, visibility), responseHeaders);
   }
 
   const [orders, totals] = await Promise.all([
-    listOrdersPage(supabase, query),
-    accountOrderTotals(supabase, reseller.id),
+    listOrdersPage(supabase, query, visibility),
+    accountOrderTotals(supabase, reseller.id, visibility),
   ]);
 
   return data({ reseller, query, orders, totals }, { headers: responseHeaders });
@@ -48,6 +50,9 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   const form = await request.formData();
   try {
+    const visibility = await getTradeDataVisibility(supabase);
+    const reseller = await getReseller(supabase, params.resellerId as string, visibility);
+    if (!reseller) throw new Error("Account not found.");
     await updateReseller(supabase, params.resellerId as string, {
       pricing_tier: String(form.get("pricingTier") ?? "standard") as "standard" | "silver" | "gold",
       discount_percent: Number.parseFloat(String(form.get("discountPercent") ?? "0")) || 0,

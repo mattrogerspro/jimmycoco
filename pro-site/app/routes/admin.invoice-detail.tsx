@@ -22,6 +22,7 @@ import {
 } from "../lib/invoice-constants";
 import { gbpFromPence } from "../lib/site";
 import { updateOrder } from "../lib/resellers.server";
+import { getTradeDataVisibility } from "../lib/trade-data-settings.server";
 
 export const meta: MetaFunction = () => [
   { title: "Invoice | Jimmy Coco admin" },
@@ -30,7 +31,8 @@ export const meta: MetaFunction = () => [
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const { supabase, responseHeaders } = await requireArticleStaff(request);
-  const result = await getInvoice(supabase, params.invoiceId as string);
+  const visibility = await getTradeDataVisibility(supabase);
+  const result = await getInvoice(supabase, params.invoiceId as string, visibility);
   if (!result) throw new Response("Invoice not found", { status: 404, headers: responseHeaders });
   return data(result as never, { headers: responseHeaders });
 }
@@ -45,12 +47,16 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const intent = String(form.get("intent") ?? "");
   const invoiceId = params.invoiceId as string;
   const money = (value: FormDataEntryValue | null) => Math.round(Number.parseFloat(String(value ?? "0")) * 100);
+  const visibility = await getTradeDataVisibility(supabase);
 
   try {
+    const existing = await getInvoice(supabase, invoiceId, visibility);
+    if (!existing) throw new Error("Invoice not found.");
+
     switch (intent) {
       case "issue": {
         const number = await issueInvoice(supabase, invoiceId);
-        const issued = await getInvoice(supabase, invoiceId);
+        const issued = await getInvoice(supabase, invoiceId, visibility);
         const linkedOrder = issued?.order;
         if (linkedOrder?.status === "confirmed") {
           await updateOrder(supabase, linkedOrder.id, { status: "invoiced" });

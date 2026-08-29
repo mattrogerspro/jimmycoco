@@ -3,6 +3,7 @@ import { Form, Link, data, useLoaderData, useNavigation, useSearchParams } from 
 import { requireArticleStaff } from "../lib/article-auth.server";
 import { listInvoicesForExport, listInvoicesPage } from "../lib/invoices.server";
 import { listResellerOptions } from "../lib/resellers.server";
+import { getTradeDataVisibility } from "../lib/trade-data-settings.server";
 import { INVOICE_STATUSES, INVOICE_STATUS_LABELS, isOverdue } from "../lib/invoice-constants";
 import { isInvoiceFiltered, parseInvoiceQuery, type InvoiceSort } from "../lib/invoices-query";
 import { DEFAULT_PER_PAGE, PER_PAGE_OPTIONS, withParams, withRepeated } from "../lib/query-params";
@@ -20,17 +21,18 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { supabase, responseHeaders } = await requireArticleStaff(request);
   const url = new URL(request.url);
   const query = parseInvoiceQuery(url.searchParams);
+  const visibility = await getTradeDataVisibility(supabase);
 
   if (url.searchParams.get("export") === "csv") {
-    return invoicesCsv(await listInvoicesForExport(supabase, query), responseHeaders);
+    return invoicesCsv(await listInvoicesForExport(supabase, query, 5000, visibility), responseHeaders);
   }
 
-  const [page, accounts] = await Promise.all([listInvoicesPage(supabase, query), listResellerOptions(supabase)]);
-  return data({ query, page, accounts }, { headers: responseHeaders });
+  const [page, accounts] = await Promise.all([listInvoicesPage(supabase, query, visibility), listResellerOptions(supabase, visibility)]);
+  return data({ query, page, accounts, demoModeOn: visibility.showDemoData }, { headers: responseHeaders });
 }
 
 export default function AdminInvoices() {
-  const { query, page, accounts } = useLoaderData<typeof loader>();
+  const { query, page, accounts, demoModeOn } = useLoaderData<typeof loader>();
   const [params] = useSearchParams();
   const navigation = useNavigation();
   const filtered = isInvoiceFiltered(query);
@@ -53,6 +55,7 @@ export default function AdminInvoices() {
           <p className="admin-eyebrow">Trade invoicing</p>
           <h1>Invoices</h1>
           <p>What has been billed, what is still owed, and what is late.</p>
+          {!demoModeOn ? <p>Demo records are hidden. Switch Data mode on to review them.</p> : null}
         </div>
         <div className="admin-head-actions">
           <Link className="admin-secondary-link" to="/admin/invoice-settings">

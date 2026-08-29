@@ -12,6 +12,7 @@ import { productImageForSku } from "../lib/product-images";
 import { emailIssuedInvoice } from "../lib/invoice-email.server";
 import { latestOrderShipment, saveOrderShipment, SHIPMENT_STATUSES, type ShipmentStatus } from "../lib/order-shipments.server";
 import { loadFollowUpHistory, startManualFollowUp, stopManualFollowUp } from "../lib/manual-follow-ups.server";
+import { getTradeDataVisibility } from "../lib/trade-data-settings.server";
 import { OrderStageDetails } from "../components/admin/OrderStageDetails";
 import { OrderInvoiceFlow } from "../components/admin/OrderInvoiceFlow";
 import { ManualFollowUpPanel } from "../components/admin/ManualFollowUpPanel";
@@ -22,10 +23,11 @@ export const meta: MetaFunction = () => [
 ];
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const { supabase, responseHeaders } = await requireArticleStaff(request);
-  const result = await getOrder(supabase, params.orderId as string);
+  const visibility = await getTradeDataVisibility(supabase);
+  const result = await getOrder(supabase, params.orderId as string, visibility);
   if (!result) throw new Response("Order not found", { status: 404, headers: responseHeaders });
   const [invoice, shipment] = await Promise.all([
-    invoiceForOrder(supabase, params.orderId as string),
+    invoiceForOrder(supabase, params.orderId as string, visibility),
     latestOrderShipment(supabase, params.orderId as string),
   ]);
   const contactEmail = (result.order as unknown as { resellers?: { email?: string } | null }).resellers?.email;
@@ -42,11 +44,12 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const orderId = params.orderId as string;
   const intent = String(form.get("intent") ?? "");
   const money = (value: FormDataEntryValue | null) => Math.round(Number.parseFloat(String(value ?? "0")) * 100);
+  const visibility = await getTradeDataVisibility(supabase);
 
   try {
     switch (intent) {
       case "start-follow-up": {
-        const order = await getOrder(supabase, orderId);
+        const order = await getOrder(supabase, orderId, visibility);
         if (!order) throw new Error("Order not found.");
         const account = (order.order as unknown as { resellers?: { email: string; contact_name: string; business_name: string; market: string } | null }).resellers;
         if (!account?.email || account.market !== "UK") throw new Error("Manual order follow-up campaigns are currently available for UK order records with an email contact.");
@@ -62,7 +65,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         return data({ notice: "Manual order follow-up enrolled. The campaign remains subject to its release gates." }, { headers: responseHeaders });
       }
       case "stop-follow-up": {
-        const order = await getOrder(supabase, orderId);
+        const order = await getOrder(supabase, orderId, visibility);
         if (!order) throw new Error("Order not found.");
         const account = (order.order as unknown as { resellers?: { email?: string } | null }).resellers;
         if (!account?.email) throw new Error("This order has no email contact for a follow-up stop.");
@@ -81,21 +84,21 @@ export async function action({ request, params }: ActionFunctionArgs) {
         return data({ notice: "Invoice draft created. Review and issue it below." }, { headers: responseHeaders });
       }
       case "issue-invoice": {
-        const invoice = await invoiceForOrder(supabase, orderId);
+        const invoice = await invoiceForOrder(supabase, orderId, visibility);
         if (!invoice || invoice.status !== "draft") throw new Error("This order does not have a draft invoice to issue.");
         const number = await issueInvoice(supabase, invoice.id);
-        const order = await getOrder(supabase, orderId);
+        const order = await getOrder(supabase, orderId, visibility);
         if (order?.order.status === "confirmed") await updateOrder(supabase, orderId, { status: "invoiced" });
         return data({ notice: `Invoice ${number} issued. You can now email it to the customer.` }, { headers: responseHeaders });
       }
       case "email-invoice": {
-        const invoice = await invoiceForOrder(supabase, orderId);
+        const invoice = await invoiceForOrder(supabase, orderId, visibility);
         if (!invoice) throw new Error("Raise and issue an invoice before emailing it.");
         const result = await emailIssuedInvoice(supabase, invoice.id, staff?.userId);
         return data({ notice: `Invoice emailed to ${result.recipient}.` }, { headers: responseHeaders });
       }
       case "record-payment": {
-        const invoice = await invoiceForOrder(supabase, orderId);
+        const invoice = await invoiceForOrder(supabase, orderId, visibility);
         if (!invoice) throw new Error("Raise and issue an invoice before recording payment.");
         await recordPayment(supabase, invoice.id, {
           amountPence: money(form.get("amount")),
@@ -109,7 +112,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
       case "save-shipment": {
         const shipmentStatus = String(form.get("shipmentStatus") ?? "") as ShipmentStatus;
         if (!(SHIPMENT_STATUSES as readonly string[]).includes(shipmentStatus)) throw new Error("Choose a valid shipment status.");
-        const order = await getOrder(supabase, orderId);
+        const order = await getOrder(supabase, orderId, visibility);
         if (!order) throw new Error("Order not found.");
         if (!["invoiced", "shipped"].includes(order.order.status)) throw new Error("Issue the invoice before recording shipping details.");
         const text = (name: string) => String(form.get(name) ?? "").trim() || null;
@@ -138,6 +141,8 @@ export async function action({ request, params }: ActionFunctionArgs) {
     if (note !== null) patch.internal_note = String(note).trim() || null;
     if (!Object.keys(patch).length) return data({ error: "Nothing to update." }, { status: 400, headers: responseHeaders });
 
+    const order = await getOrder(supabase, orderId, visibility);
+    if (!order) throw new Error("Order not found.");
     await updateOrder(supabase, orderId, patch);
     return data({ notice: patch.status ? `Order marked ${patch.status === "submitted" ? "Received" : patch.status}.` : "Note saved." }, { headers: responseHeaders });
   } catch (error) {

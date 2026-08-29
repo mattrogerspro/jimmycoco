@@ -8,6 +8,12 @@ export type ApplicationStatus = "pending" | "approved" | "declined" | "on_hold";
 export type ResellerStatus = "active" | "suspended" | "closed";
 export type OrderStatus = "submitted" | "confirmed" | "invoiced" | "shipped" | "cancelled";
 export type DataMode = "demo" | "live";
+export type TradeDataVisibility = { showDemoData?: boolean };
+
+export function applyTradeDataVisibility<T>(builder: T, visibility?: TradeDataVisibility): T {
+  if (visibility?.showDemoData) return builder;
+  return (builder as T & { eq(column: string, value: unknown): T }).eq("data_mode", "live");
+}
 
 export type ResellerApplication = {
   id: string;
@@ -130,7 +136,7 @@ export async function submitApplication(input: ApplicationInput) {
   return data as string;
 }
 
-export async function listApplications(supabase: SupabaseClient, status?: ApplicationStatus) {
+export async function listApplications(supabase: SupabaseClient, status?: ApplicationStatus, visibility?: TradeDataVisibility) {
   let query = supabase
     .from("reseller_applications")
     .select(
@@ -139,6 +145,7 @@ export async function listApplications(supabase: SupabaseClient, status?: Applic
     .order("created_at", { ascending: false })
     .limit(200);
 
+  query = applyTradeDataVisibility(query, visibility);
   if (status) query = query.eq("status", status);
 
   const { data, error } = await query;
@@ -146,15 +153,19 @@ export async function listApplications(supabase: SupabaseClient, status?: Applic
   return (data ?? []) as ResellerApplication[];
 }
 
-export async function listResellers(supabase: SupabaseClient) {
-  const { data, error } = await supabase
+export async function listResellers(supabase: SupabaseClient, visibility?: TradeDataVisibility) {
+  const query = applyTradeDataVisibility(
+    supabase
     .from("resellers")
     .select(
       "id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, data_mode, user_id, approved_at, created_at",
     )
     .order("created_at", { ascending: false })
-    .limit(200);
+      .limit(200),
+    visibility,
+  );
 
+  const { data, error } = await query;
   if (error) throw new Error(`Could not load reseller accounts: ${error.message}`);
   return (data ?? []) as Reseller[];
 }
@@ -251,13 +262,14 @@ export async function loadCatalogue(supabase: SupabaseClient) {
   return (data ?? []) as ResellerProduct[];
 }
 
-export async function listOrders(supabase: SupabaseClient, resellerId?: string) {
+export async function listOrders(supabase: SupabaseClient, resellerId?: string, visibility?: TradeDataVisibility) {
   let query = supabase
     .from("reseller_orders")
     .select("id, reference, status, data_mode, source, currency, subtotal_pence, customer_note, submitted_at")
     .order("submitted_at", { ascending: false })
     .limit(100);
 
+  query = applyTradeDataVisibility(query, visibility);
   if (resellerId) query = query.eq("reseller_id", resellerId);
 
   const { data, error } = await query;
@@ -344,13 +356,17 @@ export type OrderLine = {
   line_total_pence: number;
 };
 
-export async function getApplication(supabase: SupabaseClient, id: string) {
-  const { data, error } = await supabase
+export async function getApplication(supabase: SupabaseClient, id: string, visibility?: TradeDataVisibility) {
+  const query = applyTradeDataVisibility(
+    supabase
     .from("reseller_applications")
     .select(
       "id, business_name, contact_name, email, phone, business_type, market, website, instagram, address, message, wants_trial, status, data_mode, source, metadata, reviewed_at, review_note, created_at, updated_at",
     )
-    .eq("id", id)
+      .eq("id", id),
+    visibility,
+  );
+  const { data, error } = await query
     .maybeSingle();
 
   if (error) throw new Error(`Could not load the application: ${error.message}`);
@@ -363,13 +379,17 @@ export async function getApplication(supabase: SupabaseClient, id: string) {
   }) | null;
 }
 
-export async function getReseller(supabase: SupabaseClient, id: string) {
-  const { data, error } = await supabase
+export async function getReseller(supabase: SupabaseClient, id: string, visibility?: TradeDataVisibility) {
+  const query = applyTradeDataVisibility(
+    supabase
     .from("resellers")
     .select(
       "id, application_id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, data_mode, user_id, address, internal_notes, approved_at, created_at, updated_at",
     )
-    .eq("id", id)
+      .eq("id", id),
+    visibility,
+  );
+  const { data, error } = await query
     .maybeSingle();
 
   if (error) throw new Error(`Could not load the trade account: ${error.message}`);
@@ -397,7 +417,7 @@ export async function updateReseller(
 }
 
 /** Order queue with the reseller joined, so the list is readable without N+1. */
-export async function listOrdersDetailed(supabase: SupabaseClient, resellerId?: string) {
+export async function listOrdersDetailed(supabase: SupabaseClient, resellerId?: string, visibility?: TradeDataVisibility) {
   let query = supabase
     .from("reseller_orders")
     .select(
@@ -406,6 +426,7 @@ export async function listOrdersDetailed(supabase: SupabaseClient, resellerId?: 
     .order("submitted_at", { ascending: false })
     .limit(200);
 
+  query = applyTradeDataVisibility(query, visibility);
   if (resellerId) query = query.eq("reseller_id", resellerId);
 
   const { data, error } = await query;
@@ -420,13 +441,17 @@ export async function listOrdersDetailed(supabase: SupabaseClient, resellerId?: 
   >;
 }
 
-export async function getOrder(supabase: SupabaseClient, id: string) {
-  const { data: order, error } = await supabase
+export async function getOrder(supabase: SupabaseClient, id: string, visibility?: TradeDataVisibility) {
+  const query = applyTradeDataVisibility(
+    supabase
     .from("reseller_orders")
     .select(
       "id, reference, status, data_mode, source, currency, subtotal_pence, customer_note, internal_note, delivery_note, submitted_at, confirmed_at, created_at, updated_at, reseller_id, resellers(id, account_code, business_name, contact_name, email, phone, market, address, pricing_tier, discount_percent, status, data_mode)",
     )
-    .eq("id", id)
+      .eq("id", id),
+    visibility,
+  );
+  const { data: order, error } = await query
     .maybeSingle();
 
   if (error) throw new Error(`Could not load the order: ${error.message}`);
@@ -468,11 +493,15 @@ export async function getOrder(supabase: SupabaseClient, id: string) {
 
   // Recent history for the same account — an order rarely makes sense alone.
   const resellerId = (order as unknown as { reseller_id: string }).reseller_id;
-  const { data: siblings } = await supabase
+  const siblingQuery = applyTradeDataVisibility(
+    supabase
     .from("reseller_orders")
     .select("id, reference, status, subtotal_pence, submitted_at")
     .eq("reseller_id", resellerId)
-    .neq("id", id)
+      .neq("id", id),
+    visibility,
+  );
+  const { data: siblings } = await siblingQuery
     .order("submitted_at", { ascending: false })
     .limit(5);
 
@@ -500,11 +529,17 @@ export async function updateOrder(
   if (error) throw new Error(`Could not update the order: ${error.message}`);
 }
 
-export async function resellerCounts(supabase: SupabaseClient) {
+export async function resellerCounts(supabase: SupabaseClient, visibility?: TradeDataVisibility) {
   const [apps, accounts, orders] = await Promise.all([
-    supabase.from("reseller_applications").select("status", { count: "exact", head: false }),
-    supabase.from("resellers").select("status", { count: "exact", head: false }),
-    supabase.from("reseller_orders").select("status, subtotal_pence", { count: "exact", head: false }),
+    applyTradeDataVisibility(
+      supabase.from("reseller_applications").select("status", { count: "exact", head: false }),
+      visibility,
+    ),
+    applyTradeDataVisibility(supabase.from("resellers").select("status", { count: "exact", head: false }), visibility),
+    applyTradeDataVisibility(
+      supabase.from("reseller_orders").select("status, subtotal_pence", { count: "exact", head: false }),
+      visibility,
+    ),
   ]);
 
   const applications = (apps.data ?? []) as Array<{ status: string }>;
@@ -584,12 +619,16 @@ function applyOrderFilters<T>(builder: T, query: OrderQuery, resellerIds: string
 }
 
 /** Account ids whose name, code, contact or email match the search term. */
-async function resellerIdsMatching(supabase: SupabaseClient, term: string) {
+async function resellerIdsMatching(supabase: SupabaseClient, term: string, visibility?: TradeDataVisibility) {
   const like = `%${term}%`;
-  const { data, error } = await supabase
+  const query = applyTradeDataVisibility(
+    supabase
     .from("resellers")
     .select("id")
-    .or(`business_name.ilike.${like},account_code.ilike.${like},contact_name.ilike.${like},email.ilike.${like}`)
+      .or(`business_name.ilike.${like},account_code.ilike.${like},contact_name.ilike.${like},email.ilike.${like}`),
+    visibility,
+  );
+  const { data, error } = await query
     .limit(2000);
 
   if (error) throw new Error(`Could not search reseller accounts: ${error.message}`);
@@ -612,13 +651,16 @@ export type OrderPage = {
 /** How many rows the summary pass will scan before it stops counting. */
 const SUMMARY_SCAN_LIMIT = 20_000;
 
-export async function listOrdersPage(supabase: SupabaseClient, query: OrderQuery): Promise<OrderPage> {
-  const resellerIds = query.q ? await resellerIdsMatching(supabase, query.q) : null;
+export async function listOrdersPage(supabase: SupabaseClient, query: OrderQuery, visibility?: TradeDataVisibility): Promise<OrderPage> {
+  const resellerIds = query.q ? await resellerIdsMatching(supabase, query.q, visibility) : null;
 
   // Summary pass: every filter EXCEPT status, two integers a row. Excluding
   // status is what lets each pill show the number of orders it would reveal —
   // counting the already-filtered set would leave every other pill on zero.
-  const totalsBuilder = supabase.from("reseller_orders").select("status, subtotal_pence", { count: "exact" });
+  const totalsBuilder = applyTradeDataVisibility(
+    supabase.from("reseller_orders").select("status, subtotal_pence", { count: "exact" }),
+    visibility,
+  );
   const { data: totalsData, count, error: totalsError } = await applyOrderFilters(
     totalsBuilder,
     { ...query, statuses: [] },
@@ -652,7 +694,7 @@ export async function listOrdersPage(supabase: SupabaseClient, query: OrderQuery
       .reduce((running, row) => running + (row.subtotal_pence ?? 0), 0),
   };
 
-  const pageBuilder = supabase.from("reseller_orders").select(ORDER_COLUMNS);
+  const pageBuilder = applyTradeDataVisibility(supabase.from("reseller_orders").select(ORDER_COLUMNS), visibility);
   const { data, error } = await applyOrderFilters(pageBuilder, query, resellerIds)
     .order(query.sort, { ascending: query.direction === "asc" })
     // Reference is unique, so this makes the ordering total. Without a tiebreak,
@@ -678,9 +720,9 @@ export async function listOrdersPage(supabase: SupabaseClient, query: OrderQuery
 }
 
 /** Every matching order, for a CSV download. Capped, deliberately. */
-export async function listOrdersForExport(supabase: SupabaseClient, query: OrderQuery, limit = 5000) {
-  const resellerIds = query.q ? await resellerIdsMatching(supabase, query.q) : null;
-  const builder = supabase.from("reseller_orders").select(ORDER_COLUMNS);
+export async function listOrdersForExport(supabase: SupabaseClient, query: OrderQuery, limit = 5000, visibility?: TradeDataVisibility) {
+  const resellerIds = query.q ? await resellerIdsMatching(supabase, query.q, visibility) : null;
+  const builder = applyTradeDataVisibility(supabase.from("reseller_orders").select(ORDER_COLUMNS), visibility);
 
   const { data, error } = await applyOrderFilters(builder, query, resellerIds)
     .order(query.sort, { ascending: query.direction === "asc" })
@@ -692,11 +734,15 @@ export async function listOrdersForExport(supabase: SupabaseClient, query: Order
 }
 
 /** Accounts for the filter dropdown — id, code and name only. */
-export async function listResellerOptions(supabase: SupabaseClient) {
-  const { data, error } = await supabase
+export async function listResellerOptions(supabase: SupabaseClient, visibility?: TradeDataVisibility) {
+  const query = applyTradeDataVisibility(
+    supabase
     .from("resellers")
     .select("id, account_code, business_name, status")
-    .order("business_name", { ascending: true })
+      .order("business_name", { ascending: true }),
+    visibility,
+  );
+  const { data, error } = await query
     .limit(2000);
 
   if (error) throw new Error(`Could not load reseller accounts: ${error.message}`);
@@ -757,13 +803,16 @@ export type AccountPage = {
   markets: string[];
 };
 
-export async function listAccountsPage(supabase: SupabaseClient, query: AccountQuery): Promise<AccountPage> {
+export async function listAccountsPage(supabase: SupabaseClient, query: AccountQuery, visibility?: TradeDataVisibility): Promise<AccountPage> {
   // Summary pass ignores status and tier for the same reason the orders list
   // does: a pill that reads zero because you already clicked another pill is
   // worse than no number at all.
-  const summaryBuilder = supabase
+  const summaryBuilder = applyTradeDataVisibility(
+    supabase
     .from("resellers")
-    .select("status, pricing_tier, user_id, market", { count: "exact" });
+      .select("status, pricing_tier, user_id, market", { count: "exact" }),
+    visibility,
+  );
   const { data: summaryData, error: summaryError } = await applyAccountFilters(summaryBuilder, {
     ...query,
     statuses: [],
@@ -796,7 +845,7 @@ export async function listAccountsPage(supabase: SupabaseClient, query: AccountQ
   const page = Math.min(Math.max(1, query.page), pageCount);
   const offset = (page - 1) * query.perPage;
 
-  const pageBuilder = supabase.from("resellers").select(ACCOUNT_COLUMNS);
+  const pageBuilder = applyTradeDataVisibility(supabase.from("resellers").select(ACCOUNT_COLUMNS), visibility);
   const { data, error } = await applyAccountFilters(pageBuilder, query)
     .order(query.sort, { ascending: query.direction === "asc" })
     // account_code is unique, so the ordering is total and pages cannot overlap.
@@ -807,7 +856,7 @@ export async function listAccountsPage(supabase: SupabaseClient, query: AccountQ
   const rows = (data ?? []) as unknown as Reseller[];
 
   // One extra round trip for the trading history of just this page's accounts.
-  const totals = await orderTotalsFor(supabase, rows.map((row) => row.id));
+  const totals = await orderTotalsFor(supabase, rows.map((row) => row.id), visibility);
 
   return {
     rows: rows.map((row) => ({
@@ -835,14 +884,18 @@ export async function listAccountsPage(supabase: SupabaseClient, query: AccountQ
 }
 
 /** Order counts and value for a handful of accounts, aggregated in one pass. */
-export async function orderTotalsFor(supabase: SupabaseClient, resellerIds: string[]) {
+export async function orderTotalsFor(supabase: SupabaseClient, resellerIds: string[], visibility?: TradeDataVisibility) {
   const totals: Record<string, { count: number; open: number; valuePence: number; lastOrderAt: string | null }> = {};
   if (!resellerIds.length) return totals;
 
-  const { data, error } = await supabase
+  const query = applyTradeDataVisibility(
+    supabase
     .from("reseller_orders")
     .select("reseller_id, status, subtotal_pence, submitted_at")
-    .in("reseller_id", resellerIds)
+      .in("reseller_id", resellerIds),
+    visibility,
+  );
+  const { data, error } = await query
     .limit(20000);
   if (error) throw new Error(`Could not summarise account orders: ${error.message}`);
 
@@ -863,8 +916,8 @@ export async function orderTotalsFor(supabase: SupabaseClient, resellerIds: stri
 }
 
 /** Every matching account, for a CSV download. Capped, deliberately. */
-export async function listAccountsForExport(supabase: SupabaseClient, query: AccountQuery, limit = 5000) {
-  const builder = supabase.from("resellers").select(ACCOUNT_COLUMNS);
+export async function listAccountsForExport(supabase: SupabaseClient, query: AccountQuery, limit = 5000, visibility?: TradeDataVisibility) {
+  const builder = applyTradeDataVisibility(supabase.from("resellers").select(ACCOUNT_COLUMNS), visibility);
   const { data, error } = await applyAccountFilters(builder, query)
     .order(query.sort, { ascending: query.direction === "asc" })
     .order("account_code", { ascending: true })
@@ -874,8 +927,8 @@ export async function listAccountsForExport(supabase: SupabaseClient, query: Acc
   return (data ?? []) as unknown as Reseller[];
 }
 
-/** Unfiltered trading history for one account — drives the detail page stats. */
-export async function accountOrderTotals(supabase: SupabaseClient, resellerId: string) {
-  const totals = await orderTotalsFor(supabase, [resellerId]);
+/** Visible trading history for one account — drives the detail page stats. */
+export async function accountOrderTotals(supabase: SupabaseClient, resellerId: string, visibility?: TradeDataVisibility) {
+  const totals = await orderTotalsFor(supabase, [resellerId], visibility);
   return totals[resellerId] ?? { count: 0, open: 0, valuePence: 0, lastOrderAt: null };
 }

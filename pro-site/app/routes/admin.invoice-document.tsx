@@ -2,6 +2,7 @@ import type { LoaderFunctionArgs } from "react-router";
 import { requireArticleStaff } from "../lib/article-auth.server";
 import { getInvoice } from "../lib/invoices.server";
 import { renderInvoiceDocument } from "../lib/invoice-document.server";
+import { getTradeDataVisibility } from "../lib/trade-data-settings.server";
 
 /**
  * The invoice as a standalone A4 document.
@@ -13,7 +14,8 @@ import { renderInvoiceDocument } from "../lib/invoice-document.server";
  */
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const { supabase, responseHeaders } = await requireArticleStaff(request);
-  const result = await getInvoice(supabase, params.invoiceId as string);
+  const visibility = await getTradeDataVisibility(supabase);
+  const result = await getInvoice(supabase, params.invoiceId as string, visibility);
   if (!result) throw new Response("Invoice not found", { status: 404, headers: responseHeaders });
 
   const url = new URL(request.url);

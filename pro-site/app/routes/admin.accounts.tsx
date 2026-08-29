@@ -2,6 +2,7 @@ import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { Form, Link, data, useLoaderData, useNavigation, useSearchParams } from "react-router";
 import { requireArticleStaff } from "../lib/article-auth.server";
 import { listAccountsForExport, listAccountsPage } from "../lib/resellers.server";
+import { getTradeDataVisibility } from "../lib/trade-data-settings.server";
 import { PRICING_TIERS, RESELLER_STATUSES } from "../lib/reseller-constants";
 import { ACCOUNT_SORTS, isAccountFiltered, parseAccountQuery, type AccountSort } from "../lib/accounts-query";
 import { DEFAULT_PER_PAGE, PER_PAGE_OPTIONS, withParams, withRepeated } from "../lib/query-params";
@@ -19,20 +20,21 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { supabase, responseHeaders } = await requireArticleStaff(request);
   const url = new URL(request.url);
   const query = parseAccountQuery(url.searchParams);
+  const visibility = await getTradeDataVisibility(supabase);
 
   if (url.searchParams.get("export") === "csv") {
-    return accountsCsv(await listAccountsForExport(supabase, query), responseHeaders);
+    return accountsCsv(await listAccountsForExport(supabase, query, 5000, visibility), responseHeaders);
   }
 
-  const page = await listAccountsPage(supabase, query);
-  return data({ query, page }, { headers: responseHeaders });
+  const page = await listAccountsPage(supabase, query, visibility);
+  return data({ query, page, demoModeOn: visibility.showDemoData }, { headers: responseHeaders });
 }
 
 const TIER_LABELS: Record<string, string> = { standard: "Standard", silver: "Silver", gold: "Gold" };
 const STATUS_LABELS: Record<string, string> = { active: "Active", suspended: "Suspended", closed: "Closed" };
 
 export default function AdminAccounts() {
-  const { query, page } = useLoaderData<typeof loader>();
+  const { query, page, demoModeOn } = useLoaderData<typeof loader>();
   const [params] = useSearchParams();
   const navigation = useNavigation();
   const filtered = isAccountFiltered(query);
@@ -57,6 +59,7 @@ export default function AdminAccounts() {
           <p className="admin-eyebrow">Trade accounts</p>
           <h1>Accounts</h1>
           <p>Approved stockists, their trade terms and their trading history.</p>
+          {!demoModeOn ? <p>Demo records are hidden. Switch Data mode on to review them.</p> : null}
         </div>
         <a className="admin-primary-link" href={`/admin/accounts${withParams(params, { export: "csv", page: null })}`}>
           Download CSV

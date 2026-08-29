@@ -3,6 +3,7 @@ import { Link, data, useLoaderData, useSearchParams } from "react-router";
 import { ClickableRow } from "../components/admin/ClickableRow";
 import { requireArticleStaff } from "../lib/article-auth.server";
 import { listApplications, resellerCounts } from "../lib/resellers.server";
+import { getTradeDataVisibility } from "../lib/trade-data-settings.server";
 import { gbpFromPence } from "../lib/site";
 
 export const meta: MetaFunction = () => [
@@ -12,17 +13,18 @@ export const meta: MetaFunction = () => [
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabase, responseHeaders, staff } = await requireArticleStaff(request);
+  const visibility = await getTradeDataVisibility(supabase);
   const [applications, counts] = await Promise.all([
-    listApplications(supabase),
-    resellerCounts(supabase),
+    listApplications(supabase, undefined, visibility),
+    resellerCounts(supabase, visibility),
   ]);
-  return data({ staff, applications, counts }, { headers: responseHeaders });
+  return data({ staff, applications, counts, demoModeOn: visibility.showDemoData }, { headers: responseHeaders });
 }
 
 const FILTERS = ["pending", "approved", "on_hold", "declined", "all"] as const;
 
 export default function AdminApplications() {
-  const { staff, applications, counts } = useLoaderData<typeof loader>();
+  const { staff, applications, counts, demoModeOn } = useLoaderData<typeof loader>();
   const [params, setParams] = useSearchParams();
   const filter = (params.get("status") ?? "pending") as (typeof FILTERS)[number];
   const visible = filter === "all" ? applications : applications.filter((a) => a.status === filter);
@@ -34,6 +36,7 @@ export default function AdminApplications() {
           <p className="admin-eyebrow">Trade accounts</p>
           <h1>Applications</h1>
           <p>Signed in as {staff.displayName} · <span className="admin-role">{staff.role}</span></p>
+          {!demoModeOn ? <p>Demo records are hidden. Switch Data mode on to review them.</p> : null}
         </div>
       </header>
 

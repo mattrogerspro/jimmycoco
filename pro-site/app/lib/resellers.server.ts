@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { createPublicSupabaseClient } from "./supabase.server";
+import { createPublicSupabaseClient, createSupabaseServiceClient } from "./supabase.server";
 export { ORDER_STATUSES, ORDER_SOURCES } from "./reseller-constants";
 import type { OrderQuery } from "./orders-query";
 import type { AccountQuery } from "./accounts-query";
@@ -92,12 +92,27 @@ export function isPlausibleEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
 }
 
+function createApplicationSubmitClient() {
+  return process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY
+    ? createSupabaseServiceClient()
+    : createPublicSupabaseClient();
+}
+
+function formatSupabaseError(error: { message?: string; code?: string; details?: string; hint?: string }) {
+  return [
+    error.message,
+    error.code ? `code=${error.code}` : null,
+    error.details ? `details=${error.details}` : null,
+    error.hint ? `hint=${error.hint}` : null,
+  ].filter(Boolean).join(" · ");
+}
+
 /**
- * Public intake. Uses the anonymous key and the security-definer RPC so the
- * marketing site never holds write rights on the applications table itself.
+ * Public intake. Runs on the server and prefers the service client so public
+ * forms are not dependent on anonymous RPC grants in production.
  */
 export async function submitApplication(input: ApplicationInput) {
-  const supabase = createPublicSupabaseClient();
+  const supabase = createApplicationSubmitClient();
   const { data, error } = await supabase.rpc("submit_reseller_application", {
     p_business_name: input.businessName,
     p_contact_name: input.contactName,
@@ -111,7 +126,7 @@ export async function submitApplication(input: ApplicationInput) {
     p_metadata: input.metadata ?? {},
   });
 
-  if (error) throw new Error(`Could not lodge the trade application: ${error.message}`);
+  if (error) throw new Error(`Could not lodge the trade application: ${formatSupabaseError(error)}`);
   return data as string;
 }
 

@@ -3,6 +3,10 @@ import { requireEmailAdmin } from '../_lib/email-auth.js'
 import { allowMethods, json, publicError, readJson, requireBearer } from '../_lib/http.js'
 import { assertSupabase, getSupabase, isSupabaseConfigured } from '../_lib/supabase.js'
 
+function errorMessage(error) {
+  return error instanceof Error ? error.message : String(error)
+}
+
 async function campaignControlState(supabase, campaignId) {
   const campaign = assertSupabase(await supabase
     .from('email_campaigns')
@@ -58,14 +62,18 @@ export default async function handler(request, response) {
         reason: body.reason || null,
       },
     }
-    assertSupabase(await supabase
+    const updated = assertSupabase(await supabase
       .from('email_campaigns')
       .update({ enabled: body.enabled, config: nextConfig, updated_at: new Date().toISOString() })
-      .eq('id', campaign.id), 'update campaign kill switch')
+      .eq('id', campaign.id)
+      .select('id,enabled')
+      .maybeSingle(), 'update campaign kill switch')
+    if (!updated || updated.enabled !== body.enabled) throw new Error('campaign_kill_switch_update_not_persisted')
 
     const state = await campaignControlState(supabase, campaign.id)
     return json(response, 200, { ok: true, ...state })
   } catch (error) {
+    console.error('[campaign-kill-switch] update failed', { error: errorMessage(error) })
     const result = publicError(error)
     return json(response, result.status, { error: result.error })
   }

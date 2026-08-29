@@ -4,6 +4,33 @@ import { assertSupabase, getSupabase, isSupabaseConfigured } from '../_lib/supab
 
 const REPORTABLE_MESSAGE_SOURCES = ['sequence_engine', 'lifecycle_engine', 'resend_broadcast']
 
+function errorMessage(error) {
+  return error instanceof Error ? error.message : String(error)
+}
+
+async function optionalSupabase(query, context, fallback) {
+  try {
+    return assertSupabase(await query, context)
+  } catch (error) {
+    console.error(`[campaign-stats] ${context}`, { error: errorMessage(error) })
+    return fallback
+  }
+}
+
+function normaliseCampaignRow(row) {
+  if (!row) return null
+  return {
+    campaign_id: row.campaign_id || row.id,
+    name: row.name,
+    market: row.market,
+    mode: row.mode,
+    enabled: Boolean(row.enabled),
+    reporting: row.reporting || row.config?.reporting || null,
+    config: row.config,
+    updated_at: row.updated_at,
+  }
+}
+
 export function summariseReportableMessages(messages = []) {
   const count = (field) => messages.filter((message) => Boolean(message[field])).length
   const activity = messages
@@ -24,11 +51,24 @@ export function summariseReportableMessages(messages = []) {
 }
 
 export function trackingForCampaign(campaign, environment = process.env) {
-  const reporting = campaign?.reporting || {}
+  const reporting = campaign?.reporting || campaign?.config?.reporting || {}
   return {
     delivered: reporting.delivered !== false,
     opens: reporting.opens ?? (environment.EMAIL_OPEN_TRACKING_ENABLED === 'true'),
     clicks: reporting.clicks ?? (environment.EMAIL_CLICK_TRACKING_ENABLED === 'true'),
+  }
+}
+
+async function loadReportableMessages(supabase, campaignId) {
+  try {
+    return assertSupabase(await supabase
+      .from('email_messages')
+      .select('step_key,sent_at,delivered_at,first_opened_at,first_clicked_at,bounced_at,complained_at,failed_at,created_at')
+      .eq('campaign_id', campaignId)
+      .in('source', REPORTABLE_MESSAGE_SOURCES), 'load reportable campaign messages') || []
+  } catch (error) {
+    console.error('[campaign-stats] load reportable campaign messages', { error: errorMessage(error) })
+    return []
   }
 }
 
@@ -40,22 +80,51 @@ export default async function handler(request, response) {
   if (!campaignId) return json(response, 400, { error: 'campaign_id_required' })
   try {
     const supabase = getSupabase()
-    const campaignView = assertSupabase(await supabase.from('email_campaign_stats').select('*').eq('campaign_id', campaignId).maybeSingle(), 'load campaign stats')
-    const stepViews = assertSupabase(await supabase.from('email_step_stats').select('*').eq('campaign_id', campaignId).order('step_number'), 'load step stats')
-    const reportableMessages = assertSupabase(await supabase
-      .from('email_messages')
-      .select('step_key,sent_at,delivered_at,first_opened_at,first_clicked_at,bounced_at,complained_at,failed_at,created_at')
-      .eq('campaign_id', campaignId)
-      .in('source', REPORTABLE_MESSAGE_SOURCES), 'load reportable campaign messages') || []
-    const campaign = campaignView ? { ...campaignView, ...summariseReportableMessages(reportableMessages) } : null
-    const steps = (stepViews || []).map((step) => ({
+    const campaignControl = normaliseCampaignRow(assertSupabase(await supabase
+      .from('email_campaigns')
+      .select('id,name,market,mode,enabled,config,updated_at')
+      .eq('id', campaignId)
+      .maybeSingle(), 'load campaign control state'))
+    const campaignView = normaliseCampaignRow(await optionalSupabase(
+      supabase.from('email_campaign_stats').select('*').eq('campaign_id', campaignId).maybeSingle(),
+      'load campaign stats',
+      null,
+    ))
+    const stepViews = await optionalSupabase(
+      supabase.from('email_step_stats').select('*').eq('campaign_id', campaignId).order('step_number'),
+      'load step stats',
+      null,
+    )
+    const fallbackSteps = stepViews === null
+      ? await optionalSupabase(
+        supabase
+          .from('email_campaign_steps')
+          .select('campaign_id,step_key,step_number,subject,template_alias')
+          .eq('campaign_id', campaignId)
+          .order('step_number'),
+        'load campaign steps fallback',
+        [],
+      )
+      : stepViews
+    const reportableMessages = await loadReportableMessages(supabase, campaignId)
+    const campaignBase = campaignView || campaignControl
+    const campaign = campaignBase ? { ...campaignBase, ...summariseReportableMessages(reportableMessages) } : null
+    const steps = (fallbackSteps || []).map((step) => ({
       ...step,
       ...summariseReportableMessages(reportableMessages.filter((message) => message.step_key === step.step_key)),
     }))
-    const enrollments = assertSupabase(await supabase.from('email_enrollments').select('status,exit_reason').eq('campaign_id', campaignId), 'load campaign enrollment control stats') || []
-    const jobs = assertSupabase(await supabase.from('email_jobs').select('status,last_error').eq('campaign_id', campaignId).in('status', ['pending', 'processing', 'needs_attention']), 'load campaign job control stats') || []
+    const enrollments = await optionalSupabase(
+      supabase.from('email_enrollments').select('status,exit_reason').eq('campaign_id', campaignId),
+      'load campaign enrollment control stats',
+      [],
+    )
+    const jobs = await optionalSupabase(
+      supabase.from('email_jobs').select('status,last_error').eq('campaign_id', campaignId).in('status', ['pending', 'processing', 'needs_attention']),
+      'load campaign job control stats',
+      [],
+    )
     const control = {
-      enabled: campaign?.enabled ?? false,
+      enabled: campaignControl?.enabled ?? campaign?.enabled ?? false,
       enrollment_statuses: enrollments.reduce((counts, row) => {
         counts[row.status] = (counts[row.status] || 0) + 1
         return counts
@@ -73,6 +142,7 @@ export default async function handler(request, response) {
       refreshed_at: new Date().toISOString(),
     })
   } catch (error) {
+    console.error('[campaign-stats] fatal analytics query failure', { campaign_id: campaignId, error: errorMessage(error) })
     return json(response, 500, { configured: true, error: 'analytics_query_failed' })
   }
 }

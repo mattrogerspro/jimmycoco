@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { summariseReportableMessages } from '../server/campaigns/stats.js'
+import { summariseReportableMessages, trackingForCampaign } from '../server/campaigns/stats.js'
 
 test('campaign reporting summarises only the reportable rows supplied by the API', () => {
   const summary = summariseReportableMessages([
@@ -26,4 +26,14 @@ test('campaign reporting summarises only the reportable rows supplied by the API
     failed: 0,
     last_activity_at: '2026-08-24T16:00:00.000Z',
   })
+})
+
+test('campaign tracking reads reporting flags from direct campaign config fallback', () => {
+  assert.deepEqual(
+    trackingForCampaign(
+      { config: { reporting: { delivered: true, opens: true, clicks: true } } },
+      { EMAIL_OPEN_TRACKING_ENABLED: 'false', EMAIL_CLICK_TRACKING_ENABLED: 'false' },
+    ),
+    { delivered: true, opens: true, clicks: true },
+  )
 })

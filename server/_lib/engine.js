@@ -367,6 +367,65 @@ async function processJob(row) {
   return { id: row.job_id, status: 'completed', step: step.key }
 }
 
+export async function processLifecycleJobById(jobId) {
+  if (!jobId) return { status: 'not_claimed', reason: 'job_id_missing' }
+  const worker = `lifecycle-trigger-${workerId()}`
+  const supabase = getSupabase()
+  const claimed = assertSupabase(await supabase
+    .from('email_jobs')
+    .update({ status: 'processing', locked_at: new Date().toISOString(), locked_by: worker })
+    .eq('id', jobId)
+    .eq('status', 'pending')
+    .lte('run_at', new Date().toISOString())
+    .or(`locked_at.is.null,locked_at.lt.${new Date(Date.now() - 10 * 60 * 1000).toISOString()}`)
+    .select(`
+      id,
+      campaign_id,
+      step_key,
+      source_event_id,
+      context,
+      retry_count,
+      email_contacts (
+        id,
+        email,
+        first_name,
+        last_name,
+        business_name,
+        market,
+        timezone,
+        marketing_status,
+        properties
+      )
+    `)
+    .maybeSingle(), 'claim lifecycle job by id')
+
+  if (!claimed) return { status: 'not_claimed', reason: 'not_due_or_already_claimed' }
+  const contact = claimed.email_contacts
+  const row = {
+    job_id: claimed.id,
+    campaign_id: claimed.campaign_id,
+    step_key: claimed.step_key,
+    source_event_id: claimed.source_event_id,
+    contact_id: contact.id,
+    email: contact.email,
+    first_name: contact.first_name,
+    last_name: contact.last_name,
+    business_name: contact.business_name,
+    market: contact.market,
+    timezone: contact.timezone,
+    marketing_status: contact.marketing_status,
+    properties: contact.properties,
+    context: claimed.context,
+    retry_count: claimed.retry_count,
+  }
+
+  try {
+    return await processJob(row)
+  } catch (error) {
+    return handleFailure('job', row, error)
+  }
+}
+
 async function handleFailure(kind, row, error) {
   const retries = (row.retry_count || 0) + 1
   const nextStatus = retries >= 3 ? 'needs_attention' : kind === 'job' ? 'pending' : 'active'

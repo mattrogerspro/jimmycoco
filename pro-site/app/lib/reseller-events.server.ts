@@ -61,13 +61,28 @@ export async function emitResellerEvent({ trigger, eventId, contact, context = {
       }),
     });
 
+    const raw = await response.text().catch(() => "");
+    let payload: { delivery?: { status?: string; reason?: string; error?: string } } | null = null;
+    try {
+      payload = raw ? JSON.parse(raw) : null;
+    } catch {
+      payload = null;
+    }
     if (!response.ok) {
-      const detail = await response.text().catch(() => "");
+      const detail = payload ? JSON.stringify(payload) : raw;
       console.warn(`[reseller-events] ${trigger} rejected (${response.status}): ${detail.slice(0, 200)}`);
       return { dispatched: false as const, reason: `http_${response.status}` as const };
     }
 
-    return { dispatched: true as const };
+    const delivery = payload?.delivery;
+    if (delivery && delivery.status && !["completed", "not_claimed"].includes(delivery.status)) {
+      console.warn(
+        `[reseller-events] ${trigger} accepted but not delivered: ${delivery.status}${delivery.reason ? `:${delivery.reason}` : ""}${delivery.error ? `:${delivery.error}` : ""}`,
+      );
+      return { dispatched: false as const, reason: delivery.reason || delivery.status };
+    }
+
+    return { dispatched: true as const, delivery };
   } catch (error) {
     console.warn(`[reseller-events] ${trigger} failed to dispatch:`, (error as Error).message);
     return { dispatched: false as const, reason: "network_error" as const };

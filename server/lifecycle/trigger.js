@@ -1,5 +1,5 @@
 import { allowMethods, isEmail, json, normaliseEmail, publicError, readJson, requireBearer } from '../_lib/http.js'
-import { enqueueLifecycleEvent } from '../_lib/engine.js'
+import { enqueueLifecycleEvent, processLifecycleJobById } from '../_lib/engine.js'
 
 export default async function handler(request, response) {
   if (!allowMethods(request, response, ['POST']) || !requireBearer(request, response)) return
@@ -14,7 +14,11 @@ export default async function handler(request, response) {
       contact: { ...body.contact, email: normaliseEmail(body.contact.email) },
       context: body.context || {},
     })
-    return json(response, 202, result)
+    const delivery = await processLifecycleJobById(result.job?.id).catch((error) => ({
+      status: 'process_failed',
+      error: String(error instanceof Error ? error.message : error).slice(0, 200),
+    }))
+    return json(response, 202, { ...result, delivery })
   } catch (error) {
     const result = publicError(error)
     const status = /not_found/.test(error.message) ? 404 : /disabled/.test(error.message) ? 409 : result.status

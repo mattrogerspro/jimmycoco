@@ -54,6 +54,13 @@ test('normal HTTP handlers are routed through the single Vercel API dispatcher',
   assert.match(vercelConfig, /"destination": "\/api\/index"/)
 })
 
+test('lifecycle trigger immediately processes the due job it creates', () => {
+  const trigger = readFileSync(new URL('../server/lifecycle/trigger.js', import.meta.url), 'utf8')
+  assert.match(trigger, /enqueueLifecycleEvent, processLifecycleJobById/)
+  assert.match(trigger, /processLifecycleJobById\(result\.job\?\.id\)/)
+  assert.match(trigger, /delivery/)
+})
+
 test('deployment stays under Vercel Hobby serverless function limit', () => {
   const files = jsFilesUnder(new URL('../api', import.meta.url).pathname)
     .map((path) => path.slice(new URL('..', import.meta.url).pathname.length))

@@ -8,10 +8,6 @@
     {
       "path": "/api/chat-escalations",
       "schedule": "*/15 * * * *"
-    },
-     {
-      "path": "/api/cron/process-sequences",
-      "schedule": "*/15 * * * *"
     }
   ],
   "headers": [

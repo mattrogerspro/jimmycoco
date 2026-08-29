@@ -1,0 +1,2 @@
+curl -X POST https://jimmycoco.email/api/cron/process-sequences \
+  -H "Authorization: Bearer YOUR_CRON_SECRET"

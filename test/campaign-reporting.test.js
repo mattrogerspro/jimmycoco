@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { normaliseCampaignRow, summariseReportableMessages, trackingForCampaign } from '../server/campaigns/stats.js'
+import { normaliseCampaignRow, summariseBusinessEvents, summariseReportableMessages, trackingForCampaign } from '../server/campaigns/stats.js'
 
 test('campaign reporting summarises only the reportable rows supplied by the API', () => {
   const summary = summariseReportableMessages([
@@ -60,5 +60,17 @@ test('campaign reporting preserves view-only response and enrollment totals', ()
       conversions: 2,
       active_enrollments: 25,
     },
+  )
+})
+
+test('campaign reporting counts replies and conversions without the aggregate database view', () => {
+  assert.deepEqual(
+    summariseBusinessEvents([
+      { event_type: 'reply' },
+      { event_type: 'reply' },
+      { event_type: 'trial_requested' },
+      { event_type: 'unsubscribe' },
+    ]),
+    { replies: 2, conversions: 1 },
   )
 })

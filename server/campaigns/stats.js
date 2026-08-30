@@ -51,6 +51,13 @@ export function summariseReportableMessages(messages = []) {
   }
 }
 
+export function summariseBusinessEvents(events = []) {
+  return {
+    replies: events.filter((event) => event.event_type === 'reply').length,
+    conversions: events.filter((event) => ['sample_requested', 'trial_requested', 'call_booked', 'opening_order_placed'].includes(event.event_type)).length,
+  }
+}
+
 export function trackingForCampaign(campaign, environment = process.env) {
   const reporting = campaign?.reporting || campaign?.config?.reporting || {}
   return {
@@ -108,8 +115,17 @@ export default async function handler(request, response) {
       )
       : stepViews
     const reportableMessages = await loadReportableMessages(supabase, campaignId)
+    const businessEvents = await optionalSupabase(
+      supabase.from('email_business_events').select('event_type').eq('campaign_id', campaignId),
+      'load campaign business event stats',
+      [],
+    )
     const campaignBase = campaignView || campaignControl
-    const campaign = campaignBase ? { ...campaignBase, ...summariseReportableMessages(reportableMessages) } : null
+    const campaign = campaignBase ? {
+      ...campaignBase,
+      ...summariseReportableMessages(reportableMessages),
+      ...summariseBusinessEvents(businessEvents),
+    } : null
     const steps = (fallbackSteps || []).map((step) => ({
       ...step,
       ...summariseReportableMessages(reportableMessages.filter((message) => message.step_key === step.step_key)),

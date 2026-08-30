@@ -5,6 +5,28 @@ import { buildPreferencesUrl } from './preferences.js'
 
 let client
 
+const DEFAULT_PRO_LINKS = Object.freeze({
+  CALCULATOR_LINK: 'https://www.jimmycoco.pro/tools/spray-tan-profit-calculator',
+  ORDER_LINK: 'https://www.jimmycoco.pro/products/malibu-professional-spray-1l#complete-order',
+  TRADE_LINK: 'https://www.jimmycoco.pro/products/malibu-professional-spray-1l#complete-order',
+  TRIAL_LINK: 'https://www.jimmycoco.pro/#trial',
+})
+const PRO_DESTINATION_VARIABLES = new Set(Object.keys(DEFAULT_PRO_LINKS))
+const PRO_SITE_HOSTS = new Set(['jimmycoco.pro', 'www.jimmycoco.pro'])
+
+export function assertProSiteDestination(value, variableName = 'LINK') {
+  let url
+  try {
+    url = new URL(String(value || ''))
+  } catch {
+    throw new Error(`invalid_pro_site_destination:${variableName}:invalid_url`)
+  }
+  if (url.protocol !== 'https:' || !PRO_SITE_HOSTS.has(url.hostname.toLowerCase())) {
+    throw new Error(`invalid_pro_site_destination:${variableName}:${url.hostname || 'invalid_host'}`)
+  }
+  return url.toString()
+}
+
 export function getResend() {
   if (!process.env.RESEND_API_KEY) throw new Error('resend_api_key_not_configured')
   if (!client) client = new Resend(process.env.RESEND_API_KEY)
@@ -16,9 +38,10 @@ export function isLiveMode() {
 }
 
 function trialLinkFor(campaign, step) {
-  const baseUrl = campaign?.id === 'us-west-coast-salon-stockist'
+  const configuredUrl = campaign?.id === 'us-west-coast-salon-stockist'
     ? process.env.EMAIL_US_TRIAL_LINK || process.env.EMAIL_TRIAL_LINK
     : process.env.EMAIL_TRIAL_LINK
+  const baseUrl = assertProSiteDestination(configuredUrl || DEFAULT_PRO_LINKS.TRIAL_LINK, 'TRIAL_LINK')
   if (!baseUrl || !campaign?.id || !step?.key) return baseUrl
   if (!['uk-salon-stockist', 'us-west-coast-salon-stockist'].includes(campaign.id)) return baseUrl
   return buildCampaignTrialUrl(baseUrl, campaign.id, step.key)
@@ -32,11 +55,20 @@ function variableDefaults(contact, campaign, step) {
     SUPPORT_EMAIL: process.env.EMAIL_SUPPORT_EMAIL || process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
     BUSINESS_ADDRESS: process.env.EMAIL_BUSINESS_ADDRESS,
     CALENDAR_LINK: process.env.EMAIL_CALENDAR_LINK,
-    CALCULATOR_LINK: process.env.EMAIL_CALCULATOR_LINK || 'https://www.jimmycoco.pro/tools/spray-tan-profit-calculator',
+    CALCULATOR_LINK: assertProSiteDestination(
+      process.env.EMAIL_CALCULATOR_LINK || DEFAULT_PRO_LINKS.CALCULATOR_LINK,
+      'CALCULATOR_LINK',
+    ),
     TRIAL_LINK: trialLinkFor(campaign, step),
-    TRADE_LINK: process.env.EMAIL_TRADE_LINK,
+    TRADE_LINK: assertProSiteDestination(
+      process.env.EMAIL_TRADE_LINK || DEFAULT_PRO_LINKS.TRADE_LINK,
+      'TRADE_LINK',
+    ),
     SHADE_GUIDE_LINK: process.env.EMAIL_SHADE_GUIDE_LINK,
-    ORDER_LINK: process.env.EMAIL_ORDER_LINK,
+    ORDER_LINK: assertProSiteDestination(
+      process.env.EMAIL_ORDER_LINK || DEFAULT_PRO_LINKS.ORDER_LINK,
+      'ORDER_LINK',
+    ),
     UAE_DELIVERY_STATEMENT: process.env.EMAIL_UAE_DELIVERY_STATEMENT,
     UAE_PARTNER_TERMS: process.env.EMAIL_UAE_PARTNER_TERMS,
   }
@@ -69,6 +101,11 @@ export function buildTemplateVariables(step, contact, context = {}, campaign = n
     FIRST_NAME: upperContext.FIRST_NAME || String(contact.first_name || '').trim() || 'there',
     SALON_NAME: upperContext.SALON_NAME || contact.business_name,
     BUSINESS_NAME: upperContext.BUSINESS_NAME || contact.business_name,
+  }
+  for (const variableName of PRO_DESTINATION_VARIABLES) {
+    if (candidates[variableName]) {
+      candidates[variableName] = assertProSiteDestination(candidates[variableName], variableName)
+    }
   }
   if (step.requiredVariables.includes('PREFERENCES_LINK')) candidates.PREFERENCES_LINK = buildPreferencesUrl(contact.email)
   const missing = step.requiredVariables.filter((key) => candidates[key] === undefined || candidates[key] === null || candidates[key] === '')

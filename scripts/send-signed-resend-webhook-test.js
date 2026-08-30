@@ -14,7 +14,7 @@ function arg(name, fallback = null) {
   return process.env[name.toUpperCase().replaceAll('-', '_')] || fallback
 }
 
-const endpoint = arg('endpoint', 'https://jimmycoco.email/api/webhooks/resend')
+const endpoint = arg('endpoint', 'https://www.jimmycoco.email/api/webhooks/resend')
 const secret = arg('secret', process.env.RESEND_WEBHOOK_SECRET)
 const eventType = arg('event-type', 'email.delivered')
 const email = arg('email', 'webhook-smoke-test@jimmycoco.email')
@@ -58,7 +58,7 @@ const headers = {
 }
 
 for (let attempt = 1; attempt <= repeat; attempt += 1) {
-  const response = await fetch(endpoint, { method: 'POST', headers, body: payload })
+  const response = await fetch(endpoint, { method: 'POST', headers, body: payload, redirect: 'manual' })
   const text = await response.text()
   let body = text
   try {
@@ -69,6 +69,9 @@ for (let attempt = 1; attempt <= repeat; attempt += 1) {
     endpoint,
     status: response.status,
     ok: response.ok,
+    location: response.headers.get('location'),
     body,
   }, null, 2))
+
+  if (!response.ok) process.exitCode = 1
 }

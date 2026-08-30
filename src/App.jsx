@@ -432,9 +432,9 @@ function SequenceTimeline({ campaign, analytics, onOpenEmail }) {
                 </div>
                 <div className="email-board-stats">
                   <span><b>{stats.sent || 0}</b>Sent</span>
-                  <span><b>{rate(stats.delivered, stats.sent)}</b>Delivered</span>
-                  <span><b>{rate(stats.opened, stats.delivered, analytics.tracking?.opens)}</b>Opened</span>
-                  <span><b>{rate(stats.clicked, stats.delivered, analytics.tracking?.clicks)}</b>Clicked</span>
+                  <span><b>{stats.delivered || 0}</b>Delivered · {rate(stats.delivered, stats.sent)}</span>
+                  <span><b>{stats.opened || 0}</b>Opened · {rate(stats.opened, stats.delivered, analytics.tracking?.opens)}</span>
+                  <span><b>{stats.clicked || 0}</b>Clicked · {rate(stats.clicked, stats.delivered, analytics.tracking?.clicks)}</span>
                 </div>
                 <Icon name="arrow" size={18} />
               </button>
@@ -663,6 +663,7 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
   const sequenceMessages = useMemo(() => availableMessages.filter((item) => !item.isSupplemental), [availableMessages])
   const [viewport, setViewport] = useState('desktop')
   const [personalised, setPersonalised] = useState(true)
+  const [performanceScope, setPerformanceScope] = useState('campaign')
   const [analytics, setAnalytics] = useState({ loading: true, configured: null, campaign: null, steps: [], control: null, tracking: null })
   const studioRef = useRef(null)
   const previewFrameRef = useRef(null)
@@ -743,6 +744,9 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
   const campaignStats = analytics.campaign || {}
   const selectedStepStats = analytics.steps.find((step) => Number(step.step_number) === message?.index)
   const rate = (value, total) => Number(total) ? `${Math.round((Number(value || 0) / Number(total)) * 100)}%` : '—'
+  const ratio = (value, total) => `${Number(value || 0)} / ${Number(total || 0)}`
+  const scopedStats = performanceScope === 'email' ? (selectedStepStats || {}) : campaignStats
+  const scopedResponses = Number(campaignStats.replies || 0) + Number(campaignStats.conversions || 0)
 
   return (
     <div className="email-studio" ref={studioRef}>
@@ -830,19 +834,25 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
         <main className="preview-area">
           {message ? (
             <>
-              <section className="performance-strip" aria-label="Live campaign performance">
+              <section className="performance-strip" aria-label={performanceScope === 'email' ? `Live performance for email ${message.index}` : 'Live campaign performance'}>
                 <div className="performance-heading">
-                  <span><i />Live performance</span>
-                  <small>{analytics.loading ? 'Refreshing…' : analytics.configured ? `${campaign.name} · refreshes every 15 seconds` : 'Supabase connection required'}</small>
+                  <div className="performance-heading-copy">
+                    <span><i />Live performance</span>
+                    <small>{analytics.loading ? 'Refreshing…' : analytics.configured ? `${campaign.name} · refreshes every 15 seconds` : 'Supabase connection required'}</small>
+                  </div>
+                  <div className="performance-scope" role="tablist" aria-label="Performance scope">
+                    <button type="button" role="tab" aria-selected={performanceScope === 'campaign'} className={performanceScope === 'campaign' ? 'active' : ''} onClick={() => setPerformanceScope('campaign')}>Full campaign</button>
+                    <button type="button" role="tab" aria-selected={performanceScope === 'email'} className={performanceScope === 'email' ? 'active' : ''} onClick={() => setPerformanceScope('email')}>Email {message.index}</button>
+                  </div>
                 </div>
                 {analytics.configured ? (
                   <div className="performance-metrics">
-                    <div><strong>{campaignStats.sent || 0}</strong><span>Sent</span></div>
-                    <div><strong>{rate(campaignStats.delivered, campaignStats.sent)}</strong><span>Delivered</span></div>
-                    <div><strong>{analytics.tracking?.opens ? rate(campaignStats.opened, campaignStats.delivered) : 'Off'}</strong><span>Opened</span></div>
-                    <div><strong>{analytics.tracking?.clicks ? rate(campaignStats.clicked, campaignStats.delivered) : 'Off'}</strong><span>Clicked</span></div>
-                    <div><strong>{Number(campaignStats.replies || 0) + Number(campaignStats.conversions || 0)}</strong><span>Responses</span></div>
-                    <div className="step-performance"><strong>{selectedStepStats?.sent || 0}</strong><span>Email {message.index} sent</span></div>
+                    <div><strong>{scopedStats.sent || 0}</strong><span>Sent</span></div>
+                    <div><strong>{ratio(scopedStats.delivered, scopedStats.sent)}</strong><span>Delivered · {rate(scopedStats.delivered, scopedStats.sent)}</span></div>
+                    <div><strong>{analytics.tracking?.opens ? ratio(scopedStats.opened, scopedStats.delivered) : 'Off'}</strong><span>Opened · {analytics.tracking?.opens ? rate(scopedStats.opened, scopedStats.delivered) : 'tracking off'}</span></div>
+                    <div><strong>{analytics.tracking?.clicks ? ratio(scopedStats.clicked, scopedStats.delivered) : 'Off'}</strong><span>Clicked · {analytics.tracking?.clicks ? rate(scopedStats.clicked, scopedStats.delivered) : 'tracking off'}</span></div>
+                    <div><strong>{scopedStats.bounced || 0}</strong><span>Bounced</span></div>
+                    <div className="scope-summary"><strong>{performanceScope === 'campaign' ? scopedResponses : (scopedStats.complained || 0)}</strong><span>{performanceScope === 'campaign' ? 'Responses' : 'Complaints'}</span></div>
                   </div>
                 ) : (
                   <p className="performance-empty">The dashboard is ready. Apply the Supabase migration and connect the Vercel environment to begin collecting verified Resend events.</p>

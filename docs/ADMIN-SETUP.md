@@ -40,11 +40,13 @@ Copy [.env.example](https://github.com/mattrogerspro/jimmycoco/blob/main/.env.ex
 | Resend | `RESEND_API_KEY` · `RESEND_WEBHOOK_SECRET` · `RESEND_FROM` · `RESEND_REPLY_TO` |
 | Send locks & auth | `EMAIL_LIVE_MODE` (keep `false`) · `CRON_SECRET` · `AUTOMATION_API_KEY` · `AUDIENCE_IMPORT_SIGNING_SECRET` · `EMAIL_WORKER_BATCH_SIZE` |
 | Sender identity | `EMAIL_SENDER_NAME` · `EMAIL_SENDER_TITLE` · `EMAIL_SUPPORT_EMAIL` · `EMAIL_BUSINESS_ADDRESS` |
-| Campaign links | `EMAIL_CALENDAR_LINK` · `EMAIL_TRIAL_LINK` · optional `EMAIL_US_TRIAL_LINK` · `EMAIL_TRADE_LINK` · `EMAIL_SHADE_GUIDE_LINK` · `EMAIL_ORDER_LINK` |
+| Campaign links | `EMAIL_CALENDAR_LINK` · `EMAIL_TRIAL_LINK` · optional `EMAIL_US_TRIAL_LINK` · `EMAIL_CALCULATOR_LINK` · `EMAIL_TRADE_LINK` · `EMAIL_SHADE_GUIDE_LINK` · `EMAIL_ORDER_LINK` |
 | Market facts | `EMAIL_UAE_DELIVERY_STATEMENT` · `EMAIL_UAE_PARTNER_TERMS` |
 | Tracking | `EMAIL_OPEN_TRACKING_ENABLED` · `EMAIL_CLICK_TRACKING_ENABLED` |
 
 Never commit `.env` — it is gitignored. Production values live in Vercel, not in files.
+
+Customer-facing trial, calculator, trade and order variables must use HTTPS on `www.jimmycoco.pro` (or the bare `jimmycoco.pro` host). The worker aborts a send if one of these variables points to `jimmycoco.email`, the retail `.co.uk` site or another host. `EMAIL_PREFERENCES_BASE_URL` intentionally remains on `https://jimmycoco.email/api/preferences/unsubscribe` because that domain owns email administration and one-click opt-out handling.
 
 ## 4 · Supabase
 
@@ -60,7 +62,7 @@ Preview is read-only. Commit requires an exact confirmation phrase, repeats the 
 
 ## 5 · Resend
 
-Create an API key, verify your sending domain, then add a webhook endpoint pointing at `https://jimmycoco.email/api/webhooks/resend` (all delivery events). Put its signing secret in `RESEND_WEBHOOK_SECRET` — the handler at [api/webhooks/resend.js](https://github.com/mattrogerspro/jimmycoco/blob/main/api/webhooks/resend.js) rejects anything unsigned.
+Create an API key, verify your sending domain, then add a webhook endpoint pointing directly at `https://www.jimmycoco.email/api/webhooks/resend` (all delivery events). Do not use the bare domain: Vercel redirects it to `www`, and webhook providers treat that redirect as a failed delivery. Put the endpoint's signing secret in `RESEND_WEBHOOK_SECRET` — the handler at [api/webhooks/resend.js](https://github.com/mattrogerspro/jimmycoco/blob/main/api/webhooks/resend.js) rejects anything unsigned.
 
 Use one reply identity everywhere: `RESEND_REPLY_TO=partnerships@email.jimmycoco.pro`. That address must be configured as a Resend-managed receiving address. Inbound `email.received` webhooks stop active outreach in the playbook as `reply`; the same Resend inbound route should forward the human-visible copy to `matthew@jimmycoco.pro` for same-day handling. Do not set campaign templates or automation settings to reply directly to Matthew unless the mailbox itself is integrated with the playbook, because direct mailbox replies will not produce the Resend webhook exit.
 

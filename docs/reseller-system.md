@@ -72,7 +72,7 @@ Two Vercel projects come out of this repo:
 | `pro-site/` | `www.jimmycoco.pro` | public site, trade portal, admin |
 
 The Resend webhook must point at the automation project:
-`https://jimmycoco.email/api/webhooks/resend`, subscribed to at least
+`https://www.jimmycoco.email/api/webhooks/resend`, subscribed to at least
 `email.bounced`, `email.complained`, `email.suppressed`, `email.received` and
 `contact.updated` — those are the five `processResendEvent` branches on. Put the
 signing secret in `RESEND_WEBHOOK_SECRET` or every delivery 500s.

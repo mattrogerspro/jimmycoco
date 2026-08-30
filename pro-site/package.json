@@ -15,7 +15,16 @@
     "images:generate": "node scripts/generate-article-images.mjs",
     "images:publish": "node scripts/publish-article-images.mjs",
     "llms:generate": "node scripts/generate-llms-txt.mjs",
-    "qr:bottle-label": "node scripts/generate-bottle-label-qr.mjs"
+    "qr:bottle-label": "node scripts/generate-bottle-label-qr.mjs",
+    "video:install": "pnpm --dir video install",
+    "video:studio": "pnpm --dir video studio",
+    "video:list": "pnpm --dir video list",
+    "video:carousels:guide": "pnpm --dir video carousels:guide",
+    "video:carousels:render": "pnpm --dir video carousels:render",
+    "video:voiceover-plan": "pnpm --dir video voiceover:plan",
+    "video:render": "pnpm --dir video render",
+    "video:render:all": "pnpm --dir video render:all",
+    "video:lint": "pnpm --dir video lint"
   },
   "dependencies": {
     "@react-router/node": "^7.16.0",

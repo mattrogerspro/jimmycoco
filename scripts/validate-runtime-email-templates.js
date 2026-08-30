@@ -16,6 +16,7 @@ const onlyIndex = process.argv.indexOf('--only')
 const onlyAlias = onlyArgument?.slice('--only='.length) || (onlyIndex >= 0 ? process.argv[onlyIndex + 1] : null)
 const tokenPattern = /\{\{\{?\s*([A-Z0-9_]+)\s*\}\}\}?/g
 const forbidden = new Set(['FIRST_NAME', 'LAST_NAME', 'EMAIL', 'UNSUBSCRIBE_URL', 'RESEND_UNSUBSCRIBE_URL'])
+const forbiddenCustomerLinkHosts = new Set(['jimmycoco.email', 'jimmycoco.co.uk', 'www.jimmycoco.co.uk'])
 
 function tokensIn(value) {
   return new Set([...String(value).matchAll(tokenPattern)].map((match) => match[1]))
@@ -48,6 +49,16 @@ for (const campaignId of campaignIds) {
       if (!tokens.has(variable)) failures.push(`${step.templateAlias}: declared variable ${variable} is not used`)
     }
     if (step.templateId) failures.push(`${step.templateAlias}: templateId must be null for repository-rendered delivery`)
+    const literalLinks = [...rendered.html.matchAll(/href=["'](https?:\/\/[^"']+)["']/gi)]
+    for (const [, value] of literalLinks) {
+      const url = new URL(value)
+      if (forbiddenCustomerLinkHosts.has(url.hostname.toLowerCase())) {
+        failures.push(`${step.templateAlias}: customer link uses forbidden host ${url.hostname}`)
+      }
+    }
+    if (!literalLinks.some(([, value]) => new URL(value).hostname === 'www.jimmycoco.pro')) {
+      failures.push(`${step.templateAlias}: no literal link to www.jimmycoco.pro`)
+    }
     validated += 1
   }
 }

@@ -62,7 +62,11 @@ test('campaign studio UI requires the email-admin session and exposes logout', a
   assert.match(app, /\/api\/auth\/logout/)
   assert.match(app, /jimmycoco\.email/)
   assert.match(app, /Super admin/)
+  assert.match(app, /aria-label="Performance scope"/)
+  assert.match(app, />Full campaign<\/button>/)
+  assert.match(app, />Email \{message\.index\}<\/button>/)
   assert.match(styles, /\.email-auth-screen/)
+  assert.match(styles, /\.performance-scope/)
   assert.match(styles, /\.email-admin-pill/)
 })
 

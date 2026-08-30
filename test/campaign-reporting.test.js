@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { summariseReportableMessages, trackingForCampaign } from '../server/campaigns/stats.js'
+import { normaliseCampaignRow, summariseReportableMessages, trackingForCampaign } from '../server/campaigns/stats.js'
 
 test('campaign reporting summarises only the reportable rows supplied by the API', () => {
   const summary = summariseReportableMessages([
@@ -35,5 +35,30 @@ test('campaign tracking reads reporting flags from direct campaign config fallba
       { EMAIL_OPEN_TRACKING_ENABLED: 'false', EMAIL_CLICK_TRACKING_ENABLED: 'false' },
     ),
     { delivered: true, opens: true, clicks: true },
+  )
+})
+
+test('campaign reporting preserves view-only response and enrollment totals', () => {
+  assert.deepEqual(
+    normaliseCampaignRow({
+      campaign_id: 'uk-salon-stockist',
+      name: 'UK campaign',
+      replies: 4,
+      conversions: 2,
+      active_enrollments: 25,
+    }),
+    {
+      campaign_id: 'uk-salon-stockist',
+      name: 'UK campaign',
+      market: undefined,
+      mode: undefined,
+      enabled: false,
+      reporting: null,
+      config: undefined,
+      updated_at: undefined,
+      replies: 4,
+      conversions: 2,
+      active_enrollments: 25,
+    },
   )
 })

@@ -13,7 +13,9 @@ function withEmailEnvironment(callback) {
     EMAIL_PREFERENCES_SIGNING_SECRET: process.env.EMAIL_PREFERENCES_SIGNING_SECRET,
     EMAIL_PREFERENCES_BASE_URL: process.env.EMAIL_PREFERENCES_BASE_URL,
     EMAIL_TRIAL_LINK: process.env.EMAIL_TRIAL_LINK,
+    EMAIL_US_TRIAL_LINK: process.env.EMAIL_US_TRIAL_LINK,
     EMAIL_CALCULATOR_LINK: process.env.EMAIL_CALCULATOR_LINK,
+    EMAIL_TRADE_LINK: process.env.EMAIL_TRADE_LINK,
     EMAIL_ORDER_LINK: process.env.EMAIL_ORDER_LINK,
     RESEND_REPLY_TO: process.env.RESEND_REPLY_TO,
     EMAIL_AUDIT_COPY: process.env.EMAIL_AUDIT_COPY,
@@ -21,8 +23,10 @@ function withEmailEnvironment(callback) {
   process.env.EMAIL_PREFERENCES_SIGNING_SECRET = signingSecret
   process.env.EMAIL_PREFERENCES_BASE_URL = 'https://jimmycoco.email/api/preferences/unsubscribe'
   process.env.EMAIL_TRIAL_LINK = 'https://www.jimmycoco.pro/#trial'
+  process.env.EMAIL_US_TRIAL_LINK = 'https://www.jimmycoco.pro/#trial'
   process.env.EMAIL_CALCULATOR_LINK = 'https://www.jimmycoco.pro/tools/spray-tan-profit-calculator'
-  process.env.EMAIL_ORDER_LINK = 'https://www.jimmycoco.pro/professional/malibu-solution'
+  process.env.EMAIL_TRADE_LINK = 'https://www.jimmycoco.pro/products/malibu-professional-spray-1l#complete-order'
+  process.env.EMAIL_ORDER_LINK = 'https://www.jimmycoco.pro/products/malibu-professional-spray-1l#complete-order'
   process.env.RESEND_REPLY_TO = 'partnerships@email.jimmycoco.pro'
   delete process.env.EMAIL_AUDIT_COPY
   try {
@@ -32,6 +36,22 @@ function withEmailEnvironment(callback) {
       if (value === undefined) delete process.env[key]
       else process.env[key] = value
     }
+  }
+}
+
+function httpLinksIn(html) {
+  return [...String(html).matchAll(/href=["'](https?:\/\/[^"']+)["']/gi)].map((match) => new URL(match[1]))
+}
+
+function assertCustomerLinksUseProSite(payload) {
+  const links = httpLinksIn(payload.html)
+  assert.ok(links.length > 0)
+  for (const link of links) {
+    if (link.hostname === 'jimmycoco.email') {
+      assert.equal(link.pathname, '/api/preferences/unsubscribe')
+      continue
+    }
+    assert.equal(link.hostname, 'www.jimmycoco.pro')
   }
 }
 
@@ -75,6 +95,7 @@ test('manual trial, calculator and order follow-ups render complete direct-send 
       assert.doesNotMatch(payload.subject, /\{\{/)
       assert.match(payload.headers['List-Unsubscribe'], /^<https:\/\/jimmycoco\.email\/api\/preferences\/unsubscribe\?token=/)
       assert.equal(payload.headers['List-Unsubscribe-Post'], 'List-Unsubscribe=One-Click')
+      assertCustomerLinksUseProSite(payload)
     }
   }
 }))
@@ -137,8 +158,28 @@ test('all 14 outreach steps render complete direct-send payloads from repository
       assert.match(payload.html, new RegExp(`outreach_market=${encodeURIComponent(campaign.market)}`))
       assert.match(payload.headers['List-Unsubscribe'], /^<https:\/\/jimmycoco\.email\/api\/preferences\/unsubscribe\?token=/)
       assert.equal(payload.headers['List-Unsubscribe-Post'], 'List-Unsubscribe=One-Click')
+      assertCustomerLinksUseProSite(payload)
     }
   }
+}))
+
+test('customer campaign destinations cannot be configured to the email admin or retail domains', () => withEmailEnvironment(() => {
+  const campaign = campaignRegistry.find((item) => item.id === 'uk-salon-stockist')
+  const step = campaign.steps[0]
+  const contact = { email: 'owner@example.com', first_name: 'Alex', business_name: 'Example Salon' }
+  const context = { business_type: 'professional salon' }
+
+  process.env.EMAIL_TRIAL_LINK = 'https://jimmycoco.email/#trial'
+  assert.throws(
+    () => buildDirectEmailPayload({ campaign, step, contact, context }),
+    /invalid_pro_site_destination:TRIAL_LINK:jimmycoco\.email/,
+  )
+
+  process.env.EMAIL_TRIAL_LINK = 'https://jimmycoco.co.uk/#trial'
+  assert.throws(
+    () => buildDirectEmailPayload({ campaign, step, contact, context }),
+    /invalid_pro_site_destination:TRIAL_LINK:jimmycoco\.co\.uk/,
+  )
 }))
 
 test('audit BCC is opt-in and never copied back to the primary recipient', () => withEmailEnvironment(() => {

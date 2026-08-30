@@ -1,0 +1,47 @@
+{
+  "name": "jimmy-coco-pro-video-studio",
+  "version": "1.0.0",
+  "description": "Data-driven Remotion production system for Jimmy Coco Pro social videos",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.28.2",
+  "scripts": {
+    "prestudio": "node scripts/validate-catalog.mjs",
+    "studio": "remotion studio",
+    "prebundle": "node scripts/validate-catalog.mjs",
+    "bundle": "remotion bundle",
+    "lint": "eslint src && tsc --noEmit",
+    "prelist": "node scripts/validate-catalog.mjs",
+    "list": "node scripts/render.mjs --list",
+    "carousels:guide": "node scripts/generate-carousel-guide.mjs",
+    "carousels:render": "node scripts/render-carousels.mjs",
+    "voiceover:plan": "node scripts/export-voiceover-plans.mjs",
+    "prerender": "node scripts/validate-catalog.mjs",
+    "render": "node scripts/render.mjs",
+    "prerender:all": "node scripts/validate-catalog.mjs",
+    "render:all": "node scripts/render.mjs --all"
+  },
+  "dependencies": {
+    "@remotion/captions": "4.0.508",
+    "@remotion/cli": "4.0.508",
+    "@remotion/fonts": "4.0.508",
+    "@remotion/media": "4.0.508",
+    "@remotion/zod-types": "4.0.508",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.508",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.508",
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.7",
+    "@types/web": "0.0.166",
+    "eslint": "9.19.0",
+    "prettier": "3.8.1",
+    "typescript": "5.7.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  }
+}

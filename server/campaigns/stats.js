@@ -17,9 +17,10 @@ async function optionalSupabase(query, context, fallback) {
   }
 }
 
-function normaliseCampaignRow(row) {
+export function normaliseCampaignRow(row) {
   if (!row) return null
   return {
+    ...row,
     campaign_id: row.campaign_id || row.id,
     name: row.name,
     market: row.market,

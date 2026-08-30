@@ -432,9 +432,9 @@ function SequenceTimeline({ campaign, analytics, onOpenEmail }) {
                 </div>
                 <div className="email-board-stats">
                   <span><b>{stats.sent || 0}</b>Sent</span>
-                  <span><b>{stats.delivered || 0}</b>Delivered · {rate(stats.delivered, stats.sent)}</span>
-                  <span><b>{stats.opened || 0}</b>Opened · {rate(stats.opened, stats.delivered, analytics.tracking?.opens)}</span>
-                  <span><b>{stats.clicked || 0}</b>Clicked · {rate(stats.clicked, stats.delivered, analytics.tracking?.clicks)}</span>
+                  <span><b>{rate(stats.delivered, stats.sent)}</b>Delivered</span>
+                  <span><b>{rate(stats.opened, stats.delivered, analytics.tracking?.opens)}</b>Opened</span>
+                  <span><b>{rate(stats.clicked, stats.delivered, analytics.tracking?.clicks)}</b>Clicked</span>
                 </div>
                 <Icon name="arrow" size={18} />
               </button>
@@ -744,7 +744,6 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
   const campaignStats = analytics.campaign || {}
   const selectedStepStats = analytics.steps.find((step) => Number(step.step_number) === message?.index)
   const rate = (value, total) => Number(total) ? `${Math.round((Number(value || 0) / Number(total)) * 100)}%` : '—'
-  const ratio = (value, total) => `${Number(value || 0)} / ${Number(total || 0)}`
   const scopedStats = performanceScope === 'email' ? (selectedStepStats || {}) : campaignStats
   const scopedResponses = Number(campaignStats.replies || 0) + Number(campaignStats.conversions || 0)
 
@@ -848,9 +847,9 @@ function EmailStudio({ campaignId, emailNumber, routeTo }) {
                 {analytics.configured ? (
                   <div className="performance-metrics">
                     <div><strong>{scopedStats.sent || 0}</strong><span>Sent</span></div>
-                    <div><strong>{ratio(scopedStats.delivered, scopedStats.sent)}</strong><span>Delivered · {rate(scopedStats.delivered, scopedStats.sent)}</span></div>
-                    <div><strong>{analytics.tracking?.opens ? ratio(scopedStats.opened, scopedStats.delivered) : 'Off'}</strong><span>Opened · {analytics.tracking?.opens ? rate(scopedStats.opened, scopedStats.delivered) : 'tracking off'}</span></div>
-                    <div><strong>{analytics.tracking?.clicks ? ratio(scopedStats.clicked, scopedStats.delivered) : 'Off'}</strong><span>Clicked · {analytics.tracking?.clicks ? rate(scopedStats.clicked, scopedStats.delivered) : 'tracking off'}</span></div>
+                    <div><strong>{rate(scopedStats.delivered, scopedStats.sent)}</strong><span>Delivered</span></div>
+                    <div><strong>{analytics.tracking?.opens ? rate(scopedStats.opened, scopedStats.delivered) : 'Off'}</strong><span>Opened</span></div>
+                    <div><strong>{analytics.tracking?.clicks ? rate(scopedStats.clicked, scopedStats.delivered) : 'Off'}</strong><span>Clicked</span></div>
                     <div><strong>{scopedStats.bounced || 0}</strong><span>Bounced</span></div>
                     <div className="scope-summary"><strong>{performanceScope === 'campaign' ? scopedResponses : (scopedStats.complained || 0)}</strong><span>{performanceScope === 'campaign' ? 'Responses' : 'Complaints'}</span></div>
                   </div>

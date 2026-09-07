@@ -3,6 +3,7 @@ import { createPublicSupabaseClient, createSupabaseServiceClient } from "./supab
 export { ORDER_STATUSES, ORDER_SOURCES } from "./reseller-constants";
 import type { OrderQuery } from "./orders-query";
 import type { AccountQuery } from "./accounts-query";
+import { portalProductPricing, portalReferencePrice } from "./portal-pricing";
 
 export type ApplicationStatus = "pending" | "approved" | "declined" | "on_hold";
 export type ResellerStatus = "active" | "suspended" | "closed";
@@ -304,15 +305,17 @@ export async function createOrder(
   const items = wanted.map((line) => {
     const product = bySku.get(line.sku);
     if (!product) throw new Error(`Unknown product: ${line.sku}`);
-    const discounted = Math.round(
-      product.trade_price_pence * (1 - Number(reseller.discount_percent ?? 0) / 100),
+    const pricing = portalProductPricing(
+      product,
+      line.quantity,
+      Number(reseller.discount_percent ?? 0),
     );
     return {
       sku: product.sku,
       title: product.title,
-      unit_price_pence: discounted,
+      unit_price_pence: pricing.unitPricePence,
       quantity: line.quantity,
-      line_total_pence: discounted * line.quantity,
+      line_total_pence: pricing.lineTotalPence,
     };
   });
 
@@ -478,6 +481,10 @@ export async function getOrder(supabase: SupabaseClient, id: string, visibility?
       .select("sku, trade_price_pence, retail_price_pence, unit_label")
       .in("sku", skus);
     if (catalogueError) throw new Error(`Could not load the trade catalogue: ${catalogueError.message}`);
+    const discountPercent = Number(
+      (order as unknown as { resellers?: { discount_percent?: number } | null }).resellers
+        ?.discount_percent ?? 0,
+    );
     catalogue = Object.fromEntries(
       (products ?? []).map((product) => {
         const row = product as unknown as {
@@ -486,7 +493,14 @@ export async function getOrder(supabase: SupabaseClient, id: string, visibility?
           retail_price_pence: number | null;
           unit_label: string;
         };
-        return [row.sku, { trade_price_pence: row.trade_price_pence, retail_price_pence: row.retail_price_pence, unit_label: row.unit_label }];
+        const quantity = lines.find((line) => line.sku === row.sku)?.quantity ?? 1;
+        const currentPrice = portalProductPricing(row, quantity, discountPercent);
+        const referencePrice = portalReferencePrice(row);
+        return [row.sku, {
+          trade_price_pence: currentPrice.unitPricePence,
+          retail_price_pence: referencePrice.pricePence,
+          unit_label: row.unit_label,
+        }];
       }),
     );
   }

@@ -3,7 +3,7 @@ import { CHAT_ESCALATION_DEFAULT_MINUTES, type ChatConversation, type ChatMessag
 import { INTERNAL_NOTICE_ADDRESS } from "./reseller-events.server";
 import { createSupabaseServiceClient } from "./supabase.server";
 
-const DEFAULT_FROM = "Sunless Partnerships <partnerships@email.jimmycoco.pro>";
+const DEFAULT_FROM = "JIMMY COCO EXCLUSIVE OFFER <partnerships@email.jimmycoco.pro>";
 const DEFAULT_REPLY_TO = "partnerships@email.jimmycoco.pro";
 
 type EscalationCandidate = Pick<

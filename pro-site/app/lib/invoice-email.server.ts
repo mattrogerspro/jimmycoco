@@ -2,7 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { getInvoice } from "./invoices.server";
 
 const INTERNAL_AUDIT_ADDRESS = "matthew@jimmycoco.pro";
-const DEFAULT_FROM = "Sunless Partnerships <partnerships@email.jimmycoco.pro>";
+const DEFAULT_FROM = "JIMMY COCO EXCLUSIVE OFFER <partnerships@email.jimmycoco.pro>";
 const DEFAULT_REPLY_TO = "partnerships@email.jimmycoco.pro";
 
 const escapeHtml = (value: unknown) =>

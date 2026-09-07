@@ -30,7 +30,7 @@ Stop a contact immediately for reply, trial request/application, unsubscribe, co
 
 ## Footer and sender
 
-The V2 sender is `Sunless Partnerships <partnerships@email.jimmycoco.pro>` with reply-to `partnerships@email.jimmycoco.pro`. That reply-to must be Resend-managed inbound mail so replies exit the playbook as `reply` before forwarding to Matthew. The U.S. footer is **Advertisement from Jimmy Coco LA Spray-Tan Studio · Suite 313, 9301 Wilshire Blvd, Beverly Hills, CA 90210**. Retain the application-signed `PREFERENCES_LINK` in every promotional message.
+The V2 sender is `JIMMY COCO EXCLUSIVE OFFER <partnerships@email.jimmycoco.pro>` with reply-to `partnerships@email.jimmycoco.pro`. That reply-to must be Resend-managed inbound mail so replies exit the playbook as `reply` before forwarding to Matthew. The U.S. footer is **Advertisement from Jimmy Coco LA Spray-Tan Studio · Suite 313, 9301 Wilshire Blvd, Beverly Hills, CA 90210**. Retain the application-signed `PREFERENCES_LINK` in every promotional message.
 
 ## Existing onboarding assets
 

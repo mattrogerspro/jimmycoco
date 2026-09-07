@@ -17,6 +17,7 @@ function withEmailEnvironment(callback) {
     EMAIL_CALCULATOR_LINK: process.env.EMAIL_CALCULATOR_LINK,
     EMAIL_TRADE_LINK: process.env.EMAIL_TRADE_LINK,
     EMAIL_ORDER_LINK: process.env.EMAIL_ORDER_LINK,
+    RESEND_FROM: process.env.RESEND_FROM,
     RESEND_REPLY_TO: process.env.RESEND_REPLY_TO,
     EMAIL_AUDIT_COPY: process.env.EMAIL_AUDIT_COPY,
   }
@@ -27,6 +28,7 @@ function withEmailEnvironment(callback) {
   process.env.EMAIL_CALCULATOR_LINK = 'https://www.jimmycoco.pro/tools/spray-tan-profit-calculator'
   process.env.EMAIL_TRADE_LINK = 'https://www.jimmycoco.pro/products/malibu-professional-spray-1l#complete-order'
   process.env.EMAIL_ORDER_LINK = 'https://www.jimmycoco.pro/products/malibu-professional-spray-1l#complete-order'
+  delete process.env.RESEND_FROM
   process.env.RESEND_REPLY_TO = 'partnerships@email.jimmycoco.pro'
   delete process.env.EMAIL_AUDIT_COPY
   try {
@@ -89,6 +91,7 @@ test('manual trial, calculator and order follow-ups render complete direct-send 
         context,
       })
       assert.equal('template' in payload, false)
+      assert.equal(payload.from, 'JIMMY COCO EXCLUSIVE OFFER <partnerships@email.jimmycoco.pro>')
       assert.equal(payload.to[0], 'sophie@example.com')
       assert.equal(payload.replyTo, 'partnerships@email.jimmycoco.pro')
       assert.doesNotMatch(payload.html, /\{\{/)

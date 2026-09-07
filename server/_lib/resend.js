@@ -147,7 +147,7 @@ export function buildDirectEmailPayload({ campaign, step, contact, context, tags
   assertNoUnresolvedTokens(html, 'html')
   const auditRecipients = auditCopyRecipients(contact.email)
   const payload = {
-    from: process.env.RESEND_FROM || 'Sunless Partnerships <partnerships@email.jimmycoco.pro>',
+    from: process.env.RESEND_FROM || 'JIMMY COCO EXCLUSIVE OFFER <partnerships@email.jimmycoco.pro>',
     to: [contact.email],
     ...(auditRecipients.length ? { bcc: auditRecipients } : {}),
     replyTo: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',
@@ -175,7 +175,7 @@ function buildLegacyTemplatePayload({ campaign, step, contact, context, tags = [
   )
   const auditRecipients = auditCopyRecipients(contact.email)
   return {
-    from: process.env.RESEND_FROM || 'Sunless Partnerships <partnerships@email.jimmycoco.pro>',
+    from: process.env.RESEND_FROM || 'JIMMY COCO EXCLUSIVE OFFER <partnerships@email.jimmycoco.pro>',
     to: [contact.email],
     ...(auditRecipients.length ? { bcc: auditRecipients } : {}),
     replyTo: process.env.RESEND_REPLY_TO || 'partnerships@email.jimmycoco.pro',

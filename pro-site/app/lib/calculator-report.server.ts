@@ -10,7 +10,7 @@ export type CalculatorReportActionResult =
   | { ok: false; message: string };
 
 const REPORT_SOURCE = "pro-site-calculator-report";
-const DEFAULT_FROM = "Sunless Partnerships <partnerships@email.jimmycoco.pro>";
+const DEFAULT_FROM = "JIMMY COCO EXCLUSIVE OFFER <partnerships@email.jimmycoco.pro>";
 const DEFAULT_REPLY_TO = "partnerships@email.jimmycoco.pro";
 
 const inputRanges: Record<keyof Inputs, readonly [number, number]> = {

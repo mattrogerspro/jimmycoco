@@ -1,5 +1,7 @@
+import { useMemo, useState } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react-router";
-import { Form, data, useActionData, useLoaderData, useNavigation } from "react-router";
+import { Form, Link, data, useActionData, useLoaderData, useNavigation } from "react-router";
+import { portalPriceTiers } from "../lib/portal-pricing";
 import { requireReseller } from "../lib/reseller-auth.server";
 import { createOrder, loadCatalogue } from "../lib/resellers.server";
 import { INTERNAL_NOTICE_ADDRESS, emitResellerEventSafely } from "../lib/reseller-events.server";
@@ -16,16 +18,17 @@ export const meta: MetaFunction = () => [
 export async function loader({ request }: LoaderFunctionArgs) {
   const { supabase, responseHeaders, reseller } = await requireReseller(request);
   const catalogue = await loadCatalogue(supabase);
-  const discount = Number(reseller.discount_percent ?? 0);
+  const discountPercent = Number(reseller.discount_percent ?? 0);
 
   return data(
     {
+      discountPercent,
       catalogue: catalogue.map((product) => ({
         sku: product.sku,
         title: product.title,
         description: product.description,
         unitLabel: product.unit_label,
-        price: Math.round(product.trade_price_pence * (1 - discount / 100)),
+        tiers: portalPriceTiers(product, discountPercent),
       })),
     },
     { headers: responseHeaders },
@@ -114,23 +117,42 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function PortalOrder() {
-  const { catalogue } = useLoaderData<typeof loader>();
+  const { catalogue, discountPercent } = useLoaderData<typeof loader>();
   const result = useActionData<typeof action>();
   const navigation = useNavigation();
   const submitting = navigation.state === "submitting";
+  const [quantities, setQuantities] = useState<Record<string, number>>(() =>
+    Object.fromEntries(catalogue.map((product) => [product.sku, 0])),
+  );
+
+  const pricedProducts = useMemo(() => catalogue.map((product) => {
+    const quantity = quantities[product.sku] ?? 0;
+    const pricingQuantity = Math.max(1, quantity);
+    const tier = [...product.tiers].reverse().find((candidate) => pricingQuantity >= candidate.minQuantity)
+      ?? product.tiers[0];
+    return {
+      ...product,
+      quantity,
+      tier,
+      lineTotalPence: quantity * tier.unitPricePence,
+    };
+  }), [catalogue, quantities]);
+  const orderTotal = pricedProducts.reduce((total, product) => total + product.lineTotalPence, 0);
+  const itemCount = pricedProducts.reduce((total, product) => total + product.quantity, 0);
 
   return (
-    <>
-      <h1>Place an order</h1>
-      <p className="portal-lead">
-        Enter quantities and send. Nothing is charged here — we confirm stock and trade terms, then
-        invoice you by email.
-      </p>
+    <main className="portal-main portal-order-main">
+      <header className="portal-page-head">
+        <div>
+          <p className="portal-eyebrow">Trade ordering</p>
+          <h1>Place an order</h1>
+          <p>Choose quantities below. Prices change live at the same breaks shown on the Pro website.</p>
+        </div>
+        <Link className="portal-secondary-link" to="/portal">Back to account</Link>
+      </header>
 
       {result?.error ? (
-        <p className="portal-alert alert-error" role="alert">
-          {result.error}
-        </p>
+        <p className="portal-alert alert-error" role="alert">{result.error}</p>
       ) : null}
       {result?.reference ? (
         <p className="portal-alert alert-ok" role="status">
@@ -139,60 +161,96 @@ export default function PortalOrder() {
       ) : null}
 
       <Form method="post" data-form-id="portal_order" replace>
-        <table className="portal-table" style={{ marginBottom: 24 }}>
-          <thead>
-            <tr>
-              <th scope="col">Product</th>
-              <th scope="col" className="num">Your price</th>
-              <th scope="col" className="num">Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            {catalogue.map((product) => (
-              <tr key={product.sku}>
-                <td>
-                  <b>{product.title}</b>
-                  {product.description ? (
-                    <>
-                      <br />
-                      <span style={{ color: "var(--p-muted)", fontSize: 14 }}>{product.description}</span>
-                    </>
-                  ) : null}
-                </td>
-                <td className="num">
-                  {gbpFromPence(product.price)}
-                  <br />
-                  <span style={{ color: "var(--p-muted)", fontSize: 13 }}>per {product.unitLabel}</span>
-                </td>
-                <td className="num">
-                  <label className="hp-field" htmlFor={`qty-${product.sku}`}>
-                    Quantity of {product.title}
-                  </label>
-                  <input
-                    id={`qty-${product.sku}`}
-                    className="portal-qty"
-                    name={`qty-${product.sku}`}
-                    type="number"
-                    min={0}
-                    max={999}
-                    step={1}
-                    defaultValue={0}
-                    inputMode="numeric"
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <section className="portal-panel">
+          <div className="portal-panel-head">
+            <div>
+              <p className="portal-eyebrow">Current catalogue</p>
+              <h2>Build your order</h2>
+            </div>
+            <span className="portal-price-source">
+              {discountPercent > 0 ? `${discountPercent}% account discount included` : "Pro website prices"}
+            </span>
+          </div>
+          <div className="portal-table-wrap">
+            <table className="portal-order-table">
+              <thead>
+                <tr>
+                  <th scope="col">Product</th>
+                  <th scope="col">Price at quantity</th>
+                  <th scope="col" className="num">Quantity</th>
+                  <th scope="col" className="num">Line total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pricedProducts.map((product) => (
+                  <tr key={product.sku}>
+                    <td>
+                      <strong>{product.title}</strong>
+                      {product.description ? <span>{product.description}</span> : null}
+                      <div className="portal-tier-preview" aria-label={`Price breaks for ${product.title}`}>
+                        {product.tiers.map((tier) => (
+                          <small key={`${product.sku}-${tier.minQuantity}`}>
+                            {tier.range}: {gbpFromPence(tier.unitPricePence)}
+                          </small>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="portal-nowrap">
+                      <strong>{gbpFromPence(product.tier.unitPricePence)}</strong>
+                      <span>{product.tier.name} · per {product.unitLabel}</span>
+                    </td>
+                    <td className="num">
+                      <label className="hp-field" htmlFor={`qty-${product.sku}`}>
+                        Quantity of {product.title}
+                      </label>
+                      <input
+                        id={`qty-${product.sku}`}
+                        className="portal-qty"
+                        name={`qty-${product.sku}`}
+                        type="number"
+                        min={0}
+                        max={999}
+                        step={1}
+                        value={product.quantity}
+                        inputMode="numeric"
+                        onChange={(event) => {
+                          const parsed = Number.parseInt(event.currentTarget.value, 10);
+                          const quantity = Number.isFinite(parsed) ? Math.min(999, Math.max(0, parsed)) : 0;
+                          setQuantities((current) => ({ ...current, [product.sku]: quantity }));
+                        }}
+                      />
+                    </td>
+                    <td className="num portal-nowrap">
+                      <strong>{product.quantity > 0 ? gbpFromPence(product.lineTotalPence) : "—"}</strong>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan={2}><strong>Order request total</strong></td>
+                  <td className="num"><span>{itemCount} items</span></td>
+                  <td className="num portal-nowrap"><strong>{gbpFromPence(orderTotal)}</strong></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </section>
 
-        <div className="portal-form" style={{ maxWidth: 620 }}>
-          <label htmlFor="note">Notes for our team (optional)</label>
-          <textarea id="note" name="note" rows={3} placeholder="Delivery timing, purchase order number, anything else." />
-          <button className="portal-btn" type="submit" disabled={submitting}>
-            {submitting ? "Sending…" : "Send order request"}
-          </button>
-        </div>
+        <section className="portal-order-footer">
+          <div className="portal-order-note">
+            <label htmlFor="note">Notes for our team (optional)</label>
+            <textarea id="note" name="note" rows={3} placeholder="Delivery timing, purchase order number, anything else." />
+          </div>
+          <div className="portal-order-submit">
+            <span>Nothing is charged now. We confirm stock and invoice you by email.</span>
+            <strong>{gbpFromPence(orderTotal)}</strong>
+            <button className="portal-primary" type="submit" disabled={submitting || itemCount === 0}>
+              {submitting ? "Sending…" : "Send order request"}
+            </button>
+          </div>
+        </section>
       </Form>
-    </>
+    </main>
   );
 }

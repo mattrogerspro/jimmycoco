@@ -36,7 +36,7 @@ For backwards-compatible local development, the server also accepts
 Calculator profit-plan PDFs are transactional emails requested explicitly by
 the visitor. Configure `RESEND_API_KEY` and `RESEND_REPLY_TO` to deliver them.
 They always send from the verified
-`Sunless Partnerships <partnerships@email.jimmycoco.pro>` identity, so an
+`JIMMY COCO EXCLUSIVE OFFER <partnerships@email.jimmycoco.pro>` identity, so an
 invoice-specific `RESEND_FROM` override cannot break calculator delivery. A
 successful form response is returned only after Resend supplies a message ID.
 `EMAIL_LIVE_MODE` continues to gate manual invoice delivery and does not control

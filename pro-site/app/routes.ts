@@ -43,6 +43,8 @@ export default [
   route("portal/logout", "routes/portal.logout.tsx"),
   route("portal", "routes/portal.layout.tsx", [
     index("routes/portal.index.tsx"),
+    route("account", "routes/portal.account.tsx"),
+    route("addresses", "routes/portal.addresses.tsx"),
     route("order", "routes/portal.order.tsx"),
   ]),
 ] satisfies RouteConfig;

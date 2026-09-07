@@ -89,6 +89,12 @@ export default function PortalLayout() {
               <NavLink to="/portal" end className="portal-nav-link" onClick={() => setMobileNavOpen(false)}>
                 <i aria-hidden="true">◆</i><span>Account overview</span>
               </NavLink>
+              <NavLink to="/portal/account" className="portal-nav-link" onClick={() => setMobileNavOpen(false)}>
+                <i aria-hidden="true">◈</i><span>Account details</span>
+              </NavLink>
+              <NavLink to="/portal/addresses" className="portal-nav-link" onClick={() => setMobileNavOpen(false)}>
+                <i aria-hidden="true">⌖</i><span>Addresses</span>
+              </NavLink>
               <NavLink to="/portal/order" className="portal-nav-link" onClick={() => setMobileNavOpen(false)}>
                 <i aria-hidden="true">▣</i><span>Place an order</span>
               </NavLink>

@@ -3,6 +3,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react
 import { Form, Link, data, useActionData, useLoaderData, useNavigation } from "react-router";
 import { portalPriceTiers } from "../lib/portal-pricing";
 import { requireReseller } from "../lib/reseller-auth.server";
+import { normaliseResellerAddress, resellerAddressIsComplete } from "../lib/reseller-profile.server";
 import { createOrder, loadCatalogue } from "../lib/resellers.server";
 import { INTERNAL_NOTICE_ADDRESS, emitResellerEventSafely } from "../lib/reseller-events.server";
 import { SITE_URL, gbpFromPence } from "../lib/site";
@@ -19,10 +20,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { supabase, responseHeaders, reseller } = await requireReseller(request);
   const catalogue = await loadCatalogue(supabase);
   const discountPercent = Number(reseller.discount_percent ?? 0);
+  const shippingAddress = normaliseResellerAddress(
+    Object.keys(reseller.shipping_address ?? {}).length > 0 ? reseller.shipping_address : reseller.address,
+  );
 
   return data(
     {
       discountPercent,
+      hasShippingAddress: resellerAddressIsComplete(shippingAddress),
       catalogue: catalogue.map((product) => ({
         sku: product.sku,
         title: product.title,
@@ -57,6 +62,16 @@ export async function action({ request }: ActionFunctionArgs) {
   if (lines.length === 0) {
     return data<OrderActionData>(
       { error: "Add a quantity against at least one product." },
+      { status: 400, headers: responseHeaders },
+    );
+  }
+
+  const shippingAddress = normaliseResellerAddress(
+    Object.keys(reseller.shipping_address ?? {}).length > 0 ? reseller.shipping_address : reseller.address,
+  );
+  if (!resellerAddressIsComplete(shippingAddress)) {
+    return data<OrderActionData>(
+      { error: "Add a complete shipping address before sending an order request." },
       { status: 400, headers: responseHeaders },
     );
   }
@@ -117,7 +132,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function PortalOrder() {
-  const { catalogue, discountPercent } = useLoaderData<typeof loader>();
+  const { catalogue, discountPercent, hasShippingAddress } = useLoaderData<typeof loader>();
   const result = useActionData<typeof action>();
   const navigation = useNavigation();
   const submitting = navigation.state === "submitting";
@@ -157,6 +172,11 @@ export default function PortalOrder() {
       {result?.reference ? (
         <p className="portal-alert alert-ok" role="status">
           Order {result.reference} received. We will confirm it by email shortly.
+        </p>
+      ) : null}
+      {!hasShippingAddress ? (
+        <p className="portal-alert portal-alert-address" role="status">
+          Add your complete business and shipping addresses before ordering. <Link to="/portal/addresses">Open addresses</Link>
         </p>
       ) : null}
 
@@ -245,7 +265,7 @@ export default function PortalOrder() {
           <div className="portal-order-submit">
             <span>Nothing is charged now. We confirm stock and invoice you by email.</span>
             <strong>{gbpFromPence(orderTotal)}</strong>
-            <button className="portal-primary" type="submit" disabled={submitting || itemCount === 0}>
+            <button className="portal-primary" type="submit" disabled={submitting || itemCount === 0 || !hasShippingAddress}>
               {submitting ? "Sending…" : "Send order request"}
             </button>
           </div>

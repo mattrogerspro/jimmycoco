@@ -52,6 +52,11 @@ export type Reseller = {
   created_at: string;
 };
 
+export type ResellerProfile = Reseller & {
+  address: Record<string, unknown>;
+  shipping_address: Record<string, unknown>;
+};
+
 export type ResellerProduct = {
   sku: string;
   title: string;
@@ -185,7 +190,7 @@ export async function approveApplication(
 ) {
   const { data: application, error: loadError } = await supabase
     .from("reseller_applications")
-    .select("id, business_name, contact_name, email, phone, market, status, data_mode")
+    .select("id, business_name, contact_name, email, phone, market, address, status, data_mode")
     .eq("id", applicationId)
     .maybeSingle();
 
@@ -203,6 +208,8 @@ export async function approveApplication(
       email: application.email,
       phone: application.phone,
       market: application.market,
+      address: application.address,
+      shipping_address: application.address,
       pricing_tier: options.pricingTier ?? "standard",
       discount_percent: options.discountPercent ?? 0,
       approved_by: reviewerId,
@@ -291,7 +298,7 @@ export function orderReference() {
 
 export async function createOrder(
   supabase: SupabaseClient,
-  reseller: Pick<Reseller, "id" | "discount_percent" | "data_mode">,
+  reseller: Pick<ResellerProfile, "id" | "discount_percent" | "data_mode" | "address" | "shipping_address">,
   lines: OrderLineInput[],
   customerNote?: string,
   source = "pro_website",
@@ -327,6 +334,9 @@ export async function createOrder(
       customer_note: customerNote?.trim() || null,
       source,
       data_mode: reseller.data_mode,
+      shipping_address: Object.keys(reseller.shipping_address ?? {}).length > 0
+        ? reseller.shipping_address
+        : reseller.address,
     })
     .select("id, reference")
     .single();
@@ -387,7 +397,7 @@ export async function getReseller(supabase: SupabaseClient, id: string, visibili
     supabase
     .from("resellers")
     .select(
-      "id, application_id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, data_mode, user_id, address, internal_notes, approved_at, created_at, updated_at",
+      "id, application_id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, data_mode, user_id, address, shipping_address, internal_notes, approved_at, created_at, updated_at",
     )
       .eq("id", id),
     visibility,
@@ -396,9 +406,8 @@ export async function getReseller(supabase: SupabaseClient, id: string, visibili
     .maybeSingle();
 
   if (error) throw new Error(`Could not load the trade account: ${error.message}`);
-  return data as (Reseller & {
+  return data as (ResellerProfile & {
     application_id: string | null;
-    address: Record<string, unknown>;
     internal_notes: string | null;
     updated_at: string;
   }) | null;
@@ -449,7 +458,7 @@ export async function getOrder(supabase: SupabaseClient, id: string, visibility?
     supabase
     .from("reseller_orders")
     .select(
-      "id, reference, status, data_mode, source, currency, subtotal_pence, customer_note, internal_note, delivery_note, submitted_at, confirmed_at, created_at, updated_at, reseller_id, resellers(id, account_code, business_name, contact_name, email, phone, market, address, pricing_tier, discount_percent, status, data_mode)",
+      "id, reference, status, data_mode, source, currency, subtotal_pence, customer_note, internal_note, delivery_note, shipping_address, submitted_at, confirmed_at, created_at, updated_at, reseller_id, resellers(id, account_code, business_name, contact_name, email, phone, market, address, shipping_address, pricing_tier, discount_percent, status, data_mode)",
     )
       .eq("id", id),
     visibility,

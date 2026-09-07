@@ -170,6 +170,7 @@ type Reseller = {
   phone: string | null;
   market: string;
   address: Record<string, string> | null;
+  shipping_address: Record<string, string> | null;
   pricing_tier: string;
   discount_percent: number;
   status: string;
@@ -185,6 +186,7 @@ type Order = {
   customer_note: string | null;
   internal_note: string | null;
   delivery_note: string | null;
+  shipping_address: Record<string, string> | null;
   submitted_at: string;
   confirmed_at: string | null;
   resellers: Reseller | null;
@@ -267,14 +269,19 @@ export default function OrderDetail() {
         : order.status === "confirmed"
           ? 1
           : 0;
-  const addressLines = account?.address
+  const savedShippingAddress = order.shipping_address && Object.keys(order.shipping_address).length > 0
+    ? order.shipping_address
+    : account?.shipping_address && Object.keys(account.shipping_address).length > 0
+      ? account.shipping_address
+      : account?.address;
+  const addressLines = savedShippingAddress
     ? [
-        account.address.line1,
-        account.address.line2,
-        account.address.city,
-        account.address.county,
-        account.address.postcode,
-        account.address.country,
+        savedShippingAddress.line1,
+        savedShippingAddress.line2,
+        savedShippingAddress.city,
+        savedShippingAddress.county,
+        savedShippingAddress.postcode,
+        savedShippingAddress.country,
       ].filter(Boolean)
     : [];
 

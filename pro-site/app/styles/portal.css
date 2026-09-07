@@ -83,8 +83,33 @@ body{background:var(--p-canvas)}
 .portal-tier-list strong{justify-self:end;color:var(--p-ink);font-size:15px}
 .portal-tier-list small{grid-column:1/-1;color:var(--p-bronze2);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
 .portal-pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
-.pill-submitted{background:#EFE6DA;color:#7A5326}.pill-confirmed{background:#DFEBDD;color:#33602F}.pill-invoiced{background:#DDE6F0;color:#2C4F72}.pill-shipped{background:#DDEDEA;color:#1F5A52}.pill-cancelled{background:#F1E1E1;color:#7A2E2E}
+.pill-submitted{background:#EFE6DA;color:#7A5326}.pill-confirmed,.pill-active{background:#DFEBDD;color:#33602F}.pill-invoiced{background:#DDE6F0;color:#2C4F72}.pill-shipped{background:#DDEDEA;color:#1F5A52}.pill-cancelled,.pill-closed{background:#F1E1E1;color:#7A2E2E}.pill-suspended{background:#EFE6DA;color:#7A5326}
 .portal-empty{margin:0;padding:26px;color:var(--p-muted);font-size:16.5px}
+.portal-panel-body{padding:22px 24px}
+.portal-details-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(310px,.85fr);gap:24px;align-items:start}
+.portal-field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.portal-edit-field{display:grid;gap:7px;min-width:0}
+.portal-edit-field>span{color:var(--p-muted);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.portal-edit-field>span small{margin-left:5px;color:#94897D;font-size:10px;font-weight:500;letter-spacing:.04em}
+.portal-edit-field input{width:100%;min-height:46px;padding:11px 12px;border:1px solid #D8CCBF;border-radius:7px;background:#fff;color:var(--p-ink);font-size:16px}
+.portal-edit-field input:focus-visible{outline:3px solid var(--p-bronze);outline-offset:1px}
+.portal-edit-field input:disabled{background:#F1ECE5;color:#8C8175;cursor:not-allowed}
+.portal-field-wide{grid-column:1/-1}
+.portal-form-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-top:22px}
+.portal-form-actions-sticky{position:sticky;bottom:12px;padding:12px;border:1px solid var(--p-line);border-radius:10px;background:rgba(255,253,250,.96);box-shadow:0 10px 30px rgba(20,15,10,.12)}
+.portal-dl{margin:0;padding:6px 0}
+.portal-dl>div{display:grid;grid-template-columns:minmax(115px,42%) 1fr;gap:14px;padding:13px 20px;border-bottom:1px solid var(--p-line)}
+.portal-dl>div:last-child{border-bottom:0}
+.portal-dl dt{color:var(--p-muted);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.portal-dl dd{margin:0;color:var(--p-ink);font-size:14.5px;overflow-wrap:anywhere}
+.portal-panel-hint{margin:0;padding:17px 20px;border-top:1px solid var(--p-line);background:var(--p-cream);color:var(--p-muted);font-size:13px;line-height:1.5}
+.portal-alert-address{border:1px solid #D9C08F;background:#FBF3E3;color:#6E5220}
+.portal-alert-address a{color:inherit;font-weight:600}
+.portal-address-form{max-width:1050px}
+.portal-panel-head-check{align-items:flex-end}
+.portal-check{display:flex;align-items:center;gap:9px;color:var(--p-ink2);font-size:14px;font-weight:600;cursor:pointer}
+.portal-check input{width:18px;height:18px;accent-color:var(--p-bronze)}
+.portal-address-copy-note{margin:0 0 18px;padding:12px 14px;border:1px solid var(--p-line);border-radius:8px;background:var(--p-cream);color:var(--p-muted);font-size:14px}
 .portal-tier-preview{display:flex;flex-wrap:wrap;gap:5px 10px;margin-top:10px}
 .portal-tier-preview small{color:var(--p-muted);font-size:11px}
 .portal-qty{width:86px;padding:9px 10px;border:1px solid #D8CCBF;border-radius:7px;background:#fff;color:var(--p-ink);font-size:16px;text-align:right}
@@ -128,6 +153,7 @@ body{background:var(--p-canvas)}
   .portal-side-foot{flex-direction:row;align-items:center;gap:12px}
   .portal-account-note{display:none}
   .portal-order-footer{grid-template-columns:1fr}
+  .portal-details-grid{grid-template-columns:1fr}
 }
 
 @media (max-width:760px){
@@ -171,6 +197,13 @@ body{background:var(--p-canvas)}
   .portal-order-submit{grid-template-columns:1fr}
   .portal-order-submit>strong{justify-self:start}
   .portal-order-submit .portal-primary{grid-column:1}
+  .portal-field-grid{grid-template-columns:1fr}
+  .portal-field-wide{grid-column:1}
+  .portal-form-actions{justify-content:stretch}
+  .portal-form-actions .portal-primary{width:100%}
+  .portal-form-actions-sticky{position:static}
+  .portal-panel-head-check{align-items:flex-start}
+  .portal-check{width:100%}
 }
 
 /* ---- split-screen sign-in ---------------------------------------------- */

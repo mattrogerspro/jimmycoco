@@ -20,6 +20,13 @@ export const meta: MetaFunction = () => [
   { name: "robots", content: "noindex, nofollow, noarchive" },
 ];
 
+function addressLines(value: unknown) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return [];
+  const address = value as Record<string, unknown>;
+  return [address.line1, address.line2, address.city, address.county, address.postcode, address.country]
+    .filter((line): line is string => typeof line === "string" && line.trim().length > 0);
+}
+
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const { supabase, responseHeaders } = await requireArticleStaff(request);
   const visibility = await getTradeDataVisibility(supabase);
@@ -74,6 +81,8 @@ export default function AccountDetail() {
   const [params] = useSearchParams();
   const busy = navigation.state === "submitting";
   const basePath = location.pathname;
+  const businessAddress = addressLines(reseller.address);
+  const shippingAddress = addressLines(reseller.shipping_address);
 
   return (
     <main className="admin-main">
@@ -151,6 +160,14 @@ export default function AccountDetail() {
               <div>
                 <dt>Phone</dt>
                 <dd>{reseller.phone || "—"}</dd>
+              </div>
+              <div>
+                <dt>Business address</dt>
+                <dd>{businessAddress.length > 0 ? businessAddress.map((line, index) => <div key={`${index}-${line}`}>{line}</div>) : "—"}</dd>
+              </div>
+              <div>
+                <dt>Shipping address</dt>
+                <dd>{shippingAddress.length > 0 ? shippingAddress.map((line, index) => <div key={`${index}-${line}`}>{line}</div>) : "—"}</dd>
               </div>
               <div>
                 <dt>Last order</dt>

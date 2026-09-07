@@ -1,9 +1,9 @@
 import { redirect } from "react-router";
 import { createSupabaseServerClient } from "./supabase.server";
-import type { Reseller } from "./resellers.server";
+import type { ResellerProfile } from "./resellers.server";
 
 const RESELLER_COLUMNS =
-  "id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, data_mode, user_id, approved_at, created_at";
+  "id, account_code, business_name, contact_name, email, phone, market, pricing_tier, discount_percent, status, data_mode, user_id, address, shipping_address, approved_at, created_at";
 
 function loginRedirectUrl(request: Request, reason?: "unlinked" | "suspended") {
   const requestUrl = new URL(request.url);
@@ -55,7 +55,7 @@ export async function requireReseller(request: Request) {
     throw redirect(loginRedirectUrl(request, "suspended"), { headers: responseHeaders });
   }
 
-  return { supabase, responseHeaders, reseller: reseller as Reseller };
+  return { supabase, responseHeaders, reseller: reseller as ResellerProfile };
 }
 
 /** Binds the signed-in auth user to an approved reseller row, if one exists. */

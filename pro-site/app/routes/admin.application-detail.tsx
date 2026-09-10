@@ -5,6 +5,7 @@ import { isSameOriginPost } from "../lib/supabase.server";
 import {
   approveApplication,
   getApplication,
+  getResellerByApplicationId,
   setApplicationStatus,
 } from "../lib/resellers.server";
 import { emitResellerEventSafely } from "../lib/reseller-events.server";
@@ -24,8 +25,11 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const visibility = await getTradeDataVisibility(supabase);
   const application = await getApplication(supabase, params.applicationId as string, visibility);
   if (!application) throw new Response("Application not found", { status: 404, headers: responseHeaders });
-  const followUpHistory = await loadFollowUpHistory(application.email);
-  return data({ staff, application, followUpHistory }, { headers: responseHeaders });
+  const [account, followUpHistory] = await Promise.all([
+    getResellerByApplicationId(supabase, application.id, visibility),
+    loadFollowUpHistory(application.email),
+  ]);
+  return data({ staff, application, account, followUpHistory }, { headers: responseHeaders });
 }
 
 export async function action({ request, params }: ActionFunctionArgs) {
@@ -118,23 +122,28 @@ export async function action({ request, params }: ActionFunctionArgs) {
         discountPercent: discount,
         note,
       });
-      await emitResellerEventSafely({
-        trigger: "reseller_approved",
-        eventId: `reseller-${reseller.id}-approved`,
-        contact: {
-          email: reseller.email,
-          first_name: reseller.contact_name.split(" ")[0] ?? null,
-          business_name: reseller.business_name,
-          market: reseller.market,
-        },
-        context: {
-          SALON_NAME: reseller.business_name,
-          CONTACT_NAME: reseller.contact_name,
-          ACCOUNT_CODE: reseller.account_code,
-          PORTAL_LINK: `${SITE_URL}/portal/register`,
-        },
-      });
-      return data({ notice: `Approved — account ${reseller.account_code} created.` }, { headers: responseHeaders });
+      if (reseller.accountCreated && !reseller.email.endsWith("@jimmycoco.invalid")) {
+        await emitResellerEventSafely({
+          trigger: "reseller_approved",
+          eventId: `reseller-${reseller.id}-approved`,
+          contact: {
+            email: reseller.email,
+            first_name: reseller.contact_name.split(" ")[0] ?? null,
+            business_name: reseller.business_name,
+            market: reseller.market,
+          },
+          context: {
+            SALON_NAME: reseller.business_name,
+            CONTACT_NAME: reseller.contact_name,
+            ACCOUNT_CODE: reseller.account_code,
+            PORTAL_LINK: `${SITE_URL}/portal/register`,
+          },
+        });
+      }
+      return data(
+        { notice: reseller.accountCreated ? `Approved — account ${reseller.account_code} created.` : `Approved account ${reseller.account_code} is active.` },
+        { headers: responseHeaders },
+      );
     }
 
     if (intent === "decline" || intent === "on_hold") {
@@ -168,7 +177,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 }
 
 export default function ApplicationDetail() {
-  const { application, followUpHistory } = useLoaderData<typeof loader>();
+  const { application, account, followUpHistory } = useLoaderData<typeof loader>();
   const result = useActionData<typeof action>() as { error?: string; notice?: string } | undefined;
   const navigation = useNavigation();
   const busy = navigation.state === "submitting";
@@ -190,7 +199,13 @@ export default function ApplicationDetail() {
           <h1>{application.business_name}</h1>
           <p>
             Received {new Date(application.created_at).toLocaleString("en-GB")} ·{" "}
-            <span className={`admin-status admin-status-${application.status}`}>{application.status}</span>
+            <span className={`admin-status admin-status-${application.status}`}>Application {application.status}</span>
+            {" · "}
+            {account ? (
+              <Link to={`/admin/accounts/${account.id}`} className={`admin-status admin-status-${account.status}`}>Account {account.status}</Link>
+            ) : (
+              <span className="admin-status admin-status-on_hold">Account not created</span>
+            )}
           </p>
         </div>
       </header>
@@ -239,6 +254,16 @@ export default function ApplicationDetail() {
           <section className="admin-panel">
             <div className="admin-panel-head"><h2>Decision</h2></div>
             <div className="admin-panel-body">
+              {account ? (
+                <p className="admin-alert admin-alert-ok" role="status">
+                  <strong>Approved account {account.account_code} is {account.status}.</strong>{" "}
+                  <Link to={`/admin/accounts/${account.id}`}>View account</Link>
+                </p>
+              ) : application.status === "approved" ? (
+                <p className="admin-alert" role="alert">
+                  <strong>Application approved, but its account has not been created.</strong>
+                </p>
+              ) : null}
               {decided ? (
                 <p className="admin-muted">
                   Already {application.status}
@@ -246,7 +271,7 @@ export default function ApplicationDetail() {
                 </p>
               ) : null}
 
-              <Form method="post" replace>
+              {!account ? <Form method="post" replace>
                 <div className="admin-field">
                   <label htmlFor="pricingTier">Pricing tier on approval</label>
                   <select id="pricingTier" name="pricingTier" defaultValue="standard">
@@ -265,16 +290,17 @@ export default function ApplicationDetail() {
                 </div>
                 <div className="admin-actions">
                   <button className="admin-primary" name="intent" value="approve" type="submit" disabled={busy}>
-                    Approve &amp; create account
+                    {application.status === "approved" ? "Create approved account" : "Approve & create account"}
                   </button>
-                  <button name="intent" value="on_hold" type="submit" disabled={busy}>Put on hold</button>
-                  <button className="admin-danger" name="intent" value="decline" type="submit" disabled={busy}>Decline</button>
+                  {application.status !== "approved" ? <button name="intent" value="on_hold" type="submit" disabled={busy}>Put on hold</button> : null}
+                  {application.status !== "approved" ? <button className="admin-danger" name="intent" value="decline" type="submit" disabled={busy}>Decline</button> : null}
                 </div>
-              </Form>
-              <p className="admin-hint">
-                Approving creates the trade account and fires the welcome email. Declining fires the
-                close email. Hold changes the status and sends nothing.
-              </p>
+              </Form> : null}
+              {!account ? <p className="admin-hint">
+                {application.status === "approved"
+                  ? "Creating the account completes this approved application. Placeholder email addresses are never sent a welcome email."
+                  : "Approving creates the trade account and fires the welcome email. Declining fires the close email. Hold changes the status and sends nothing."}
+              </p> : null}
             </div>
           </section>
           {application.wants_trial ? (

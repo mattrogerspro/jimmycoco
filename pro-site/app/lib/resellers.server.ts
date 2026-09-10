@@ -196,7 +196,39 @@ export async function approveApplication(
 
   if (loadError) throw new Error(`Could not load the application: ${loadError.message}`);
   if (!application) throw new Error("That application no longer exists.");
-  if (application.status === "approved") throw new Error("That application is already approved.");
+
+  const { data: existingReseller, error: existingError } = await supabase
+    .from("resellers")
+    .select("id, account_code, business_name, contact_name, email, market, status")
+    .eq("application_id", application.id)
+    .maybeSingle();
+
+  if (existingError) throw new Error(`Could not check for an existing reseller account: ${existingError.message}`);
+
+  if (existingReseller) {
+    if (application.status !== "approved") {
+      const { error: applicationError } = await supabase
+        .from("reseller_applications")
+        .update({
+          status: "approved",
+          reviewed_by: reviewerId,
+          reviewed_at: new Date().toISOString(),
+          review_note: options.note ?? null,
+        })
+        .eq("id", application.id);
+      if (applicationError) throw new Error(`Could not approve the application: ${applicationError.message}`);
+    }
+
+    if (existingReseller.status !== "active") {
+      const { error: accountError } = await supabase
+        .from("resellers")
+        .update({ status: "active", updated_at: new Date().toISOString() })
+        .eq("id", existingReseller.id);
+      if (accountError) throw new Error(`Could not activate the approved account: ${accountError.message}`);
+    }
+
+    return { ...existingReseller, status: "active", accountCreated: false };
+  }
 
   const { data: reseller, error: insertError } = await supabase
     .from("resellers")
@@ -212,6 +244,8 @@ export async function approveApplication(
       shipping_address: application.address,
       pricing_tier: options.pricingTier ?? "standard",
       discount_percent: options.discountPercent ?? 0,
+      status: "active",
+      data_mode: application.data_mode,
       approved_by: reviewerId,
       approved_at: new Date().toISOString(),
     })
@@ -233,7 +267,7 @@ export async function approveApplication(
 
   if (updateError) throw new Error(`Approved, but the application status did not update: ${updateError.message}`);
 
-  return reseller;
+  return { ...reseller, status: "active", accountCreated: true };
 }
 
 export async function setApplicationStatus(
@@ -392,6 +426,23 @@ export async function getApplication(supabase: SupabaseClient, id: string, visib
   }) | null;
 }
 
+export async function getResellerByApplicationId(
+  supabase: SupabaseClient,
+  applicationId: string,
+  visibility?: TradeDataVisibility,
+) {
+  const query = applyTradeDataVisibility(
+    supabase
+      .from("resellers")
+      .select("id, account_code, business_name, contact_name, email, market, pricing_tier, discount_percent, status, data_mode, approved_at, created_at")
+      .eq("application_id", applicationId),
+    visibility,
+  );
+  const { data, error } = await query.maybeSingle();
+  if (error) throw new Error(`Could not load the linked account: ${error.message}`);
+  return data as (Reseller & { approved_at: string | null }) | null;
+}
+
 export async function getReseller(supabase: SupabaseClient, id: string, visibility?: TradeDataVisibility) {
   const query = applyTradeDataVisibility(
     supabase
@@ -424,6 +475,27 @@ export async function updateReseller(
     internal_notes?: string | null;
   },
 ) {
+  if (patch.status === "active") {
+    const { data: reseller, error: resellerError } = await supabase
+      .from("resellers")
+      .select("application_id")
+      .eq("id", id)
+      .single();
+    if (resellerError) throw new Error(`Could not check the trade account: ${resellerError.message}`);
+
+    if (reseller.application_id) {
+      const { data: application, error: applicationError } = await supabase
+        .from("reseller_applications")
+        .select("status")
+        .eq("id", reseller.application_id)
+        .single();
+      if (applicationError) throw new Error(`Could not check the linked application: ${applicationError.message}`);
+      if (application.status !== "approved") {
+        throw new Error("This account cannot be active until its application is approved.");
+      }
+    }
+  }
+
   const { error } = await supabase.from("resellers").update(patch).eq("id", id);
   if (error) throw new Error(`Could not update the trade account: ${error.message}`);
 }

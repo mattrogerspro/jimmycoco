@@ -24,9 +24,9 @@ export type SampleRequest = {
   updated_at: string;
 };
 
-export type SampleRequestInput = Omit<
+export type SampleRequestInput = Pick<
   SampleRequest,
-  "id" | "reseller_application_id" | "created_at" | "updated_at"
+  "business_name" | "contact_name" | "email" | "sample_shipped" | "tracking_details"
 >;
 
 const COLUMNS = "id, reseller_application_id, business_name, contact_name, email, phone, market, address, sample_shipped, tracking_details, created_at, updated_at";
@@ -52,10 +52,33 @@ export async function updateSampleRequest(
   id: string,
   input: SampleRequestInput,
 ) {
-  const { error } = await supabase
+  const updatedAt = new Date().toISOString();
+  const { data, error } = await supabase
     .from("sample_requests")
-    .update({ ...input, updated_at: new Date().toISOString() })
-    .eq("id", id);
+    .update({ ...input, updated_at: updatedAt })
+    .eq("id", id)
+    .select("reseller_application_id")
+    .single();
 
   if (error) throw new Error("Could not update the sample request: " + error.message);
+
+  if (data.reseller_application_id) {
+    const applicationPatch: Record<string, unknown> = {
+      business_name: input.business_name,
+      contact_name: input.contact_name,
+      wants_trial: true,
+      status: "approved",
+      updated_at: updatedAt,
+    };
+    if (input.email) applicationPatch.email = input.email;
+
+    const { error: applicationError } = await supabase
+      .from("reseller_applications")
+      .update(applicationPatch)
+      .eq("id", data.reseller_application_id);
+
+    if (applicationError) {
+      throw new Error("The sample was updated, but its application could not be updated: " + applicationError.message);
+    }
+  }
 }

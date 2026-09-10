@@ -5,7 +5,7 @@ import type {
   MetaFunction,
 } from "react-router";
 import { useState } from "react";
-import { Form, Link, NavLink, Outlet, data, useLoaderData, useLocation } from "react-router";
+import { Form, Link, NavLink, Outlet, data, useLoaderData } from "react-router";
 import adminStyles from "../styles/admin.css?url";
 import { requireArticleStaff } from "../lib/article-auth.server";
 
@@ -23,8 +23,6 @@ const ICONS: Record<string, string> = {
   book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/>',
   sequence: '<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3" cy="6" r="1"/><circle cx="3" cy="12" r="1"/><circle cx="3" cy="18" r="1"/>',
   mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
-  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
-  arrow: '<path d="m9 18 6-6-6-6"/>',
   monitor: '<rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 22h8M12 18v4"/>',
   send: '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
   upload: '<path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>',
@@ -104,29 +102,13 @@ const NAV_GROUPS = [
   },
 ];
 
-function pageTitle(pathname: string, groups: typeof NAV_GROUPS) {
-  const detailTitles: Array<[string, string]> = [
-    ["/admin/applications/", "Application"],
-    ["/admin/accounts/", "Account"],
-    ["/admin/orders/", "Order"],
-    ["/admin/invoices/", "Invoice"],
-    ["/admin/articles/", "Article editor"],
-  ];
-  const detail = detailTitles.find(([prefix]) => pathname.startsWith(prefix));
-  if (detail) return detail[1];
-  const item = groups.flatMap((group) => group.items).find((entry) => pathname === entry.to);
-  return item?.label ?? "Overview";
-}
-
 export default function AdminLayout() {
   const { staff } = useLoaderData<typeof loader>();
-  const location = useLocation();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const navGroups = staff.role === "admin"
     ? [...NAV_GROUPS, { label: "Admin", items: [{ to: "/admin/access-requests", label: "Access requests", icon: "upload" }] }]
     : NAV_GROUPS;
-  const title = pageTitle(location.pathname, navGroups);
 
   return (
     <div className={"admin-app" + (sidebarCollapsed ? " sidebar-is-collapsed" : "")}>
@@ -187,21 +169,7 @@ export default function AdminLayout() {
       </aside>
 
       <div className="admin-body">
-        <header className="admin-topbar">
-          <button className="admin-icon-button admin-topbar-menu" type="button" onClick={() => setMobileNavOpen(true)} aria-label="Open navigation"><AdminIcon name="menu" /></button>
-          <div className="admin-topbar-title"><span>Sunless Studio</span><AdminIcon name="arrow" size={14} /><strong>{title}</strong></div>
-          <label className="admin-search-field">
-            <AdminIcon name="search" size={17} />
-            <input type="search" placeholder="Search the workspace" aria-label="Search the workspace" />
-            <kbd>⌘ K</kbd>
-          </label>
-          <Form method="post" action="/admin/logout" className="admin-topbar-account">
-            <button className="admin-admin-pill" type="submit" title="Sign out">
-              <span className="admin-avatar admin-top-avatar">{initialsOf(staff.displayName)}</span>
-              <span>{staff.role === "admin" ? "Super admin" : staff.role}</span>
-            </button>
-          </Form>
-        </header>
+        <button className="admin-mobile-menu-trigger" type="button" onClick={() => setMobileNavOpen(true)} aria-label="Open navigation"><AdminIcon name="menu" /></button>
         <Outlet />
       </div>
     </div>

@@ -4,7 +4,7 @@ import { type OrderShipment, type ShipmentStatus } from "./order-shipment-consta
 export { SHIPMENT_STATUSES, SHIPMENT_STATUS_LABELS } from "./order-shipment-constants";
 export type { OrderShipment, ShipmentStatus } from "./order-shipment-constants";
 
-const COLUMNS = "id, order_id, status, carrier, service_level, tracking_number, tracking_url, sample_shipped, sample_tracking_details, dispatched_at, estimated_delivery_date, delivered_at, internal_note, created_at, updated_at";
+const COLUMNS = "id, order_id, status, carrier, service_level, tracking_number, tracking_url, dispatched_at, estimated_delivery_date, delivered_at, internal_note, created_at, updated_at";
 
 export async function latestOrderShipment(supabase: SupabaseClient, orderId: string) {
   const { data, error } = await supabase
@@ -27,8 +27,6 @@ export async function saveOrderShipment(
     service_level?: string | null;
     tracking_number?: string | null;
     tracking_url?: string | null;
-    sample_shipped?: boolean;
-    sample_tracking_details?: string | null;
     estimated_delivery_date?: string | null;
     internal_note?: string | null;
   },

@@ -27,6 +27,7 @@ export default [
     route("qr-codes", "routes/admin.qr-codes.tsx"),
     route("resellers", "routes/admin.resellers.tsx"),
     route("applications/:applicationId", "routes/admin.application-detail.tsx"),
+    route("sample-requests", "routes/admin.sample-requests.tsx"),
     route("accounts", "routes/admin.accounts.tsx"),
     route("accounts/:resellerId", "routes/admin.account-detail.tsx"),
     route("orders", "routes/admin.orders.tsx"),

@@ -83,20 +83,6 @@ function ShippingWorkspace({ order, account, shipment, busy, onClose }: Pick<Pro
           {SHIPMENT_STATUSES.map((value) => <label key={value}><input type="radio" name="shipmentStatus" value={value} defaultChecked={shipmentStatus === value} /><span>{SHIPMENT_STATUS_LABELS[value]}</span></label>)}
         </div>
         <div className="admin-form-grid">
-          <label className="admin-check">
-            <input id="shipment-sampleSent" name="sampleShipped" type="checkbox" defaultChecked={Boolean(shipment?.sample_shipped)} />
-            <span>Sample dispatched</span>
-          </label>
-          <div className="admin-field">
-            <label htmlFor="shipment-sampleTrackingDetails">Sample tracking details</label>
-            <textarea
-              id="shipment-sampleTrackingDetails"
-              name="sampleTrackingDetails"
-              rows={3}
-              defaultValue={shipment?.sample_tracking_details ?? ""}
-              placeholder="Sample tracking, notes, or courier details"
-            />
-          </div>
           <div className="admin-field"><label htmlFor="shipment-carrier">Carrier</label><input id="shipment-carrier" name="carrier" defaultValue={shipment?.carrier ?? ""} placeholder="e.g. DPD" /></div>
           <div className="admin-field"><label htmlFor="shipment-service">Service</label><input id="shipment-service" name="serviceLevel" defaultValue={shipment?.service_level ?? ""} placeholder="e.g. Next day" /></div>
           <div className="admin-field"><label htmlFor="shipment-tracking">Tracking number</label><input id="shipment-tracking" name="trackingNumber" defaultValue={shipment?.tracking_number ?? ""} placeholder="Optional" /></div>
@@ -107,8 +93,6 @@ function ShippingWorkspace({ order, account, shipment, busy, onClose }: Pick<Pro
         <dl className="admin-modal-summary admin-shipment-summary">
           <div><dt>Dispatch</dt><dd>{date(shipment?.dispatched_at ?? null)}</dd></div>
           <div><dt>Delivered</dt><dd>{date(shipment?.delivered_at ?? null)}</dd></div>
-          <div><dt>Sample sent</dt><dd>{shipment?.sample_shipped ? "Yes" : "No"}</dd></div>
-          <div><dt>Sample tracking</dt><dd>{shipment?.sample_tracking_details || "—"}</dd></div>
           <div><dt>Ship to</dt><dd>{account?.business_name ?? "Trade account"}</dd></div>
           <div><dt>Instructions</dt><dd>{order.delivery_note ?? "None"}</dd></div>
         </dl>

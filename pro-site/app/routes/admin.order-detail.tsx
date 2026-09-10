@@ -117,8 +117,6 @@ export async function action({ request, params }: ActionFunctionArgs) {
         if (!["invoiced", "shipped"].includes(order.order.status)) throw new Error("Issue the invoice before recording shipping details.");
         const text = (name: string) => String(form.get(name) ?? "").trim() || null;
         const trackingUrl = text("trackingUrl");
-        const sampleShipped = String(form.get("sampleShipped") ?? "") === "on";
-        const sampleTrackingDetails = text("sampleTrackingDetails");
         if (trackingUrl && !/^https?:\/\//i.test(trackingUrl)) throw new Error("Tracking links must start with http:// or https://.");
         const shipment = await saveOrderShipment(supabase, orderId, {
           status: shipmentStatus,
@@ -126,8 +124,6 @@ export async function action({ request, params }: ActionFunctionArgs) {
           service_level: text("serviceLevel"),
           tracking_number: text("trackingNumber"),
           tracking_url: trackingUrl,
-          sample_shipped: sampleShipped,
-          sample_tracking_details: sampleTrackingDetails,
           estimated_delivery_date: text("estimatedDeliveryDate"),
           internal_note: text("shipmentNote"),
         }, staff?.userId);

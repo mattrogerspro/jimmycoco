@@ -262,7 +262,6 @@ export default function AdminArticles() {
     <main className="admin-main">
       <header className="admin-page-head">
         <div>
-          <p className="admin-eyebrow">Publishing workspace</p>
           <h1>Articles</h1>
           <div className="art-head-chips">
             <span className="art-count art-count-good">{counts.published} published</span>

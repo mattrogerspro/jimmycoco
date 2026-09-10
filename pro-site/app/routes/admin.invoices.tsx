@@ -51,12 +51,7 @@ export default function AdminInvoices() {
   return (
     <main className="admin-main" aria-busy={navigation.state === "loading"}>
       <header className="admin-page-head">
-        <div>
-          <p className="admin-eyebrow">Trade invoicing</p>
-          <h1>Invoices</h1>
-          <p>What has been billed, what is still owed, and what is late.</p>
-          {!demoModeOn ? <p>Demo records are hidden. Switch Data mode on to review them.</p> : null}
-        </div>
+        <h1>Invoices</h1>
         <div className="admin-head-actions">
           <Link className="admin-secondary-link" to="/admin/invoice-settings">
             Settings

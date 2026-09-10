@@ -1222,9 +1222,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .admin-body{grid-column:2;min-width:0;min-height:100vh;background:var(--admin-cream)}
 .admin-mobile-menu-trigger{display:none}
 
-.admin-main{width:100%;max-width:1540px;margin:0 auto;padding:54px 4.4vw 72px}
-.admin-page-head{margin-bottom:34px;padding:0;border:0;align-items:flex-end}
-.admin-page-head h1,.admin-editor-head h1,.admin-order-head h1,.admin-order-hero h1{margin:10px 0 13px;font-family:var(--admin-font);font-size:clamp(39px,4vw,56px);font-weight:600;letter-spacing:-.035em;line-height:1.02}
+.admin-main{width:100%;max-width:1540px;margin:0 auto;padding:28px 4.4vw 72px}
+.admin-page-head{margin-bottom:22px;padding:0;border:0;align-items:center}
+.admin-page-head h1{margin:0;font-family:var(--admin-font);font-size:clamp(32px,3vw,42px);font-weight:600;letter-spacing:-.035em;line-height:1.05}
+.admin-editor-head h1,.admin-order-head h1,.admin-order-hero h1{margin:10px 0 13px;font-family:var(--admin-font);font-size:clamp(39px,4vw,56px);font-weight:600;letter-spacing:-.035em;line-height:1.02}
 .admin-page-head p{max-width:760px;color:var(--admin-muted);font-size:19px;line-height:1.6}
 .admin-eyebrow{color:var(--admin-bronze);font-size:14px;font-weight:600;letter-spacing:.18em;text-transform:uppercase}
 .admin-role{padding:3px 8px;border:0;border-radius:20px;background:#eee5da;color:#796249;font-size:12px;letter-spacing:.04em}
@@ -1301,7 +1302,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   .admin-mobile-menu-trigger{position:fixed;top:14px;right:14px;z-index:35;width:42px;height:42px;border:1px solid var(--admin-line);border-radius:8px;display:grid;place-items:center;background:var(--admin-paper);color:var(--admin-ink);box-shadow:0 8px 24px rgba(35,30,26,.12);cursor:pointer}
 }
 @media (max-width:700px){
-  .admin-main{width:100%;max-width:100%;padding:38px 18px 55px;overflow-x:hidden}
+  .admin-main{width:100%;max-width:100%;padding:24px 18px 55px;overflow-x:hidden}
   .admin-page-head h1,.admin-editor-head h1,.admin-order-head h1,.admin-order-hero h1{font-size:clamp(34px,10vw,46px)}
   .admin-page-head p{font-size:16px}
 }

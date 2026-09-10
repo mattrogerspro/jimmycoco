@@ -182,11 +182,7 @@ export default function AdminAccessRequests() {
   return (
     <main className="admin-main admin-access-requests">
       <header className="admin-page-head">
-        <div>
-          <p className="admin-eyebrow">PRO workspace security</p>
-          <h1>Access requests</h1>
-          <p>Verify each requester, assign the least privilege needed, then approve or decline access.</p>
-        </div>
+        <h1>Access requests</h1>
       </header>
 
       {actionData?.error ? <p className="admin-alert" role="alert">{actionData.error}</p> : null}

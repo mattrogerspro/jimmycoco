@@ -455,11 +455,7 @@ export default function AdminChat() {
   return (
     <main className="admin-main admin-chat-main">
       <header className="admin-page-head">
-        <div>
-          <p className="admin-eyebrow">Customer support</p>
-          <h1>Live chat</h1>
-          <p>Reply to website visitors in real time.</p>
-        </div>
+        <h1>Live chat</h1>
         <div className="admin-chat-head-actions">
           <span className={`admin-chat-presence-count${onlineStaffCount > 0 ? " is-online" : ""}`}>
             {onlineStaffCount} online

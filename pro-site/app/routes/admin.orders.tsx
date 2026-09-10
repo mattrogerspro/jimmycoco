@@ -36,12 +36,7 @@ export default function AdminOrders() {
   return (
     <main className="admin-main" aria-busy={navigation.state === "loading"}>
       <header className="admin-page-head">
-        <div>
-          <p className="admin-eyebrow">Trade orders</p>
-          <h1>Orders</h1>
-          <p>Order requests from the stockist portal. Nothing is charged online — confirm, then invoice.</p>
-          {!demoModeOn ? <p>Demo records are hidden. Switch Data mode on to review them.</p> : null}
-        </div>
+        <h1>Orders</h1>
         <a className="admin-primary-link" href={`/admin/orders${withParams(params, { export: "csv", page: null })}`}>
           Download CSV
         </a>

@@ -55,12 +55,7 @@ export default function AdminAccounts() {
   return (
     <main className="admin-main" aria-busy={navigation.state === "loading"}>
       <header className="admin-page-head">
-        <div>
-          <p className="admin-eyebrow">Trade accounts</p>
-          <h1>Accounts</h1>
-          <p>Approved stockists, their trade terms and their trading history.</p>
-          {!demoModeOn ? <p>Demo records are hidden. Switch Data mode on to review them.</p> : null}
-        </div>
+        <h1>Accounts</h1>
         <a className="admin-primary-link" href={`/admin/accounts${withParams(params, { export: "csv", page: null })}`}>
           Download CSV
         </a>

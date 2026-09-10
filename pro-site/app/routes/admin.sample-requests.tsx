@@ -72,11 +72,7 @@ export default function AdminSampleRequests() {
   return (
     <main className="admin-main sample-requests-main">
       <header className="admin-page-head">
-        <div>
-          <p className="admin-eyebrow">Trade fulfilment</p>
-          <h1>Sample requests</h1>
-          <p>Manage salon delivery details, dispatch status and tracking · signed in as {staff.displayName}</p>
-        </div>
+        <h1>Sample requests</h1>
       </header>
 
       {result && "error" in result ? <div className="admin-alert">{result.error}</div> : null}

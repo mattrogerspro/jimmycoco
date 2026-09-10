@@ -70,11 +70,7 @@ export default function InvoiceSettings() {
       </p>
 
       <header className="admin-page-head">
-        <div>
-          <p className="admin-eyebrow">Trade invoicing</p>
-          <h1>Invoice settings</h1>
-          <p>Who is issuing, how VAT is treated, and how invoices are numbered.</p>
-        </div>
+        <h1>Invoice settings</h1>
       </header>
 
       {result?.error ? (

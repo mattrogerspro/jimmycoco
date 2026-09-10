@@ -206,7 +206,6 @@ export default function AdminArticleStats() {
     <main className="admin-main stat-page">
       <header className="admin-page-head">
         <div>
-          <p className="admin-eyebrow">Publishing workspace</p>
           <h1>Article stats</h1>
           <div className="art-head-chips">
             <span className="art-count art-count-good">{formatNumber(stats.last30)} views / 30d</span>

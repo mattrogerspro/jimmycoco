@@ -118,11 +118,7 @@ export default function AdminQrCodes() {
   return (
     <main className="admin-main qr-admin">
       <header className="admin-page-head">
-        <div>
-          <p className="admin-eyebrow">Dynamic destinations</p>
-          <h1>QR codes</h1>
-          <p>Print once, then change where each code lands whenever you need to.</p>
-        </div>
+        <h1>QR codes</h1>
         {!unavailable && qrCodes.length > 0 ? (
           <div className="qr-viewtoggle" role="group" aria-label="QR code view">
             <button

@@ -32,12 +32,7 @@ export default function AdminApplications() {
   return (
     <main className="admin-main">
       <header className="admin-page-head">
-        <div>
-          <p className="admin-eyebrow">Trade accounts</p>
-          <h1>Applications</h1>
-          <p>Signed in as {staff.displayName} · <span className="admin-role">{staff.role}</span></p>
-          {!demoModeOn ? <p>Demo records are hidden. Switch Data mode on to review them.</p> : null}
-        </div>
+        <h1>Applications</h1>
       </header>
 
       <div className="admin-stat-row">

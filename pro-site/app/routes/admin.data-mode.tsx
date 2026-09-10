@@ -50,11 +50,7 @@ export default function AdminDataMode() {
       </p>
 
       <header className="admin-page-head">
-        <div>
-          <p className="admin-eyebrow">Trade data controls</p>
-          <h1>Data mode</h1>
-          <p>Control whether the admin works in Live mode only or includes Demo records for testing.</p>
-        </div>
+        <h1>Data mode</h1>
         <span className={`admin-status admin-status-mode-${demoModeOn ? "demo" : "live"}`}>
           {demoModeOn ? "Demo mode" : "Live mode"}
         </span>

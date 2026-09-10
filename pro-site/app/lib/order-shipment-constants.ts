@@ -17,6 +17,8 @@ export type OrderShipment = {
   service_level: string | null;
   tracking_number: string | null;
   tracking_url: string | null;
+  sample_shipped: boolean;
+  sample_tracking_details: string | null;
   dispatched_at: string | null;
   estimated_delivery_date: string | null;
   delivered_at: string | null;

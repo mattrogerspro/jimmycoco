@@ -909,6 +909,66 @@ button,input,select,textarea{font:inherit}
   .qr-list-url,.qr-list-scan,.qr-list-status,.qr-list-actions{grid-column:1/-1;grid-row:auto}
 }
 
+/* Compact account summary */
+.admin-main .admin-stat-row{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  height:auto;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.admin-main .admin-stat{
+  position:relative;
+  min-height:58px;
+  padding:10px 14px 10px 17px;
+  border:1px solid var(--admin-line);
+  border-radius:9px;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  overflow:hidden;
+  background:var(--admin-paper);
+}
+.admin-main .admin-stat::before{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:3px;
+  background:var(--admin-bronze);
+}
+.admin-main .admin-stat:nth-child(2)::before{background:#6f927e}
+.admin-main .admin-stat.is-flagged::before{background:#b98055}
+.admin-main .admin-stat:nth-child(4)::before{background:#89949a}
+.admin-main .admin-stat span{
+  color:var(--admin-muted);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.055em;
+  line-height:1.2;
+  text-transform:uppercase;
+}
+.admin-main .admin-stat b{
+  flex:0 0 auto;
+  color:var(--admin-ink);
+  font-size:24px;
+  font-weight:600;
+  letter-spacing:-.04em;
+  line-height:1;
+}
+@media (max-width:850px){
+  .admin-main .admin-stat-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:480px){
+  .admin-main .admin-stat-row{grid-template-columns:1fr;gap:7px}
+  .admin-main .admin-stat{min-height:50px;padding-block:8px}
+}
+
 /* Order flow redesign ------------------------------------------------ */
 .admin-order-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;margin-bottom:0;padding:30px 32px 26px;border:1px solid #183247;border-radius:14px 14px 0 0;background:linear-gradient(112deg,#0D2031 0%,#132E43 72%,#25455A 100%);color:#F9F7F1;box-shadow:0 12px 30px rgba(30,42,49,.12)}
 .admin-order-kicker{display:flex;align-items:center;gap:10px;margin:0;color:#B7C8D7;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}

@@ -5,7 +5,7 @@ import type {
   MetaFunction,
 } from "react-router";
 import { useState } from "react";
-import { Form, Link, NavLink, Outlet, data, useLoaderData } from "react-router";
+import { Form, Link, NavLink, Outlet, data, useLoaderData, useLocation } from "react-router";
 import adminStyles from "../styles/admin.css?url";
 import { requireArticleStaff } from "../lib/article-auth.server";
 
@@ -104,11 +104,17 @@ const NAV_GROUPS = [
 
 export default function AdminLayout() {
   const { staff } = useLoaderData<typeof loader>();
+  const location = useLocation();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [expandedGroup, setExpandedGroup] = useState<string | null>(null);
   const navGroups = staff.role === "admin"
     ? [...NAV_GROUPS, { label: "Admin", items: [{ to: "/admin/access-requests", label: "Access requests", icon: "upload" }] }]
     : NAV_GROUPS;
+  const activeGroup = navGroups.find((group) =>
+    group.items.some((item) => location.pathname === item.to || location.pathname.startsWith(`${item.to}/`)),
+  )?.label ?? navGroups[0].label;
+  const visibleGroup = expandedGroup ?? activeGroup;
 
   return (
     <div className={"admin-app" + (sidebarCollapsed ? " sidebar-is-collapsed" : "")}>
@@ -140,13 +146,21 @@ export default function AdminLayout() {
           <nav id="admin-navigation" className="admin-nav" aria-label="Admin navigation">
             {navGroups.map((group) => (
               <div key={group.label} className="admin-nav-block">
-                <p className="admin-nav-group">{group.label}</p>
-                {group.items.map((item) => (
-                  <NavLink key={item.to} to={item.to} className="admin-nav-link" onClick={() => setMobileNavOpen(false)}>
+                <button
+                  className="admin-nav-group"
+                  type="button"
+                  aria-expanded={visibleGroup === group.label}
+                  onClick={() => setExpandedGroup(group.label === visibleGroup && group.label !== activeGroup ? null : group.label)}
+                >
+                  <span>{group.label}</span>
+                  <span className="admin-nav-group-arrow" aria-hidden="true" />
+                </button>
+                {visibleGroup === group.label ? group.items.map((item) => (
+                  <NavLink key={item.to} to={item.to} className="admin-nav-link" onClick={() => { setExpandedGroup(null); setMobileNavOpen(false); }}>
                     <AdminIcon name={item.icon} />
                     <span>{item.label}</span>
                   </NavLink>
-                ))}
+                )) : null}
               </div>
             ))}
           </nav>
